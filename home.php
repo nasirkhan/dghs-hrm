@@ -2,7 +2,7 @@
 require_once 'configuration.php';
 
 $org_code = $_GET['org_code'];
-
+//$org_code = $_SESSION['org_code'];
 $org_code = (int) $org_code;
 
 
@@ -85,7 +85,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="brand" href="./index.html">Bootstrap</a>
+                    <a class="brand" href="./index.html"><?php echo $app_name; ?></a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li class="active">
@@ -94,21 +94,6 @@ if (!($latitude > 0) || !($longitude > 0)) {
                             <li class="">
                                 <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>
                             </li>
-<!--                            <li class="">
-                                <a href="./scaffolding.html">Scaffolding</a>
-                            </li>
-                            <li class="">
-                                <a href="./base-css.html">Base CSS</a>
-                            </li>
-                            <li class="">
-                                <a href="./components.html">Components</a>
-                            </li>
-                            <li class="">
-                                <a href="./javascript.html">JavaScript</a>
-                            </li>
-                            <li class="">
-                                <a href="./customize.html">Customize</a>
-                            </li>-->
                         </ul>
                     </div>
                 </div>
@@ -132,24 +117,11 @@ if (!($latitude > 0) || !($longitude > 0)) {
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <li class="active"><a href="#"><i class="icon-chevron-right"></i><i class="icon-home"></i> Organization Profile</a>
-                            <ul class="nav nav-list bs-docs-sidenav-l2">
-                                <li class="">
-                                    <a href="./base-css.html"><i class="icon-hospital"></i> Base CSS</a>
-                                </li>
-                                <li class="">
-                                    <a href="./components.html"><i class="icon-group"></i> Components</a>
-                                </li>
-                                <li class="">
-                                    <a href="./javascript.html"><i class="icon-group"></i> JavaScript</a>
-                                </li>
-                            </ul>
-                        </li>
+                        <li class="active"><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Organization Profile</a>
+                        <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li><a href="#"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
                         <li><a href="#"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
-<!--                        <li><a href="#html-template"><i class="icon-chevron-right"></i> HTML template</a></li>
-                        <li><a href="#examples"><i class="icon-chevron-right"></i> Examples</a></li>
-                        <li><a href="#what-next"><i class="icon-chevron-right"></i> What next?</a></li>-->
+                        <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
                 </div>
                 <div class="span9">

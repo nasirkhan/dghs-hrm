@@ -1,8 +1,12 @@
 <?php
 require_once 'configuration.php';
 
-$org_code = $_GET['org_code'];
+if($_SESSION['logged']!=true){
+	header("location:login.php");
+}
 
+$org_code = $_GET['org_code'];
+//$org_code = $_SESSION['org_code'];
 $org_code = (int) $org_code;
 
 
@@ -86,7 +90,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li class="active">
-                                <a href="./index.html">Home</a>                                
+                                <a href="./index.php">Home</a>                                
                             </li>
                             <li class="">
                                 <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>
@@ -114,7 +118,8 @@ if (!($latitude > 0) || !($longitude > 0)) {
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <li class="active"><a href="#"><i class="icon-chevron-right"></i><i class="icon-home"></i> Organization Profile</a>
+                        <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
+                            <!-- 
                             <ul class="nav nav-list bs-docs-sidenav-l2 nav-tab-ul">
                                 <li class="">
                                     <a href="#" data-toggle="tab"><i class="icon-hospital"></i> Basic Information</a>
@@ -135,9 +140,12 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                     <a href="#" data-toggle="tab"><i class="icon-qrcode"></i> Additional Information</a>
                                 </li>
                             </ul>
+                            -->
                         </li>
+                        <li class="active"><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li><a href="#"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
                         <li><a href="#"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
+                        <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
                 </div>
                 <div class="span9">
