@@ -159,13 +159,13 @@ if (!($latitude > 0) || !($longitude > 0)) {
                             </div>
                         </div>
                     </section>
-                    <section id="debug-aea">
+<!--                    <section id="debug-aea">
                         <pre class="prettyprint">
                     <?php
                             print_r($data);
                     ?>
                         </pre>
-                    </section>
+                    </section>-->
                 </div>
             </div>
 
