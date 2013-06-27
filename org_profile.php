@@ -91,21 +91,6 @@ if (!($latitude > 0) || !($longitude > 0)) {
                             <li class="">
                                 <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>
                             </li>
-                            <!--                            <li class="">
-                                                            <a href="./scaffolding.html">Scaffolding</a>
-                                                        </li>
-                                                        <li class="">
-                                                            <a href="./base-css.html">Base CSS</a>
-                                                        </li>
-                                                        <li class="">
-                                                            <a href="./components.html">Components</a>
-                                                        </li>
-                                                        <li class="">
-                                                            <a href="./javascript.html">JavaScript</a>
-                                                        </li>
-                                                        <li class="">
-                                                            <a href="./customize.html">Customize</a>
-                                                        </li>-->
                         </ul>
                     </div>
                 </div>
@@ -124,7 +109,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
 
         <div class="container">
 
-            <!-- Docs nav
+            <!-- left nav
             ================================================== -->
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
@@ -153,18 +138,13 @@ if (!($latitude > 0) || !($longitude > 0)) {
                         </li>
                         <li><a href="#"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
                         <li><a href="#"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
-<!--                        <li><a href="#html-template"><i class="icon-chevron-right"></i> HTML template</a></li>
-                        <li><a href="#examples"><i class="icon-chevron-right"></i> Examples</a></li>
-                        <li><a href="#what-next"><i class="icon-chevron-right"></i> What next?</a></li>-->
                     </ul>
                 </div>
                 <div class="span9">
-                    <!-- Download
+                    <!-- organization-profile-details
                     ================================================== -->
                     <section id="organization-profile-details">
 
-                        <!-- <div class="row"><img data-src="holder.js/480x360" class="img-polaroid"> -->
-                        <!--<div class="span9">-->
                         <ul class="nav nav-tabs nav-tab-ul" id="myTab">
                             <li class="active">
                                 <a href="#basic-info" data-toggle="tab"><i class="icon-hospital"></i> Basic Information</a>
@@ -556,17 +536,11 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                 </table>
                             </div>
                         </div>
-                        <!--</div>-->
-
 
                     </section>                    
                 </div>
             </div>
         </div>
-
-        <!--</div>-->
-
-
 
         <!-- Footer
         ================================================== -->
