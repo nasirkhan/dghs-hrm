@@ -1,6 +1,10 @@
 <?php
 require_once 'configuration.php';
 
+if($_SESSION['logged']==true){
+	header("location:home.php?org_code=" . $_SESSION['org_code']);
+}
+
 //cheak the login information
 if (isset($_POST['email']) && isset($_POST['password'])  && $_POST['login_key'] == $_SESSION['login_key']) {
     $form_uname = $_POST['email'];
@@ -24,8 +28,9 @@ if (isset($_POST['email']) && isset($_POST['password'])  && $_POST['login_key'] 
     $_SESSION['user_type'] = $data['user_type'];
     $_SESSION['organization_id'] = $data['organization_id'];
     $_SESSION['org_code'] = $data['org_code'];
+    $_SESSION['logged'] = TRUE;
     
-    header('location:index.php');
+    header("location:home.php?org_code=" . $_SESSION['org_code']);
     
 //    echo "<pre>";
 //    print_r($_SESSION);
@@ -39,13 +44,14 @@ if (isset($_POST['email']) && isset($_POST['password'])  && $_POST['login_key'] 
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>DGHS HRM Application</title>
+        <title><?php echo $app_name; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="description" content="DHGS HRM Application developed by Activation Ltd, http://activationltd.com">
+        <meta name="author" content="nasir khan saikat">
 
         <!-- Le styles -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <style type="text/css">
             body {
                 padding-top: 40px;
@@ -67,12 +73,22 @@ if (isset($_POST['email']) && isset($_POST['password'])  && $_POST['login_key'] 
             .form-signin .checkbox {
                 margin-bottom: 10px;
             }
+            .input-append, .input-prepend{
+                width: 90%;
+            }
             .form-signin input[type="text"],
             .form-signin input[type="password"] {
                 font-size: 16px;
                 height: auto;
                 margin-bottom: 15px;
-                padding: 7px 9px;
+                padding: 9px 9px;
+            }
+            .input-append .add-on, .input-prepend .add-on{
+                height: 29px;
+            }
+            .contact{
+                margin-top: 20px;
+                color: #0077b3;
             }
 
         </style>
@@ -96,17 +112,25 @@ if (isset($_POST['email']) && isset($_POST['password'])  && $_POST['login_key'] 
         <div class="container">
 
             <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF']; hm?>" method="post">
-                <h2 class="form-signin-heading">Welcome to DGHS HRM Software</h2>
-                <br />Please login to access the system.
-                <input name="email" type="text" class="input-block-level" placeholder="Email address">
-                <input name="password" type="password" class="input-block-level" placeholder="Password">
+                <div class="">
+                    <h2 class="form-signin-heading">Welcome to DGHS HRM Software</h2>
+                                                
                 <input type="hidden" name="login_key" value="<?php echo $_SESSION['login_key'] ?>" />
-                <label class="checkbox">
-                    <input type="checkbox" value="remember-me"> Remember me
-                </label>
-                <button class="btn btn-large btn-primary" type="submit" value="submit">Sign in</button>
+                <div class="input-append">
+                    <input name="email" type="text" class="input-block-level" placeholder="Email address">
+                    <span class="add-on"><i class="icon-envelope icon-2x"></i></span>
+                </div>
+                <div class="input-append">
+                    <input name="password" type="password" class="input-block-level" placeholder="Password">
+                    <span class="add-on"><i class="icon-key icon-2x"></i></span>
+                </div>
+                </div>
+                <button class="btn btn-large btn-primary" type="submit" value="submit">Sign in <i class="icon-signin"></i></button>
+            
+                <div class="contact"><i class="icon-edit"></i> <a href="#">Contact us for any assistance.</a></div>
+                
             </form>
-
+            
         </div> <!-- /container -->
 
         <!-- Le javascript
