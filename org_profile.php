@@ -18,17 +18,9 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b
 $data = mysql_fetch_assoc($result);
 
 $org_name = $data['org_name'];
-$org_code = $data['org_code'];
+//$org_code = $data['org_code'];
 $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
 
-$latitude = $data['latitude'];
-$longitude = $data['longitude'];
-$coordinate = $longitude . "," . $latitude;
-if (!($latitude > 0) || !($longitude > 0)) {
-    $map_popup = "";
-} else {
-    $map_popup = $org_name;
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
