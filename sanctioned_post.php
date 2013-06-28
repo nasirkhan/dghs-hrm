@@ -129,48 +129,45 @@ if (!($latitude > 0) || !($longitude > 0)) {
                     </ul>
                 </div>
                 <div class="span9">
-                    <!-- Download
+                    <!-- Sanctioned Post
                     ================================================== -->
-                    <section id="organization-profile">
+                    <section id="sanctioned-post">
 
                         <div class="row">
-                            <div class="span5">
-                                <img data-src="holder.js/480x360" class="img-polaroid">
-                            </div>
-                            <div class="span4">
-                                <div id="map" style="height: 360px"></div>
-                            </div>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Designation</th>
+                                        <th>Discipline</th>
+                                        <th>Total Sanctioned Post</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $sql = "SELECT designation, discipline, COUNT(*) AS sp_count 
+                                            FROM total_manpower_imported_sanctioned_post 
+                                            WHERE org_code = $org_code
+                                            GROUP BY designation";
+                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                    
+                                    while($sp_data = mysql_fetch_assoc($result)){
+                                        echo "<tr>";
+                                        echo "<td>" . $sp_data['designation'] . "</td>";
+                                        echo "<td>" . $sp_data['discipline'] . "</td>";
+                                        echo "<td>" . $sp_data['sp_count'] . "</td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
+                                </tbody>
+
+                            </table>
+                            
                         </div>
 
                     </section>
-                    <section id="home-basic-info">
-                        <div class="row">
-                            <div class="lead span9">
-                                <table class="table table-striped table-hover">
-                                    <tr>
-                                        <td>Organization Name</td>
-                                        <td><?php echo "$org_name"; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Organization Code</td>
-                                        <td><?php echo "$org_code"; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Organization Type</td>
-                                        <td><?php echo "$org_type_name"; ?></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </section>
-<!--                    <section id="debug-aea">
-                        <pre class="prettyprint">
-                    <?php
-                    print_r($data);
-                    ?>
-                        </pre>
-                    </section>-->
+
                 </div>
+                
             </div>
 
         </div>
@@ -205,6 +202,6 @@ if (!($latitude > 0) || !($longitude > 0)) {
 
         <script src="assets/js/application.js"></script>
 
-        
+
     </body>
 </html>
