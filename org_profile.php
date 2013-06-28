@@ -1,8 +1,8 @@
 <?php
 require_once 'configuration.php';
 
-if($_SESSION['logged']!=true){
-	header("location:login.php");
+if ($_SESSION['logged'] != true) {
+    header("location:login.php");
 }
 
 $org_code = $_GET['org_code'];
@@ -20,7 +20,6 @@ $data = mysql_fetch_assoc($result);
 $org_name = $data['org_name'];
 //$org_code = $data['org_code'];
 $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
