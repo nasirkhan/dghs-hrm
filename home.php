@@ -1,6 +1,9 @@
 <?php
 require_once 'configuration.php';
 
+if ($_SESSION['logged'] != true) {
+    header("location:login.php");
+}
 $org_code = $_GET['org_code'];
 //$org_code = $_SESSION['org_code'];
 $org_code = (int) $org_code;
@@ -162,7 +165,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
 <!--                    <section id="debug-aea">
                         <pre class="prettyprint">
                     <?php
-                            print_r($data);
+                    print_r($data);
                     ?>
                         </pre>
                     </section>-->
