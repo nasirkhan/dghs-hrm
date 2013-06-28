@@ -50,9 +50,10 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="assets/ico/favicon.png">
 
+        <!--
         <script type="text/javascript">
             var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-146052-10']);
+            _gaq.push(['_setAccount', 'ACCOUNT_ID']);
             _gaq.push(['_trackPageview']);
             (function() {
                 var ga = document.createElement('script');
@@ -63,6 +64,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                 s.parentNode.insertBefore(ga, s);
             })();
         </script>
+        -->
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -575,21 +577,6 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
             });
         </script>
 
-        <!-- Analytics
-        ================================================== -->
-        <script>
-            var _gauges = _gauges || [];
-            (function() {
-                var t = document.createElement('script');
-                t.type = 'text/javascript';
-                t.async = true;
-                t.id = 'gauges-tracker';
-                t.setAttribute('data-site-id', '4f0dc9fef5a1f55508000013');
-                t.src = '//secure.gaug.es/track.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(t, s);
-            })();
-        </script>
 
 
     </body>
