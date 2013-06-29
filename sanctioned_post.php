@@ -173,7 +173,11 @@ if (!($latitude > 0) || !($longitude > 0)) {
         </div>
 
 
+        <div>
+            <pre>
 
+            </pre>
+        </div>
         <!-- Footer
         ================================================== -->
         <footer class="footer">
