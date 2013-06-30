@@ -90,7 +90,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="brand" href="./index.html"><?php echo $app_name; ?></a>
+                    <a class="brand" href="./index.php"><?php echo $app_name; ?></a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li class="active">
