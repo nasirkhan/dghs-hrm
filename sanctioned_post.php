@@ -121,7 +121,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Organization Profile</a>
+                        <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li class="active"><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
                         <li><a href="#"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
@@ -138,9 +138,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                 <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Designation</th>
-                                        <th>Discipline</th>
-                                        <th>Total Sanctioned Post</th>
+                                        <th>Sanctioned Post</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -153,9 +151,20 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                     
                                     while($sp_data = mysql_fetch_assoc($result)){
                                         echo "<tr>";
-                                        echo "<td>" . $sp_data['designation'] . "</td>";
-                                        echo "<td>" . $sp_data['discipline'] . "</td>";
-                                        echo "<td>" . $sp_data['sp_count'] . "</td>";
+                                        echo "<td>";
+                                        echo "<div class=\"row\">";
+                                        echo "<div class=\"span9\">";
+                                        echo "<div class=\"pull-left\">" . $sp_data['designation'] . "</div>";
+                                        $designation_div_id = str_replace( ' ','', strtolower($sp_data['designation']));
+                                        echo "<div class=\"pull-right\">" . $sp_data['sp_count'] . " <button type=\"button\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\">View List</button></div>";                      
+                                        echo "</div>";
+                                        echo "</div>";
+                                        echo "<div class=\"row\">";
+                                        echo "<div class=\"span9\">";
+                                        echo "<div id=\"$designation_div_id\" class=\"collapse\"> $designation_div_id </div>";
+                                        echo "</div>";
+                                        echo "</div>";
+                                        echo "</td>";
                                         echo "</tr>";
                                     }
                                     ?>
