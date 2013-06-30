@@ -134,7 +134,8 @@ if (!($latitude > 0) || !($longitude > 0)) {
                     <section id="sanctioned-post">
 
                         <div class="row">
-                            <table class="table table-striped table-hover">
+                            <div class="span9">
+                                <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th>Designation</th>
@@ -161,6 +162,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                 </tbody>
 
                             </table>
+                            </div>
                             
                         </div>
 
