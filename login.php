@@ -1,12 +1,13 @@
 <?php
 require_once 'configuration.php';
 
-if($_SESSION['logged']==true){
-	header("location:home.php?org_code=" . $_SESSION['org_code']);
+if ($_SESSION['logged'] == true) {
+    header("location:home.php?org_code=" . $_SESSION['org_code']);
 }
 
+$login_sussess = 2;
 //cheak the login information
-if (isset($_POST['email']) && isset($_POST['password'])  && $_POST['login_key'] == $_SESSION['login_key']) {
+if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] == $_SESSION['login_key']) {
     $form_uname = $_POST['email'];
     $form_passwd = $_POST['password'];
     unset($_POST);
@@ -15,28 +16,33 @@ if (isset($_POST['email']) && isset($_POST['password'])  && $_POST['login_key'] 
     $form_uname = mysql_real_escape_string($form_uname);
     $form_passwd = mysql_real_escape_string($form_passwd);
     $form_passwd = md5($form_passwd);
-    
+
     $sql = "SELECT user_id, username, user_type, organization_id, org_code FROM user WHERE username LIKE \"$form_uname\" AND password LIKE \"$form_passwd\"";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-    
+
     $data = mysql_fetch_assoc($result);
-    
-    
+
+
 //    set session variables 
-    $_SESSION['user_id'] = $data['user_id'];
-    $_SESSION['username'] = $data['username'];
-    $_SESSION['user_type'] = $data['user_type'];
-    $_SESSION['organization_id'] = $data['organization_id'];
-    $_SESSION['org_code'] = $data['org_code'];
-    $_SESSION['logged'] = TRUE;
-    
-    header("location:home.php?org_code=" . $_SESSION['org_code']);
-    
+    if (mysql_num_rows($result) >= 1) {
+        $_SESSION['user_id'] = $data['user_id'];
+        $_SESSION['username'] = $data['username'];
+        $_SESSION['user_type'] = $data['user_type'];
+        $_SESSION['organization_id'] = $data['organization_id'];
+        $_SESSION['org_code'] = $data['org_code'];
+        $_SESSION['logged'] = TRUE;
+
+        $login_sussess = 1;
+
+        header("location:home.php?org_code=" . $_SESSION['org_code']);
+    } else {
+        $login_sussess = 0;
+    }
+
 //    echo "<pre>";
 //    print_r($_SESSION);
-}
- else {
-     $_SESSION['login_key'] = mt_rand(1, 1000);
+} else {
+    $_SESSION['login_key'] = mt_rand(1, 1000);
 }
 ?>
 
@@ -90,6 +96,9 @@ if (isset($_POST['email']) && isset($_POST['password'])  && $_POST['login_key'] 
                 margin-top: 20px;
                 color: #0077b3;
             }
+            .login-error{
+                margin-top: 30px;
+            }
 
         </style>
 
@@ -111,26 +120,38 @@ if (isset($_POST['email']) && isset($_POST['password'])  && $_POST['login_key'] 
 
         <div class="container">
 
-            <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF']; hm?>" method="post">
+            <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF'];
+hm ?>" method="post">
                 <div class="">
                     <h2 class="form-signin-heading">Welcome to DGHS HRM Software</h2>
-                                                
-                <input type="hidden" name="login_key" value="<?php echo $_SESSION['login_key'] ?>" />
-                <div class="input-append">
-                    <input name="email" type="text" class="input-block-level" placeholder="Email address">
-                    <span class="add-on"><i class="icon-envelope icon-2x"></i></span>
-                </div>
-                <div class="input-append">
-                    <input name="password" type="password" class="input-block-level" placeholder="Password">
-                    <span class="add-on"><i class="icon-key icon-2x"></i></span>
-                </div>
+
+                    <input type="hidden" name="login_key" value="<?php echo $_SESSION['login_key'] ?>" />
+                    <div class="input-append">
+                        <input name="email" type="text" class="input-block-level" placeholder="Email address">
+                        <span class="add-on"><i class="icon-envelope icon-2x"></i></span>
+                    </div>
+                    <div class="input-append">
+                        <input name="password" type="password" class="input-block-level" placeholder="Password">
+                        <span class="add-on"><i class="icon-key icon-2x"></i></span>
+                    </div>
                 </div>
                 <button class="btn btn-large btn-primary" type="submit" value="submit">Sign in <i class="icon-signin"></i></button>
-            
+
+                <?php 
+                if ($login_sussess ==0):
+                ?>
+                <div class="login-error">
+                    <div class="alert alert-block alert-error">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong><i class="icon-minus-sign"></i> Warning!</strong><br />Your login Username or Password is incorrect. 
+                        <br />Please try again.
+                    </div>
+                </div>
+                <?php endif; ?>
                 <div class="contact"><i class="icon-edit"></i> <a href="#">Contact us for any assistance.</a></div>
-                
+
             </form>
-            
+
         </div> <!-- /container -->
 
         <!-- Le javascript
