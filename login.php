@@ -120,8 +120,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
 
         <div class="container">
 
-            <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF'];
-hm ?>" method="post">
+            <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <div class="">
                     <h2 class="form-signin-heading">Welcome to DGHS HRM Software</h2>
 
@@ -137,16 +136,16 @@ hm ?>" method="post">
                 </div>
                 <button class="btn btn-large btn-primary" type="submit" value="submit">Sign in <i class="icon-signin"></i></button>
 
-                <?php 
-                if ($login_sussess ==0):
-                ?>
-                <div class="login-error">
-                    <div class="alert alert-block alert-error">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <strong><i class="icon-minus-sign"></i> Warning!</strong><br />Your login Username or Password is incorrect. 
-                        <br />Please try again.
+                <?php
+                if ($login_sussess == 0):
+                    ?>
+                    <div class="login-error">
+                        <div class="alert alert-block alert-error">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong><i class="icon-minus-sign"></i> Warning!</strong><br />Your login Username or Password is incorrect. 
+                            <br />Please try again.
+                        </div>
                     </div>
-                </div>
                 <?php endif; ?>
                 <div class="contact"><i class="icon-edit"></i> <a href="#">Contact us for any assistance.</a></div>
 
