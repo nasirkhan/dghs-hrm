@@ -5,7 +5,9 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 $org_code = $_GET['org_code'];
-//$org_code = $_SESSION['org_code'];
+if($org_code == ""){
+    $org_code = $_SESSION['org_code'];
+}
 $org_code = (int) $org_code;
 
 
@@ -75,6 +77,9 @@ if (!($latitude > 0) || !($longitude > 0)) {
             })();
         </script>
         -->
+
+        
+
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -136,49 +141,67 @@ if (!($latitude > 0) || !($longitude > 0)) {
                         <div class="row">
                             <div class="span9">
                                 <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Sanctioned Post</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $sql = "SELECT designation, discipline, COUNT(*) AS sp_count 
+                                    <thead>
+                                        <tr>
+                                            <th>Sanctioned Post</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $sql = "SELECT designation, discipline, COUNT(*) AS sp_count 
                                             FROM total_manpower_imported_sanctioned_post 
                                             WHERE org_code = $org_code
                                             GROUP BY designation";
-                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                    
-                                    while($sp_data = mysql_fetch_assoc($result)){
-                                        echo "<tr>";
-                                        echo "<td>";
-                                        echo "<div class=\"row\">";
-                                        echo "<div class=\"span9\">";
-                                        echo "<div class=\"pull-left\">" . $sp_data['designation'] . "</div>";
-                                        $designation_div_id = str_replace( ' ','', strtolower($sp_data['designation']));
-                                        echo "<div class=\"pull-right\">" . $sp_data['sp_count'] . " <button type=\"button\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\">View List</button></div>";                      
-                                        echo "</div>";
-                                        echo "</div>";
-                                        echo "<div class=\"row\">";
-                                        echo "<div class=\"span9\">";
-                                        echo "<div id=\"$designation_div_id\" class=\"collapse\"> $designation_div_id </div>";
-                                        echo "</div>";
-                                        echo "</div>";
-                                        echo "</td>";
-                                        echo "</tr>";
-                                    }
-                                    ?>
-                                </tbody>
+                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                            </table>
+                                        while ($sp_data = mysql_fetch_assoc($result)) {
+                                            echo "<tr>";
+                                            echo "<td>";
+                                            echo "<div class=\"row\">";
+                                            echo "<div class=\"span9\">";
+                                            echo "<div class=\"pull-left\">" . $sp_data['designation'] . "</div>";
+                                            $designation_div_id = str_replace(' ', '', strtolower($sp_data['designation']));
+                                            echo "<div class=\"pull-right\">" . $sp_data['sp_count'] . "";
+//                                            echo "<form method=\"post\" action=\"\">";
+                                            echo " <button type=\"submit\" name=\"btn-$designation_div_id\" name=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" onClick=\"\">View List</button>";
+//                                            echo "</form>"; 
+                                            echo "</div>";
+                                            echo "</div>";
+                                            echo "</div>";
+
+                                            // sanctioned post list display
+                                            $sql = "SELECT *
+                                                FROM total_manpower_imported_sanctioned_post
+                                                WHERE designation LIKE \"" . $sp_data['designation'] . "\"
+                                                AND org_code =$org_code";
+//                                        $sanctioned_post_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                            echo "<div class=\"row\">";
+                                            echo "<div class=\"span9\">";
+                                            echo "<div id=\"$designation_div_id\" class=\"collapse\">";
+                                            echo "<strong>First Level Division:</strong> ABCD, <strong>Second Level Division:</strong> EFGH<br />";
+
+//                                        while($sanctioned_post_result_data = mysql_fetch_assoc($sanctioned_post_result)){
+//                                            echo "<br />" . $sanctioned_post_result_data[id] . $sanctioned_post_result_data[designation];
+//                                        }
+                                            echo "<div class=\"list-$designation_div_id alert alert-info\"></di>";
+                                            echo "</div>";
+                                            echo "</div>";
+                                            echo "</div>";
+                                            echo "</td>";
+                                            echo "</tr>";
+                                        }
+                                        ?>
+                                    </tbody>
+
+                                </table>
                             </div>
-                            
+
                         </div>
 
                     </section>
 
                 </div>
-                
+
             </div>
 
         </div>
@@ -216,7 +239,6 @@ if (!($latitude > 0) || !($longitude > 0)) {
         <script src="assets/js/google-code-prettify/prettify.js"></script>
 
         <script src="assets/js/application.js"></script>
-
 
     </body>
 </html>

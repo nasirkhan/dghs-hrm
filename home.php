@@ -5,6 +5,9 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 $org_code = $_GET['org_code'];
+if($org_code == ""){
+    $org_code = $_SESSION['org_code'];
+}
 //$org_code = $_SESSION['org_code'];
 $org_code = (int) $org_code;
 

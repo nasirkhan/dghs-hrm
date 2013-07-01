@@ -6,7 +6,9 @@ if ($_SESSION['logged'] != true) {
 }
 
 $org_code = $_GET['org_code'];
-//$org_code = $_SESSION['org_code'];
+if($org_code == ""){
+    $org_code = $_SESSION['org_code'];
+}
 $org_code = (int) $org_code;
 
 
