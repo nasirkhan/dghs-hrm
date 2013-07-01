@@ -154,7 +154,7 @@ if ($staff_id != "" && $staff_exists) {
                                     </div>
                                 <?php endif; ?>
 
-                                <?php if (!$staff_exists): ?>
+                                <?php if ($staff_id != "" && !$staff_exists): ?>
                                     <div class="alert alert-error">
                                         <div>
                                             <h3>Please search again.</h3>
