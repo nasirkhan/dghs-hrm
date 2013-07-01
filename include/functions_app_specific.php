@@ -91,4 +91,21 @@ function getOrgNameAndOrgTypeCodeFormOrgCode($org_code) {
     return $data;
 }
 
+/**
+ * Check if a staff works in a specific organization or not
+ * @param Integer $org_code
+ * @param Integer $staff_id
+ * @return boolean 
+ */
+function checkEmployeeExistsInOrganization($org_code, $staff_id) {
+    $sql = "SELECT old_tbl_staff_organization.org_code FROM old_tbl_staff_organization WHERE old_tbl_staff_organization.staff_id = $staff_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgNameFormOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+    if ($data['org_code'] == $org_code) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
 ?>
