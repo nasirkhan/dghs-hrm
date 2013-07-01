@@ -5,9 +5,7 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 $org_code = $_GET['org_code'];
-if($org_code == ""){
-    $org_code = $_SESSION['org_code'];
-}
+//$org_code = $_SESSION['org_code'];
 $org_code = (int) $org_code;
 
 
@@ -46,6 +44,8 @@ if (!($latitude > 0) || !($longitude > 0)) {
         <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
         <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+
         <!--[if lte IE 8]>
             <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
         <![endif]-->
@@ -129,7 +129,6 @@ if (!($latitude > 0) || !($longitude > 0)) {
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li class="active"><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
-                        <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
                         <li><a href="#"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
@@ -163,28 +162,36 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                             echo "<div class=\"pull-left\">" . $sp_data['designation'] . "</div>";
                                             $designation_div_id = str_replace(' ', '', strtolower($sp_data['designation']));
                                             echo "<div class=\"pull-right\">" . $sp_data['sp_count'] . "";
-//                                            echo "<form method=\"post\" action=\"\">";
-                                            echo " <button type=\"submit\" name=\"btn-$designation_div_id\" name=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" onClick=\"\">View List</button>";
-//                                            echo "</form>"; 
+                                            echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" >View List</button>";
+                                            
                                             echo "</div>";
                                             echo "</div>";
                                             echo "</div>";
 
                                             // sanctioned post list display
-                                            $sql = "SELECT *
-                                                FROM total_manpower_imported_sanctioned_post
-                                                WHERE designation LIKE \"" . $sp_data['designation'] . "\"
-                                                AND org_code =$org_code";
-//                                        $sanctioned_post_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                             echo "<div class=\"row\">";
                                             echo "<div class=\"span9\">";
                                             echo "<div id=\"$designation_div_id\" class=\"collapse\">";
                                             echo "<strong>First Level Division:</strong> ABCD, <strong>Second Level Division:</strong> EFGH<br />";
+                                            echo "<div class=\" alert alert-info\" id=\"list-$designation_div_id\">";
+                                           ?>
+                                            <script type="text/javascript" language="javascript">
+                                           $(document).ready(function() {
+                                               $("#btn-<?php echo $designation_div_id; ?>").click(function(event){
+                                                   $.post( 
+                                                      "result.php",
+                                                      { name: "<?php echo $sp_data['designation'] ?>" },
+                                                      function(data) {
+                                                            $('#list-<?php echo $designation_div_id; ?>').html("");
+                                                            $('#list-<?php echo $designation_div_id; ?>').html(data);
+                                                      }
 
-//                                        while($sanctioned_post_result_data = mysql_fetch_assoc($sanctioned_post_result)){
-//                                            echo "<br />" . $sanctioned_post_result_data[id] . $sanctioned_post_result_data[designation];
-//                                        }
-                                            echo "<div class=\"list-$designation_div_id alert alert-info\"></di>";
+                                                   );
+                                               });
+                                            });
+                                            </script>
+                                                <?php                                                                                       
+                                            echo "</div>";
                                             echo "</div>";
                                             echo "</div>";
                                             echo "</div>";
