@@ -5,7 +5,9 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 $org_code = $_GET['org_code'];
-//$org_code = $_SESSION['org_code'];
+if ($org_code == "") {
+    $org_code = $_SESSION['org_code'];
+}
 $org_code = (int) $org_code;
 
 
@@ -19,15 +21,6 @@ $data = mysql_fetch_assoc($result);
 $org_name = $data['org_name'];
 $org_code = $data['org_code'];
 $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
-
-$latitude = $data['latitude'];
-$longitude = $data['longitude'];
-$coordinate = $longitude . "," . $latitude;
-if (!($latitude > 0) || !($longitude > 0)) {
-    $map_popup = "";
-} else {
-    $map_popup = $org_name;
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,7 +71,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
         </script>
         -->
 
-        
+
 
     </head>
 
@@ -160,10 +153,10 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                             echo "<div class=\"row\">";
                                             echo "<div class=\"span9\">";
                                             echo "<div class=\"pull-left\">" . $sp_data['designation'] . "</div>";
-                                            $designation_div_id = str_replace(' ', '', strtolower($sp_data['designation']));
+                                            $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation']));
                                             echo "<div class=\"pull-right\">" . $sp_data['sp_count'] . "";
                                             echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" >View List</button>";
-                                            
+
                                             echo "</div>";
                                             echo "</div>";
                                             echo "</div>";
@@ -174,31 +167,37 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                             echo "<div id=\"$designation_div_id\" class=\"collapse\">";
                                             echo "<strong>First Level Division:</strong> ABCD, <strong>Second Level Division:</strong> EFGH<br />";
                                             echo "<div class=\" alert alert-info\" id=\"list-$designation_div_id\">";
-                                           ?>
-                                            <script type="text/javascript" language="javascript">
-                                           $(document).ready(function() {
-                                               $("#btn-<?php echo $designation_div_id; ?>").click(function(event){
-                                                   $.post( 
-                                                      "result.php",
-                                                      { name: "<?php echo $sp_data['designation'] ?>" },
-                                                      function(data) {
+                                            ?>
+                                        <script type="text/javascript" language="javascript">
+                                            $(document).ready(function() {
+                                                $("#btn-<?php echo $designation_div_id; ?>").click(function(event) {
+                                                    $.ajax({
+                                                        type: "POST",
+                                                        url: "result.php",
+                                                        data: {designation: "<?php echo $sp_data['designation']; ?>"},
+                                                        dataType: 'json',
+                                                        success: function(data) {
                                                             $('#list-<?php echo $designation_div_id; ?>').html("");
-                                                            $('#list-<?php echo $designation_div_id; ?>').html(data);
-                                                      }
+                                                            
+                                                            for (var i in data.sanctioned_post_id) {
+                                                                $('#list-<?php echo $designation_div_id; ?>').append('sanctioned_post_id: ' + data.sanctioned_post_id[i] + '<br/>');
+                                                                $('#list-<?php echo $designation_div_id; ?>').append('type_of_post: ' + data.type_of_post[i] + '<br/>');
+                                                            }
 
-                                                   );
-                                               });
+                                                        }
+                                                    });
+                                                });
                                             });
-                                            </script>
-                                                <?php                                                                                       
-                                            echo "</div>";
-                                            echo "</div>";
-                                            echo "</div>";
-                                            echo "</div>";
-                                            echo "</td>";
-                                            echo "</tr>";
-                                        }
-                                        ?>
+                                        </script>
+                                        <?php
+                                        echo "</div>";
+                                        echo "</div>";
+                                        echo "</div>";
+                                        echo "</div>";
+                                        echo "</td>";
+                                        echo "</tr>";
+                                    }
+                                    ?>
                                     </tbody>
 
                                 </table>
