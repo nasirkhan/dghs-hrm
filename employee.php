@@ -16,8 +16,10 @@ $org_name = $org_data['org_name'];
 $org_type_code = $org_data['org_type_code'];
 $org_type_name = getOrgTypeNameFormOrgTypeId($org_type_code);
 
-if ($staff_id != "") {    
-    $sql = "SELECT * FROM old_tbl_staff_organization WHERE staff_id=$staff_id LIMIT 1";
+$staff_exists = checkEmployeeExistsInOrganization($org_code, $staff_id);
+
+if ($staff_id != "" && $staff_exists) {
+    $sql = "SELECT * FROM old_tbl_staff_organization WHERE old_tbl_staff_organization.staff_id = $staff_id AND old_tbl_staff_organization.org_code = $org_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     // data fetched form organization table
@@ -142,7 +144,7 @@ if ($staff_id != "") {
                                         <div>
                                             <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
                                                 <div class="input-append">
-                                                    <input class="span4" id="org_code" name="org_code" type="hidden" value="<?php echo $org_code; ?>">
+                                                    <!--<input class="span4" id="org_code" name="org_code" type="hidden" value="<?php echo $org_code; ?>">-->
                                                     <input class="span4" id="staff_id" name="staff_id" type="text">                                                    
                                                     <button class="btn" type="submit" >Search</button>
                                                 </div>
@@ -150,10 +152,32 @@ if ($staff_id != "") {
                                         </div>
 
                                     </div>
-
                                 <?php endif; ?>
 
-                                <?php if ($staff_id != ""): ?>
+                                <?php if (!$staff_exists): ?>
+                                    <div class="alert alert-error">
+                                        <div>
+                                            <h3>Please search again.</h3>
+                                            <p class="lead">The staff you are searching for do not belongs to this organization.<br />
+                                            Or, you are not authorized to view the prfile.<br /></p>
+                                            
+                                            <p>If you want to view a specific staff profile, please use the following serchbox to find. <br />
+                                            Or, you can find the staff form the <a href="sanctioned_post.php">Sanctioned Post Page</a>.</p>
+                                        </div>
+                                        <div>
+                                            <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+                                                <div class="input-append">
+                                                    <!--<input class="span4" id="org_code" name="org_code" type="hidden" value="<?php echo $org_code; ?>">-->
+                                                    <input class="span4" id="staff_id" name="staff_id" type="text">                                                    
+                                                    <button class="btn" type="submit" >Search</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if ($staff_id != "" && $staff_exists): ?>
                                     <table class="table table-striped table-hover">
                                         <tr>
                                             <td><strong>Staff ID</strong></td>
@@ -325,9 +349,9 @@ if ($staff_id != "") {
 
 <!--                    <section id="debug-aea">
                         <pre class="prettyprint">
-<?php
-print_r($data);
-?>
+                    <?php
+                    print_r($data);
+                    ?>
                         </pre>
                     </section>-->
                 </div>
