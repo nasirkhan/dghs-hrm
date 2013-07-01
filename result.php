@@ -1,8 +1,9 @@
 <?php
+
 require_once 'configuration.php';
 
-if( $_REQUEST["designation"] ){
-   $designation = $_REQUEST['designation'];
+if ($_REQUEST["designation"]) {
+    $designation = $_REQUEST['designation'];
 //   echo $designation;
 }
 
@@ -22,14 +23,15 @@ WHERE designation LIKE \"" . $designation . "\"
 AND org_code =$org_code";
 $sanctioned_post_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-$data_list = mysql_fetch_assoc($sanctioned_post_list_result);
-
-$data = array(
-      "sanctioned_post_id" => $data_list['id'],
-      "type_of_post" => $data_list['type_of_post'],
+$total_rows= mysql_num_rows($sanctioned_post_list_result);
+while ($data_list = mysql_fetch_assoc($sanctioned_post_list_result)){
+    $data[] = array(
+    "sanctioned_post_id" => $data_list['id'],
+    "class" => $data_list['class'],
+    "total" => $total_rows
 );
+}
+
 
 print json_encode($data);
-
-
 ?>
