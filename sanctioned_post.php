@@ -168,6 +168,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                             echo "<strong>First Level Division:</strong> ABCD, <strong>Second Level Division:</strong> EFGH<br />";
                                             echo "<div class=\" alert alert-info\" id=\"list-$designation_div_id\">";
                                             ?>
+                                    <div id="loading-<?php echo $designation_div_id; ?>"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</div>
                                         <script type="text/javascript" language="javascript">
                                             $(document).ready(function() {
                                                 $("#btn-<?php echo $designation_div_id; ?>").click(function(event) {
@@ -177,13 +178,12 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                                         data: {designation: "<?php echo $sp_data['designation']; ?>"},
                                                         dataType: 'json',
                                                         success: function(data) {
+                                                            $('#loading-<?php echo $designation_div_id; ?>').hide();
                                                             $('#list-<?php echo $designation_div_id; ?>').html("");
-                                                            
-                                                            for (var i in data.sanctioned_post_id) {
-                                                                $('#list-<?php echo $designation_div_id; ?>').append('sanctioned_post_id: ' + data.sanctioned_post_id[i] + '<br/>');
-                                                                $('#list-<?php echo $designation_div_id; ?>').append('type_of_post: ' + data.type_of_post[i] + '<br/>');
-                                                            }
-
+                                                            $.each(data, function(k,v) {
+                                                                $("#list-<?php echo $designation_div_id; ?>").append("sanctioned_post_id: " + v.sanctioned_post_id + " || ");
+                                                                $("#list-<?php echo $designation_div_id; ?>").append("class: " + v.class + "<br/>");
+                                                            });
                                                         }
                                                     });
                                                 });
