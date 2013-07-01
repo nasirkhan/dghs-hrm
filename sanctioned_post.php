@@ -122,6 +122,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li class="active"><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
+                        <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
                         <li><a href="#"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
@@ -166,7 +167,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                             echo "<div class=\"span9\">";
                                             echo "<div id=\"$designation_div_id\" class=\"collapse\">";
                                             echo "<strong>First Level Division:</strong> ABCD, <strong>Second Level Division:</strong> EFGH<br />";
-                                            echo "<div class=\" alert alert-info\" id=\"list-$designation_div_id\">";
+                                            echo "<div class=\"clearfix alert alert-info\" id=\"list-$designation_div_id\">";
                                             ?>
                                     <div id="loading-<?php echo $designation_div_id; ?>"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</div>
                                         <script type="text/javascript" language="javascript">
@@ -180,10 +181,15 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                                         success: function(data) {
                                                             $('#loading-<?php echo $designation_div_id; ?>').hide();
                                                             $('#list-<?php echo $designation_div_id; ?>').html("");
+//                                                            $('#list-<?php echo $designation_div_id; ?>').append("<div class=\"row\">");
                                                             $.each(data, function(k,v) {
-                                                                $("#list-<?php echo $designation_div_id; ?>").append("sanctioned_post_id: " + v.sanctioned_post_id + " || ");
-                                                                $("#list-<?php echo $designation_div_id; ?>").append("class: " + v.class + "<br/>");
+                                                                $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"row\">");                                                            
+                                                                $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + "</div>");
+                                                                $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Class: " + v.class + "</div>");
+                                                                $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.sanctioned_post_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\" name=\"a-btn-<?php echo $designation_div_id; ?>\" id=\"a-btn-<?php echo $designation_div_id; ?>\" class=\"btn btn-warning btn-mini\" data-toggle=\"collapse\" >View Profile</a></div>");
+                                                                $('#list-<?php echo $designation_div_id; ?>').append("</div>");
                                                             });
+//                                                            $('#list-<?php echo $designation_div_id; ?>').append("</div>");
                                                         }
                                                     });
                                                 });
