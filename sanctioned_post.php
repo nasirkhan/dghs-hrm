@@ -186,7 +186,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                                                 $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"row\">");                                                            
                                                                 $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + "</div>");
                                                                 $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Class: " + v.class + "</div>");
-                                                                $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.sanctioned_post_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\" name=\"a-btn-<?php echo $designation_div_id; ?>\" id=\"a-btn-<?php echo $designation_div_id; ?>\" class=\"btn btn-warning btn-mini\" data-toggle=\"collapse\" >View Profile</a></div>");
+                                                                $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.sanctioned_post_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" >View Profile</a></div>");
                                                                 $('#list-<?php echo $designation_div_id; ?>').append("</div>");
                                                             });
 //                                                            $('#list-<?php echo $designation_div_id; ?>').append("</div>");
