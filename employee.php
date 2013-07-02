@@ -25,6 +25,10 @@ if ($staff_id != "" && $staff_exists) {
     // data fetched form organization table
     $data = mysql_fetch_assoc($result);
 }
+
+
+//  check and set the user's edit permission
+$userCanEdit = TRUE;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -156,10 +160,10 @@ if ($staff_id != "" && $staff_exists) {
                                         <div>
                                             <h3>Please search again.</h3>
                                             <p class="lead">The staff you are searching for do not belongs to this organization.<br />
-                                            Or, you are not authorized to view the prfile.<br /></p>
-                                            
+                                                Or, you are not authorized to view the prfile.<br /></p>
+
                                             <p>If you want to view a specific staff profile, please use the following serchbox to find. <br />
-                                            Or, you can find the staff form the <a href="sanctioned_post.php">Sanctioned Post Page</a>.</p>
+                                                Or, you can find the staff form the <a href="sanctioned_post.php">Sanctioned Post Page</a>.</p>
                                         </div>
                                         <div>
                                             <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
@@ -174,7 +178,7 @@ if ($staff_id != "" && $staff_exists) {
                                     </div>
                                 <?php endif; ?>
 
-                                <?php if ($staff_id != "" && $staff_exists): ?>
+                                <?php if ($staff_id != "" && $staff_exists && !$userCanEdit): ?>
                                     <table class="table table-striped table-hover">
                                         <tr>
                                             <td><strong>Staff ID</strong></td>
@@ -339,18 +343,181 @@ if ($staff_id != "" && $staff_exists) {
 
                                     </table>
                                 <?php endif; ?>
+                                <?php if ($staff_id != "" && $staff_exists && $userCanEdit): ?>
+                                    <table class="table table-striped table-hover" id="employee-profile">
+                                        <tr>
+                                            <td><strong>Staff ID</strong></td>
+                                            <td><?php echo $data['staff_id']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Organization ID</strong></td>
+                                            <td><?php echo $data['organization_id']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Department ID</strong></td>
+                                            <td><?php echo $data['department_id']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Staff Posting</strong></td>
+                                            <td><?php echo $data['staff_posting']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Staff Job Class</strong></td>
+                                            <td><?php echo $data['staff_job_class']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Staff Professional Category</strong></td>
+                                            <td><?php echo $data['staff_professional_category']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Designation Id</strong></td>
+                                            <td><?php echo $data['designation_id']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Posting Status</strong></td>
+                                            <td><?php echo $data['posting_status']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Staff Pds Code</strong></td>
+                                            <td><?php echo $data['staff_pds_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Staff Name</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="staff_name"><?php echo $data['staff_name']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Staff Local Id</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="staff_local_id"><?php echo $data['staff_local_id']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Father Name</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="father_name"><?php echo $data['father_name']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Mother Name</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="mother_name"><?php echo $data['mother_name']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Date of Birth</strong></td>
+                                            <td><a href="#" class="date-input" id="birth_date" ><?php echo $data['birth_date']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Email Address</strong></td>
+                                            <td><?php echo $data['email_address']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Contact No.</strong></td>
+                                            <td><?php echo $data['contact_no']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Mailing Address</strong></td>
+                                            <td><?php echo $data['mailing_address']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Permanent Address</strong></td>
+                                            <td><?php echo $data['permanent_address']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Freedom Fighter Id</strong></td>
+                                            <td><?php echo $data['freedom_fighter_id']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Tribal Id</strong></td>
+                                            <td><?php echo $data['tribal_id']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Post Type Id</strong></td>
+                                            <td><?php echo $data['post_type_id']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>draw_type Id</strong></td>
+                                            <td><?php echo $data['draw_type_id']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>designation_type Id</strong></td>
+                                            <td><?php echo $data['designation_type_id']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>job_posting Id</strong></td>
+                                            <td><?php echo $data['job_posting_id']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>working_status Id</strong></td>
+                                            <td><a href="#" class="date-input" id="working_status_id" ><?php echo $data['working_status_id']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>draw_salary Id</strong></td>
+                                            <td><?php echo $data['draw_salary_id']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>sex</strong></td>
+                                            <td><?php echo $data['sex']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>marital_status</strong></td>
+                                            <td><?php echo $data['marital_status']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>religion</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="religion" name="religion"><?php echo $data['religion']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>date_of_joining_to_govt_health_service</strong></td>
+                                            <td><a href="#" class="date-input" id="date_of_joining_to_govt_health_service" ><?php echo $data['date_of_joining_to_govt_health_service']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>date_of_joining_to_current_place</strong></td>
+                                            <td><a href="#" class="date-input" id="date_of_joining_to_current_place" ><?php echo $data['date_of_joining_to_current_place']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>date_of_joining_to_current_designation</strong></td>
+                                            <td><a href="#" class="date-input" id="date_of_joining_to_current_designation" ><?php echo $data['date_of_joining_to_current_designation']; ?></a></td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td><strong>professional_discipline_of_current_designation</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="professional_discipline_of_current_designation" name="professional_discipline_of_current_designation"><?php echo $data['professional_discipline_of_current_designation']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>type_of_educational_qualification</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php echo $data['type_of_educational_qualification']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>actual_degree</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="actual_degree" name="actual_degree"><?php echo $data['actual_degree']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>pay_scale_of_current_designation</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="pay_scale_of_current_designation" name="pay_scale_of_current_designation"><?php echo $data['pay_scale_of_current_designation']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>current_basic_pay_taka</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="current_basic_pay_taka" name="current_basic_pay_taka"><?php echo $data['current_basic_pay_taka']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>govt_quarter_id</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="govt_quarter_id" name="govt_quarter_id"><?php echo $data['govt_quarter_id']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>job_status</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="job_status" name="job_status"><?php echo $data['job_status']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>reason</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="reason" name="reason"><?php echo $data['reason']; ?></a> </td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Last Updated On</strong></td>
+                                            <td><?php echo $data['last_update']; ?></td>
+                                        </tr>
+
+                                    </table>
+                                <?php endif; ?>
                             </div>
                         </div>
 
                     </section>
 
-<!--                    <section id="debug-aea">
-                        <pre class="prettyprint">
-                    <?php
-                    print_r($data);
-                    ?>
-                        </pre>
-                    </section>-->
                 </div>
             </div>
 
@@ -387,6 +554,36 @@ if ($staff_id != "" && $staff_exists) {
         <script src="assets/js/application.js"></script>
 
         <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+        <script>
+            $.fn.editable.defaults.mode = 'inline';
+
+            $('#employee-profile a.text-input').editable({
+                type: 'text',
+                pk: <?php echo $staff_id; ?>,
+                url: 'post/post_employee.php',
+                title: 'Enter username',
+                params: function(params) {
+                    params.org_code = <?php echo $org_code; ?>;
+                    return params;
+                }
+            });
+            $(function() {
+                $('#employee-profile a.date-input').editable({
+                    type: 'date',
+                    pk: <?php echo $staff_id; ?>,
+                    url: 'post/post_employee.php',
+                    format: 'yyyy-mm-dd',
+                    datepicker: {
+                        weekStart: 1
+                    },
+                    params: function(params) {
+                    params.org_code = <?php echo $org_code; ?>;
+                    return params;
+                }        
+                });
+            });
+
+        </script>
 
     </body>
 </html>

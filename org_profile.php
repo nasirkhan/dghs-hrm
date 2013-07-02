@@ -6,7 +6,7 @@ if ($_SESSION['logged'] != true) {
 }
 
 $org_code = $_GET['org_code'];
-if($org_code == ""){
+if ($org_code == "") {
     $org_code = $_SESSION['org_code'];
 }
 $org_code = (int) $org_code;
@@ -20,7 +20,6 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b
 $data = mysql_fetch_assoc($result);
 
 $org_name = $data['org_name'];
-//$org_code = $data['org_code'];
 $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
 ?>
 <!DOCTYPE html>
@@ -36,6 +35,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
         <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
         <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
@@ -499,7 +499,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td><strong>Name of CHCP</strong></td>
-                                        <td><?php echo "$org_name"; ?></td>
+                                        <td><a href="#" id="username">superuser</a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Contact no of CHCP</strong></td>
@@ -581,6 +581,24 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
         </script>
 
 
+        <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+        <script>
+            $.fn.editable.defaults.mode = 'inline';
+            $(document).ready(function() {
+                $('#username').editable();
+            });
+            $('#username').editable({
+                type: 'text',
+                pk: <?php echo $org_code; ?>,
+                url: 'post_org_profile.php',
+                title: 'Enter username',
+                params: function(params) {
+                params.a = 1;
+                return params;
+                }
+            });
+            
+        </script>
 
     </body>
 </html>
