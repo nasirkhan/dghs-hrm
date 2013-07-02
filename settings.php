@@ -10,6 +10,36 @@ if ($org_code == "") {
 }
 //$org_code = $_SESSION['org_code'];
 $org_code = (int) $org_code;
+$username = getEmailAddressFromOrgCode($org_code);
+
+
+$oldPasswordCorrect = TRUE;
+$newPassMatched = TRUE;
+$passwordUpdated =FALSE;
+
+if ($_POST['changePassword'] == 'true'){
+    // Password Change request
+    $inputOldPassword = $_POST['inputOldPassword'];
+    $inputNewPassword = $_POST['inputNewPassword'];
+    $inputNewPassword2 = $_POST['inputNewPassword2'];
+
+//check if new password has been entered correctly or not
+    if ($inputNewPassword == $inputNewPassword2) {
+        $newPassMatched = TRUE;
+    } else {
+        $newPassMatched = FALSE;
+    }
+
+//  check if old passwprd is correc    
+    $oldPasswordCorrect = checkPasswordIsCorrect($username, $inputOldPassword);
+    
+// update new password
+    if($oldPasswordCorrect && $newPassMatched){
+        updatePassword($username, $inputNewPassword);
+        $passwordUpdated = TRUE;
+    }
+}
+
 
 
 //org_code 10000001
@@ -130,50 +160,72 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
 
                         <div class="row">
                             <div class="span9">
+                                <?php if(!$newPassMatched): ?>
+                                <div class="">
+                                    <div class="alert alert-block alert-Warnign">
+                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                        <p class="lead"><strong>Warning!</strong><br /> 
+                                            You have to write the "New Password" twice.<br />
+                                            But unfortunately you have entered two different words in two input fields.<br />
+                                            Please try again. 
+                                        </p>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                                
+                                <?php if($passwordUpdated): ?>
                                 <div class="">
                                     <div class="alert alert-block alert-success">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                                         <p class="lead"><strong>Congratulation!</strong><br /> 
                                             Your password has been changed successfully.<br />
-                                        You have to use this new password from your next login.</p>
+                                            You have to use this new password from your next login.
+                                        </p>
                                     </div>
                                 </div>
+                                <?php endif; ?>
+                                
+                                <?php if(!$oldPasswordCorrect): ?>
                                 <div class="">
                                     <div class="alert alert-block alert-error">
                                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                                         <p class="lead"><strong>Warning!</strong><br /> 
                                             Your have entered a wrong "Old Password"<br />
-                                        Please try again with the accurate credential.</p>
+                                            Please try again with the accurate credential.
+                                        </p>
                                     </div>
                                 </div>
+                                <?php endif; ?>
+                                
                                 <h3>Change Password</h3>
-                                <form class="form-horizontal">
+                                <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                                     <div class="control-group">
                                         <label class="control-label" for="inputEmail">Login Email</label>
                                         <div class="controls">
-                                            <span class="input-xlarge uneditable-input">Some value here</span>
+                                            <span class="input-xlarge uneditable-input"><?php echo $username; ?></span>
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label class="control-label" for="inputPassword">Old Password</label>
                                         <div class="controls">
-                                            <input type="password" id="inputPassword" placeholder="Old Password" class="input-xlarge "> 
+                                            <input type="password" id="inputOldPassword" name="inputOldPassword" placeholder="Old Password" class="input-xlarge "> 
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label class="control-label" for="inputPassword">New Password</label>
                                         <div class="controls">
-                                            <input type="password" id="inputPassword" placeholder="New Password" class="input-xlarge "> 
+                                            <input type="password" id="inputNewPassword" name="inputNewPassword" placeholder="New Password" class="input-xlarge "> 
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label class="control-label" for="inputPassword">New Password(Type again)</label>
                                         <div class="controls">
-                                            <input type="password" id="inputPassword" placeholder="New Password (Type again)" class="input-xlarge "> 
+                                            <input type="password" id="inputNewPassword2" name="inputNewPassword2" placeholder="New Password (Type again)" class="input-xlarge "> 
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <div class="controls">                                            
+                                        <div class="controls">   
+                                            <input type="hidden" id="changePassword" name="changePassword" value="true"> 
                                             <button type="submit" class="btn btn-success">Change Password</button>
                                         </div>
                                     </div>
