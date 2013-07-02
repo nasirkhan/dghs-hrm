@@ -108,4 +108,53 @@ function checkEmployeeExistsInOrganization($org_code, $staff_id) {
         return FALSE;
     }
 }
+
+/**
+ * Get the Username(Email address) of the users from the Organization Code
+ * @param Int $org_code
+ * @return String Username
+ */
+function  getEmailAddressFromOrgCode($org_code){
+    $sql = "SELECT `username` FROM `user` WHERE `org_code` = $org_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getEmailAddressFromOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data['username'];
+}
+
+/**
+ * Check if a username password pear is correct
+ * @param type $username
+ * @param type $password
+ * @return boolean
+ */
+function checkPasswordIsCorrect($username, $password) {    
+    $sql = "SELECT `password` FROM `user` WHERE `username` like \"$username\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    $existing_pass = strtolower($data['password']);
+    $get_pass = strtolower(md5($password));
+    
+    if ($existing_pass == $get_pass) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+/**
+ * Update a users password
+ * @param type $username
+ * @param type $password
+ */
+function updatePassword($username, $password){
+    $sql = "UPDATE dghs_hrm_main.user SET password = \"" . md5($password) . "\"WHERE user.username =\"$username\"";
+    $result = mysql_query($sql) or die(mysql_error() . "<br />updatePassword:1<br /><b>Query:</b><br />___<br />$sql<br />");
+
+//    $data = mysql_fetch_assoc($result);
+    
+}
 ?>
