@@ -42,10 +42,7 @@ if ($staff_id != "" && $staff_exists) {
         <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
         <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
-        <![endif]-->
+
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
