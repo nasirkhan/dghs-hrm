@@ -157,7 +157,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                             $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation']));
                                             echo "<div class=\"pull-right\">" . $sp_data['sp_count'] . "";
                                             echo " <a name=\"sp-btn-$designation_div_id\" id=\"sp-btn-$designation_div_id\" href=\"#sp-$designation_div_id\" role=\"button\" class=\"btn\" data-toggle=\"modal\">Sanctioned Post Desctiption</a>";
-                                            echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-success btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" >View List</button>";
+                                            echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" >View List</button>";
 
                                             echo "</div>";
                                             echo "</div>";
@@ -231,8 +231,8 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                                             $.each(data, function(k,v) {
                                                                 $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"row\">");                                                            
                                                                 $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + "</div>");
-                                                                $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Class: " + v.class + "</div>");
-                                                                $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.sanctioned_post_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" >View Profile</a></div>");
+                                                                $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Class: " + v.class + ", staff_id " + v.staff_id +"</div>");
+                                                                $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" >View Profile</a></div>");
                                                                 $('#sp-content-<?php echo $designation_div_id; ?>').append("</div>");
                                                             });
 //                                                            $('#list-<?php echo $designation_div_id; ?>').append("</div>");

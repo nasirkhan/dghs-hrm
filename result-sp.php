@@ -11,15 +11,16 @@ $org_code = $_SESSION['org_code'];
 $staff_id = $_POST['id'];
 
 $sql = "SELECT
-total_manpower_imported_sanctioned_post.id,
-total_manpower_imported_sanctioned_post.type_of_post,
-total_manpower_imported_sanctioned_post.pay_scale,
-total_manpower_imported_sanctioned_post.class,
-total_manpower_imported_sanctioned_post.first_level_id,
-total_manpower_imported_sanctioned_post.first_level_name,
-total_manpower_imported_sanctioned_post.second_level_id,
-total_manpower_imported_sanctioned_post.second_level_name
-FROM total_manpower_imported_sanctioned_post
+total_manpower_imported_sanctioned_post_copy.id,
+total_manpower_imported_sanctioned_post_copy.type_of_post,
+total_manpower_imported_sanctioned_post_copy.pay_scale,
+total_manpower_imported_sanctioned_post_copy.class,
+total_manpower_imported_sanctioned_post_copy.first_level_id,
+total_manpower_imported_sanctioned_post_copy.first_level_name,
+total_manpower_imported_sanctioned_post_copy.second_level_id,
+total_manpower_imported_sanctioned_post_copy.second_level_name,
+total_manpower_imported_sanctioned_post_copy.staff_id
+FROM total_manpower_imported_sanctioned_post_copy
 WHERE org_code =$org_code LIMIT 1";
 $sanctioned_post_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -28,7 +29,7 @@ while ($data_list = mysql_fetch_assoc($sanctioned_post_list_result)){
     $data[] = array(
     "sanctioned_post_id" => $data_list['id'],
     "class" => $data_list['class'],
-    "total" => $total_rows
+    "staff_id" => $data_list['staff_id']
 );
 }
 
