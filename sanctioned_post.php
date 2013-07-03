@@ -142,8 +142,8 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $sql = "SELECT designation, discipline, COUNT(*) AS sp_count 
-                                            FROM total_manpower_imported_sanctioned_post 
+                                        $sql = "SELECT id, designation, discipline, COUNT(*) AS sp_count 
+                                            FROM total_manpower_imported_sanctioned_post_copy 
                                             WHERE org_code = $org_code
                                             GROUP BY designation";
                                         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -156,7 +156,8 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                             echo "<div class=\"pull-left\">" . $sp_data['designation'] . "</div>";
                                             $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation']));
                                             echo "<div class=\"pull-right\">" . $sp_data['sp_count'] . "";
-                                            echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" >View List</button>";
+                                            echo " <a name=\"sp-btn-$designation_div_id\" id=\"sp-btn-$designation_div_id\" href=\"#sp-$designation_div_id\" role=\"button\" class=\"btn\" data-toggle=\"modal\">Sanctioned Post Desctiption</a>";
+                                            echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-success btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" >View List</button>";
 
                                             echo "</div>";
                                             echo "</div>";
@@ -200,6 +201,47 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                         echo "</div>";
                                         echo "</div>";
                                         echo "</div>";
+                                        ?>
+
+                                        <div id="sp-<?php echo "$designation_div_id"; ?>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                <h3><?php echo $sp_data['designation']; ?></h3>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div id="sp-loading-<?php echo $designation_div_id; ?>"><i class="icon-spinner icon-spin icon-large"></i> Loading Content...</div>
+                                                <div id="sp-content-<?php echo $designation_div_id; ?>"></div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                                            </div>
+                                        </div>
+                                        <script type="text/javascript" language="javascript">
+                                            $(document).ready(function() {
+                                                $("#sp-btn-<?php echo $designation_div_id; ?>").click(function(event) {
+                                                    $.ajax({
+                                                        type: "POST",
+                                                        url: "result-sp.php",
+                                                        data: {id: "<?php echo $sp_data['id']; ?>"},
+                                                        dataType: 'json',
+                                                        success: function(data) {
+                                                            $('#sp-loading-<?php echo $designation_div_id; ?>').hide();
+                                                            $('#sp-content-<?php echo $designation_div_id; ?>').html("");
+//                                                            $('#list-<?php echo $designation_div_id; ?>').append("<div class=\"row\">");
+                                                            $.each(data, function(k,v) {
+                                                                $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"row\">");                                                            
+                                                                $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + "</div>");
+                                                                $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Class: " + v.class + "</div>");
+                                                                $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.sanctioned_post_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" >View Profile</a></div>");
+                                                                $('#sp-content-<?php echo $designation_div_id; ?>').append("</div>");
+                                                            });
+//                                                            $('#list-<?php echo $designation_div_id; ?>').append("</div>");
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
+                                        <?php 
                                         echo "</td>";
                                         echo "</tr>";
                                     }
