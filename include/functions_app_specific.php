@@ -35,7 +35,7 @@ function getOrgTypeNameFormOrgTypeId($org_type_id) {
 }
 
 /**
- * 
+ * Get the Agency Name form the Agency Code
  * @param type $agency_code
  * @return type
  */
