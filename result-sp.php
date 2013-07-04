@@ -25,7 +25,7 @@ WHERE id =$staff_id LIMIT 1";
 $sanctioned_post_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
 //$total_rows= mysql_num_rows($sanctioned_post_list_result);
-while ($data_list = mysql_fetch_assoc($sanctioned_post_list_result)){
+while ($data_list = mysql_fetch_assoc($sanctioned_post_list_result)) {
     $data[] = array(
         "sanctioned_post_id" => $data_list['id'],
         "type_of_post" => $data_list['type_of_post'],
@@ -33,7 +33,7 @@ while ($data_list = mysql_fetch_assoc($sanctioned_post_list_result)){
         "first_level_name" => $data_list['first_level_name'],
         "second_level_name" => $data_list['second_level_name'],
         "staff_id" => $data_list['staff_id']
-);
+    );
 }
 
 

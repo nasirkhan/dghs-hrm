@@ -184,9 +184,9 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                                             $('#list-<?php echo $designation_div_id; ?>').html("");
                                                             $.each(data, function(k,v) {
                                                                 var data_list = "<div class=\"row\">";
-                                                                data_list += "<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + "</div>";
+                                                                data_list += "<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff:" + v.staff_id + ") </div>";
                                                                 data_list += "<div class=\"span3\">Class: " + v.class + "</div>";
-                                                                data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.sanctioned_post_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" >View Profile</a></div>";
+                                                                data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" >View Profile</a></div>";
                                                                 data_list += "</div>";                                                                
                                                                 $("#list-<?php echo $designation_div_id; ?>").append(data_list);
                                                             });
