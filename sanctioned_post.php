@@ -182,15 +182,14 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                                         success: function(data) {
                                                             $('#loading-<?php echo $designation_div_id; ?>').hide();
                                                             $('#list-<?php echo $designation_div_id; ?>').html("");
-//                                                            $('#list-<?php echo $designation_div_id; ?>').append("<div class=\"row\">");
                                                             $.each(data, function(k,v) {
-                                                                $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"row\">");                                                            
-                                                                $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + "</div>");
-                                                                $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Class: " + v.class + "</div>");
-                                                                $("#list-<?php echo $designation_div_id; ?>").append("<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.sanctioned_post_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" >View Profile</a></div>");
-                                                                $('#list-<?php echo $designation_div_id; ?>').append("</div>");
+                                                                var data_list = "<div class=\"row\">";
+                                                                data_list += "<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + "</div>";
+                                                                data_list += "<div class=\"span3\">Class: " + v.class + "</div>";
+                                                                data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.sanctioned_post_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" >View Profile</a></div>";
+                                                                data_list += "</div>";                                                                
+                                                                $("#list-<?php echo $designation_div_id; ?>").append(data_list);
                                                             });
-//                                                            $('#list-<?php echo $designation_div_id; ?>').append("</div>");
                                                         }
                                                     });
                                                 });
@@ -227,15 +226,13 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                                         success: function(data) {
                                                             $('#sp-loading-<?php echo $designation_div_id; ?>').hide();
                                                             $('#sp-content-<?php echo $designation_div_id; ?>').html("");
-//                                                            $('#list-<?php echo $designation_div_id; ?>').append("<div class=\"row\">");
                                                             $.each(data, function(k,v) {
-                                                                $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"row\">");                                                            
-                                                                $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + "</div>");
-                                                                $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"span3\">Class: " + v.class + ", staff_id " + v.staff_id +"</div>");
-                                                                $("#sp-content-<?php echo $designation_div_id; ?>").append("<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" >View Profile</a></div>");
-                                                                $('#sp-content-<?php echo $designation_div_id; ?>').append("</div>");
+                                                                var data_all = "<table class=\"table\">";
+                                                                data_all += "<tr><td>Sanctioned Post Id</td><td>" + v.sanctioned_post_id + "</td></tr>";
+                                                                data_all += "<tr><tdClass</td><td>" + v.class + "</td></tr>";
+                                                                data_all += "</table>";
+                                                                $('#sp-content-<?php echo $designation_div_id; ?>').append(data_all);
                                                             });
-//                                                            $('#list-<?php echo $designation_div_id; ?>').append("</div>");
                                                         }
                                                     });
                                                 });
