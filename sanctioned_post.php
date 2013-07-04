@@ -156,8 +156,8 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                             echo "<div class=\"pull-left\">" . $sp_data['designation'] . "</div>";
                                             $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation']));
                                             echo "<div class=\"pull-right\">" . $sp_data['sp_count'] . "";
-                                            echo " <a name=\"sp-btn-$designation_div_id\" id=\"sp-btn-$designation_div_id\" href=\"#sp-$designation_div_id\" role=\"button\" class=\"btn\" data-toggle=\"modal\">Sanctioned Post Desctiption</a>";
-                                            echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" >View List</button>";
+                                            echo " <a name=\"sp-btn-$designation_div_id\" id=\"sp-btn-$designation_div_id\" href=\"#sp-$designation_div_id\" role=\"button\" class=\"btn btn-small\" data-toggle=\"modal\">Sanctioned Post Desctiption</a>";
+                                            echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" >View Staff List</button>";
 
                                             echo "</div>";
                                             echo "</div>";
@@ -228,8 +228,12 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                                             $('#sp-content-<?php echo $designation_div_id; ?>').html("");
                                                             $.each(data, function(k,v) {
                                                                 var data_all = "<table class=\"table\">";
-                                                                data_all += "<tr><td>Sanctioned Post Id</td><td>" + v.sanctioned_post_id + "</td></tr>";
-                                                                data_all += "<tr><tdClass</td><td>" + v.class + "</td></tr>";
+                                                                data_all += "<tr><td><b>Sanctioned Post Id</b></td><td>" + v.sanctioned_post_id + "</td></tr>";
+                                                                data_all += "<tr><td><b>Type of Post</b></td><td>" + v.type_of_post + "</td></tr>";
+                                                                data_all += "<tr><td><b>Class</b></td><td>" + v.class + "</td></tr>";
+                                                                data_all += "<tr><td><b>First Level Name</b></td><td>" + v.first_level_name + "</td></tr>";
+                                                                data_all += "<tr><td><b>Second Level Name</b></td><td>" + v.second_level_name + "</td></tr>";
+                                                                data_all += "<tr><td><b>Pay Scale</b></td><td>" + v.pay_scale + "</td></tr>";
                                                                 data_all += "</table>";
                                                                 $('#sp-content-<?php echo $designation_div_id; ?>').append(data_all);
                                                             });
@@ -259,11 +263,11 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
         </div>
 
 
-        <div>
+<!--        <div>
             <pre>
 
             </pre>
-        </div>
+        </div>-->
         <!-- Footer
         ================================================== -->
         <footer class="footer">
