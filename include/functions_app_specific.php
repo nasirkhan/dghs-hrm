@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @description Get the organization type Name form the Organization code
+ * Get the organization type Name form the Organization code
  * @param type $org_code
  * @return string org_type_name
  */
@@ -21,7 +21,7 @@ function getOrgTypeNameFormOrgCode($org_code) {
 }
 
 /**
- * @description Get the organization type Name form the Organization type Id
+ * Get the organization type Name form the Organization type Id
  * @param type $org_type_id
  * @return string org_type_name
  */
