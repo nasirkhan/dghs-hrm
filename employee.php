@@ -403,11 +403,11 @@ $userCanEdit = TRUE;
                                         </tr>
                                         <tr>
                                             <td><strong>Email Address</strong></td>
-                                            <td><a href="#" class="date-input" data-type="email" id="email_address" ><?php echo $data['email_address']; ?></a></td>
+                                            <td><a href="#" class="text-input" data-type="email" id="email_address" ><?php echo $data['email_address']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Contact No.</strong></td>
-                                            <td><a href="#" class="date-input" id="contact_no" ><?php echo $data['contact_no']; ?></a></td>
+                                            <td><a href="#" class="text-input" id="contact_no" ><?php echo $data['contact_no']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Mailing Address</strong></td>
@@ -419,35 +419,35 @@ $userCanEdit = TRUE;
                                         </tr>
                                         <tr>
                                             <td><strong>Freedom Fighter Id</strong></td>
-                                            <td><a href="#" class="date-input" id="freedom_fighter_id" ><?php echo $data['freedom_fighter_id']; ?></a></td>
+                                            <td><a href="#" class="text-input" id="freedom_fighter_id" ><?php echo $data['freedom_fighter_id']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Tribal Id</strong></td>
-                                            <td><a href="#" class="date-input" id="tribal_id" ><?php echo $data['tribal_id']; ?></a></td>
+                                            <td><a href="#" class="text-input" id="tribal_id" ><?php echo $data['tribal_id']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Post Type Id</strong></td>
-                                            <td><a href="#" class="date-input" id="post_type_id" ><?php echo $data['post_type_id']; ?></a></td>
+                                            <td><a href="#" class="text-input" id="post_type_id" ><?php echo $data['post_type_id']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Draw Type Id</strong></td>
-                                            <td><a href="#" class="date-input" id="draw_type_id" ><?php echo $data['draw_type_id']; ?></a></td>
+                                            <td><a href="#" class="text-input" id="draw_type_id" ><?php echo $data['draw_type_id']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Designation Type Id</strong></td>
-                                            <td><a href="#" class="date-input" id="designation_type_id" ><?php echo $data['designation_type_id']; ?></a></td>
+                                            <td><a href="#" class="text-input" id="designation_type_id" ><?php echo $data['designation_type_id']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Job Posting Id</strong></td>
-                                            <td><a href="#" class="date-input" id="job_posting_id" ><?php echo $data['job_posting_id']; ?></a></td>
+                                            <td><a href="#" class="text-input" id="job_posting_id" ><?php echo $data['job_posting_id']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Working Status Id</strong></td>
-                                            <td><a href="#" class="date-input" id="working_status_id" ><?php echo $data['working_status_id']; ?></a></td>
+                                            <td><a href="#" class="text-input" id="working_status_id" ><?php echo $data['working_status_id']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Draw Salary Id</strong></td>
-                                            <td><a href="#" class="date-input" id="draw_salary_id" ><?php echo $data['draw_salary_id']; ?></a></td>
+                                            <td><a href="#" class="text-input" id="draw_salary_id" ><?php echo $data['draw_salary_id']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Sex</strong></td>
