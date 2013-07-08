@@ -114,12 +114,12 @@ function checkEmployeeExistsInOrganization($org_code, $staff_id) {
  * @param Int $org_code
  * @return String Username
  */
-function  getEmailAddressFromOrgCode($org_code){
+function getEmailAddressFromOrgCode($org_code) {
     $sql = "SELECT `username` FROM `user` WHERE `org_code` = $org_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getEmailAddressFromOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data['username'];
 }
 
@@ -129,7 +129,7 @@ function  getEmailAddressFromOrgCode($org_code){
  * @param type $password
  * @return boolean
  */
-function checkPasswordIsCorrect($username, $password) {    
+function checkPasswordIsCorrect($username, $password) {
     $sql = "SELECT `password` FROM `user` WHERE `username` like \"$username\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -137,7 +137,7 @@ function checkPasswordIsCorrect($username, $password) {
 
     $existing_pass = strtolower($data['password']);
     $get_pass = strtolower(md5($password));
-    
+
     if ($existing_pass == $get_pass) {
         return TRUE;
     } else {
@@ -150,11 +150,25 @@ function checkPasswordIsCorrect($username, $password) {
  * @param type $username
  * @param type $password
  */
-function updatePassword($username, $password){
+function updatePassword($username, $password) {
     $sql = "UPDATE dghs_hrm_main.user SET password = \"" . md5($password) . "\"WHERE user.username =\"$username\"";
     $result = mysql_query($sql) or die(mysql_error() . "<br />updatePassword:1<br /><b>Query:</b><br />___<br />$sql<br />");
 
 //    $data = mysql_fetch_assoc($result);
-    
 }
+
+/**
+ * Get <b>Electricity Main Source Name</b> From <b>Electricity Main Source Code</b>
+ * @param type $electricity_main_source_code
+ * @return type
+ */
+function getElectricityMainSourceNameFromCode($electricity_main_source_code) {
+    $sql = "SELECT `electricity_source_name` FROM `org_source_of_electricity_main` WHERE `electricity_source_code` = \"$electricity_main_source_code\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['electricity_source_name'];
+}
+
 ?>
