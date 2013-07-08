@@ -140,7 +140,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
 
                         <div class="row">
                             <div class="span5">
-                                <img data-src="holder.js/480x360" class="img-polaroid">
+                                <img src="uploads/<?php echo $_SESSION['username']; ?>.jpg" class="img-polaroid">
                             </div>
                             <div class="span4">
                                 <div id="map" style="height: 360px"></div>
