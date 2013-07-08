@@ -7,33 +7,22 @@ if ($_SESSION['logged'] != true) {
 }
 $org_code = $_SESSION['org_code'];
 
+
 $pk = $_POST['pk'];
 $name = $_POST['name'];
 $value = $_POST['value'];
 
-if ($pk== $org_code){
-    
-}
+if ($pk == $org_code) {
+    $sql = "UPDATE `dghs_hrm_main`.`organization` 
+            SET 
+                `$name` = \"$value\",
+                `updated_datetime` = \"" . date("Y-m-d H:i:s") . "\",
+                `updated_by` = \"$user_name\"   
+            WHERE 
+                `organization`.`org_code` = $pk;";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>post_employee:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-/*
-  You will get 'pk', 'name' and 'value' in $_POST array.
- */
-
-
-/*
-  Check submitted value
- */
-if (!empty($value)) {
-    /*
-      If value is correct you process it (for example, save to db).
-      In case of success your script should not return anything, standard HTTP response '200 OK' is enough.
-
-      for example:
-      $result = mysql_query('update users set '.mysql_escape_string($name).'="'.mysql_escape_string($value).'" where user_id = "'.mysql_escape_string($pk).'"');
-     */
-
-    //here, for debug reason we just return dump of $_POST, you will see result in browser console
-    print_r($_POST);
+    echo "Successfully Updated.";
 } else {
     /*
       In case of incorrect value or error you should return HTTP status != 200.
