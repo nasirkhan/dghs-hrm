@@ -140,7 +140,17 @@ if (!($latitude > 0) || !($longitude > 0)) {
 
                         <div class="row">
                             <div class="span5">
-                                <img src="uploads/<?php echo $_SESSION['username']; ?>.jpg" class="img-polaroid">
+                                <?php 
+                                $image_src = "uploads/" . $_SESSION['username'] . ".jpg";
+                                
+                                if (file_exists($image_src)){
+                                    echo "<img src=\"$image_src\" class=\"img-polaroid\"";
+                                }
+                                else{
+                                    echo "<img data-src=\"holder.js/480x360\"  class=\"img-polaroid\"";
+                                }
+                                
+                                ?>
                             </div>
                             <div class="span4">
                                 <div id="map" style="height: 360px"></div>
