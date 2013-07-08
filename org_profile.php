@@ -12,7 +12,6 @@ if ($org_code == "") {
 $org_code = (int) $org_code;
 
 
-//org_code 10000001
 $sql = "SELECT * FROM organization WHERE  org_code =$org_code LIMIT 1";
 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -365,7 +364,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td><strong>Main source of electricity</strong></td>
-                                        <td><?php // echo "$org_name"; ?></td>
+                                        <td><a href="#" class="" id="source_of_electricity_main_code" ><?php echo getElectricityMainSourceNameFromCode($data['source_of_electricity_main_code']); ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Alternate source of electricity</strong></td>
@@ -586,20 +585,15 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
         <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
         <script>
             $.fn.editable.defaults.mode = 'inline';
-            $(document).ready(function() {
-                $('#username').editable();
+
+            $(function(){
+                $('#source_of_electricity_main_code').editable({
+                    type: 'select',
+                    pk: <?php echo $org_code; ?>,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_source_of_electricity_main.php'
+                });
             });
-            $('#username').editable({
-                type: 'text',
-                pk: <?php echo $org_code; ?>,
-                url: 'post_org_profile.php',
-                title: 'Enter username',
-                params: function(params) {
-                params.a = 1;
-                return params;
-                }
-            });
-            
         </script>
 
     </body>
