@@ -203,15 +203,15 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                     </tr>
                                     <tr>
                                         <td><strong>Organization Level</strong></td>
-                                        <td><?php echo $data['org_level_code']; ?></td>
+                                        <td><?php echo $data['org_level_name']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Health Care Level</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Special Services</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Year Established</strong></td>
@@ -219,11 +219,11 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                     </tr>
                                     <tr>
                                         <td><strong>Urban/Rural Location</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Division Name</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php echo $data['division_name']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Division Code</strong></td>
@@ -231,7 +231,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                     </tr>
                                     <tr>
                                         <td><strong>District Name</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php echo $data['district_name']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>District Code</strong></td>
@@ -239,7 +239,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                     </tr>
                                     <tr>
                                         <td><strong>Upaziala Name</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php echo $data['upazila_thana_name']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Upazila Code</strong></td>
@@ -247,7 +247,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                     </tr>
                                     <tr>
                                         <td><strong>Union Name</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php echo $data['union_name']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Union Code</strong></td>
@@ -279,83 +279,85 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td><strong>Mailing Address</strong></td>
-                                        <td><?php echo "$org_name"; ?></td>
+                                        <td><?php echo $data['mailing_address']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Land Phone1</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><strong>Land Phone Number 1</strong></td>
+                                        <td><?php echo $data['land_phone1']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Land Phone2</strong></td>
-                                        <td><?php echo $data['org_type_code']; ?></td>
+                                        <td><strong>Land Phone Number 2</strong></td>
+                                        <td><?php echo $data['land_phone2']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Land Phone3</strong></td>
-                                        <td><?php echo $data['agency_code']; ?></td>
+                                        <td><strong>Land Phone Number 3</strong></td>
+                                        <td><?php echo $data['land_phone3']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Mobile Phone1</strong></td>
-                                        <td><?php echo $data['agency_name']; ?></td>
+                                        <td><strong>Mobile Phone Number 1</strong></td>
+                                        <td><?php echo $data['mobile_number1']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Mobile Phone2</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><strong>Mobile Phone Number 2</strong></td>
+                                        <td><?php echo $data['mobile_number2']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Mobile Phone3</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><strong>Mobile Phone Number 3</strong></td>
+                                        <td><?php echo $data['mobile_number3']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Email1</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><strong>Email Address 1</strong></td>
+                                        <td><?php echo $data['email_address1']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Email2</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><strong>Email Address 2</strong></td>
+                                        <td><?php echo $data['email_address2']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Email3</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><strong>Email Address 3</strong></td>
+                                        <td><?php echo $data['email_address3']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Fax1</strong></td>
-                                        <td><?php echo $data['year_established']; ?></td>
+                                        <td><strong>Fax Number 1</strong></td>
+                                        <td><?php echo $data['fax_number1']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Fax2</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><strong>Fax Number 2</strong></td>
+                                        <td><?php echo $data['fax_number2']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Fax3</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><strong>Fax Number 3</strong></td>
+                                        <td><?php echo $data['fax_number3']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Website1</strong></td>
-                                        <td><?php echo $data['division_code']; ?></td>
+                                        <td><strong>Website URL</strong></td>
+                                        <td><?php echo $data['website_address']; ?></td>
                                     </tr>
+                                    <!--
                                     <tr>
                                         <td><strong>Website2</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Website3</strong></td>
-                                        <td><?php echo $data['district_code']; ?></td>
+                                        <td><?php // echo $data['district_code']; ?></td>
                                     </tr>
+                                    -->
                                     <tr>
                                         <td><strong>Facebook</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php echo $data['facebook_page']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Google+</strong></td>
-                                        <td><?php echo $data['upazila_thana_code']; ?></td>
+                                        <td><?php echo $data['google_plus_page']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Twitter</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php echo $data['twitter_page']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Youtube</strong></td>
-                                        <td><?php echo $data['union_code']; ?></td>
+                                        <td><?php echo $data['youtube_page']; ?></td>
                                     </tr>
                                 </table>
                             </div>
@@ -363,55 +365,55 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td><strong>Main source of electricity</strong></td>
-                                        <td><?php echo "$org_name"; ?></td>
+                                        <td><?php // echo "$org_name"; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Alternate source of electricity</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Main water supply</strong></td>
-                                        <td><?php echo $data['org_type_code']; ?></td>
+                                        <td><?php // echo $data['org_type_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Alternate water supply</strong></td>
-                                        <td><?php echo $data['agency_code']; ?></td>
+                                        <td><?php // echo $data['agency_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Toilet type</strong></td>
-                                        <td><?php echo $data['agency_name']; ?></td>
+                                        <td><?php // echo $data['agency_name']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Toilet adequacy</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Fuel source</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Laundry system</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Autoclave system</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Waste disposal</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Sanctioned vehicles & office equipment</strong></td>
-                                        <td><?php echo $data['year_established']; ?></td>
+                                        <td><?php // echo $data['year_established']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Sanctioned Bed No</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Other miscellaneous issues</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                 </table>
                             </div>
@@ -419,35 +421,35 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td><strong>Special service / status of the hospital / clinic</strong></td>
-                                        <td><?php echo "$org_name"; ?></td>
+                                        <td><?php // echo "$org_name"; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Permission/Approval/License information</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Date of Permission/Approval/License information</strong></td>
-                                        <td><?php echo $data['org_type_code']; ?></td>
+                                        <td><?php // echo $data['org_type_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Permission/Approval/License Type</strong></td>
-                                        <td><?php echo $data['agency_code']; ?></td>
+                                        <td><?php // echo $data['agency_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Permission/ Approval/ License Authority</strong></td>
-                                        <td><?php echo $data['agency_name']; ?></td>
+                                        <td><?php // echo $data['agency_name']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Permission/ Approval/ License No</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Next renewal Date</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Conditions given for permission/ approval/ license or renewal thereof </strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                 </table>
                             </div>
@@ -455,43 +457,43 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td><strong>Land Information</strong></td>
-                                        <td><?php echo "$org_name"; ?></td>
+                                        <td><?php // echo "$org_name"; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Land size (in acre)</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Mouza name</strong></td>
-                                        <td><?php echo $data['org_type_code']; ?></td>
+                                        <td><?php // echo $data['org_type_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Geocode of Mouza</strong></td>
-                                        <td><?php echo $data['agency_code']; ?></td>
+                                        <td><?php // echo $data['agency_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>JL No.</strong></td>
-                                        <td><?php echo $data['agency_name']; ?></td>
+                                        <td><?php // echo $data['agency_name']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Functional Code</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>RS Dag No</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Khatian No.</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Mutation No.</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Other land information.</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                 </table>
                             </div>
@@ -499,43 +501,43 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td><strong>Name of CHCP</strong></td>
-                                        <td><a href="#" id="username">superuser</a></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Contact no of CHCP</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Community group information</strong></td>
-                                        <td><?php echo $data['org_type_code']; ?></td>
+                                        <td><?php // echo $data['org_type_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Name of Chairman(CG)</strong></td>
-                                        <td><?php echo $data['agency_code']; ?></td>
+                                        <td><?php // echo $data['agency_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Contact No</strong></td>
-                                        <td><?php echo $data['agency_name']; ?></td>
+                                        <td><?php // echo $data['agency_name']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Community Support group information </strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Name of Chairman (CSG-1)</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Contact No</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Name of Chairman (CSG-2)</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Contact No</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code']; ?></td>
                                     </tr>
                                 </table>
                             </div>
