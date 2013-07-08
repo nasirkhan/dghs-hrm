@@ -182,7 +182,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                     </tr>
                                     <tr>
                                         <td><strong>Organization Type</strong></td>
-                                        <td><?php echo $data['org_type_code']; ?></td>
+                                        <td><?php echo $data['org_type_name']; ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Agency code</strong></td>
