@@ -144,10 +144,10 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                 $image_src = "uploads/" . $_SESSION['username'] . ".jpg";
                                 
                                 if (file_exists($image_src)){
-                                    echo "<img src=\"$image_src\" class=\"img-polaroid\"";
+                                    echo "<img src=\"$image_src\" class=\"img-polaroid\" />";
                                 }
                                 else{
-                                    echo "<img data-src=\"holder.js/480x360\"  class=\"img-polaroid\"";
+                                    echo "<img data-src=\"holder.js/480x360\"  class=\"img-polaroid\" />";
                                 }
                                 
                                 ?>
