@@ -171,4 +171,88 @@ function getElectricityMainSourceNameFromCode($electricity_main_source_code) {
     return $data['electricity_source_name'];
 }
 
+/**
+ * Get <b>Electricity Alternative Source Name</b> From <b>Electricity Alternative Source Code</b>
+ * @param type $electricity_main_source_code
+ * @return type
+ */
+function getElectricityAlterSourceNameFromCode($electricity_alter_source_code) {
+    $sql = "SELECT `electricity_source_name` FROM `org_source_of_electricity_main` WHERE `electricity_source_code` = \"$electricity_alter_source_code\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getElectricityAlterSourceNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['electricity_source_name'];
+}
+
+/**
+ * Get <b>Water Main Source Name</b> From <b>Water Main Source Code</b>
+ * @param type $water_source_code
+ * @return type
+ */
+function getWaterMainSourceNameFromCode($water_source_code){
+    $sql = "SELECT `water_supply_source_name` FROM `org_source_of_water_supply_main` WHERE `water_supply_source_code` = \"$water_source_code\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getWaterMainSourceNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['water_supply_source_name'];
+}
+
+
+/**
+ * Get <b>Water Alternative Source Name</b> From <b>Water Alternative Source Code</b>
+ * @param type $water_source_code
+ * @return type
+ */
+function getWaterAlterSourceNameFromCode($water_source_code){
+    $sql = "SELECT `water_supply_source_name` FROM `org_source_of_water_supply_main` WHERE `water_supply_source_code` = \"$water_source_code\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getWaterAlterSourceNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['water_supply_source_name'];
+}
+
+/**
+ * Get <b>Toilet Type Name</b> From <b>Toilet Type Code</b>
+ * @param type $toilet_type_code
+ * @return type
+ */
+function getToiletTypeNameFromCode($toilet_type_code){
+    $sql = "SELECT `toilet_type_name` FROM `org_toilet_type` WHERE `toilet_type_code` = \"$toilet_type_code\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletTypeNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['toilet_type_name'];
+}
+
+/**
+ * Get <b>Toilet Adequacy Name</b> From <b>Toilet Adequacy Code</b>
+ * @param type $toilet_adequacy_code
+ * @return type
+ */
+function getToiletAdequacyNameFromCode($toilet_adequacy_code){
+    $sql = "SELECT `toilet_adequacy_name` FROM `org_toilet_adequacy` WHERE `toilet_adequacy_code` = \"$toilet_adequacy_code\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['toilet_adequacy_name'];
+}
+
+/**
+ * Get <b>Fuel Source Name</b> From <b>Fuel Source Code</b>
+ * @param type $fuel_source_code
+ * @return type
+ */
+function getFuelSourceNameFromCode($fuel_source_code){
+    $sql = "SELECT `fuel_source_name` FROM `org_fuel_source` WHERE `fuel_source_code` = \"$fuel_source_code\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['fuel_source_name'];
+}
 ?>
