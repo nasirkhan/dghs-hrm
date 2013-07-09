@@ -255,4 +255,46 @@ function getFuelSourceNameFromCode($fuel_source_code){
 
     return $data['fuel_source_name'];
 }
+
+/**
+ * Get <b>Laundry Source Name</b> From <b>Laundry Source Code</b>
+ * @param type $laundry_code
+ * @return type
+ */
+function getLaundrySourceNameFromCode($laundry_code){
+    $sql = "SELECT `laundry_system_name` FROM `org_laundry_system` WHERE `laundry_system_code` = \"$laundry_code\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['laundry_system_name'];
+}
+
+/**
+ * Get <b>Autoclave Source Name</b> From <b>Autoclave Source Code</b>
+ * @param type $laundry_code
+ * @return type
+ */
+function getAutoclaveSystemNameFromCode($autoclave_code){
+    $sql = "SELECT `autoclave_system_name` FROM `org_autoclave_system` WHERE `autoclave_system_code` = \"$autoclave_code\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['autoclave_system_name'];
+}
+
+/**
+ * Get <b>Waste Disposal System Name</b> From <b>Waste Disposal System Code</b>
+ * @param type $waste_disposal_code
+ * @return type
+ */
+function getWasteDisposalSystemNameFromCode($waste_disposal_code){
+    $sql = "SELECT `waste_disposal_system_name` FROM `org_waste_disposal_system` WHERE `waste_disposal_system_code` = \"$waste_disposal_code\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['waste_disposal_system_name'];
+}
 ?>
