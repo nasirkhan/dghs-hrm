@@ -32,6 +32,7 @@ while ($data_list = mysql_fetch_assoc($sanctioned_post_list_result)) {
         "pay_scale" => $data_list['pay_scale'],
         "first_level_name" => $data_list['first_level_name'],
         "second_level_name" => $data_list['second_level_name'],
+        "class" => $data_list['class'],
         "staff_id" => $data_list['staff_id']
     );
 }
