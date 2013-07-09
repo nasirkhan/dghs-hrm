@@ -19,7 +19,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b
 $data = mysql_fetch_assoc($result);
 
 $org_name = $data['org_name'];
-$org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
+$org_type_name = $data['org_type_name'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
