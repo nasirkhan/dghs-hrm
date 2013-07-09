@@ -611,7 +611,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                     type: 'select',
                     pk: <?php echo $org_code; ?>,
                     url: 'post/post_org_profile.php',
-                    source: 'get/get_source_of_water_main.php'
+                    source: 'get/get_source_of_water_supply_main_code.php'
                 });
             });
             $(function() {
@@ -619,7 +619,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                     type: 'select',
                     pk: <?php echo $org_code; ?>,
                     url: 'post/post_org_profile.php',
-                    source: 'get/get_source_of_water_alter.php'
+                    source: 'get/get_source_of_water_supply_alternate_code.php'
                 });
             });
             $(function() {
@@ -627,7 +627,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                     type: 'select',
                     pk: <?php echo $org_code; ?>,
                     url: 'post/post_org_profile.php',
-                    source: 'get/get_source_of_water_alter.php'
+                    source: 'get/get_toilet_type_code.php'
                 });
             });
             $(function() {
@@ -635,7 +635,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                     type: 'select',
                     pk: <?php echo $org_code; ?>,
                     url: 'post/post_org_profile.php',
-                    source: 'get/get_source_of_water_alter.php'
+                    source: 'get/get_toilet_adequacy_code.php'
                 });
             });
             $(function() {
@@ -643,7 +643,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                     type: 'select',
                     pk: <?php echo $org_code; ?>,
                     url: 'post/post_org_profile.php',
-                    source: 'get/get_source_of_water_alter.php'
+                    source: 'get/get_toilet_adequacy_code.php'
                 });
             });
             $(function() {
@@ -651,7 +651,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                     type: 'select',
                     pk: <?php echo $org_code; ?>,
                     url: 'post/post_org_profile.php',
-                    source: 'get/get_source_of_water_alter.php'
+                    source: 'get/get_fuel_source_code.php'
                 });
             });
             $(function() {
@@ -659,7 +659,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                     type: 'select',
                     pk: <?php echo $org_code; ?>,
                     url: 'post/post_org_profile.php',
-                    source: 'get/get_source_of_water_alter.php'
+                    source: 'get/get_laundry_code.php'
                 });
             });
             $(function() {
@@ -667,7 +667,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                     type: 'select',
                     pk: <?php echo $org_code; ?>,
                     url: 'post/post_org_profile.php',
-                    source: 'get/get_source_of_water_alter.php'
+                    source: 'get/get_autoclave_code.php'
                 });
             });
             $(function() {
@@ -675,7 +675,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                     type: 'select',
                     pk: <?php echo $org_code; ?>,
                     url: 'post/post_org_profile.php',
-                    source: 'get/get_source_of_water_alter.php'
+                    source: 'get/get_waste_disposal_code.php'
                 });
             });
             $(function() {
