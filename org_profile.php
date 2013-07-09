@@ -206,11 +206,11 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                     </tr>
                                     <tr>
                                         <td><strong>Health Care Level</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code'];  ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Special Services</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code'];  ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Year Established</strong></td>
@@ -218,7 +218,7 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                     </tr>
                                     <tr>
                                         <td><strong>Urban/Rural Location</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code'];  ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Division Name</strong></td>
@@ -278,85 +278,85 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td><strong>Mailing Address</strong></td>
-                                        <td><?php echo $data['mailing_address']; ?></td>
+                                        <td><a href="#" class="text-input" id="mailing_address" ><?php echo $data['mailing_address']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Land Phone Number 1</strong></td>
-                                        <td><?php echo $data['land_phone1']; ?></td>
+                                        <td><a href="#" class="text-input" id="land_phone1" ><?php echo $data['land_phone1']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Land Phone Number 2</strong></td>
-                                        <td><?php echo $data['land_phone2']; ?></td>
+                                        <td><a href="#" class="text-input" id="land_phone2" ><?php echo $data['land_phone2']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Land Phone Number 3</strong></td>
-                                        <td><?php echo $data['land_phone3']; ?></td>
+                                        <td><a href="#" class="text-input" id="land_phone3" ><?php echo $data['land_phone3']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Mobile Phone Number 1</strong></td>
-                                        <td><?php echo $data['mobile_number1']; ?></td>
+                                        <td><a href="#" class="text-input" id="mobile_number1" ><?php echo $data['mobile_number1']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Mobile Phone Number 2</strong></td>
-                                        <td><?php echo $data['mobile_number2']; ?></td>
+                                        <td><a href="#" class="text-input" id="mobile_number2" ><?php echo $data['mobile_number2']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Mobile Phone Number 3</strong></td>
-                                        <td><?php echo $data['mobile_number3']; ?></td>
+                                        <td><a href="#" class="text-input" id="mobile_number3" ><?php echo $data['mobile_number3']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Email Address 1</strong></td>
-                                        <td><?php echo $data['email_address1']; ?></td>
+                                        <td><a href="#" class="text-input" id="email_address1" ><?php echo $data['email_address1']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Email Address 2</strong></td>
-                                        <td><?php echo $data['email_address2']; ?></td>
+                                        <td><a href="#" class="text-input" id="email_address2" ><?php echo $data['email_address2']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Email Address 3</strong></td>
-                                        <td><?php echo $data['email_address3']; ?></td>
+                                        <td><a href="#" class="text-input" id="email_address3" ><?php echo $data['email_address3']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Fax Number 1</strong></td>
-                                        <td><?php echo $data['fax_number1']; ?></td>
+                                        <td><a href="#" class="text-input" id="fax_number1" ><?php echo $data['fax_number1']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Fax Number 2</strong></td>
-                                        <td><?php echo $data['fax_number2']; ?></td>
+                                        <td><a href="#" class="text-input" id="fax_number2" ><?php echo $data['fax_number2']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Fax Number 3</strong></td>
-                                        <td><?php echo $data['fax_number3']; ?></td>
+                                        <td><a href="#" class="text-input" id="fax_number3" ><?php echo $data['fax_number3']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Website URL</strong></td>
-                                        <td><?php echo $data['website_address']; ?></td>
+                                        <td><a href="#" class="text-input" id="website_address" ><?php echo $data['website_address']; ?></a></td>
                                     </tr>
                                     <!--
                                     <tr>
                                         <td><strong>Website2</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><?php // echo $data['org_code'];  ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Website3</strong></td>
-                                        <td><?php // echo $data['district_code']; ?></td>
+                                        <td><?php // echo $data['district_code'];  ?></td>
                                     </tr>
                                     -->
                                     <tr>
                                         <td><strong>Facebook</strong></td>
-                                        <td><?php echo $data['facebook_page']; ?></td>
+                                        <td><a href="#" class="text-input" id="facebook_page" ><?php echo $data['facebook_page']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Google+</strong></td>
-                                        <td><?php echo $data['google_plus_page']; ?></td>
+                                        <td><a href="#" class="text-input" id="google_plus_page" ><?php echo $data['google_plus_page']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Twitter</strong></td>
-                                        <td><?php echo $data['twitter_page']; ?></td>
+                                        <td><a href="#" class="text-input" id="twitter_page" ><?php echo $data['twitter_page']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Youtube</strong></td>
-                                        <td><?php echo $data['youtube_page']; ?></td>
+                                        <td><a href="#" class="text-input" id="youtube_page" ><?php echo $data['youtube_page']; ?></a></td>
                                     </tr>
                                 </table>
                             </div>
@@ -368,51 +368,55 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                     </tr>
                                     <tr>
                                         <td><strong>Alternate source of electricity</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="" id="source_of_electricity_alternate_code" ><?php echo getElectricityAlterSourceNameFromCode($data['source_of_electricity_alternate_code']); ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Main water supply</strong></td>
-                                        <td><?php // echo $data['org_type_code']; ?></td>
+                                        <td><a href="#" class="" id="source_of_water_supply_main_code" ><?php echo getWaterMainSourceNameFromCode($data['source_of_water_supply_main_code']); ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Alternate water supply</strong></td>
-                                        <td><?php // echo $data['agency_code']; ?></td>
+                                        <td><a href="#" class="" id="source_of_water_supply_alternate_code" ><?php echo getWaterAlterSourceNameFromCode($data['source_of_water_supply_alternate_code']); ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Toilet type</strong></td>
-                                        <td><?php // echo $data['agency_name']; ?></td>
+                                        <td><a href="#" class="" id="toilet_type_code" ><?php echo getToiletTypeNameFromCode($data['toilet_type_code']); ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Toilet adequacy</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="" id="toilet_adequacy_code" ><?php echo getToiletAdequacyNameFromCode($data['toilet_adequacy_code']); ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Fuel source</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="" id="fuel_source_code" ><?php echo getFuelSourceNameFromCode($data['fuel_source_code']);  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Laundry system</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="" id="laundry_code" ><?php echo $data['laundry_code'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Autoclave system</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="" id="autoclave_code" ><?php echo $data['autoclave_code'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Waste disposal</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="" id="waste_disposal_code" ><?php echo $data['waste_disposal_code'];  ?></a></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Sanctioned vehicles & office equipment</strong></td>
-                                        <td><?php // echo $data['year_established']; ?></td>
+                                        <td><strong>Sanctioned office equipment</strong></td>
+                                        <td><a href="#" class="text-input" id="sanctioned_office_equipment" ><?php echo $data['sanctioned_office_equipment'];  ?></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Sanctioned vehicles</strong></td>
+                                        <td><a href="#" class="text-input" id="sanctioned_vehicles" ><?php echo $data['sanctioned_vehicles'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Sanctioned Bed No</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="sanctioned_bed_number" ><?php echo $data['sanctioned_bed_number'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Other miscellaneous issues</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="other_miscellaneous_issues" ><?php echo $data['other_miscellaneous_issues'];  ?></a></td>
                                     </tr>
                                 </table>
                             </div>
@@ -420,35 +424,35 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td><strong>Special service / status of the hospital / clinic</strong></td>
-                                        <td><?php // echo "$org_name"; ?></td>
+                                        <td><a href="#" class="text-input" id="land_mutation_number" ><?php // echo $data['org_code'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Permission/Approval/License information</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_info_code" ><?php echo $data['permission_approval_license_info_code'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Date of Permission/Approval/License information</strong></td>
-                                        <td><?php // echo $data['org_type_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_info_date" ><?php echo $data['permission_approval_license_info_date'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Permission/Approval/License Type</strong></td>
-                                        <td><?php // echo $data['agency_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_type" ><?php echo $data['permission_approval_license_type'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Permission/ Approval/ License Authority</strong></td>
-                                        <td><?php // echo $data['agency_name']; ?></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_aithority" ><?php echo $data['permission_approval_license_aithority'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Permission/ Approval/ License No</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_number" ><?php echo $data['permission_approval_license_number'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Next renewal Date</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_next_renewal_date" ><?php echo $data['permission_approval_license_next_renewal_date'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Conditions given for permission/ approval/ license or renewal thereof </strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_conditions" ><?php echo $data['permission_approval_license_conditions'];  ?></a></td>
                                     </tr>
                                 </table>
                             </div>
@@ -456,43 +460,43 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td><strong>Land Information</strong></td>
-                                        <td><?php // echo "$org_name"; ?></td>
+                                        <td><a href="#" class="text-input" id="land_info_code" ><?php echo $data['land_info_code'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Land size (in acre)</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="land_size" ><?php echo $data['land_size'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Mouza name</strong></td>
-                                        <td><?php // echo $data['org_type_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="land_mouza_name" ><?php echo $data['land_mouza_name'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Geocode of Mouza</strong></td>
-                                        <td><?php // echo $data['agency_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="land_mouza_geo_code" ><?php echo $data['land_mouza_geo_code'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>JL No.</strong></td>
-                                        <td><?php // echo $data['agency_name']; ?></td>
+                                        <td><a href="#" class="text-input" id="land_jl_number" ><?php echo $data['land_jl_number'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Functional Code</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="land_functional_code" ><?php echo $data['land_functional_code'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>RS Dag No</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="land_rs_dag_number" ><?php echo $data['land_rs_dag_number'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Khatian No.</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="land_kharian_number" ><?php echo $data['land_kharian_number'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Mutation No.</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="land_other_info" ><?php echo $data['land_other_info'];  ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Other land information.</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="land_mutation_number" ><?php echo $data['land_mutation_number'];  ?></a></td>
                                     </tr>
                                 </table>
                             </div>
@@ -500,43 +504,43 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td><strong>Name of CHCP</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="additional_chcp_name" ><?php echo $data['additional_chcp_name']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Contact no of CHCP</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="additional_chcp_contact" ><?php echo $data['additional_chcp_contact']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Community group information</strong></td>
-                                        <td><?php // echo $data['org_type_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="additional_community_group_info" ><?php echo $data['additional_community_group_info']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Name of Chairman(CG)</strong></td>
-                                        <td><?php // echo $data['agency_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="additional_chairnam_name" ><?php echo $data['additional_chairnam_name']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Contact No</strong></td>
-                                        <td><?php // echo $data['agency_name']; ?></td>
+                                        <td><a href="#" class="text-input" id="additional_chairman_contact" ><?php echo $data['additional_chairman_contact']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Community Support group information </strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="additional_chairman_community_support_info" ><?php echo $data['additional_chairman_community_support_info']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Name of Chairman (CSG-1)</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="additional_csg_1_name" ><?php echo $data['additional_csg_1_name']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Contact No</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="additional_csg_1_contact" ><?php echo $data['additional_csg_1_contact']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Name of Chairman (CSG-2)</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="additional_csg_2_name" ><?php echo $data['additional_csg_2_name']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Contact No</strong></td>
-                                        <td><?php // echo $data['org_code']; ?></td>
+                                        <td><a href="#" class="text-input" id="additional_csg_2_contact" ><?php echo $data['additional_csg_2_contact']; ?></a></td>
                                     </tr>
                                 </table>
                             </div>
@@ -567,13 +571,13 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.js"></script>
+        <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
 
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
+        <script type="text/javascript" src="assets/js/holder/holder.js"></script>
+        <script type="text/javascript" src="assets/js/google-code-prettify/prettify.js"></script>
 
-        <script src="assets/js/application.js"></script>
+        <script type="text/javascript" src="assets/js/application.js"></script>
 
         <script>
             $(function() {
@@ -586,12 +590,99 @@ $org_type_name = getOrgTypeNameFormOrgTypeId($data['org_type_code']);
         <script>
             $.fn.editable.defaults.mode = 'inline';
 
-            $(function(){
+            $(function() {
                 $('#source_of_electricity_main_code').editable({
                     type: 'select',
                     pk: <?php echo $org_code; ?>,
                     url: 'post/post_org_profile.php',
                     source: 'get/get_source_of_electricity_main.php'
+                });
+            });
+            $(function() {
+                $('#source_of_electricity_alternate_code').editable({
+                    type: 'select',
+                    pk: <?php echo $org_code; ?>,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_source_of_electricity_alter.php'
+                });
+            });
+            $(function() {
+                $('#source_of_water_supply_main_code').editable({
+                    type: 'select',
+                    pk: <?php echo $org_code; ?>,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_source_of_water_main.php'
+                });
+            });
+            $(function() {
+                $('#source_of_water_supply_alternate_code').editable({
+                    type: 'select',
+                    pk: <?php echo $org_code; ?>,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_source_of_water_alter.php'
+                });
+            });
+            $(function() {
+                $('#toilet_type_code').editable({
+                    type: 'select',
+                    pk: <?php echo $org_code; ?>,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_source_of_water_alter.php'
+                });
+            });
+            $(function() {
+                $('#toilet_adequacy_code').editable({
+                    type: 'select',
+                    pk: <?php echo $org_code; ?>,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_source_of_water_alter.php'
+                });
+            });
+            $(function() {
+                $('#toilet_adequacy_code').editable({
+                    type: 'select',
+                    pk: <?php echo $org_code; ?>,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_source_of_water_alter.php'
+                });
+            });
+            $(function() {
+                $('#fuel_source_code').editable({
+                    type: 'select',
+                    pk: <?php echo $org_code; ?>,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_source_of_water_alter.php'
+                });
+            });
+            $(function() {
+                $('#laundry_code').editable({
+                    type: 'select',
+                    pk: <?php echo $org_code; ?>,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_source_of_water_alter.php'
+                });
+            });
+            $(function() {
+                $('#autoclave_code').editable({
+                    type: 'select',
+                    pk: <?php echo $org_code; ?>,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_source_of_water_alter.php'
+                });
+            });
+            $(function() {
+                $('#waste_disposal_code').editable({
+                    type: 'select',
+                    pk: <?php echo $org_code; ?>,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_source_of_water_alter.php'
+                });
+            });
+            $(function() {
+                $('#organization-profile-details a.text-input').editable({
+                    type: 'text',
+                    pk: <?php echo $org_code; ?>,
+                    url: 'post/post_org_profile.php',                    
                 });
             });
         </script>
