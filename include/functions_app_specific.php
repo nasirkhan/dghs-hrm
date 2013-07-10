@@ -297,4 +297,29 @@ function getWasteDisposalSystemNameFromCode($waste_disposal_code){
 
     return $data['waste_disposal_system_name'];
 }
+
+
+
+/**
+ * Staff profile functions
+ */
+
+
+function getClassNameformId($class_code){
+    $sql = "SELECT `class_name` FROM `sanctioned_post_class` WHERE `class_code` = \"$class_code\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['class_name'];
+}
+
+function getDesignationNameformCode($designation_code){
+    $sql = "SELECT `designation` FROM `sanctioned_post_designation` WHERE `designation_code` = \"$designation_code\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['designation'];
+}
 ?>

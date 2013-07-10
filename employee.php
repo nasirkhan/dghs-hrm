@@ -363,7 +363,7 @@ $userCanEdit = TRUE;
                                         </tr>
                                         <tr>
                                             <td><strong>Staff Job Class</strong></td>
-                                            <td><?php echo $data['staff_job_class']; ?></td>
+                                            <td><?php echo getClassNameformId($data['staff_job_class']); ?></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Staff Professional Category</strong></td>
@@ -371,14 +371,14 @@ $userCanEdit = TRUE;
                                         </tr>
                                         <tr>
                                             <td><strong>Designation Id</strong></td>
-                                            <td><?php echo $data['designation_id']; ?></td>
+                                            <td><?php echo getDesignationNameformCode($data['designation_id']); ?></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Posting Status</strong></td>
                                             <td><?php echo $data['posting_status']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Staff Pds Code</strong></td>
+                                            <td><strong>Staff PDS Code</strong></td>
                                             <td><?php echo $data['staff_pds_code']; ?></td>
                                         </tr>
                                         <tr>
@@ -419,7 +419,7 @@ $userCanEdit = TRUE;
                                         </tr>
                                         <tr>
                                             <td><strong>Freedom Fighter Id</strong></td>
-                                            <td><a href="#" class="text-input" id="freedom_fighter_id" ><?php echo $data['freedom_fighter_id']; ?></a></td>
+                                            <td><a href="#" class="text-input" id="freedom_fighter_id" ><?php echo $data['freedom_fighter_id']=="1" ? 'Yes' : 'No'; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Tribal Id</strong></td>
@@ -433,10 +433,10 @@ $userCanEdit = TRUE;
                                             <td><strong>Draw Type Id</strong></td>
                                             <td><a href="#" class="text-input" id="draw_type_id" ><?php echo $data['draw_type_id']; ?></a></td>
                                         </tr>
-                                        <tr>
+<!--                                        <tr>
                                             <td><strong>Designation Type Id</strong></td>
                                             <td><a href="#" class="text-input" id="designation_type_id" ><?php echo $data['designation_type_id']; ?></a></td>
-                                        </tr>
+                                        </tr>-->
                                         <tr>
                                             <td><strong>Job Posting Id</strong></td>
                                             <td><a href="#" class="text-input" id="job_posting_id" ><?php echo $data['job_posting_id']; ?></a></td>
