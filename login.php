@@ -57,6 +57,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
 
         <!-- Le styles -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/style.css" rel="stylesheet">
         <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <style type="text/css">
             body {
@@ -90,7 +91,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                 padding: 9px 9px;
             }
             .input-append .add-on, .input-prepend .add-on{
-                height: 29px;
+                height: 32px;
             }
             .contact{
                 margin-top: 20px;
@@ -98,6 +99,21 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
             }
             .login-error{
                 margin-top: 30px;
+            }
+            @media (min-width: 768px) and (max-width: 979px){
+                .container{
+                    width: 760px;
+                }
+            }
+            @media (max-width: 767px){
+                .container{
+                    width: 760px;
+                }
+            }
+            @media (max-width: 480px) {
+                .container{
+                    width: 300px;
+                } 
             }
 
         </style>
