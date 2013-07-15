@@ -12,7 +12,7 @@ function getOrgTypeNameFormOrgCode($org_code) {
     $data = mysql_fetch_assoc($result);
     $org_type_code = $data['org_type_code'];
 
-    $sql = "SELECT org_type_id, org_type_code, org_type_name FROM org_type WHERE org_type_id = $org_type_code LIMIT 1";
+    $sql = "SELECT org_type_name  FROM `org_type` WHERE `org_type_code` = $org_type_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgCode:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $org_type_data = mysql_fetch_assoc($result);
@@ -27,7 +27,7 @@ function getOrgTypeNameFormOrgCode($org_code) {
  */
 function getOrgTypeNameFormOrgTypeCode($org_type_code) {
     $sql = "SELECT org_type_id, org_type_code, org_type_name FROM org_type WHERE org_type_code = $org_type_code LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgTypeId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgTypeCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $org_type_data = mysql_fetch_assoc($result);
     $org_type_name = $org_type_data['org_type_name'];
