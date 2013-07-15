@@ -8,8 +8,8 @@ if ($_SESSION['logged'] == true) {
 $login_sussess = 2;
 //cheak the login information
 if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] == $_SESSION['login_key']) {
-    $form_uname = $_POST['email'];
-    $form_passwd = $_POST['password'];
+    $form_uname = mysql_real_escape_string($_POST['email']);
+    $form_passwd = mysql_real_escape_string($_POST['password']);
     unset($_POST);
     $form_uname = stripslashes($form_uname);
     $form_passwd = stripslashes($form_passwd);

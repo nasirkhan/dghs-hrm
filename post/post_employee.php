@@ -10,10 +10,10 @@ $user_id = $_SESSION['user_id'];
 $user_name = $_SESSION['username'];
 
 
-$pk = $_POST['pk'];
-$name = $_POST['name'];
-$value = $_POST['value'];
-$p_org_code = $_POST['org_code'];
+$pk = mysql_real_escape_string($_POST['pk']);
+$name = mysql_real_escape_string($_POST['name']);
+$value = mysql_real_escape_string($_POST['value']);
+$p_org_code = mysql_real_escape_string($_POST['org_code']);
 
 if ($p_org_code == $org_code){
     $sql = "UPDATE `dghs_hrm_main`.`old_tbl_staff_organization` 
