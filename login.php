@@ -8,8 +8,8 @@ if ($_SESSION['logged'] == true) {
 $login_sussess = 2;
 //cheak the login information
 if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] == $_SESSION['login_key']) {
-    $form_uname = mysql_real_escape_string($_POST['email']);
-    $form_passwd = mysql_real_escape_string($_POST['password']);
+    $form_uname = $_POST['email'];
+    $form_passwd = $_POST['password'];
     unset($_POST);
     $form_uname = stripslashes($form_uname);
     $form_passwd = stripslashes($form_passwd);
@@ -28,8 +28,10 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         $_SESSION['user_id'] = $data['user_id'];
         $_SESSION['username'] = $data['username'];
         $_SESSION['user_type'] = $data['user_type'];
+
         $_SESSION['organization_id'] = $data['organization_id'];
         $_SESSION['org_code'] = $data['org_code'];
+        $_SESSION['org_type_name'] = getOrgTypeNameFormOrgCode($data['org_code']);
         $_SESSION['logged'] = TRUE;
 
         $login_sussess = 1;
