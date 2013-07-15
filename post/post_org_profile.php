@@ -8,9 +8,9 @@ if ($_SESSION['logged'] != true) {
 $org_code = $_SESSION['org_code'];
 
 
-$pk = $_POST['pk'];
-$name = $_POST['name'];
-$value = $_POST['value'];
+$pk = mysql_real_escape_string($_POST['pk']);
+$name = mysql_real_escape_string($_POST['name']);
+$value = mysql_real_escape_string($_POST['value']);
 
 if ($pk == $org_code) {
     $sql = "UPDATE `dghs_hrm_main`.`organization` 
