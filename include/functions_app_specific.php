@@ -40,11 +40,11 @@ function getOrgTypeNameFormOrgTypeCode($org_type_code) {
  * @return type
  */
 function getAgencyNameFromAgencyCode($agency_code) {
-    $sql = "SELECT org_agency_code_name FROM org_agency_code WHERE org_agency_code = $agency_code LIMIT 1";
+    $sql = "SELECT org_agency_name FROM org_agency_code WHERE org_agency_code = $agency_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getAgencyNameFromAgencyCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $org_data = mysql_fetch_assoc($result);
-    $org_agency_code_name = $org_data['org_agency_code_name'];
+    $org_agency_code_name = $org_data['org_agency_name'];
     return $org_agency_code_name;
 }
 
@@ -298,7 +298,14 @@ function getWasteDisposalSystemNameFromCode($waste_disposal_code){
     return $data['waste_disposal_system_name'];
 }
 
+function getOrgLevelNamefromCode($org_level_code){
+    $sql = "SELECT `org_level_name` FROM `org_level` WHERE `org_level_code` = $org_level_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgLevelNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
+    $data = mysql_fetch_assoc($result);
+
+    return $data['org_level_name'];
+}
 
 /**
  * Staff profile functions
@@ -307,7 +314,7 @@ function getWasteDisposalSystemNameFromCode($waste_disposal_code){
 
 function getClassNameformId($class_code){
     $sql = "SELECT `class_name` FROM `sanctioned_post_class` WHERE `class_code` = \"$class_code\" LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getClassNameformId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -316,10 +323,53 @@ function getClassNameformId($class_code){
 
 function getDesignationNameformCode($designation_code){
     $sql = "SELECT `designation` FROM `sanctioned_post_designation` WHERE `designation_code` = \"$designation_code\" LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameformCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
     return $data['designation'];
+}
+
+
+
+
+/**
+ *  get organization administration information
+ */
+
+function getDivisionNamefromCode($division_code){
+    $sql = "SELECT *  FROM `admin_division` WHERE `division_bbs_code` =$division_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDivisionNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['division_name'];
+}
+
+function getDistrictNamefromCode($bbs_code){
+    $sql = "SELECT district_name  FROM `admin_district` WHERE `district_bbs_code` = $bbs_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDistrictNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['district_name'];
+}
+
+function getUpazilaNamefromCode($bbs_code){
+    $sql = "SELECT upazila_name  FROM `admin_upazila` WHERE `upazila_bbs_code` = $bbs_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getUpazilaNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['upazila_name'];
+}
+
+function getUnionNamefromCode($bbs_code){
+    $sql = "SELECT union_name  FROM `admin_union` WHERE `union_bbs_code` = $bbs_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getUnionNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['union_name'];
 }
 ?>
