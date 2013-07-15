@@ -25,7 +25,7 @@ function getOrgTypeNameFormOrgCode($org_code) {
  * @param type $org_type_id
  * @return string org_type_name
  */
-function getOrgTypeNameFormOrgTypeId($org_type_code) {
+function getOrgTypeNameFormOrgTypeCode($org_type_code) {
     $sql = "SELECT org_type_id, org_type_code, org_type_name FROM org_type WHERE org_type_code = $org_type_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgTypeId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 

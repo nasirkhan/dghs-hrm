@@ -14,7 +14,7 @@ $org_code = $_SESSION['org_code'];
 $org_data = getOrgNameAndOrgTypeCodeFormOrgCode($org_code);
 $org_name = $org_data['org_name'];
 $org_type_code = $org_data['org_type_code'];
-$org_type_name = getOrgTypeNameFormOrgTypeId($org_type_code);
+$org_type_name = $_SESSION['org_type_name'];
 
 $staff_exists = checkEmployeeExistsInOrganization($org_code, $staff_id);
 
