@@ -21,7 +21,7 @@ $data = mysql_fetch_assoc($result);
 
 $org_name = $data['org_name'];
 $org_code = $data['org_code'];
-$org_type_name = $data['org_type_name'];
+$org_type_name = $_SESSION['org_type_name'];
 
 $latitude = $data['latitude'];
 $longitude = $data['longitude'];
