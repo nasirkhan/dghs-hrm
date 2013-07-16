@@ -283,8 +283,7 @@ $org_type_name = $_SESSION['org_type_name'];
                                 <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="form1">
                                     <div class="control-group">
                                         <select id="div" name="div" onChange="showDist(this.value)" class="editable editable-click">
-                                            <option value="">--Select Division--</option>
-                                            <option value="0">--All Division--</option>
+                                            <option value="0">--Select Division--</option>
                                             <?php
                                             $div = mysql_query("SELECT * FROM admin_division ORDER BY division_name");
                                             while ($rowdiv = mysql_fetch_assoc($div)) {
@@ -300,9 +299,9 @@ $org_type_name = $_SESSION['org_type_name'];
                                             ?>
                                         </select>
                                     </div>
-                                    <div id="txtDist" name="txtDist">
-                                        <select id="dis">
-                                            <option value="">--Select District--</option>
+                                    <div id="txtDist">
+                                        <select id="dis" name="dis">
+                                            <option value="0">--Select District--</option>
                                         </select>
                                     </div>
                                     <br>
@@ -315,13 +314,13 @@ $org_type_name = $_SESSION['org_type_name'];
                                     -->
                                     <div id="txtOrg">
                                         <select id="org" name="org">
-                                            <option value="">--Select Organization--</option>
+                                            <option value="0">--Select Organization--</option>
                                         </select>
                                     </div>
                                     <br>
                                     <div id="txtOrgType">
                                         <select id="orgtype" name="orgtype">
-                                            <option value="">--Select Org. Type--</option>
+                                            <option value="0">--Select Org. Type--</option>
                                         </select>
                                     </div>
 
