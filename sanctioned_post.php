@@ -167,7 +167,7 @@ $org_type_name = $_SESSION['org_type_name'];
                                             echo "<div class=\"row\">";
                                             echo "<div class=\"span9\">";
                                             echo "<div id=\"$designation_div_id\" class=\"collapse\">";
-                                            echo "<strong>First Level Division:</strong> ABCD, <strong>Second Level Division:</strong> EFGH<br />";
+//                                            echo "<strong>First Level Division:</strong> ABCD, <strong>Second Level Division:</strong> EFGH<br />";
                                             echo "<div class=\"clearfix alert alert-info\" id=\"list-$designation_div_id\">";
                                             ?>
                                     <div id="loading-<?php echo $designation_div_id; ?>"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</div>
@@ -186,7 +186,13 @@ $org_type_name = $_SESSION['org_type_name'];
                                                                 var data_list = "<div class=\"row\">";
                                                                 data_list += "<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff:" + v.staff_id + ") </div>";
                                                                 data_list += "<div class=\"span3\">Class: " + v.class + "</div>";
-                                                                data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" >View Profile</a></div>";
+                                                                if (v.staff_id > 0){
+                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" >View Profile</a></div>";
+                                                                }
+                                                                else{
+                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" >Add Profile</a></div>";
+                                                                }
+                                                                
                                                                 data_list += "</div>";                                                                
                                                                 $("#list-<?php echo $designation_div_id; ?>").append(data_list);
                                                             });
