@@ -25,7 +25,7 @@ $org_type_name = $_SESSION['org_type_name'];
 $user_name = $_SESSION['username'];
 $user_type = $_SESSION['user_type'];
 
-if ($user_type = "admin"){
+if ($user_type == "admin"){
     $isAdmin = TRUE;
 }
 
