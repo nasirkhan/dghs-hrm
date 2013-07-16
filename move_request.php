@@ -15,9 +15,9 @@ $username = getEmailAddressFromOrgCode($org_code);
 
 $oldPasswordCorrect = TRUE;
 $newPassMatched = TRUE;
-$passwordUpdated =FALSE;
+$passwordUpdated = FALSE;
 
-if ($_POST['changePassword'] == 'true'){
+if ($_POST['changePassword'] == 'true') {
     // Password Change request
     $inputOldPassword = $_POST['inputOldPassword'];
     $inputNewPassword = $_POST['inputNewPassword'];
@@ -32,9 +32,9 @@ if ($_POST['changePassword'] == 'true'){
 
 //  check if old passwprd is correc    
     $oldPasswordCorrect = checkPasswordIsCorrect($username, $inputOldPassword);
-    
+
 // update new password
-    if($oldPasswordCorrect && $newPassMatched){
+    if ($oldPasswordCorrect && $newPassMatched) {
         updatePassword($username, $inputNewPassword);
         $passwordUpdated = TRUE;
     }
@@ -101,119 +101,119 @@ $org_type_name = $_SESSION['org_type_name'];
             })();
         </script>
         -->
-		
-		<!-- Show District -->
-<script>
-function showDist(str)
-{
-if (str=="")
-  {
-  document.getElementById("txtDist").innerHTML="";
-  return;
-  } 
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-    document.getElementById("txtDist").innerHTML=xmlhttp.responseText;
-    }
-  }
-xmlhttp.open("GET","district.php?q="+str,true);
-xmlhttp.send();
-}
-</script>
-<!-- Show District -->
+
+        <!-- Show District -->
+        <script>
+            function showDist(str)
+            {
+                if (str == "")
+                {
+                    document.getElementById("txtDist").innerHTML = "";
+                    return;
+                }
+                if (window.XMLHttpRequest)
+                {// code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else
+                {// code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function()
+                {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    {
+                        document.getElementById("txtDist").innerHTML = xmlhttp.responseText;
+                    }
+                }
+                xmlhttp.open("GET", "district.php?q=" + str, true);
+                xmlhttp.send();
+            }
+        </script>
+        <!-- Show District -->
 
 
 
-<!-- Show Upazilla -->
-<script>
-function showUpa(str)
-{
-if (str=="")
-  {
-  document.getElementById("txtUpa").innerHTML="";
-  return;
-  } 
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-    document.getElementById("txtUpa").innerHTML=xmlhttp.responseText;
-    }
-  }
-xmlhttp.open("GET","upazila.php?q="+str,true);
-xmlhttp.send();
-}
+        <!-- Show Upazilla -->
+        <script>
+            function showUpa(str)
+            {
+                if (str == "")
+                {
+                    document.getElementById("txtUpa").innerHTML = "";
+                    return;
+                }
+                if (window.XMLHttpRequest)
+                {// code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else
+                {// code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function()
+                {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    {
+                        document.getElementById("txtUpa").innerHTML = xmlhttp.responseText;
+                    }
+                }
+                xmlhttp.open("GET", "upazila.php?q=" + str, true);
+                xmlhttp.send();
+            }
 
-function showOrg(str)
-{
+            function showOrg(str)
+            {
 
-if (str=="")
-  {
-  document.getElementById("txtOrg").innerHTML="";
-  return;
-  } 
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-    document.getElementById("txtOrg").innerHTML=xmlhttp.responseText;
-    }
-  }
-xmlhttp.open("GET","org.php?q="+str,true);
-xmlhttp.send();
-}
+                if (str == "")
+                {
+                    document.getElementById("txtOrg").innerHTML = "";
+                    return;
+                }
+                if (window.XMLHttpRequest)
+                {// code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else
+                {// code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function()
+                {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    {
+                        document.getElementById("txtOrg").innerHTML = xmlhttp.responseText;
+                    }
+                }
+                xmlhttp.open("GET", "org.php?q=" + str, true);
+                xmlhttp.send();
+            }
 
-function showOrgType(str)
-{
-var p=document.form1.div.value;
-var q=document.form1.dis.value;
+            function showOrgType(str)
+            {
+                var p = document.form1.div.value;
+                var q = document.form1.dis.value;
 
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-    document.getElementById("txtOrgType").innerHTML=xmlhttp.responseText;
-    }
-  }
-xmlhttp.open("GET","orgtype.php?p="+p,true);
-xmlhttp.send();
-}
-</script>
-<!-- Show Upazilla -->
+                if (window.XMLHttpRequest)
+                {// code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else
+                {// code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function()
+                {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+                    {
+                        document.getElementById("txtOrgType").innerHTML = xmlhttp.responseText;
+                    }
+                }
+                xmlhttp.open("GET", "orgtype.php?p=" + p, true);
+                xmlhttp.send();
+            }
+        </script>
+        <!-- Show Upazilla -->
 
 
 
@@ -263,12 +263,12 @@ xmlhttp.send();
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <li class="active"><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
+                        <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
                         <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
-                        <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
-						<li><a href="move_request.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Move Request</a></li>
+                        <li class="active"><a href="move_request.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Move Request</a></li>
+                        <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>                        
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
                 </div>
@@ -279,95 +279,94 @@ xmlhttp.send();
 
                         <div class="row">
                             <div class="span9">
-                                <?php if(!$newPassMatched): ?>
-                                <div class="">
-                                    <div class="alert alert-block alert-Warnign">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <p class="lead"><strong>Warning!</strong><br /> 
-                                            You have to write the "New Password" twice.<br />
-                                            But unfortunately you have entered two different words in two input fields.<br />
-                                            Please try again. 
-                                        </p>
+                                <?php if (!$newPassMatched): ?>
+                                    <div class="">
+                                        <div class="alert alert-block alert-Warnign">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <p class="lead"><strong>Warning!</strong><br /> 
+                                                You have to write the "New Password" twice.<br />
+                                                But unfortunately you have entered two different words in two input fields.<br />
+                                                Please try again. 
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
                                 <?php endif; ?>
-                                
-                                <?php if($passwordUpdated): ?>
-                                <div class="">
-                                    <div class="alert alert-block alert-success">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <p class="lead"><strong>Congratulation!</strong><br /> 
-                                            Your password has been changed successfully.<br />
-                                            You have to use this new password from your next login.
-                                        </p>
+
+                                <?php if ($passwordUpdated): ?>
+                                    <div class="">
+                                        <div class="alert alert-block alert-success">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <p class="lead"><strong>Congratulation!</strong><br /> 
+                                                Your password has been changed successfully.<br />
+                                                You have to use this new password from your next login.
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
                                 <?php endif; ?>
-                                
-                                <?php if(!$oldPasswordCorrect): ?>
-                                <div class="">
-                                    <div class="alert alert-block alert-error">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <p class="lead"><strong>Warning!</strong><br /> 
-                                            Your have entered a wrong "Old Password"<br />
-                                            Please try again with the accurate credential.
-                                        </p>
+
+                                <?php if (!$oldPasswordCorrect): ?>
+                                    <div class="">
+                                        <div class="alert alert-block alert-error">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <p class="lead"><strong>Warning!</strong><br /> 
+                                                Your have entered a wrong "Old Password"<br />
+                                                Please try again with the accurate credential.
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
                                 <?php endif; ?>
-                                
+
                                 <h3>Move Request</h3>
                                 <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="form1">
                                     <div class="control-group">
                                         <select id="div" onChange="showDist(this.value)" class="editable editable-click">
-										 <option value="">--Select Division--</option>
-										 <option value="0">--All Division--</option>
-										 <?php
-										 $div = mysql_query("SELECT * FROM admin_division ORDER BY division_name");
-										 while($rowdiv = mysql_fetch_assoc($div))
-										 {
-											 $s6 = "";
-											/* if($rorg1['division_bbs_code'] == $rowdiv['id'])
-											 {
-												 $s6 = "selected";
-											 }*/
-										 ?>
-											<option value="<?php echo $rowdiv['id']; ?>" <?php //echo $s6; ?>><?php echo $rowdiv['division_name']; ?></option>
-										 <?php
-										 }
-										 ?>
-										</select>
-									</div>
-									<div id="txtDist">
-									 <select id="dis">
-									 <option value="">--Select District--</option>
-									 </select>
-									</div>
-									<br>
-									<!--
-									<div id="txtUpa">
-									 <select id="upa">
-									 <option value="">--Select Upazila--</option>
-									 </select>
-									</div>
-									-->
-									<div id="txtOrg">
-									 <select id="org">
-									 <option value="">--Select Organization--</option>
-									 </select>
-									</div>
-										<br>
-									<div id="txtOrgType">
-									 <select id="orgtype">
-									 <option value="">--Select Org. Type--</option>
-									 </select>
-									</div>
-									
-									
-									<br>
-								    <div class="control-group">
-                                    <input type="submit" class="btn btn-info btn-small">
-									</div>
+                                            <option value="">--Select Division--</option>
+                                            <option value="0">--All Division--</option>
+                                            <?php
+                                            $div = mysql_query("SELECT * FROM admin_division ORDER BY division_name");
+                                            while ($rowdiv = mysql_fetch_assoc($div)) {
+                                                $s6 = "";
+                                                /* if($rorg1['division_bbs_code'] == $rowdiv['id'])
+                                                  {
+                                                  $s6 = "selected";
+                                                  } */
+                                                ?>
+                                                <option value="<?php echo $rowdiv['id']; ?>" <?php //echo $s6; ?>><?php echo $rowdiv['division_name']; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div id="txtDist">
+                                        <select id="dis">
+                                            <option value="">--Select District--</option>
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <!--
+                                    <div id="txtUpa">
+                                     <select id="upa">
+                                     <option value="">--Select Upazila--</option>
+                                     </select>
+                                    </div>
+                                    -->
+                                    <div id="txtOrg">
+                                        <select id="org">
+                                            <option value="">--Select Organization--</option>
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <div id="txtOrgType">
+                                        <select id="orgtype">
+                                            <option value="">--Select Org. Type--</option>
+                                        </select>
+                                    </div>
+
+
+                                    <br>
+                                    <div class="control-group">
+                                        <input type="submit" class="btn btn-info btn-small">
+                                    </div>
                                 </form>
                             </div>
                         </div>
