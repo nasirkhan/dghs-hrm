@@ -248,11 +248,11 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><?php echo $data['department_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>staff_posting</strong></td>
+                                            <td width="50%"><strong>Staff Posting</strong></td>
                                             <td><?php echo $data['staff_posting']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>staff_job_class</strong></td>
+                                            <td width="50%"><strong>Staff Job Class</strong></td>
                                             <td><?php echo $data['staff_job_class']; ?></td>
                                         </tr>
                                         <tr>
@@ -260,127 +260,127 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><?php echo $data['staff_professional_category']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>designation_id</strong></td>
+                                            <td width="50%"><strong>Designation Id</strong></td>
                                             <td><?php echo $data['designation_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>posting_status</strong></td>
+                                            <td width="50%"><strong>Posting Status</strong></td>
                                             <td><?php echo $data['posting_status']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>staff_pds_code</strong></td>
+                                            <td width="50%"><strong>Staff PDS Code</strong></td>
                                             <td><?php echo $data['staff_pds_code']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>staff_name</strong></td>
+                                            <td width="50%"><strong>Staff Name</strong></td>
                                             <td><?php echo $data['staff_name']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>staff_local_id</strong></td>
+                                            <td width="50%"><strong>Staff Local Id</strong></td>
                                             <td><?php echo $data['staff_local_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>father_name</strong></td>
+                                            <td width="50%"><strong>Father Name</strong></td>
                                             <td><?php echo $data['father_name']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>mother_name</strong></td>
+                                            <td width="50%"><strong>Mother Name</strong></td>
                                             <td><?php echo $data['mother_name']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>birth_date</strong></td>
+                                            <td width="50%"><strong>Birth Date</strong></td>
                                             <td><?php echo $data['birth_date']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>email_address</strong></td>
+                                            <td width="50%"><strong>Email Address</strong></td>
                                             <td><?php echo $data['email_address']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>contact_no</strong></td>
+                                            <td width="50%"><strong>Contact No</strong></td>
                                             <td><?php echo $data['contact_no']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>mailing_address</strong></td>
+                                            <td width="50%"><strong>Mailing Address</strong></td>
                                             <td><?php echo $data['mailing_address']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>permanent_address</strong></td>
+                                            <td width="50%"><strong>Permanent Address</strong></td>
                                             <td><?php echo $data['permanent_address']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>freedom_fighter_id</strong></td>
+                                            <td width="50%"><strong>Freedom Fighter Id</strong></td>
                                             <td><?php echo $data['freedom_fighter_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>tribal_id</strong></td>
+                                            <td width="50%"><strong>Tribal Id</strong></td>
                                             <td><?php echo $data['tribal_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>post_type_id</strong></td>
+                                            <td width="50%"><strong>Post Type Id</strong></td>
                                             <td><?php echo $data['post_type_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>draw_type_id</strong></td>
+                                            <td width="50%"><strong>Draw Type Id</strong></td>
                                             <td><?php echo $data['draw_type_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>designation_type_id</strong></td>
+                                            <td width="50%"><strong>Designation Type Id</strong></td>
                                             <td><?php echo $data['designation_type_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>job_posting_id</strong></td>
+                                            <td width="50%"><strong>Job Posting Id</strong></td>
                                             <td><?php echo $data['job_posting_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>working_status_id</strong></td>
+                                            <td width="50%"><strong>Working Status Id</strong></td>
                                             <td><?php echo $data['working_status_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>draw_salary_id</strong></td>
+                                            <td width="50%"><strong>Draw Salary Id</strong></td>
                                             <td><?php echo $data['draw_salary_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>sex</strong></td>
+                                            <td width="50%"><strong>Sex</strong></td>
                                             <td><?php echo $data['sex']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>marital_status</strong></td>
+                                            <td width="50%"><strong>Marital Status</strong></td>
                                             <td><?php echo $data['marital_status']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>religion</strong></td>
+                                            <td width="50%"><strong>Religion</strong></td>
                                             <td><?php echo $data['religion']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>date_of_joining_to_govt_health_service</strong></td>
+                                            <td width="50%"><strong>Date of Joining to Govt Health Service</strong></td>
                                             <td><?php echo $data['date_of_joining_to_govt_health_service']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>date_of_joining_to_current_place</strong></td>
+                                            <td width="50%"><strong>Date of Joining to Current Place</strong></td>
                                             <td><?php echo $data['date_of_joining_to_current_place']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>date_of_joining_to_current_designation</strong></td>
+                                            <td width="50%"><strong>Date of Joining to Current Designation</strong></td>
                                             <td><?php echo $data['date_of_joining_to_current_designation']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>professional_discipline_of_current_designation</strong></td>
+                                            <td width="50%"><strong>Professional Discipline of Current Designation</strong></td>
                                             <td><?php echo $data['professional_discipline_of_current_designation']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>type_of_educational_qualification</strong></td>
+                                            <td width="50%"><strong>Type of Educational Qualification</strong></td>
                                             <td><?php echo $data['type_of_educational_qualification']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>actual_degree</strong></td>
+                                            <td width="50%"><strong>Actual Degree</strong></td>
                                             <td><?php echo $data['actual_degree']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>pay_scale_of_current_designation</strong></td>
+                                            <td width="50%"><strong>Pay Scale of Current Designation</strong></td>
                                             <td><?php echo $data['pay_scale_of_current_designation']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>current_basic_pay_taka</strong></td>
+                                            <td width="50%"><strong>Current Basic Pay Taka</strong></td>
                                             <td><?php echo $data['current_basic_pay_taka']; ?></td>
                                         </tr>
                                         <tr>
@@ -610,11 +610,11 @@ if ($staff_exists && !$userCanEdit) {
                                                     <td><input name="department_id" type="text" placeholder="Enter Department ID" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>staff_posting</strong></td>
+                                                    <td width="50%"><strong>Staff Posting</strong></td>
                                                     <td><input name="staff_posting" type="text" placeholder="Enter staff_posting" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>staff_job_class</strong></td>
+                                                    <td width="50%"><strong>Staff Job Class</strong></td>
                                                     <td><input name="staff_job_class" type="text" placeholder="Enter staff_job_class" /></td>
                                                 </tr>
                                                 <tr>
@@ -622,127 +622,127 @@ if ($staff_exists && !$userCanEdit) {
                                                     <td><input name="staff_professional_category" type="text" placeholder="Enter Staff Professional Category" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>designation_id</strong></td>
+                                                    <td width="50%"><strong>Designation Id</strong></td>
                                                     <td><input name="designation_id" type="text" placeholder="Enter designation_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>posting_status</strong></td>
+                                                    <td width="50%"><strong>Posting Status</strong></td>
                                                     <td><input name="posting_status" type="text" placeholder="Enter posting_status" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>staff_pds_code</strong></td>
+                                                    <td width="50%"><strong>Staff PDS Code</strong></td>
                                                     <td><input name="staff_pds_code" type="text" placeholder="Enter staff_pds_code" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>staff_name</strong></td>
+                                                    <td width="50%"><strong>Staff Name</strong></td>
                                                     <td><input name="staff_name" type="text" placeholder="Enter staff_name" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>staff_local_id</strong></td>
+                                                    <td width="50%"><strong>Staff Local Id</strong></td>
                                                     <td><input name="staff_local_id" type="text" placeholder="Enter staff_local_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>father_name</strong></td>
+                                                    <td width="50%"><strong>Father Name</strong></td>
                                                     <td><input name="father_name" type="text" placeholder="Enter father_name" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>mother_name</strong></td>
+                                                    <td width="50%"><strong>Mother Name</strong></td>
                                                     <td><input name="mother_name" type="text" placeholder="Enter mother_name" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>birth_date</strong></td>
+                                                    <td width="50%"><strong>Birth Date</strong></td>
                                                     <td><input name="birth_date" type="text" placeholder="Enter birth_date" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>email_address</strong></td>
+                                                    <td width="50%"><strong>Email Address</strong></td>
                                                     <td><input name="email_address" type="text" placeholder="Enter email_address" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>contact_no</strong></td>
+                                                    <td width="50%"><strong>Contact No</strong></td>
                                                     <td><input name="contact_no" type="text" placeholder="Enter contact_no" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>mailing_address</strong></td>
+                                                    <td width="50%"><strong>Mailing Address</strong></td>
                                                     <td><input name="mailing_address" type="text" placeholder="Enter mailing_address" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>permanent_address</strong></td>
+                                                    <td width="50%"><strong>Permanent Address</strong></td>
                                                     <td><input name="permanent_address" type="text" placeholder="Enter permanent_address" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>freedom_fighter_id</strong></td>
+                                                    <td width="50%"><strong>Freedom Fighter Id</strong></td>
                                                     <td><input name="freedom_fighter_id" type="text" placeholder="Enter freedom_fighter_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>tribal_id</strong></td>
+                                                    <td width="50%"><strong>Tribal Id</strong></td>
                                                     <td><input name="tribal_id" type="text" placeholder="Enter tribal_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>post_type_id</strong></td>
+                                                    <td width="50%"><strong>Post Type Id</strong></td>
                                                     <td><input name="post_type_id" type="text" placeholder="Enter post_type_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>draw_type_id</strong></td>
+                                                    <td width="50%"><strong>Draw Type Id</strong></td>
                                                     <td><input name="draw_type_id" type="text" placeholder="Enter draw_type_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>designation_type_id</strong></td>
+                                                    <td width="50%"><strong>Designation Type Id</strong></td>
                                                     <td><input name="designation_type_id" type="text" placeholder="Enter designation_type_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>job_posting_id</strong></td>
+                                                    <td width="50%"><strong>Job Posting Id</strong></td>
                                                     <td><input name="job_posting_id" type="text" placeholder="Enter job_posting_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>working_status_id</strong></td>
+                                                    <td width="50%"><strong>Working Status Id</strong></td>
                                                     <td><input name="working_status_id" type="text" placeholder="Enter working_status_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>draw_salary_id</strong></td>
+                                                    <td width="50%"><strong>Draw Salary Id</strong></td>
                                                     <td><input name="draw_salary_id" type="text" placeholder="Enter govt_quadraw_salary_idrter_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>sex</strong></td>
+                                                    <td width="50%"><strong>Sex</strong></td>
                                                     <td><input name="sex" type="text" placeholder="Enter sex" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>marital_status</strong></td>
+                                                    <td width="50%"><strong>Marital Status</strong></td>
                                                     <td><input name="marital_status" type="text" placeholder="Enter marital_status" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>religion</strong></td>
+                                                    <td width="50%"><strong>Religion</strong></td>
                                                     <td><input name="religion" type="text" placeholder="Enter religion" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>date_of_joining_to_govt_health_service</strong></td>
+                                                    <td width="50%"><strong>Date of Joining to Govt Health Service</strong></td>
                                                     <td><input name="date_of_joining_to_govt_health_service" type="text" placeholder="Enter date_of_joining_to_govt_health_service" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>date_of_joining_to_current_place</strong></td>
+                                                    <td width="50%"><strong>Date of Joining to Current Place</strong></td>
                                                     <td><input name="date_of_joining_to_current_place" type="text" placeholder="Enter date_of_joining_to_current_place" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>date_of_joining_to_current_designation</strong></td>
+                                                    <td width="50%"><strong>Date of Joining to Current Designation</strong></td>
                                                     <td><input name="date_of_joining_to_current_designation" type="text" placeholder="Enter professional_discipline_of_current_designation" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>professional_discipline_of_current_designation</strong></td>
+                                                    <td width="50%"><strong>Professional Discipline of Current Designation</strong></td>
                                                     <td><input name="professional_discipline_of_current_designation" type="text" placeholder="Enter govt_quarter_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>type_of_educational_qualification</strong></td>
+                                                    <td width="50%"><strong>Type of Educational Qualification</strong></td>
                                                     <td><input name="type_of_educational_qualification" type="text" placeholder="Enter govt_quarter_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>actual_degree</strong></td>
+                                                    <td width="50%"><strong>Actual Degree</strong></td>
                                                     <td><input name="actual_degree" type="text" placeholder="Enter govt_quarter_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>pay_scale_of_current_designation</strong></td>
+                                                    <td width="50%"><strong>Pay Scale of Current Designation</strong></td>
                                                     <td><input name="pay_scale_of_current_designation" type="text" placeholder="Enter govt_quarter_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>current_basic_pay_taka</strong></td>
+                                                    <td width="50%"><strong>Current Basic Pay Taka</strong></td>
                                                     <td><input name="current_basic_pay_taka" type="text" placeholder="Enter govt_quarter_id" /></td>
                                                 </tr>
                                                 <tr>
