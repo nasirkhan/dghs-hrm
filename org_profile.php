@@ -284,9 +284,7 @@ if ($user_type == "admin"){
                                         <td><a href="#" class="text-input" id="latitude" ><?php echo $data['latitude']; ?></a></td>
                                     </tr>
                                 </table>
-                            </div>
                             <?php else: ?>
-                            <div class="tab-pane active" id="basic-info">
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td width="50%"><strong>Organization Name</strong></td>
@@ -388,9 +386,9 @@ if ($user_type == "admin"){
                                         <td width="50%"><strong>Latitude</strong></td>
                                         <td><?php echo $data['latitude']; ?></td>
                                     </tr>
-                                </table>
-                            </div> 
+                                </table>                             
                             <?php endif; ?>
+                            </div>
                             <div class="tab-pane" id="contact-info">
                                 <table class="table table-striped table-hover">
                                     <tr>
@@ -539,10 +537,12 @@ if ($user_type == "admin"){
                             </div>
                             <div class="tab-pane" id="ownership-info">
                                 <table class="table table-striped table-hover">
+                                    <!--
                                     <tr>
                                         <td width="60%"><strong>Special service / status of the hospital / clinic</strong></td>
                                         <td><a href="#" class="text-input" id="land_mutation_number" ><?php // echo $data['org_code'];  ?></a></td>
                                     </tr>
+                                    -->
                                     <tr>
                                         <td width="60%"><strong>Permission/Approval/License information</strong></td>
                                         <td><a href="#" class="text-input" id="permission_approval_license_info_code" ><?php echo $data['permission_approval_license_info_code'];  ?></a></td>
