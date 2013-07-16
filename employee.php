@@ -5,18 +5,30 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
-//GET staff_id
-$staff_id = $_GET['staff_id'];
-$staff_id = (int) $staff_id;
-
-//SESSION data: org_code
+//SESSION data
 $org_code = $_SESSION['org_code'];
 $org_data = getOrgNameAndOrgTypeCodeFormOrgCode($org_code);
 $org_name = $org_data['org_name'];
 $org_type_code = $org_data['org_type_code'];
 $org_type_name = $_SESSION['org_type_name'];
 
-$staff_exists = checkEmployeeExistsInOrganization($org_code, $staff_id);
+//GET values
+$staff_id = (int) mysql_real_escape_string($_GET['staff_id']);
+$sanctioned_post_id = (int) mysql_real_escape_string($_GET['sanctioned_post_id']);
+$action = mysql_real_escape_string($_GET['action']);
+
+if ($sanctioned_post_id != "") {
+    $temp = checkStaffExistsBySanctionedPost($sanctioned_post_id);
+    $staff_exists = $temp['exists'];
+    $staff_id = $temp['staff_id'];
+
+    $designation = getDesignationNameFormSanctionedPostId($sanctioned_post_id);
+} else if ($staff_id != "") {
+    $staff_exists = checkStaffExists($staff_id);
+    $designation = getDesignationNameFormStaffId($staff_id);
+    $sanctioned_post_id = getSanctionedPostIdFromStaffId($staff_id);
+}
+
 
 if ($staff_id != "" && $staff_exists) {
     $sql = "SELECT * FROM old_tbl_staff_organization WHERE old_tbl_staff_organization.staff_id = $staff_id AND old_tbl_staff_organization.org_code = $org_code LIMIT 1";
@@ -26,20 +38,22 @@ if ($staff_id != "" && $staff_exists) {
     $data = mysql_fetch_assoc($result);
 }
 
-//  add new employee
-$action = mysql_real_escape_string($_GET['action']);
-$sanctioned_post_id = "";
-$sanctioned_post_id = mysql_real_escape_string($_GET['sanctioned_post_id']);
 
 
-if ($sanctioned_post_id == "") {
-    $designation = getDesignationNameFormStaffId($staff_id);
-    $sanctioned_post_id = getSanctionedPostIdFromStaffId($staff_id);
-} else {
-    $designation = getDesignationNameFormSanctionedPostId($sanctioned_post_id);
-}
 //  check and set the user's edit permission
 $userCanEdit = TRUE;
+
+// set the page display mode
+if ($staff_exists && !$userCanEdit) {
+    $display_mode = "view";
+} else if ($staff_exists && $userCanEdit) {
+    $display_mode = "edit";
+} else if ($action == "new" && $userCanEdit){
+    if ($sanctioned_post_id != ""){
+        
+    }
+    $display_mode = "new";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -147,6 +161,17 @@ $userCanEdit = TRUE;
 
                         <div class="row">
                             <div class="span9">
+                                <p><pre>
+                                    <?php
+//                                    echo "$display_mode|";
+//                                    print_r($temp);
+//                                    print_r($_POST);
+//                                    print_r($_GET);
+                                    $exception_field="";
+                                    $query = createMySqlInsertString($_POST, $exception_field);
+                                    print_r($query);
+                                    ?>
+                                </pre></p>
                                 <?php if ($staff_id == "" && $action != "new"): ?>
                                     <div class="alert alert-success">
                                         <div>
@@ -195,7 +220,7 @@ $userCanEdit = TRUE;
 
                                 <?php
 //                                if ($staff_id != "" && $staff_exists && !$userCanEdit): 
-                                if ($staff_id != "" && !$userCanEdit && $action != "new"):
+                                if ($display_mode == "view"):
                                     ?>
                                     <table class="table table-striped table-hover">
                                         <tr>
@@ -368,10 +393,10 @@ $userCanEdit = TRUE;
                                         </tr>
 
                                     </table>
-                                <?php // endif; ?>
-                                <?php
+                                    <?php // endif;  ?>
+                                    <?php
 //                                if ($staff_id != "" && $staff_exists && $userCanEdit): 
-                                elseif ($staff_id != "" && $userCanEdit && $action != "new"):
+                                elseif ($display_mode == "edit"):
                                     ?>
                                     <table class="table table-striped table-hover" id="employee-profile">
                                         <tr>
@@ -549,189 +574,192 @@ $userCanEdit = TRUE;
                                         </tr>
 
                                     </table>
-                                <?php
+                                    <?php
                                 // add new employee
-                                elseif ($action == "new" && $userCanEdit && $sanctioned_post_id != "") :                                        
-                                ?>
-                                    <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                elseif ($display_mode == "new") :
+                                    ?>
+                                    <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF']; ?>" method="post">
                                         <fieldset>
-                                    <table class="table table-striped table-hover">
-                                        <tr>
-                                            <td width="50%"><strong>Designation</strong></td>
-                                            <td><?php echo $designation; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>Sanctioned Post Id</strong></td>
-                                            <td><?php echo $sanctioned_post_id; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>Staff ID</strong></td>
-                                            <td><?php // echo $data['staff_id']; ?> <em>Will be added automatically</em> </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>Organization Name</strong></td>
-                                            <td><?php echo $org_name; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>Organization Code</strong></td>
-                                            <td><?php echo $org_code; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>Department ID</strong></td>
-                                            <td><?php echo $data['department_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>staff_posting</strong></td>
-                                            <td><?php echo $data['staff_posting']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>staff_job_class</strong></td>
-                                            <td><?php echo $data['staff_job_class']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>Staff Professional Category</strong></td>
-                                            <td><?php echo $data['staff_professional_category']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>designation_id</strong></td>
-                                            <td><?php echo $data['designation_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>posting_status</strong></td>
-                                            <td><?php echo $data['posting_status']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>staff_pds_code</strong></td>
-                                            <td><input type="text" placeholder="Type something…"></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>staff_name</strong></td>
-                                            <td><?php echo $data['staff_name']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>staff_local_id</strong></td>
-                                            <td><?php echo $data['staff_local_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>father_name</strong></td>
-                                            <td><?php echo $data['father_name']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>mother_name</strong></td>
-                                            <td><?php echo $data['mother_name']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>birth_date</strong></td>
-                                            <td><?php echo $data['birth_date']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>email_address</strong></td>
-                                            <td><?php echo $data['email_address']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>contact_no</strong></td>
-                                            <td><?php echo $data['contact_no']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>mailing_address</strong></td>
-                                            <td><?php echo $data['mailing_address']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>permanent_address</strong></td>
-                                            <td><?php echo $data['permanent_address']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>freedom_fighter_id</strong></td>
-                                            <td><?php echo $data['freedom_fighter_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>tribal_id</strong></td>
-                                            <td><?php echo $data['tribal_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>post_type_id</strong></td>
-                                            <td><?php echo $data['post_type_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>draw_type_id</strong></td>
-                                            <td><?php echo $data['draw_type_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>designation_type_id</strong></td>
-                                            <td><?php echo $data['designation_type_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>job_posting_id</strong></td>
-                                            <td><?php echo $data['job_posting_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>working_status_id</strong></td>
-                                            <td><?php echo $data['working_status_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>draw_salary_id</strong></td>
-                                            <td><?php echo $data['draw_salary_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>sex</strong></td>
-                                            <td><?php echo $data['sex']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>marital_status</strong></td>
-                                            <td><?php echo $data['marital_status']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>religion</strong></td>
-                                            <td><?php echo $data['religion']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>date_of_joining_to_govt_health_service</strong></td>
-                                            <td><?php echo $data['date_of_joining_to_govt_health_service']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>date_of_joining_to_current_place</strong></td>
-                                            <td><?php echo $data['date_of_joining_to_current_place']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>date_of_joining_to_current_designation</strong></td>
-                                            <td><?php echo $data['date_of_joining_to_current_designation']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>professional_discipline_of_current_designation</strong></td>
-                                            <td><?php echo $data['professional_discipline_of_current_designation']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>type_of_educational_qualification</strong></td>
-                                            <td><?php echo $data['type_of_educational_qualification']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>actual_degree</strong></td>
-                                            <td><?php echo $data['actual_degree']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>pay_scale_of_current_designation</strong></td>
-                                            <td><?php echo $data['pay_scale_of_current_designation']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>current_basic_pay_taka</strong></td>
-                                            <td><?php echo $data['current_basic_pay_taka']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>govt_quarter_id</strong></td>
-                                            <td><?php echo $data['govt_quarter_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>job_status</strong></td>
-                                            <td><?php echo $data['job_status']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>reason</strong></td>
-                                            <td><?php echo $data['last_update']; ?></td>
-                                        </tr>
-
-                                    </table>
+                                            <table class="table table-striped table-hover">
+                                                <tr>
+                                                    <td width="50%"><strong>Designation</strong></td>
+                                                    <td><?php echo $designation; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Sanctioned Post Id</strong></td>
+                                                    <td><?php echo $sanctioned_post_id; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Staff ID</strong></td>
+                                                    <td><?php echo $data['staff_id'];   ?> <em class="text-success">(Will be added automatically)</em> </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Organization Name</strong></td>
+                                                    <td><?php echo $org_name; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Organization Code</strong></td>
+                                                    <td><?php echo $org_code; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Department ID</strong></td>
+                                                    <td><?php echo $data['department_id']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>staff_posting</strong></td>
+                                                    <td><?php echo $data['staff_posting']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>staff_job_class</strong></td>
+                                                    <td><?php echo $data['staff_job_class']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Staff Professional Category</strong></td>
+                                                    <td><?php echo $data['staff_professional_category']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>designation_id</strong></td>
+                                                    <td><?php echo $data['designation_id']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>posting_status</strong></td>
+                                                    <td><?php echo $data['posting_status']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>staff_pds_code</strong></td>
+                                                    <td><input name="staff_pds_code" type="text" placeholder="Type something…" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>staff_name</strong></td>
+                                                    <td><?php echo $data['staff_name']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>staff_local_id</strong></td>
+                                                    <td><?php echo $data['staff_local_id']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>father_name</strong></td>
+                                                    <td><?php echo $data['father_name']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>mother_name</strong></td>
+                                                    <td><?php echo $data['mother_name']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>birth_date</strong></td>
+                                                    <td><?php echo $data['birth_date']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>email_address</strong></td>
+                                                    <td><?php echo $data['email_address']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>contact_no</strong></td>
+                                                    <td><?php echo $data['contact_no']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>mailing_address</strong></td>
+                                                    <td><?php echo $data['mailing_address']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>permanent_address</strong></td>
+                                                    <td><?php echo $data['permanent_address']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>freedom_fighter_id</strong></td>
+                                                    <td><?php echo $data['freedom_fighter_id']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>tribal_id</strong></td>
+                                                    <td><?php echo $data['tribal_id']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>post_type_id</strong></td>
+                                                    <td><?php echo $data['post_type_id']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>draw_type_id</strong></td>
+                                                    <td><?php echo $data['draw_type_id']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>designation_type_id</strong></td>
+                                                    <td><?php echo $data['designation_type_id']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>job_posting_id</strong></td>
+                                                    <td><?php echo $data['job_posting_id']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>working_status_id</strong></td>
+                                                    <td><?php echo $data['working_status_id']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>draw_salary_id</strong></td>
+                                                    <td><?php echo $data['draw_salary_id']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>sex</strong></td>
+                                                    <td><?php echo $data['sex']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>marital_status</strong></td>
+                                                    <td><?php echo $data['marital_status']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>religion</strong></td>
+                                                    <td><?php echo $data['religion']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>date_of_joining_to_govt_health_service</strong></td>
+                                                    <td><?php echo $data['date_of_joining_to_govt_health_service']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>date_of_joining_to_current_place</strong></td>
+                                                    <td><?php echo $data['date_of_joining_to_current_place']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>date_of_joining_to_current_designation</strong></td>
+                                                    <td><?php echo $data['date_of_joining_to_current_designation']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>professional_discipline_of_current_designation</strong></td>
+                                                    <td><?php echo $data['professional_discipline_of_current_designation']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>type_of_educational_qualification</strong></td>
+                                                    <td><?php echo $data['type_of_educational_qualification']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>actual_degree</strong></td>
+                                                    <td><?php echo $data['actual_degree']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>pay_scale_of_current_designation</strong></td>
+                                                    <td><?php echo $data['pay_scale_of_current_designation']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>current_basic_pay_taka</strong></td>
+                                                    <td><?php echo $data['current_basic_pay_taka']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>govt_quarter_id</strong></td>
+                                                    <td><?php echo $data['govt_quarter_id']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>job_status</strong></td>
+                                                    <td><?php echo $data['job_status']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>reason</strong></td>
+                                                    <td><input name="reason" type="text" placeholder="Type something…" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong></strong></td>
+                                                    <td><button type="submit" class="btn btn-success btn-large">Submit</button></td>
+                                                </tr>
+                                            </table>
                                         </fieldset>
-                                            </form>
+                                    </form>
                                 <?php endif; ?>
                             </div>
                         </div>

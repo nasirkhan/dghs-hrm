@@ -109,6 +109,40 @@ function checkEmployeeExistsInOrganization($org_code, $staff_id) {
     }
 }
 
+function checkStaffExists($staff_id){
+    $sql = "SELECT id FROM total_manpower_imported_sanctioned_post_copy WHERE staff_id= $staff_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkStaffExists:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+    
+    if ($data['id'] > 0){
+        $exists = TRUE;
+    }
+    else{
+        $exists = FALSE;
+    }
+    
+    return $exists;
+}
+
+function checkStaffExistsBySanctionedPost($sanctioned_post_id){
+    $sql = "SELECT staff_id FROM total_manpower_imported_sanctioned_post_copy WHERE id= $sanctioned_post_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkStaffExistsBySanctionedPost:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $row = mysql_fetch_assoc($result);
+    
+    if ($row['staff_id'] > 0){
+        $data['staff_id'] = $row['staff_id'];
+        $data['exists'] = TRUE;
+    }
+    else{
+        $data['staff_id'] = $row['staff_id'];
+        $data['exists'] = FALSE;
+    }
+    
+    return $data;
+}
+
 /**
  * Get the Username(Email address) of the users from the Organization Code
  * @param Int $org_code
