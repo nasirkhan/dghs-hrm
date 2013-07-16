@@ -279,47 +279,10 @@ $org_type_name = $_SESSION['org_type_name'];
 
                         <div class="row">
                             <div class="span9">
-                                <?php if (!$newPassMatched): ?>
-                                    <div class="">
-                                        <div class="alert alert-block alert-Warnign">
-                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                            <p class="lead"><strong>Warning!</strong><br /> 
-                                                You have to write the "New Password" twice.<br />
-                                                But unfortunately you have entered two different words in two input fields.<br />
-                                                Please try again. 
-                                            </p>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-
-                                <?php if ($passwordUpdated): ?>
-                                    <div class="">
-                                        <div class="alert alert-block alert-success">
-                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                            <p class="lead"><strong>Congratulation!</strong><br /> 
-                                                Your password has been changed successfully.<br />
-                                                You have to use this new password from your next login.
-                                            </p>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-
-                                <?php if (!$oldPasswordCorrect): ?>
-                                    <div class="">
-                                        <div class="alert alert-block alert-error">
-                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                            <p class="lead"><strong>Warning!</strong><br /> 
-                                                Your have entered a wrong "Old Password"<br />
-                                                Please try again with the accurate credential.
-                                            </p>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-
                                 <h3>Move Request</h3>
-                                <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" name="form1">
+                                <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="form1">
                                     <div class="control-group">
-                                        <select id="div" onChange="showDist(this.value)" class="editable editable-click">
+                                        <select id="div" name="div" onChange="showDist(this.value)" class="editable editable-click">
                                             <option value="">--Select Division--</option>
                                             <option value="0">--All Division--</option>
                                             <?php
@@ -331,13 +294,13 @@ $org_type_name = $_SESSION['org_type_name'];
                                                   $s6 = "selected";
                                                   } */
                                                 ?>
-                                                <option value="<?php echo $rowdiv['id']; ?>" <?php //echo $s6; ?>><?php echo $rowdiv['division_name']; ?></option>
+                                                <option value="<?php echo $rowdiv['id']; ?>" <?php //echo $s6;  ?>><?php echo $rowdiv['division_name']; ?></option>
                                                 <?php
                                             }
                                             ?>
                                         </select>
                                     </div>
-                                    <div id="txtDist">
+                                    <div id="txtDist" name="txtDist">
                                         <select id="dis">
                                             <option value="">--Select District--</option>
                                         </select>
@@ -351,13 +314,13 @@ $org_type_name = $_SESSION['org_type_name'];
                                     </div>
                                     -->
                                     <div id="txtOrg">
-                                        <select id="org">
+                                        <select id="org" name="org">
                                             <option value="">--Select Organization--</option>
                                         </select>
                                     </div>
                                     <br>
                                     <div id="txtOrgType">
-                                        <select id="orgtype">
+                                        <select id="orgtype" name="orgtype">
                                             <option value="">--Select Org. Type--</option>
                                         </select>
                                     </div>
