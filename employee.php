@@ -48,8 +48,8 @@ if ($staff_exists && !$userCanEdit) {
     $display_mode = "view";
 } else if ($staff_exists && $userCanEdit) {
     $display_mode = "edit";
-} else if ($action == "new" && $userCanEdit){
-    if ($sanctioned_post_id != ""){
+} else if ($action == "new" && $userCanEdit) {
+    if ($sanctioned_post_id != "") {
         
     }
     $display_mode = "new";
@@ -168,12 +168,12 @@ if ($staff_exists && !$userCanEdit) {
 //                                    print_r($temp);
 //                                    print_r($_POST);
 //                                    print_r($_GET);
-                                    $exception_field="";
+                                    $exception_field = "";
                                     $query = createMySqlInsertString($_POST, $exception_field);
                                     print_r($query);
                                     $table_name = "old_tbl_staff_organization";
-                                                        $column_name = "govt_quarter";
-                                                        print_r(getEnumColumnValues($table_name, $column_name));
+                                    $column_name = "govt_quarter";
+                                    print_r(getEnumColumnValues($table_name, $column_name));
                                     ?>
                                 </pre></p>
                                 <?php if ($staff_id == "" && $action != "new"): ?>
@@ -554,7 +554,7 @@ if ($staff_exists && !$userCanEdit) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Pay Scale of Current Designation</strong></td>
-                                            <td><a href="#" class="text-input" data-type="text" id="pay_scale_of_current_designation" name="pay_scale_of_current_designation"><?php echo $data['pay_scale_of_current_designation']; ?></a></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="pay_scale_of_current_designation" name="pay_scale_of_current_designation" readonly><?php echo $data['pay_scale_of_current_designation']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Current Basic Pay Taka</strong></td>
@@ -582,7 +582,7 @@ if ($staff_exists && !$userCanEdit) {
                                 // add new employee
                                 elseif ($display_mode == "new") :
                                     ?>
-                                    <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                    <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF'];  ?>" method="post">
                                         <fieldset>
                                             <table class="table table-striped table-hover">
                                                 <tr>
@@ -595,7 +595,7 @@ if ($staff_exists && !$userCanEdit) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Staff ID</strong></td>
-                                                    <td><?php echo $data['staff_id'];   ?> <em class="text-success">(Will be added automatically)</em> </td>
+                                                    <td><?php echo $data['staff_id']; ?> <em class="text-success">(Will be added automatically)</em> </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Organization Name</strong></td>
@@ -651,7 +651,7 @@ if ($staff_exists && !$userCanEdit) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Birth Date</strong></td>
-                                                    <td><input name="birth_date" type="text" placeholder="Enter birth_date" /></td>
+                                                    <td><input name="birth_date" type="text" placeholder="Date format yyyy-mm-dd" class="datepicker" readonly /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Email Address</strong></td>
@@ -715,15 +715,15 @@ if ($staff_exists && !$userCanEdit) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Date of Joining to Govt Health Service</strong></td>
-                                                    <td><input name="date_of_joining_to_govt_health_service" type="text" placeholder="Enter date_of_joining_to_govt_health_service" /></td>
+                                                    <td><input name="date_of_joining_to_govt_health_service" type="text" placeholder="Date format yyyy-mm-dd"  class="datepicker" readonly/></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Date of Joining to Current Place</strong></td>
-                                                    <td><input name="date_of_joining_to_current_place" type="text" placeholder="Enter date_of_joining_to_current_place" /></td>
+                                                    <td><input name="date_of_joining_to_current_place" type="text" placeholder="Date format yyyy-mm-dd" class="datepicker" readonly /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Date of Joining to Current Designation</strong></td>
-                                                    <td><input name="date_of_joining_to_current_designation" type="text" placeholder="Enter professional_discipline_of_current_designation" /></td>
+                                                    <td><input name="date_of_joining_to_current_designation" type="text" placeholder="Date format yyyy-mm-dd" class="datepicker" readonly /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Professional Discipline of Current Designation</strong></td>
@@ -749,16 +749,16 @@ if ($staff_exists && !$userCanEdit) {
                                                     <td width="50%"><strong>Govt Quarter id</strong></td>                                                        
                                                     <td>
                                                         <select name="govt_quarter_id">
-                                                        <?php
-                                                        $table_name = "old_tbl_staff_organization";
-                                                        $column_name = "govt_quarter";
-                                                        $govt_quarter_id_list = getEnumColumnValues($table_name, $column_name);
-                                                        foreach ($govt_quarter_id_list as $value){
-                                                            echo "<option value=\"$value\">$value</option>";
-                                                        }                                                            
-                                                        ?>
+                                                            <?php
+                                                            $table_name = "old_tbl_staff_organization";
+                                                            $column_name = "govt_quarter";
+                                                            $govt_quarter_id_list = getEnumColumnValues($table_name, $column_name);
+                                                            foreach ($govt_quarter_id_list as $value) {
+                                                                echo "<option value=\"$value\">$value</option>";
+                                                            }
+                                                            ?>
                                                         </select>
-                                                    
+
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -882,6 +882,9 @@ if ($staff_exists && !$userCanEdit) {
                         return params;
                     }
                 });
+            });
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd'
             });
         </script>
 
