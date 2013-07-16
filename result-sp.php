@@ -19,7 +19,8 @@ total_manpower_imported_sanctioned_post_copy.first_level_id,
 total_manpower_imported_sanctioned_post_copy.first_level_name,
 total_manpower_imported_sanctioned_post_copy.second_level_id,
 total_manpower_imported_sanctioned_post_copy.second_level_name,
-total_manpower_imported_sanctioned_post_copy.staff_id
+total_manpower_imported_sanctioned_post_copy.staff_id,
+total_manpower_imported_sanctioned_post_copy.discipline
 FROM total_manpower_imported_sanctioned_post_copy
 WHERE id =$staff_id LIMIT 1";
 $sanctioned_post_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -33,6 +34,7 @@ while ($data_list = mysql_fetch_assoc($sanctioned_post_list_result)) {
         "first_level_name" => $data_list['first_level_name'],
         "second_level_name" => $data_list['second_level_name'],
         "class" => $data_list['class'],
+        "discipline" => $data_list['discipline'],
         "staff_id" => $data_list['staff_id']
     );
 }
