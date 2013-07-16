@@ -632,11 +632,11 @@ if ($user_type == "admin"){
                                         <td><a href="#" class="text-input" id="additional_community_group_info" ><?php echo $data['additional_community_group_info']; ?></a></td>
                                     </tr>
                                     <tr>
-                                        <td width="50%"><strong>Name of Chairman(CG)</strong></td>
+                                        <td width="50%"><strong>Name of Chairman (CG)</strong></td>
                                         <td><a href="#" class="text-input" id="additional_chairnam_name" ><?php echo $data['additional_chairnam_name']; ?></a></td>
                                     </tr>
                                     <tr>
-                                        <td width="50%"><strong>Contact No</strong></td>
+                                        <td width="50%"><strong>Contact No (CG)</strong></td>
                                         <td><a href="#" class="text-input" id="additional_chairman_contact" ><?php echo $data['additional_chairman_contact']; ?></a></td>
                                     </tr>
                                     <tr>
@@ -648,7 +648,7 @@ if ($user_type == "admin"){
                                         <td><a href="#" class="text-input" id="additional_csg_1_name" ><?php echo $data['additional_csg_1_name']; ?></a></td>
                                     </tr>
                                     <tr>
-                                        <td width="50%"><strong>Contact No</strong></td>
+                                        <td width="50%"><strong>Contact No (CSG-1)</strong></td>
                                         <td><a href="#" class="text-input" id="additional_csg_1_contact" ><?php echo $data['additional_csg_1_contact']; ?></a></td>
                                     </tr>
                                     <tr>
@@ -656,7 +656,7 @@ if ($user_type == "admin"){
                                         <td><a href="#" class="text-input" id="additional_csg_2_name" ><?php echo $data['additional_csg_2_name']; ?></a></td>
                                     </tr>
                                     <tr>
-                                        <td width="50%"><strong>Contact No</strong></td>
+                                        <td width="50%"><strong>Contact No (CSG-2)</strong></td>
                                         <td><a href="#" class="text-input" id="additional_csg_2_contact" ><?php echo $data['additional_csg_2_contact']; ?></a></td>
                                     </tr>
                                 </table>
