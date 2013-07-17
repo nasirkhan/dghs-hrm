@@ -376,6 +376,9 @@ $org_type_name = $_SESSION['org_type_name'];
                                         <select id="org_list" name="org_list">
                                             <option value="0">Select Organization</option>                                        
                                         </select>
+                                        <select id="sanctioned_post" name="org_list">
+                                            <option value="0">Select Designation</option>                                        
+                                        </select>
                                     </div>
                                         
                                     <div class="control-group">
@@ -449,11 +452,11 @@ $org_type_name = $_SESSION['org_type_name'];
                     dataType: 'json',
                     success: function(data)
                     {
-                        var admin_district = document.getElementById('admin_upazila');
-                        admin_district.options.length = 0;
+                        var admin_upazila = document.getElementById('admin_upazila');
+                        admin_upazila.options.length = 0;
                         for (var i = 0; i < data.length; i++) {
                             var d = data[i];
-                            admin_district.options.add(new Option(d.text, d.value));
+                            admin_upazila.options.add(new Option(d.text, d.value));
                         }
                     }
                 });
@@ -477,11 +480,33 @@ $org_type_name = $_SESSION['org_type_name'];
                     dataType: 'json',
                     success: function(data)
                     {
-                        var admin_district = document.getElementById('org_list');
-                        admin_district.options.length = 0;
+                        var org_list = document.getElementById('org_list');
+                        org_list.options.length = 0;
                         for (var i = 0; i < data.length; i++) {
                             var d = data[i];
-                            admin_district.options.add(new Option(d.text, d.value));
+                            org_list.options.add(new Option(d.text, d.value));
+                        }
+                    }
+                });
+            });
+            
+            // load designation 
+            $('#org_list').change(function() {
+                var organization_id = $('#org_list').val();
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_designation_list.php',
+                    data: {
+                        organization_id: organization_id
+                    },
+                    dataType: 'json',
+                    success: function(data)
+                    {
+                        var sanctioned_post = document.getElementById('sanctioned_post');
+                        sanctioned_post.options.length = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var d = data[i];
+                            sanctioned_post.options.add(new Option(d.text, d.value));
                         }
                     }
                 });
