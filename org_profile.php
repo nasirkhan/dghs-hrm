@@ -220,7 +220,7 @@ if ($user_type == "admin"){
                                         <td><?php // echo $data['org_code'];  ?></td>
                                     </tr>
                                     <tr>
-                                        <td width="50%"><strong>Special Services</strong></td>
+                                        <td width="50%"><strong>Special service / status of the hospital / clinic</strong></td>
                                         <td><?php // echo $data['org_code'];  ?></td>
                                     </tr>
                                     <tr>
@@ -323,7 +323,7 @@ if ($user_type == "admin"){
                                         <td><?php // echo $data['org_code'];  ?></td>
                                     </tr>
                                     <tr>
-                                        <td width="50%"><strong>Special Services</strong></td>
+                                        <td width="50%"><strong>Special service / status of the hospital / clinic</strong></td>
                                         <td><?php // echo $data['org_code'];  ?></td>
                                     </tr>
                                     <tr>
@@ -575,10 +575,12 @@ if ($user_type == "admin"){
                             </div>
                             <div class="tab-pane" id="land-info">
                                 <table class="table table-striped table-hover">
+                                    <!--
                                     <tr>
                                         <td width="50%"><strong>Land Information</strong></td>
                                         <td><a href="#" class="text-input" id="land_info_code" ><?php echo $data['land_info_code'];  ?></a></td>
                                     </tr>
+                                    -->
                                     <tr>
                                         <td width="50%"><strong>Land size (in acre)</strong></td>
                                         <td><a href="#" class="text-input" id="land_size" ><?php echo $data['land_size'];  ?></a></td>
@@ -629,7 +631,7 @@ if ($user_type == "admin"){
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Community group information</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_community_group_info" ><?php echo $data['additional_community_group_info']; ?></a></td>
+                                        <td><!-- <a href="#" class="text-input" id="additional_community_group_info" ><?php echo $data['additional_community_group_info']; ?></a> --></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Name of Chairman (CG)</strong></td>
@@ -641,7 +643,7 @@ if ($user_type == "admin"){
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Community Support group information </strong></td>
-                                        <td><a href="#" class="text-input" id="additional_chairman_community_support_info" ><?php echo $data['additional_chairman_community_support_info']; ?></a></td>
+                                        <td><!-- <a href="#" class="text-input" id="additional_chairman_community_support_info" ><?php echo $data['additional_chairman_community_support_info']; ?></a> --></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Name of Chairman (CSG-1)</strong></td>
