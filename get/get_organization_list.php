@@ -8,15 +8,18 @@ $upa_id = (int) mysql_real_escape_string($_POST['upa_id']);
 $agency_code = (int) mysql_real_escape_string($_POST['agency_code']);
 
 $query_string = "";
-if ($div_id > 0){
-    $query_string .= " AND organization.district_id = $div_id";
-}
-if ($dis_id > 0){
-    $query_string .= " AND organization.district_id = $dis_id";
-}
+
+
 if ($upa_id > 0){
-    $query_string .= " AND organization.upazila_id = $upa_id";
+    $query_string = " AND organization.upazila_id = $upa_id";
 }
+else if ($dis_id > 0){
+    $query_string = " AND organization.district_id = $dis_id";
+}
+else if ($div_id > 0){
+    $query_string = " AND organization.district_id = $div_id";
+}
+$query_string .= " ORDER BY org_name";
 
 $sql = "SELECT
             organization.org_name,
@@ -26,7 +29,7 @@ $sql = "SELECT
         WHERE
             organization.agency_code = $agency_code $query_string";
 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_organization_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
+//echo "$sql";
 $data = array();
 $data[] = array(
     'text' => "Select Organization",
