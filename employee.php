@@ -162,7 +162,7 @@ if ($staff_exists && !$userCanEdit) {
 
                         <div class="row">
                             <div class="span9">
-                                <p><pre>
+<!--                                <p><pre>
                                     <?php
 //                                    echo "$display_mode|";
 //                                    print_r($temp);
@@ -175,7 +175,7 @@ if ($staff_exists && !$userCanEdit) {
                                     $column_name = "govt_quarter";
                                     print_r(getEnumColumnValues($table_name, $column_name));
                                     ?>
-                                </pre></p>
+                                </pre></p>-->
                                 <?php if ($staff_id == "" && $action != "new"): ?>
                                     <div class="alert alert-success">
                                         <div>
