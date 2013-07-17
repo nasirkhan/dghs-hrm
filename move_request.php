@@ -85,7 +85,6 @@ $org_type_name = $_SESSION['org_type_name'];
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="assets/ico/favicon.png">
-
         <!--
         <script type="text/javascript">
             var _gaq = _gaq || [];
@@ -280,23 +279,23 @@ $org_type_name = $_SESSION['org_type_name'];
                         <div class="row">
                             <div class="span9">
                                 <h3>Move Request</h3>
-                                <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="form1">
+<!--                                <form class="form-inline" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="form1">
                                     <div class="control-group">
                                         <select id="div" name="div" onChange="showDist(this.value)" class="editable editable-click">
                                             <option value="0">--Select Division--</option>
-                                            <?php
-                                            $div = mysql_query("SELECT * FROM admin_division ORDER BY division_name");
-                                            while ($rowdiv = mysql_fetch_assoc($div)) {
-                                                $s6 = "";
-                                                /* if($rorg1['division_bbs_code'] == $rowdiv['id'])
-                                                  {
-                                                  $s6 = "selected";
-                                                  } */
-                                                ?>
-                                                <option value="<?php echo $rowdiv['id']; ?>" <?php //echo $s6;  ?>><?php echo $rowdiv['division_name']; ?></option>
-                                                <?php
-                                            }
-                                            ?>
+                                <?php
+                                $div = mysql_query("SELECT * FROM admin_division ORDER BY division_name");
+                                while ($rowdiv = mysql_fetch_assoc($div)) {
+                                    $s6 = "";
+                                    /* if($rorg1['division_bbs_code'] == $rowdiv['id'])
+                                      {
+                                      $s6 = "selected";
+                                      } */
+                                    ?>
+                                                    <option value="<?php echo $rowdiv['id']; ?>" <?php //echo $s6;      ?>><?php echo $rowdiv['division_name']; ?></option>
+                                    <?php
+                                }
+                                ?>
                                         </select>
                                     </div>
                                     <div id="txtDist">
@@ -305,13 +304,13 @@ $org_type_name = $_SESSION['org_type_name'];
                                         </select>
                                     </div>
                                     <br>
-                                    <!--
+                                    
                                     <div id="txtUpa">
                                      <select id="upa">
                                      <option value="">--Select Upazila--</option>
                                      </select>
                                     </div>
-                                    -->
+                                    
                                     <div id="txtOrg">
                                         <select id="org" name="org">
                                             <option value="0">--Select Organization--</option>
@@ -330,14 +329,64 @@ $org_type_name = $_SESSION['org_type_name'];
                                         <input type="submit" class="btn btn-info btn-small">
                                     </div>
                                 </form>
+                                -->
+
+
+                                <form class="form-inline" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="search">
+                                    <div class="control-group">
+                                        <select id="admin_division" name="admin_division">
+                                            <option value="0">Select Division</option>
+                                            <?php
+                                            /**
+                                             * @todo change old_visision_id to division_bbs_code
+                                             */
+                                            $sql = "SELECT admin_division.division_name, admin_division.old_division_id FROM admin_division";
+                                            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                            while ($rows = mysql_fetch_assoc($result)) {
+                                                echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                        <select id="admin_district" name="admin_district">
+                                            <option value="0">Select District</option>                                        
+                                        </select>
+                                        <select id="admin_upazila" name="admin_upazila">
+                                            <option value="0">Select Upazila</option>                                        
+                                        </select>
+                                    </div>
+                                    <div class="control-group">
+                                        <select id="org_agency" name="org_agency">
+                                            <option value="0">Select Agency</option>
+                                            <?php
+                                            $sql = "SELECT
+                                                        org_agency_code.org_agency_code,
+                                                        org_agency_code.org_agency_name
+                                                    FROM
+                                                        org_agency_code
+                                                    ORDER BY
+                                                        org_agency_code.org_agency_code";
+                                            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                            while ($rows = mysql_fetch_assoc($result)) {
+                                                echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                        <select id="org_list" name="org_list">
+                                            <option value="0">Select Organization</option>                                        
+                                        </select>
+                                    </div>
+                                        
+                                    <div class="control-group">
+                                        <button type="submit" class="btn">Submit</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-
                     </section>
-
                 </div>
             </div>
-
         </div>
 
 
@@ -369,5 +418,74 @@ $org_type_name = $_SESSION['org_type_name'];
         <script src="assets/js/google-code-prettify/prettify.js"></script>
 
         <script src="assets/js/application.js"></script>
+        <script type="text/javascript">
+            // division
+            $('#admin_division').change(function() {
+                var div_id = $('#admin_division').val();
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_district_list.php',
+                    data: {div_id: div_id},
+                    dataType: 'json',
+                    success: function(data)
+                    {
+                        var admin_district = document.getElementById('admin_district');
+                        admin_district.options.length = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var d = data[i];
+                            admin_district.options.add(new Option(d.text, d.value));
+                        }
+                    }
+                });
+            });
+
+            // district 
+            $('#admin_district').change(function() {
+                var dis_id = $('#admin_district').val();
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_upazila_list.php',
+                    data: {dis_id: dis_id},
+                    dataType: 'json',
+                    success: function(data)
+                    {
+                        var admin_district = document.getElementById('admin_upazila');
+                        admin_district.options.length = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var d = data[i];
+                            admin_district.options.add(new Option(d.text, d.value));
+                        }
+                    }
+                });
+            });
+            
+            // load organization 
+            $('#org_agency').change(function() {
+                var div_id = $('#admin_division').val();
+                var dis_id = $('#admin_district').val();
+                var upa_id = $('#admin_upazila').val();
+                var agency_code = $('#org_agency').val();
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_organization_list.php',
+                    data: {
+                        div_id: div_id,
+                        dis_id: dis_id,
+                        upa_id: upa_id,
+                        agency_code: agency_code
+                    },
+                    dataType: 'json',
+                    success: function(data)
+                    {
+                        var admin_district = document.getElementById('org_list');
+                        admin_district.options.length = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var d = data[i];
+                            admin_district.options.add(new Option(d.text, d.value));
+                        }
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
