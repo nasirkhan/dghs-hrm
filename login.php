@@ -67,6 +67,10 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                 padding-bottom: 40px;
                 background-color: #f5f5f5;
             }
+            #login_div{
+                /*text-align: center;*/
+            }
+            
 
             .form-signin {
                 max-width: 350px;
@@ -81,6 +85,8 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
             .form-signin .form-signin-heading,
             .form-signin .checkbox {
                 margin-bottom: 10px;
+                font-size: 26px;
+                text-align: center;
             }
             .input-append, .input-prepend{
                 width: 90%;
@@ -102,6 +108,11 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
             .login-error{
                 margin-top: 30px;
             }
+            
+            .mohfw{
+                font-family: Georgia, serif;
+            }
+            
             @media (min-width: 768px) and (max-width: 979px){
                 .container{
                     width: 760px;
@@ -139,8 +150,8 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         <div class="container">
 
             <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                <div class="">
-                    <h2 class="form-signin-heading">Welcome to DGHS HRM Software</h2>
+                <div class="" id="login_div">
+                    <h2 class="form-signin-heading">Welcome to HRM Software<br /> <span class="mohfw">Ministry of Health and Family Welfare</span></h2>
 
                     <input type="hidden" name="login_key" value="<?php echo $_SESSION['login_key'] ?>" />
                     <div class="input-append">
