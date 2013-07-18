@@ -101,121 +101,6 @@ $org_type_name = $_SESSION['org_type_name'];
         </script>
         -->
 
-        <!-- Show District -->
-        <script>
-            function showDist(str)
-            {
-                if (str == "")
-                {
-                    document.getElementById("txtDist").innerHTML = "";
-                    return;
-                }
-                if (window.XMLHttpRequest)
-                {// code for IE7+, Firefox, Chrome, Opera, Safari
-                    xmlhttp = new XMLHttpRequest();
-                }
-                else
-                {// code for IE6, IE5
-                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-                xmlhttp.onreadystatechange = function()
-                {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-                    {
-                        document.getElementById("txtDist").innerHTML = xmlhttp.responseText;
-                    }
-                }
-                xmlhttp.open("GET", "district.php?q=" + str, true);
-                xmlhttp.send();
-            }
-        </script>
-        <!-- Show District -->
-
-
-
-        <!-- Show Upazilla -->
-        <script>
-            function showUpa(str)
-            {
-                if (str == "")
-                {
-                    document.getElementById("txtUpa").innerHTML = "";
-                    return;
-                }
-                if (window.XMLHttpRequest)
-                {// code for IE7+, Firefox, Chrome, Opera, Safari
-                    xmlhttp = new XMLHttpRequest();
-                }
-                else
-                {// code for IE6, IE5
-                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-                xmlhttp.onreadystatechange = function()
-                {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-                    {
-                        document.getElementById("txtUpa").innerHTML = xmlhttp.responseText;
-                    }
-                }
-                xmlhttp.open("GET", "upazila.php?q=" + str, true);
-                xmlhttp.send();
-            }
-
-            function showOrg(str)
-            {
-
-                if (str == "")
-                {
-                    document.getElementById("txtOrg").innerHTML = "";
-                    return;
-                }
-                if (window.XMLHttpRequest)
-                {// code for IE7+, Firefox, Chrome, Opera, Safari
-                    xmlhttp = new XMLHttpRequest();
-                }
-                else
-                {// code for IE6, IE5
-                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-                xmlhttp.onreadystatechange = function()
-                {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-                    {
-                        document.getElementById("txtOrg").innerHTML = xmlhttp.responseText;
-                    }
-                }
-                xmlhttp.open("GET", "org.php?q=" + str, true);
-                xmlhttp.send();
-            }
-
-            function showOrgType(str)
-            {
-                var p = document.form1.div.value;
-                var q = document.form1.dis.value;
-
-                if (window.XMLHttpRequest)
-                {// code for IE7+, Firefox, Chrome, Opera, Safari
-                    xmlhttp = new XMLHttpRequest();
-                }
-                else
-                {// code for IE6, IE5
-                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-                xmlhttp.onreadystatechange = function()
-                {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-                    {
-                        document.getElementById("txtOrgType").innerHTML = xmlhttp.responseText;
-                    }
-                }
-                xmlhttp.open("GET", "orgtype.php?p=" + p, true);
-                xmlhttp.send();
-            }
-        </script>
-        <!-- Show Upazilla -->
-
-
-
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -279,58 +164,6 @@ $org_type_name = $_SESSION['org_type_name'];
                         <div class="row">
                             <div class="span9">
                                 <h3>Move Request</h3>
-<!--                                <form class="form-inline" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="form1">
-                                    <div class="control-group">
-                                        <select id="div" name="div" onChange="showDist(this.value)" class="editable editable-click">
-                                            <option value="0">--Select Division--</option>
-                                <?php
-                                $div = mysql_query("SELECT * FROM admin_division ORDER BY division_name");
-                                while ($rowdiv = mysql_fetch_assoc($div)) {
-                                    $s6 = "";
-                                    /* if($rorg1['division_bbs_code'] == $rowdiv['id'])
-                                      {
-                                      $s6 = "selected";
-                                      } */
-                                    ?>
-                                                    <option value="<?php echo $rowdiv['id']; ?>" <?php //echo $s6;      ?>><?php echo $rowdiv['division_name']; ?></option>
-                                    <?php
-                                }
-                                ?>
-                                        </select>
-                                    </div>
-                                    <div id="txtDist">
-                                        <select id="dis" name="dis">
-                                            <option value="0">--Select District--</option>
-                                        </select>
-                                    </div>
-                                    <br>
-                                    
-                                    <div id="txtUpa">
-                                     <select id="upa">
-                                     <option value="">--Select Upazila--</option>
-                                     </select>
-                                    </div>
-                                    
-                                    <div id="txtOrg">
-                                        <select id="org" name="org">
-                                            <option value="0">--Select Organization--</option>
-                                        </select>
-                                    </div>
-                                    <br>
-                                    <div id="txtOrgType">
-                                        <select id="orgtype" name="orgtype">
-                                            <option value="0">--Select Org. Type--</option>
-                                        </select>
-                                    </div>
-
-
-                                    <br>
-                                    <div class="control-group">
-                                        <input type="submit" class="btn btn-info btn-small">
-                                    </div>
-                                </form>
-                                -->
-
 
                                 <form class="form-inline" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="search">
                                     <div class="control-group">
@@ -545,17 +378,9 @@ $org_type_name = $_SESSION['org_type_name'];
                         organization_id: organization_id,
                         designation_id: designation_id
                     },
-//                    dataType: 'json',
-                    success: function(data)
-                    {
+                    success: function(data) {
                         $("#loading_content").hide();
                         $("#employee_list").html(data);
-//                        var employee_list = document.getElementById('employee_list');
-//                        employee_list.options.length = 0;
-//                        for (var i = 0; i < data.length; i++) {
-//                            var d = data[i];
-//                            employee_list.options.add(new Option(d.text, d.value));
-//                        }
                     }
                 });
             });
