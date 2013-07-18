@@ -24,8 +24,8 @@ $data[] = array(
 );
 while ($row = mysql_fetch_array($result)) {
     $data[] = array(
-        'text' => $row['org_name'],
-        'value' => $row['org_code']
+        'text' => $row['designation'],
+        'value' => $row['sanctioned_post_group_code']
     );
 }
 $json_data = json_encode($data);
