@@ -10,37 +10,6 @@ if ($org_code == "") {
 }
 //$org_code = $_SESSION['org_code'];
 $org_code = (int) $org_code;
-$username = getEmailAddressFromOrgCode($org_code);
-
-
-$oldPasswordCorrect = TRUE;
-$newPassMatched = TRUE;
-$passwordUpdated = FALSE;
-
-if ($_POST['changePassword'] == 'true') {
-    // Password Change request
-    $inputOldPassword = $_POST['inputOldPassword'];
-    $inputNewPassword = $_POST['inputNewPassword'];
-    $inputNewPassword2 = $_POST['inputNewPassword2'];
-
-//check if new password has been entered correctly or not
-    if ($inputNewPassword == $inputNewPassword2) {
-        $newPassMatched = TRUE;
-    } else {
-        $newPassMatched = FALSE;
-    }
-
-//  check if old passwprd is correc    
-    $oldPasswordCorrect = checkPasswordIsCorrect($username, $inputOldPassword);
-
-// update new password
-    if ($oldPasswordCorrect && $newPassMatched) {
-        updatePassword($username, $inputNewPassword);
-        $passwordUpdated = TRUE;
-    }
-}
-
-
 
 //org_code 10000001
 $sql = "SELECT * FROM organization WHERE  org_code =$org_code LIMIT 1";
@@ -52,6 +21,15 @@ $data = mysql_fetch_assoc($result);
 $org_name = $data['org_name'];
 $org_code = $data['org_code'];
 $org_type_name = $_SESSION['org_type_name'];
+
+
+$action = mysql_real_escape_string($_GET['action']);
+$staff_id = mysql_real_escape_string($_GET['staff_id']);
+$sanctioned_post_id = mysql_real_escape_string($_GET['sanctioned_post_id']);
+
+if ($action == 'move_out') {
+    $move_out_action = TRUE;
+}
 ?>
 
 
@@ -164,6 +142,17 @@ $org_type_name = $_SESSION['org_type_name'];
                         <div class="row">
                             <div class="span9">
                                 <h3>Move Request</h3>
+                                <?php
+                                if ($move_out_action):
+                                    $move_out_staff_name = getStaffNameFromStaffId($staff_id);
+                                    ?>
+                                    <div class="alert alert-warning">
+                                        <h4><strong>Move out</strong> request for,<br /> <a href="employee.php?staff_id=<?php echo "$staff_id"; ?>" target="_blank"><?php echo $move_out_staff_name . " (Id:$staff_id)</a>"; ?></h4>
+                                    </div>
+
+                                    <?php
+                                endif;
+                                ?>
 
                                 <form class="form-inline" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="search">
                                     <div class="control-group">
@@ -212,23 +201,67 @@ $org_type_name = $_SESSION['org_type_name'];
                                         <select id="sanctioned_post" name="org_list">
                                             <option value="0">Select Designation</option>                                        
                                         </select>
-                                        
+
                                     </div>
-                                        
+
                                     <div class="control-group">
-                                        <button id="show_employee" type="button" class="btn btn-primary">Show Employee List</button>
+                                        <?php if ($move_out_action): ?>
+                                            <button id="move_out_continue" type="button" class="btn btn-primary">Continue Move Out Request</button>
+
+                                        <?php else: ?>
+                                            <button id="show_employee" type="button" class="btn btn-primary">Show Employee List</button>
+
+                                        <?php endif; ?>
                                         <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                     </div>
-<!--                                    
-                                    <div class="control-group">
-                                        <select id="employee_list" name="employee_list">
-                                            <option value="0">Select Employee</option>                                        
-                                        </select>
-                                    </div>-->
+                                    <!--                                    
+                                                                        <div class="control-group">
+                                                                            <select id="employee_list" name="employee_list">
+                                                                                <option value="0">Select Employee</option>                                        
+                                                                            </select>
+                                                                        </div>-->
                                 </form>
                                 <div >
                                     <div id="employee_list">
-                                        
+
+                                    </div>
+                                    <div id="move_out_continue_details" class="alert alert-Warnign" style="display:none;">
+                                        <table class="table table-hover">
+                                            <tr>
+                                                <td colspan="3"><strong><?php echo $move_out_staff_name; ?></strong></td>                                                
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>Organization</td>
+                                                <td>Designation</td>
+                                            </tr>
+                                            <tr class="error">
+                                                <td>Present</td>
+                                                <td><?php echo $org_name ?></td>
+                                                <td><?php echo getDesignationNameFormSanctionedPostId($sanctioned_post_id) ?></td>
+                                            </tr>
+                                            <tr class="success">
+                                                <td>Move to</td>
+                                                <td><span id="mv_to_org"></span></td>
+                                                <td><span id="mv_to_des"></span></td>
+                                            </tr>
+                                        </table>
+                                        <form class="form-horizontal">
+                                            <div class="control-group">
+                                                <label class="control-label" for="govt_order">Govt. Order Number</label>
+                                                <div class="controls">
+                                                    <input type="text" id="govt_order" placeholder="Govt. Order Number">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="comment">Comment</label>
+                                                <div class="controls">
+                                                    <textarea id="comment" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                            
+                                        </form>
+                                        <button id="move_out_confirm" type="button" class="btn btn-warning">Confirm Move Out Request</button>
                                     </div>
                                 </div>
                             </div>
@@ -312,7 +345,7 @@ $org_type_name = $_SESSION['org_type_name'];
                     }
                 });
             });
-            
+
             // load organization 
             $('#org_agency').change(function() {
                 var div_id = $('#admin_division').val();
@@ -341,7 +374,7 @@ $org_type_name = $_SESSION['org_type_name'];
                     }
                 });
             });
-            
+
             // load designation 
             $('#org_list').change(function() {
                 var organization_id = $('#org_list').val();
@@ -365,7 +398,7 @@ $org_type_name = $_SESSION['org_type_name'];
                     }
                 });
             });
-            
+
             // load employee 
             $('#show_employee').click(function() {
                 var organization_id = $('#org_list').val();
@@ -377,6 +410,42 @@ $org_type_name = $_SESSION['org_type_name'];
                     data: {
                         organization_id: organization_id,
                         designation_id: designation_id
+                    },
+                    success: function(data) {
+                        $("#loading_content").hide();
+                        $("#employee_list").html(data);
+                    }
+                });
+            });
+
+            // load move_out_continue 
+            $('#move_out_continue').click(function() {
+                $("#move_out_continue_details").slideDown();
+                var mv_to_org = $("#org_list option:selected").text();
+                $("#mv_to_org").html(mv_to_org);
+
+                var mv_to_des = $("#sanctioned_post option:selected").text();
+                $("#mv_to_des").html(mv_to_des);
+            });
+
+            //move_out_confirm
+            $('#move_out_confirm').click(function() {
+                var staff_id = <?php echo "$staff_id"; ?>;
+                var sanctioned_post = <?php echo "$sanctioned_post_id"; ?>;
+                var new_sanctioned_post = $("#sanctioned_post").val();
+                var govt_order = $("#govt_order").val();
+                var comment = $("#comment").val();
+                
+                $("#loading_content").show();
+                $.ajax({
+                    type: "POST",
+                    url: 'post/post_move_request.php',
+                    data: {
+                        staff_id: staff_id,
+                        sanctioned_post: sanctioned_post,
+                        new_sanctioned_post: new_sanctioned_post,
+                        govt_order: govt_order,
+                        comment: comment
                     },
                     success: function(data) {
                         $("#loading_content").hide();
