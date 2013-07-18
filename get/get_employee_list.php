@@ -19,6 +19,12 @@ $sql = "SELECT
 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_designation_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
 echo "<table class=\"table table-striped table-hover\">";
+echo "<tr>";
+    echo "<th>Staff Id</th>";
+    echo "<th>Staff Name</th>";
+    echo "<th>Contact no.</th>";
+    echo "<th>PDS Code</th>";
+    echo "</tr>";
 while ($row = mysql_fetch_assoc($result)) {
 //    print_r($row);
     $sql1 = "SELECT
@@ -33,10 +39,10 @@ while ($row = mysql_fetch_assoc($result)) {
     $result1 = mysql_query($sql1) or die(mysql_error() . "<br /><br />Code:<b>get_designation_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql1<br />");
     
     $value = mysql_fetch_assoc($result1);
-    print_r($value);
+//    print_r($value);
     echo "<tr>";
     echo "<td>" . $value['staff_id'] . "</td>";
-    echo "<td>" . $value['staff_name'] . "</td>";
+    echo "<td><a href=\"employee.php?staff_id=" . $value['staff_id'] . "\" target=\"_blank\">" . $value['staff_name'] . "</a></td>";
     echo "<td>" . $value['contact_no'] . "</td>";
     echo "<td>" . $value['staff_pds_code'] . "</td>";
     echo "</tr>";
