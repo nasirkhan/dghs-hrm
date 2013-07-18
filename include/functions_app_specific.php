@@ -438,4 +438,13 @@ function getSanctionedPostIdFromStaffId($staff_id){
 
     return $data['id'];
 }
+
+function getStaffNameFromStaffId ($staff_id){
+    $sql = "SELECT staff_name FROM old_tbl_staff_organization WHERE staff_id= $staff_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['staff_name'];
+}
 ?>
