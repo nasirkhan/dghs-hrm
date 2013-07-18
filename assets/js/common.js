@@ -135,3 +135,12 @@ $(function() {
         source: 'get/get_division_name.php'
     });
 });
+
+$(function() {
+    $('#division_name').editable({
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_division_name.php'
+    });
+});

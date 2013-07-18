@@ -447,4 +447,32 @@ function getStaffNameFromStaffId ($staff_id){
 
     return $data['staff_name'];
 }
+
+function getOrgOwnarshioNameFromCode($org_ownarship_code){
+    $sql = "SELECT                
+                org_ownership_authority.org_ownership_authority_name
+            FROM
+                org_ownership_authority
+            WHERE
+                org_ownership_authority.org_ownership_authority_code = $org_ownarship_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgOwnarshioNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['org_ownership_authority_name'];
+}
+
+function getOrgFunctionNameFromCode($org_function_code){
+    $sql = "SELECT
+                org_organizational_functions.org_organizational_functions_name
+            FROM
+                org_organizational_functions
+            WHERE
+                org_organizational_functions.org_organizational_functions_code =  $org_function_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgFunctionNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['org_organizational_functions_name'];
+}
 ?>
