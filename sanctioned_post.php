@@ -171,7 +171,7 @@ $org_type_name = $_SESSION['org_type_name'];
 //                                            echo "<strong>First Level Division:</strong> ABCD, <strong>Second Level Division:</strong> EFGH<br />";
                                             echo "<div class=\"clearfix alert alert-info\" id=\"list-$designation_div_id\">";
                                             ?>
-                                    <div id="loading-<?php echo $designation_div_id; ?>"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</div>
+                                        <div id="loading-<?php echo $designation_div_id; ?>"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</div>
                                         <script type="text/javascript" language="javascript">
                                             $(document).ready(function() {
                                                 $("#btn-<?php echo $designation_div_id; ?>").click(function(event) {
@@ -183,19 +183,40 @@ $org_type_name = $_SESSION['org_type_name'];
                                                         success: function(data) {
                                                             $('#loading-<?php echo $designation_div_id; ?>').hide();
                                                             $('#list-<?php echo $designation_div_id; ?>').html("");
-                                                            $.each(data, function(k,v) {
+                                                            $.each(data, function(k, v) {
                                                                 var data_list = "<div class=\"row\">";
                                                                 data_list += "<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff:" + v.staff_id + ") </div>";
                                                                 data_list += "<div class=\"span3\">Class: " + v.class + "</div>";
-                                                                if (v.staff_id > 0){
+                                                                if (v.staff_id > 0) {
                                                                     data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
-                                                                    data_list += "<a href=\"move_request.php?action=move_out&staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
+                                                                    data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
+                                                                    data_list += "'<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
+                                                                    data_list += "<div class=\"modal-header\">";
+                                                                    data_list += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>";
+                                                                    data_list += "<h3 id=\"myModalLabel\">Move Out Type</h3>";
+                                                                    data_list += "</div>";
+                                                                    data_list += "<div class=\"modal-body\">";
+                                                                    data_list += "<ul>";
+                                                                    data_list += "<li><a href=\"#\">Promotion</a></li>";
+                                                                    data_list += "<li><a href=\"move_request.php?action=move_out&staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\" >Transfer</a></li>";
+                                                                    data_list += "<li><a href=\"#\">Retire</a></li>";
+                                                                    data_list += "<li><a href=\"#\">Suspend</a></li>";
+                                                                    data_list += "<li><a href=\"#\">Death</a></li>";
+                                                                    data_list += "</ul>";
+                                                                    data_list += "</div>";
+                                                                    data_list += "<div class=\"modal-footer\">";
+                                                                    data_list += "<button class=\"btn\" data-dismiss=\"modal\" aria-hidden=\"true\">Close</button>";
+                                                                    data_list += "<button class=\"btn btn-primary\">Save changes</button>";
+                                                                    data_list += "</div>";
+                                                                    data_list += "</div>";
+
+
                                                                 }
-                                                                else{
+                                                                else {
                                                                     data_list += "<div class=\"span2\"> <a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" >Add Profile</a></div>";
                                                                 }
-                                                                
-                                                                data_list += "</div>";                                                                
+
+                                                                data_list += "</div>";
                                                                 $("#list-<?php echo $designation_div_id; ?>").append(data_list);
                                                             });
                                                         }
@@ -234,7 +255,7 @@ $org_type_name = $_SESSION['org_type_name'];
                                                         success: function(data) {
                                                             $('#sp-loading-<?php echo $designation_div_id; ?>').hide();
                                                             $('#sp-content-<?php echo $designation_div_id; ?>').html("");
-                                                            $.each(data, function(k,v) {
+                                                            $.each(data, function(k, v) {
                                                                 var data_all = "<table class=\"table\">";
                                                                 data_all += "<tr><td><b>Sanctioned Post Id</b></td><td>" + v.sanctioned_post_id + "</td></tr>";
                                                                 data_all += "<tr><td><b>Organizaion Code</b></td><td><?php echo "$org_code"; ?></td></tr>";
@@ -258,7 +279,7 @@ $org_type_name = $_SESSION['org_type_name'];
                                                 });
                                             });
                                         </script>
-                                        <?php 
+                                        <?php
                                         echo "</td>";
                                         echo "</tr>";
                                     }
@@ -276,14 +297,14 @@ $org_type_name = $_SESSION['org_type_name'];
 
             </div>
 
-        </div>
+        </div> <!-- /container -->
 
 
-<!--        <div>
-            <pre>
-
-            </pre>
-        </div>-->
+        <!--        <div>
+                    <pre>
+        
+                    </pre>
+                </div>-->
         <!-- Footer
         ================================================== -->
         <footer class="footer">
