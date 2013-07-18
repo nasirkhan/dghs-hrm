@@ -9,6 +9,21 @@ $org_code = $_GET['org_code'];
 if ($org_code == "") {
     $org_code = $_SESSION['org_code'];
 }
+
+//  logged in user information
+$user_name = $_SESSION['username'];
+$user_type = $_SESSION['user_type'];
+
+if ($user_type == "admin") {
+    $isAdmin = TRUE;
+}
+
+
+// user can view only his own organization
+if ($_GET['org_code'] != $_SESSION['org_code'] && !$isAdmin) {
+    $org_code = $_SESSION['org_code'];
+}
+
 $org_code = (int) $org_code;
 
 
@@ -21,13 +36,6 @@ $data = mysql_fetch_assoc($result);
 $org_name = $data['org_name'];
 $org_type_name = $_SESSION['org_type_name'];
 
-//  logged in user information
-$user_name = $_SESSION['username'];
-$user_type = $_SESSION['user_type'];
-
-if ($user_type == "admin"){
-    $isAdmin = TRUE;
-}
 
 ?>
 <!DOCTYPE html>
@@ -182,212 +190,212 @@ if ($user_type == "admin"){
                         <div class="tab-content">
                             <div class="tab-pane active" id="basic-info">
                                 <?php if ($isAdmin): ?>
-                                <table class="table table-striped table-hover">
-                                    <tr>
-                                        <td width="50%"><strong>Organization Name</strong></td>
-                                        <td><a href="#" class="text-input" id="org_name" ><?php echo "$org_name"; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Organization Code</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Organization Type</strong></td>
-                                        <td><a href="#" class="" id="org_type_code" ><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Agency code</strong></td>
-                                        <td><?php echo $data['agency_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Agency Name</strong></td>
-                                        <td><a href="#" class="" id="agency_code" ><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Functional Code</strong></td>
-                                        <td><?php echo $data['org_function_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Functional Name</strong></td>
-                                        <td><a href="#" class="" id="org_function_code" ><?php echo getFunctionalNameFromFunctionalCode($data['org_function_code']); ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Organization Level</strong></td>
-                                        <td><a href="#" class="" id="org_level_code" ><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Health Care Level</strong></td>
-                                        <td><?php // echo $data['org_code'];  ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Special service / status of the hospital / clinic</strong></td>
-                                        <td><?php // echo $data['org_code'];  ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Year Established</strong></td>
-                                        <td><a href="#" class="text-input" id="year_established" ><?php echo $data['year_established']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Urban/Rural Location</strong></td>
-                                        <td><?php // echo $data['org_code'];  ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Division Name</strong></td>
-                                        <td><a href="#" class="" id="division_name" ><?php echo getDivisionNamefromCode($data['division_code']); ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Division Code</strong></td>
-                                        <td><?php echo $data['division_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>District Name</strong></td>
-                                        <td><a href="#" class="" id="district_name" ><?php echo getDistrictNamefromCode($data['district_code']); ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>District Code</strong></td>
-                                        <td><?php echo $data['district_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Upaziala Name</strong></td>
-                                        <td><a href="#" class="" id="upazila_thana_name" ><?php echo $data['upazila_thana_name']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Upazila Code</strong></td>
-                                        <td><?php echo $data['upazila_thana_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Union Name</strong></td>
-                                        <td><a href="#" class="" id="union_name" ><?php echo $data['union_name']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Union Code</strong></td>
-                                        <td><?php echo $data['union_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Ward</strong></td>
-                                        <td><a href="#" class="text-input" id="ward_code" ><?php echo $data['ward_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Village/Street</strong></td>
-                                        <td><a href="#" class="text-input" id="village_code" ><?php echo $data['village_code']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>House No</strong></td>
-                                        <td><a href="#" class="text-input" id="house_number" ><?php echo $data['house_number']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Longitude</strong></td>
-                                        <td><a href="#" class="text-input" id="longitude" ><?php echo $data['longitude']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Latitude</strong></td>
-                                        <td><a href="#" class="text-input" id="latitude" ><?php echo $data['latitude']; ?></a></td>
-                                    </tr>
-                                </table>
-                            <?php else: ?>
-                                <table class="table table-striped table-hover">
-                                    <tr>
-                                        <td width="50%"><strong>Organization Name</strong></td>
-                                        <td><?php echo "$org_name"; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Organization Code</strong></td>
-                                        <td><?php echo $data['org_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Organization Type</strong></td>
-                                        <td><?php echo $data['org_type_name']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Agency code</strong></td>
-                                        <td><?php echo $data['agency_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Agency Name</strong></td>
-                                        <td><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Functional Code</strong></td>
-                                        <td><?php echo $data['org_function_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Functional Name</strong></td>
-                                        <td><?php echo getFunctionalNameFromFunctionalCode($data['org_function_code']); ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Organization Level</strong></td>
-                                        <td><?php echo $data['org_level_name']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Health Care Level</strong></td>
-                                        <td><?php // echo $data['org_code'];  ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Special service / status of the hospital / clinic</strong></td>
-                                        <td><?php // echo $data['org_code'];  ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Year Established</strong></td>
-                                        <td><?php echo $data['year_established']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Urban/Rural Location</strong></td>
-                                        <td><?php // echo $data['org_code'];  ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Division Name</strong></td>
-                                        <td><?php echo $data['division_name']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Division Code</strong></td>
-                                        <td><?php echo $data['division_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>District Name</strong></td>
-                                        <td><?php echo $data['district_name']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>District Code</strong></td>
-                                        <td><?php echo $data['district_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Upaziala Name</strong></td>
-                                        <td><?php echo $data['upazila_thana_name']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Upazila Code</strong></td>
-                                        <td><?php echo $data['upazila_thana_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Union Name</strong></td>
-                                        <td><?php echo $data['union_name']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Union Code</strong></td>
-                                        <td><?php echo $data['union_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Ward</strong></td>
-                                        <td><?php echo $data['ward_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Village/Street</strong></td>
-                                        <td><?php echo $data['village_code']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>House No</strong></td>
-                                        <td><?php echo $data['house_number']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Longitude</strong></td>
-                                        <td><?php echo $data['longitude']; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Latitude</strong></td>
-                                        <td><?php echo $data['latitude']; ?></td>
-                                    </tr>
-                                </table>                             
-                            <?php endif; ?>
+                                    <table class="table table-striped table-hover">
+                                        <tr>
+                                            <td width="50%"><strong>Organization Name</strong></td>
+                                            <td><a href="#" class="text-input" id="org_name" ><?php echo "$org_name"; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Organization Code</strong></td>
+                                            <td><?php echo $data['org_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Organization Type</strong></td>
+                                            <td><a href="#" class="" id="org_type_code" ><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Agency code</strong></td>
+                                            <td><?php echo $data['agency_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Agency Name</strong></td>
+                                            <td><a href="#" class="" id="agency_code" ><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Functional Code</strong></td>
+                                            <td><?php echo $data['org_function_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Functional Name</strong></td>
+                                            <td><a href="#" class="" id="org_function_code" ><?php echo getFunctionalNameFromFunctionalCode($data['org_function_code']); ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Organization Level</strong></td>
+                                            <td><a href="#" class="" id="org_level_code" ><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Health Care Level</strong></td>
+                                            <td><?php // echo $data['org_code'];   ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Special service / status of the hospital / clinic</strong></td>
+                                            <td><?php // echo $data['org_code'];   ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Year Established</strong></td>
+                                            <td><a href="#" class="text-input" id="year_established" ><?php echo $data['year_established']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Urban/Rural Location</strong></td>
+                                            <td><?php // echo $data['org_code'];   ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Division Name</strong></td>
+                                            <td><a href="#" class="" id="division_name" ><?php echo getDivisionNamefromCode($data['division_code']); ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Division Code</strong></td>
+                                            <td><?php echo $data['division_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>District Name</strong></td>
+                                            <td><a href="#" class="" id="district_name" ><?php echo getDistrictNamefromCode($data['district_code']); ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>District Code</strong></td>
+                                            <td><?php echo $data['district_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Upaziala Name</strong></td>
+                                            <td><a href="#" class="" id="upazila_thana_name" ><?php echo $data['upazila_thana_name']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Upazila Code</strong></td>
+                                            <td><?php echo $data['upazila_thana_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Union Name</strong></td>
+                                            <td><a href="#" class="" id="union_name" ><?php echo $data['union_name']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Union Code</strong></td>
+                                            <td><?php echo $data['union_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Ward</strong></td>
+                                            <td><a href="#" class="text-input" id="ward_code" ><?php echo $data['ward_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Village/Street</strong></td>
+                                            <td><a href="#" class="text-input" id="village_code" ><?php echo $data['village_code']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>House No</strong></td>
+                                            <td><a href="#" class="text-input" id="house_number" ><?php echo $data['house_number']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Longitude</strong></td>
+                                            <td><a href="#" class="text-input" id="longitude" ><?php echo $data['longitude']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Latitude</strong></td>
+                                            <td><a href="#" class="text-input" id="latitude" ><?php echo $data['latitude']; ?></a></td>
+                                        </tr>
+                                    </table>
+                                <?php else: ?>
+                                    <table class="table table-striped table-hover">
+                                        <tr>
+                                            <td width="50%"><strong>Organization Name</strong></td>
+                                            <td><?php echo "$org_name"; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Organization Code</strong></td>
+                                            <td><?php echo $data['org_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Organization Type</strong></td>
+                                            <td><?php echo $data['org_type_name']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Agency code</strong></td>
+                                            <td><?php echo $data['agency_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Agency Name</strong></td>
+                                            <td><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Functional Code</strong></td>
+                                            <td><?php echo $data['org_function_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Functional Name</strong></td>
+                                            <td><?php echo getFunctionalNameFromFunctionalCode($data['org_function_code']); ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Organization Level</strong></td>
+                                            <td><?php echo $data['org_level_name']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Health Care Level</strong></td>
+                                            <td><?php // echo $data['org_code'];   ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Special service / status of the hospital / clinic</strong></td>
+                                            <td><?php // echo $data['org_code'];   ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Year Established</strong></td>
+                                            <td><?php echo $data['year_established']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Urban/Rural Location</strong></td>
+                                            <td><?php // echo $data['org_code'];   ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Division Name</strong></td>
+                                            <td><?php echo $data['division_name']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Division Code</strong></td>
+                                            <td><?php echo $data['division_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>District Name</strong></td>
+                                            <td><?php echo $data['district_name']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>District Code</strong></td>
+                                            <td><?php echo $data['district_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Upaziala Name</strong></td>
+                                            <td><?php echo $data['upazila_thana_name']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Upazila Code</strong></td>
+                                            <td><?php echo $data['upazila_thana_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Union Name</strong></td>
+                                            <td><?php echo $data['union_name']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Union Code</strong></td>
+                                            <td><?php echo $data['union_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Ward</strong></td>
+                                            <td><?php echo $data['ward_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Village/Street</strong></td>
+                                            <td><?php echo $data['village_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>House No</strong></td>
+                                            <td><?php echo $data['house_number']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Longitude</strong></td>
+                                            <td><?php echo $data['longitude']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Latitude</strong></td>
+                                            <td><?php echo $data['latitude']; ?></td>
+                                        </tr>
+                                    </table>                             
+                                <?php endif; ?>
                             </div>
                             <div class="tab-pane" id="contact-info">
                                 <table class="table table-striped table-hover">
@@ -450,11 +458,11 @@ if ($user_type == "admin"){
                                     <!--
                                     <tr>
                                         <td><strong>Website2</strong></td>
-                                        <td><?php // echo $data['org_code'];  ?></td>
+                                        <td><?php // echo $data['org_code'];   ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Website3</strong></td>
-                                        <td><?php // echo $data['district_code'];  ?></td>
+                                        <td><?php // echo $data['district_code'];   ?></td>
                                     </tr>
                                     -->
                                     <tr>
@@ -503,35 +511,35 @@ if ($user_type == "admin"){
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Fuel source</strong></td>
-                                        <td><a href="#" class="" id="fuel_source_code" ><?php echo getFuelSourceNameFromCode($data['fuel_source_code']);  ?></a></td>
+                                        <td><a href="#" class="" id="fuel_source_code" ><?php echo getFuelSourceNameFromCode($data['fuel_source_code']); ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Laundry system</strong></td>
-                                        <td><a href="#" class="" id="laundry_code" ><?php echo $data['laundry_code'];  ?></a></td>
+                                        <td><a href="#" class="" id="laundry_code" ><?php echo $data['laundry_code']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Autoclave system</strong></td>
-                                        <td><a href="#" class="" id="autoclave_code" ><?php echo $data['autoclave_code'];  ?></a></td>
+                                        <td><a href="#" class="" id="autoclave_code" ><?php echo $data['autoclave_code']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Waste disposal</strong></td>
-                                        <td><a href="#" class="" id="waste_disposal_code" ><?php echo $data['waste_disposal_code'];  ?></a></td>
+                                        <td><a href="#" class="" id="waste_disposal_code" ><?php echo $data['waste_disposal_code']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Sanctioned office equipment</strong></td>
-                                        <td><a href="#" class="text-input" id="sanctioned_office_equipment" ><?php echo $data['sanctioned_office_equipment'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="sanctioned_office_equipment" ><?php echo $data['sanctioned_office_equipment']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Sanctioned vehicles</strong></td>
-                                        <td><a href="#" class="text-input" id="sanctioned_vehicles" ><?php echo $data['sanctioned_vehicles'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="sanctioned_vehicles" ><?php echo $data['sanctioned_vehicles']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Sanctioned Bed No</strong></td>
-                                        <td><a href="#" class="text-input" id="sanctioned_bed_number" ><?php echo $data['sanctioned_bed_number'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="sanctioned_bed_number" ><?php echo $data['sanctioned_bed_number']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Other miscellaneous issues</strong></td>
-                                        <td><a href="#" class="text-input" id="other_miscellaneous_issues" ><?php echo $data['other_miscellaneous_issues'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="other_miscellaneous_issues" ><?php echo $data['other_miscellaneous_issues']; ?></a></td>
                                     </tr>
                                 </table>
                             </div>
@@ -540,36 +548,36 @@ if ($user_type == "admin"){
                                     <!--
                                     <tr>
                                         <td width="60%"><strong>Special service / status of the hospital / clinic</strong></td>
-                                        <td><a href="#" class="text-input" id="land_mutation_number" ><?php // echo $data['org_code'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_mutation_number" ><?php // echo $data['org_code'];   ?></a></td>
                                     </tr>
                                     -->
                                     <tr>
                                         <td width="60%"><strong>Permission/Approval/License information</strong></td>
-                                        <td><a href="#" class="text-input" id="permission_approval_license_info_code" ><?php echo $data['permission_approval_license_info_code'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_info_code" ><?php echo $data['permission_approval_license_info_code']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="60%"><strong>Date of Permission/Approval/License information</strong></td>
-                                        <td><a href="#" class="text-input" id="permission_approval_license_info_date" ><?php echo $data['permission_approval_license_info_date'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_info_date" ><?php echo $data['permission_approval_license_info_date']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="60%"><strong>Permission/Approval/License Type</strong></td>
-                                        <td><a href="#" class="text-input" id="permission_approval_license_type" ><?php echo $data['permission_approval_license_type'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_type" ><?php echo $data['permission_approval_license_type']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="60%"><strong>Permission/ Approval/ License Authority</strong></td>
-                                        <td><a href="#" class="text-input" id="permission_approval_license_aithority" ><?php echo $data['permission_approval_license_aithority'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_aithority" ><?php echo $data['permission_approval_license_aithority']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="60%"><strong>Permission/ Approval/ License No</strong></td>
-                                        <td><a href="#" class="text-input" id="permission_approval_license_number" ><?php echo $data['permission_approval_license_number'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_number" ><?php echo $data['permission_approval_license_number']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="60%"><strong>Next renewal Date</strong></td>
-                                        <td><a href="#" class="text-input" id="permission_approval_license_next_renewal_date" ><?php echo $data['permission_approval_license_next_renewal_date'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_next_renewal_date" ><?php echo $data['permission_approval_license_next_renewal_date']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="60%"><strong>Conditions given for permission/ approval/ license or renewal thereof </strong></td>
-                                        <td><a href="#" class="text-input" id="permission_approval_license_conditions" ><?php echo $data['permission_approval_license_conditions'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="permission_approval_license_conditions" ><?php echo $data['permission_approval_license_conditions']; ?></a></td>
                                     </tr>
                                 </table>
                             </div>
@@ -578,44 +586,44 @@ if ($user_type == "admin"){
                                     <!--
                                     <tr>
                                         <td width="50%"><strong>Land Information</strong></td>
-                                        <td><a href="#" class="text-input" id="land_info_code" ><?php echo $data['land_info_code'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_info_code" ><?php echo $data['land_info_code']; ?></a></td>
                                     </tr>
                                     -->
                                     <tr>
                                         <td width="50%"><strong>Land size (in acre)</strong></td>
-                                        <td><a href="#" class="text-input" id="land_size" ><?php echo $data['land_size'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_size" ><?php echo $data['land_size']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Mouza name</strong></td>
-                                        <td><a href="#" class="text-input" id="land_mouza_name" ><?php echo $data['land_mouza_name'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_mouza_name" ><?php echo $data['land_mouza_name']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Geocode of Mouza</strong></td>
-                                        <td><a href="#" class="text-input" id="land_mouza_geo_code" ><?php echo $data['land_mouza_geo_code'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_mouza_geo_code" ><?php echo $data['land_mouza_geo_code']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>JL No.</strong></td>
-                                        <td><a href="#" class="text-input" id="land_jl_number" ><?php echo $data['land_jl_number'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_jl_number" ><?php echo $data['land_jl_number']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Functional Code</strong></td>
-                                        <td><a href="#" class="text-input" id="land_functional_code" ><?php echo $data['land_functional_code'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_functional_code" ><?php echo $data['land_functional_code']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>RS Dag No</strong></td>
-                                        <td><a href="#" class="text-input" id="land_rs_dag_number" ><?php echo $data['land_rs_dag_number'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_rs_dag_number" ><?php echo $data['land_rs_dag_number']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Khatian No.</strong></td>
-                                        <td><a href="#" class="text-input" id="land_kharian_number" ><?php echo $data['land_kharian_number'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_kharian_number" ><?php echo $data['land_kharian_number']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Mutation No.</strong></td>
-                                        <td><a href="#" class="text-input" id="land_other_info" ><?php echo $data['land_other_info'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_other_info" ><?php echo $data['land_other_info']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Other land information.</strong></td>
-                                        <td><a href="#" class="text-input" id="land_mutation_number" ><?php echo $data['land_mutation_number'];  ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_mutation_number" ><?php echo $data['land_mutation_number']; ?></a></td>
                                     </tr>
                                 </table>
                             </div>
@@ -708,10 +716,10 @@ if ($user_type == "admin"){
         <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
         <script>
             $.fn.editable.defaults.mode = 'inline';
-            
+
             var org_code = <?php echo $org_code; ?>;
 
-            
+
         </script>
         <script src="assets/js/common.js"></script>
     </body>
