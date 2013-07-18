@@ -385,15 +385,11 @@ $org_type_name = $_SESSION['org_type_name'];
                                         <td><a href="#" class="" id="ownership_code" ><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></a></td>
                                     </tr>
                                     <tr>
-                                        <td width="50%"><strong>Organization Function</strong></td>
-                                        <td><?php echo getOrgFunctionNameFromCode($data['org_function_code']); ?></td>
-                                    </tr>
-                                    <tr>
                                         <td width="50%"><strong>Organization Type</strong></td>
                                         <td><a href="#" class="" id="org_type_code" ><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></a></td>
                                     </tr>
                                     <tr>
-                                        <td width="50%"><strong>Functional Name</strong></td>
+                                        <td width="50%"><strong>Organization Function</strong></td>
                                         <td><a href="#" class="" id="org_function_code" ><?php echo getFunctionalNameFromFunctionalCode($data['org_function_code']); ?></a></td>
                                     </tr>
                                     <tr>
@@ -402,11 +398,11 @@ $org_type_name = $_SESSION['org_type_name'];
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Health Care Level</strong></td>
-                                        <td><?php echo $data['org_healthcare_level_code']; ?></td>
+                                        <td><a href="#" class="" id="org_healthcare_level_code" ><?php echo $data['org_healthcare_level_code']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Special service / status of the hospital / clinic</strong></td>
-                                        <td><?php echo $data['special_service_code']; ?></td>
+                                        <td><a href="#" class="" id="special_service_code" ><?php echo $data['special_service_code']; ?></a></td>
                                     </tr>
                                 </table>
                             </div>
