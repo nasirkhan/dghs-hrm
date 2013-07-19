@@ -206,7 +206,6 @@ $org_type_name = $_SESSION['org_type_name'];
                                                                     data_list += "</div>";
                                                                     data_list += "<div class=\"modal-footer\">";
                                                                     data_list += "<button class=\"btn\" data-dismiss=\"modal\" aria-hidden=\"true\">Close</button>";
-                                                                    data_list += "<button class=\"btn btn-primary\">Save changes</button>";
                                                                     data_list += "</div>";
                                                                     data_list += "</div>";
 
