@@ -43,14 +43,17 @@ if ($_POST['changePassword'] == 'true'){
 
 
 //org_code 10000001
-$sql = "SELECT * FROM organization WHERE  org_code =$org_code LIMIT 1";
-$result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+//$sql = "SELECT * FROM organization WHERE  org_code =$org_code LIMIT 1";
+//$result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+//
+//// data fetched form organization table
+//$data = mysql_fetch_assoc($result);
+//
+//$org_name = $data['org_name'];
+//$org_code = $data['org_code'];
 
-// data fetched form organization table
-$data = mysql_fetch_assoc($result);
-
-$org_name = $data['org_name'];
-$org_code = $data['org_code'];
+$org_code = $_SESSION['org_code'];
+$org_name = $_SESSION['org_name'];
 $org_type_name = $_SESSION['org_type_name'];
 ?>
 <!DOCTYPE html>

@@ -81,7 +81,7 @@ function getOrgNameFormOrgCode($org_code) {
  */
 function getOrgNameAndOrgTypeCodeFormOrgCode($org_code) {
     $sql = "SELECT organization.org_name,organization.org_type_code FROM organization WHERE organization.org_code = $org_code";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgNameFormOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgNameAndOrgTypeCodeFormOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $org_data = mysql_fetch_assoc($result);
 
