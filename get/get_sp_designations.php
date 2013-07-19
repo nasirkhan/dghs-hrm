@@ -38,7 +38,7 @@ while ($data_list = mysql_fetch_assoc($result)) {
     echo "<tr>";
     echo "<td width=\"50%\">" . $data_list['designation'] . " (Staff Id:" . $data_list['staff_id'] . ")</td>";
     echo "<td>";
-    echo "<button class=\"btn btn-small\" id=\"designation" . $data_list['designation_code'] . "\"type=\"button\">View Sanctioned Posts</button>";
+    echo "<button class=\"btn btn-small btn-warning\" id=\"designation" . $data_list['designation_code'] . "\"type=\"button\"><i class=\"icon-list-ul\"></i> View Sanctioned Posts</button>";
     echo "</td>";
     echo "</tr>";
     echo "<tr>";
@@ -55,8 +55,7 @@ while ($data_list = mysql_fetch_assoc($result)) {
                 data: {
                     first_level_id: "<?php echo $first_level_id; ?>",
                     second_level_id: "<?php echo $data_list['second_level_id']; ?>",
-                    div: "div_2nd_",
-                    loading: "loading-2nd-"
+                    designation: "<?php echo $data_list['designation']; ?>"
                 },
                 success: function(data) {
                     $("#loading-desig<?php echo $data_list['designation_code']; ?>").hide();
