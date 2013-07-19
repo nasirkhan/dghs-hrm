@@ -17,7 +17,7 @@ $org_code = (int) $org_code;
 //$result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
 // data fetched form organization table
-$data = mysql_fetch_assoc($result);
+//$data = mysql_fetch_assoc($result);
 
 $org_name = $_SESSION['org_name'];
 //$org_code = $data['org_code'];
@@ -142,6 +142,13 @@ if ($action == 'move_out') {
 
                         <div class="row">
                             <div class="span9">
+<!--                                <p>
+                                <pre>
+                                <?php 
+                                print_r($_SESSION);
+                                ?>
+                                </pre>
+                                </p>-->
                                 <h3>Move Request</h3>
                                 <?php
                                 if ($move_out_action):
@@ -216,7 +223,8 @@ if ($action == 'move_out') {
                                         <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                     </div>
                                     <!--                                    
-                                                                        <div class="control-group">
+                                                                        
+                                    <div class="control-group">
                                                                             <select id="employee_list" name="employee_list">
                                                                                 <option value="0">Select Employee</option>                                        
                                                                             </select>

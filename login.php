@@ -34,6 +34,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         $_SESSION['org_name'] = getOrgNameFormOrgCode($data['org_code']);
         $_SESSION['org_type_name'] = getOrgTypeNameFormOrgCode($data['org_code']);
         $_SESSION['logged'] = TRUE;
+        session_write_close();
 
         $login_sussess = 1;
 
