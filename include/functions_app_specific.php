@@ -475,4 +475,167 @@ function getOrgFunctionNameFromCode($org_function_code){
 
     return $data['org_organizational_functions_name'];
 }
+
+// get post type
+function getPostTypeFromId($post_type_id){
+    $sql = "SELECT
+            staff_post_type.post_type_name
+            FROM
+            staff_post_type
+            WHERE
+            staff_post_type.post_type_id = $post_type_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getPostTypeFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['post_type_name'];
+}
+
+//staff_posting_type
+function getStaffPostingTypeFormId($posting_type_id){
+    $sql = "SELECT
+            staff_posting_type.staff_posting_type_name
+            FROM
+            staff_posting_type
+            WHERE
+            staff_posting_type.staff_posting_type_id = $posting_type_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getStaffPostingTypeFormId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['staff_posting_type_name'];
+}
+
+
+function getStaffDepertmentFromDepertmentId($depertment_id){
+    $sql = "SELECT
+            very_old_departments.`name`
+            FROM
+            very_old_departments
+            WHERE
+            very_old_departments.department_id = $depertment_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getStaffPostingTypeFormId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['name'];
+}
+
+
+function getSalaryDrawTypeNameFromID($ID){
+    $sql = "SELECT
+            staff_salary_draw_type.salary_draw_type_name
+            FROM
+            staff_salary_draw_type
+            WHERE
+            staff_salary_draw_type.salary_draw_type_id = $ID LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['salary_draw_type_name'];
+}
+
+function getSexNameFromId($id){
+    switch ($id){
+        case 1: return "Male";
+        case 2: return "Female";
+        case 3: return "Other";
+    }
+}
+
+function getReligeonNameFromId($id){
+    switch ($id){
+        case 1: return "Muslim";
+        case 2: return "Hindu";
+        case 3: return "Christian";
+        case 4: return "Buddha";
+        case 5: return "Other";
+    }
+}
+
+function getMaritalStatusFromId($id){
+    switch ($id){
+        case 1: return "Married";
+        case 2: return "Unmarried";
+        case 3: return "Single";
+        case 4: return "Widow/Widower";
+        case 5: return "Devorced";
+        case 6: return "Separated";
+        case 7: return "Other";
+    }
+}
+
+function getTribalNameFromId($id){
+    switch ($id){
+        case 1: return "Tribal";
+        case 2: return "Not Tribal";
+    }
+}
+
+
+// @todo must replace with database
+function getProfessionalCategoryFromId($id){
+    switch ($id){
+        case 1: return "Medical Technologist";
+        case 2: return "Physican";
+        case 3: return "Other";
+        case 4: return "Nurse";
+        case 5: return "Field Staff";
+        case 6: return "Nurse";
+        case 7: return "Other";
+        case 8: return "Other";
+        case 9: return "Other";
+    }
+}
+
+// @todo must replace with database
+function getDesignationTypeNameFromId($id){
+    switch ($id){
+        case 1: return "Regular";
+        case 2: return "Current Charge";
+        case 3: return "In-Charge";
+        case 4: return "Current Pay";
+        case 5: return "Fixed Pay";
+        case 6: return "Honorary";
+        case 7: return "Other";
+    }
+}
+
+// @todo must replace with database
+function getJobPostingNameFromId($id){
+    switch ($id){
+        case 1: return "Regular";
+        case 2: return "Against the post";
+        case 3: return "Current Charge";
+        case 4: return "Supy. Duth";
+        case 5: return "Fixed Pay";
+        case 6: return "Contract Pay";
+        case 7: return "Emeritus";
+        case 8: return "OSD";
+        case 9: return "Other";
+    }
+}
+
+// @todo must replace with database
+function getWorkingStatusNameFromId($id){
+    switch ($id){
+        case 1: return "Works by physical presence in the department";
+        case 2: return "Works elsewhere in this organization";
+        case 3: return "On deputation";
+        case 4: return "On Leave";
+        case 5: return "On Suspension";
+        case 6: return "Unauthorized Absent";
+    }
+}
+
+// @todo must replace with database
+function getDrawTypeNameFromId($id){
+    switch ($id){
+        case 1: return "Revenue";
+        case 2: return "Development";
+        case 3: return "Other Source";
+        case 4: return "Honorary";
+    }
+}
 ?>
