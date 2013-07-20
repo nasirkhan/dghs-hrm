@@ -638,4 +638,18 @@ function getDrawTypeNameFromId($id){
         case 4: return "Honorary";
     }
 }
+
+function getFirstLevelNameFromID($first_level_id){
+    $sql = "SELECT
+                sanctioned_post_first_level.first_level_name
+            FROM
+                sanctioned_post_first_level
+            WHERE
+                sanctioned_post_first_level.first_level_code = $first_level_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['first_level_name'];
+}
 ?>

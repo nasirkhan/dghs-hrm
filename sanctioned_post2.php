@@ -136,6 +136,7 @@ $org_type_name = $_SESSION['org_type_name'];
                         <div class="row">
                             <div class="span9">
                                 <h3>Sanctioned Post</h3>
+                                <h5>First Level Divisions</h5>
                                 <div class="accordion" id="sanctioned_post_divisions">
                                     <?php
                                     $sql = "SELECT total_manpower_imported_sanctioned_post_copy.first_level_name,
