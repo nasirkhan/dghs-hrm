@@ -35,6 +35,8 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_sp_s
 //}
 
 echo "<table class=\"table\">";
+//echo "<caption>Second Level Divisions of $first_level_id</caption>";
+echo "<h5>Second Level Divisions of \"" . getFirstLevelNameFromID($first_level_id) . "\"</h5>";
 while ($data_list = mysql_fetch_assoc($result)) {
     echo "<tr class=\"success\">";
     echo "<td width=\"50%\">" . $data_list['second_level_name'] . " (Code:" . $data_list['second_level_id'] . ")</td>";
