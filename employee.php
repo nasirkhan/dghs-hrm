@@ -267,7 +267,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><?php echo $data['posting_status']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Staff PDS Code</strong></td>
+                                            <td width="50%"><strong><a href="#">Staff PDS Code</a></strong></td>
                                             <td><?php echo $data['staff_pds_code']; ?></td>
                                         </tr>
                                         <tr>
@@ -407,7 +407,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" class="text-input" data-type="text" id="staff_name"><?php echo $data['staff_name']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>PDS Code</strong></td>
+                                            <td width="50%"><strong><a href="#">PDS Code</a></strong></td>
                                             <td><a href="#" class="text-input" data-type="text" id="staff_pds_code"><?php echo $data['staff_pds_code']; ?></a></td>
                                         </tr>
                                         <tr>
