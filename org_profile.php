@@ -222,21 +222,18 @@ if ($org_type_code == 1039) {
                                             <td><a href="#" class="text-input" id="financial_revenue_code" ><?php echo $data['financial_revenue_code']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <?php // @todo enable datepicker  ?>
                                             <td width="50%"><strong>Year Established</strong></td>
-                                            <td><a href="#" class="datepicker-years" id="year_established" ><?php echo $data['year_established']; ?></a></td>
+                                            <td><a href="#" class="text-input" data-placeholder="Example, 2011" id="year_established" ><?php echo $data['year_established']; ?></a></td>
                                         </tr>
                                         <tr  class="success">
                                             <td width="50%" colspan="2"><strong>Urban/Rural Location Information of the Organization</strong></td>
-                                            <!--<td><?php // echo $data['org_code'];     ?></td>-->
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Urban/Rural Location</strong></td>
-                                            <td><?php // echo $data['org_code'];     ?></td>
+                                            <td width="50%">Urban/Rural Location</td>
+                                            <td><a href="#" class="" id="org_location_type" ><?php echo $data['org_location_type']; ?></a></td>
                                         </tr>                                        
-                                        <tr  class="success">
+                                        <tr class="success">
                                             <td width="50%" colspan="2"><strong>Regional location of the organization</strong></td>
-                                            <!--<td><?php // echo $data['org_code'];     ?></td>-->
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Division Name</strong></td>
@@ -248,7 +245,7 @@ if ($org_type_code == 1039) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>District Name</strong></td>
-                                            <td><a href="#" class="" id="district_name" ><?php echo getDistrictNamefromCode($data['district_code']); ?></a></td>
+                                            <td><a href="#" class="" id="district_name" ><?php echo getDistrictNamefromCode($data['district_code']); ?></a></td>                                            
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>District Code</strong></td>
@@ -271,7 +268,7 @@ if ($org_type_code == 1039) {
                                             <td><?php echo $data['union_code']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Ward</strong></td>
+                                            <td width="50%"><strong>Ward (New Ward Number)</strong></td>
                                             <td><a href="#" class="text-input" id="ward_code" ><?php echo $data['ward_code']; ?></td>
                                         </tr>
                                         <tr>
@@ -319,15 +316,15 @@ if ($org_type_code == 1039) {
                                         </tr>
                                         <tr  class="success">
                                             <td width="50%" colspan="2"><strong>Urban/Rural Location Information of the Organization</strong></td>
-                                            <!--<td><?php // echo $data['org_code'];     ?></td>-->
+                                            <!--<td><?php // echo $data['org_code'];      ?></td>-->
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Urban/Rural Location</strong></td>
-                                            <td><?php // echo $data['org_code'];     ?></td>
+                                            <td><?php // echo $data['org_code'];      ?></td>
                                         </tr>
                                         <tr  class="success">
                                             <td width="50%" colspan="2"><strong>Regional location of the organization</strong></td>
-                                            <!--<td><?php // echo $data['org_code'];     ?></td>-->
+                                            <!--<td><?php // echo $data['org_code'];      ?></td>-->
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Division Name</strong></td>
@@ -417,7 +414,7 @@ if ($org_type_code == 1039) {
                                     <!--
                                     <tr>
                                         <td width="60%"><strong>Special service / status of the hospital / clinic</strong></td>
-                                        <td><a href="#" class="text-input" id="land_mutation_number" ><?php // echo $data['org_code'];     ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_mutation_number" ><?php // echo $data['org_code'];      ?></a></td>
                                     </tr>
                                     -->
                                     <tr>
@@ -511,11 +508,11 @@ if ($org_type_code == 1039) {
                                     <!--
                                     <tr>
                                         <td><strong>Website2</strong></td>
-                                        <td><?php // echo $data['org_code'];     ?></td>
+                                        <td><?php // echo $data['org_code'];      ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Website3</strong></td>
-                                        <td><?php // echo $data['district_code'];     ?></td>
+                                        <td><?php // echo $data['district_code'];      ?></td>
                                     </tr>
                                     -->
                                     <tr>
@@ -535,50 +532,50 @@ if ($org_type_code == 1039) {
                                         <td><a href="#" class="text-input" id="youtube_page" ><?php echo $data['youtube_page']; ?></a></td>
                                     </tr>
                                     <?php if ($isCommunityClinic): ?>
-                                    <tr class="success">
-                                        <td><strong>Additional Information</strong></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Name of CHCP</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_chcp_name" ><?php echo $data['additional_chcp_name']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Contact no of CHCP</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_chcp_contact" ><?php echo $data['additional_chcp_contact']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Community group information</strong></td>
-                                        <td><!-- <a href="#" class="text-input" id="additional_community_group_info" ><?php echo $data['additional_community_group_info']; ?></a> --></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Name of Chairman (CG)</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_chairnam_name" ><?php echo $data['additional_chairnam_name']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Contact No (CG)</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_chairman_contact" ><?php echo $data['additional_chairman_contact']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Community Support group information </strong></td>
-                                        <td><!-- <a href="#" class="text-input" id="additional_chairman_community_support_info" ><?php echo $data['additional_chairman_community_support_info']; ?></a> --></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Name of Chairman (CSG-1)</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_csg_1_name" ><?php echo $data['additional_csg_1_name']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Contact No (CSG-1)</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_csg_1_contact" ><?php echo $data['additional_csg_1_contact']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Name of Chairman (CSG-2)</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_csg_2_name" ><?php echo $data['additional_csg_2_name']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Contact No (CSG-2)</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_csg_2_contact" ><?php echo $data['additional_csg_2_contact']; ?></a></td>
-                                    </tr>
+                                        <tr class="success">
+                                            <td><strong>Additional Information</strong></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Name of CHCP</strong></td>
+                                            <td><a href="#" class="text-input" id="additional_chcp_name" ><?php echo $data['additional_chcp_name']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Contact no of CHCP</strong></td>
+                                            <td><a href="#" class="text-input" id="additional_chcp_contact" ><?php echo $data['additional_chcp_contact']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Community group information</strong></td>
+                                            <td><!-- <a href="#" class="text-input" id="additional_community_group_info" ><?php echo $data['additional_community_group_info']; ?></a> --></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Name of Chairman (CG)</strong></td>
+                                            <td><a href="#" class="text-input" id="additional_chairnam_name" ><?php echo $data['additional_chairnam_name']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Contact No (CG)</strong></td>
+                                            <td><a href="#" class="text-input" id="additional_chairman_contact" ><?php echo $data['additional_chairman_contact']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Community Support group information </strong></td>
+                                            <td><!-- <a href="#" class="text-input" id="additional_chairman_community_support_info" ><?php echo $data['additional_chairman_community_support_info']; ?></a> --></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Name of Chairman (CSG-1)</strong></td>
+                                            <td><a href="#" class="text-input" id="additional_csg_1_name" ><?php echo $data['additional_csg_1_name']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Contact No (CSG-1)</strong></td>
+                                            <td><a href="#" class="text-input" id="additional_csg_1_contact" ><?php echo $data['additional_csg_1_contact']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Name of Chairman (CSG-2)</strong></td>
+                                            <td><a href="#" class="text-input" id="additional_csg_2_name" ><?php echo $data['additional_csg_2_name']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Contact No (CSG-2)</strong></td>
+                                            <td><a href="#" class="text-input" id="additional_csg_2_contact" ><?php echo $data['additional_csg_2_contact']; ?></a></td>
+                                        </tr>
                                     <?php endif; ?>
                                 </table>
                             </div>
@@ -761,9 +758,13 @@ if ($org_type_code == 1039) {
             $.fn.editable.defaults.mode = 'inline';
 
             var org_code = <?php echo $org_code; ?>;
-
+            var selected_div_name = $("#division_name").text();
+            
+            $("#district_name").change(function() {
+                selected_div_name = $("#division_name").text();
+            });
 
         </script>
-        <script src="assets/js/common.js"></script>
+        <script src="assets/js/common.js"></script>        
     </body>
 </html>

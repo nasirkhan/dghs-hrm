@@ -1,3 +1,73 @@
+var staff_id;
+
+/**
+ * 
+ * Organization Profile Page
+ * org_profile.php
+ */
+
+//
+//Basic Informatoin 
+//
+
+//agency_code
+$(function() {
+    $('#agency_code').editable({
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_agency_code.php'
+    });
+});
+
+//org_location_type
+$(function() {
+    $('#org_location_type').editable({
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_org_location_type.php'
+    });
+});
+
+//division_name
+$(function() {
+    $('#division_name').editable({
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_org_division_name.php'
+    });
+});
+
+//upazila_thana_name
+$(function() {
+    $('#upazila_thana_name').editable({        
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_org_upazila_thana_name.php',
+        params: function(params) {
+            params.div_name = selected_div_name;
+            return params;
+        }
+    });
+});
+
+//district_name
+$(function() {
+    $('#district_name').editable({        
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_org_district_name.php',
+        params: function(params) {
+            params.div_name = selected_div_name;
+            return params;
+        }
+    });
+});
+
 $(function() {
     $('#source_of_electricity_main_code').editable({
         type: 'select',
@@ -90,7 +160,7 @@ $(function() {
     $('#organization-profile-details a.text-input').editable({
         type: 'text',
         pk: org_code,
-        url: 'post/post_org_profile.php',
+        url: 'post/post_org_profile.php'
     });
 });
 $(function() {
@@ -101,14 +171,8 @@ $(function() {
         source: 'get/get_org_type_name.php'
     });
 });
-$(function() {
-    $('#agency_code').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_agency_code.php'
-    });
-});
+
+
 $(function() {
     $('#org_function_code').editable({
         type: 'select',
@@ -127,23 +191,7 @@ $(function() {
     });
 });
 
-$(function() {
-    $('#division_name').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_division_name.php'
-    });
-});
 
-$(function() {
-    $('#division_name').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_division_name.php'
-    });
-});
 
 
 $(function() {
