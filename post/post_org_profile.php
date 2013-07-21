@@ -6,7 +6,7 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 $org_code = $_SESSION['org_code'];
-
+$user_name = $_SESSION['username'];
 
 $pk = mysql_real_escape_string($_POST['pk']);
 $name = mysql_real_escape_string($_POST['name']);
