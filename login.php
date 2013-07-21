@@ -27,7 +27,6 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
     if (mysql_num_rows($result) >= 1) {
         $_SESSION['user_id'] = $data['user_id'];
         $_SESSION['username'] = $data['username'];
-        $_SESSION['user_type'] = $data['user_type'];
 
         $_SESSION['organization_id'] = $data['organization_id'];
         $_SESSION['org_code'] = $data['org_code'];
@@ -35,6 +34,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         $_SESSION['org_type_name'] = getOrgTypeNameFormOrgCode($data['org_code']);
         $_SESSION['logged'] = TRUE;
         session_write_close();
+        $_SESSION['user_type'] = $data['user_type'];
 
         $login_sussess = 1;
 
@@ -72,7 +72,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
             #login_div{
                 /*text-align: center;*/
             }
-            
+
 
             .form-signin {
                 max-width: 350px;
@@ -110,11 +110,11 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
             .login-error{
                 margin-top: 30px;
             }
-            
+
             .mohfw{
                 font-family: Georgia, serif;
             }
-            
+
             @media (min-width: 768px) and (max-width: 979px){
                 .container{
                     width: 760px;
