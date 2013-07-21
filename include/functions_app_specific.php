@@ -1,4 +1,4 @@
-<?php
+ge<?php
 
 /**
  * Get the organization type Name form the Organization code
@@ -32,6 +32,20 @@ function getOrgTypeNameFormOrgTypeCode($org_type_code) {
     $org_type_data = mysql_fetch_assoc($result);
     $org_type_name = $org_type_data['org_type_name'];
     return $org_type_name;
+}
+
+
+/**
+ * Get <b>Organizaition Type Code</b> form the <b>Organization Code</b>
+ * @param INT $org_code
+ * @return INT org_type_code
+ */
+function getOrgTypeCodeFromOrgCode($org_code){
+    $sql = "SELECT organization.org_type_code FROM organization WHERE organization.org_code = $org_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeCodeFromOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $org_type_data = mysql_fetch_assoc($result);
+    return $org_type_data['org_type_code'];
 }
 
 /**

@@ -35,6 +35,18 @@ $data = mysql_fetch_assoc($result);
 
 $org_name = $data['org_name'];
 $org_type_name = $_SESSION['org_type_name'];
+
+
+/**
+ * check if the organization type is Community clinic or not
+ */
+$org_type_code = getOrgTypeCodeFromOrgCode($org_code);
+// Community Clinic type code is 1039
+if ($org_type_code == 1039) {
+    $isCommunityClinic = TRUE;
+} else {
+    $isCommunityClinic = FALSE;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -179,15 +191,9 @@ $org_type_name = $_SESSION['org_type_name'];
                             </li>
                             <li class="">
                                 <a href="#permission_approval-info" data-toggle="tab"><i class="icon-qrcode"></i> Permission/Approval Info</a>
-                            </li>
-                            
+                            </li>                            
                             <li class="">
                                 <a href="#facility-info" data-toggle="tab"><i class="icon-shield"></i> Facility Info</a>
-                            </li>
-
-                            
-                            <li class="">
-                                <a href="#additional-info" data-toggle="tab"><i class="icon-qrcode"></i> Additional Info</a>
                             </li>
                         </ul>
 
@@ -528,6 +534,52 @@ $org_type_name = $_SESSION['org_type_name'];
                                         <td width="50%"><strong>Youtube</strong></td>
                                         <td><a href="#" class="text-input" id="youtube_page" ><?php echo $data['youtube_page']; ?></a></td>
                                     </tr>
+                                    <?php if ($isCommunityClinic): ?>
+                                    <tr class="success">
+                                        <td><strong>Additional Information</strong></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"><strong>Name of CHCP</strong></td>
+                                        <td><a href="#" class="text-input" id="additional_chcp_name" ><?php echo $data['additional_chcp_name']; ?></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"><strong>Contact no of CHCP</strong></td>
+                                        <td><a href="#" class="text-input" id="additional_chcp_contact" ><?php echo $data['additional_chcp_contact']; ?></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"><strong>Community group information</strong></td>
+                                        <td><!-- <a href="#" class="text-input" id="additional_community_group_info" ><?php echo $data['additional_community_group_info']; ?></a> --></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"><strong>Name of Chairman (CG)</strong></td>
+                                        <td><a href="#" class="text-input" id="additional_chairnam_name" ><?php echo $data['additional_chairnam_name']; ?></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"><strong>Contact No (CG)</strong></td>
+                                        <td><a href="#" class="text-input" id="additional_chairman_contact" ><?php echo $data['additional_chairman_contact']; ?></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"><strong>Community Support group information </strong></td>
+                                        <td><!-- <a href="#" class="text-input" id="additional_chairman_community_support_info" ><?php echo $data['additional_chairman_community_support_info']; ?></a> --></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"><strong>Name of Chairman (CSG-1)</strong></td>
+                                        <td><a href="#" class="text-input" id="additional_csg_1_name" ><?php echo $data['additional_csg_1_name']; ?></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"><strong>Contact No (CSG-1)</strong></td>
+                                        <td><a href="#" class="text-input" id="additional_csg_1_contact" ><?php echo $data['additional_csg_1_contact']; ?></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"><strong>Name of Chairman (CSG-2)</strong></td>
+                                        <td><a href="#" class="text-input" id="additional_csg_2_name" ><?php echo $data['additional_csg_2_name']; ?></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="50%"><strong>Contact No (CSG-2)</strong></td>
+                                        <td><a href="#" class="text-input" id="additional_csg_2_contact" ><?php echo $data['additional_csg_2_contact']; ?></a></td>
+                                    </tr>
+                                    <?php endif; ?>
                                 </table>
                             </div>
                             <div class="tab-pane" id="facility-info">
@@ -659,50 +711,6 @@ $org_type_name = $_SESSION['org_type_name'];
                                     <tr>
                                         <td width="50%"><strong>Other land information.</strong></td>
                                         <td><a href="#" class="text-input" id="land_mutation_number" ><?php echo $data['land_mutation_number']; ?></a></td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="tab-pane" id="additional-info">
-                                <table class="table table-striped table-hover">
-                                    <tr>
-                                        <td width="50%"><strong>Name of CHCP</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_chcp_name" ><?php echo $data['additional_chcp_name']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Contact no of CHCP</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_chcp_contact" ><?php echo $data['additional_chcp_contact']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Community group information</strong></td>
-                                        <td><!-- <a href="#" class="text-input" id="additional_community_group_info" ><?php echo $data['additional_community_group_info']; ?></a> --></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Name of Chairman (CG)</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_chairnam_name" ><?php echo $data['additional_chairnam_name']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Contact No (CG)</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_chairman_contact" ><?php echo $data['additional_chairman_contact']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Community Support group information </strong></td>
-                                        <td><!-- <a href="#" class="text-input" id="additional_chairman_community_support_info" ><?php echo $data['additional_chairman_community_support_info']; ?></a> --></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Name of Chairman (CSG-1)</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_csg_1_name" ><?php echo $data['additional_csg_1_name']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Contact No (CSG-1)</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_csg_1_contact" ><?php echo $data['additional_csg_1_contact']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Name of Chairman (CSG-2)</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_csg_2_name" ><?php echo $data['additional_csg_2_name']; ?></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td width="50%"><strong>Contact No (CSG-2)</strong></td>
-                                        <td><a href="#" class="text-input" id="additional_csg_2_contact" ><?php echo $data['additional_csg_2_contact']; ?></a></td>
                                     </tr>
                                 </table>
                             </div>
