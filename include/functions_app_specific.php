@@ -1,4 +1,4 @@
-ge<?php
+<?php
 
 /**
  * Get the organization type Name form the Organization code
