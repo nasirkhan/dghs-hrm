@@ -64,11 +64,11 @@ if ($staff_exists && !$userCanEdit) {
         <meta name="author" content="">
 
         <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet" media='screen,print'>
+        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet" media='screen,print'>
+        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet" media='screen,print'>
+        <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet" media='screen,print'>
+        <link href="assets/css/style.css" rel="stylesheet" media='screen,print'>
         <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
 
@@ -142,7 +142,7 @@ if ($staff_exists && !$userCanEdit) {
 
             <!-- Docs nav
             ================================================== -->
-            <div class="row">
+            <div class="row" class="hidden-print">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
