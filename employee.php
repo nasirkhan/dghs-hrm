@@ -323,32 +323,32 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><?php echo $data['draw_type_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Designation Type Id</strong></td>
+                                            <td width="50%"><strong>Designation Type </strong></td>
                                             <td><?php echo $data['designation_type_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Job Posting Id</strong></td>
+                                            <td width="50%"><strong>Job Posting</strong></td>
                                             <td><?php echo $data['job_posting_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Working Status Id</strong></td>
+                                            <td width="50%"><strong>Working Status</strong></td>
                                             <td><?php echo $data['working_status_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Draw Salary Id</strong></td>
+                                            <td width="50%"><strong>Draw Salary</strong></td>
                                             <td><?php echo $data['draw_salary_id']; ?></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Sex</strong></td>
-                                            <td><?php echo $data['sex']; ?></td>
+                                            <td><?php echo getSexNameFromId($data['sex']); ?></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Marital Status</strong></td>
-                                            <td><?php echo $data['marital_status']; ?></td>
+                                            <td><?php echo getMaritalStatusFromId($data['marital_status']); ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Religion</strong></td>
-                                            <td><?php echo $data['religion']; ?></td>
+                                            <td width="50%"><strong>Religious Group</strong></td>
+                                            <td><?php echo getReligeonNameFromId($data['religion']); ?></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Date of Joining to Govt Health Service</strong></td>
@@ -423,7 +423,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" class="" id="sex" ><?php echo getSexNameFromId($data['sex']); ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Religion</strong></td>
+                                            <td width="50%"><strong>Religious Group</strong></td>
                                             <td><a href="#" id="religion" name="religion"><?php echo getReligeonNameFromId($data['religion']); ?></td>
                                         </tr>
                                         <tr>
@@ -455,11 +455,11 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" class="date-textarea" id="permanent_address" ><?php echo $data['permanent_address']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Freedom Fighter Id</strong></td>
-                                            <td><a href="#" id="freedom_fighter_id" ><?php echo $data['freedom_fighter_id'] == "1" ? 'Yes' : 'No'; ?></a></td>
+                                            <td width="50%"><strong>Freedom Fighter </strong></td>
+                                            <td><a href="#" id="freedom_fighter_id" ><?php echo getFreedomFighterNameFromId($data['freedom_fighter_id']); ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Tribal Id</strong></td>
+                                            <td width="50%"><strong>Tribal</strong></td>
                                             <td><a href="#" id="tribal_id" ><?php echo getTribalNameFromId($data['tribal_id']); ?></a></td>
                                         </tr>
                                         <tr>
@@ -492,15 +492,15 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" id="designation_type_id" ><?php echo getDesignationTypeNameFromId($data['designation_type_id']); ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Job Posting Id</strong></td>
+                                            <td width="50%"><strong>Job Posting </strong></td>
                                             <td><a href="#" id="job_posting_id" ><?php echo getJobPostingNameFromId($data['job_posting_id']); ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Working Status Id</strong></td>
+                                            <td width="50%"><strong>Working Status</strong></td>
                                             <td><a href="#" id="working_status_id" ><?php echo getWorkingStatusNameFromId($data['working_status_id']); ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Draw Type Id</strong></td>
+                                            <td width="50%"><strong>Draw Type</strong></td>
                                             <td><a href="#" id="draw_type_id" ><?php echo getDrawTypeNameFromId($data['draw_type_id']); ?></a></td>
                                         </tr>
                                         <tr>
@@ -543,7 +543,7 @@ if ($staff_exists && !$userCanEdit) {
                                         </tr>
                                         -->
                                         <tr>
-                                            <td width="50%"><strong>Sanctioned Post Id</strong></td>
+                                            <td width="50%"><strong>Sanctioned Post ID</strong></td>
                                             <td><?php echo $sanctioned_post_id; ?></td>
                                         </tr>
                                         <tr>
@@ -563,7 +563,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" class="text-input" data-type="text" id="staff_local_id"><?php echo $data['staff_local_id']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Govt Quarter Id</strong></td>
+                                            <td width="50%"><strong>Govt Quarter </strong></td>
                                             <td><a href="#" class="text-input" data-type="text" id="govt_quarter_id" name="govt_quarter_id"><?php echo $data['govt_quarter_id']; ?></a></td>
                                         </tr>
                                         <tr>
