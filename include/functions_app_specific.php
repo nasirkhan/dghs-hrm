@@ -291,9 +291,14 @@ function getToiletAdequacyNameFromCode($toilet_adequacy_code){
 }
 
 /**
+ * <b>THIS FUNCTION IS NOT REQUIRED ANY MORE</b>
+ * 
  * Get <b>Fuel Source Name</b> From <b>Fuel Source Code</b>
+ * 
  * @param type $fuel_source_code
  * @return type
+ * 
+ * @todo update or remove function
  */
 function getFuelSourceNameFromCode($fuel_source_code){
     $sql = "SELECT `fuel_source_name` FROM `org_fuel_source` WHERE `fuel_source_code` = \"$fuel_source_code\" LIMIT 1";
@@ -665,5 +670,13 @@ function getFirstLevelNameFromID($first_level_id){
     $data = mysql_fetch_assoc($result);
 
     return $data['first_level_name'];
+}
+
+function showSanctionedBed($org_type_code){
+    $org_type_code = (int) $org_type_code;
+    switch ($org_type_code){
+//        case 
+    }
+    
 }
 ?>
