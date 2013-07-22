@@ -410,7 +410,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         <td width="50%"><strong>Special service / status of the hospital / clinic</strong></td>
                                         <td width="50%"><a href="#" class="" id="special_service_code" ></a></td>
                                     <script>
-                                        var special_service_code_values = <?php echo $data['special_service_code']; ?>;
+                                        var special_service_code_values = "<?php echo $data['special_service_code']; ?>";
                                     </script>
                                     </tr>
                                 </table>
