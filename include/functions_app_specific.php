@@ -744,6 +744,53 @@ function getGovtQuater($id)
     return $data['govt_quater'];
 }
 
-
+function showSanctionedBed($org_type_code){
+    $org_type_code = (int) $org_type_code;
+    if($org_type_code >= 1012 && $org_type_code <= 1018){
+        return FALSE;
+    }
+    else if ($org_type_code >= 1019 && $org_type_code <= 1020){
+        return TRUE;
+    }
+    else if ($org_type_code == 1021){
+        return FALSE;
+    }
+    else if ($org_type_code >= 1022 && $org_type_code <= 1029){
+        return TRUE;
+    }
+    else if ($org_type_code >= 1030 && $org_type_code <= 1032){
+        return FALSE;
+    }
+    else if ($org_type_code >= 1033 && $org_type_code <= 1036){
+        return TRUE;
+    }
+    else if ($org_type_code >= 1037 && $org_type_code <= 1040){
+        return FALSE;
+    }
+    else if ($org_type_code == 1041){
+        return TRUE;
+    }
+    else if ($org_type_code == 1042){
+        return FALSE;
+    }
+    else if ($org_type_code >= 1043 && $org_type_code <= 1044){
+        return TRUE;
+    }
+    else if ($org_type_code >= 1045 && $org_type_code <= 1055){
+        return FALSE;
+    }
+    else if ($org_type_code == 1056){
+        return TRUE;
+    }
+    else if ($org_type_code >= 1057 && $org_type_code <= 1059){
+        return FALSE;
+    }
+    else if ($org_type_code >= 1060 && $org_type_code <= 1061){
+        return TRUE;
+    }
+    else if ($org_type_code == 1062){
+        return FALSE;
+    }
+}
 
 ?>
