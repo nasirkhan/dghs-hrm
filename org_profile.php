@@ -387,28 +387,28 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                             <div class="tab-pane" id="ownership-info">
                                 <table class="table table-striped table-hover">
                                     <tr>
-                                        <td width="60%"><strong>Ownership</strong></td>
-                                        <td><a href="#" class="" id="ownership_code" ><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></a></td>
+                                        <td width="50%"><strong>Ownership</strong></td>
+                                        <td width="50%"><a href="#" class="" id="ownership_code" ><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Organization Type</strong></td>
-                                        <td><a href="#" class="" id="org_type_code" ><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></a></td>
+                                        <td width="50%"><a href="#" class="" id="org_type_code" ><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Organization Function</strong></td>
-                                        <td><a href="#" class="" id="org_function_code" ><?php echo getFunctionalNameFromFunctionalCode($data['org_function_code']); ?></a></td>
+                                        <td width="50%"><a href="#" class="" id="org_function_code" ><?php echo getFunctionalNameFromFunctionalCode($data['org_function_code']); ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Organization Level</strong></td>
-                                        <td><a href="#" class="" id="org_level_code" ><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></a></td>
+                                        <td width="50%"><a href="#" class="" id="org_level_code" ><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Health Care Level</strong></td>
-                                        <td><a href="#" class="" id="org_healthcare_level_code" ><?php echo $data['org_healthcare_level_code']; ?></a></td>
+                                        <td width="50%"><a href="#" class="" id="org_healthcare_level_code" ><?php echo $data['org_healthcare_level_code']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Special service / status of the hospital / clinic</strong></td>
-                                        <td><a href="#" class="" id="special_service_code" ></a></td>
+                                        <td width="50%"><a href="#" class="" id="special_service_code" ></a></td>
                                     <script>
                                         var special_service_code_values = <?php echo $data['special_service_code']; ?>;
                                     </script>
@@ -625,28 +625,40 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     </tr>
                                     <tr>
                                         <td width="50%">Fuel source</td>
-                                        <td><a href="#" class="" id="fuel_source_code" ><?php echo getFuelSourceNameFromCode($data['fuel_source_code']); ?></a></td>
+                                        <td><a href="#" class="" id="fuel_source_code" ></a></td>
+                                        <script>
+                                            var fuel_source_code_values = "<?php echo $data['fuel_source_code']; ?>";
+                                        </script>
                                     </tr>
                                     <tr class="success">
                                         <td width="50%" colspan="2"><strong>Laundry System</strong></td>
                                     </tr>
                                     <tr>
                                         <td width="50%">Laundry system</td>
-                                        <td><a href="#" class="" id="laundry_code" ><?php echo $data['laundry_code']; ?></a></td>
+                                        <td><a href="#" class="" id="laundry_code" ></a></td>
+                                        <script>
+                                            var laundry_code_values = "<?php echo $data['laundry_code']; ?>";
+                                        </script>
                                     </tr>
                                     <tr class="success">
                                         <td width="50%" colspan="2"><strong>Autoclave System</strong></td>
                                     </tr>
                                     <tr>
                                         <td width="50%">Autoclave System</td>
-                                        <td><a href="#" class="" id="autoclave_code" ><?php echo $data['autoclave_code']; ?></a></td>
+                                        <td><a href="#" class="" id="autoclave_code" ></a></td>
+                                        <script>
+                                            var autoclave_code_values = "<?php echo $data['autoclave_code']; ?>";
+                                        </script>
                                     </tr>
                                     <tr class="success">
                                         <td width="50%" colspan="2"><strong>Waste Disposal System</strong></td>
                                     </tr>
                                     <tr>
                                         <td width="50%">Waste disposal</td>
-                                        <td><a href="#" class="" id="waste_disposal_code" ><?php echo $data['waste_disposal_code']; ?></a></td>
+                                        <td><a href="#" class="" id="waste_disposal_code" ></a></td>
+                                        <script>
+                                            var waste_disposal_code_values = "<?php echo $data['waste_disposal_code']; ?>";
+                                        </script>
                                     </tr>
                                     <tr class="success">
                                         <td width="50%" colspan="2"><strong>Sanctioned Assets</strong></td>
