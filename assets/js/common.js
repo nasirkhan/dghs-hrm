@@ -206,13 +206,8 @@ $(function() {
     $('#religion').editable({
         type: 'select',
         pk: staff_id,
-        source: [
-            {value: 1, text: 'Muslim'},
-            {value: 2, text: 'Hindu'},
-            {value: 3, text: 'Christian'},
-            {value: 4, text: 'Buddha'},
-            {value: 5, text: 'Other'}
-        ],
+        url: 'post/post_employee.php',
+        source: 'get/get_religous_id.php',
         params: function(params) {
             params.org_code = org_code;
             return params;
@@ -223,17 +218,24 @@ $(function() {
 //marital_status
 $(function() {
     $('#marital_status').editable({
-        type: 'select',
+         type: 'select',
         pk: staff_id,
-        source: [
-            {value: 1, text: 'Married'},
-            {value: 2, text: 'Unmarried'},
-            {value: 3, text: 'Single'},
-            {value: 4, text: 'Widow/Widower'},
-            {value: 5, text: 'Devorced'},
-            {value: 6, text: 'Separated'},
-            {value: 7, text: 'Other'}
-        ],
+        url: 'post/post_employee.php',
+        source: 'get/get_marital_status_id.php',
+        params: function(params) {
+            params.org_code = org_code;
+            return params;
+        }
+    });
+});
+
+//sex
+$(function() {
+    $('#sex').editable({
+         type: 'select',
+        pk: staff_id,
+        url: 'post/post_employee.php',
+        source: 'get/get_sex_type_id.php',
         params: function(params) {
             params.org_code = org_code;
             return params;
@@ -246,10 +248,8 @@ $(function() {
     $('#freedom_fighter_id').editable({
         type: 'select',
         pk: staff_id,
-        source: [
-            {value: 1, text: 'Yes'},
-            {value: 2, text: 'No'}
-        ],
+        url: 'post/post_employee.php',
+        source: 'get/get_freedom_fighter_id.php',
         params: function(params) {
             params.org_code = org_code;
             return params;
@@ -262,10 +262,8 @@ $(function() {
     $('#tribal_id').editable({
         type: 'select',
         pk: staff_id,
-        source: [
-            {value: 1, text: 'Tribal'},
-            {value: 2, text: 'Not Tribal'}
-        ],
+        url: 'post/post_employee.php',
+        source: 'get/get_tribal_id.php',
         params: function(params) {
             params.org_code = org_code;
             return params;
@@ -276,14 +274,10 @@ $(function() {
 //staff_job_class
 $(function() {
     $('#staff_job_class').editable({
-        type: 'select',
+         type: 'select',
         pk: staff_id,
-        source: [
-            {value: 1, text: 'Class I'},
-            {value: 2, text: 'Class II'},
-            {value: 3, text: 'Class III'},
-            {value: 4, text: 'Class IV'}
-        ],
+        url: 'post/post_employee.php',
+        source: 'get/get_job_class_id.php',
         params: function(params) {
             params.org_code = org_code;
             return params;
@@ -297,17 +291,8 @@ $(function() {
     $('#staff_professional_category').editable({
         type: 'select',
         pk: staff_id,
-        source: [
-            {value: 1, text: 'Medical Technologist'},
-            {value: 2, text: 'Physican'},
-            {value: 3, text: 'Other'},
-            {value: 4, text: 'Nurse'},
-            {value: 1, text: 'Field Staff'},
-            {value: 2, text: 'Nurse'},
-            {value: 3, text: 'Other'},
-            {value: 4, text: 'Other'},
-            {value: 4, text: 'Other'}
-        ],
+        url: 'post/post_employee.php',
+        source: 'get/get_staff_professional_category_id.php',
         params: function(params) {
             params.org_code = org_code;
             return params;
@@ -327,3 +312,46 @@ $(function() {
         }
     });
 });
+
+//  work_status
+$(function() {
+    $('#working_status_id').editable({
+        type: 'select',
+        pk: staff_id,
+        source: "get/get_working_status_id.php",
+        params: function(params) {
+            params.org_code = org_code;
+            return params;
+        }
+    });
+});
+
+
+// staff job posting
+
+$(function() {
+    $('#job_posting_id').editable({
+        type: 'select',
+        pk: staff_id,
+        source: "get/get_job_posting_id.php",
+        params: function(params) {
+            params.org_code = org_code;
+            return params;
+        }
+    });
+});
+// salary draw type
+
+$(function() {
+    $('#draw_type_id').editable({
+        type: 'select',
+        pk: staff_id,
+        source: "get/get_draw_type_id.php",
+        params: function(params) {
+            params.org_code = org_code;
+            return params;
+        }
+    });
+});
+
+

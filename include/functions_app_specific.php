@@ -551,56 +551,90 @@ function getSalaryDrawTypeNameFromID($ID){
 }
 
 function getSexNameFromId($id){
-    switch ($id){
-        case 1: return "Male";
-        case 2: return "Female";
-        case 3: return "Other";
-    }
+     $sql = "SELECT
+            staff_sex.sex_name
+            FROM
+            staff_sex
+            WHERE
+            sex_type_id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['sex_name'];
+
 }
 
 function getReligeonNameFromId($id){
-    switch ($id){
-        case 1: return "Muslim";
-        case 2: return "Hindu";
-        case 3: return "Christian";
-        case 4: return "Buddha";
-        case 5: return "Other";
-    }
+     $sql = "SELECT
+            staff_religious_group.religious_group_name
+            FROM
+            staff_religious_group
+            WHERE
+            religious_group_id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['religious_group_name'];
 }
 
 function getMaritalStatusFromId($id){
-    switch ($id){
-        case 1: return "Married";
-        case 2: return "Unmarried";
-        case 3: return "Single";
-        case 4: return "Widow/Widower";
-        case 5: return "Devorced";
-        case 6: return "Separated";
-        case 7: return "Other";
-    }
+     $sql = "SELECT
+            staff_marital_status.marital_status
+            FROM
+            staff_marital_status
+            WHERE
+            marital_status_id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['marital_status'];
 }
 
 function getTribalNameFromId($id){
-    switch ($id){
-        case 1: return "Tribal";
-        case 2: return "Not Tribal";
-    }
+    $sql = "SELECT
+            staff_tribal.tribal_value
+            FROM
+            staff_tribal
+            WHERE
+            tribal_id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['tribal_value'];
+}
+
+function getFreedomFighterNameFromId($id){
+    $sql = "SELECT
+               staff_freedom_fighter.freedom_fighter_name
+             FROM
+                staff_freedom_fighter
+              WHERE
+            staff_freedom_fighter.freedom_fighter_id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['freedom_fighter_name'];
 }
 
 
 // @todo must replace with database
 function getProfessionalCategoryFromId($id){
-    switch ($id){
-        case 1: return "Medical Technologist";
-        case 2: return "Physican";
-        case 3: return "Other";
-        case 4: return "Nurse";
-        case 5: return "Field Staff";
-        case 6: return "Nurse";
-        case 7: return "Other";
-        case 8: return "Other";
-        case 9: return "Other";
-    }
+     $sql = "SELECT
+              staff_professional_category_type.professional_type_name
+            FROM
+              staff_professional_category_type
+            WHERE
+             professional_type_id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['professional_type_name'];
 }
 
 // @todo must replace with database
@@ -618,39 +652,47 @@ function getDesignationTypeNameFromId($id){
 
 // @todo must replace with database
 function getJobPostingNameFromId($id){
-    switch ($id){
-        case 1: return "Regular";
-        case 2: return "Against the post";
-        case 3: return "Current Charge";
-        case 4: return "Supy. Duth";
-        case 5: return "Fixed Pay";
-        case 6: return "Contract Pay";
-        case 7: return "Emeritus";
-        case 8: return "OSD";
-        case 9: return "Other";
-    }
+     $sql = "SELECT
+            staff_job_posting.job_posting_name
+            FROM
+            staff_job_posting
+            WHERE
+            job_posting_id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['job_posting_name'];
 }
 
 // @todo must replace with database
 function getWorkingStatusNameFromId($id){
-    switch ($id){
-        case 1: return "Works by physical presence in the department";
-        case 2: return "Works elsewhere in this organization";
-        case 3: return "On deputation";
-        case 4: return "On Leave";
-        case 5: return "On Suspension";
-        case 6: return "Unauthorized Absent";
-    }
+        $sql = "SELECT
+            staff_working_status.working_status_name
+            FROM
+            staff_working_status
+            WHERE
+            working_status_id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['working_status_name'];
 }
 
 // @todo must replace with database
 function getDrawTypeNameFromId($id){
-    switch ($id){
-        case 1: return "Revenue";
-        case 2: return "Development";
-        case 3: return "Other Source";
-        case 4: return "Honorary";
-    }
+    $sql = "SELECT
+            staff_salary_draw_type.salary_draw_type_name
+            FROM
+            staff_salary_draw_type
+            WHERE
+            salary_draw_type_id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['salary_draw_type_name'];
 }
 
 function getFirstLevelNameFromID($first_level_id){
@@ -666,4 +708,37 @@ function getFirstLevelNameFromID($first_level_id){
 
     return $data['first_level_name'];
 }
+
+function getEducationalQualification($id)
+{
+    $sql = "SELECT
+                staff_educational_qualification.educational_qualification
+            FROM
+                staff_educational_qualification
+            WHERE
+               staff_educational_qualification.educational_qualifiaction_Id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['educational_qualification'];
+}
+
+function getGovtQuater($id)
+{
+    $sql = "SELECT
+                staff_govt_quater.govt_quater
+            FROM
+                staff_govt_quater
+            WHERE
+               staff_govt_quater.govt_quater_id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['govt_quater'];
+}
+
+
+
 ?>
