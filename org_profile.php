@@ -671,10 +671,12 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         <td width="50%">Sanctioned vehicles</td>
                                         <td><a href="#" class="text-input" id="sanctioned_vehicles" ><?php echo $data['sanctioned_vehicles']; ?></a></td>
                                     </tr>
+                                    <?php if($showSanctionedBed): ?>
                                     <tr>
                                         <td width="50%">Sanctioned Bed No</td>
                                         <td><a href="#" class="text-input" id="sanctioned_bed_number" ><?php echo $data['sanctioned_bed_number']; ?></a></td>
                                     </tr>
+                                    <?php endif; ?>
                                     <tr>
                                         <td width="50%">Other miscellaneous issues</td>
                                         <td><a href="#" class="text-input" id="other_miscellaneous_issues" ><?php echo $data['other_miscellaneous_issues']; ?></a></td>
