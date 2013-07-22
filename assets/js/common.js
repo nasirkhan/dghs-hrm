@@ -1,3 +1,101 @@
+var staff_id;
+var special_service_code_values;
+var fuel_source_code_values;
+var laundry_code_values;
+var autoclave_code_values;
+var waste_disposal_code_values;
+/**
+ * 
+ * Organization Profile Page
+ * org_profile.php
+ */
+
+//
+//Basic Informatoin 
+//
+
+//agency_code
+$(function() {
+    $('#agency_code').editable({
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_agency_code.php'
+    });
+});
+
+//org_location_type
+$(function() {
+    $('#org_location_type').editable({
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_org_location_type.php'
+    });
+});
+
+//division_name
+$(function() {
+    $('#division_name').editable({
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_org_division_name.php'
+    });
+});
+
+//upazila_thana_name
+$(function() {
+    $('#upazila_thana_name').editable({        
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_org_upazila_thana_name.php',
+        params: function(params) {
+            params.div_name = selected_div_name;
+            return params;
+        }
+    });
+});
+
+//district_name
+$(function() {
+    $('#district_name').editable({        
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_org_district_name.php',
+        params: function(params) {
+            params.div_name = selected_div_name;
+            return params;
+        }
+    });
+});
+
+
+//
+//  Ownership Information
+//
+//special_service_code
+$(function() {
+    $('#special_service_code').editable({
+        type: 'checklist',
+        value: special_service_code_values,
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_special_service_code.php',
+        params: function(params) {
+            params.post_type = 'checklist';
+            return params;
+        }
+    });
+});
+
+//
+//  Functionality Information
+//
+
+//  source_of_electricity_main_code
 $(function() {
     $('#source_of_electricity_main_code').editable({
         type: 'select',
@@ -6,6 +104,8 @@ $(function() {
         source: 'get/get_source_of_electricity_main.php'
     });
 });
+
+//  source_of_electricity_alternate_code
 $(function() {
     $('#source_of_electricity_alternate_code').editable({
         type: 'select',
@@ -14,6 +114,8 @@ $(function() {
         source: 'get/get_source_of_electricity_alter.php'
     });
 });
+
+//source_of_water_supply_main_code
 $(function() {
     $('#source_of_water_supply_main_code').editable({
         type: 'select',
@@ -22,6 +124,8 @@ $(function() {
         source: 'get/get_source_of_water_supply_main_code.php'
     });
 });
+
+//source_of_water_supply_alternate_code
 $(function() {
     $('#source_of_water_supply_alternate_code').editable({
         type: 'select',
@@ -30,6 +134,8 @@ $(function() {
         source: 'get/get_source_of_water_supply_alternate_code.php'
     });
 });
+
+//toilet_type_code
 $(function() {
     $('#toilet_type_code').editable({
         type: 'select',
@@ -38,6 +144,8 @@ $(function() {
         source: 'get/get_toilet_type_code.php'
     });
 });
+
+//toilet_adequacy_code
 $(function() {
     $('#toilet_adequacy_code').editable({
         type: 'select',
@@ -46,6 +154,8 @@ $(function() {
         source: 'get/get_toilet_adequacy_code.php'
     });
 });
+
+//toilet_adequacy_code
 $(function() {
     $('#toilet_adequacy_code').editable({
         type: 'select',
@@ -54,43 +164,71 @@ $(function() {
         source: 'get/get_toilet_adequacy_code.php'
     });
 });
+
+//fuel_source_code
 $(function() {
     $('#fuel_source_code').editable({
-        type: 'select',
+        type: 'checklist',
+        value: fuel_source_code_values,
         pk: org_code,
         url: 'post/post_org_profile.php',
-        source: 'get/get_fuel_source_code.php'
+        source: 'get/get_fuel_source_code.php',
+        params: function(params) {
+            params.post_type = 'checklist';
+            return params;
+        }
     });
 });
+
+//laundry_code
 $(function() {
     $('#laundry_code').editable({
-        type: 'select',
+        type: 'checklist',
+        value: laundry_code_values,
         pk: org_code,
         url: 'post/post_org_profile.php',
-        source: 'get/get_laundry_code.php'
+        source: 'get/get_laundry_code.php',
+        params: function(params) {
+            params.post_type = 'checklist';
+            return params;
+        }
     });
 });
+
+//autoclave_code
 $(function() {
     $('#autoclave_code').editable({
-        type: 'select',
+        type: 'checklist',
+        value: autoclave_code_values,
         pk: org_code,
         url: 'post/post_org_profile.php',
-        source: 'get/get_autoclave_code.php'
+        source: 'get/get_autoclave_code.php',
+        params: function(params) {
+            params.post_type = 'checklist';
+            return params;
+        }
     });
 });
+
+//waste_disposal_code
 $(function() {
     $('#waste_disposal_code').editable({
-        type: 'select',
+        type: 'checklist',
+        value: waste_disposal_code_values,
         pk: org_code,
         url: 'post/post_org_profile.php',
-        source: 'get/get_waste_disposal_code.php'
+        source: 'get/get_waste_disposal_code.php',
+        params: function(params) {
+            params.post_type = 'checklist';
+            return params;
+        }
     });
 });
 $(function() {
     $('#organization-profile-details a.text-input').editable({
         type: 'text',
         pk: org_code,
-        url: 'post/post_org_profile.php',
+        url: 'post/post_org_profile.php'
     });
 });
 $(function() {
@@ -101,6 +239,7 @@ $(function() {
         source: 'get/get_org_type_name.php'
     });
 });
+// agency code
 $(function() {
     $('#agency_code').editable({
         type: 'select',
@@ -109,6 +248,8 @@ $(function() {
         source: 'get/get_agency_code.php'
     });
 });
+
+
 $(function() {
     $('#org_function_code').editable({
         type: 'select',
@@ -164,6 +305,7 @@ $(function() {
     });
 });
 
+//special service code
 $(function() {
     $('#special_service_code').editable({
         type: 'select',
