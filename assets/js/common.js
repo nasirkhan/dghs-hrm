@@ -68,6 +68,26 @@ $(function() {
     });
 });
 
+
+//
+//  Ownership Information
+//
+//special_service_code
+$(function() {
+    $('#special_service_code').editable({
+        type: 'checklist',
+        value: special_service_code_values,
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_special_service_code.php',
+        params: function(params) {
+            params.post_type = 'checklist';
+            return params;
+        }
+    });
+});
+
+
 $(function() {
     $('#source_of_electricity_main_code').editable({
         type: 'select',
@@ -212,14 +232,7 @@ $(function() {
     });
 });
 
-$(function() {
-    $('#special_service_code').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_special_service_code.php'
-    });
-});
+
 
 //post_type_id
 $(function() {
