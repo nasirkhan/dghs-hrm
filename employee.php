@@ -552,8 +552,8 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><?php echo $data['staff_id']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Organization ID</strong></td>
-                                            <td><?php echo $data['organization_id']; ?></td>
+                                            <td width="50%"><strong>Organization Code</strong></td>
+                                            <td><?php echo $org_code; ?></td>
                                         </tr>
                                         <!--
                                         <tr>
