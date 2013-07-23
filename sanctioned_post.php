@@ -185,8 +185,8 @@ $org_type_name = $_SESSION['org_type_name'];
                                                             $('#list-<?php echo $designation_div_id; ?>').html("");
                                                             $.each(data, function(k, v) {
                                                                 var data_list = "<div class=\"row\">";
-                                                                data_list += "<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff:" + v.staff_id + ") </div>";
-                                                                data_list += "<div class=\"span3\">Class: " + v.class + "</div>";
+                                                                data_list += "<div class=\"span6\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff Name: " + v.staff_name + ", Id:" + v.staff_id + ") </div>";
+//                                                                data_list += "<div class=\"span1\">Id:" + v.staff_id + "</div>";
                                                                 if (v.staff_id > 0) {
                                                                     data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
                                                                     data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
@@ -335,6 +335,6 @@ $org_type_name = $_SESSION['org_type_name'];
         <script src="assets/js/google-code-prettify/prettify.js"></script>
 
         <script src="assets/js/application.js"></script>
-
+        
     </body>
 </html>
