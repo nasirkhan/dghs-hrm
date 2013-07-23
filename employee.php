@@ -423,7 +423,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" class="" id="sex" ><?php echo getSexNameFromId($data['sex']); ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Religious Group</strong></td>
+                                            <td width="50%"><strong>Religious Group</strong></td> <!--religion -->
                                             <td><a href="#" id="religion" name="religion"><?php echo getReligeonNameFromId($data['religion']); ?></td>
                                         </tr>
                                         <tr>
@@ -431,11 +431,11 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" class="" id="marital_status" ><?php echo getMaritalStatusFromId($data['marital_status']); ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Father Name</strong></td>
+                                            <td width="50%"><strong>Fathers Name</strong></td> <!--father_name -->
                                             <td><a href="#" class="text-input" data-type="text" id="father_name"><?php echo $data['father_name']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Mother Name</strong></td>
+                                            <td width="50%"><strong>Mothers Name</strong></td>
                                             <td><a href="#" class="text-input" data-type="text" id="mother_name"><?php echo $data['mother_name']; ?></a></td>
                                         </tr>
                                         <tr>
@@ -447,7 +447,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" class="text-input" id="contact_no" ><?php echo $data['contact_no']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Mailing Address</strong></td>
+                                            <td width="50%"><strong>Present Address</strong></td><!-- mailing_address  -->
                                             <td><a href="#" class="date-textarea" id="mailing_address" ><?php echo $data['mailing_address']; ?></a></td>
                                         </tr>
                                         <tr>
@@ -455,15 +455,15 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" class="date-textarea" id="permanent_address" ><?php echo $data['permanent_address']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Freedom Fighter </strong></td>
+                                            <td width="50%"><strong>Freedom Fighter? </strong></td>
                                             <td><a href="#" id="freedom_fighter_id" ><?php echo getFreedomFighterNameFromId($data['freedom_fighter_id']); ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Tribal</strong></td>
+                                            <td width="50%"><strong>Tribal?</strong></td>
                                             <td><a href="#" id="tribal_id" ><?php echo getTribalNameFromId($data['tribal_id']); ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Staff Job Class</strong></td>
+                                            <td width="50%"><strong>Job Class</strong></td>
                                             <td><a href="#" id="staff_job_class" ><?php echo getClassNameformId($data['staff_job_class']); ?></a></td>
                                         </tr>
                                         <tr>
@@ -484,7 +484,7 @@ if ($staff_exists && !$userCanEdit) {
                                         </tr>
                                         
                                         <tr>
-                                            <td width="50%"><strong>Salary drawn from which head</strong></td>
+                                            <td width="50%"><strong>Draw Salary from which place:</strong></td> <!-- draw_salary_id-->
                                             <td><a href="#" id="draw_salary_id" ><?php echo getSalaryDrawNameFromID($data['draw_salary_id']); ?></a></td>
                                         </tr>
                                         <tr>
@@ -492,7 +492,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" id="designation_type_id" ><?php echo getDesignationTypeNameFromId($data['designation_type_id']); ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Job Posting </strong></td>
+                                            <td width="50%"><strong>Posted As</strong></td> <!--job_posting_id-->
                                             <td><a href="#" id="job_posting_id" ><?php echo getJobPostingNameFromId($data['job_posting_id']); ?></a></td>
                                         </tr>
                                         <tr>
@@ -500,7 +500,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" id="working_status_id" ><?php echo getWorkingStatusNameFromId($data['working_status_id']); ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Draw Type</strong></td>
+                                            <td width="50%"><strong>Salary drawn from which head:</strong></td><!-- draw_type_id-->
                                             <td><a href="#" id="draw_type_id" ><?php echo getDrawTypeNameFromId($data['draw_type_id']); ?></a></td>
                                         </tr>
                                         <tr>
@@ -508,7 +508,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" class="text-input" data-type="text" id="pay_scale_of_current_designation" name="pay_scale_of_current_designation" readonly><?php echo $data['pay_scale_of_current_designation']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Current Basic Pay Taka</strong></td>
+                                            <td width="50%"><strong>Current Basic Pay (Tk.):</strong></td>
                                             <td><a href="#" class="text-input" data-type="text" id="current_basic_pay_taka" name="current_basic_pay_taka"><?php echo $data['current_basic_pay_taka']; ?></a></td>
                                         </tr>
                                         <tr>
@@ -529,7 +529,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" id="professional_discipline_of_current_designation" name="professional_discipline_of_current_designation"><?php  echo getProfessionalDisciplineNameFromId($data['professional_discipline_of_current_designation']); ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Type of Educational Qualification</strong></td>
+                                            <td width="50%"><strong>Education Qualification</strong></td><!--type_of_educational_qualification-->
                                             <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php  echo getEducationalQualification($data['type_of_educational_qualification']);?></a></td>
                                         </tr>
                                         <tr>
@@ -546,6 +546,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td width="50%"><strong>Sanctioned Post ID</strong></td>
                                             <td><?php echo $sanctioned_post_id; ?></td>
                                         </tr>
+                                     
                                         <tr>
                                             <td width="50%"><strong>Staff ID</strong></td>
                                             <td><?php echo $data['staff_id']; ?></td>
@@ -554,24 +555,28 @@ if ($staff_exists && !$userCanEdit) {
                                             <td width="50%"><strong>Organization ID</strong></td>
                                             <td><?php echo $data['organization_id']; ?></td>
                                         </tr>
+                                        <!--
                                         <tr>
                                             <td width="50%"><strong>Posting Status</strong></td>
                                             <td></td>
                                         </tr>
+                                      
                                         <tr>
-                                            <td width="50%"><strong>Staff Local Id</strong></td>
+                                            <td width="50%"><strong>Staff Local ID</strong></td>
                                             <td><a href="#" class="text-input" data-type="text" id="staff_local_id"><?php echo $data['staff_local_id']; ?></a></td>
-                                        </tr>
+                                        </tr>  -->
                                         <tr>
-                                            <td width="50%"><strong>Govt Quarter </strong></td>
+                                            <td width="50%"><strong>Reside in Govt. Quarter?</strong></td><!-- govt_quarter_id-->
                                             <td><a href="#" id="govt_quarter_id" name="govt_quarter_id"><?php echo getGovtQuarter($data['govt_quarter_id']); ?></a></td>
                                         </tr>
+                                        <!--
                                         <tr>
                                             <td width="50%"><strong>Job Status</strong></td>
                                             <td><a href="#" class="text-input" data-type="text" id="job_status" name="job_status"><?php echo $data['job_status']; ?></a></td>
                                         </tr>
+                                        -->
                                         <tr>
-                                            <td width="50%"><strong>Reason</strong></td>
+                                            <td width="50%"><strong>Further Remarks/Explanation:</strong></td><!--reason -->
                                             <td><a href="#" class="text-input" data-type="text" id="reason" name="reason"><?php echo $data['reason']; ?></a> </td>
                                         </tr>
                                         <tr>
