@@ -407,7 +407,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td><a href="#" class="text-input" data-type="text" id="staff_name"><?php echo $data['staff_name']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong><a href="#">PDS Code</a></strong></td>
+                                            <td width="50%"><strong><a href="#">Code No.(Doctors Only):</a></strong></td>
                                             <td><a href="#" class="text-input" data-type="text" id="staff_pds_code"><?php echo $data['staff_pds_code']; ?></a></td>
                                         </tr>
                                         <tr>
