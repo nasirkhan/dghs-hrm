@@ -311,7 +311,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Financial Code (Revenue Code)</strong></td>
-                                            <td><<?php echo $data['financial_revenue_code']; ?></td>
+                                            <td><?php echo $data['financial_revenue_code']; ?></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Year Established</strong></td>
