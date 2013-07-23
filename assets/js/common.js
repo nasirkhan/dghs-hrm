@@ -497,7 +497,6 @@ $(function() {
 });
 
 // salary draw head
-
 $(function() {
     $('#draw_salary_id').editable({
         type: 'select',
@@ -565,3 +564,24 @@ $(function() {
         }
     });
 });
+//birth_date
+//$(function() {
+//    $('#birth_date').editable({
+//        type: 'combodate',
+//        pk: staff_id,
+//        source: "get/get_draw_type_id.php",
+//        format: 'YYYY-MM-DD',
+//        viewformat: 'DD.MM.YYYY',
+//        template: 'D / MMMM / YYYY',
+//        params: function(params) {
+//            params.org_code = org_code;
+//            return params;
+//        },
+//        combodate: {
+//            minYear: 1930,
+//            maxYear: 2015,
+//            minuteStep: 1
+//        }
+//    });
+//});
+//
