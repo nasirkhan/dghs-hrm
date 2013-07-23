@@ -196,7 +196,7 @@ $org_type_name = $_SESSION['org_type_name'];
                                         <td><?php echo $designation_info['designation']; ?></td>
                                         <td><?php echo $designation_info['payscale']; ?></td>
                                         <td><?php echo $designation_info['class']; ?></td>
-                                        <td><?php echo $data['staff_id']; ?></td>
+                                        <td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>"><?php echo $data['staff_id']; ?></a></td>
                                         <td><a href="#" data-name="sanctioned_post_id" data-type="text" data-pk='<?php echo $data['staff_id']; ?>' class="text-input"><?php echo $data['sanctioned_post_id']; ?></a></td>
                                         <!--<td></td>-->
                                     </tr>
