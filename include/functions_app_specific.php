@@ -555,6 +555,21 @@ function getSalaryDrawTypeNameFromID($ID){
     return $data['salary_draw_type_name'];
 }
 
+
+function getSalaryDrawNameFromID($ID){
+    $sql = "SELECT
+            staff_draw_salaray_place.draw_salaray_place
+            FROM
+            staff_draw_salaray_place
+            WHERE
+            staff_draw_salaray_place.draw_salary_id = $ID LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['draw_salaray_place'];
+}
+
 function getSexNameFromId($id){
      $sql = "SELECT
             staff_sex.sex_name
@@ -644,15 +659,17 @@ function getProfessionalCategoryFromId($id){
 
 // @todo must replace with database
 function getDesignationTypeNameFromId($id){
-    switch ($id){
-        case 1: return "Regular";
-        case 2: return "Current Charge";
-        case 3: return "In-Charge";
-        case 4: return "Current Pay";
-        case 5: return "Fixed Pay";
-        case 6: return "Honorary";
-        case 7: return "Other";
-    }
+     $sql = "SELECT
+              staff_designation_type.designation_type
+            FROM
+             staff_designation_type
+            WHERE
+             designation_type_id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['designation_type'];
 }
 
 // @todo must replace with database
@@ -729,7 +746,7 @@ function getEducationalQualification($id)
     return $data['educational_qualification'];
 }
 
-function getGovtQuater($id)
+function getGovtQuarter($id)
 {
     $sql = "SELECT
                 staff_govt_quater.govt_quater
@@ -743,6 +760,23 @@ function getGovtQuater($id)
 
     return $data['govt_quater'];
 }
+
+function getProfessionalDisciplineNameFromId($id)
+{
+     $sql = "SELECT
+                staff_profesional_discipline.discipline_name
+            FROM
+               staff_profesional_discipline
+            WHERE
+               staff_profesional_discipline.discipline_id = $id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['discipline_name'];
+}
+
+
 
 function showSanctionedBed($org_type_code){
     $org_type_code = (int) $org_type_code;

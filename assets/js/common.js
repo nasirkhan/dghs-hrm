@@ -1,97 +1,3 @@
-var staff_id;
-
-/**
- * 
- * Organization Profile Page
- * org_profile.php
- */
-
-//
-//Basic Informatoin 
-//
-
-//agency_code
-$(function() {
-    $('#agency_code').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_agency_code.php'
-    });
-});
-
-//org_location_type
-$(function() {
-    $('#org_location_type').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_org_location_type.php'
-    });
-});
-
-//division_name
-$(function() {
-    $('#division_name').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_org_division_name.php'
-    });
-});
-
-//upazila_thana_name
-$(function() {
-    $('#upazila_thana_name').editable({        
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_org_upazila_thana_name.php',
-        params: function(params) {
-            params.div_name = selected_div_name;
-            return params;
-        }
-    });
-});
-
-//district_name
-$(function() {
-    $('#district_name').editable({        
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_org_district_name.php',
-        params: function(params) {
-            params.div_name = selected_div_name;
-            return params;
-        }
-    });
-});
-
-
-//
-//  Ownership Information
-//
-//special_service_code
-$(function() {
-    $('#special_service_code').editable({
-        type: 'checklist',
-        value: special_service_code_values,
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_special_service_code.php',
-        params: function(params) {
-            params.post_type = 'checklist';
-            return params;
-        }
-    });
-});
-
-//
-//  Functionality Information
-//
-
-//  source_of_electricity_main_code
 $(function() {
     $('#source_of_electricity_main_code').editable({
         type: 'select',
@@ -100,8 +6,6 @@ $(function() {
         source: 'get/get_source_of_electricity_main.php'
     });
 });
-
-//  source_of_electricity_alternate_code
 $(function() {
     $('#source_of_electricity_alternate_code').editable({
         type: 'select',
@@ -110,8 +14,6 @@ $(function() {
         source: 'get/get_source_of_electricity_alter.php'
     });
 });
-
-//source_of_water_supply_main_code
 $(function() {
     $('#source_of_water_supply_main_code').editable({
         type: 'select',
@@ -120,8 +22,6 @@ $(function() {
         source: 'get/get_source_of_water_supply_main_code.php'
     });
 });
-
-//source_of_water_supply_alternate_code
 $(function() {
     $('#source_of_water_supply_alternate_code').editable({
         type: 'select',
@@ -130,8 +30,6 @@ $(function() {
         source: 'get/get_source_of_water_supply_alternate_code.php'
     });
 });
-
-//toilet_type_code
 $(function() {
     $('#toilet_type_code').editable({
         type: 'select',
@@ -140,8 +38,6 @@ $(function() {
         source: 'get/get_toilet_type_code.php'
     });
 });
-
-//toilet_adequacy_code
 $(function() {
     $('#toilet_adequacy_code').editable({
         type: 'select',
@@ -150,8 +46,6 @@ $(function() {
         source: 'get/get_toilet_adequacy_code.php'
     });
 });
-
-//toilet_adequacy_code
 $(function() {
     $('#toilet_adequacy_code').editable({
         type: 'select',
@@ -160,71 +54,43 @@ $(function() {
         source: 'get/get_toilet_adequacy_code.php'
     });
 });
-
-//fuel_source_code
 $(function() {
     $('#fuel_source_code').editable({
-        type: 'checklist',
-        value: fuel_source_code_values,
+        type: 'select',
         pk: org_code,
         url: 'post/post_org_profile.php',
-        source: 'get/get_fuel_source_code.php',
-        params: function(params) {
-            params.post_type = 'checklist';
-            return params;
-        }
+        source: 'get/get_fuel_source_code.php'
     });
 });
-
-//laundry_code
 $(function() {
     $('#laundry_code').editable({
-        type: 'checklist',
-        value: laundry_code_values,
+        type: 'select',
         pk: org_code,
         url: 'post/post_org_profile.php',
-        source: 'get/get_laundry_code.php',
-        params: function(params) {
-            params.post_type = 'checklist';
-            return params;
-        }
+        source: 'get/get_laundry_code.php'
     });
 });
-
-//autoclave_code
 $(function() {
     $('#autoclave_code').editable({
-        type: 'checklist',
-        value: autoclave_code_values,
+        type: 'select',
         pk: org_code,
         url: 'post/post_org_profile.php',
-        source: 'get/get_autoclave_code.php',
-        params: function(params) {
-            params.post_type = 'checklist';
-            return params;
-        }
+        source: 'get/get_autoclave_code.php'
     });
 });
-
-//waste_disposal_code
 $(function() {
     $('#waste_disposal_code').editable({
-        type: 'checklist',
-        value: waste_disposal_code_values,
+        type: 'select',
         pk: org_code,
         url: 'post/post_org_profile.php',
-        source: 'get/get_waste_disposal_code.php',
-        params: function(params) {
-            params.post_type = 'checklist';
-            return params;
-        }
+        source: 'get/get_waste_disposal_code.php'
     });
 });
 $(function() {
     $('#organization-profile-details a.text-input').editable({
         type: 'text',
         pk: org_code,
-        url: 'post/post_org_profile.php'
+        url: 'post/post_org_profile.php',
     });
 });
 $(function() {
@@ -235,8 +101,14 @@ $(function() {
         source: 'get/get_org_type_name.php'
     });
 });
-
-
+$(function() {
+    $('#agency_code').editable({
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_agency_code.php'
+    });
+});
 $(function() {
     $('#org_function_code').editable({
         type: 'select',
@@ -255,7 +127,23 @@ $(function() {
     });
 });
 
+$(function() {
+    $('#division_name').editable({
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_division_name.php'
+    });
+});
 
+$(function() {
+    $('#division_name').editable({
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_division_name.php'
+    });
+});
 
 
 $(function() {
@@ -276,7 +164,14 @@ $(function() {
     });
 });
 
-
+$(function() {
+    $('#special_service_code').editable({
+        type: 'select',
+        pk: org_code,
+        url: 'post/post_org_profile.php',
+        source: 'get/get_special_service_code.php'
+    });
+});
 
 //post_type_id
 $(function() {
@@ -459,4 +354,72 @@ $(function() {
     });
 });
 
+// salary draw head
 
+$(function() {
+    $('#draw_salary_id').editable({
+        type: 'select',
+        pk: staff_id,
+        source: "get/get_draw_salary_id.php",
+        params: function(params) {
+            params.org_code = org_code;
+            return params;
+        }
+    });
+});
+
+// education qualification
+
+$(function() {
+    $('#type_of_educational_qualification').editable({
+        type: 'select',
+        pk: staff_id,
+        source: "get/get_type_of_educational_qualification.php",
+        params: function(params) {
+            params.org_code = org_code;
+            return params;
+        }
+    });
+});
+
+// Govt Quater
+
+$(function() {
+    $('#govt_quarter_id').editable({
+        type: 'select',
+        pk: staff_id,
+        source: "get/get_govt_quater_id.php",
+        params: function(params) {
+            params.org_code = org_code;
+            return params;
+        }
+    });
+});
+
+// Designation Type
+
+$(function() {
+    $('#designation_type_id').editable({
+        type: 'select',
+        pk: staff_id,
+        source: "get/get_designation_type_id.php",
+        params: function(params) {
+            params.org_code = org_code;
+            return params;
+        }
+    });
+});
+
+// Professional discipline
+
+$(function() {
+    $('#professional_discipline_of_current_designation').editable({
+        type: 'select',
+        pk: staff_id,
+        source: "get/get_professional_discipline_id.php",
+        params: function(params) {
+            params.org_code = org_code;
+            return params;
+        }
+    });
+});

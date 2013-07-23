@@ -64,11 +64,11 @@ if ($staff_exists && !$userCanEdit) {
         <meta name="author" content="">
 
         <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet" media='screen,print'>
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet" media='screen,print'>
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet" media='screen,print'>
-        <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet" media='screen,print'>
-        <link href="assets/css/style.css" rel="stylesheet" media='screen,print'>
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
+        <link href="assets/css/style.css" rel="stylesheet">
         <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
 
@@ -142,7 +142,7 @@ if ($staff_exists && !$userCanEdit) {
 
             <!-- Docs nav
             ================================================== -->
-            <div class="row" class="hidden-print">
+            <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
@@ -485,7 +485,7 @@ if ($staff_exists && !$userCanEdit) {
                                         
                                         <tr>
                                             <td width="50%"><strong>Salary drawn from which head</strong></td>
-                                            <td><a href="#" id="draw_salary_id" ><?php echo getSalaryDrawTypeNameFromID($data['draw_salary_id']); ?></a></td>
+                                            <td><a href="#" id="draw_salary_id" ><?php echo getSalaryDrawNameFromID($data['draw_salary_id']); ?></a></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Designation Type</strong></td>
@@ -526,11 +526,11 @@ if ($staff_exists && !$userCanEdit) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Professional Discipline of Current Designation</strong></td>
-                                            <td><a href="#" class="text-input" data-type="text" id="professional_discipline_of_current_designation" name="professional_discipline_of_current_designation"><?php echo $data['professional_discipline_of_current_designation']; ?></a></td>
+                                            <td><a href="#" id="professional_discipline_of_current_designation" name="professional_discipline_of_current_designation"><?php  echo getProfessionalDisciplineNameFromId($data['professional_discipline_of_current_designation']); ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Type of Educational Qualification</strong></td>
-                                            <td><a href="#" class="text-input" data-type="text" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php echo $data['type_of_educational_qualification']; ?></a></td>
+                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php  echo getEducationalQualification($data['type_of_educational_qualification']);?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Actual Degree</strong></td>
@@ -564,7 +564,7 @@ if ($staff_exists && !$userCanEdit) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Govt Quarter </strong></td>
-                                            <td><a href="#" class="text-input" data-type="text" id="govt_quarter_id" name="govt_quarter_id"><?php echo $data['govt_quarter_id']; ?></a></td>
+                                            <td><a href="#" id="govt_quarter_id" name="govt_quarter_id"><?php echo getGovtQuarter($data['govt_quarter_id']); ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Job Status</strong></td>
