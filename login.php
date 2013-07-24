@@ -8,15 +8,10 @@ if ($_SESSION['logged'] == true) {
 $login_sussess = 2;
 //cheak the login information
 if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] == $_SESSION['login_key']) {
-    $form_uname = $_POST['email'];
-    $form_passwd = $_POST['password'];
-    unset($_POST);
-    $form_uname = stripslashes($form_uname);
-    $form_passwd = stripslashes($form_passwd);
-    $form_uname = mysql_real_escape_string($form_uname);
-    $form_passwd = mysql_real_escape_string($form_passwd);
+    $form_uname = mysql_real_escape_string(stripslashes($_POST['email']));
+    $form_passwd = mysql_real_escape_string(stripslashes($_POST['password']));
     $form_passwd = md5($form_passwd);
-
+    unset($_POST);
     $sql = "SELECT user_id, username, user_type, organization_id, org_code FROM user WHERE username LIKE \"$form_uname\" AND password LIKE \"$form_passwd\"";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -42,8 +37,6 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         $login_sussess = 0;
     }
 
-//    echo "<pre>";
-//    print_r($_SESSION);
 } else {
     $_SESSION['login_key'] = mt_rand(1, 1000);
 }
@@ -56,7 +49,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         <title><?php echo $app_name; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="DHGS HRM Application developed by Activation Ltd, http://activationltd.com">
-        <meta name="author" content="nasir khan saikat">
+        <meta name="author" content="nasir khan saikat (nasir8891 AT gmail DOT com)">
 
         <!-- Le styles -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -68,11 +61,6 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                 padding-bottom: 40px;
                 background-color: #f5f5f5;
             }
-            #login_div{
-                /*text-align: center;*/
-            }
-
-
             .form-signin {
                 max-width: 350px;
                 padding: 19px 29px 29px;
@@ -183,9 +171,8 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
 
         </div> <!-- /container -->
 
-        <!-- Le javascript
+        <!-- javascript
         ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
         <script src="assets/js/jquery.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>  
 
