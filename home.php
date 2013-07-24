@@ -64,21 +64,8 @@ if (!($latitude > 0) || !($longitude > 0)) {
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="assets/ico/favicon.png">
 
-        <!--
-        <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'ACCOUNT_ID']);
-            _gaq.push(['_trackPageview']);
-            (function() {
-                var ga = document.createElement('script');
-                ga.type = 'text/javascript';
-                ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-        -->
+        <!--Google analytics code-->
+        <?php include_once 'include/header/header_ga.inc.php'; ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -136,7 +123,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                     </ul>
                 </div>
                 <div class="span9">
-                    <!-- Download
+                    <!-- info area
                     ================================================== -->
                     <section id="organization-profile">
 
@@ -189,17 +176,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
 
         <!-- Footer
         ================================================== -->
-        <footer class="footer">
-            <div class="container">                
-                <ul class="footer-links">
-                    <li><a href="#">Home</a></li>
-                    <li class="muted">&middot;</li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li class="muted">&middot;</li>
-                    <li><a href="#">Contact Developer</a></li>
-                </ul>
-            </div>
-        </footer>
+        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
 
 
 
