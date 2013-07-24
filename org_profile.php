@@ -33,7 +33,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b
 // data fetched form organization table
 $data = mysql_fetch_assoc($result);
 
-$org_name = $data['org_name'];
+$org_name = $_SESSION['org_name'];
 $org_type_name = $_SESSION['org_type_name'];
 
 
