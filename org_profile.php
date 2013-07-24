@@ -375,11 +375,11 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Longitude</strong></td>
-                                            <td><?php echo $data['longitude']; ?></td>
+                                            <td><a href="#" class="text-input" id="longitude" ><?php echo $data['longitude']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Latitude</strong></td>
-                                            <td><?php echo $data['latitude']; ?></td>
+                                            <td><a href="#" class="text-input" id="latitude" ><?php echo $data['latitude']; ?></a></td>
                                         </tr>
                                     </table>                             
                                 <?php endif; ?>
