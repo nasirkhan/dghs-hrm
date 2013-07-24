@@ -15,6 +15,16 @@ $name = mysql_real_escape_string($_POST['name']);
 $value = mysql_real_escape_string($_POST['value']);
 $p_org_code = mysql_real_escape_string($_POST['org_code']);
 
+$post_type = mysql_real_escape_string($_POST['post_type']);
+if ($post_type == "checklist"){
+//    $value = "[";
+    for ($i = 0; $i < count($_POST['value'])-1; $i++) {
+        $value .= $_POST['value'][$i] . ",";
+    }
+//    $value .= $_POST['value'][$i] . "]";
+    $value .= $_POST['value'][$i];
+}
+
 if ($p_org_code == $org_code){
     $sql = "UPDATE `dghs_hrm_main`.`old_tbl_staff_organization` 
             SET 

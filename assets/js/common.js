@@ -511,17 +511,17 @@ $(function() {
 
 // education qualification
 
-$(function() {
-    $('#type_of_educational_qualification').editable({
-        type: 'select',
-        pk: staff_id,
-        source: "get/get_type_of_educational_qualification.php",
-        params: function(params) {
-            params.org_code = org_code;
-            return params;
-        }
-    });
-});
+//$(function() {
+//    $('#type_of_educational_qualification').editable({
+//        type: 'select',
+//        pk: staff_id,
+//        source: "get/get_type_of_educational_qualification.php",
+//        params: function(params) {
+//            params.org_code = org_code;
+//            return params;
+//        }
+//    });
+//});
 
 // Govt Quater
 
@@ -564,6 +564,24 @@ $(function() {
         }
     });
 });
+
+//type_of_educational_qualification
+$(function() {
+    $('#type_of_educational_qualification').editable({
+        type: 'checklist',
+        value: type_of_educational_qualification,
+        pk: staff_id,
+        url: 'post/post_employee.php',
+        source: 'get/get_type_of_educational_qualification.php',
+        params: function(params) {
+            params.org_code = org_code;
+            params.post_type = 'checklist';
+            return params;
+        }
+    });
+});
+
+
 //birth_date
 //$(function() {
 //    $('#birth_date').editable({

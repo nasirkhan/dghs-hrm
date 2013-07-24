@@ -530,8 +530,15 @@ if ($staff_exists && !$userCanEdit) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Education Qualification</strong></td><!--type_of_educational_qualification-->
-                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php  echo getEducationalQualification($data['type_of_educational_qualification']);?></a></td>
+                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);?></a></td>
                                         </tr>
+                                                                                
+                                        <script>
+                                            var type_of_educational_qualification = "[";
+                                            type_of_educational_qualification += "<?php echo $data['type_of_educational_qualification']; ?>";
+                                            type_of_educational_qualification += "]";
+                                        </script>
+                                        
                                         <tr>
                                             <td width="50%"><strong>Actual Degree</strong></td>
                                             <td><a href="#" class="text-input" data-type="text" id="actual_degree" name="actual_degree"><?php echo $data['actual_degree']; ?></a></td>
