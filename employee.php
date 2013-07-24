@@ -53,6 +53,27 @@ if ($staff_exists && !$userCanEdit) {
     }
     $display_mode = "new";
 }
+
+// staff search option
+if (isset($_POST['search'])) {
+    $search_string = mysql_real_escape_string($_POST['search']);
+    $sql = "SELECT
+                    old_tbl_staff_organization.staff_id
+            FROM
+                    `old_tbl_staff_organization`
+            WHERE
+            old_tbl_staff_organization.staff_name LIKE \"%$search_string%\" OR
+            old_tbl_staff_organization.staff_id = \"$search_string\" AND
+            old_tbl_staff_organization.org_code = $org_code";
+    $s_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>a:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $s_data = mysql_fetch_assoc($s_result);
+
+    if ($s_data['staff_id'] > 0) {
+        $staff_id = $s_data['staff_id'];
+        header("location:employee.php?staff_id=$staff_id");
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -84,21 +105,8 @@ if ($staff_exists && !$userCanEdit) {
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="assets/ico/favicon.png">
 
-        <!--
-        <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'ACCOUNT_ID']);
-            _gaq.push(['_trackPageview']);
-            (function() {
-                var ga = document.createElement('script');
-                ga.type = 'text/javascript';
-                ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-        -->
+        <!--Google analytics code-->
+        <?php include_once 'include/header/header_ga.inc.php'; ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -162,18 +170,18 @@ if ($staff_exists && !$userCanEdit) {
                         <div class="row">
                             <div class="span9">
 <!--                                <p><pre>
-                                    <?php
+                                <?php
 //                                    echo "$display_mode|";
 //                                    print_r($temp);
 //                                    print_r($_POST);
 //                                    print_r($_GET);
-                                    $exception_field = "";
-                                    $query = createMySqlInsertString($_POST, $exception_field);
-                                    print_r($query);
-                                    $table_name = "old_tbl_staff_organization";
-                                    $column_name = "govt_quarter";
-                                    print_r(getEnumColumnValues($table_name, $column_name));
-                                    ?>
+                                $exception_field = "";
+                                $query = createMySqlInsertString($_POST, $exception_field);
+                                print_r($query);
+                                $table_name = "old_tbl_staff_organization";
+                                $column_name = "govt_quarter";
+                                print_r(getEnumColumnValues($table_name, $column_name));
+                                ?>
                                 </pre></p>-->
                                 <?php if ($staff_id == "" && $action != "new"): ?>
                                     <div class="alert alert-success">
@@ -182,10 +190,10 @@ if ($staff_exists && !$userCanEdit) {
                                             Or, you can find the staff form the <a href="sanctioned_post.php">Sanctioned Post Page</a>.
                                         </div>
                                         <div>
-                                            <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+                                            <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                                                 <div class="input-append">
-                                                    <!--<input class="span4" id="org_code" name="org_code" type="hidden" value="<?php echo $org_code; ?>">-->
-                                                    <input class="span4" id="staff_id" name="staff_id" type="text">                                                    
+                                                    <!--<input class="span4" id="org_code" name="org_code" type="hidden" value="<?php echo $org_code; ?>">-->                                                                                                       
+                                                    <input class="span4" id="search" name="search" type="text" placeholder="Enter Staff Name or Staff ID" >
                                                     <button class="btn" type="submit" >Search</button>
                                                 </div>
                                             </form>
@@ -396,7 +404,7 @@ if ($staff_exists && !$userCanEdit) {
                                         </tr>
 
                                     </table>
-                                    
+
                                     <?php
 //                                if ($staff_id != "" && $staff_exists && $userCanEdit): 
                                 elseif ($display_mode == "edit"):
@@ -482,7 +490,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td width="50%"><strong>Staff Posting</strong></td>
                                             <td><a href="#" id="staff_posting"><?php echo getStaffPostingTypeFormId($data['staff_posting']); ?></a></td>
                                         </tr>
-                                        
+
                                         <tr>
                                             <td width="50%"><strong>Draw Salary from which place:</strong></td> <!-- draw_salary_id-->
                                             <td><a href="#" id="draw_salary_id" ><?php echo getSalaryDrawNameFromID($data['draw_salary_id']); ?></a></td>
@@ -526,19 +534,19 @@ if ($staff_exists && !$userCanEdit) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Professional Discipline of Current Designation</strong></td>
-                                            <td><a href="#" id="professional_discipline_of_current_designation" name="professional_discipline_of_current_designation"><?php  echo getProfessionalDisciplineNameFromId($data['professional_discipline_of_current_designation']); ?></a></td>
+                                            <td><a href="#" id="professional_discipline_of_current_designation" name="professional_discipline_of_current_designation"><?php echo getProfessionalDisciplineNameFromId($data['professional_discipline_of_current_designation']); ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Education Qualification</strong></td><!--type_of_educational_qualification-->
-                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);?></a></td>
+                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);   ?></a></td>
                                         </tr>
-                                                                                
+
                                         <script>
                                             var type_of_educational_qualification = "[";
                                             type_of_educational_qualification += "<?php echo $data['type_of_educational_qualification']; ?>";
                                             type_of_educational_qualification += "]";
                                         </script>
-                                        
+
                                         <tr>
                                             <td width="50%"><strong>Actual Degree</strong></td>
                                             <td><a href="#" class="text-input" data-type="text" id="actual_degree" name="actual_degree"><?php echo $data['actual_degree']; ?></a></td>
@@ -553,7 +561,7 @@ if ($staff_exists && !$userCanEdit) {
                                             <td width="50%"><strong>Sanctioned Post ID</strong></td>
                                             <td><?php echo $sanctioned_post_id; ?></td>
                                         </tr>
-                                     
+
                                         <tr>
                                             <td width="50%"><strong>Staff ID</strong></td>
                                             <td><?php echo $data['staff_id']; ?></td>
@@ -593,10 +601,10 @@ if ($staff_exists && !$userCanEdit) {
 
                                     </table>
                                     <?php
-                                // add new employee
+// add new employee
                                 elseif ($display_mode == "new") :
                                     ?>
-                                    <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF'];  ?>" method="post">
+                                    <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF'];    ?>" method="post">
                                         <fieldset>
                                             <table class="table table-striped table-hover">
                                                 <tr>
@@ -819,80 +827,80 @@ if ($staff_exists && !$userCanEdit) {
         <script src="assets/js/google-code-prettify/prettify.js"></script>
 
         <script src="assets/js/application.js"></script>
-        
+
 
         <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
         <script>
             $.fn.editable.defaults.mode = 'inline';
-            
+
             var staff_id = <?php echo $staff_id; ?>;
             var org_code = <?php echo $org_code; ?>;
 
             $('#employee-profile a.text-input').editable({
-                type: 'text',
-                pk: <?php echo $staff_id; ?>,
-                url: 'post/post_employee.php',
-                params: function(params) {
-                    params.org_code = <?php echo $org_code; ?>;
-                    return params;
-                }
+            type: 'text',
+            pk: <?php echo $staff_id; ?>,
+            url: 'post/post_employee.php',
+            params: function(params) {
+            params.org_code = <?php echo $org_code; ?>;
+            return params;
+            }
             });
             $('#employee-profile a.date-input').editable({
-                type: 'date',
-                pk: <?php echo $staff_id; ?>,
-                url: 'post/post_employee.php',
-                format: 'yyyy-mm-dd',
-                datepicker: {
-                    weekStart: 1
-                },
-                params: function(params) {
-                    params.org_code = <?php echo $org_code; ?>;
-                    return params;
-                }
+            type: 'date',
+            pk: <?php echo $staff_id; ?>,
+            url: 'post/post_employee.php',
+            format: 'yyyy-mm-dd',
+            datepicker: {
+            weekStart: 1
+            },
+            params: function(params) {
+            params.org_code = <?php echo $org_code; ?>;
+            return params;
+            }
             });
             $('#employee-profile a.date-textarea').editable({
-                type: 'textarea',
-                pk: <?php echo $staff_id; ?>,
-                url: 'post/post_employee.php',
-                rows: 5,
-                params: function(params) {
-                    params.org_code = <?php echo $org_code; ?>;
-                    return params;
-                }
+            type: 'textarea',
+            pk: <?php echo $staff_id; ?>,
+            url: 'post/post_employee.php',
+            rows: 5,
+            params: function(params) {
+            params.org_code = <?php echo $org_code; ?>;
+            return params;
+            }
             });
             $(function() {
-                $('#sex').editable({
-                    type: 'select',
-                    pk: <?php echo $staff_id; ?>,
-                    value: 1,
-                    source: [
-                        {value: 1, text: 'Male'},
-                        {value: 2, text: 'Female'},
-                        {value: 3, text: 'Other'},                        
-                    ],
-                    params: function(params) {
-                        params.org_code = <?php echo $org_code; ?>;
-                        return params;
-                    }
-                });
+            $('#sex').editable({
+            type: 'select',
+            pk: <?php echo $staff_id; ?>,
+            value: 1,
+            source: [
+            {value: 1, text: 'Male'},
+            {value: 2, text: 'Female'},
+            {value: 3, text: 'Other'},                        
+            ],
+            params: function(params) {
+            params.org_code = <?php echo $org_code; ?>;
+            return params;
+            }
             });
-//            $(function() {
-//                $('#marital_status').editable({
-//                    type: 'select',
-//                    pk: <?php echo $staff_id; ?>,
-//                    value: 1,
-//                    source: [
-//                        {value: 1, text: 'Single'},
-//                        {value: 2, text: 'Married'}
-//                    ],
-//                    params: function(params) {
-//                        params.org_code = <?php echo $org_code; ?>;
-//                        return params;
-//                    }
-//                });
-//            });
+            });
+            //            $(function() {
+            //                $('#marital_status').editable({
+            //                    type: 'select',
+            //                    pk: <?php echo $staff_id; ?>,
+            //                    value: 1,
+            //                    source: [
+            //                        {value: 1, text: 'Single'},
+            //                        {value: 2, text: 'Married'}
+            //                    ],
+            //                    params: function(params) {
+            //                        params.org_code = <?php echo $org_code; ?>;
+            //                        return params;
+            //                    }
+            //                });
+            //            });
             $('.datepicker').datepicker({
-                format: 'yyyy-mm-dd'
+            format: 'yyyy-mm-dd'
             });
         </script>
         <script src="assets/js/common.js"></script>
