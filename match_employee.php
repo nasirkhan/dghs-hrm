@@ -166,7 +166,7 @@ $org_type_name = $_SESSION['org_type_name'];
                                 WHERE
                                     old_tbl_staff_organization.org_code = $org_code
                                 ORDER BY
-                                    old_tbl_staff_organization.pay_scale_of_current_designation DESC";
+                                    old_tbl_staff_organization.staff_name ASC";
                         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                         ?>
 
