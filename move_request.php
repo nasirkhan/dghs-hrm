@@ -7,20 +7,11 @@ if ($_SESSION['logged'] != true) {
 $org_code = $_GET['org_code'];
 if ($org_code == "") {
     $org_code = $_SESSION['org_code'];
-
 }
 //$org_code = $_SESSION['org_code'];
 $org_code = (int) $org_code;
 
-//org_code 10000001
-//$sql = "SELECT * FROM organization WHERE  org_code =$org_code LIMIT 1";
-//$result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-// data fetched form organization table
-//$data = mysql_fetch_assoc($result);
-
 $org_name = $_SESSION['org_name'];
-//$org_code = $data['org_code'];
 $org_type_name = $_SESSION['org_type_name'];
 
 
@@ -144,7 +135,7 @@ if ($action == 'move_out') {
                             <div class="span9">
 <!--                                <p>
                                 <pre>
-                                <?php 
+                                <?php
                                 print_r($_SESSION);
                                 ?>
                                 </pre>
@@ -216,7 +207,7 @@ if ($action == 'move_out') {
                                         <?php if ($move_out_action): ?>
                                             <button id="move_out_continue" type="button" class="btn btn-primary">Continue Move Out Request</button>
 
-                                        <?php else: ?>
+                                        <?php elseif (!$move_out_action): ?>
                                             <button id="show_employee" type="button" class="btn btn-primary">Show Employee List</button>
 
                                         <?php endif; ?>
@@ -268,7 +259,7 @@ if ($action == 'move_out') {
                                                     <textarea id="comment" rows="3"></textarea>
                                                 </div>
                                             </div>
-                                            
+
                                         </form>
                                         <button id="move_out_confirm" type="button" class="btn btn-warning">Confirm Move Out Request</button>
                                     </div>
@@ -312,24 +303,26 @@ if ($action == 'move_out') {
         <script type="text/javascript">
 
             // division
-            $('#admin_division').change(function() {
-                $("#loading_content").show();
-                var div_id = $('#admin_division').val();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_district_list.php',
-                    data: {div_id: div_id},
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var admin_district = document.getElementById('admin_district');
-                        admin_district.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            var d = data[i];
-                            admin_district.options.add(new Option(d.text, d.value));
+            $(function() {
+                $('#admin_division').change(function() {
+                    $("#loading_content").show();
+                    var div_id = $('#admin_division').val();
+                    $.ajax({
+                        type: "POST",
+                        url: 'get/get_district_list.php',
+                        data: {div_id: div_id},
+                        dataType: 'json',
+                        success: function(data)
+                        {
+                            $("#loading_content").hide();
+                            var admin_district = document.getElementById('admin_district');
+                            admin_district.options.length = 0;
+                            for (var i = 0; i < data.length; i++) {
+                                var d = data[i];
+                                admin_district.options.add(new Option(d.text, d.value));
+                            }
                         }
-                    }
+                    });
                 });
             });
 
@@ -444,7 +437,7 @@ if ($action == 'move_out') {
                 var new_sanctioned_post = $("#sanctioned_post").val();
                 var govt_order = $("#govt_order").val();
                 var comment = $("#comment").val();
-                
+
                 $("#loading_content").show();
                 $.ajax({
                     type: "POST",

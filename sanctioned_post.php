@@ -310,17 +310,7 @@ $org_type_name = $_SESSION['org_type_name'];
                 </div>-->
         <!-- Footer
         ================================================== -->
-        <footer class="footer">
-            <div class="container">                
-                <ul class="footer-links">
-                    <li><a href="#">Home</a></li>
-                    <li class="muted">&middot;</li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li class="muted">&middot;</li>
-                    <li><a href="#">Contact Developer</a></li>
-                </ul>
-            </div>
-        </footer>
+        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
 
 
 
