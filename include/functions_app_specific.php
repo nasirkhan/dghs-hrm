@@ -761,6 +761,8 @@ function getGovtQuarter($id)
     return $data['govt_quater'];
 }
 
+
+
 function getProfessionalDisciplineNameFromId($id)
 {
      $sql = "SELECT
@@ -775,7 +777,6 @@ function getProfessionalDisciplineNameFromId($id)
 
     return $data['discipline_name'];
 }
-
 
 
 function showSanctionedBed($org_type_code){
