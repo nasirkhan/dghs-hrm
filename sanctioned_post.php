@@ -10,16 +10,7 @@ if ($org_code == "") {
 }
 $org_code = (int) $org_code;
 
-
-//org_code 10000001
-$sql = "SELECT * FROM organization WHERE  org_code =$org_code LIMIT 1";
-$result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-// data fetched form organization table
-$data = mysql_fetch_assoc($result);
-
-$org_name = $data['org_name'];
-$org_code = $data['org_code'];
+$org_name = $_SESSION['org_name'];
 $org_type_name = $_SESSION['org_type_name'];
 ?>
 <!DOCTYPE html>
@@ -29,7 +20,7 @@ $org_type_name = $_SESSION['org_type_name'];
         <title><?php echo $org_name . " | " . $app_name; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="author" content="Nasir Khan Saikat(nasir8891@gmail.com)">
 
         <!-- Le styles -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -38,10 +29,6 @@ $org_type_name = $_SESSION['org_type_name'];
         <link href="assets/css/style.css" rel="stylesheet">
         <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
-        <![endif]-->
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -55,21 +42,8 @@ $org_type_name = $_SESSION['org_type_name'];
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="assets/ico/favicon.png">
 
-        <!--
-        <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'ACCOUNT_ID']);
-            _gaq.push(['_trackPageview']);
-            (function() {
-                var ga = document.createElement('script');
-                ga.type = 'text/javascript';
-                ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-        -->
+        <!--Google analytics code-->
+        <?php include_once 'include/header/header_ga.inc.php'; ?>
 
 
 
@@ -157,7 +131,7 @@ $org_type_name = $_SESSION['org_type_name'];
                                             echo "<div class=\"pull-left\">" . $sp_data['designation'] . "</div>";
                                             $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation']));
                                             echo "<div class=\"pull-right\">" . $sp_data['sp_count'] . "&nbsp&nbsp&nbsp&nbsp";
-                                            echo " <a name=\"sp-btn-$designation_div_id\" id=\"sp-btn-$designation_div_id\" href=\"#sp-$designation_div_id\" role=\"button\" class=\"btn btn-small\" data-toggle=\"modal\"><i class=\"icon-file-alt\"></i> Sanctioned Post Desctiption</a>";
+                                            echo " <a name=\"sp-btn-$designation_div_id\" id=\"sp-btn-$designation_div_id\" href=\"#sp-$designation_div_id\" role=\"button\" class=\"btn btn-small\" data-toggle=\"modal\"><i class=\"icon-file-alt\"></i> Sanctioned Post Description</a>";
                                             echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" ><i class=\"icon-list-ul\"></i> View Staff List</button>";
 
                                             echo "</div>";

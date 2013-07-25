@@ -784,6 +784,12 @@ function getProfessionalDisciplineNameFromId($id)
 }
 
 
+/**
+ * Sanctioned bed input field will be displayed for some specific organization
+ * types, here it checks the organization by org_code
+ * @param INT $org_type_code
+ * @return boolean
+ */
 function showSanctionedBed($org_type_code){
     $org_type_code = (int) $org_type_code;
     if($org_type_code >= 1012 && $org_type_code <= 1018){
