@@ -238,7 +238,7 @@ if ($action == 'move_out') {
                                             <tr class="error">
                                                 <td>Present</td>
                                                 <td><?php echo $org_name ?></td>
-                                                <td><?php echo getDesignationNameFormSanctionedPostId($sanctioned_post_id) ?></td>
+                                                <td><?php if ($sanctioned_post_id != "") echo getDesignationNameFormSanctionedPostId($sanctioned_post_id) ?></td>
                                             </tr>
                                             <tr class="success">
                                                 <td>Move to</td>
@@ -432,8 +432,14 @@ if ($action == 'move_out') {
 
             //move_out_confirm
             $('#move_out_confirm').click(function() {
-                var staff_id = <?php echo "$staff_id"; ?>;
-                var sanctioned_post = <?php echo "$sanctioned_post_id"; ?>;
+                <?php 
+                if ($staff_id > 0){
+                    echo "var staff_id = $staff_id;";
+                }
+                if($sanctioned_post_id > 0){
+                    echo "var sanctioned_post = $sanctioned_post_id;";
+                }
+                ?>
                 var new_sanctioned_post = $("#sanctioned_post").val();
                 var govt_order = $("#govt_order").val();
                 var comment = $("#comment").val();
