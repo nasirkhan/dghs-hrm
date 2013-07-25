@@ -123,6 +123,11 @@ function checkEmployeeExistsInOrganization($org_code, $staff_id) {
     }
 }
 
+/**
+ * Check if an Staff exists in the total manpower table or not
+ * @param INT $staff_id
+ * @return boolean
+ */
 function checkStaffExists($staff_id){
     $sql = "SELECT id FROM total_manpower_imported_sanctioned_post_copy WHERE staff_id= $staff_id LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkStaffExists:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -533,7 +538,7 @@ function getStaffDepertmentFromDepertmentId($depertment_id){
             very_old_departments
             WHERE
             very_old_departments.department_id = $depertment_id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getStaffPostingTypeFormId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getStaffDepertmentFromDepertmentId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
