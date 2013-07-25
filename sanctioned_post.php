@@ -174,7 +174,7 @@ $org_type_name = $_SESSION['org_type_name'];
                                                                     data_list += "<li><a href=\"#\">Promotion</a></li>";
                                                                     data_list += "<li><a href=\"move_request.php?action=move_out&staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\" >Transfer</a></li>";
                                                                     data_list += "<li><a href=\"#\">Retirement</a></li>";
-                                                                    data_list += "<li><a href=\"#\">Suspention</a></li>";
+                                                                    data_list += "<li><a href=\"#\">Suspension</a></li>";
                                                                     data_list += "<li><a href=\"#\">Termination</a></li>";
                                                                     data_list += "<li><a href=\"#\">Death</a></li>";
                                                                     data_list += "<li><a href=\"#\">Leaving Job</a></li>";
