@@ -170,7 +170,7 @@ $org_type_name = $_SESSION['org_type_name'];
                         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                         ?>
 
-                        <table class="table table-striped table-hover">
+                        <table id="staff_list" class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>Staff Name</th>
@@ -230,10 +230,13 @@ $org_type_name = $_SESSION['org_type_name'];
         <script src="assets/js/application.js"></script>
 
         <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+
+        <script src="library/dataTables-1.9.4/media/js/jquery.dataTables.min.js"></script>
+        <script src="library/dataTables-1.9.4/media/js/paging.js"></script>
         <script>
             $.fn.editable.defaults.mode = 'inline';
 
-            var org_code= <?php echo "$org_code"; ?>;
+            var org_code = <?php echo "$org_code"; ?>;
             $(function() {
                 $('#match_staff a.text-input').editable({
                     type: 'text',
@@ -243,6 +246,21 @@ $org_type_name = $_SESSION['org_type_name'];
                         return params;
                     }
                 });
+            });
+
+            /* Table initialisation */
+            $(document).ready(function() {
+                $('#staff_list').dataTable({
+                    "sDom": "<'row'<'span5'l><'span4'f>r>t<'row'<'span4'i><'span5'p>>",
+                    "sPaginationType": "bootstrap"
+                });
+            });
+
+            $.extend($.fn.dataTableExt.oStdClasses, {
+                "sWrapper": "dataTables_wrapper form-inline",
+                "sSortAsc": "header headerSortDown",
+                "sSortDesc": "header headerSortUp",
+                "sSortable": "header"
             });
         </script>
     </body>
