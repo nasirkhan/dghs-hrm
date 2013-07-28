@@ -9,21 +9,6 @@ if ($_REQUEST["designation"]) {
 $username = $_SESSION['username'];
 $org_code = $_SESSION['org_code'];
 
-//$designation = "Mali";
-//$org_code = 10000246;
-
-function getStaffNameFromId($staff_id) {
-    $sql = "SELECT
-                old_tbl_staff_organization.staff_name
-            FROM
-                old_tbl_staff_organization
-            WHERE
-                old_tbl_staff_organization.staff_id = $staff_id";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-    $data = mysql_fetch_assoc($result);
-    return $data['staff_name'];
-}
 
 $sql = "SELECT
 total_manpower_imported_sanctioned_post_copy.id,
