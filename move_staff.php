@@ -140,11 +140,11 @@ $staff_id = mysql_real_escape_string($_GET['staff_id']);
                                 </tbody>
                             </table>
                         <?php elseif ($action == "move_out"): ?>
-                            <section id="move_out_main">
+                            <div id="move_out_main">
                                 <div class="alert alert-info">
                                     <h4>Transfer (Move Out)</h4>                                
                                 </div>
-                                <?php if (!$staff_id > 0): ?>                                
+                                <?php if (!$staff_id > 0): ?>
                                     <?php
                                     $sql = "SELECT
                                     old_tbl_staff_organization.staff_id,
@@ -190,174 +190,260 @@ $staff_id = mysql_real_escape_string($_GET['staff_id']);
                                         </tbody>
                                     </table>
                                 <?php else: ?>
-                                <div id="move_out_step1">
-                                    <p class="lead">
-                                        Move out request for :<br /> 
-                                        <strong><a href="employee.php?staff_id=<?php echo $staff_id; ?>"><?php $staff_name = getStaffNameFromId($staff_id); echo "$staff_name (Staff Id: $staff_id)" ?></a></strong>
-                                        <br />
-                                        <em>Select the new designation</em>
-                                    </p>
-                                    <div class="">
-                                        <div class="control-group">
-                                            <select id="admin_division" name="admin_division">
-                                                <option value="0">Select Division</option>
-                                                <?php
-                                                /**
-                                                 * @todo change old_visision_id to division_bbs_code
-                                                 */
-                                                $sql = "SELECT admin_division.division_name, admin_division.old_division_id FROM admin_division";
-                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                    <div id="move_out_step1">
+                                        <p class="lead">
+                                            Move out request for :<br /> 
+                                            <strong><a href="employee.php?staff_id=<?php echo $staff_id; ?>"><?php
+                                                    $staff_name = getStaffNameFromId($staff_id);
+                                                    echo "$staff_name (Staff Id: $staff_id)"
+                                                    ?></a></strong>
+                                            <br />
+                                            <em>Select the new designation</em>
+                                        </p>
+                                        <div class="">
+                                            <div class="control-group">
+                                                <select id="admin_division" name="admin_division">
+                                                    <option value="0">Select Division</option>
+                                                    <?php
+                                                    /**
+                                                     * @todo change old_visision_id to division_bbs_code
+                                                     */
+                                                    $sql = "SELECT admin_division.division_name, admin_division.old_division_id FROM admin_division";
+                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                                                while ($rows = mysql_fetch_assoc($result)) {
-                                                    echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                            <select id="admin_district" name="admin_district">
-                                                <option value="0">Select District</option>                                        
-                                            </select>
-                                            <select id="admin_upazila" name="admin_upazila">
-                                                <option value="0">Select Upazila</option>                                        
-                                            </select>
-                                        </div>
-                                        <div class="control-group">
-                                            <select id="org_agency" name="org_agency">
-                                                <option value="0">Select Agency</option>
-                                                <?php
-                                                $sql = "SELECT
+                                                    while ($rows = mysql_fetch_assoc($result)) {
+                                                        echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <select id="admin_district" name="admin_district">
+                                                    <option value="0">Select District</option>                                        
+                                                </select>
+                                                <select id="admin_upazila" name="admin_upazila">
+                                                    <option value="0">Select Upazila</option>                                        
+                                                </select>
+                                            </div>
+                                            <div class="control-group">
+                                                <select id="org_agency" name="org_agency">
+                                                    <option value="0">Select Agency</option>
+                                                    <?php
+                                                    $sql = "SELECT
                                                             org_agency_code.org_agency_code,
                                                             org_agency_code.org_agency_name
                                                         FROM
                                                             org_agency_code
                                                         ORDER BY
                                                             org_agency_code.org_agency_code";
-                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                                                while ($rows = mysql_fetch_assoc($result)) {
-                                                    echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
+                                                    while ($rows = mysql_fetch_assoc($result)) {
+                                                        echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <select id="org_list" name="org_list">
+                                                    <option value="0">Select Organization</option>                                        
+                                                </select>
+                                                <select id="sanctioned_post" name="org_list">
+                                                    <option value="0">Select Designation</option>                                        
+                                                </select>
+
+                                            </div>
+
+                                            <div class="control-group">
+                                                <button id="move_out_continue" type="button" class="btn btn-primary">Continue Move Out Request</button>
+
+                                                <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
+                                            </div>
+                                            <div id="move_out_continue_details" class="alert alert-Warnign" style="display:none;">
+                                                <table class="table">
+                                                    <tr>
+                                                        <td colspan="3"><strong><?php echo $staff_name; ?></strong></td>                                                
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>Organization</td>
+                                                        <td>Designation</td>
+                                                    </tr>
+                                                    <tr class="error">
+                                                        <td>Present</td>
+                                                        <td><?php echo $org_name ?></td>
+                                                        <td><?php echo getDesignationNameFormStaffId($staff_id); ?></td>
+                                                    </tr>
+                                                    <tr class="success">
+                                                        <td>Move to</td>
+                                                        <td><span id="mv_to_org"></span></td>
+                                                        <td><span id="mv_to_des"></span></td>
+                                                    </tr>
+                                                </table>
+                                                <form class="form-horizontal">
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="govt_order">Memo No.:</label>
+                                                        <div class="controls">
+                                                            <input type="text" id="govt_order" placeholder="Memo Number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="comment">(Please mention the attachment if any): </label>
+                                                        <div class="controls">
+                                                            <textarea id="comment" rows="3">Not Applicable</textarea>
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+                                                <button id="move_out_confirm" type="button" class="btn btn-warning">Confirm Move Out Request</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            <!--</section>-->
+
+                        <?php elseif ($action == "move_in"): ?>
+
+                            <div id="move_in_main">
+                                <div class="alert alert-info">
+                                    <h4>Transfer (Move In)</h4>                                
+                                </div>
+                                <?php if (!$staff_id > 0): ?>
+                                    <div id="move_in_step1">
+                                        <div class="">
+                                            <div class="control-group">
+                                                <select id="admin_division" name="admin_division">
+                                                    <option value="0">Select Division</option>
+                                                    <?php
+                                                    /**
+                                                     * @todo change old_visision_id to division_bbs_code
+                                                     */
+                                                    $sql = "SELECT admin_division.division_name, admin_division.old_division_id FROM admin_division";
+                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                    while ($rows = mysql_fetch_assoc($result)) {
+                                                        echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <select id="admin_district" name="admin_district">
+                                                    <option value="0">Select District</option>                                        
+                                                </select>
+                                                <select id="admin_upazila" name="admin_upazila">
+                                                    <option value="0">Select Upazila</option>                                        
+                                                </select>
+                                            </div>
+                                            <div class="control-group">
+                                                <select id="org_agency" name="org_agency">
+                                                    <option value="0">Select Agency</option>
+                                                    <?php
+                                                    $sql = "SELECT
+                                                    org_agency_code.org_agency_code,
+                                                    org_agency_code.org_agency_name
+                                                FROM
+                                                    org_agency_code
+                                                ORDER BY
+                                                    org_agency_code.org_agency_code";
+                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                    while ($rows = mysql_fetch_assoc($result)) {
+                                                        echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <select id="org_list" name="org_list">
+                                                    <option value="0">Select Organization</option>                                        
+                                                </select>
+                                                <select id="sanctioned_post" name="org_list">
+                                                    <option value="0">Select Designation</option>                                        
+                                                </select>
+
+                                            </div>
+
+                                            <div class="control-group">
+                                                <button id="show_employee" type="button" class="btn btn-primary">Show Employee List</button>
+
+                                                <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
+                                            </div>                                        
+                                        </div>
+                                        <div id="employee_list"></div>
+                                    </div>
+                                <?php else: ?>
+                                    <div id="move_in_step2">
+                                        <p class="lead">
+                                            Move In request for:
+                                            <br />
+                                            <a href="employee.php?staff_id=<?php echo "$staff_id"; ?>"><?php echo getStaffNameFromId($staff_id) . " (Staff Id: $staff_id)"; ?></a>
+                                            <br />
+                                            <em>Select the new designation</em>
+
+                                            <select id="move_in_des_select" name="move_in_des_select" class="input-block-level">
+                                                <option value="0">Select the destination designation</option>
+                                                <?php
+                                                $sql = "SELECT
+                                                    total_manpower_imported_sanctioned_post_copy.id,
+                                                    total_manpower_imported_sanctioned_post_copy.designation,
+                                                    total_manpower_imported_sanctioned_post_copy.sanctioned_post_group_code
+                                                    FROM
+                                                    total_manpower_imported_sanctioned_post_copy
+                                                    WHERE 
+                                                    org_code = $org_code
+                                                    GROUP BY
+                                                    total_manpower_imported_sanctioned_post_copy.sanctioned_post_group_code 
+                                                    ";
+                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                while ($data = mysql_fetch_assoc($result)) {
+                                                    echo "<option value=\"" . $data['sanctioned_post_group_code'] . "\">" . $data['designation'] . "</option>";
                                                 }
                                                 ?>
                                             </select>
-                                            <select id="org_list" name="org_list">
-                                                <option value="0">Select Organization</option>                                        
-                                            </select>
-                                            <select id="sanctioned_post" name="org_list">
-                                                <option value="0">Select Designation</option>                                        
-                                            </select>
-
-                                        </div>
-
+                                        </p>
                                         <div class="control-group">
-                                            <button id="move_out_continue" type="button" class="btn btn-primary">Continue Move Out Request</button>
+                                            <button id="move_in_continue" type="button" class="btn btn-primary">Continue Move In Request</button>
 
                                             <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                         </div>
-                                        <div id="move_out_continue_details" class="alert alert-Warnign" style="display:none;">
-                                        <table class="table">
-                                            <tr>
-                                                <td colspan="3"><strong><?php echo $staff_name; ?></strong></td>                                                
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td>Organization</td>
-                                                <td>Designation</td>
-                                            </tr>
-                                            <tr class="error">
-                                                <td>Present</td>
-                                                <td><?php echo $org_name ?></td>
-                                                <td><?php echo getDesignationNameFormStaffId($staff_id); ?></td>
-                                            </tr>
-                                            <tr class="success">
-                                                <td>Move to</td>
-                                                <td><span id="mv_to_org"></span></td>
-                                                <td><span id="mv_to_des"></span></td>
-                                            </tr>
-                                        </table>
-                                        <form class="form-horizontal">
-                                            <div class="control-group">
-                                                <label class="control-label" for="govt_order">Memo No.:</label>
-                                                <div class="controls">
-                                                    <input type="text" id="govt_order" placeholder="Memo Number">
+                                        <div id="move_in_continue_details" class="alert alert-Warnign" style="display:none;">
+                                            <table class="table">
+                                                <tr>
+                                                    <td colspan="3"><strong><?php echo $staff_name; ?></strong></td>                                                
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>Organization</td>
+                                                    <td>Designation</td>
+                                                </tr>
+                                                <tr class="error">
+                                                    <td>Present</td>
+                                                    <td><?php echo $org_name ?></td>
+                                                    <td><?php echo getDesignationNameFormStaffId($staff_id); ?></td>
+                                                </tr>
+                                                <tr class="success">
+                                                    <td>Move to</td>
+                                                    <td><span id="mv_to_org"></span></td>
+                                                    <td><span id="mv_to_des"></span></td>
+                                                </tr>
+                                            </table>
+                                            <form class="form-horizontal">
+                                                <div class="control-group">
+                                                    <label class="control-label" for="govt_order">Memo No.:</label>
+                                                    <div class="controls">
+                                                        <input type="text" id="govt_order" placeholder="Memo Number">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="control-group">
-                                                <label class="control-label" for="comment">(Please mention the attachment if any): </label>
-                                                <div class="controls">
-                                                    <textarea id="comment" rows="3">Not Applicable</textarea>
+                                                <div class="control-group">
+                                                    <label class="control-label" for="comment">(Please mention the attachment if any): </label>
+                                                    <div class="controls">
+                                                        <textarea id="comment" rows="3">Not Applicable</textarea>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                        </form>
-                                        <button id="move_out_confirm" type="button" class="btn btn-warning">Confirm Move Out Request</button>
+                                            </form>
+                                            <button id="move_out_confirm" type="button" class="btn btn-warning">Confirm Move Out Request</button>
+                                        </div>
                                     </div>
-                                    </div>
-                                </div>
                                 <?php endif; ?>
-                            </section>
-                        </section>
-
-                    <?php elseif ($action == "move_in"): ?>
-                        <div class="alert alert-info">
-                            <h4>Transfer (Move In)</h4>                                
-                        </div>
-                        <div class="">
-                            <div class="control-group">
-                                <select id="admin_division" name="admin_division">
-                                    <option value="0">Select Division</option>
-                                    <?php
-                                    /**
-                                     * @todo change old_visision_id to division_bbs_code
-                                     */
-                                    $sql = "SELECT admin_division.division_name, admin_division.old_division_id FROM admin_division";
-                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                    while ($rows = mysql_fetch_assoc($result)) {
-                                        echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
-                                    }
-                                    ?>
-                                </select>
-                                <select id="admin_district" name="admin_district">
-                                    <option value="0">Select District</option>                                        
-                                </select>
-                                <select id="admin_upazila" name="admin_upazila">
-                                    <option value="0">Select Upazila</option>                                        
-                                </select>
-                            </div>
-                            <div class="control-group">
-                                <select id="org_agency" name="org_agency">
-                                    <option value="0">Select Agency</option>
-                                    <?php
-                                    $sql = "SELECT
-                                                        org_agency_code.org_agency_code,
-                                                        org_agency_code.org_agency_name
-                                                    FROM
-                                                        org_agency_code
-                                                    ORDER BY
-                                                        org_agency_code.org_agency_code";
-                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                    while ($rows = mysql_fetch_assoc($result)) {
-                                        echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
-                                    }
-                                    ?>
-                                </select>
-                                <select id="org_list" name="org_list">
-                                    <option value="0">Select Organization</option>                                        
-                                </select>
-                                <select id="sanctioned_post" name="org_list">
-                                    <option value="0">Select Designation</option>                                        
-                                </select>
-
                             </div>
 
-                            <div class="control-group">
-                                <button id="show_employee" type="button" class="btn btn-primary">Show Employee List</button>
-
-                                <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
-                            </div>
-                        </div>
-                        <div id="employee_list"></div>
-                    <?php endif; ?>
+                        <?php endif; ?>
                     </section> <!-- /move-options -->
 
                 </div> <!-- /main -->
@@ -405,25 +491,25 @@ $staff_id = mysql_real_escape_string($_GET['staff_id']);
 
             // division
             $('#admin_division').change(function() {
-                    $("#loading_content").show();
-                    var div_id = $('#admin_division').val();
-                    $.ajax({
-                        type: "POST",
-                        url: 'get/get_district_list.php',
-                        data: {div_id: div_id},
-                        dataType: 'json',
-                        success: function(data)
-                        {
-                            $("#loading_content").hide();
-                            var admin_district = document.getElementById('admin_district');
-                            admin_district.options.length = 0;
-                            for (var i = 0; i < data.length; i++) {
-                                var d = data[i];
-                                admin_district.options.add(new Option(d.text, d.value));
-                            }
+                $("#loading_content").show();
+                var div_id = $('#admin_division').val();
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_district_list.php',
+                    data: {div_id: div_id},
+                    dataType: 'json',
+                    success: function(data)
+                    {
+                        $("#loading_content").hide();
+                        var admin_district = document.getElementById('admin_district');
+                        admin_district.options.length = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var d = data[i];
+                            admin_district.options.add(new Option(d.text, d.value));
                         }
-                    });
+                    }
                 });
+            });
 
             // district 
             $('#admin_district').change(function() {
@@ -499,14 +585,14 @@ $staff_id = mysql_real_escape_string($_GET['staff_id']);
                     }
                 });
             });
-            
+
             // load move_out_continue 
             $('#move_out_continue').click(function() {
                 $("#move_out_continue_details").slideDown();
                 var mv_to_org = $("#org_list option:selected").text();
                 $("#mv_to_org").html(mv_to_org);
 
-                var mv_to_des = $("#sanctioned_post option:selected").text();                
+                var mv_to_des = $("#sanctioned_post option:selected").text();
                 $("#mv_to_des").html(mv_to_des);
             });
 
