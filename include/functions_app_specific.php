@@ -846,4 +846,21 @@ function getDeptNameFromId($dept_id) {
     return $data['name'];
 }
 
+/**
+ * Get Staff name from Id
+ * @param INT $staff_id
+ * @return STRING
+ */
+function getStaffNameFromId($staff_id) {
+    $sql = "SELECT
+                old_tbl_staff_organization.staff_name
+            FROM
+                old_tbl_staff_organization
+            WHERE
+                old_tbl_staff_organization.staff_id = $staff_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+    return $data['staff_name'];
+}
 ?>
