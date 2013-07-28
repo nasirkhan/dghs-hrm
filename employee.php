@@ -537,7 +537,7 @@ if (isset($_POST['search'])) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Education Qualification</strong></td><!--type_of_educational_qualification-->
-                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);   ?></a></td>
+                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);    ?></a></td>
                                         </tr>
 
                                         <script>
@@ -603,7 +603,7 @@ if (isset($_POST['search'])) {
 // add new employee
                                 elseif ($display_mode == "new") :
                                     ?>
-                                    <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF'];    ?>" method="post">
+                                    <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF'];     ?>" method="post">
                                         <fieldset>
                                             <table class="table table-striped table-hover">
                                                 <tr>
@@ -836,70 +836,39 @@ if (isset($_POST['search'])) {
             var org_code = <?php echo $org_code; ?>;
 
             $('#employee-profile a.text-input').editable({
-            type: 'text',
-            pk: <?php echo $staff_id; ?>,
-            url: 'post/post_employee.php',
-            params: function(params) {
-            params.org_code = <?php echo $org_code; ?>;
-            return params;
-            }
+                type: 'text',
+                pk: <?php echo $staff_id; ?>,
+                url: 'post/post_employee.php',
+                params: function(params) {
+                    params.org_code = <?php echo $org_code; ?>;
+                    return params;
+                }
             });
             $('#employee-profile a.date-input').editable({
-            type: 'date',
-            pk: <?php echo $staff_id; ?>,
-            url: 'post/post_employee.php',
-            format: 'yyyy-mm-dd',
-            datepicker: {
-            weekStart: 1
-            },
-            params: function(params) {
-            params.org_code = <?php echo $org_code; ?>;
-            return params;
-            }
+                type: 'date',
+                pk: <?php echo $staff_id; ?>,
+                url: 'post/post_employee.php',
+                format: 'yyyy-mm-dd',
+                datepicker: {
+                    weekStart: 1
+                },
+                params: function(params) {
+                    params.org_code = <?php echo $org_code; ?>;
+                    return params;
+                }
             });
             $('#employee-profile a.date-textarea').editable({
-            type: 'textarea',
-            pk: <?php echo $staff_id; ?>,
-            url: 'post/post_employee.php',
-            rows: 5,
-            params: function(params) {
-            params.org_code = <?php echo $org_code; ?>;
-            return params;
-            }
+                type: 'textarea',
+                pk: <?php echo $staff_id; ?>,
+                url: 'post/post_employee.php',
+                rows: 5,
+                params: function(params) {
+                    params.org_code = <?php echo $org_code; ?>;
+                    return params;
+                }
             });
-            $(function() {
-            $('#sex').editable({
-            type: 'select',
-            pk: <?php echo $staff_id; ?>,
-            value: 1,
-            source: [
-            {value: 1, text: 'Male'},
-            {value: 2, text: 'Female'},
-            {value: 3, text: 'Other'},                        
-            ],
-            params: function(params) {
-            params.org_code = <?php echo $org_code; ?>;
-            return params;
-            }
-            });
-            });
-            //            $(function() {
-            //                $('#marital_status').editable({
-            //                    type: 'select',
-            //                    pk: <?php echo $staff_id; ?>,
-            //                    value: 1,
-            //                    source: [
-            //                        {value: 1, text: 'Single'},
-            //                        {value: 2, text: 'Married'}
-            //                    ],
-            //                    params: function(params) {
-            //                        params.org_code = <?php echo $org_code; ?>;
-            //                        return params;
-            //                    }
-            //                });
-            //            });
             $('.datepicker').datepicker({
-            format: 'yyyy-mm-dd'
+                format: 'yyyy-mm-dd'
             });
         </script>
         <script src="assets/js/common.js"></script>
