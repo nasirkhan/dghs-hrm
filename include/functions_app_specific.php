@@ -88,6 +88,25 @@ function getOrgNameFormOrgCode($org_code) {
 }
 
 /**
+ * Get the <b>Organization Name</b> from the <b>Sanctioned post id</b><b></b>
+ * @param int $org_code Organization Code
+ * @return String org_name Organization Name
+ */
+function getOrgNameFormSanctionedPostId($sanctioned_post_id) {
+    $sql = "SELECT
+                total_manpower_imported_sanctioned_post_copy.org_name
+            FROM
+                total_manpower_imported_sanctioned_post_copy
+            WHERE
+                total_manpower_imported_sanctioned_post_copy.id = $sanctioned_post_id
+            LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $org_data = mysql_fetch_assoc($result);
+    return $org_data['org_name'];
+}
+
+/**
  * Get the <b>Organization Name</b> and <b>Organization Type Code</b>from the <b>Organization Code</b><b></b>
  * @param int $org_code Organization Code
  * @return String <b>Organization Name(org_name)</b> and <b>Organization Type Code (org_type_code)</b>
