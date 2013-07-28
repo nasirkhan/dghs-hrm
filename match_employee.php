@@ -119,40 +119,7 @@ $org_type_name = $_SESSION['org_type_name'];
                     <!-- main
                     ================================================== -->
                     <section id="match_staff">
-                        <?php
-
-                        function getDesignationInfoFromCode($des_code) {
-                            $sql = "SELECT
-                                        sanctioned_post_designation.designation,
-                                        sanctioned_post_designation.payscale,
-                                        sanctioned_post_designation.class
-                                    FROM
-                                        sanctioned_post_designation
-                                    WHERE
-                                        sanctioned_post_designation.designation_code = $des_code";
-                            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgCode:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                            $data = mysql_fetch_assoc($result);
-
-                            return $data;
-                        }
-
-                        function getDeptNameFromId($dept_name) {
-                            $sql = "SELECT
-                                    very_old_departments.dept_id,
-                                    very_old_departments.department_id,
-                                    very_old_departments.`name`
-                                FROM
-                                    very_old_departments
-                                WHERE
-                                    very_old_departments.department_id = $dept_name";
-                            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgCode:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                            $data = mysql_fetch_assoc($result);
-
-                            return $data['name'];
-                        }
-                        ?>
+                        
                         <?php
                         $sql = "SELECT
                                     old_tbl_staff_organization.staff_id,
