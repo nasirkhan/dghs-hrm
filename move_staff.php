@@ -139,8 +139,61 @@ $action = mysql_real_escape_string($_GET['action']);
                                 </tbody>
                             </table>
                         <?php elseif ($action == "move_out"): ?>
+                        <section id="move_out_main">
                             <div class="alert alert-info">
                                 <h4>Transfer (Move Out)</h4>                                
+                            </div>
+                            <?php
+                        $sql = "SELECT
+                                    old_tbl_staff_organization.staff_id,
+                                    old_tbl_staff_organization.sanctioned_post_id,
+                                    old_tbl_staff_organization.designation_id,
+                                    old_tbl_staff_organization.department_id,
+                                    old_tbl_staff_organization.staff_name,
+                                    old_tbl_staff_organization.father_name
+                                FROM
+                                    old_tbl_staff_organization
+                                WHERE
+                                    old_tbl_staff_organization.org_code = $org_code
+                                ORDER BY
+                                    old_tbl_staff_organization.staff_name ASC";
+                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                        ?>
+
+                        <table id="staff_list" class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Staff Name</th>
+                                    <th>Dept</th>
+                                    <!--<th>Father's Name</th>-->
+                                    <th>Designation</th>
+                                    <th>Pay scale</th>
+                                    <th>Class</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                    <tr>
+                                        <td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>"><?php echo $data['staff_name']; ?></a></td>
+                                        <td><?php echo getDeptNameFromId($data['department_id']); ?></td>
+                                        <!--<td><?php echo $data['father_name']; ?></td>-->
+                                        <?php
+                                        $designation_info = getDesignationInfoFromCode($data['designation_id']);
+                                        ?>
+                                        <td><?php echo $designation_info['designation']; ?></td>
+                                        <td><?php echo $designation_info['payscale']; ?></td>
+                                        <td><?php echo $designation_info['class']; ?></td>
+                                        <td><span id="<?php echo $data['staff_id']; ?>">Move Out</span></td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </section>
+                        </section>
+                        <?php elseif ($action == "move_in"): ?>
+                            <div class="alert alert-info">
+                                <h4>Transfer (Move In)</h4>                                
                             </div>
                             <div class="">
                                 <div class="control-group">
@@ -198,6 +251,7 @@ $action = mysql_real_escape_string($_GET['action']);
                                     <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                 </div>
                             </div>
+                            <div id="employee_list"></div>
                         <?php endif; ?>
                     </section> <!-- /move-options -->
 
@@ -221,12 +275,29 @@ $action = mysql_real_escape_string($_GET['action']);
         <script src="assets/js/jquery.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
 
-        <script src="assets/js/holder/holder.js"></script>
         <script src="assets/js/google-code-prettify/prettify.js"></script>
 
         <script src="assets/js/application.js"></script>
+        
+        <script src="library/dataTables-1.9.4/media/js/jquery.dataTables.min.js"></script>
+        <script src="library/dataTables-1.9.4/media/js/paging.js"></script>
 
         <script type="text/javascript">
+            /* Table initialisation */
+            $(document).ready(function() {
+                $('#staff_list').dataTable({
+                    "sDom": "<'row'<'span5'l><'span4'f>r>t<'row'<'span4'i><'span5'p>>",
+                    "sPaginationType": "bootstrap"
+                });
+            });
+
+            $.extend($.fn.dataTableExt.oStdClasses, {
+                "sWrapper": "dataTables_wrapper form-inline",
+                "sSortAsc": "header headerSortDown",
+                "sSortDesc": "header headerSortUp",
+                "sSortable": "header"
+            });
+            
             // division
             $(function() {
                 $('#admin_division').change(function() {
