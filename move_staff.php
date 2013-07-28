@@ -20,6 +20,11 @@ $org_type_name = $_SESSION['org_type_name'];
 
 $action = mysql_real_escape_string($_GET['action']);
 $staff_id = mysql_real_escape_string($_GET['staff_id']);
+
+if ($staff_id > 0){
+    $sanctioned_post_id = getSanctionedPostIdFromStaffId($staff_id);
+    $staff_name = getStaffNameFromId($staff_id);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,7 +111,7 @@ $staff_id = mysql_real_escape_string($_GET['staff_id']);
                                         <td><em>Request transfer of an staff form this organization to some other organization</em></td>
                                     </tr>
                                     <tr>
-                                        <td><a href="#">Transfer (Move In)</a></td>
+                                        <td><a href="move_staff.php?action=move_in">Transfer (Move In)</a></td>
                                         <td><em>Request transfer of an staff form another organization to this organization</em></td>
                                     </tr>
                                     <tr>
@@ -193,8 +198,7 @@ $staff_id = mysql_real_escape_string($_GET['staff_id']);
                                     <div id="move_out_step1">
                                         <p class="lead">
                                             Move out request for :<br /> 
-                                            <strong><a href="employee.php?staff_id=<?php echo $staff_id; ?>"><?php
-                                                    $staff_name = getStaffNameFromId($staff_id);
+                                            <strong><a href="employee.php?staff_id=<?php echo $staff_id; ?>"><?php                                                    
                                                     echo "$staff_name (Staff Id: $staff_id)"
                                                     ?></a></strong>
                                             <br />
@@ -370,7 +374,7 @@ $staff_id = mysql_real_escape_string($_GET['staff_id']);
                                         <p class="lead">
                                             Move In request for:
                                             <br />
-                                            <a href="employee.php?staff_id=<?php echo "$staff_id"; ?>"><?php echo getStaffNameFromId($staff_id) . " (Staff Id: $staff_id)"; ?></a>
+                                            <a href="employee.php?staff_id=<?php echo "$staff_id"; ?>"><?php echo "$staff_name (Staff Id: $staff_id)"; ?></a>
                                             <br />
                                             <em>Select the new designation</em>
 
@@ -412,9 +416,9 @@ $staff_id = mysql_real_escape_string($_GET['staff_id']);
                                                     <td>Designation</td>
                                                 </tr>
                                                 <tr class="error">
-                                                    <td>Present</td>
-                                                    <td><?php echo $org_name ?></td>
-                                                    <td><?php echo getDesignationNameFormStaffId($staff_id); ?></td>
+                                                    <td>Present</td>                                                    
+                                                    <td><span id="mv_from_org"></span></td>
+                                                    <td><span id="mv_from_des"></span></td>
                                                 </tr>
                                                 <tr class="success">
                                                     <td>Move to</td>
@@ -437,7 +441,7 @@ $staff_id = mysql_real_escape_string($_GET['staff_id']);
                                                 </div>
 
                                             </form>
-                                            <button id="move_out_confirm" type="button" class="btn btn-warning">Confirm Move Out Request</button>
+                                            <button id="move_in_confirm" type="button" class="btn btn-warning">Confirm Move In Request</button>
                                         </div>
                                     </div>
                                 <?php endif; ?>
@@ -645,6 +649,23 @@ $staff_id = mysql_real_escape_string($_GET['staff_id']);
                         $("#employee_list").html(data);
                     }
                 });
+            });
+            
+            // load move_in_continue 
+            $('#move_in_continue').click(function() {
+                $("#move_in_continue_details").slideDown();
+                
+                var mv_from_org = "<?php echo getOrgNameFormSanctionedPostId($sanctioned_post_id) ?>";
+                $("#mv_from_org").html(mv_from_org);
+                
+                var mv_from_des = "<?php echo getDesignationNameFormStaffId($staff_id); ?>";
+                $("#mv_from_des").html(mv_from_des);
+                
+                var mv_to_org = "<?php echo $org_name ?>";
+                $("#mv_to_org").html(mv_to_org);
+
+                var mv_to_des = $("#move_in_des_select option:selected").text();
+                $("#mv_to_des").html(mv_to_des);
             });
         </script>
     </body>
