@@ -26,7 +26,7 @@ echo "<th>Staff Id</th>";
 echo "<th>Staff Name</th>";
 echo "<th>Designation</th>";
 echo "<th>Contact no.</th>";
-echo "<th>PDS Code</th>";
+echo "<th>Action</th>";
 echo "</tr>";
 while ($row = mysql_fetch_assoc($result)) {
 //    print_r($row);
@@ -50,7 +50,7 @@ while ($row = mysql_fetch_assoc($result)) {
         echo "<td><a href=\"employee.php?staff_id=" . $value['staff_id'] . "\" target=\"_blank\">" . $value['staff_name'] . "</a></td>";
         echo "<td>" . getStaffDepertmentFromDepertmentId($value['department_id']) . "</td>";
         echo "<td>" . $value['contact_no'] . "</td>";
-        echo "<td>" . $value['staff_pds_code'] . "</td>";
+        echo "<td><a href=\"move_staff.php?action=move_in&staff_id=" . $value['staff_id'] . "\">Move In</a></td>";
         echo "</tr>";
     }
 }
