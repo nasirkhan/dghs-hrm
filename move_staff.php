@@ -21,7 +21,7 @@ $org_type_name = $_SESSION['org_type_name'];
 $action = mysql_real_escape_string($_GET['action']);
 $staff_id = mysql_real_escape_string($_GET['staff_id']);
 
-if ($staff_id > 0){
+if ($staff_id > 0) {
     $sanctioned_post_id = getSanctionedPostIdFromStaffId($staff_id);
     $staff_name = getStaffNameFromId($staff_id);
 }
@@ -198,7 +198,7 @@ if ($staff_id > 0){
                                     <div id="move_out_step1">
                                         <p class="lead">
                                             Move out request for :<br /> 
-                                            <strong><a href="employee.php?staff_id=<?php echo $staff_id; ?>"><?php                                                    
+                                            <strong><a href="employee.php?staff_id=<?php echo $staff_id; ?>"><?php
                                                     echo "$staff_name (Staff Id: $staff_id)"
                                                     ?></a></strong>
                                             <br />
@@ -602,14 +602,14 @@ if ($staff_id > 0){
 
             //move_out_confirm
             $('#move_out_confirm').click(function() {
-                <?php
-                if ($staff_id > 0) {
-                    echo "var staff_id = $staff_id;";
-                }
-                if ($sanctioned_post_id > 0) {
-                    echo "var sanctioned_post = $sanctioned_post_id;";
-                }
-                ?>
+<?php
+if ($staff_id > 0) {
+    echo "var staff_id = $staff_id;";
+}
+if ($sanctioned_post_id > 0) {
+    echo "var sanctioned_post = $sanctioned_post_id;";
+}
+?>
                 var new_sanctioned_post = $("#sanctioned_post").val();
                 var govt_order = $("#govt_order").val();
                 var comment = $("#comment").val();
@@ -650,17 +650,17 @@ if ($staff_id > 0){
                     }
                 });
             });
-            
+
             // load move_in_continue 
             $('#move_in_continue').click(function() {
                 $("#move_in_continue_details").slideDown();
-                
-                var mv_from_org = "<?php echo getOrgNameFormSanctionedPostId($sanctioned_post_id) ?>";
+
+                var mv_from_org = "<?php if ($sanctioned_post_id > 0) echo getOrgNameFormSanctionedPostId($sanctioned_post_id) ?>";
                 $("#mv_from_org").html(mv_from_org);
-                
-                var mv_from_des = "<?php echo getDesignationNameFormStaffId($staff_id); ?>";
+
+                var mv_from_des = "<?php if ($staff_id > 0) echo getDesignationNameFormStaffId($staff_id); ?>";
                 $("#mv_from_des").html(mv_from_des);
-                
+
                 var mv_to_org = "<?php echo $org_name ?>";
                 $("#mv_to_org").html(mv_to_org);
 
