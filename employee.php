@@ -319,14 +319,17 @@ if (isset($_POST['search'])) {
                                             <td width="50%"><strong>Salary drawn from which head:</strong></td><!-- draw_type_id-->
                                             <td><?php echo getDrawTypeNameFromId($data['draw_type_id']); ?></td>
                                         </tr>
+                                        <!--
                                         <tr>
                                             <td width="50%"><strong>Pay Scale of Current Designation</strong></td>
                                             <td><?php echo $data['pay_scale_of_current_designation']; ?></td>
                                         </tr>
+                                        
                                         <tr>
                                             <td width="50%"><strong>Current Basic Pay (Tk.):</strong></td>
                                             <td><?php echo $data['current_basic_pay_taka']; ?></td>
                                         </tr>
+                                        -->
                                         <tr>
                                             <td width="50%"><strong>Date Of Joining to Govt. Health Service</strong></td>
                                             <td><?php echo $data['date_of_joining_to_govt_health_service']; ?></td>
