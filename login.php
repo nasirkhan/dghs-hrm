@@ -22,13 +22,14 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
     if (mysql_num_rows($result) >= 1) {
         $_SESSION['user_id'] = $data['user_id'];
         $_SESSION['username'] = $data['username'];
-
+        $_SESSION['user_type'] = $data['user_type'];
+        
         $_SESSION['organization_id'] = $data['organization_id'];
         $_SESSION['org_code'] = $data['org_code'];
         $_SESSION['org_name'] = getOrgNameFormOrgCode($data['org_code']);
         $_SESSION['org_type_name'] = getOrgTypeNameFormOrgCode($data['org_code']);
         $_SESSION['logged'] = TRUE;        
-        $_SESSION['user_type'] = $data['user_type'];
+        
         session_write_close();
         $login_sussess = 1;
 
