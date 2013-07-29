@@ -140,6 +140,30 @@ function checkEmployeeExistsInOrganization($org_code, $staff_id) {
         return FALSE;
     }
 }
+/**
+ * Check if an Staff profile exists in the Staff table
+ * @param INT $staff_id
+ * @return boolean
+ */
+function checkStaffProfileExists($staff_id) {
+    $sql = "SELECT
+                count(1) as exists_status
+            FROM
+                old_tbl_staff_organization
+            WHERE
+                old_tbl_staff_organization.staff_id = $staff_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkStaffExists:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    if ($data['exists_status'] > 0) {
+        $exists = TRUE;
+    } else {
+        $exists = FALSE;
+    }
+
+    return $exists;
+}
 
 /**
  * Check if an Staff exists in the total manpower table or not

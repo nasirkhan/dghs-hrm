@@ -19,10 +19,12 @@ if ($sanctioned_post_id != "") {
     $temp = checkStaffExistsBySanctionedPost($sanctioned_post_id);
     $staff_exists = $temp['exists'];
     $staff_id = $temp['staff_id'];
+    $staff_profile_exists = checkStaffProfileExists($staff_id);
 
     $designation = getDesignationNameFormSanctionedPostId($sanctioned_post_id);
 } else if ($staff_id != "") {
     $staff_exists = checkStaffExists($staff_id);
+    $staff_profile_exists = checkStaffProfileExists($staff_id);
     $designation = getDesignationNameFormStaffId($staff_id);
     $sanctioned_post_id = getSanctionedPostIdFromStaffId($staff_id);
 }
@@ -39,20 +41,40 @@ if ($_SESSION['user_type'] == 'admin') {
     $userCanEdit = FALSE;
 }
 
+// set staff display mode
+//if ($staff_exists && !$userCanEdit) {
+//    $display_mode = "view"; 
+//    
+//    // data fetched form staff table
+//    $data = getStaffInfoFromStaffId($staff_id);    
+//    
+//} else if ($staff_exists && $userCanEdit) {
+//    $display_mode = "edit";
+//    
+//    // data fetched form staff table
+//    $data = getStaffInfoFromStaffId($staff_id);
+//    
+//} else if ($action == "new" && $userCanEdit) {
+//    if ($sanctioned_post_id != "") {
+//        
+//    }
+//    $display_mode = "new";
+//}
 
-if ($staff_exists && !$userCanEdit) {
+// Set Staff profile Display mode
+if (!$userCanEdit && $staff_profile_exists) {
     $display_mode = "view"; 
     
     // data fetched form staff table
     $data = getStaffInfoFromStaffId($staff_id);    
     
-} else if ($staff_exists && $userCanEdit) {
+} else if ($staff_profile_exists && $userCanEdit) {
     $display_mode = "edit";
     
     // data fetched form staff table
     $data = getStaffInfoFromStaffId($staff_id);
     
-} else if ($action == "new" && $userCanEdit) {
+} else if ($action == "new" && $userCanEdit && !$staff_profile_exists) {
     if ($sanctioned_post_id != "") {
         
     }
@@ -63,13 +85,13 @@ if ($staff_exists && !$userCanEdit) {
 if (isset($_POST['search'])) {
     $search_string = mysql_real_escape_string($_POST['search']);
     $sql = "SELECT
-                    old_tbl_staff_organization.staff_id
+                old_tbl_staff_organization.staff_id
             FROM
-                    `old_tbl_staff_organization`
+                `old_tbl_staff_organization`
             WHERE
-            old_tbl_staff_organization.staff_name LIKE \"%$search_string%\" OR
-            old_tbl_staff_organization.staff_id = \"$search_string\" AND
-            old_tbl_staff_organization.org_code = $org_code";
+                old_tbl_staff_organization.staff_name LIKE \"%$search_string%\" OR
+                old_tbl_staff_organization.staff_id = \"$search_string\" AND
+                old_tbl_staff_organization.org_code = $org_code";
     $s_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>a:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $s_data = mysql_fetch_assoc($s_result);
@@ -174,20 +196,7 @@ if (isset($_POST['search'])) {
 
                         <div class="row">
                             <div class="span9">
-<!--                                <p><pre>
-                                <?php
-//                                    echo "$display_mode|";
-//                                    print_r($temp);
-//                                    print_r($_POST);
-//                                    print_r($_GET);
-                                $exception_field = "";
-                                $query = createMySqlInsertString($_POST, $exception_field);
-                                print_r($query);
-                                $table_name = "old_tbl_staff_organization";
-                                $column_name = "govt_quarter";
-                                print_r(getEnumColumnValues($table_name, $column_name));
-                                ?>
-                                </pre></p>-->
+
                                 <?php if ($staff_id == "" && $action != "new"): ?>
                                     <div class="alert alert-success">
                                         <div>
@@ -206,11 +215,8 @@ if (isset($_POST['search'])) {
 
                                     </div>
                                 <?php endif; ?>
-
-                                
-                                <?php
-                                if ($display_mode == "view"):
-                                    ?>
+  
+                                <?php if ($display_mode == "view"): ?>
                                     <table class="table table-striped table-hover" id="employee-profile">
                                         <tr>
                                             <td width="50%"><strong>Staff Name</strong></td>
@@ -404,7 +410,6 @@ if (isset($_POST['search'])) {
                                     </table>
 
                                     <?php
-//                                if ($staff_id != "" && $staff_exists && $userCanEdit): 
                                 elseif ($display_mode == "edit"):
                                     ?>
                                     <table class="table table-striped table-hover" id="employee-profile">
@@ -599,7 +604,7 @@ if (isset($_POST['search'])) {
 
                                     </table>
                                     <?php
-// add new employee
+                                // add new employee
                                 elseif ($display_mode == "new") :
                                     ?>
                                     <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF'];      ?>" method="post">
@@ -796,6 +801,11 @@ if (isset($_POST['search'])) {
                                             </table>
                                         </fieldset>
                                     </form>
+                                <?php 
+                                else: 
+                                    echo "ELSE";
+                                    ?>
+                                
                                 <?php endif; ?>
                             </div>
                         </div>
