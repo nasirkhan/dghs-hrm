@@ -539,6 +539,7 @@ if ($staff_id > 0) {
 
             // load organization 
             $('#org_agency').change(function() {
+                $("#loading_content").show();
                 var div_id = $('#admin_division').val();
                 var dis_id = $('#admin_district').val();
                 var upa_id = $('#admin_upazila').val();

@@ -193,7 +193,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     <table class="table table-striped table-hover">
                                         <tr>
                                             <td width="50%"><strong>Organization Name</strong></td>
-                                            <td><a href="#" class="text-input" id="org_name" ><?php echo "$org_name"; ?></a></td>
+                                            <td><a href="#" class="text-input" id="org_name" ><?php echo $data['org_name']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Organization Code</strong></td>

@@ -9,7 +9,11 @@ if ($org_code == "") {
     $org_code = $_SESSION['org_code'];
 }
 
-if ($_SESSION['user_type'] != "admin" && ($_GET['org_code'] != $_SESSION['org_code'])) {
+//if ($_SESSION['user_type'] != "admin" && ($_GET['org_code'] != $_SESSION['org_code'])) {
+//    $org_code = $_SESSION['org_code'];
+//}
+
+if ($_SESSION['user_type'] != "admin"){
     $org_code = $_SESSION['org_code'];
 }
 //$org_code = $_SESSION['org_code'];
