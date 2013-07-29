@@ -44,21 +44,8 @@ $org_type_name = $_SESSION['org_type_name'];
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="assets/ico/favicon.png">
 
-        <!--
-        <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'ACCOUNT_ID']);
-            _gaq.push(['_trackPageview']);
-            (function() {
-                var ga = document.createElement('script');
-                ga.type = 'text/javascript';
-                ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-        -->
+        <!--Google analytics code-->
+        <?php include_once 'include/header/header_ga.inc.php'; ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
