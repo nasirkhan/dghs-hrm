@@ -882,4 +882,41 @@ function getStaffNameFromId($staff_id) {
     $data = mysql_fetch_assoc($result);
     return $data['staff_name'];
 }
+/**
+ * Get Org Code From Staff Id
+ * @param INT $staff_id
+ * @return INT org_code
+ */
+function getOrgCodeFromStaffId($staff_id){
+    $sql = "SELECT
+                old_tbl_staff_organization.org_code
+            FROM
+                old_tbl_staff_organization
+            WHERE
+                old_tbl_staff_organization.staff_id = $staff_id
+            LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgCodeFromStaffId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+    return $data['org_code'];
+}
+
+/**
+ * Get all staff info from staff id
+ * @param INT $staff_id
+ * @return ARRAY 
+ */
+function getStaffInfoFromStaffId($staff_id){
+    $sql = "SELECT
+                *
+            FROM
+                old_tbl_staff_organization
+            WHERE
+                old_tbl_staff_organization.staff_id = $staff_id
+            LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getStaffInfoFromStaffId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+    return $data;
+}
 ?>
