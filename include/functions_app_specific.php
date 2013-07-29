@@ -164,6 +164,31 @@ function checkStaffProfileExists($staff_id) {
 
     return $exists;
 }
+/**
+ * Check if a Sanctioned Post id is withing an Organziation
+ * @param INT $staff_id
+ * @return boolean
+ */
+function checkSanctionedPostWithinOrgFromSanctionedPostId($sanctioned_post_id, $org_code) {
+    $sql = "SELECT
+                Count(1) AS exists_status
+            FROM
+                total_manpower_imported_sanctioned_post_copy
+            WHERE
+                total_manpower_imported_sanctioned_post_copy.org_code = $org_code AND
+                total_manpower_imported_sanctioned_post_copy.id = $sanctioned_post_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkSanctionedPostWithinOrgFromSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    if ($data['exists_status'] > 0) {
+        $exists = TRUE;
+    } else {
+        $exists = FALSE;
+    }
+
+    return $exists;
+}
 
 /**
  * Check if an Staff exists in the total manpower table or not

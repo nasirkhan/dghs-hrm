@@ -20,6 +20,8 @@ if ($sanctioned_post_id != "") {
     $staff_exists = $temp['exists'];
     $staff_id = $temp['staff_id'];
     $staff_profile_exists = checkStaffProfileExists($staff_id);
+    
+    $sanctioned_post_within_org = checkSanctionedPostWithinOrgFromSanctionedPostId($sanctioned_post_id, $org_code);
 
     $designation = getDesignationNameFormSanctionedPostId($sanctioned_post_id);
 } else if ($staff_id != "") {
@@ -31,15 +33,19 @@ if ($sanctioned_post_id != "") {
 
 $staff_org_code = getOrgCodeFromStaffId($staff_id);
 
+$userCanEdit = FALSE;
 if ($_SESSION['user_type'] == 'admin') {
     $userCanEdit = TRUE;
 
-} else if ($staff_org_code == $org_code) {
+} 
+if ($staff_org_code == $org_code) {
     $userCanEdit = TRUE;
 
-} else {
-    $userCanEdit = FALSE;
+} 
+if($sanctioned_post_within_org){
+    $userCanEdit = TRUE;
 }
+
 
 // set staff display mode
 //if ($staff_exists && !$userCanEdit) {
@@ -74,7 +80,7 @@ if (!$userCanEdit && $staff_profile_exists) {
     // data fetched form staff table
     $data = getStaffInfoFromStaffId($staff_id);
     
-} else if ($action == "new" && $userCanEdit && !$staff_profile_exists) {
+} else if ($action == "new" && $userCanEdit) {
     if ($sanctioned_post_id != "") {
         
     }
@@ -221,6 +227,10 @@ if (isset($_POST['search'])) {
                                         <tr>
                                             <td width="50%"><strong>Staff Name</strong></td>
                                             <td><?php echo $data['staff_name']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Organization Name</strong></td>
+                                            <td><?php echo getOrgNameFormOrgCode(getOrgCodeFromStaffId($staff_id)); ?></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong><a href="#">Code No.(Doctors Only):</a></strong></td>
@@ -799,7 +809,7 @@ if (isset($_POST['search'])) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong></strong></td>
-                                                    <td><button type="submit" class="btn btn-success btn-large">Submit</button></td>
+                                                    <td><button type="submit" class="btn btn-success btn-large disabled">Submit</button></td>
                                                 </tr>
                                             </table>
                                         </fieldset>
