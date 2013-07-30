@@ -138,20 +138,21 @@ $user_name = $_SESSION['username'];
                                 </button>
                             </div>
                         </div>
-                        <!-- Search Organization-->
+                        <!-- Search Organization by Organization name or code -->
                         <div  id="search_org" class="collapse in">
                             <div class="row-fluid">
                                 <div class="span12 alert">
                                     <div class="control-group">
                                         <label class="control-label" for="searchOrg">Search By Organization Name or Organization Code</label>
                                         <div class="controls input-append">
-                                            <input type="text" id="searchOrg" class="input-xlarge" placeholder="Write Organization Name or Code">
+                                            <input type="text" id="searchOrg" class="input-xlarge" placeholder="Enter Organization Name or Code">
                                             <button id="btn_search_org" class="btn" type="button">Search</button>
+                                            <button id="btn_reset" class="btn" type="button">Reset</button>
                                         </div>
                                     </div>
                                 </div>                            
                             </div>
-
+                            <!-- Search Organization by administrative location -->
                             <div class="row-fluid">
                                 <div class="span12 alert">
                                     <div class="">
@@ -263,7 +264,7 @@ $user_name = $_SESSION['username'];
         <script src="assets/js/application.js"></script>
 
         <script type="text/javascript">
-            // division
+            // load division
             $('#admin_division').change(function() {
                 $("#loading_content").show();
                 var div_id = $('#admin_division').val();
@@ -285,7 +286,7 @@ $user_name = $_SESSION['username'];
                 });
             });
 
-            // district 
+            // load district 
             $('#admin_district').change(function() {
                 var dis_id = $('#admin_district').val();
                 $("#loading_content").show();
@@ -332,6 +333,28 @@ $user_name = $_SESSION['username'];
                         $("#org_list_display").html(data);
                     }
                 });
+            });
+            
+            // Search organization 
+            $('#btn_search_org').click(function() {
+                $("#loading_content").show();
+                var searchOrg = $('#searchOrg').val();
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_search_result.php',
+                    data: {searchOrg: searchOrg},
+                    success: function(data) {
+                        $("#loading_content").hide();
+                        $("#org_list_display").html("");
+                        $("#org_list_display").html(data);
+                    }
+                });
+            });
+            
+            //reset search field
+            $("#btn_reset").click(function (){
+                $('#searchOrg').val("");
+                $("#org_list_display").html("");
             });
         </script>
 
