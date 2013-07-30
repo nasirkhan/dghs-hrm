@@ -7,22 +7,30 @@ if ($_SESSION['logged'] != true) {
 if ($_SESSION['user_type'] != 'admin'){
     header("location:home.php");
 }
-$org_code = $_GET['org_code'];
+
+// set org_code
+$org_code = mysql_real_escape_string($_GET['org_code']);
 if($org_code == ""){
     $org_code = $_SESSION['org_code'];
 }
-//$org_code = $_SESSION['org_code'];
+if ($_SESSION['user_type'] == "admin"){
+    $org_code = mysql_real_escape_string($_GET['org_code']);
+    
+    if ($org_code == ""){
+        $org_code = "99999999";
+    }
+}
 $org_code = (int) $org_code;
 
 
-$sql = "SELECT * FROM organization WHERE  org_code =$org_code LIMIT 1";
+
+$sql = "SELECT org_name,org_type_code FROM organization WHERE  org_code =$org_code LIMIT 1";
 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
 // data fetched form organization table
 $data = mysql_fetch_assoc($result);
 
 $org_name = $data['org_name'];
-$org_code = $data['org_code'];
 $org_type_name = $data['org_type_name'];
 $user_name = $_SESSION['username'];
 
@@ -34,7 +42,7 @@ $user_name = $_SESSION['username'];
         <title><?php echo $org_name . " | " . $app_name; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="author" content="Nasir Khan Saikat">
 
         <!-- Le styles -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -55,21 +63,8 @@ $user_name = $_SESSION['username'];
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="assets/ico/favicon.png">
 
-        <!--
-        <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'ACCOUNT_ID']);
-            _gaq.push(['_trackPageview']);
-            (function() {
-                var ga = document.createElement('script');
-                ga.type = 'text/javascript';
-                ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-        -->
+        <!--Google analytics code-->
+        <?php include_once 'include/header/header_ga.inc.php'; ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -88,7 +83,7 @@ $user_name = $_SESSION['username'];
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li class="active">
-                                <a href="./index.html">Home</a>                                
+                                <a href="./index.php">Home</a>                                
                             </li>
                             <li class="">
                                 <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>
@@ -116,7 +111,8 @@ $user_name = $_SESSION['username'];
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <li class="active"><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
+                        <li class="active"><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
+                        <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
                         <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
@@ -125,50 +121,14 @@ $user_name = $_SESSION['username'];
                     </ul>
                 </div>
                 <div class="span9">
-                    <!-- Download
+                    <!-- admin home
                     ================================================== -->
-                    <section id="organization-profile">
+                    <section id="admin_home_main">
+                        <h3>Admin Dashboard</h3>
 
-                        <div class="row">
-                            <div class="span5">
-                                <?php 
-                                $image_src = "uploads/" . $_SESSION['username'] . ".jpg";
-                                
-                                if (file_exists($image_src)){
-                                    echo "<img src=\"$image_src\" class=\"img-polaroid\" />";
-                                }
-                                else{
-                                    echo "<img data-src=\"holder.js/480x360\"  class=\"img-polaroid\" />";
-                                }
-                                
-                                ?>
-                            </div>
-                            <div class="span4">
-                                <div id="map" style="height: 360px"></div>
-                            </div>
-                        </div>
+                        
 
-                    </section>
-                    <section id="home-basic-info">
-                        <div class="row">
-                            <div class="lead span9">
-                                <table class="table table-striped table-hover">
-                                    <tr>
-                                        <td>Organization Name</td>
-                                        <td><?php echo "$org_name"; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Organization Code</td>
-                                        <td><?php echo "$org_code"; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Organization Type</td>
-                                        <td><?php echo "$org_type_name"; ?></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </section>
+                    </section>                    
                 </div>
             </div>
 
