@@ -32,8 +32,13 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         
         session_write_close();
         $login_sussess = 1;
-
-        header("location:home.php?org_code=" . $_SESSION['org_code']);
+        
+        if ($_SESSION['user_type'] == "admin"){
+            header("location:admin_home.php?org_code=" . $_SESSION['org_code']);
+        }
+        else{
+            header("location:home.php?org_code=" . $_SESSION['org_code']);
+        }        
     } else {
         $login_sussess = 0;
     }
@@ -49,7 +54,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         <meta charset="utf-8">
         <title><?php echo $app_name; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="DHGS HRM Application developed by Activation Ltd, http://activationltd.com">
+        <meta name="description" content="Ministry of Health and Family Welfare HRM Application developed by Activation Ltd, http://activationltd.com">
         <meta name="author" content="nasir khan saikat (nasir8891 AT gmail DOT com)">
 
         <!-- Le styles -->
@@ -132,7 +137,9 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="assets/ico/favicon.png">
-
+        
+        <!--Google analytics code-->
+        <?php include_once 'include/header/header_ga.inc.php'; ?>
     </head>
 
     <body>
