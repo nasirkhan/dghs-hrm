@@ -4,19 +4,19 @@ require_once 'configuration.php';
 if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
-if ($_SESSION['user_type'] != 'admin'){
+if ($_SESSION['user_type'] != 'admin') {
     header("location:home.php");
 }
 
 // set org_code
 $org_code = mysql_real_escape_string($_GET['org_code']);
-if($org_code == ""){
+if ($org_code == "") {
     $org_code = $_SESSION['org_code'];
 }
-if ($_SESSION['user_type'] == "admin"){
+if ($_SESSION['user_type'] == "admin") {
     $org_code = mysql_real_escape_string($_GET['org_code']);
-    
-    if ($org_code == ""){
+
+    if ($org_code == "") {
         $org_code = "99999999";
     }
 }
@@ -33,7 +33,6 @@ $data = mysql_fetch_assoc($result);
 $org_name = $data['org_name'];
 $org_type_name = $data['org_type_name'];
 $user_name = $_SESSION['username'];
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,7 +107,7 @@ $user_name = $_SESSION['username'];
 
             <!-- Docs nav
             ================================================== -->
-            <div class="row">
+            <div class="row-fluid">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <li class="active"><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
@@ -126,9 +125,42 @@ $user_name = $_SESSION['username'];
                     <section id="admin_home_main">
                         <h3>Admin Dashboard</h3>
 
-                        
+                        <div class="row-fluid">                            
+                            <div class="btn-group span12">
+                                <button class="btn btn-large btn-warning" data-toggle="collapse" data-target="#search_org">
+                                    <i class="icon-hospital pull-left"></i> Search Organization
+                                </button>
+                                <button class="btn btn-large btn-info">
+                                    <i class="icon-user-md pull-left"></i> Search Staff
+                                </button>
+                                <button class="btn btn-large btn-primary">
+                                    <i class="icon-user pull-left"></i> Search User
+                                </button>
+                            </div>
+                        </div>
+                        <!--Search Organization-->
+                        <div  id="search_org" class="collapse in">
+                            <div class="row-fluid">
+                                <div class="span12 alert">
+                                    <div class="control-group">
+                                        <label class="control-label" for="searchOrg">Search By Organization Name or Organization Code</label>
+                                        <div class="controls input-append">
+                                            <input type="text" id="searchOrg" class="input-xlarge" placeholder="Write Organization Name or Code">
+                                            <button id="btn_search_org" class="btn" type="button">Search</button>
+                                        </div>
+                                    </div>
+                                </div>                            
+                            </div>
+                            
+                            <div class="row-fluid">
+                                <div class="span12 alert">
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
 
-                    </section>                    
+                    </section> <!-- /admin_home_main -->                   
                 </div>
             </div>
 
