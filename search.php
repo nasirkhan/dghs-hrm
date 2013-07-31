@@ -13,9 +13,6 @@ $org_name = $org_data['org_name'];
 $org_type_code = $org_data['org_type_code'];
 $org_type_name = $_SESSION['org_type_name'];
 
-
-//  check and set the user's edit permission
-$userCanEdit = TRUE;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,21 +44,9 @@ $userCanEdit = TRUE;
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="assets/ico/favicon.png">
 
-        <!--
-        <script type="text/javascript">
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'ACCOUNT_ID']);
-            _gaq.push(['_trackPageview']);
-            (function() {
-                var ga = document.createElement('script');
-                ga.type = 'text/javascript';
-                ga.async = true;
-                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-                var s = document.getElementsByTagName('script')[0];
-                s.parentNode.insertBefore(ga, s);
-            })();
-        </script>
-        -->
+        <!--Google analytics code-->
+        <?php include_once 'include/header/header_ga.inc.php'; ?>
+        
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -80,7 +65,7 @@ $userCanEdit = TRUE;
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li class="active">
-                                <a href="./index.html">Home</a>                                
+                                <a href="./index.php">Home</a>                                
                             </li>
                             <li class="">
                                 <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>
@@ -105,7 +90,7 @@ $userCanEdit = TRUE;
 
             <!-- Docs nav
             ================================================== -->
-            <div class="row">
+            <div class="row-fluid">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
@@ -118,14 +103,40 @@ $userCanEdit = TRUE;
                     </ul>
                 </div>
                 <div class="span9">
-                    <!-- Download
+                    <!-- Search main div
                     ================================================== -->
-                    <section id="organization-profile">
+                    <section id="search_main">
 
-                        <div class="row">
-                            <div class="span9">
-                                
-                            </div>
+                        <div class="row-fluid">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <button class="btn btn-large btn-warning">
+                                                <i class="icon-hospital icon-2x pull-left"></i> Search Organization
+                                            </button>
+                                        </td>
+                                        <td>Search an organization using the organization name organization code, organization type or find it form the administrative divisions.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button class="btn btn-large btn-info">
+                                                <i class="icon-user-md icon-2x pull-left"></i> Search Employee
+                                            </button>
+                                        </td>
+                                        <td>Find an individual staff from an organization, search by his name or staff id.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button class="btn btn-large btn-primary">
+                                                <i class="icon-user icon-2x pull-left"></i> Search HRM Users
+                                            </button>
+                                        </td>
+                                        <td>Find an individual staff from an organization, search by his name or staff id.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
                         </div>
 
                     </section>
