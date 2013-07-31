@@ -1,3 +1,11 @@
+<?php 
+require_once 'configuration.php';
+
+if ($_SESSION['logged'] != true) {
+    header("location:login.php");
+}
+?>
+
 <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
