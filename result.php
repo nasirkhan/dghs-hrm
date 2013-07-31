@@ -3,11 +3,12 @@
 require_once 'configuration.php';
 
 if ($_REQUEST["designation"]) {
-    $designation = $_REQUEST['designation'];
+    $designation = mysql_real_escape_string($_REQUEST['designation']);
+    $org_code = mysql_real_escape_string($_REQUEST['org_code']);
 //   echo $designation;
 }
 $username = $_SESSION['username'];
-$org_code = $_SESSION['org_code'];
+//$org_code = $_SESSION['org_code'];
 
 
 $sql = "SELECT
