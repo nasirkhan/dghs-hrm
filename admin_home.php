@@ -4,35 +4,32 @@ require_once 'configuration.php';
 if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
-if ($_SESSION['user_type'] != 'admin') {
-    header("location:home.php");
-}
 
-// set org_code
-$org_code = mysql_real_escape_string($_GET['org_code']);
-if ($org_code == "") {
-    $org_code = $_SESSION['org_code'];
-}
-if ($_SESSION['user_type'] == "admin") {
-    $org_code = mysql_real_escape_string($_GET['org_code']);
-
-    if ($org_code == "") {
-        $org_code = "99999999";
-    }
-}
-$org_code = (int) $org_code;
-
-
-
-$sql = "SELECT org_name,org_type_code FROM organization WHERE  org_code =$org_code LIMIT 1";
-$result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-// data fetched form organization table
-$data = mysql_fetch_assoc($result);
-
-$org_name = $data['org_name'];
-$org_type_name = $data['org_type_name'];
+// assign values from session array
+$org_code = $_SESSION['org_code'];
+$org_name = $_SESSION['org_name'];
+$org_type_name = $_SESSION['org_type_name'];
 $user_name = $_SESSION['username'];
+
+$echoAdminInfo = "";
+
+// assign values admin users
+if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
+    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
+    $org_name = getOrgNameFormOrgCode($org_code);
+    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
+    $echoAdminInfo = " | Administrator";
+    $isAdmin = TRUE;
+}
+if ($org_code == "") {
+    $org_code = "99999999";
+}
+
+// admin check 
+if ($_SESSION['user_type'] != "admin"){
+    header("location:home.php?org_code=$org_code");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,30 +65,9 @@ $user_name = $_SESSION['username'];
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
 
-        <!-- Navbar
+        <!-- Top navigation bar
         ================================================== -->
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="brand" href="./index.php"><?php echo $app_name; ?></a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li class="active">
-                                <a href="./index.php">Home</a>                                
-                            </li>
-                            <li class="">
-                                <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php include_once 'include/header/header_top_menu.inc.php'; ?>
 
         <!-- Subhead
         ================================================== -->
@@ -111,6 +87,7 @@ $user_name = $_SESSION['username'];
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <li class="active"><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
+                        <li><a href="search.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
@@ -138,105 +115,7 @@ $user_name = $_SESSION['username'];
                                 </button>
                             </div>
                         </div>
-                        <!-- || Search Organization -->
-                        <div  id="search_org" class="collapse">
-                            <!-- Search Organization by Organization name or code -->
-                            <div class="row-fluid">
-                                <div class="span12 alert">
-                                    <div class="control-group">
-                                        <label class="control-label" for="searchOrg">Search By Organization Name or Organization Code</label>
-                                        <div class="controls input-append">
-                                            <input type="text" id="searchOrg" class="input-xlarge" placeholder="Enter Organization Name or Code">
-                                            <button id="btn_search_org" class="btn" type="button">Search</button>
-                                            <button id="btn_reset" class="btn" type="button">Reset</button>
-                                        </div>
-                                    </div>
-                                </div>                            
-                            </div>
-                            <!-- Search Organization by administrative location -->
-                            <div class="row-fluid">
-                                <div class="span12 alert">
-                                    <div class="">
-                                        <div class="control-group">
-                                            <select id="admin_division" name="admin_division">
-                                                <option value="0">Select Division</option>
-                                                <?php
-                                                /**
-                                                 * @todo change old_visision_id to division_bbs_code
-                                                 */
-                                                $sql = "SELECT admin_division.division_name, admin_division.old_division_id FROM admin_division";
-                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                                while ($rows = mysql_fetch_assoc($result)) {
-                                                    echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                            <select id="admin_district" name="admin_district">
-                                                <option value="0">Select District</option>                                        
-                                            </select>
-                                            <select id="admin_upazila" name="admin_upazila">
-                                                <option value="0">Select Upazila</option>                                        
-                                            </select>
-                                        </div>
-
-                                        <div class="control-group">
-                                            <select id="org_agency" name="org_agency">
-                                                <option value="0">Select Agency</option>
-                                                <?php
-                                                $sql = "SELECT
-                                                    org_agency_code.org_agency_code,
-                                                    org_agency_code.org_agency_name
-                                                FROM
-                                                    org_agency_code
-                                                ORDER BY
-                                                    org_agency_code.org_agency_code";
-                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                                while ($rows = mysql_fetch_assoc($result)) {
-                                                    echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
-                                                }
-                                                ?>
-                                            </select>
-
-                                            <select id="org_type" name="org_type">
-                                                <option value="0">Select Org Type</option>
-                                                <?php
-                                                $sql = "SELECT
-                                                            org_type.org_type_code,
-                                                            org_type.org_type_name
-                                                        FROM
-                                                            org_type
-                                                        ORDER BY
-                                                            org_type.org_type_name ASC";
-                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                                while ($rows = mysql_fetch_assoc($result)) {
-                                                    echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                            <!--
-                                                <select id="org_list" name="org_list">
-                                                    <option value="0">Select Organization</option>                                        
-                                                </select>
-                                                <select id="sanctioned_post" name="org_list">
-                                                    <option value="0">Select Designation</option>                                        
-                                                </select>
-                                            -->
-                                        </div>
-
-                                        <div class="control-group">
-                                            <button id="btn_show_org_list" type="button" class="btn btn-primary">Show Organization List</button>
-
-                                            <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
-                                        </div>                                        
-                                    </div>
-                                    <div id="org_list_display"></div>
-                                </div>
-
-                            </div>
-                        </div> <!-- /search_org -->
+                        
                         
                         <!-- || Search Staff -->
                         <div  id="search_staff_main" class="collapse in">
