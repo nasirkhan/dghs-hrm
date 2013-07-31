@@ -4,10 +4,13 @@ require_once 'configuration.php';
 if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
+
 // assign values from session array
 $org_code = $_SESSION['org_code'];
 $org_name = $_SESSION['org_name'];
 $org_type_name = $_SESSION['org_type_name'];
+
+$echoAdminInfo = "";
 
 // assign values admin users
 if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
@@ -15,6 +18,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
     $org_name = getOrgNameFormOrgCode($org_code);
     $org_type_name = getOrgTypeNameFormOrgCode($org_code);
     $echoAdminInfo = " | Administrator";
+    $isAdmin = TRUE;
 }
 
 //get coordinates
@@ -69,30 +73,9 @@ if (!($latitude > 0) || !($longitude > 0)) {
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
 
-        <!-- Navbar
+        <!-- Top navigation bar
         ================================================== -->
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="brand" href="./index.php"><?php echo $app_name; ?></a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li class="active">
-                                <a href="./index.html">Home</a>                                
-                            </li>
-                            <li class="">
-                                <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php include_once 'include/header/header_top_menu.inc.php'; ?>
 
         <!-- Subhead
         ================================================== -->

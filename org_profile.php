@@ -5,26 +5,19 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
-$org_code = $_GET['org_code'];
-if ($org_code == "") {
-    $org_code = $_SESSION['org_code'];
-}
+// assign values from session array
+$org_code = $_SESSION['org_code'];
+$org_name = $_SESSION['org_name'];
+$org_type_name = $_SESSION['org_type_name'];
 
-//  logged in user information
-$user_name = $_SESSION['username'];
-$user_type = $_SESSION['user_type'];
-
-if ($user_type == "admin") {
+// assign values admin users
+if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
+    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
+    $org_name = getOrgNameFormOrgCode($org_code);
+    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
+    $echoAdminInfo = " | Administrator";
     $isAdmin = TRUE;
 }
-
-
-// user can view only his own organization
-if ($_GET['org_code'] != $_SESSION['org_code'] && !$isAdmin) {
-    $org_code = $_SESSION['org_code'];
-}
-
-$org_code = (int) $org_code;
 
 
 $sql = "SELECT * FROM organization WHERE  org_code =$org_code LIMIT 1";
@@ -32,9 +25,6 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b
 
 // data fetched form organization table
 $data = mysql_fetch_assoc($result);
-
-$org_name = $_SESSION['org_name'];
-$org_type_name = $_SESSION['org_type_name'];
 
 
 /**
@@ -87,36 +77,15 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
 
-        <!-- Navbar
+        <!-- Top navigation bar
         ================================================== -->
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="brand" href="./index.php"><?php echo $app_name; ?></a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li class="active">
-                                <a href="./index.php">Home</a>                                
-                            </li>
-                            <li class="">
-                                <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php include_once 'include/header/header_top_menu.inc.php'; ?>
 
         <!-- Subhead
         ================================================== -->
         <header class="jumbotron subhead" id="overview">
             <div class="container">
-                <h1><?php echo $org_name; ?></h1>
+                <h1><?php echo $org_name . $echoAdminInfo; ?></h1>
                 <p class="lead"><?php echo "$org_type_name"; ?></p>
             </div>
         </header>
@@ -129,30 +98,10 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
-                            <!-- 
-                            <ul class="nav nav-list bs-docs-sidenav-l2 nav-tab-ul">
-                                <li class="">
-                                    <a href="#" data-toggle="tab"><i class="icon-hospital"></i> Basic Information</a>
-                                </li>
-                                <li class="">
-                                    <a href="#" data-toggle="tab"><i class="icon-envelope"></i> Contact Information</a>
-                                </li>
-                                <li class="">
-                                    <a href="#" data-toggle="tab"><i class="icon-shield"></i> Facility Information</a>
-                                </li>
-                                <li class="">
-                                    <a href="#" data-toggle="tab"><i class="icon-building"></i> Ownership Info</a>
-                                </li>
-                                <li class="">
-                                    <a href="#" data-toggle="tab"><i class="icon-th-list"></i> Land Information</a>
-                                </li>
-                                <li class="">
-                                    <a href="#" data-toggle="tab"><i class="icon-qrcode"></i> Additional Information</a>
-                                </li>
-                            </ul>
-                            -->
-                        </li>
+                        <?php if ($_SESSION['user_type']=="admin"): ?>
+                        <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
+                        <?php endif; ?>
+                        <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a></li>
                         <li class="active"><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
                         <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
