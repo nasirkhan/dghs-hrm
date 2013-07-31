@@ -138,8 +138,9 @@ $user_name = $_SESSION['username'];
                                 </button>
                             </div>
                         </div>
-                        <!-- Search Organization by Organization name or code -->
-                        <div  id="search_org" class="collapse in">
+                        <!-- || Search Organization -->
+                        <div  id="search_org" class="collapse">
+                            <!-- Search Organization by Organization name or code -->
                             <div class="row-fluid">
                                 <div class="span12 alert">
                                     <div class="control-group">
@@ -231,7 +232,93 @@ $user_name = $_SESSION['username'];
                                             <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                         </div>                                        
                                     </div>
-                                    <div id="org_list_display"</div>
+                                    <div id="org_list_display"></div>
+                                </div>
+
+                            </div>
+                        </div> <!-- /search_org -->
+                        
+                        <!-- || Search Staff -->
+                        <div  id="search_staff_main" class="collapse in">
+                            <div class="row-fluid">
+                                <div class="span12 alert alert-info">
+                                    <div class="">
+                                        <div class="control-group">
+                                            <select id="admin_division" name="admin_division">
+                                                <option value="0">Select Division</option>
+                                                <?php
+                                                /**
+                                                 * @todo change old_visision_id to division_bbs_code
+                                                 */
+                                                $sql = "SELECT admin_division.division_name, admin_division.old_division_id FROM admin_division";
+                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                while ($rows = mysql_fetch_assoc($result)) {
+                                                    echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                            <select id="admin_district" name="admin_district">
+                                                <option value="0">Select District</option>                                        
+                                            </select>
+                                            <select id="admin_upazila" name="admin_upazila">
+                                                <option value="0">Select Upazila</option>                                        
+                                            </select>
+                                        </div>
+
+                                        <div class="control-group">
+                                            <select id="org_agency" name="org_agency">
+                                                <option value="0">Select Agency</option>
+                                                <?php
+                                                $sql = "SELECT
+                                                    org_agency_code.org_agency_code,
+                                                    org_agency_code.org_agency_name
+                                                FROM
+                                                    org_agency_code
+                                                ORDER BY
+                                                    org_agency_code.org_agency_code";
+                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                while ($rows = mysql_fetch_assoc($result)) {
+                                                    echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+
+                                            <select id="org_type" name="org_type">
+                                                <option value="0">Select Org Type</option>
+                                                <?php
+                                                $sql = "SELECT
+                                                            org_type.org_type_code,
+                                                            org_type.org_type_name
+                                                        FROM
+                                                            org_type
+                                                        ORDER BY
+                                                            org_type.org_type_name ASC";
+                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                while ($rows = mysql_fetch_assoc($result)) {
+                                                    echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                            <!--
+                                                <select id="org_list" name="org_list">
+                                                    <option value="0">Select Organization</option>                                        
+                                                </select>
+                                                <select id="sanctioned_post" name="org_list">
+                                                    <option value="0">Select Designation</option>                                        
+                                                </select>
+                                            -->
+                                        </div>
+
+                                        <div class="control-group">
+                                            <button id="btn_show_org_list" type="button" class="btn btn-primary">Show Organization List</button>
+
+                                            <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
+                                        </div>                                        
+                                    </div>
+                                    <div id="org_list_display"></div>
                                 </div>
 
                             </div>
@@ -334,7 +421,7 @@ $user_name = $_SESSION['username'];
                     }
                 });
             });
-            
+
             // Search organization 
             $('#btn_search_org').click(function() {
                 $("#loading_content").show();
@@ -350,9 +437,9 @@ $user_name = $_SESSION['username'];
                     }
                 });
             });
-            
+
             //reset search field
-            $("#btn_reset").click(function (){
+            $("#btn_reset").click(function() {
                 $('#searchOrg').val("");
                 $("#org_list_display").html("");
             });

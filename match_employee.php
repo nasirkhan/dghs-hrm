@@ -4,17 +4,21 @@ require_once 'configuration.php';
 if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
-$org_code = $_GET['org_code'];
-if ($org_code == "") {
-    $org_code = $_SESSION['org_code'];
-}
-//$org_code = $_SESSION['org_code'];
-$org_code = (int) $org_code;
 
-
+// session data
 $org_code = $_SESSION['org_code'];
 $org_name = $_SESSION['org_name'];
 $org_type_name = $_SESSION['org_type_name'];
+
+
+// reassign org info
+if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
+    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
+    $org_name = getOrgNameFormOrgCode($org_code);
+    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

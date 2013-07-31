@@ -4,13 +4,23 @@ require_once 'configuration.php';
 if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
-$org_code = $_GET['org_code'];
-if ($org_code == "") {
-    $org_code = $_SESSION['org_code'];
+
+// assign values from session array
+$org_code = $_SESSION['org_code'];
+$org_name = $_SESSION['org_name'];
+$org_type_name = $_SESSION['org_type_name'];
+
+$echoAdminInfo = "";
+
+// assign values admin users
+if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
+    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
+    $org_name = getOrgNameFormOrgCode($org_code);
+    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
+    $echoAdminInfo = " | Administrator";
+    $isAdmin = TRUE;
 }
-//$org_code = $_SESSION['org_code'];
-$org_code = (int) $org_code;
-$username = getEmailAddressFromOrgCode($org_code);
+$username = $_SESSION['username'];
 
 
 $oldPasswordCorrect = TRUE;
@@ -40,21 +50,6 @@ if ($_POST['changePassword'] == 'true'){
     }
 }
 
-
-
-//org_code 10000001
-//$sql = "SELECT * FROM organization WHERE  org_code =$org_code LIMIT 1";
-//$result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-//
-//// data fetched form organization table
-//$data = mysql_fetch_assoc($result);
-//
-//$org_name = $data['org_name'];
-//$org_code = $data['org_code'];
-
-$org_code = $_SESSION['org_code'];
-$org_name = $_SESSION['org_name'];
-$org_type_name = $_SESSION['org_type_name'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,10 +65,7 @@ $org_type_name = $_SESSION['org_type_name'];
         <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
         <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
-        <![endif]-->
+        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">        
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -93,36 +85,15 @@ $org_type_name = $_SESSION['org_type_name'];
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
 
-        <!-- Navbar
+        <!-- Top navigation bar
         ================================================== -->
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="brand" href="./index.php"><?php echo $app_name; ?></a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li class="active">
-                                <a href="./index.html">Home</a>                                
-                            </li>
-                            <li class="">
-                                <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <?php include_once 'include/header/header_top_menu.inc.php'; ?>
 
         <!-- Subhead
         ================================================== -->
         <header class="jumbotron subhead" id="overview">
             <div class="container">
-                <h1><?php echo $org_name; ?></h1>
+                <h1><?php echo $org_name . $echoAdminInfo; ?></h1>
                 <p class="lead"><?php echo "$org_type_name"; ?></p>
             </div>
         </header>
@@ -135,6 +106,9 @@ $org_type_name = $_SESSION['org_type_name'];
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
+                        <?php if ($_SESSION['user_type']=="admin"): ?>
+                        <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
+                        <?php endif; ?>
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
@@ -145,9 +119,9 @@ $org_type_name = $_SESSION['org_type_name'];
                     </ul>
                 </div>
                 <div class="span9">
-                    <!-- Download
+                    <!-- main 
                     ================================================== -->
-                    <section id="organization-profile">
+                    <section id="user_settings">
 
                         <div class="row">
                             <div class="span9">
