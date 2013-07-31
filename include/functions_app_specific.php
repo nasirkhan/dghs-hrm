@@ -269,10 +269,12 @@ function checkPasswordIsCorrect($username, $password) {
  * @param type $password
  */
 function updatePassword($username, $password) {
-    $sql = "UPDATE dghs_hrm_main.user SET password = \"" . md5($password) . "\"WHERE user.username =\"$username\"";
+    $user_name = $_SESSION['username'];
+    $sql = "UPDATE dghs_hrm_main.user SET password = \"" . md5($password) . "\" ,
+                `updated_datetime` = \"". date("Y-m-d H:i:s") . "\",
+                `updated_by` = \"$user_name\" WHERE user.username =\"$username\"";
     $result = mysql_query($sql) or die(mysql_error() . "<br />updatePassword:1<br /><b>Query:</b><br />___<br />$sql<br />");
 
-//    $data = mysql_fetch_assoc($result);
 }
 
 /**
