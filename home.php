@@ -4,23 +4,18 @@ require_once 'configuration.php';
 if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
-$org_code = $_GET['org_code'];
-if ($org_code == "") {
-    $org_code = $_SESSION['org_code'];
-}
-
-//if ($_SESSION['user_type'] != "admin" && ($_GET['org_code'] != $_SESSION['org_code'])) {
-//    $org_code = $_SESSION['org_code'];
-//}
-
-if ($_SESSION['user_type'] != "admin"){
-    $org_code = $_SESSION['org_code'];
-}
-//$org_code = $_SESSION['org_code'];
-$org_code = (int) $org_code;
-
+// assign values from session array
+$org_code = $_SESSION['org_code'];
 $org_name = $_SESSION['org_name'];
 $org_type_name = $_SESSION['org_type_name'];
+
+// assign values admin users
+if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
+    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
+    $org_name = getOrgNameFormOrgCode($org_code);
+    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
+    $echoAdminInfo = " | Administrator";
+}
 
 //get coordinates
 $sql = "SELECT latitude, longitude FROM organization WHERE  org_code = $org_code LIMIT 1";
@@ -103,7 +98,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
         ================================================== -->
         <header class="jumbotron subhead" id="overview">
             <div class="container">
-                <h1><?php echo $org_name; ?></h1>
+                <h1><?php echo $org_name . $echoAdminInfo; ?></h1>
                 <p class="lead"><?php echo "$org_type_name"; ?></p>
             </div>
         </header>
@@ -116,6 +111,9 @@ if (!($latitude > 0) || !($longitude > 0)) {
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
+                        <?php if ($_SESSION['user_type']=="admin"): ?>
+                        <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
+                        <?php endif; ?>
                         <li class="active"><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
