@@ -1,0 +1,269 @@
+<?php
+require_once 'configuration.php';
+
+if ($_SESSION['logged'] != true) {
+    header("location:login.php");
+}
+
+// assign values from session array
+$org_code = $_SESSION['org_code'];
+$org_name = $_SESSION['org_name'];
+$org_type_name = $_SESSION['org_type_name'];
+
+$echoAdminInfo = "";
+
+// assign values admin users
+if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
+    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
+    $org_name = getOrgNameFormOrgCode($org_code);
+    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
+    $echoAdminInfo = " | Administrator";
+    $isAdmin = TRUE;
+}
+
+$action = mysql_real_escape_string($_GET['action']);
+$staff_id = mysql_real_escape_string($_GET['staff_id']);
+
+if ($staff_id > 0) {
+    $sanctioned_post_id = getSanctionedPostIdFromStaffId($staff_id);
+    $staff_name = getStaffNameFromId($staff_id);
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title><?php echo $org_name . " | " . $app_name; ?></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="Nasir Khan Saikat(nasir8891@gmail.com)">
+
+        <!-- Le styles -->
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="assets/css/style.css" rel="stylesheet">
+        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+
+        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+          <script src="assets/js/html5shiv.js"></script>
+        <![endif]-->
+
+        <!-- Le fav and touch icons -->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="assets/ico/favicon.png">
+
+        <!--Google analytics code-->
+        <?php include_once 'include/header/header_ga.inc.php'; ?>
+
+        <style type="text/css">
+            .padding_up_down{
+                padding: 20px 0px 20px 0px;
+            }
+        </style>
+    </head>
+
+    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+        <!-- Navbar
+        ================================================== -->
+        <?php include_once 'include/header/header_top_menu.inc.php'; ?>                
+
+        <!-- Subhead
+        ================================================== -->
+        <header class="jumbotron subhead" id="overview">
+            <div class="container">
+                <h1><?php echo $org_name . $echoAdminInfo; ?></h1>
+                <p class="lead"><?php echo "$org_type_name"; ?></p>
+            </div>
+        </header>
+
+
+        <div class="container">
+
+            <!-- Docs nav
+            ================================================== -->
+            <section id="move_staff_confirm">
+                <div id="move_out_print_order_main" class="row-fluid well" >
+                    <div id="move_out_print_order_header" class="row-fluid text-center">
+                        <h3>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h3>
+                        <br />
+                        <select id="sender_org_name">
+                            <!-- @todo set the values-->
+                            <option value="org_1">স্বাস্থ্য ও পরিবার কল্যান মন্ত্রণালয়</option>
+                            <option value="org_2">স্বাস্থ্য অধিদপ্তর</option>
+                            <option value="org_3">বিভাগীয় পরিচালক (স্বাস্থ্য)- ঢাকা</option>
+                            <option value="org_4">বিভাগীয় পরিচালক (স্বাস্থ্য)- চট্টগ্রাম</option>
+                            <option value="org_5">বিভাগীয় পরিচালক (স্বাস্থ্য)- রাজশাহী</option>
+                            <option value="org_6">বিভাগীয় পরিচালক (স্বাস্থ্য)- রংপুর</option>
+                            <option value="org_7">বিভাগীয় পরিচালক (স্বাস্থ্য)- বরিশাল</option>
+                            <option value="org_8">বিভাগীয় পরিচালক (স্বাস্থ্য)- খুলনা</option>
+                            <option value="org_9">বিভাগীয় পরিচালক (স্বাস্থ্য)- সিলেট</option>
+                        </select>
+                        <div id="sender_org_website">ওয়েবসাইট: </div>
+                        <div id="sender_org_email">ইমেইল: </div>
+
+                    </div>
+                    <div id="move_out_print_order_body" class="row-fluid padding_up_down">
+                        <div class="row-fluid">
+                            <div class="span4">স্মারক নং: </div>
+                            <div class="span4">
+                                <select id="sender_org_name">
+                                    <!-- @todo set the values-->
+                                    <option value="order_type_1">সার্কুলার</option>
+                                    <option value="order_type_2">আদেশ</option>
+                                    <option value="order_type_3">প্রজ্ঞাপন</option>
+                                </select>
+                            </div>
+                            <div class="span4"> তারিখঃ </div>
+                        </div>
+                        <div class="row-fluid padding_up_down">
+                            বিসিএস (স্বাস্থ্য) ক্যাডারের নিম্নলিখিত কর্মকর্তা/কর্মকর্তাবৃন্দকে পূনরাদেশ না দেয়া পর্যন্ত তাঁর/তাঁদের নামের পাশে বর্ণিত পদে বদলী/পদায়ন করা হলোঃ 
+                        </div>
+                        <div class="row-fluid padding_up_down">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <td>অনলাইন ট্রান্সফার কোড নং</td>
+                                        <td>নাম, পদবী ও বর্তমান কর্মস্থল</td>
+                                        <td>বদলী / পদায়নকৃত কর্মস্থল</td>
+                                        <td>সংযুক্তি (যদিথাকে)</td>
+                                        <td>তাৎক্ষণিক অবমুক্তির তারিখ (প্রযোজ্য হলে)</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span id="online_order_id"></span> </td>
+                                        <td><span id="from_staff_info"></span> </td>
+                                        <td><span id="to_staff_info"></span> </td>
+                                        <td><span id="attachments"></span> </td>
+                                        <td><span id="comment"></span> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span8"> 
+                                <label class="checkbox inline">
+                                    <input type="checkbox" id="inlineCheckbox1" value="option1"> এই আদেশ জনস্বার্থে জারি করা হলো।
+                                </label>
+                            </div>
+                            <div class="span4">
+                                <select id="order_send_form">
+                                    <!-- @todo set the values-->
+                                    <option value="order_send_form1">আদেশক্রমে</option>
+                                    <option value="order_send_form2">রাষ্ট্রপতির আদেশক্রমে</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span6 offset6 form-horizontal padding_up_down">
+                                <div class="control-group">
+                                    <label class="control-label" for="senderName">নাম: </label>
+                                    <div class="controls">
+                                        <input type="text" id="senderName" placeholder="নাম">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="senderDesignation">পদবী: </label>
+                                    <div class="controls">
+                                        <input type="text" id="senderDesignation" placeholder="পদবী">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="senderPhone">ফোন: </label>
+                                    <div class="controls">
+                                        <input type="text" id="senderPhone" placeholder="ফোন">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="senderEmail">ইমেইল: </label>
+                                    <div class="controls">
+                                        <input type="text" id="senderEmail" placeholder="ইমেইল">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span8"> 
+                                স্মারক নং: 
+                            </div>
+                            <div class="span4">
+                                স্মারক নং:
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span12"> 
+                                অনুলিপি সদয় অবগতি ও প্রয়োজনীয় ব্যবস্থা গ্রহণের জন্য প্রেরণ করা হলো:
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span12"> 
+                                <textarea class="input-block-level" rows="4"></textarea>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <div class="span6 offset6 form-horizontal padding_up_down">
+                                <div class="control-group">
+                                    <label class="control-label" for="senderName">নাম: </label>
+                                    <div class="controls">
+                                        <input type="text" id="senderName" placeholder="নাম">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="senderDesignation">পদবী: </label>
+                                    <div class="controls">
+                                        <input type="text" id="senderDesignation" placeholder="পদবী">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="senderPhone">ফোন: </label>
+                                    <div class="controls">
+                                        <input type="text" id="senderPhone" placeholder="ফোন">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="senderEmail">ইমেইল: </label>
+                                    <div class="controls">
+                                        <input type="text" id="senderEmail" placeholder="ইমেইল">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <p class="text-center">
+                                <button class="btn btn-large btn-warning" type="button">Cancel</button>
+                                <button class="btn btn-large btn-success" type="button">Send Transfer Order</button>
+                            </p>
+                        </div>
+                    </div> <!-- /move_out_print_order_body -->
+                    <div id="display_info"></div>
+                </div>
+            </section> <!-- /move_staff_confirm -->
+        </div>
+
+
+
+        <!-- Footer
+        ================================================== -->
+        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
+
+
+
+        <!-- Le javascript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+        <script src="assets/js/jquery.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+
+        <script src="assets/js/google-code-prettify/prettify.js"></script>
+
+        <script src="assets/js/application.js"></script>       
+    </body>
+</html>
