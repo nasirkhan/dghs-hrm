@@ -526,7 +526,7 @@ if (isset($_POST['search'])) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Pay Scale of Current Designation</strong></td>
-                                            <td><a href="#" class="text-input" data-type="text" id="pay_scale_of_current_designation" name="pay_scale_of_current_designation" readonly><?php echo $data['pay_scale_of_current_designation']; ?></a></td>
+                                            <td><a href="#" id="pay_scale_of_current_designation" name="pay_scale_of_current_designation"><?php echo getPayScaleId($data['pay_scale_of_current_designation']); ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Current Basic Pay (Tk.):</strong></td>
@@ -625,7 +625,7 @@ if (isset($_POST['search'])) {
                                                     <td><?php echo $designation; ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Sanctioned Post Id</strong></td>
+                                                    <td width="50%"><strong>Sanctioned Post ID</strong></td>
                                                     <td><?php echo $sanctioned_post_id; ?></td>
                                                 </tr>
                                                 <tr>
@@ -657,7 +657,7 @@ if (isset($_POST['search'])) {
                                                     <td><input name="staff_professional_category" type="text" placeholder="Enter Staff Professional Category" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Designation Id</strong></td>
+                                                    <td width="50%"><strong>Designation</strong></td>
                                                     <td><input name="designation_id" type="text" placeholder="Enter designation_id" /></td>
                                                 </tr>
                                                 <tr>
@@ -673,7 +673,7 @@ if (isset($_POST['search'])) {
                                                     <td><input name="staff_name" type="text" placeholder="Enter staff_name" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Staff Local Id</strong></td>
+                                                    <td width="50%"><strong>Staff Local</strong></td>
                                                     <td><input name="staff_local_id" type="text" placeholder="Enter staff_local_id" /></td>
                                                 </tr>
                                                 <tr>
@@ -705,15 +705,15 @@ if (isset($_POST['search'])) {
                                                     <td><input name="permanent_address" type="text" placeholder="Enter permanent_address" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Freedom Fighter Id</strong></td>
+                                                    <td width="50%"><strong>Freedom Fighter?</strong></td>
                                                     <td><input name="freedom_fighter_id" type="text" placeholder="Enter freedom_fighter_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Tribal Id</strong></td>
+                                                    <td width="50%"><strong>Tribal?</strong></td>
                                                     <td><input name="tribal_id" type="text" placeholder="Enter tribal_id" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Post Type Id</strong></td>
+                                                    <td width="50%"><strong>Post Type</strong></td>
                                                     <td><input name="post_type_id" type="text" placeholder="Enter post_type_id" /></td>
                                                 </tr>
                                                 <tr>

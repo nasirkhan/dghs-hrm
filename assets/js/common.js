@@ -581,6 +581,20 @@ $(function() {
     });
 });
 
+//pay scale
+$(function() {
+    $('#pay_scale_of_current_designation').editable({
+        type: 'select',
+        value: pay_scale_of_current_designation,
+        pk: staff_id,
+        url: 'post/post_employee.php',
+        source: 'get/get_pay_scale_of_designation.php',
+        params: function(params) {
+            params.org_code = org_code;
+            return params;
+        }
+    });
+});
 
 //birth_date
 //$(function() {
