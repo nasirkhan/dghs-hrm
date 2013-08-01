@@ -162,7 +162,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                                     data_list += "<div class=\"modal-body\">";
                                                                     data_list += "<ul>";
                                                                     data_list += "<li><a href=\"#\">Promotion</a></li>";
-                                                                    data_list += "<li><a href=\"move_request.php?action=move_out&staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\" >Transfer</a></li>";
+                                                                    data_list += "<li><a href=\"move_staff.php?action=move_out&staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\" >Transfer</a></li>";
                                                                     data_list += "<li><a href=\"#\">Retirement</a></li>";
                                                                     data_list += "<li><a href=\"#\">Suspension</a></li>";
                                                                     data_list += "<li><a href=\"#\">Termination</a></li>";
