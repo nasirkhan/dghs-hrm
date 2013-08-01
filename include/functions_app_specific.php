@@ -970,4 +970,23 @@ function getStaffInfoFromStaffId($staff_id){
     $data = mysql_fetch_assoc($result);
     return $data;
 }
+
+/**
+ * Get the Sanctioned post "Type of post name" from Code
+ * @param INT $type_of_post_code
+ * @return STRING type_of_post_name
+ */
+function getTypeOfPostNameFromCode($type_of_post_code){
+    $sql = "SELECT
+                sanctioned_post_type_of_post.type_of_post_name
+            FROM
+                sanctioned_post_type_of_post
+            WHERE
+                sanctioned_post_type_of_post.type_of_post_code = $type_of_post_code
+            LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getTypeOfPostNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+    return $data['type_of_post_name'];
+}
 ?>
