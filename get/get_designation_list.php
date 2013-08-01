@@ -6,7 +6,7 @@ $organization_id = (int) mysql_real_escape_string($_POST['organization_id']);
 
 $sql = "SELECT
             total_manpower_imported_sanctioned_post_copy.designation,
-            total_manpower_imported_sanctioned_post_copy.designation_id
+            total_manpower_imported_sanctioned_post_copy.sanctioned_post_group_code
         FROM
             total_manpower_imported_sanctioned_post_copy
         WHERE
@@ -25,7 +25,7 @@ $data[] = array(
 while ($row = mysql_fetch_array($result)) {
     $data[] = array(
         'text' => $row['designation'],
-        'value' => $row['designation_id']
+        'value' => $row['sanctioned_post_group_code']
     );
 }
 $json_data = json_encode($data);

@@ -21,13 +21,22 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $isAdmin = TRUE;
 }
 
-$action = mysql_real_escape_string($_GET['action']);
-$staff_id = mysql_real_escape_string($_GET['staff_id']);
+$govt_order = mysql_real_escape_string($_POST['govt_order']);
+$attachments = mysql_real_escape_string($_POST['attachments']);
+$staff_id = mysql_real_escape_string($_POST['post_staff_id']);
+$post_mv_from_org = mysql_real_escape_string($_POST['post_mv_from_org']);
+$post_mv_from_des = mysql_real_escape_string($_POST['post_mv_from_des']);
+$post_mv_to_org = mysql_real_escape_string($_POST['post_mv_to_org']);
+$post_mv_to_des = mysql_real_escape_string($_POST['post_mv_to_des']);
 
-if ($staff_id > 0) {
-    $sanctioned_post_id = getSanctionedPostIdFromStaffId($staff_id);
-    $staff_name = getStaffNameFromId($staff_id);
-}
+$staff_name = getStaffNameFromId($staff_id);
+
+$sanctioned_post_name_from = getSanctionedPostNameFromSanctionedPostId($post_mv_from_des);
+$sanctioned_post_name_to = getSanctionedPostNameFromSanctionedPostGroupCode($post_mv_to_des);
+
+$org_name_from = getOrgNameFormOrgCode($post_mv_from_org);
+$org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -111,7 +120,7 @@ if ($staff_id > 0) {
                     </div>
                     <div id="move_out_print_order_body" class="row-fluid padding_up_down">
                         <div class="row-fluid">
-                            <div class="span4">স্মারক নং: </div>
+                            <div class="span4">স্মারক নং: <?php echo "$govt_order"; ?></div>
                             <div class="span4">
                                 <select id="sender_org_name">
                                     <!-- @todo set the values-->
@@ -138,11 +147,19 @@ if ($staff_id > 0) {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><span id="online_order_id"></span> </td>
-                                        <td><span id="from_staff_info"></span> </td>
-                                        <td><span id="to_staff_info"></span> </td>
-                                        <td><span id="attachments"></span> </td>
-                                        <td><span id="comment"></span> </td>
+                                        <td></td>
+                                        <td>
+                                            <?php 
+                                            echo "$staff_name, $sanctioned_post_name_from, $org_name_from";
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php 
+                                            echo "$sanctioned_post_name_to, $org_name_to";
+                                            ?>
+                                        </td>
+                                        <td><?php echo "$attachments"; ?></td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>

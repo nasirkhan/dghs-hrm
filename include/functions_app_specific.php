@@ -522,6 +522,23 @@ function getSanctionedPostIdFromStaffId($staff_id) {
 
     return $data['id'];
 }
+function getSanctionedPostNameFromSanctionedPostId($SanctionedPostId) {
+    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE id= $SanctionedPostId LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['designation'];
+}
+
+function getSanctionedPostNameFromSanctionedPostGroupCode($group_code) {
+    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE sanctioned_post_group_code= $group_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSanctionedPostNameFromStaffId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['designation'];
+}
 
 function getStaffNameFromStaffId($staff_id) {
     $sql = "SELECT staff_name FROM old_tbl_staff_organization WHERE staff_id= $staff_id LIMIT 1";
