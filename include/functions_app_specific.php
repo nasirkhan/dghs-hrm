@@ -976,6 +976,21 @@ function getStaffInfoFromStaffId($staff_id){
  * @param INT $type_of_post_code
  * @return STRING type_of_post_name
  */
+function getPayScaleId($id){
+    $sql = "SELECT
+                staff_pay_scale.pay_scale
+            FROM
+                staff_pay_scale
+            WHERE
+                staff_pay_scale.id = $id
+            LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getTypeOfPostNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+    return $data['pay_scale'];
+}
+
+
 function getTypeOfPostNameFromCode($type_of_post_code){
     $sql = "SELECT
                 sanctioned_post_type_of_post.type_of_post_name
