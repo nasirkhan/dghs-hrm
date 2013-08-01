@@ -9,11 +9,12 @@ if ($_SESSION['logged'] != true) {
 $org_code = $_SESSION['org_code'];
 $org_name = $_SESSION['org_name'];
 $org_type_name = $_SESSION['org_type_name'];
+$user_name = $_SESSION['username'];
 
 $echoAdminInfo = "";
 
 // assign values admin users
-if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
+if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $org_code = (int) mysql_real_escape_string($_GET['org_code']);
     $org_name = getOrgNameFormOrgCode($org_code);
     $org_type_name = getOrgTypeNameFormOrgCode($org_code);
@@ -60,6 +61,12 @@ if ($staff_id > 0) {
 
         <!--Google analytics code-->
         <?php include_once 'include/header/header_ga.inc.php'; ?>
+
+        <style type="text/css">
+            .padding_up_down{
+                padding: 20px 0px 20px 0px;
+            }
+        </style>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -85,9 +92,9 @@ if ($staff_id > 0) {
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php if ($_SESSION['user_type']=="admin"): ?>
-                        <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
-                        <?php endif; ?>
+                        <?php if ($_SESSION['user_type'] == "admin"): ?>
+                            <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
+                            <?php endif; ?>
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
@@ -113,11 +120,11 @@ if ($staff_id > 0) {
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td><a href="move_staff.php?action=move_out">Transfer (Move Out)</a></td>
+                                        <td><a href="move_staff.php?action=move_out&org_code =<?php echo "$org_code"; ?>">Transfer (Move Out)</a></td>
                                         <td><em>Request transfer of an staff form this organization to some other organization</em></td>
                                     </tr>
                                     <tr>
-                                        <td><a href="move_staff.php?action=move_in">Transfer (Move In)</a></td>
+                                        <td><a href="move_staff.php?action=move_in&org_code =<?php echo "$org_code"; ?>">Transfer (Move In)</a></td>
                                         <td><em>Request transfer of an staff form another organization to this organization</em></td>
                                     </tr>
                                     <tr>
@@ -201,6 +208,7 @@ if ($staff_id > 0) {
                                         </tbody>
                                     </table>
                                 <?php else: ?>
+                                    <!--move_out_step1-->
                                     <div id="move_out_step1">
                                         <p class="lead">
                                             Move out request for :<br /> 
@@ -254,7 +262,7 @@ if ($staff_id > 0) {
                                                 <select id="org_list" name="org_list">
                                                     <option value="0">Select Organization</option>                                        
                                                 </select>
-                                                <select id="sanctioned_post" name="org_list">
+                                                <select id="sanctioned_post" name="sanctioned_post">
                                                     <option value="0">Select Designation</option>                                        
                                                 </select>
 
@@ -286,25 +294,32 @@ if ($staff_id > 0) {
                                                         <td><span id="mv_to_des"></span></td>
                                                     </tr>
                                                 </table>
-                                                <form class="form-horizontal">
+                                                <form class="form-horizontal" action="move_staff_confirm.php" method="post" >
                                                     <div class="control-group">
                                                         <label class="control-label" for="govt_order">Memo No.:</label>
                                                         <div class="controls">
-                                                            <input type="text" id="govt_order" placeholder="Memo Number">
+                                                            <input type="text" id="govt_order" name="govt_order" placeholder="Memo Number">
                                                         </div>
                                                     </div>
                                                     <div class="control-group">
                                                         <label class="control-label" for="comment">(Please mention the attachment if any): </label>
                                                         <div class="controls">
-                                                            <textarea id="comment" rows="3">Not Applicable</textarea>
+                                                            <textarea id="attachments" name="attachments" rows="3">Not Applicable</textarea>
                                                         </div>
                                                     </div>
+                                                    <input type="text" id="post_staff_id" name="post_staff_id" value="<?php echo $staff_id; ?>">
+                                                    <input type="text" id="post_mv_from_org" name="post_mv_from_org" value="<?php echo $org_code; ?>">
+                                                    <input type="text" id="post_mv_from_des" name="post_mv_from_des" value="<?php echo $sanctioned_post_id; ?>">
+                                                    <input type="text" id="post_mv_to_org" name="post_mv_to_org" value="">
+                                                    <input type="text" id="post_mv_to_des" name="post_mv_to_des" value="">
 
+                                                    <button type="submit" class="btn btn-warning">Confirm Move Out Request</button>
                                                 </form>
-                                                <button id="move_out_confirm" type="button" class="btn btn-warning">Confirm Move Out Request</button>
+
                                             </div>
                                         </div>
                                     </div>
+
                                 <?php endif; ?>
                             </div>
                             <!--</section>-->
@@ -605,39 +620,20 @@ if ($staff_id > 0) {
 
                 var mv_to_des = $("#sanctioned_post option:selected").text();
                 $("#mv_to_des").html(mv_to_des);
+
+                document.getElementById("post_mv_to_org").value = $("#org_list option:selected").val();
+
+                document.getElementById("post_mv_to_des").value = $("#sanctioned_post option:selected").val();
             });
 
             //move_out_confirm
-            $('#move_out_confirm').click(function() {
-<?php
-if ($staff_id > 0) {
-    echo "var staff_id = $staff_id;";
-}
-if ($sanctioned_post_id > 0) {
-    echo "var sanctioned_post = $sanctioned_post_id;";
-}
-?>
-                var new_sanctioned_post = $("#sanctioned_post").val();
-                var govt_order = $("#govt_order").val();
-                var comment = $("#comment").val();
-
-                $("#loading_content").show();
-                $.ajax({
-                    type: "POST",
-                    url: 'post/post_move_request.php',
-                    data: {
-                        staff_id: staff_id,
-                        sanctioned_post: sanctioned_post,
-                        new_sanctioned_post: new_sanctioned_post,
-                        govt_order: govt_order,
-                        comment: comment
-                    },
-                    success: function(data) {
-                        $("#loading_content").hide();
-                        $("#employee_list").html(data);
-                    }
-                });
-            });
+//            $('#move_out_confirm').click(function() {
+//                var post_mv_to_org = document.getElementById("post_mv_to_org");
+//                post_mv_to_org.value = $("#org_list option:selected").val();
+//                
+//                var post_mv_to_des = document.getElementById("post_mv_to_des");
+//                post_mv_to_des.value = $("#sanctioned_post option:selected").val();
+//            });
 
             // load employee 
             $('#show_employee').click(function() {
