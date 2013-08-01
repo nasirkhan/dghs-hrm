@@ -982,7 +982,7 @@ function getPayScaleId($id){
             FROM
                 staff_pay_scale
             WHERE
-                staff_pay_scale.id = $id
+                staff_pay_scale.pay_scale_id = $id
             LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getTypeOfPostNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
