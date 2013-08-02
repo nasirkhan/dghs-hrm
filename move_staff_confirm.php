@@ -129,7 +129,9 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                                     <option value="order_type_3">প্রজ্ঞাপন</option>
                                 </select>
                             </div>
-                            <div class="span4"> তারিখঃ </div>
+                            <div class="span4"> তারিখ:
+                                <input type="text" id="date" placeholder="তারিখ">
+                                </div>
                         </div>
                         <div class="row-fluid padding_up_down">
                             বিসিএস (স্বাস্থ্য) ক্যাডারের নিম্নলিখিত কর্মকর্তা/কর্মকর্তাবৃন্দকে পূনরাদেশ না দেয়া পর্যন্ত তাঁর/তাঁদের নামের পাশে বর্ণিত পদে বদলী/পদায়ন করা হলোঃ 
