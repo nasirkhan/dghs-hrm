@@ -294,7 +294,7 @@ if ($staff_id > 0) {
                                                         <td><span id="mv_to_des"></span></td>
                                                     </tr>
                                                 </table>
-                                                <form class="form-horizontal" action="move_staff_confirm.php?org_code =<?php echo "$org_code"; ?>" method="post" >
+                                                <form class="form-horizontal" action="move_staff_confirm.php" method="post" >
                                                     <div class="control-group">
                                                         <label class="control-label" for="govt_order">Memo No.:</label>
                                                         <div class="controls">
@@ -307,6 +307,7 @@ if ($staff_id > 0) {
                                                             <textarea id="attachments" name="attachments" rows="3">Not Applicable</textarea>
                                                         </div>
                                                     </div>
+                                                    <input type="text" id="org_code" name="org_code" value="<?php echo $org_code; ?>">
                                                     <input type="text" id="post_staff_id" name="post_staff_id" value="<?php echo $staff_id; ?>">
                                                     <input type="text" id="post_mv_from_org" name="post_mv_from_org" value="<?php echo $org_code; ?>">
                                                     <input type="text" id="post_mv_from_des" name="post_mv_from_des" value="<?php echo $sanctioned_post_id; ?>">

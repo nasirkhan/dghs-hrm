@@ -9,12 +9,13 @@ if ($_SESSION['logged'] != true) {
 $org_code = $_SESSION['org_code'];
 $org_name = $_SESSION['org_name'];
 $org_type_name = $_SESSION['org_type_name'];
+$user_name = $_SESSION['username'];
 
 $echoAdminInfo = "";
 
 // assign values admin users
-if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
-    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
+if ($_SESSION['user_type'] == "admin" && $_REQUEST['org_code'] != "") {
+    $org_code = (int) mysql_real_escape_string($_REQUEST['org_code']);
     $org_name = getOrgNameFormOrgCode($org_code);
     $org_type_name = getOrgTypeNameFormOrgCode($org_code);
     $echoAdminInfo = " | Administrator";
