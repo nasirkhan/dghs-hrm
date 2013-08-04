@@ -628,7 +628,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     </tr>
                                     -->
                                     <tr>
-                                        <td width="50%"><strong>Land size (in acre)</strong></td>
+                                        <td width="50%"><strong>Land size (in decimal)</strong></td>
                                         <td><a href="#" class="text-input" id="land_size" ><?php echo $data['land_size']; ?></a></td>
                                     </tr>
                                     <tr>
@@ -649,6 +649,11 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         <td><a href="#" class="text-input" id="land_functional_code" ><?php echo $data['land_functional_code']; ?></a></td>
                                     </tr>
                                     -->
+									
+									  <tr>
+                                        <td width="50%"><strong>SS Dag No</strong></td>
+                                        <td><a href="#" class="text-input" id="land_ss_dag_number" ><?php echo $data['land_ss_dag_number']; ?></a></td>
+                                    </tr>
                                     <tr>
                                         <td width="50%"><strong>RS Dag No</strong></td>
                                         <td><a href="#" class="text-input" id="land_rs_dag_number" ><?php echo $data['land_rs_dag_number']; ?></a></td>
