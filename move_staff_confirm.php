@@ -100,10 +100,11 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
             ================================================== -->
             <section id="move_staff_confirm">
                 <div id="move_out_print_order_main" class="row-fluid well" >
+                    <!--<form action="<?php // echo $_SERVER['PHP_SELF']; ?>" method="post">-->
                     <div id="move_out_print_order_header" class="row-fluid text-center">
                         <h3>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h3>
                         <br />
-                        <select id="sender_org_name">
+                        <select id="order_approved_by_org" name="order_approved_by_org">
                             <!-- @todo set the values-->
                             <option value="org_1">স্বাস্থ্য ও পরিবার কল্যান মন্ত্রণালয়</option>
                             <option value="org_2">স্বাস্থ্য অধিদপ্তর</option>
@@ -115,15 +116,16 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                             <option value="org_8">বিভাগীয় পরিচালক (স্বাস্থ্য)- খুলনা</option>
                             <option value="org_9">বিভাগীয় পরিচালক (স্বাস্থ্য)- সিলেট</option>
                         </select>
-                        <div id="sender_org_website">ওয়েবসাইট: </div>
-                        <div id="sender_org_email">ইমেইল: </div>
-
+                        <div >ওয়েবসাইট: <input id="order_approved_by_org_website" type="text" name="order_approved_by_org_website"/></div>
+                        <div >ইমেইল: <input id="order_approved_by_org_email" type="text" name="order_approved_by_org_email"/></div>
+                        
                     </div>
                     <div id="move_out_print_order_body" class="row-fluid padding_up_down">
                         <div class="row-fluid">
                             <div class="span4">স্মারক নং: <?php echo "$govt_order"; ?></div>
+                            <input id="govt_order_number" type="hidden" name="govt_order_number" value="<?php echo "$govt_order"; ?>" />
                             <div class="span4">
-                                <select id="sender_org_name">
+                                <select id="order_type" name="order_type">
                                     <!-- @todo set the values-->
                                     <option value="order_type_1">সার্কুলার</option>
                                     <option value="order_type_2">আদেশ</option>
@@ -131,7 +133,7 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                                 </select>
                             </div>
                             <div class="span4"> তারিখ:
-                                <input type="text" id="date" placeholder="তারিখ">
+                                <input type="text" id="date" placeholder="তারিখ" name="order_date">
                                 </div>
                         </div>
                         <div class="row-fluid padding_up_down">
@@ -174,10 +176,10 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                                 </label>
                             </div>
                             <div class="span4">
-                                <select id="order_send_form">
+                                <select id="order_send_from">
                                     <!-- @todo set the values-->
-                                    <option value="order_send_form1">আদেশক্রমে</option>
-                                    <option value="order_send_form2">রাষ্ট্রপতির আদেশক্রমে</option>
+                                    <option value="order_send_from1">আদেশক্রমে</option>
+                                    <option value="order_send_from2">রাষ্ট্রপতির আদেশক্রমে</option>
                                 </select>
                             </div>
                         </div>
@@ -262,6 +264,7 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                             </p>
                         </div>
                     </div> <!-- /move_out_print_order_body -->
+                    <!--</form>-->
                     <div id="display_info"></div>
                 </div>
             </section> <!-- /move_staff_confirm -->
@@ -285,5 +288,12 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
         <script src="assets/js/google-code-prettify/prettify.js"></script>
 
         <script src="assets/js/application.js"></script>       
+        <script type="text/javascript">
+            var sender_org_name = $("#order_approved_by_org").val();
+            if (sender_org_name === "org_1"){
+                $("#order_approved_by_org_website").val("http://dghs.gov.bd");
+                $("#order_approved_by_org_email").val("info@dghs.gov.bd");
+            }                                    
+        </script>
     </body>
 </html>
