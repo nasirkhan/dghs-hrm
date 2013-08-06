@@ -234,25 +234,25 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                                 <div class="control-group">
                                     <label class="control-label" for="senderName">নাম: </label>
                                     <div class="controls">
-                                        <input type="text" id="senderName" placeholder="নাম">
+                                        <input type="text" id="senderName" name="senderName" placeholder="নাম">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="senderDesignation">পদবী: </label>
                                     <div class="controls">
-                                        <input type="text" id="senderDesignation" placeholder="পদবী">
+                                        <input type="text" id="senderDesignation" name="senderDesignation" placeholder="পদবী">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="senderPhone">ফোন: </label>
                                     <div class="controls">
-                                        <input type="text" id="senderPhone" placeholder="ফোন">
+                                        <input type="text" id="senderPhone" name="senderPhone" placeholder="ফোন">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="senderEmail">ইমেইল: </label>
                                     <div class="controls">
-                                        <input type="text" id="senderEmail" placeholder="ইমেইল">
+                                        <input type="text" id="senderEmail" name="senderEmail" placeholder="ইমেইল">
                                     </div>
                                 </div>
                             </div>
