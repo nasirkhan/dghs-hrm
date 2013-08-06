@@ -191,7 +191,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                             <td><?php echo $data['district_code']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Upaziala Name</strong></td>
+                                            <td width="50%"><strong>Upazila Name</strong></td>
                                             <td><a href="#" class="" id="upazila_thana_name" ><?php echo $data['upazila_thana_name']; ?></a></td>
                                         </tr>
                                         <tr>
@@ -282,7 +282,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                             <td><?php echo $data['district_code']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Upaziala Name</strong></td>
+                                            <td width="50%"><strong>Upazila Name</strong></td>
                                             <td><?php echo $data['upazila_thana_name']; ?></td>
                                         </tr>
                                         <tr>
