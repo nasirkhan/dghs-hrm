@@ -233,6 +233,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                                 data_all += "<tr><td><b>Pay Scale</b></td><td>" + v.pay_scale + "</td></tr>";
                                                                 data_all += "<tr><td><b>Type of Post</b></td><td>" + v.type_of_post + "</td></tr>";
                                                                 data_all += "<tr><td><b>Discipline</b></td><td>" + v.discipline + "</td></tr>";
+																data_all += "<tr><td><b>Rank of the Post</b></td><td></td></tr>";
                                                                 data_all += "<tr><td><b>Bangladesh Professional Category </b></td><td></td></tr>";
                                                                 data_all += "<tr><td><b>WHO Major Health Occupation Group</b></td><td></td></tr>";
                                                                 data_all += "<tr><td><b>WHO-ISCO Occupation Name </b></td><td></td></tr>";
