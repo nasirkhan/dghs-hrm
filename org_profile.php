@@ -359,10 +359,11 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         <td><a href="#" class="text-input" id="land_mutation_number" ><?php // echo $data['org_code'];      ?></a></td>
                                     </tr>
                                     -->
-                                    <tr>
-                                        <td width="60%"><strong>Permission/Approval/License information</strong></td>
-                                        <td><a href="#" class="text-input" id="permission_approval_license_info_code" ><?php echo $data['permission_approval_license_info_code']; ?></a></td>
+									
+									 <tr class="success">
+                                        <td width="50%" colspan="2"><strong>Permission/Approval/License information</strong></td>
                                     </tr>
+                                  
                                     <tr>
                                         <td width="60%"><strong>Date of Permission/Approval/License information</strong></td>
                                         <td><a href="#" class="text-input" id="permission_approval_license_info_date" ><?php echo $data['permission_approval_license_info_date']; ?></a></td>
@@ -651,7 +652,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     -->
 									
 									  <tr>
-                                        <td width="50%"><strong>SS Dag No</strong></td>
+                                        <td width="50%"><strong>SA Dag No</strong></td>
                                         <td><a href="#" class="text-input" id="land_ss_dag_number" ><?php echo $data['land_ss_dag_number']; ?></a></td>
                                     </tr>
                                     <tr>
