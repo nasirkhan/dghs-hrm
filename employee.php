@@ -641,8 +641,8 @@ if (isset($_POST['search'])) {
                                                     <td><?php echo $org_code; ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Department ID</strong></td>
-                                                    <td><input name="department_id" type="text" placeholder="Enter Department ID" /></td>
+                                                    <td width="50%"><strong>Department </strong></td>
+                                                    <td><input name="department_id" type="text" placeholder="Enter Department" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Staff Posting</strong></td>
@@ -658,14 +658,14 @@ if (isset($_POST['search'])) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Designation</strong></td>
-                                                    <td><input name="designation_id" type="text" placeholder="Enter designation_id" /></td>
+                                                    <td><input name="designation_id" type="text" placeholder="Enter designation" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Posting Status</strong></td>
                                                     <td><input name="posting_status" type="text" placeholder="Enter posting_status" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Staff PDS Code</strong></td>
+                                                    <td width="50%"><strong>Code No.(Doctors Only):</strong></td>
                                                     <td><input name="staff_pds_code" type="text" placeholder="Enter staff_pds_code" /></td>
                                                 </tr>
                                                 <tr>
@@ -714,27 +714,27 @@ if (isset($_POST['search'])) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Post Type</strong></td>
-                                                    <td><input name="post_type_id" type="text" placeholder="Enter post_type_id" /></td>
+                                                    <td><input name="post_type_id" type="text" placeholder="Enter post_type" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Draw Type Id</strong></td>
-                                                    <td><input name="draw_type_id" type="text" placeholder="Enter draw_type_id" /></td>
+                                                    <td width="50%"><strong>Draw Type </strong></td>
+                                                    <td><input name="draw_type_id" type="text" placeholder="Enter draw_type" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Designation Type Id</strong></td>
-                                                    <td><input name="designation_type_id" type="text" placeholder="Enter designation_type_id" /></td>
+                                                    <td width="50%"><strong>Designation Type</strong></td>
+                                                    <td><input name="designation_type_id" type="text" placeholder="Enter designation_type" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Job Posting Id</strong></td>
-                                                    <td><input name="job_posting_id" type="text" placeholder="Enter job_posting_id" /></td>
+                                                    <td width="50%"><strong>Posted As</strong></td>
+                                                    <td><input name="job_posting_id" type="text" placeholder="Enter job_posting" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Working Status Id</strong></td>
-                                                    <td><input name="working_status_id" type="text" placeholder="Enter working_status_id" /></td>
+                                                    <td width="50%"><strong>Working Status</strong></td>
+                                                    <td><input name="working_status_id" type="text" placeholder="Enter working_status" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Draw Salary Id</strong></td>
-                                                    <td><input name="draw_salary_id" type="text" placeholder="Enter govt_quadraw_salary_idrter_id" /></td>
+                                                    <td width="50%"><strong>Draw Salary </strong></td>
+                                                    <td><input name="draw_salary_id" type="text" placeholder="Enter govt_quadraw_salary" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Sex</strong></td>
@@ -745,8 +745,8 @@ if (isset($_POST['search'])) {
                                                     <td><input name="marital_status" type="text" placeholder="Enter marital_status" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Religion</strong></td>
-                                                    <td><input name="religion" type="text" placeholder="Enter religion" /></td>
+                                                    <td width="50%"><strong>Religious Group</strong></td>
+                                                    <td><input name="religion" type="text" placeholder="Enter Religious Group" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Date of Joining to Govt Health Service</strong></td>
@@ -762,26 +762,26 @@ if (isset($_POST['search'])) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Professional Discipline of Current Designation</strong></td>
-                                                    <td><input name="professional_discipline_of_current_designation" type="text" placeholder="Enter govt_quarter_id" /></td>
+                                                    <td><input name="professional_discipline_of_current_designation" type="text" placeholder="Enter Professional Discipline" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Type of Educational Qualification</strong></td>
-                                                    <td><input name="type_of_educational_qualification" type="text" placeholder="Enter govt_quarter_id" /></td>
+                                                    <td><input name="type_of_educational_qualification" type="text" placeholder="Enter Educational Qualification" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Actual Degree</strong></td>
-                                                    <td><input name="actual_degree" type="text" placeholder="Enter govt_quarter_id" /></td>
+                                                    <td><input name="actual_degree" type="text" placeholder="Enter Actual Degree" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Pay Scale of Current Designation</strong></td>
-                                                    <td><input name="pay_scale_of_current_designation" type="text" placeholder="Enter govt_quarter_id" /></td>
+                                                    <td><input name="pay_scale_of_current_designation" type="text" placeholder="Enter Pay Scale of Current Designation" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Current Basic Pay Taka</strong></td>
-                                                    <td><input name="current_basic_pay_taka" type="text" placeholder="Enter govt_quarter_id" /></td>
+                                                    <td><input name="current_basic_pay_taka" type="text" placeholder="Enter Current Basic Pay Taka" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Govt Quarter id</strong></td>                                                        
+                                                    <td width="50%"><strong>Reside in Govt. Quarter?</strong></td>                                                        
                                                     <td>
                                                         <select name="govt_quarter_id">
                                                             <?php
@@ -801,7 +801,7 @@ if (isset($_POST['search'])) {
                                                     <td><input name="job_status" type="text" placeholder="Enter job_status" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Reason</strong></td>
+                                                    <td width="50%"><strong>Further Remarks/Explanation:</strong></td>
                                                     <td><input name="reason" type="text" placeholder="Enter reason" /></td>
                                                 </tr>
                                                 <tr>
@@ -813,7 +813,7 @@ if (isset($_POST['search'])) {
                                     </form>
                                 <?php 
                                 else: 
-                                    echo "ELSE";
+                                   // echo "ELSE";
                                     ?>
                                 
                                 <?php endif; ?>
