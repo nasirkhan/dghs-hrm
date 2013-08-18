@@ -213,7 +213,7 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                         </div>
                         <div class="row-fluid">
                             <div class="span8"> 
-                                স্মারক নং: 
+                                <!--স্মারক নং:--> 
                             </div>
                             <div class="span4">
                                 স্মারক নং:
@@ -226,13 +226,13 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                         </div>
                         <div class="row-fluid">
                             <div class="span12"> 
-                                <textarea class="input-block-level" rows="4"></textarea>
+                                <textarea class="input-block-level" rows="4" id="comment"></textarea>
                             </div>
                         </div>
                         <div class="row-fluid">
                             <div class="span6 offset6 form-horizontal padding_up_down">
                                 <div class="control-group">
-                                    <label class="control-label" for="senderName">নাম: </label>
+                                    <label class="control-label" for="senderName1">নাম: </label>
                                     <div class="controls">
                                         <input type="text" id="senderName" name="senderName" placeholder="নাম">
                                     </div>
@@ -240,19 +240,19 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                                 <div class="control-group">
                                     <label class="control-label" for="senderDesignation">পদবী: </label>
                                     <div class="controls">
-                                        <input type="text" id="senderDesignation" name="senderDesignation" placeholder="পদবী">
+                                        <input type="text" id="senderDesignation1" name="senderDesignation" placeholder="পদবী">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="senderPhone">ফোন: </label>
                                     <div class="controls">
-                                        <input type="text" id="senderPhone" name="senderPhone" placeholder="ফোন">
+                                        <input type="text" id="senderPhone1" name="senderPhone" placeholder="ফোন">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="senderEmail">ইমেইল: </label>
                                     <div class="controls">
-                                        <input type="text" id="senderEmail" name="senderEmail" placeholder="ইমেইল">
+                                        <input type="text" id="senderEmail1" name="senderEmail" placeholder="ইমেইল">
                                     </div>
                                 </div>
                             </div>
@@ -260,7 +260,7 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                         <div class="row-fluid">
                             <p class="text-center">
                                 <button class="btn btn-large btn-warning" type="button">Cancel</button>
-                                <button class="btn btn-large btn-success" type="button">Send Transfer Order</button>
+                                <button class="btn btn-large btn-success" type="button" id="send_transfer_order" >Send Transfer Order</button>
                             </p>
                         </div>
                     </div> <!-- /move_out_print_order_body -->
@@ -293,7 +293,46 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
             if (sender_org_name === "org_1"){
                 $("#order_approved_by_org_website").val("http://dghs.gov.bd");
                 $("#order_approved_by_org_email").val("info@dghs.gov.bd");
-            }                                    
+            }   
+            $("#send_transfer_order").click(function (){
+                $("#display_info").html("");
+                var display_info = "";
+                display_info += $("#order_approved_by_org").val();
+                display_info += "<br />";
+                display_info += $("#order_approved_by_org_website").val();
+                display_info += "<br />";
+                display_info += $("#order_approved_by_org_email").val();
+                display_info += "<br />";
+                display_info += $("#govt_order_number").val();
+                display_info += "<br />";
+                display_info += $("#order_type").val();
+                display_info += "<br />";
+                display_info += $("#date").val();
+                display_info += "<br />";
+                display_info += $("#inlineCheckbox1").val();
+                display_info += "<br />";
+                display_info += $("#order_send_from").val();
+                display_info += "<br />";
+                display_info += $("#senderName").val();
+                display_info += "<br />";
+                display_info += $("#senderDesignation").val();
+                display_info += "<br />";
+                display_info += $("#senderPhone").val();
+                display_info += "<br />";
+                display_info += $("#senderEmail").val();
+                display_info += "<br />";
+                display_info += $("#comment").val();
+                display_info += "<br />";
+                display_info += $("#senderName1").val();
+                display_info += "<br />";
+                display_info += $("#senderDesignation1").val();
+                display_info += "<br />";
+                display_info += $("#senderPhone1").val();
+                display_info += "<br />";
+                display_info += $("#senderEmail1").val();
+
+                $("#display_info").append(display_info);
+            });
         </script>
     </body>
 </html>
