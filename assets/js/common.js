@@ -4,6 +4,8 @@ var fuel_source_code_values;
 var laundry_code_values;
 var autoclave_code_values;
 var waste_disposal_code_values;
+var type_of_educational_qualification;
+var pay_scale_of_current_designation;
 /**
  * 
  * Organization Profile Page
