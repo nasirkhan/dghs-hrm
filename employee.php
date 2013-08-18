@@ -642,47 +642,46 @@ if (isset($_POST['search'])) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Department </strong></td>
-                                                    <td><input name="department_id" type="text" placeholder="Enter Department" /></td>
+											     <td><a href="#" id="department_id"></a></td>
+                                                  <!--  <td><input name="department_id" type="text" placeholder="Enter Department" /></td>-->
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Staff Posting</strong></td>
-                                                    <td><input name="staff_posting" type="text" placeholder="Enter staff_posting" /></td>
+                                                    <td><a href="#" id="staff_posting"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Staff Job Class</strong></td>
-                                                    <td><input name="staff_job_class" type="text" placeholder="Enter staff_job_class" /></td>
+                                                    <td><a href="#" id="staff_job_class"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Staff Professional Category</strong></td>
-                                                    <td><input name="staff_professional_category" type="text" placeholder="Enter Staff Professional Category" /></td>
+                                                    <td><a href="#" id="staff_professional_category"></a></td>
                                                 </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Designation</strong></td>
-                                                    <td><input name="designation_id" type="text" placeholder="Enter designation" /></td>
-                                                </tr>
-                                                <tr>
+                                              
+                                                <!--<tr>
                                                     <td width="50%"><strong>Posting Status</strong></td>
                                                     <td><input name="posting_status" type="text" placeholder="Enter posting_status" /></td>
-                                                </tr>
+                                                </tr>-->
                                                 <tr>
                                                     <td width="50%"><strong>Code No.(Doctors Only):</strong></td>
-                                                    <td><input name="staff_pds_code" type="text" placeholder="Enter staff_pds_code" /></td>
+                                                    <td><input name="staff_pds_code" type="text" placeholder="Enter Staff PDS code" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Staff Name</strong></td>
-                                                    <td><input name="staff_name" type="text" placeholder="Enter staff_name" /></td>
+                                                    <td><input name="staff_name" type="text" placeholder="Enter Staff name" /></td>
                                                 </tr>
+												<!--
                                                 <tr>
                                                     <td width="50%"><strong>Staff Local</strong></td>
-                                                    <td><input name="staff_local_id" type="text" placeholder="Enter staff_local_id" /></td>
+                                                    <td><input name="staff_local_id" type="text" placeholder="Enter staff local_id" /></td>
                                                 </tr>
-                                                <tr>
+                                                <tr>-->
                                                     <td width="50%"><strong>Father Name</strong></td>
-                                                    <td><input name="father_name" type="text" placeholder="Enter father_name" /></td>
+                                                    <td><input name="father_name" type="text" placeholder="Enter Father name" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Mother Name</strong></td>
-                                                    <td><input name="mother_name" type="text" placeholder="Enter mother_name" /></td>
+                                                    <td><input name="mother_name" type="text" placeholder="Enter Mother name" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Birth Date</strong></td>
@@ -690,63 +689,63 @@ if (isset($_POST['search'])) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Email Address</strong></td>
-                                                    <td><input name="email_address" type="text" placeholder="Enter email_address" /></td>
+                                                    <td><input name="email_address" type="text" placeholder="Enter Email address" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Contact No</strong></td>
-                                                    <td><input name="contact_no" type="text" placeholder="Enter contact_no" /></td>
+                                                    <td><input name="contact_no" type="text" placeholder="Enter Contact no" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Mailing Address</strong></td>
-                                                    <td><input name="mailing_address" type="text" placeholder="Enter mailing_address" /></td>
+                                                    <td><input name="mailing_address" type="text" placeholder="Enter Mailing address" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Permanent Address</strong></td>
-                                                    <td><input name="permanent_address" type="text" placeholder="Enter permanent_address" /></td>
+                                                    <td><input name="permanent_address" type="text" placeholder="Enter Permanent address" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Freedom Fighter?</strong></td>
-                                                    <td><input name="freedom_fighter_id" type="text" placeholder="Enter freedom_fighter_id" /></td>
+                                                    <td><a href="#" id="freedom_fighter_id"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Tribal?</strong></td>
-                                                    <td><input name="tribal_id" type="text" placeholder="Enter tribal_id" /></td>
+                                                    <td><a href="#" id="tribal_id"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Post Type</strong></td>
-                                                    <td><input name="post_type_id" type="text" placeholder="Enter post_type" /></td>
+                                                    <td><a href="#" id="post_type_id"></a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Draw Type </strong></td>
-                                                    <td><input name="draw_type_id" type="text" placeholder="Enter draw_type" /></td>
+                                                    <td width="50%"><strong>Salary drawn from which head </strong></td>
+                                                    <td><a href="#" id="draw_type_id"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Designation Type</strong></td>
-                                                    <td><input name="designation_type_id" type="text" placeholder="Enter designation_type" /></td>
+                                                    <td><a href="#" id="designation_type_id"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Posted As</strong></td>
-                                                    <td><input name="job_posting_id" type="text" placeholder="Enter job_posting" /></td>
+                                                    <td><a href="#" id="job_posting_id"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Working Status</strong></td>
-                                                    <td><input name="working_status_id" type="text" placeholder="Enter working_status" /></td>
+                                                    <td><a href="#" id="working_status_id"></a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Draw Salary </strong></td>
-                                                    <td><input name="draw_salary_id" type="text" placeholder="Enter govt_quadraw_salary" /></td>
+                                                    <td width="50%"><strong>Draw Salary from which place:</strong></td>
+                                                    <td><a href="#" id="draw_salary_id"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Sex</strong></td>
-                                                    <td><input name="sex" type="text" placeholder="Enter sex" /></td>
+                                                    <td><a href="#" id="sex"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Marital Status</strong></td>
-                                                    <td><input name="marital_status" type="text" placeholder="Enter marital_status" /></td>
+                                                    <td><a href="#" id="marital_status"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Religious Group</strong></td>
-                                                    <td><input name="religion" type="text" placeholder="Enter Religious Group" /></td>
+                                                    <td><a href="#" id="religion"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Date of Joining to Govt Health Service</strong></td>
@@ -762,11 +761,11 @@ if (isset($_POST['search'])) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Professional Discipline of Current Designation</strong></td>
-                                                    <td><input name="professional_discipline_of_current_designation" type="text" placeholder="Enter Professional Discipline" /></td>
+                                                    <td><a href="#" id="professional_discipline_of_current_designation" name="professional_discipline_of_current_designation"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Type of Educational Qualification</strong></td>
-                                                    <td><input name="type_of_educational_qualification" type="text" placeholder="Enter Educational Qualification" /></td>
+                                                    <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Actual Degree</strong></td>
@@ -774,7 +773,7 @@ if (isset($_POST['search'])) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Pay Scale of Current Designation</strong></td>
-                                                    <td><input name="pay_scale_of_current_designation" type="text" placeholder="Enter Pay Scale of Current Designation" /></td>
+                                                    <td><a href="#" id="pay_scale_of_current_designation" name="pay_scale_of_current_designation"></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Current Basic Pay Taka</strong></td>
@@ -783,26 +782,17 @@ if (isset($_POST['search'])) {
                                                 <tr>
                                                     <td width="50%"><strong>Reside in Govt. Quarter?</strong></td>                                                        
                                                     <td>
-                                                        <select name="govt_quarter_id">
-                                                            <?php
-                                                            $table_name = "old_tbl_staff_organization";
-                                                            $column_name = "govt_quarter";
-                                                            $govt_quarter_id_list = getEnumColumnValues($table_name, $column_name);
-                                                            foreach ($govt_quarter_id_list as $value) {
-                                                                echo "<option value=\"$value\">$value</option>";
-                                                            }
-                                                            ?>
-                                                        </select>
-
+													<a href="#" id="govt_quarter_id"></a>
                                                     </td>
                                                 </tr>
+												<!--
                                                 <tr>
                                                     <td width="50%"><strong>Job Status</strong></td>
                                                     <td><input name="job_status" type="text" placeholder="Enter job_status" /></td>
-                                                </tr>
+                                                </tr>-->
                                                 <tr>
                                                     <td width="50%"><strong>Further Remarks/Explanation:</strong></td>
-                                                    <td><input name="reason" type="text" placeholder="Enter reason" /></td>
+                                                    <td><input name="reason" type="text" placeholder="Enter Further Remarks/Explanation" /></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong></strong></td>
