@@ -99,7 +99,7 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
                     <section>
                         <h3>Upload Organization Photo/ File</h3>
 
-                        <div id="search_options">
+                        <div id="upoad_options">
                             <div class="row-fluid">
                                 <table class="table table-striped">
                                     <tbody>

@@ -697,7 +697,10 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
         <script type="text/javascript" src="assets/js/google-code-prettify/prettify.js"></script>
 
         <script type="text/javascript" src="assets/js/application.js"></script>
-
+        
+        <script src="library/dataTables-1.9.4/media/js/jquery.dataTables.min.js"></script>
+        <script src="library/dataTables-1.9.4/media/js/paging.js"></script>
+        
         <script>
             $(function() {
                 $('.nav-tab-ul #basic-info').tab('show');
