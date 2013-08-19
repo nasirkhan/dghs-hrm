@@ -945,7 +945,7 @@ function getStaffNameFromId($staff_id) {
                 old_tbl_staff_organization
             WHERE
                 old_tbl_staff_organization.staff_id = $staff_id";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> getStaffNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
     return $data['staff_name'];
@@ -1020,5 +1020,15 @@ function getTypeOfPostNameFromCode($type_of_post_code){
 
     $data = mysql_fetch_assoc($result);
     return $data['type_of_post_name'];
+}
+
+
+function getLastOrgIdFromOrganizationTable(){
+    $sql = "SELECT org_code FROM organization ORDER BY id DESC LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getLastOrgIdFromOrganizationTable:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data['org_code'];
 }
 ?>
