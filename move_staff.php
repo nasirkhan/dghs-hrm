@@ -218,7 +218,7 @@ if ($staff_id > 0) {
                                             <br />
                                             <em>Select the new designation</em>
                                         </p>
-                                        <div class="">
+                                        <div class="">                                            
                                             <div class="control-group">
                                                 <select id="admin_division" name="admin_division">
                                                     <option value="0">Select Division</option>
@@ -307,12 +307,31 @@ if ($staff_id > 0) {
                                                             <textarea id="attachments" name="attachments" rows="3">Not Applicable</textarea>
                                                         </div>
                                                     </div>
-                                                    <input type="text" id="org_code" name="org_code" value="<?php echo $org_code; ?>">
-                                                    <input type="text" id="post_staff_id" name="post_staff_id" value="<?php echo $staff_id; ?>">
-                                                    <input type="text" id="post_mv_from_org" name="post_mv_from_org" value="<?php echo $org_code; ?>">
-                                                    <input type="text" id="post_mv_from_des" name="post_mv_from_des" value="<?php echo $sanctioned_post_id; ?>">
-                                                    <input type="text" id="post_mv_to_org" name="post_mv_to_org" value="">
-                                                    <input type="text" id="post_mv_to_des" name="post_mv_to_des" value="">
+                                                    <div class="control-group">                                                        
+                                                        request_submitted_by
+                                                        <input type="text" id="request_submitted_by" name="request_submitted_by" value="<?php echo $_SESSION['username']; ?>">
+                                                    </div>
+                                                    <div class="control-group">
+                                                        org_code
+                                                        <input type="text" id="org_code" name="org_code" value="<?php echo $org_code; ?>">
+                                                        post_staff_id
+                                                        <input type="text" id="post_staff_id" name="post_staff_id" value="<?php echo $staff_id; ?>">
+                                                    </div>
+                                                    <div class="control-group">
+                                                        post_mv_from_org
+                                                        <input type="text" id="post_mv_from_org" name="post_mv_from_org" value="<?php echo $org_code; ?>">
+                                                        post_mv_from_des
+                                                        <input type="text" id="post_mv_from_des" name="post_mv_from_des" value="<?php echo $sanctioned_post_id; ?>">
+                                                    </div>
+                                                    <div class="control-group">
+                                                        post_mv_to_org
+                                                        <input type="text" id="post_mv_to_org" name="post_mv_to_org" value="">
+                                                        post_mv_to_des
+                                                        <input type="text" id="post_mv_to_des" name="post_mv_to_des" value="">
+                                                    </div>
+                                                    
+                                                    
+                                                    
 
                                                     <button type="submit" class="btn btn-warning">Confirm Move Out Request</button>
                                                 </form>
