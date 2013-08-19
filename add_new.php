@@ -23,12 +23,42 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 
 $add_new_type = mysql_real_escape_string($_GET['type']);
 
-$new_type ="";
-if ($add_new_type == "org"){
-    $new_type= "Organization";
+$new_type = "";
+if ($add_new_type == "org") {
+    $new_type = "Organization";
+} else if ($add_new_type == "user") {
+    $new_type = "User";
 }
-else if ($add_new_type == "user"){
-    $new_type= "User";
+
+if (isset($_POST['new_post_type']) && $_POST['new_post_type']== "org"){
+    $new_org_name = mysql_real_escape_string($_POST['new_org_name']);
+    $new_org_code = mysql_real_escape_string($_POST['new_org_code']);
+    $new_established_year = mysql_real_escape_string($_POST['new_established_year']);
+    $admin_division = mysql_real_escape_string($_POST['admin_division']);
+    $admin_district = mysql_real_escape_string($_POST['admin_district']);
+    $admin_upazila = mysql_real_escape_string($_POST['admin_upazila']);
+    $new_ownarship_info = mysql_real_escape_string($_POST['new_ownarship_info']);
+    
+    //@TODO change the division, district ID to Code
+    $sql = "INSERT INTO `organization` (
+            `org_name`, 
+            `org_code`,
+            `year_established`,
+            `division_id`,
+            `district_id`,
+            `upazila_id`,
+            `ownership_code`) 
+        VALUES (
+            \"$new_org_name\",
+            '$new_org_code',
+            \"$new_established_year\",
+            '$admin_division',
+            '$admin_district',
+            '$admin_upazila',
+            '$new_ownarship_info'
+            )";
+//    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
+        $insert_success = TRUE;
 }
 ?>
 <!DOCTYPE html>
@@ -60,7 +90,7 @@ else if ($add_new_type == "user"){
         <link rel="shortcut icon" href="assets/ico/favicon.png">
 
         <!--Google analytics code-->
-        <?php // include_once 'include/header/header_ga.inc.php'; ?>
+        <?php // include_once 'include/header/header_ga.inc.php';  ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -103,39 +133,58 @@ else if ($add_new_type == "user"){
                     ================================================== -->
                     <section id="add-new">
                         <h3>Add new <?php echo $new_type; ?></h3>
+                        <?php if ($insert_success): ?>
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                &nbsp;<br />
+                                <h4>New information has been successfully added to the database.</h4>
+                                &nbsp;<br />
+                            </div>                        
+                        <?php endif; ?>
                         <!--options-->
                         <?php if ($add_new_type == ""): ?>
-                        <div id="add_new_options">
-                            <div class="row-fluid">
-                                <table class="table table-striped">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <a href="add_new.php?org_code=<?php echo $org_code; ?>&type=org" class="btn btn-large btn-warning">
-                                                    <i class="icon-hospital icon-2x pull-left"></i> Add New Organization
-                                                </a>
-                                            </td>
-                                            <td> Upload the organization photo by form here. If any photo is uploaded previously, then it will be replaced by new new uploaded image.</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a href="add_new.php?org_code=<?php echo $org_code; ?>&type=user" class="btn btn-large btn-info">
-                                                    <i class="icon-user-md icon-2x pull-left"></i> Add New Organization User
-                                                </a>
-                                            </td>
-                                            <td> Upload different files related to the organization, click the button and go to the upload form. Details information is described there.</td>
-                                        </tr>                                    
-                                    </tbody>
-                                </table>                            
+                            <div id="add_new_options">
+                                <div class="row-fluid">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="add_new.php?type=org" class="btn btn-large btn-warning">
+                                                        <i class="icon-hospital icon-2x pull-left"></i> Add New Organization
+                                                    </a>
+                                                </td>
+                                                <td> Upload the organization photo by form here. If any photo is uploaded previously, then it will be replaced by new new uploaded image.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="add_new.php?type=user" class="btn btn-large btn-info">
+                                                        <i class="icon-user-md icon-2x pull-left"></i> Add New Organization User
+                                                    </a>
+                                                </td>
+                                                <td> Upload different files related to the organization, click the button and go to the upload form. Details information is described there.</td>
+                                            </tr>                                    
+                                        </tbody>
+                                    </table>                            
+                                </div>
                             </div>
-                        </div>
                         <?php endif; ?>
                         <?php if ($add_new_type == "org"): ?>
                             <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                                 <div class="control-group">
                                     <label class="control-label" for="new_org_name">Organization Name</label>
                                     <div class="controls">
-                                        <input type="text" id="new_org_name" name="new_org_name" placeholder="Organization Name" class="input-xlarge "> 
+                                        <input type="text" id="new_org_name" name="new_org_name" placeholder="Organization Name"> 
+                                    </div>
+                                </div>
+                                <?php
+                                $last_org_code = (int) getLastOrgIdFromOrganizationTable();
+                                $new_org_code = $last_org_code + 1;
+                                ?>
+                                <div class="control-group">
+                                    <label class="control-label" for="new_org_code">Organization Code</label>
+                                    <div class="controls">
+                                        <input type="text" value="<?php echo "$new_org_code"; ?>" disabled=""/> 
+                                        <input type="hidden" id="new_org_code" name="new_org_code" value="<?php echo "$new_org_code"; ?>" /> 
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -149,7 +198,7 @@ else if ($add_new_type == "user"){
                                 <div class="control-group">
                                     <label class="control-label" for="new_established_year">Year established</label>
                                     <div class="controls">
-                                        <input type="text" id="new_established_year" name="new_established_year" placeholder="Enter the Year" class="input-xlarge "> 
+                                        <input type="text" id="new_established_year" name="new_established_year" placeholder="Enter the Year"> 
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -178,7 +227,6 @@ else if ($add_new_type == "user"){
                                             ?>
                                         </select>
                                     </div>
-
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="org_location_type">Urban/Rural Location</label>
@@ -187,7 +235,6 @@ else if ($add_new_type == "user"){
                                             <option value="0">Select District</option>                                        
                                         </select>
                                     </div>
-
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="org_location_type">Urban/Rural Location</label>
@@ -196,7 +243,20 @@ else if ($add_new_type == "user"){
                                             <option value="0">Select Upazila</option>                                        
                                         </select>
                                     </div>
-
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="new_ownarship_info">Ownership Information</label>
+                                    <div class="controls">
+                                        <select id="new_ownarship_info" name="new_ownarship_info">
+                                            <option value="0">Select Ownership </option>                                        
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="new_post_type" name="new_post_type" value="org" /> 
+                                <div class="control-group">
+                                    <div class="controls">                                            
+                                        <button type="submit" class="btn btn-large btn-info">Add New Organization</button>
+                                    </div>
                                 </div>
                             </form>
                         <?php endif; ?>
@@ -255,6 +315,21 @@ else if ($add_new_type == "user"){
                 {
                     $.each(data, function(k, v) {
                         $('#org_location_type')
+                                .append($("<option></option>")
+                                .attr("value", v.value)
+                                .text(v.text));
+                    });
+                }
+            });
+
+            $.ajax({
+                url: 'get/get_org_ownership.php',
+                type: 'get',
+                dataType: 'json',
+                success: function(data)
+                {
+                    $.each(data, function(k, v) {
+                        $('#new_ownarship_info')
                                 .append($("<option></option>")
                                 .attr("value", v.value)
                                 .text(v.text));
