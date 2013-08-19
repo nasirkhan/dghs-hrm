@@ -684,7 +684,7 @@ if (isset($_POST['search'])) {
                                                     <td><input name="mother_name" type="text" placeholder="Enter Mother name" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Birth Date</strong></td>
+                                                    <td width="50%"><strong>Date of Birth</strong></td>
                                                     <td><input name="birth_date" type="text" placeholder="Date format yyyy-mm-dd" class="datepicker" readonly /></td>
                                                 </tr>
                                                 <tr>
@@ -696,7 +696,7 @@ if (isset($_POST['search'])) {
                                                     <td><input name="contact_no" type="text" placeholder="Enter Contact no" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Mailing Address</strong></td>
+                                                    <td width="50%"><strong>Present Address</strong></td>
                                                     <td><input name="mailing_address" type="text" placeholder="Enter Mailing address" /></td>
                                                 </tr>
                                                 <tr>
