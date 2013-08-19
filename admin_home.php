@@ -106,19 +106,17 @@ if ($_SESSION['user_type'] != "admin"){
                     <section id="admin_home_main">
                         <h3>Admin Dashboard</h3>
 
-                        <div class="row-fluid">                            
-                            <div class="btn-group span12">
-                                <a href="search.php?type=org" class="btn btn-large btn-warning">
-                                    <i class="icon-hospital pull-left"></i> Search Organization
-                                </a>
-                                <a href="search.php?type=staff" class="btn btn-large btn-info">
-                                    <i class="icon-user-md pull-left"></i> Search Staff
-                                </a>
-                                <a href="search.php?type=user" class="btn btn-large btn-primary">
-                                    <i class="icon-user pull-left"></i> Search User
-                                </a>
-                            </div>
-                        </div>                        
+                        <div class="row-fluid"> 
+                            
+                            <a href="search.php" class="btn btn-large btn-warning">
+                                <i class="icon-search pull-left icon-3x"></i> Search
+                            </a>
+
+                            <a href="add_new.php" class="btn btn-large btn-info">
+                                <i class="icon-plus pull-left icon-3x"></i> Add New
+                            </a>
+                            
+                        </div>  
 
                     </section> <!-- /admin_home_main -->                   
                 </div>
