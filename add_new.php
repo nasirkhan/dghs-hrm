@@ -34,7 +34,7 @@ $required_missing= mysql_real_escape_string($_GET['required_missing']);
 
 if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
     // Required field names
-    $required = array('new_org_name', 'new_org_code', 'new_established_year', 'admin_division', 'admin_district', 'admin_upazila', 'new_ownarship_info');
+    $required = array('new_org_name', 'new_org_code', 'new_established_year', 'admin_division', 'admin_district', 'admin_upazila', 'new_ownarship_info', 'email_address1');
 
     // Loop over field names, make sure each one exists and is not empty
     $error = false;
@@ -55,6 +55,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
         $admin_district = mysql_real_escape_string($_POST['admin_district']);
         $admin_upazila = mysql_real_escape_string($_POST['admin_upazila']);
         $new_ownarship_info = mysql_real_escape_string($_POST['new_ownarship_info']);
+        $new_org_email = mysql_real_escape_string($_POST['new_org_email']);
 
 
         //@TODO change the division, district ID to Code
@@ -65,7 +66,8 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
             `division_id`,
             `district_id`,
             `upazila_id`,
-            `ownership_code`) 
+            `ownership_code`,
+            `email_address1`) 
         VALUES (
             \"$new_org_name\",
             '$new_org_code',
@@ -73,7 +75,8 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
             '$admin_division',
             '$admin_district',
             '$admin_upazila',
-            '$new_ownarship_info'
+            '$new_ownarship_info',
+            '$new_org_email'
             )";
 //    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
         $insert_success = TRUE;
@@ -277,6 +280,12 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                                         <select id="new_ownarship_info" name="new_ownarship_info" required>
                                             <option value="0">Select Ownership </option>                                        
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="new_org_email">Email Address</label>
+                                    <div class="controls">
+                                        <input type="text" id="new_org_email" name="new_org_email" placeholder="Organization Email Address" required> 
                                     </div>
                                 </div>
                                 <input type="hidden" id="new_post_type" name="new_post_type" value="org" /> 
