@@ -103,7 +103,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                     <section id="search_main">
                         
                         <!-- search options -->
-                        <?php if ($seach_type != "org"): ?>
+                        <?php if ($seach_type == ""): ?>
                         <div id="search_options">
                             <div class="row-fluid">
                                 <table class="table table-striped">
@@ -244,6 +244,36 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                             </div>
 
                         <?php endif; ?>
+                        
+                        <?php if ($seach_type == "user"): ?>
+                        <h3>Search User</h3>
+                        <div id="search_user_main" class="row-fluid">
+                            <div id="search_user_by_name" class="">
+                                <div class="row-fluid">
+                                    <div class="span12 alert alert-">
+                                        <div class="control-group">
+                                            <p class="lead">Search By User Name</p>
+                                            <div class="controls input-append">
+                                                <input type="text" id="searchUser" class="input-xlarge" placeholder="Enter User Name">
+                                                <button id="btn_search_user_name" class="btn btn-info" type="button">Find user(s)</button>
+                                                <button id="btn_reset" class="btn" type="button">Reset</button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="control-group">
+                                            <p class="lead">Search By Organization Name or Organization Code</p>
+                                            <div class="controls input-append">
+                                                <input type="text" id="searchOrg" class="input-xlarge" placeholder="Enter Organization Name or Code">
+                                                <button id="btn_user_search_org" class="btn btn-info" type="button">Find Organization(s)</button>
+                                                <button id="btn_reset" class="btn" type="button">Reset</button>
+                                            </div>
+                                        </div>
+                                        <div id="staff_list_display"></div>
+                                    </div>                            
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
 
                     </section>
 
@@ -362,11 +392,43 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 $.ajax({
                     type: "POST",
                     url: 'get/get_search_result.php',
-                    data: {searchOrg: searchOrg},
+                    data: {type:"org", searchOrg: searchOrg},
                     success: function(data) {
                         $("#loading_content").hide();
                         $("#org_list_display").html("");
                         $("#org_list_display").html(data);
+                    }
+                });
+            });
+            
+            // Search staff 
+            $('#btn_search_user_name').click(function() {
+                $("#loading_content").show();
+                var searchUser = $('#searchUser').val();
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_search_result.php',
+                    data: {type:"user", searchUser: searchUser},
+                    success: function(data) {
+                        $("#loading_content").hide();
+                        $("#staff_list_display").html("");
+                        $("#staff_list_display").html(data);
+                    }
+                });
+            });
+            
+            // Search staff by org
+            $('#btn_user_search_org').click(function() {
+                $("#loading_content").show();
+                var searchOrg = $('#searchOrg').val();
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_search_result.php',
+                    data: {type:"staff_org", searchOrg: searchOrg},
+                    success: function(data) {
+                        $("#loading_content").hide();
+                        $("#staff_list_display").html("");
+                        $("#staff_list_display").html(data);
                     }
                 });
             });
