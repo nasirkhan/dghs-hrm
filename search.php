@@ -84,8 +84,8 @@ $seach_type = mysql_real_escape_string($_GET['type']);
             <div class="row-fluid">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
-                        <li class="active"><a href="search.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
+                        <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
+                        <li class="active"><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
                         <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
                         <!--                        
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
@@ -116,6 +116,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                             </td>
                                             <td>Search an organization using the organization name organization code, organization type or find it form the administrative divisions.</td>
                                         </tr>
+                                        <!--
                                         <tr>
                                             <td>
                                                 <a href="search.php?type=staff" class="btn btn-large btn-info">
@@ -124,6 +125,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                             </td>
                                             <td>Find an individual staff from an organization, search by his name or staff id.</td>
                                         </tr>
+                                        -->
                                         <tr>
                                             <td>
                                                 <a href="search.php?type=user" class="btn btn-large btn-primary">
@@ -250,7 +252,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                         <div id="search_user_main" class="row-fluid">
                             <div id="search_user_by_name" class="">
                                 <div class="row-fluid">
-                                    <div class="span12 alert alert-">
+                                    <div class="span12 alert alert-info">
                                         <div class="control-group">
                                             <p class="lead">Search By User Name</p>
                                             <div class="controls input-append">
