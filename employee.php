@@ -764,7 +764,7 @@ if (isset($_POST['search'])) {
                                                     <td><a href="#" id="professional_discipline_of_current_designation" name="professional_discipline_of_current_designation"></a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Type of Educational Qualification</strong></td>
+                                                    <td width="50%"><strong>Educational Qualification</strong></td>
                                                     <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"></a></td>
                                                 </tr>
                                                 <tr>
