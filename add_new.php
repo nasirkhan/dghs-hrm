@@ -30,7 +30,7 @@ if ($add_new_type == "org") {
     $new_type = "User";
 }
 
-$required_missing= mysql_real_escape_string($_GET['required_missing']);
+$required_missing = mysql_real_escape_string($_GET['required_missing']);
 
 if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
     // Required field names
@@ -141,11 +141,6 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                         <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
                         <li><a href="search.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
                         <li class="active"><a href="add_new.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Add New</a>
-                            <!--                        
-                            <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
-                            <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
-                            <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
-                            -->
                         <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
@@ -297,7 +292,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                                 </div>
                             </form>
                         <?php endif; ?>
-                        
+
                         <?php if ($add_new_type == "user"): ?>
                             <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                                 <div class="control-group">
@@ -338,77 +333,77 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                                     </div>
                                 </div>
                                 <div class="row-fluid">
-                                        <div class="span12 alert alert-info">
-                                            <div class="">
-                                                <p class="lead">Find Organization(s) from the administrative region, agency type or organization type</p>
-                                                <div class="control-group">
-                                                    <select id="admin_division" name="admin_division">
-                                                        <option value="0">Select Division</option>
-                                                        <?php
-                                                        /**
-                                                         * @todo change old_visision_id to division_bbs_code
-                                                         */
-                                                        $sql = "SELECT admin_division.division_name, admin_division.old_division_id FROM admin_division";
-                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                    <div class="span12 alert alert-info">
+                                        <div class="">
+                                            <p class="lead">Select Organization(s) from the administrative region, agency type or organization type</p>
+                                            <div class="control-group">
+                                                <select id="admin_division" name="admin_division">
+                                                    <option value="0">Select Division</option>
+                                                    <?php
+                                                    /**
+                                                     * @todo change old_visision_id to division_bbs_code
+                                                     */
+                                                    $sql = "SELECT admin_division.division_name, admin_division.old_division_id FROM admin_division";
+                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                                                        while ($rows = mysql_fetch_assoc($result)) {
-                                                            echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                    <select id="admin_district" name="admin_district">
-                                                        <option value="0">Select District</option>                                        
-                                                    </select>
-                                                    <select id="admin_upazila" name="admin_upazila">
-                                                        <option value="0">Select Upazila</option>                                        
-                                                    </select>
-                                                </div>
+                                                    while ($rows = mysql_fetch_assoc($result)) {
+                                                        echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <select id="admin_district" name="admin_district">
+                                                    <option value="0">Select District</option>                                        
+                                                </select>
+                                                <select id="admin_upazila" name="admin_upazila">
+                                                    <option value="0">Select Upazila</option>                                        
+                                                </select>
+                                            </div>
 
-                                                <div class="control-group">
-                                                    <select id="org_agency" name="org_agency">
-                                                        <option value="0">Select Agency</option>
-                                                        <?php
-                                                        $sql = "SELECT
+                                            <div class="control-group">
+                                                <select id="org_agency" name="org_agency">
+                                                    <option value="0">Select Agency</option>
+                                                    <?php
+                                                    $sql = "SELECT
                                                     org_agency_code.org_agency_code,
                                                     org_agency_code.org_agency_name
                                                 FROM
                                                     org_agency_code
                                                 ORDER BY
                                                     org_agency_code.org_agency_code";
-                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                                                        while ($rows = mysql_fetch_assoc($result)) {
-                                                            echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
+                                                    while ($rows = mysql_fetch_assoc($result)) {
+                                                        echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
+                                                    }
+                                                    ?>
+                                                </select>
 
-                                                    <select id="org_type" name="org_type">
-                                                        <option value="0">Select Org Type</option>
-                                                        <?php
-                                                        $sql = "SELECT
+                                                <select id="org_type" name="org_type">
+                                                    <option value="0">Select Org Type</option>
+                                                    <?php
+                                                    $sql = "SELECT
                                                             org_type.org_type_code,
                                                             org_type.org_type_name
                                                         FROM
                                                             org_type
                                                         ORDER BY
                                                             org_type.org_type_name ASC";
-                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                                                        while ($rows = mysql_fetch_assoc($result)) {
-                                                            echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                    
-                                                    <select id="org_list" name="org_list">
-                                                        <option value="0">Select Organization</option>                                        
-                                                    </select>
-                                                </div>                                       
-                                            </div>                                            
-                                        </div>
+                                                    while ($rows = mysql_fetch_assoc($result)) {
+                                                        echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
+                                                    }
+                                                    ?>
+                                                </select>
 
+                                                <select id="org_list" name="org_list">
+                                                    <option value="0">Select Organization</option>                                        
+                                                </select>
+                                            </div>                                       
+                                        </div>                                            
                                     </div>
+
+                                </div>
                                 <div class="control-group">
                                     <div class="controls">                                            
                                         <button type="submit" class="btn btn-large btn-info">Add New User</button>
@@ -463,7 +458,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                     });
                 }
             });
-            
+
             $.ajax({
                 url: 'get/get_org_location_type.php',
                 type: 'get',
@@ -537,7 +532,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                     }
                 });
             });
-            
+
             // load organization 
             $('#org_type').change(function() {
                 $("#loading_content").show();
