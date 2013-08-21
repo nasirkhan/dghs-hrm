@@ -6,6 +6,7 @@ $div_id = (int) mysql_real_escape_string($_POST['div_id']);
 $dis_id = (int) mysql_real_escape_string($_POST['dis_id']);
 $upa_id = (int) mysql_real_escape_string($_POST['upa_id']);
 $agency_code = (int) mysql_real_escape_string($_POST['agency_code']);
+$org_type_code = (int) mysql_real_escape_string($_POST['org_type_code']);
 
 $query_string = "";
 
@@ -18,6 +19,10 @@ else if ($dis_id > 0){
 }
 else if ($div_id > 0){
     $query_string = " AND organization.district_id = $div_id";
+}
+
+if ($org_type_code > 0 ){
+    $query_string = " AND organization.org_type_code = $org_type_code";
 }
 $query_string .= " ORDER BY org_name";
 
