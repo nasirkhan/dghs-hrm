@@ -332,7 +332,17 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row-fluid">
+                                <div id="new_admin_org_code" style="display: none;">
+                                    <div class="control-group">
+                                        <label class="control-label" for="new_org_code">Organization Code</label>
+                                        <div class="controls">
+                                            <input type="text" value="99999999" disabled=""/> 
+                                            <input type="hidden" id="new_org_code" name="new_org_code" value="99999999" /> 
+                                        </div>
+                                    </div>
+                                </div>
+                                    
+                                <div id="org_select_block" class="row-fluid" style="display: none;">
                                     <div class="span12 alert alert-info">
                                         <div class="">
                                             <p class="lead">Select Organization(s) from the administrative region, agency type or organization type</p>
@@ -489,6 +499,17 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                 }
             });
 
+            $("#new_user_type").change(function (){
+                var selectedType = $("#new_user_type").val();
+                if(selectedType === "4"){
+                    $("#new_admin_org_code").hide();
+                    $("#org_select_block").slideDown();
+                }
+                else if(selectedType === "3"){
+                    $("#org_select_block").hide();
+                    $("#new_admin_org_code").slideDown();
+                }
+            });
             // load district
             $('#admin_division').change(function() {
                 $("#loading_content").show();
