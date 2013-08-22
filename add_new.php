@@ -30,27 +30,33 @@ if ($add_new_type == "org") {
     $new_type = "User";
 }
 
-$required_missing = mysql_real_escape_string($_GET['required_missing']);
+
 
 if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
     // Required field names
-    $required = array('new_org_name', 'new_org_code', 'new_established_year', 'admin_division', 'admin_district', 'admin_upazila', 'new_ownarship_info', 'email_address1');
+//    $required = array('new_org_name', 'new_org_code', 'new_established_year', 'admin_division', 'admin_district', 'admin_upazila', 'new_ownarship_info', 'email_address1');
+//
+//    // Loop over field names, make sure each one exists and is not empty
+//    $error = false;
+//    foreach ($required as $field) {
+//        if (!isset($_POST[$field])) {
+//            $error = TRUE;
+//            echo "<pre>";
+//            print_r($field);
+//            print_r($required);
+//            print_r($_POST);
+//        }
+//    }
 
-    // Loop over field names, make sure each one exists and is not empty
-    $error = false;
-    foreach ($required as $field) {
-        if (isset($_POST[$field])) {
-            $error = TRUE;
-        }
-    }
-
-    if ($error) {
-        header("location:add_new.php?type=org&required_missing=true");
-    } else {
-        $required_missing = FALSE;
+//    if ($error) {
+//        header("location:add_new.php?type=org");
+//    } else {
+//        $required_missing = FALSE;
         $new_org_name = mysql_real_escape_string($_POST['new_org_name']);
         $new_org_code = mysql_real_escape_string($_POST['new_org_code']);
+        $new_agency_code = mysql_real_escape_string($_POST['agency_code']);
         $new_established_year = mysql_real_escape_string($_POST['new_established_year']);
+        $org_location_type = mysql_real_escape_string($_POST['org_location_type']);
         $admin_division = mysql_real_escape_string($_POST['admin_division']);
         $admin_district = mysql_real_escape_string($_POST['admin_district']);
         $admin_upazila = mysql_real_escape_string($_POST['admin_upazila']);
@@ -58,11 +64,13 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
         $new_org_email = mysql_real_escape_string($_POST['new_org_email']);
 
 
-        //@TODO change the division, district ID to Code
+        //@TODO change the division, district ID to CODE
         $sql = "INSERT INTO `organization` (
             `org_name`, 
             `org_code`,
+            `agency_code`,
             `year_established`,
+            `org_location_type`,
             `division_id`,
             `district_id`,
             `upazila_id`,
@@ -71,17 +79,27 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
         VALUES (
             \"$new_org_name\",
             '$new_org_code',
+            '$new_agency_code',
             \"$new_established_year\",
+             '$org_location_type',
             '$admin_division',
             '$admin_district',
             '$admin_upazila',
             '$new_ownarship_info',
             '$new_org_email'
             )";
-//    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
+        
+//        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
         $insert_success = TRUE;
-    }
+        
+        header("location:add_new.php?type=org");
+                
+//        echo "$sql";
+//    }
 }
+
+
+$required_missing = mysql_real_escape_string($_GET['required_missing']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,7 +130,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
         <link rel="shortcut icon" href="assets/ico/favicon.png">
 
         <!--Google analytics code-->
-        <?php // include_once 'include/header/header_ga.inc.php';   ?>
+        <?php include_once 'include/header/header_ga.inc.php';    ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -154,18 +172,11 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                             <div class="alert alert-success">
                                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                                 &nbsp;<br />
-                                <h4>New information has been successfully added to the database.</h4>
+                                <h4>New information has been successfully added to the database.<br><?php echo $sql; ?></h4>
                                 &nbsp;<br />
                             </div>                        
                         <?php endif; ?>
-                        <?php if ($required_missing): ?>
-                            <div class="alert alert-error">
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                &nbsp;<br />
-                                <h4>All the fields are required. Please complete the form carefully.</h4>
-                                &nbsp;<br />
-                            </div>                        
-                        <?php endif; ?>
+
                         <!--add options-->
                         <?php if ($add_new_type == ""): ?>
                             <div id="add_new_options">
@@ -195,6 +206,12 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                         <?php endif; ?>
                         <!--Add new organization--> 
                         <?php if ($add_new_type == "org"): ?>
+                            <div class="alert alert-warning">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                &nbsp;<br />
+                                <h4>All the fields are required. Please complete the form carefully.</h4>
+                                &nbsp;<br />
+                            </div>
                             <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                                 <div class="control-group">
                                     <label class="control-label" for="new_org_name">Organization Name</label>
@@ -216,7 +233,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                                 <div class="control-group">
                                     <label class="control-label" for="agency_code">Agency Name</label>
                                     <div class="controls">
-                                        <select id="agency_code" required>
+                                        <select id="agency_code" name="agency_code" required>
                                             <option value="0">-- Select form the list --</option>
                                         </select>
                                     </div>
@@ -230,13 +247,13 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                                 <div class="control-group">
                                     <label class="control-label" for="org_location_type">Urban/Rural Location</label>
                                     <div class="controls">
-                                        <select id="org_location_type" required>
+                                        <select id="org_location_type" name="org_location_type" required>
                                             <option value="0">-- Select form the list --</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="org_location_type">Urban/Rural Location</label>
+                                    <label class="control-label" for="admin_division">Division Name</label>
                                     <div class="controls">
                                         <select id="admin_division" name="admin_division" required>
                                             <option value="0">Select Division</option>
@@ -255,7 +272,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="org_location_type">Urban/Rural Location</label>
+                                    <label class="control-label" for="admin_district">District Name</label>
                                     <div class="controls">
                                         <select id="admin_district" name="admin_district" required>
                                             <option value="0">Select District</option>                                        
@@ -263,7 +280,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="org_location_type">Urban/Rural Location</label>
+                                    <label class="control-label" for="admin_upazila">Upazila Name</label>
                                     <div class="controls">
                                         <select id="admin_upazila" name="admin_upazila" required>
                                             <option value="0">Select Upazila</option>                                        
@@ -341,7 +358,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                                         </div>
                                     </div>
                                 </div>
-                                    
+
                                 <div id="org_select_block" class="row-fluid" style="display: none;">
                                     <div class="span12 alert alert-info">
                                         <div class="">
@@ -499,13 +516,13 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
                 }
             });
 
-            $("#new_user_type").change(function (){
+            $("#new_user_type").change(function() {
                 var selectedType = $("#new_user_type").val();
-                if(selectedType === "4"){
+                if (selectedType === "4") {
                     $("#new_admin_org_code").hide();
                     $("#org_select_block").slideDown();
                 }
-                else if(selectedType === "3"){
+                else if (selectedType === "3") {
                     $("#org_select_block").hide();
                     $("#new_admin_org_code").slideDown();
                 }
