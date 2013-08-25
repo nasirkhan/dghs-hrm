@@ -33,6 +33,9 @@ if ($add_new_type == "org") {
 
 
 if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
+    
+
+    
     // Required field names
 //    $required = array('new_org_name', 'new_org_code', 'new_established_year', 'admin_division', 'admin_district', 'admin_upazila', 'new_ownarship_info', 'email_address1');
 //
@@ -52,6 +55,9 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
 //        header("location:add_new.php?type=org");
 //    } else {
 //        $required_missing = FALSE;
+        
+       
+    //@TODO: verify the required fields
         $new_org_name = mysql_real_escape_string($_POST['new_org_name']);
         $new_org_code = mysql_real_escape_string($_POST['new_org_code']);
         $new_agency_code = mysql_real_escape_string($_POST['agency_code']);
@@ -62,12 +68,14 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
         $admin_upazila = mysql_real_escape_string($_POST['admin_upazila']);
         $new_ownarship_info = mysql_real_escape_string($_POST['new_ownarship_info']);
         $new_org_email = mysql_real_escape_string($_POST['new_org_email']);
+        $new_org_type = mysql_real_escape_string($_POST['org_type']);
 
 
         //@TODO change the division, district ID to CODE
         $sql = "INSERT INTO `organization` (
             `org_name`, 
             `org_code`,
+            `org_type_code`,
             `agency_code`,
             `year_established`,
             `org_location_type`,
@@ -79,6 +87,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
         VALUES (
             \"$new_org_name\",
             '$new_org_code',
+            '$new_org_type',
             '$new_agency_code',
             \"$new_established_year\",
              '$org_location_type',
@@ -98,7 +107,49 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
 //    }
 }
 
+$error= "";
+if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "user"){
+    // if " new_user_type " == " Super Admin "
+    // @TODO restructure the User table, include user_type info
+    if (isset($_POST['new_user_type']) && $_POST['new_user_type'] == "3"){
+        $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
+        $new_user_pass = mysql_real_escape_string($_POST['new_user_pass']);
+        $new_user_pass2 = mysql_real_escape_string($_POST['new_user_pass2']);
+        $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
+        
+        if ($new_user_pass != $new_user_pass2){
+            $error= "Password did not matched.";
+        }
+        
+        if ($error == ""){
+            $sql = "INSERT INTO `users` (
+                        `username`, 
+                        `password`,
+                        `user_type`,
+                        `org_code`,
+                        `updated_datetime`,
+                        `updated_by`,
+                        `active`)
+                    VALUES (
+                        \"$new_user_name\",
+                        \"$new_user_pass\",
+                        '$new_agency_code',
+                        \"$new_established_year\",
+                         '$org_location_type',
+                        '$admin_division',
+                        '$admin_district'
+                        )";
 
+    //        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
+            $insert_success = TRUE;
+
+            header("location:add_new.php?type=org");
+        }
+        
+    }
+}
+    
+    
 $required_missing = mysql_real_escape_string($_GET['required_missing']);
 ?>
 <!DOCTYPE html>
@@ -156,10 +207,10 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
-                        <li><a href="search.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
-                        <li class="active"><a href="add_new.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Add New</a>
-                        <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
+                        <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
+                        <li><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
+                        <li class="active"><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
+                        <li><a href="settings.php"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
                 </div>
@@ -204,6 +255,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                 </div>
                             </div>
                         <?php endif; ?>
+                        
                         <!--Add new organization--> 
                         <?php if ($add_new_type == "org"): ?>
                             <div class="alert alert-warning">
@@ -228,6 +280,14 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                     <div class="controls">
                                         <input type="text" value="<?php echo "$new_org_code"; ?>" disabled=""/> 
                                         <input type="hidden" id="new_org_code" name="new_org_code" value="<?php echo "$new_org_code"; ?>" /> 
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="org_type">Organization Type</label>
+                                    <div class="controls">
+                                        <select id="org_type" name="org_type">
+                                            <option value="0">-- Select form the list --</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -309,25 +369,26 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                 </div>
                             </form>
                         <?php endif; ?>
-
+                        
+                        <!--Add new user--> 
                         <?php if ($add_new_type == "user"): ?>
-                            <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                            <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
                                 <div class="control-group">
                                     <label class="control-label" for="new_user_name">UserName</label>
                                     <div class="controls">
-                                        <input type="text" id="new_user_name" name="new_user_name" placeholder="User Name" required> 
+                                        <input type="text" id="new_user_name" name="new_user_name" placeholder="User Name" > 
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="new_user_pass">Password</label>
                                     <div class="controls">
-                                        <input type="password" id="new_user_pass" name="new_user_pass" placeholder="Password" required> 
+                                        <input type="password" id="new_user_pass" name="new_user_pass" placeholder="Password" > 
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="new_user_pass2">Retype Password</label>
                                     <div class="controls">
-                                        <input type="password" id="new_user_pass2" name="new_user_pass2" placeholder="Retype Password" required> 
+                                        <input type="password" id="new_user_pass2" name="new_user_pass2" placeholder="Retype Password" > 
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -429,8 +490,9 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                             </div>                                       
                                         </div>                                            
                                     </div>
-
                                 </div>
+                                
+                                <input type="hidden" id="new_post_type" name="new_post_type" value="user" /> 
                                 <div class="control-group">
                                     <div class="controls">                                            
                                         <button type="submit" class="btn btn-large btn-info">Add New User</button>
@@ -509,6 +571,22 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                 {
                     $.each(data, function(k, v) {
                         $('#new_ownarship_info')
+                                .append($("<option></option>")
+                                .attr("value", v.value)
+                                .text(v.text));
+                    });
+                }
+            });
+            
+            //org_type
+            $.ajax({
+                url: 'get/get_org_type_name.php',
+                type: 'get',
+                dataType: 'json',
+                success: function(data)
+                {
+                    $.each(data, function(k, v) {
+                        $('#org_type')
                                 .append($("<option></option>")
                                 .attr("value", v.value)
                                 .text(v.text));
