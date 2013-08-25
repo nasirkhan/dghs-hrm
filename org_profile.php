@@ -176,7 +176,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Division Name</strong></td>
-                                            <td><a href="#" class="" id="division_name" ><?php echo getDivisionNamefromCode($data['division_code']); ?></a></td>
+                                            <td><a href="#" class="" id="division_code" ><?php echo getDivisionNamefromCode($data['division_code']); ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Division Code</strong></td>
@@ -184,7 +184,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>District Name</strong></td>
-                                            <td><a href="#" class="" id="district_name" ><?php echo getDistrictNamefromCode($data['district_code']); ?></a></td>                                            
+                                            <td><a href="#" class="" id="district_code" ><?php echo getDistrictNamefromCode($data['district_code']); ?></a></td>                                            
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>District Code</strong></td>
@@ -192,7 +192,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Upazila Name</strong></td>
-                                            <td><a href="#" class="" id="upazila_thana_name" ><?php echo $data['upazila_thana_name']; ?></a></td>
+                                            <td><a href="#" class="" id="upazila_thana_code" ><?php echo $data['upazila_thana_name']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Upazila Code</strong></td>
@@ -200,7 +200,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Union Name</strong></td>
-                                            <td><a href="#" class="" id="union_name" ><?php echo $data['union_name']; ?></a></td>
+                                            <td><a href="#" class="" id="union_code" ><?php echo $data['union_name']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Union Code</strong></td>

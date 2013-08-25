@@ -38,7 +38,7 @@ $(function() {
 
 //division_name
 $(function() {
-    $('#division_name').editable({
+    $('#division_code').editable({
         type: 'select',
         pk: org_code,
         url: 'post/post_org_profile.php',
@@ -48,7 +48,7 @@ $(function() {
 
 //upazila_thana_name
 $(function() {
-    $('#upazila_thana_name').editable({
+    $('#upazila_thana_code').editable({
         type: 'select',
         pk: org_code,
         url: 'post/post_org_profile.php',
@@ -62,7 +62,7 @@ $(function() {
 
 //district_name
 $(function() {
-    $('#district_name').editable({
+    $('#district_code').editable({
         type: 'select',
         pk: org_code,
         url: 'post/post_org_profile.php',

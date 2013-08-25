@@ -5,6 +5,7 @@ require_once '../configuration.php';
 if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
+
 $org_code = $_SESSION['org_code'];
 $user_name = $_SESSION['username'];
 
@@ -21,7 +22,15 @@ if ($post_type == "checklist"){
     $value .= $_POST['value'][$i] . "]";
 }
 
-if ($pk == $org_code) {
+//if ($_SESSION['user_type'] == "admin"){
+//    $org_code = $pk;    
+//}
+//else{
+//    $org_code = $_SESSION['org_code'];
+//}
+
+
+if ($pk == $org_code || $_SESSION['user_type'] == "admin") {
     $sql = "UPDATE `dghs_hrm_main`.`organization` 
             SET 
                 `$name` = \"$value\",
@@ -31,7 +40,7 @@ if ($pk == $org_code) {
                 `organization`.`org_code` = $pk;";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>post_employee:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-    echo "Successfully Updated.";
+    echo "Successfully Updated. <br> $sql";
 } else {
     /*
       In case of incorrect value or error you should return HTTP status != 200.
