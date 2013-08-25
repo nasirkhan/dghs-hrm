@@ -63,13 +63,17 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
         $new_agency_code = mysql_real_escape_string($_POST['agency_code']);
         $new_established_year = mysql_real_escape_string($_POST['new_established_year']);
         $org_location_type = mysql_real_escape_string($_POST['org_location_type']);
-        $admin_division = mysql_real_escape_string($_POST['admin_division']);
-        $admin_district = mysql_real_escape_string($_POST['admin_district']);
-        $admin_upazila = mysql_real_escape_string($_POST['admin_upazila']);
+        $division_id = mysql_real_escape_string($_POST['admin_division']);
+        $division_code = getDivisionCodeFormId($division_id);
+        $district_id = mysql_real_escape_string($_POST['admin_district']);
+        $district_code = getDistrictCodeFormId($district_id);
+        $upazila_id = mysql_real_escape_string($_POST['admin_upazila']);
+        $upazila_code = getUpazilaCodeFormId($upazila_id);                
         $new_ownarship_info = mysql_real_escape_string($_POST['new_ownarship_info']);
         $new_org_email = mysql_real_escape_string($_POST['new_org_email']);
         $new_org_type = mysql_real_escape_string($_POST['org_type']);
-
+        $new_functions_code = mysql_real_escape_string($_POST['org_organizational_functions_code']);
+        $new_org_level_code = mysql_real_escape_string($_POST['org_level_code']);
 
         //@TODO change the division, district ID to CODE
         $sql = "INSERT INTO `organization` (
@@ -80,10 +84,15 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
             `year_established`,
             `org_location_type`,
             `division_id`,
+            `division_code`,
             `district_id`,
+            `district_code`,
             `upazila_id`,
+            `upazila_thana_code`,
             `ownership_code`,
-            `email_address1`) 
+            `email_address1`,
+            `org_function_code`,
+            `org_level_code`) 
         VALUES (
             \"$new_org_name\",
             '$new_org_code',
@@ -91,14 +100,19 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
             '$new_agency_code',
             \"$new_established_year\",
              '$org_location_type',
-            '$admin_division',
-            '$admin_district',
-            '$admin_upazila',
+            '$division_id',
+            '$division_code',
+            '$district_id',
+            '$district_code',
+            '$upazila_id',
+            '$upazila_code',    
             '$new_ownarship_info',
-            '$new_org_email'
+            '$new_org_email',
+            '$new_functions_code',
+            '$new_org_level_code'
             )";
         
-//        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
+        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
         $insert_success = TRUE;
         
         header("location:add_new.php?type=org");
@@ -136,11 +150,11 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "user"){
                         '$new_agency_code',
                         \"$new_established_year\",
                          '$org_location_type',
-                        '$admin_division',
-                        '$admin_district'
+                        '$division_id',
+                        '$district_id'
                         )";
 
-    //        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
+//            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
             $insert_success = TRUE;
 
             header("location:add_new.php?type=org");
@@ -352,6 +366,22 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                     <div class="controls">
                                         <select id="new_ownarship_info" name="new_ownarship_info" required>
                                             <option value="0">Select Ownership </option>                                        
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="org_organizational_functions_code">Organization Function</label>
+                                    <div class="controls">
+                                        <select id="org_organizational_functions_code" name="org_organizational_functions_code" required>
+                                            <option value="0">Select Function </option>                                        
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="org_level_code">Organization Level</label>
+                                    <div class="controls">
+                                        <select id="org_level_code" name="org_level_code" required>
+                                            <option value="0">Select Level </option>                                        
                                         </select>
                                     </div>
                                 </div>
@@ -587,6 +617,38 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                 {
                     $.each(data, function(k, v) {
                         $('#org_type')
+                                .append($("<option></option>")
+                                .attr("value", v.value)
+                                .text(v.text));
+                    });
+                }
+            });
+            
+            //org_organizational_functions_code
+            $.ajax({
+                url: 'get/get_org_function_code.php',
+                type: 'get',
+                dataType: 'json',
+                success: function(data)
+                {
+                    $.each(data, function(k, v) {
+                        $('#org_organizational_functions_code')
+                                .append($("<option></option>")
+                                .attr("value", v.value)
+                                .text(v.text));
+                    });
+                }
+            });
+            
+            //get_org_level_code
+            $.ajax({
+                url: 'get/get_org_level_code.php',
+                type: 'get',
+                dataType: 'json',
+                success: function(data)
+                {
+                    $.each(data, function(k, v) {
+                        $('#org_level_code')
                                 .append($("<option></option>")
                                 .attr("value", v.value)
                                 .text(v.text));
