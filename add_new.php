@@ -30,7 +30,7 @@ if ($add_new_type == "org") {
     $new_type = "User";
 }
 
-
+$insert_success = mysql_real_escape_string($_GET['insert_success']);
 
 if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
     
@@ -112,10 +112,10 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
             '$new_org_level_code'
             )";
         
-        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
+//        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
         $insert_success = TRUE;
         
-        header("location:add_new.php?type=org");
+        header("location:add_new.php?type=org&insert_success=true");
                 
 //        echo "$sql";
 //    }
@@ -157,7 +157,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "user"){
 //            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
             $insert_success = TRUE;
 
-            header("location:add_new.php?type=org");
+            header("location:add_new.php?type=user&insert_success=true");
         }
         
     }
@@ -282,7 +282,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                 <div class="control-group">
                                     <label class="control-label" for="new_org_name">Organization Name</label>
                                     <div class="controls">
-                                        <input type="text" id="new_org_name" name="new_org_name" placeholder="Organization Name" required> 
+                                        <input type="text" id="new_org_name" name="new_org_name" placeholder="Organization Name" > 
                                     </div>
                                 </div>
                                 <?php
@@ -307,7 +307,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                 <div class="control-group">
                                     <label class="control-label" for="agency_code">Agency Name</label>
                                     <div class="controls">
-                                        <select id="agency_code" name="agency_code" required>
+                                        <select id="agency_code" name="agency_code" >
                                             <option value="0">-- Select form the list --</option>
                                         </select>
                                     </div>
@@ -315,13 +315,13 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                 <div class="control-group">
                                     <label class="control-label" for="new_established_year">Year established</label>
                                     <div class="controls">
-                                        <input type="text" id="new_established_year" name="new_established_year" placeholder="Enter the Year" required> 
+                                        <input type="text" id="new_established_year" name="new_established_year" placeholder="Enter the Year" > 
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label" for="org_location_type">Urban/Rural Location</label>
                                     <div class="controls">
-                                        <select id="org_location_type" name="org_location_type" required>
+                                        <select id="org_location_type" name="org_location_type" >
                                             <option value="0">-- Select form the list --</option>
                                         </select>
                                     </div>
@@ -329,7 +329,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                 <div class="control-group">
                                     <label class="control-label" for="admin_division">Division Name</label>
                                     <div class="controls">
-                                        <select id="admin_division" name="admin_division" required>
+                                        <select id="admin_division" name="admin_division" >
                                             <option value="0">Select Division</option>
                                             <?php
                                             /**
@@ -348,7 +348,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                 <div class="control-group">
                                     <label class="control-label" for="admin_district">District Name</label>
                                     <div class="controls">
-                                        <select id="admin_district" name="admin_district" required>
+                                        <select id="admin_district" name="admin_district">
                                             <option value="0">Select District</option>                                        
                                         </select>
                                     </div>
@@ -356,7 +356,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                 <div class="control-group">
                                     <label class="control-label" for="admin_upazila">Upazila Name</label>
                                     <div class="controls">
-                                        <select id="admin_upazila" name="admin_upazila" required>
+                                        <select id="admin_upazila" name="admin_upazila" >
                                             <option value="0">Select Upazila</option>                                        
                                         </select>
                                     </div>
@@ -388,7 +388,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                 <div class="control-group">
                                     <label class="control-label" for="new_org_email">Email Address</label>
                                     <div class="controls">
-                                        <input type="text" id="new_org_email" name="new_org_email" placeholder="Organization Email Address" required> 
+                                        <input type="text" id="new_org_email" name="new_org_email" placeholder="Organization Email Address"> 
                                     </div>
                                 </div>
                                 <input type="hidden" id="new_post_type" name="new_post_type" value="org" /> 
