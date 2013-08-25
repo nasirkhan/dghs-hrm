@@ -1031,4 +1031,46 @@ function getLastOrgIdFromOrganizationTable(){
     
     return $data['org_code'];
 }
+
+/**
+ * Get Division BBS Code Form the Old Division Id
+ * @param INT $division_id
+ * @return INT division_bbs_code
+ */
+function getDivisionCodeFormId($division_id){
+    $sql = "SELECT division_bbs_code FROM admin_division WHERE old_division_id = $division_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDivisionCodeFormId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data['division_bbs_code'];
+}
+
+/**
+ * Get District BBS Code Form the Old District Id
+ * @param INT $district_id
+ * @return INT district_bbs_code
+ */
+function getDistrictCodeFormId($district_id){
+    $sql = "SELECT district_bbs_code FROM admin_district WHERE old_district_id = $district_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDivisionCodeFormId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data['district_bbs_code'];
+}
+
+/**
+ * Get Upazila BBS Code Form the Old Upazila Id
+ * @param INT $upazila_id
+ * @return INT upazila_bbs_code
+ */
+function getUpazilaCodeFormId($upazila_id){
+    $sql = "SELECT upazila_bbs_code FROM admin_upazila WHERE old_upazila_id = $upazila_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDivisionCodeFormId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data['upazila_bbs_code'];
+}
 ?>
