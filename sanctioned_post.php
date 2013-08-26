@@ -224,7 +224,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                             $('#sp-content-<?php echo $designation_div_id; ?>').html("");
                                                             $.each(data, function(k, v) {
                                                                 var data_all = "<table class=\"table\">";
-                                                                data_all += "<tr><td><b>Sanctioned Post Id</b></td><td>" + v.sanctioned_post_id + "</td></tr>";
+//                                                                data_all += "<tr><td><b>Sanctioned Post Id</b></td><td>" + v.sanctioned_post_id + "</td></tr>";
                                                                 data_all += "<tr><td><b>Organizaion Code</b></td><td><?php echo "$org_code"; ?></td></tr>";
                                                                 data_all += "<tr><td><b>Organizaion Name</b></td><td><?php echo "$org_name"; ?></td></tr>";
                                                                 data_all += "<tr><td><b>First Level Name</b></td><td>" + v.first_level_name + "</td></tr>";
