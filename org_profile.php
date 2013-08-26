@@ -397,7 +397,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td width="50%"><strong>Mailing Address</strong></td>
-                                        <td><a href="#" class="text-input" id="mailing_address" ><?php echo $data['mailing_address']; ?></a></td>
+                                        <td><a href="#" class="textarea-input" id="mailing_address" ><?php echo $data['mailing_address']; ?></a></td>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Land Phone Number 1</strong></td>

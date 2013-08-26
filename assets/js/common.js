@@ -227,6 +227,13 @@ $(function() {
     });
 });
 $(function() {
+    $('a.textarea-input').editable({
+        type: 'textarea',
+        pk: org_code,
+        url: 'post/post_org_profile.php'
+    });
+});
+$(function() {
     $('#organization-profile-details a.text-input').editable({
         type: 'text',
         pk: org_code,
