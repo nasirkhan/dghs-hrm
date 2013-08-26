@@ -332,7 +332,10 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Organization Function</strong></td>
-                                        <td width="50%"><a href="#" class="" id="org_function_code" ><?php echo getFunctionalNameFromFunctionalCode($data['org_function_code']); ?></a></td>
+                                        <td width="50%"><a href="#" class="" id="org_function_code" ></a></td>
+                                        <script>
+                                            var org_function_value = "<?php echo $data['org_function_code']; ?>";
+                                        </script>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Organization Level</strong></td>
@@ -360,7 +363,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     </tr>
                                     -->
 									
-									 <tr class="success">
+                                    <tr class="success">
                                         <td width="50%" colspan="2"><strong>Permission/Approval/License information</strong></td>
                                     </tr>
                                   

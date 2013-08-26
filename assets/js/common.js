@@ -252,12 +252,27 @@ $(function() {
 });
 
 
+//$(function() {
+//    $('#org_function_code').editable({
+//        type: 'select',
+//        pk: org_code,
+//        url: 'post/post_org_profile.php',
+//        source: 'get/get_org_function_code.php'
+//    });
+//});
+
+//org_function_code
 $(function() {
     $('#org_function_code').editable({
-        type: 'select',
+        type: 'checklist',
+        value: org_function_value,
         pk: org_code,
         url: 'post/post_org_profile.php',
-        source: 'get/get_org_function_code.php'
+        source: 'get/get_org_function_code.php',
+        params: function(params) {
+            params.post_type = 'checklist';
+            return params;
+        }
     });
 });
 
