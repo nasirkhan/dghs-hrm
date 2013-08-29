@@ -456,6 +456,9 @@ function getDesignationNameformCode($designation_code) {
  *  get organization administration information
  */
 function getDivisionNamefromCode($division_code) {
+    if (empty($bbs_code)){
+        return "";
+    }
     $sql = "SELECT *  FROM `admin_division` WHERE `division_bbs_code` =$division_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDivisionNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -465,6 +468,9 @@ function getDivisionNamefromCode($division_code) {
 }
 
 function getDistrictNamefromCode($bbs_code) {
+    if (empty($bbs_code)){
+        return "";
+    }
     $sql = "SELECT district_name  FROM `admin_district` WHERE `district_bbs_code` = $bbs_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDistrictNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -474,6 +480,9 @@ function getDistrictNamefromCode($bbs_code) {
 }
 
 function getUpazilaNamefromCode($bbs_code) {
+    if (empty($bbs_code)){
+        return "";
+    }
     $sql = "SELECT upazila_name  FROM `admin_upazila` WHERE `upazila_bbs_code` = $bbs_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getUpazilaNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -483,6 +492,9 @@ function getUpazilaNamefromCode($bbs_code) {
 }
 
 function getUnionNamefromCode($bbs_code) {
+    if (empty($bbs_code)){
+        return "";
+    }
     $sql = "SELECT union_name  FROM `admin_union` WHERE `union_bbs_code` = $bbs_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getUnionNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
