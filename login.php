@@ -83,7 +83,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                 font-size: 26px;
                 text-align: center;
             }
-            .input-append, .input-prepend{
+            .input-group, .input-group{
                 width: 90%;
             }
             .form-signin input[type="text"],
@@ -93,7 +93,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                 margin-bottom: 15px;
                 padding: 9px 9px;
             }
-            .input-append .add-on, .input-prepend .add-on{
+            .input-group .add-on, .input-group .add-on{
                 height: 32px;
             }
             .contact{
@@ -151,16 +151,16 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                     <h2 class="form-signin-heading">Welcome to HRM Software<br /> <span class="mohfw">Ministry of Health and Family Welfare</span></h2>
 
                     <input type="hidden" name="login_key" value="<?php echo $_SESSION['login_key'] ?>" />
-                    <div class="input-append">
+                    <div class="input-group">
                         <input name="email" type="text" class="input-block-level" placeholder="Email address">
                         <span class="add-on"><i class="icon-envelope icon-2x"></i></span>
                     </div>
-                    <div class="input-append">
+                    <div class="input-group">
                         <input name="password" type="password" class="input-block-level" placeholder="Password">
                         <span class="add-on"><i class="icon-key icon-2x"></i></span>
                     </div>
                 </div>
-                <button class="btn btn-large btn-primary" type="submit" value="submit">Sign in <i class="icon-signin"></i></button>
+                <button class="btn btn-lg btn-primary" type="submit" value="submit">Sign in <i class="icon-signin"></i></button>
 
                 <?php
                 if ($login_sussess == 0):

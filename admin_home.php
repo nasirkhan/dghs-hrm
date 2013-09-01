@@ -83,7 +83,7 @@ if ($_SESSION['user_type'] != "admin"){
 
             <!-- Docs nav
             ================================================== -->
-            <div class="row-fluid">
+            <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <li class="active"><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
@@ -106,13 +106,13 @@ if ($_SESSION['user_type'] != "admin"){
                     <section id="admin_home_main">
                         <h3>Admin Dashboard</h3>
 
-                        <div class="row-fluid"> 
+                        <div class="row"> 
                             
-                            <a href="search.php" class="btn btn-large btn-warning">
+                            <a href="search.php" class="btn btn-default btn-lg btn-warning">
                                 <i class="icon-search pull-left icon-3x"></i> Search
                             </a>
 
-                            <a href="add_new.php" class="btn btn-large btn-info">
+                            <a href="add_new.php" class="btn btn-default btn-lg btn-info">
                                 <i class="icon-plus pull-left icon-3x"></i> Add New
                             </a>
                             

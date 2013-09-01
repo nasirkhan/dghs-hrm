@@ -121,8 +121,8 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                             echo "<div class=\"pull-left\">" . $sp_data['designation'] . "</div>";
                                             $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation']));
                                             echo "<div class=\"pull-right\">" . $sp_data['sp_count'] . "&nbsp&nbsp&nbsp&nbsp";
-                                            echo " <a name=\"sp-btn-$designation_div_id\" id=\"sp-btn-$designation_div_id\" href=\"#sp-$designation_div_id\" role=\"button\" class=\"btn btn-small\" data-toggle=\"modal\"><i class=\"icon-file-alt\"></i> Sanctioned Post Description</a>";
-                                            echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" ><i class=\"icon-list-ul\"></i> View Staff List</button>";
+                                            echo " <a name=\"sp-btn-$designation_div_id\" id=\"sp-btn-$designation_div_id\" href=\"#sp-$designation_div_id\" role=\"button\" class=\"btn btn-sm\" data-toggle=\"modal\"><i class=\"icon-file-alt\"></i> Sanctioned Post Description</a>";
+                                            echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-sm\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" ><i class=\"icon-list-ul\"></i> View Staff List</button>";
 
                                             echo "</div>";
                                             echo "</div>";
@@ -152,8 +152,8 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                                 data_list += "<div class=\"span6\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff Name: " + v.staff_name + ", Id:" + v.staff_id + ") </div>";
 //                                                                data_list += "<div class=\"span1\">Id:" + v.staff_id + "</div>";
                                                                 if (v.staff_id > 0) {
-                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
-                                                                    data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
+                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\"  class=\"btn btn-warning btn-xs\" ><i class=\"icon-user\"></i> View Profile</a>";
+                                                                    data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-xs\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
                                                                     data_list += "'<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
                                                                     data_list += "<div class=\"modal-header\">";
                                                                     data_list += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>";
@@ -180,7 +180,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 
                                                                 }
                                                                 else {
-                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" >Add Profile</a></div>";
+                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-xs\" >Add Profile</a></div>";
                                                                 }
 
                                                                 data_list += "</div>";

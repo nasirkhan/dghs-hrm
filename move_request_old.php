@@ -226,13 +226,13 @@ $org_type_name = $_SESSION['org_type_name'];
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <button type="button" class="btn navbar-btn" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
                     <a class="brand" href="./index.php"><?php echo $app_name; ?></a>
-                    <div class="nav-collapse collapse">
+                    <div class="navbar-collapse collapse">
                         <ul class="nav">
                             <li class="active">
                                 <a href="./index.html">Home</a>                                
@@ -327,7 +327,7 @@ $org_type_name = $_SESSION['org_type_name'];
 
                                     <br>
                                     <div class="control-group">
-                                        <input type="submit" class="btn btn-info btn-small">
+                                        <input type="submit" class="btn btn-info btn-sm">
                                     </div>
                                 </form>
                             </div>
@@ -599,13 +599,13 @@ $org_type_name = $_SESSION['org_type_name'];
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <button type="button" class="btn navbar-btn" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
                     <a class="brand" href="./index.php"><?php echo $app_name; ?></a>
-                    <div class="nav-collapse collapse">
+                    <div class="navbar-collapse collapse">
                         <ul class="nav">
                             <li class="active">
                                 <a href="./index.html">Home</a>                                
@@ -700,7 +700,7 @@ $org_type_name = $_SESSION['org_type_name'];
 
                                     <br>
                                     <div class="control-group">
-                                        <input type="submit" class="btn btn-info btn-small">
+                                        <input type="submit" class="btn btn-info btn-sm">
                                     </div>
                                 </form>
                             </div>

@@ -77,7 +77,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
 
             <!-- Docs nav
             ================================================== -->
-            <div class="row-fluid">
+            <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
@@ -101,12 +101,12 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                         <!-- search options -->
                         <?php if ($seach_type == ""): ?>
                         <div id="search_options">
-                            <div class="row-fluid">
+                            <div class="row">
                                 <table class="table table-striped">
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <a href="search.php?type=org" class="btn btn-large btn-warning">
+                                                <a href="search.php?type=org" class="btn btn-lg btn-warning">
                                                     <i class="icon-hospital icon-2x pull-left"></i> Search Organization
                                                 </a>
                                             </td>
@@ -115,7 +115,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                         <!--
                                         <tr>
                                             <td>
-                                                <a href="search.php?type=staff" class="btn btn-large btn-info">
+                                                <a href="search.php?type=staff" class="btn btn-lg btn-info">
                                                     <i class="icon-user-md icon-2x pull-left"></i> Search Employee
                                                 </a>
                                             </td>
@@ -124,7 +124,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                         -->
                                         <tr>
                                             <td>
-                                                <a href="search.php?type=user" class="btn btn-large btn-primary">
+                                                <a href="search.php?type=user" class="btn btn-lg btn-primary">
                                                     <i class="icon-user icon-2x pull-left"></i> Search HRM Users
                                                 </a>
                                             </td>
@@ -142,7 +142,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                             <div id="search_org_main">
                                 <div  id="search_org">
                                     <!-- Search Organization by Organization name or code -->
-                                    <div class="row-fluid">
+                                    <div class="row">
                                         <div class="span12 alert">
                                             <div class="control-group">
                                                 <p class="lead">Search By Organization Name or Organization Code</p>
@@ -155,7 +155,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                         </div>                            
                                     </div>
                                     <!-- Search Organization by administrative location -->
-                                    <div class="row-fluid">
+                                    <div class="row">
                                         <div class="span12 alert">
                                             <div class="">
                                                 <p class="lead">Find Organization(s) from the administrative requin, agency type or organization type</p>
@@ -245,9 +245,9 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                         
                         <?php if ($seach_type == "user"): ?>
                         <h3>Search User</h3>
-                        <div id="search_user_main" class="row-fluid">
+                        <div id="search_user_main" class="row">
                             <div id="search_user_by_name" class="">
-                                <div class="row-fluid">
+                                <div class="row">
                                     <div class="span12 alert alert-info">
                                         <div class="control-group">
                                             <p class="lead">Search By User Name</p>

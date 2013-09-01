@@ -38,7 +38,7 @@ while ($data_list = mysql_fetch_assoc($result)) {
     echo "<tr>";
     echo "<td width=\"50%\">" . $data_list['designation'] . "</td>";// (Staff Id:" . $data_list['staff_id'] . ")</td>";
     echo "<td>";
-    echo "<button class=\"btn btn-small btn-warning\" id=\"designation" . $data_list['designation_code'] . "\"type=\"button\"><i class=\"icon-list-ul\"></i> View Sanctioned Posts</button>";
+    echo "<button class=\"btn btn-sm btn-warning\" id=\"designation" . $data_list['designation_code'] . "\"type=\"button\"><i class=\"icon-list-ul\"></i> View Sanctioned Posts</button>";
     echo "</td>";
     echo "</tr>";
     echo "<tr>";

@@ -82,13 +82,13 @@ $org_type_name = $_SESSION['org_type_name'];
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
-                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <button type="button" class="btn navbar-btn" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
                     <a class="brand" href="./index.php"><?php echo $app_name; ?></a>
-                    <div class="nav-collapse collapse">
+                    <div class="navbar-collapse collapse">
                         <ul class="nav">
                             <li class="active">
                                 <a href="./index.html">Home</a>                                
@@ -160,8 +160,8 @@ $org_type_name = $_SESSION['org_type_name'];
                                             <div id="<?php echo "$first_level_accord_id"; ?>" class="accordion-body collapse">
                                                 <div class="accordion-inner">
                                                     <p>                                                    
-                                                        <button class="btn btn-primary btn-small" type="button">View Designations</button>
-                                                        <button class="btn btn-info btn-small" type="button" id="load_2nd_for<?php echo $designation_div_id; ?>">View Second Level Divisions</button>
+                                                        <button class="btn btn-primary btn-sm" type="button">View Designations</button>
+                                                        <button class="btn btn-info btn-sm" type="button" id="load_2nd_for<?php echo $designation_div_id; ?>">View Second Level Divisions</button>
                                                     </p>
                                                     <div id="div_2nd_<?php echo $designation_div_id; ?>"></div>
                                                     <div id="loading-2nd-<?php echo $designation_div_id; ?>"  class="alert" style="display: none;"><i class="icon-spinner icon-spin icon-large"></i> Loading second level divisions...</div>
@@ -212,8 +212,8 @@ $org_type_name = $_SESSION['org_type_name'];
                                     echo "<div class=\"pull-left\">" . $sp_data['designation'] . "</div>";
                                     $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation']));
                                     echo "<div class=\"pull-right\">" . $sp_data['sp_count'] . "&nbsp&nbsp&nbsp&nbsp";
-                                    echo " <a name=\"sp-btn-$designation_div_id\" id=\"sp-btn-$designation_div_id\" href=\"#sp-$designation_div_id\" role=\"button\" class=\"btn btn-small\" data-toggle=\"modal\"><i class=\"icon-file-alt\"></i> Sanctioned Post Desctiption</a>";
-                                    echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-small\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" ><i class=\"icon-list-ul\"></i> View Staff List</button>";
+                                    echo " <a name=\"sp-btn-$designation_div_id\" id=\"sp-btn-$designation_div_id\" href=\"#sp-$designation_div_id\" role=\"button\" class=\"btn btn-sm\" data-toggle=\"modal\"><i class=\"icon-file-alt\"></i> Sanctioned Post Desctiption</a>";
+                                    echo " <button type=\"submit\" name=\"btn-$designation_div_id\" id=\"btn-$designation_div_id\" value=\"" . $sp_data['designation'] . "\" class=\"btn btn-info btn-sm\" data-toggle=\"collapse\" data-target=\"#$designation_div_id\" ><i class=\"icon-list-ul\"></i> View Staff List</button>";
 
                                     echo "</div>";
                                     echo "</div>";
@@ -243,8 +243,8 @@ $org_type_name = $_SESSION['org_type_name'];
                                                                         data_list += "<div class=\"span3\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff:" + v.staff_id + ") </div>";
                                                                         data_list += "<div class=\"span3\">Class: " + v.class + "</div>";
                                                                         if (v.staff_id > 0) {
-                                                                            data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
-                                                                            data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
+                                                                            data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "\" target=\"_blank\"  class=\"btn btn-warning btn-xs\" ><i class=\"icon-user\"></i> View Profile</a>";
+                                                                            data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-xs\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
                                                                             data_list += "'<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
                                                                             data_list += "<div class=\"modal-header\">";
                                                                             data_list += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>";
@@ -267,7 +267,7 @@ $org_type_name = $_SESSION['org_type_name'];
 
                                                                         }
                                                                         else {
-                                                                            data_list += "<div class=\"span2\"> <a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" >Add Profile</a></div>";
+                                                                            data_list += "<div class=\"span2\"> <a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-xs\" >Add Profile</a></div>";
                                                                         }
 
                                                                         data_list += "</div>";

@@ -245,12 +245,12 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                         <!--add options-->
                         <?php if ($add_new_type == ""): ?>
                             <div id="add_new_options">
-                                <div class="row-fluid">
+                                <div class="row">
                                     <table class="table table-striped">
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <a href="add_new.php?type=org" class="btn btn-large btn-warning">
+                                                    <a href="add_new.php?type=org" class="btn btn-default btn-lg btn-warning">
                                                         <i class="icon-hospital icon-2x pull-left"></i> Add New Organization
                                                     </a>
                                                 </td>
@@ -258,7 +258,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="add_new.php?type=user" class="btn btn-large btn-info">
+                                                    <a href="add_new.php?type=user" class="btn btn-default btn-lg btn-info">
                                                         <i class="icon-user-md icon-2x pull-left"></i> Add New Organization User
                                                     </a>
                                                 </td>
@@ -394,7 +394,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                 <input type="hidden" id="new_post_type" name="new_post_type" value="org" /> 
                                 <div class="control-group">
                                     <div class="controls">                                            
-                                        <button type="submit" class="btn btn-large btn-info">Add New Organization</button>
+                                        <button type="submit" class="btn btn-default btn-lg btn-info">Add New Organization</button>
                                     </div>
                                 </div>
                             </form>
@@ -450,7 +450,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                     </div>
                                 </div>
 
-                                <div id="org_select_block" class="row-fluid" style="display: none;">
+                                <div id="org_select_block" class="row" style="display: none;">
                                     <div class="span12 alert alert-info">
                                         <div class="">
                                             <p class="lead">Select Organization(s) from the administrative region, agency type or organization type</p>
@@ -525,7 +525,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                 <input type="hidden" id="new_post_type" name="new_post_type" value="user" /> 
                                 <div class="control-group">
                                     <div class="controls">                                            
-                                        <button type="submit" class="btn btn-large btn-info">Add New User</button>
+                                        <button type="submit" class="btn btn-default btn-lg btn-info">Add New User</button>
                                     </div>
                                 </div>
                             </form>

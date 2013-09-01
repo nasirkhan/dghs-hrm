@@ -796,7 +796,7 @@ if (isset($_POST['search'])) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong></strong></td>
-                                                    <td><button type="submit" class="btn btn-success btn-large disabled">Submit</button></td>
+                                                    <td><button type="submit" class="btn btn-success btn-lg disabled">Submit</button></td>
                                                 </tr>
                                             </table>
                                         </fieldset>

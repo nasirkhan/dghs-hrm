@@ -41,7 +41,7 @@ while ($data_list = mysql_fetch_assoc($result)) {
     echo "<tr class=\"success\">";
     echo "<td width=\"50%\">" . $data_list['second_level_name'] . " (Code:" . $data_list['second_level_id'] . ")</td>";
     echo "<td>";
-    echo "<button class=\"btn btn-small btn-info\" id=\"2nd" . $data_list['second_level_id'] . "\"type=\"button\">View Designations</button>";
+    echo "<button class=\"btn btn-sm btn-info\" id=\"2nd" . $data_list['second_level_id'] . "\"type=\"button\">View Designations</button>";
     echo "</td>";
     echo "</tr>";
     echo "<tr class=\"success\">";

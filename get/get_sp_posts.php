@@ -29,8 +29,8 @@ while ($data_list = mysql_fetch_assoc($result)) {
     echo "<tr class=\"warning\">";
     echo "<td width=\"50%\">Sanctioned Post Id" . $data_list['id'] . " (Staff Id:" . $data_list['staff_id'] . ")</td>";
     echo "<td>";
-    echo "<a href=\"employee.php?staff_id=" . $data_list['staff_id'] . "&sanctioned_post_id=" . $data_list['id'] . "\" target=\"_blank\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
-//    echo "<button class=\"btn btn-small\" id=\"designation" . $data_list['designation_code'] . "\"type=\"button\"><i class=\"icon-list-ul\"></i> View Sanctioned Posts</button>";
+    echo "<a href=\"employee.php?staff_id=" . $data_list['staff_id'] . "&sanctioned_post_id=" . $data_list['id'] . "\" target=\"_blank\"  class=\"btn btn-primary btn-xs\" ><i class=\"icon-user\"></i> View Profile</a>";
+//    echo "<button class=\"btn btn-sm\" id=\"designation" . $data_list['designation_code'] . "\"type=\"button\"><i class=\"icon-list-ul\"></i> View Sanctioned Posts</button>";
     echo "</td>";
     echo "</tr>";    
 }

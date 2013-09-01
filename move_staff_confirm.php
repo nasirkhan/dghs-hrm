@@ -142,9 +142,9 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
             <!-- Docs nav
             ================================================== -->
             <section id="move_staff_confirm">
-                <div id="move_out_print_order_main" class="row-fluid well" >
+                <div id="move_out_print_order_main" class="row well" >
                     <!--<form action="<?php // echo $_SERVER['PHP_SELF']; ?>" method="post">-->
-                    <div id="move_out_print_order_header" class="row-fluid text-center">
+                    <div id="move_out_print_order_header" class="row text-center">
                         <h3>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h3>
                         <br />
                         <select id="order_approved_by_org" name="order_approved_by_org">
@@ -163,8 +163,8 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                         <div >ইমেইল: <input id="order_approved_by_org_email" type="text" name="order_approved_by_org_email"/></div>
                         
                     </div>
-                    <div id="move_out_print_order_body" class="row-fluid padding_up_down">
-                        <div class="row-fluid">
+                    <div id="move_out_print_order_body" class="row padding_up_down">
+                        <div class="row">
                             <div class="span4">স্মারক নং: <?php echo "$govt_order"; ?></div>
                             <input id="govt_order_number" type="hidden" name="govt_order_number" value="<?php echo "$govt_order"; ?>" />
                             <div class="span4">
@@ -179,10 +179,10 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                                 <input type="text" id="date" placeholder="তারিখ" name="order_date">
                                 </div>
                         </div>
-                        <div class="row-fluid padding_up_down">
+                        <div class="row padding_up_down">
                             বিসিএস (স্বাস্থ্য) ক্যাডারের নিম্নলিখিত কর্মকর্তা/কর্মকর্তাবৃন্দকে পূনরাদেশ না দেয়া পর্যন্ত তাঁর/তাঁদের নামের পাশে বর্ণিত পদে বদলী/পদায়ন করা হলোঃ 
                         </div>
-                        <div class="row-fluid padding_up_down">
+                        <div class="row padding_up_down">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -212,9 +212,9 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row-fluid">
+                        <div class="row">
                             <div class="span8"> 
-                                <label class="checkbox inline">
+                                <label class="checkbox-inline">
                                     <input type="checkbox" id="inlineCheckbox1" value="option1"> এই আদেশ জনস্বার্থে জারি করা হলো।
                                 </label>
                             </div>
@@ -226,7 +226,7 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                                 </select>
                             </div>
                         </div>
-                        <div class="row-fluid">
+                        <div class="row">
                             <div class="span6 offset6 form-horizontal padding_up_down">
                                 <div class="control-group">
                                     <label class="control-label" for="senderName">নাম: </label>
@@ -254,7 +254,7 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                                 </div>
                             </div>
                         </div>
-                        <div class="row-fluid">
+                        <div class="row">
                             <div class="span8"> 
                                 <!--স্মারক নং:--> 
                             </div>
@@ -262,17 +262,17 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                                 স্মারক নং:
                             </div>
                         </div>
-                        <div class="row-fluid">
+                        <div class="row">
                             <div class="span12"> 
                                 অনুলিপি সদয় অবগতি ও প্রয়োজনীয় ব্যবস্থা গ্রহণের জন্য প্রেরণ করা হলো:
                             </div>
                         </div>
-                        <div class="row-fluid">
+                        <div class="row">
                             <div class="span12"> 
                                 <textarea class="input-block-level" rows="4" id="comment"></textarea>
                             </div>
                         </div>
-                        <div class="row-fluid">
+                        <div class="row">
                             <div class="span6 offset6 form-horizontal padding_up_down">
                                 <div class="control-group">
                                     <label class="control-label" for="senderName1">নাম: </label>
@@ -300,10 +300,10 @@ $org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
                                 </div>
                             </div>
                         </div>
-                        <div class="row-fluid">
+                        <div class="row">
                             <p class="text-center">
-                                <button class="btn btn-large btn-warning" type="button">Cancel</button>
-                                <button class="btn btn-large btn-success" type="button" id="send_transfer_order" >Send Transfer Order</button>
+                                <button class="btn btn-lg btn-warning" type="button">Cancel</button>
+                                <button class="btn btn-lg btn-success" type="button" id="send_transfer_order" >Send Transfer Order</button>
                             </p>
                         </div>
                     </div> <!-- /move_out_print_order_body -->

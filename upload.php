@@ -100,12 +100,12 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
                         <h3>Upload Organization Photo/ File</h3>
 
                         <div id="upoad_options">
-                            <div class="row-fluid">
+                            <div class="row">
                                 <table class="table table-striped">
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <a href="upload.php?org_code=<?php echo $org_code; ?>&upload=photo" class="btn btn-large btn-warning">
+                                                <a href="upload.php?org_code=<?php echo $org_code; ?>&upload=photo" class="btn btn-lg btn-warning">
                                                     <i class="icon-picture icon-2x pull-left"></i> Photo (jpg) Upload
                                                 </a>
                                             </td>
@@ -114,7 +114,7 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
                                         <!--
                                         <tr>
                                             <td>
-                                                <a href="upload.php?org_code=<?php echo $org_code; ?>&upload=file" class="btn btn-large btn-info">
+                                                <a href="upload.php?org_code=<?php echo $org_code; ?>&upload=file" class="btn btn-lg btn-info">
                                                     <i class="icon-copy icon-2x pull-left"></i> File (PDF/Doc) Upload
                                                 </a>
                                             </td>
@@ -126,7 +126,7 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
                             </div>
                         </div>
                         <?php if ($upload_type == "photo"): ?>
-                            <div class="row-fluid">
+                            <div class="row">
                                 <div class="span12">
 
                                     <!-- The fileinput-button span is used to style the file input field as button -->
