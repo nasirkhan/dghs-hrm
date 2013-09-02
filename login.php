@@ -23,26 +23,24 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         $_SESSION['user_id'] = $data['user_id'];
         $_SESSION['username'] = $data['username'];
         $_SESSION['user_type'] = $data['user_type'];
-        
+
         $_SESSION['organization_id'] = $data['organization_id'];
         $_SESSION['org_code'] = $data['org_code'];
         $_SESSION['org_name'] = getOrgNameFormOrgCode($data['org_code']);
         $_SESSION['org_type_name'] = getOrgTypeNameFormOrgCode($data['org_code']);
-        $_SESSION['logged'] = TRUE;        
-        
+        $_SESSION['logged'] = TRUE;
+
         session_write_close();
         $login_sussess = 1;
-        
-        if ($_SESSION['user_type'] == "admin"){
+
+        if ($_SESSION['user_type'] == "admin") {
             header("location:admin_home.php?org_code=" . $_SESSION['org_code']);
-        }
-        else{
+        } else {
             header("location:home.php?org_code=" . $_SESSION['org_code']);
-        }        
+        }
     } else {
         $login_sussess = 0;
     }
-
 } else {
     $_SESSION['login_key'] = mt_rand(1, 1000);
 }
@@ -52,92 +50,27 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title><?php echo $app_name; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Ministry of Health and Family Welfare HRM Application developed by Activation Ltd, http://activationltd.com">
         <meta name="author" content="nasir khan saikat (nasir8891 AT gmail DOT com)">
 
-        <!-- Le styles -->
+        <!-- Fav and touch icons -->
+        <?php include_once 'include/header/header_icon.inc.php'; ?>    
+
+        <title><?php echo $app_name; ?></title>
+
+        <!-- Bootstrap core CSS -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <style type="text/css">
-            body {
-                padding-top: 40px;
-                padding-bottom: 40px;
-                background-color: #f5f5f5;
-            }
-            .form-signin {
-                max-width: 350px;
-                padding: 19px 29px 29px;
-                margin: 0 auto 20px;
-                background-color: #fff;
-                border: 1px solid #e5e5e5;
-                -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                box-shadow: 0 1px 2px rgba(0,0,0,.05);
-            }
-            .form-signin .form-signin-heading,
-            .form-signin .checkbox {
-                margin-bottom: 10px;
-                font-size: 26px;
-                text-align: center;
-            }
-            .input-group, .input-group{
-                width: 90%;
-            }
-            .form-signin input[type="text"],
-            .form-signin input[type="password"] {
-                font-size: 16px;
-                height: auto;
-                margin-bottom: 15px;
-                padding: 9px 9px;
-            }
-            .input-group .add-on, .input-group .add-on{
-                height: 32px;
-            }
-            .contact{
-                margin-top: 20px;
-                color: #0077b3;
-            }
-            .login-error{
-                margin-top: 30px;
-            }
 
-            .mohfw{
-                font-family: Georgia, serif;
-            }
+        <!-- Custom styles for this template -->
+        <link href="assets/css/signin.css" rel="stylesheet">
 
-            @media (min-width: 768px) and (max-width: 979px){
-                .container{
-                    width: 760px;
-                }
-            }
-            @media (max-width: 767px){
-                .container{
-                    width: 760px;
-                }
-            }
-            @media (max-width: 480px) {
-                .container{
-                    width: 300px;
-                } 
-            }
-
-        </style>
-
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
           <script src="assets/js/html5shiv.js"></script>
+          <script src="assets/js/respond.min.js"></script>
         <![endif]-->
 
-        <!-- Fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-        
         <!--Google analytics code-->
         <?php include_once 'include/header/header_ga.inc.php'; ?>
     </head>
@@ -147,42 +80,33 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         <div class="container">
 
             <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                <div class="" id="login_div">
-                    <h2 class="form-signin-heading">Welcome to HRM Software<br /> <span class="mohfw">Ministry of Health and Family Welfare</span></h2>
-
-                    <input type="hidden" name="login_key" value="<?php echo $_SESSION['login_key'] ?>" />
-                    <div class="input-group">
-                        <input name="email" type="text" class="input-block-level" placeholder="Email address">
-                        <span class="add-on"><i class="icon-envelope icon-2x"></i></span>
-                    </div>
-                    <div class="input-group">
-                        <input name="password" type="password" class="input-block-level" placeholder="Password">
-                        <span class="add-on"><i class="icon-key icon-2x"></i></span>
-                    </div>
-                </div>
-                <button class="btn btn-lg btn-primary" type="submit" value="submit">Sign in <i class="icon-signin"></i></button>
-
+                <h2 class="form-signin-heading">Welcome to HRM Software<br /> <span class="mohfw">Ministry of Health and Family Welfare</span></h2>
+                <input type="hidden" name="login_key" value="<?php echo $_SESSION['login_key'] ?>" />
+                <input name="email" type="text" class="form-control" placeholder="Email address" autofocus>
+                <input name="password" type="password" class="form-control" placeholder="Password">
+                
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                
                 <?php
                 if ($login_sussess == 0):
                     ?>
                     <div class="login-error">
-                        <div class="alert alert-block alert-error">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong><i class="icon-minus-sign"></i> Warning!</strong><br />Your login Username or Password is incorrect. 
+                        <div class="alert alert-danger">
+                            <strong> Warning!</strong><br />Your login Username or Password is incorrect. 
                             <br />Please try again.
                         </div>
                     </div>
                 <?php endif; ?>
-                <div class="contact"><i class="icon-edit"></i> <a href="#">Contact us for any assistance.</a></div>
-
+                
+                
+                <div class="contact"> <a href="#">Contact us for any assistance.</a></div>
             </form>
 
         </div> <!-- /container -->
 
-        <!-- javascript
-        ================================================== -->
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>  
 
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
     </body>
 </html>

@@ -98,7 +98,6 @@ hr.soften {
 }
 .jumbotron h1 {
   font-size: 80px;
-  font-weight: bold;
   letter-spacing: -1px;
   line-height: 1;
 }
@@ -798,8 +797,11 @@ form.bs-docs-example {
   -webkit-border-radius: 0px;
      -moz-border-radius: 0px;
           border-radius: 0px;
+}.bs-docs-sidenav > .active{
+    background: #0088CC;
 }
 .bs-docs-sidenav > .active > a {
+  color: #fff;
   position: relative;
   z-index: 2;
   padding: 9px 15px;
@@ -809,6 +811,7 @@ form.bs-docs-example {
      -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
           box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
 }
+
 /* Chevrons */
 .bs-docs-sidenav .icon-chevron-right {
   float: right;
@@ -1348,3 +1351,45 @@ div.DTFC_LeftFootWrapper table {
 	border-top: none;
 }
 
+/*
+ * Page headers
+ *
+ * Jumbotron-esque headers at the top of every page that's not the homepage.
+ */
+
+
+/* Page headers */
+.bs-header {
+  padding: 30px 15px 40px; /* side padding builds on .container 15px, so 30px */
+  font-size: 16px;
+  text-align: center;
+  text-shadow: 0 1px 0 rgba(0,0,0,.15);
+}
+.bs-header h1 {
+  color: #fff;
+}
+.bs-header p {
+  font-weight: 300;
+  line-height: 1.5;
+}
+.bs-header .container {
+  position: relative;
+}
+
+@media screen and (min-width: 768px) {
+  .bs-header {
+    font-size: 21px;
+    text-align: left;
+  }
+  .bs-header h1 {
+    font-size: 60px;
+    line-height: 1;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .bs-header h1,
+  .bs-header p {
+    margin-right: 380px;
+  }
+}

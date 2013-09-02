@@ -71,7 +71,7 @@ if ($_SESSION['user_type'] != "admin"){
 
         <!-- Subhead
         ================================================== -->
-        <header class="jumbotron subhead" id="overview">
+        <header class="jumbotron bs-header" id="overview">
             <div class="container">
                 <h1><?php echo $org_name; ?></h1>
                 <p class="lead"><?php echo "$org_type_name"; ?></p>
@@ -84,7 +84,7 @@ if ($_SESSION['user_type'] != "admin"){
             <!-- Docs nav
             ================================================== -->
             <div class="row">
-                <div class="span3 bs-docs-sidebar">
+                <div class="col-md-3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <li class="active"><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
                         <li><a href="search.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
@@ -100,13 +100,13 @@ if ($_SESSION['user_type'] != "admin"){
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
                 </div>
-                <div class="span9">
+                <div class="col-md-9">
                     <!-- admin home
                     ================================================== -->
                     <section id="admin_home_main">
                         <h3>Admin Dashboard</h3>
 
-                        <div class="row"> 
+                        <div class="col-md-12"> 
                             
                             <a href="search.php" class="btn btn-default btn-lg btn-warning">
                                 <i class="icon-search pull-left icon-3x"></i> Search

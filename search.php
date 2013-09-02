@@ -78,7 +78,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
             <!-- Docs nav
             ================================================== -->
             <div class="row">
-                <div class="span3 bs-docs-sidebar">
+                <div class="col-md-3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
                         <li class="active"><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
@@ -93,7 +93,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
                 </div>
-                <div class="span9">
+                <div class="col-md-9">
                     <!-- Search main div
                     ================================================== -->
                     <section id="search_main">
@@ -101,13 +101,13 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                         <!-- search options -->
                         <?php if ($seach_type == ""): ?>
                         <div id="search_options">
-                            <div class="row">
+                            <div class="col-md-12">
                                 <table class="table table-striped">
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <a href="search.php?type=org" class="btn btn-lg btn-warning">
-                                                    <i class="icon-hospital icon-2x pull-left"></i> Search Organization
+                                                <a href="search.php?type=org" class="btn btn-warning btn-lg">
+                                                    <i class="icon-hospital icon-2x pull-left"></i>  Search Organization &nbsp;&nbsp;
                                                 </a>
                                             </td>
                                             <td>Search an organization using the organization name organization code, organization type or find it form the administrative divisions.</td>
@@ -124,7 +124,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                         -->
                                         <tr>
                                             <td>
-                                                <a href="search.php?type=user" class="btn btn-lg btn-primary">
+                                                <a href="search.php?type=user" class="btn btn-primary btn-lg">
                                                     <i class="icon-user icon-2x pull-left"></i> Search HRM Users
                                                 </a>
                                             </td>
@@ -142,25 +142,30 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                             <div id="search_org_main">
                                 <div  id="search_org">
                                     <!-- Search Organization by Organization name or code -->
-                                    <div class="row">
-                                        <div class="span12 alert">
-                                            <div class="control-group">
+                                    <div class="alert alert-info">
+                                        <div class="col-md-12">
+                                            <div class="form-horizontal">
                                                 <p class="lead">Search By Organization Name or Organization Code</p>
                                                 <div class="controls input-append">
-                                                    <input type="text" id="searchOrg" class="input-xlarge" placeholder="Enter Organization Name or Code">
-                                                    <button id="btn_search_org" class="btn btn-info" type="button">Find Organization(s)</button>
-                                                    <button id="btn_reset" class="btn" type="button">Reset</button>
+                                                    <div class="form-group">
+                                                        <input type="text" id="searchOrg" class="input-lg form-control" placeholder="Enter Organization Name or Code">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button id="btn_search_org" class="btn btn-info" type="button">Find Organization(s)</button>
+                                                        <button id="btn_reset" class="btn" type="button">Reset</button>
+                                                    </div>                                                   
                                                 </div>
                                             </div>
                                         </div>                            
                                     </div>
                                     <!-- Search Organization by administrative location -->
                                     <div class="row">
-                                        <div class="span12 alert">
+                                        <div class="col-md-12 alert">
                                             <div class="">
                                                 <p class="lead">Find Organization(s) from the administrative requin, agency type or organization type</p>
-                                                <div class="control-group">
-                                                    <select id="admin_division" name="admin_division">
+                                                
+                                                    <div class="form-group">
+                                                        <select id="admin_division" name="admin_division" class="form-control">
                                                         <option value="0">Select Division</option>
                                                         <?php
                                                         /**
@@ -174,16 +179,21 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                         }
                                                         ?>
                                                     </select>
-                                                    <select id="admin_district" name="admin_district">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <select id="admin_district" name="admin_district" class="form-control">
                                                         <option value="0">Select District</option>                                        
                                                     </select>
-                                                    <select id="admin_upazila" name="admin_upazila">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <select id="admin_upazila" name="admin_upazila" class="form-control">
                                                         <option value="0">Select Upazila</option>                                        
                                                     </select>
-                                                </div>
-
-                                                <div class="control-group">
-                                                    <select id="org_agency" name="org_agency">
+                                                    </div>
+                                                    
+                                                    
+                                                <div class="form-group">
+                                                    <select id="org_agency" name="org_agency" class="form-control">
                                                         <option value="0">Select Agency</option>
                                                         <?php
                                                         $sql = "SELECT
@@ -200,8 +210,10 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                         }
                                                         ?>
                                                     </select>
-
-                                                    <select id="org_type" name="org_type">
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                    <select id="org_type" name="org_type" class="form-control">
                                                         <option value="0">Select Org Type</option>
                                                         <?php
                                                         $sql = "SELECT
@@ -218,15 +230,11 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                         }
                                                         ?>
                                                     </select>
-                                                    <!--
-                                                        <select id="org_list" name="org_list">
-                                                            <option value="0">Select Organization</option>                                        
-                                                        </select>
-                                                        <select id="sanctioned_post" name="org_list">
-                                                            <option value="0">Select Designation</option>                                        
-                                                        </select>
-                                                    -->
                                                 </div>
+                                                
+                                                <div class="form-group">
+                                                    
+                                                </div>                                                
 
                                                 <div class="control-group">
                                                     <button id="btn_show_org_list" type="button" class="btn btn-info">Show Organization(s) List</button>
@@ -248,7 +256,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                         <div id="search_user_main" class="row">
                             <div id="search_user_by_name" class="">
                                 <div class="row">
-                                    <div class="span12 alert alert-info">
+                                    <div class="col-md-12 alert alert-info">
                                         <div class="control-group">
                                             <p class="lead">Search By User Name</p>
                                             <div class="controls input-append">
