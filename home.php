@@ -92,7 +92,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
             <!-- Docs nav
             ================================================== -->
             <div class="row">
-                <div class="span3 bs-docs-sidebar">
+                <div class="col-lg-3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <?php if ($_SESSION['user_type'] == "admin"): ?>
                             <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
@@ -107,24 +107,24 @@ if (!($latitude > 0) || !($longitude > 0)) {
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
                 </div>
-                <div class="span9">
+                <div class="col-lg-9">
                     <!-- info area
                     ================================================== -->
                     <section id="organization-profile">
 
                         <div class="row">
-                            <div class="span5">
+                            <div class="col-lg-7">
                                 <?php
                                 $image_src = "uploads/" . $_SESSION['username'] . ".jpg";
 
                                 if (file_exists($image_src)) {
-                                    echo "<img src=\"$image_src\" class=\"img-polaroid\" />";
+                                    echo "<img src=\"$image_src\" class=\"img-thumbnail img-responsive\" />";
                                 } else {
-                                    echo "<img data-src=\"holder.js/480x360\"  class=\"img-polaroid\" />";
+                                    echo "<img data-src=\"holder.js/480x360\"  class=\"img-polaroid img-responsive\" />";
                                 }
                                 ?>
                             </div>
-                            <div class="span4">
+                            <div class="col-lg-5">
                                 <div id="map" style="height: 360px"></div>
                             </div>
                         </div>
@@ -132,7 +132,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                     </section>
                     <section id="home-basic-info">
                         <div class="row">
-                            <div class="lead span9">
+                            <div class="lead col-lg-12">
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <td>Organization Name</td>
