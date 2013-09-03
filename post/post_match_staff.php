@@ -31,7 +31,7 @@ if ($post_org_code == $org_code) {
                 `old_tbl_staff_organization`.`staff_id` = $pk;";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>post_employee:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-    echo "$sql<br>Successfully Updated.";
+    echo "<br>Successfully Updated.";
 } else {
     /*
       In case of incorrect value or error you should return HTTP status != 200.
