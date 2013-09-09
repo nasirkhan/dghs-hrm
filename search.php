@@ -147,7 +147,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                             <div class="control-group">
                                                 <p class="lead">Search By Organization Name or Organization Code</p>
                                                 <div class="controls input-append">
-                                                    <input type="text" id="searchOrg" class="input-xlarge" placeholder="Enter Organization Name or Code">
+                                                    <input type="text" id="searchOrg" class="input-xlarge" placeholder="Enter Organization Name or Code" autofocus="">
                                                     <button id="btn_search_org" class="btn btn-info" type="button">Find Organization(s)</button>
                                                     <button id="btn_reset" class="btn" type="button">Reset</button>
                                                 </div>
