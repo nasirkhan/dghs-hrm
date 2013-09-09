@@ -13,7 +13,7 @@ $org_type_name = $_SESSION['org_type_name'];
 $echoAdminInfo = "";
 
 // assign values admin users
-if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
+if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $org_code = (int) mysql_real_escape_string($_GET['org_code']);
     $org_name = getOrgNameFormOrgCode($org_code);
     $org_type_name = getOrgTypeNameFormOrgCode($org_code);
@@ -31,7 +31,7 @@ if ($sanctioned_post_id != "") {
     $staff_exists = $temp['exists'];
     $staff_id = $temp['staff_id'];
     $staff_profile_exists = checkStaffProfileExists($staff_id);
-    
+
     $sanctioned_post_within_org = checkSanctionedPostWithinOrgFromSanctionedPostId($sanctioned_post_id, $org_code);
 
     $designation = getDesignationNameFormSanctionedPostId($sanctioned_post_id);
@@ -47,13 +47,11 @@ $staff_org_code = getOrgCodeFromStaffId($staff_id);
 $userCanEdit = FALSE;
 if ($_SESSION['user_type'] == 'admin') {
     $userCanEdit = TRUE;
-
-} 
+}
 if ($staff_org_code == $org_code) {
     $userCanEdit = TRUE;
-
-} 
-if($sanctioned_post_within_org){
+}
+if ($sanctioned_post_within_org) {
     $userCanEdit = TRUE;
 }
 
@@ -77,20 +75,17 @@ if($sanctioned_post_within_org){
 //    }
 //    $display_mode = "new";
 //}
-
 // Set Staff profile Display mode
 if (!$userCanEdit && $staff_profile_exists) {
-    $display_mode = "view"; 
-    
-    // data fetched form staff table
-    $data = getStaffInfoFromStaffId($staff_id);    
-    
-} else if ($staff_profile_exists && $userCanEdit) {
-    $display_mode = "edit";
-    
+    $display_mode = "view";
+
     // data fetched form staff table
     $data = getStaffInfoFromStaffId($staff_id);
-    
+} else if ($staff_profile_exists && $userCanEdit) {
+    $display_mode = "edit";
+
+    // data fetched form staff table
+    $data = getStaffInfoFromStaffId($staff_id);
 } else if ($action == "new" && $userCanEdit) {
     if ($sanctioned_post_id != "") {
         
@@ -176,9 +171,9 @@ if (isset($_POST['search'])) {
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php if ($_SESSION['user_type']=="admin"): ?>
-                        <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
-                        <?php endif; ?>
+                        <?php if ($_SESSION['user_type'] == "admin"): ?>
+                            <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
+                            <?php endif; ?>
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
@@ -214,7 +209,7 @@ if (isset($_POST['search'])) {
 
                                     </div>
                                 <?php endif; ?>
-  
+
                                 <?php if ($display_mode == "view"): ?>
                                     <table class="table table-striped table-hover" id="employee-profile">
                                         <tr>
@@ -352,7 +347,7 @@ if (isset($_POST['search'])) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Education Qualification</strong></td><!--type_of_educational_qualification-->
-                                            <td><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);      ?></td>
+                                            <td><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);        ?></td>
                                         </tr>
 
                                         <script>
@@ -551,7 +546,7 @@ if (isset($_POST['search'])) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Education Qualification</strong></td><!--type_of_educational_qualification-->
-                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);      ?></a></td>
+                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);        ?></a></td>
                                         </tr>
 
                                         <script>
@@ -614,10 +609,10 @@ if (isset($_POST['search'])) {
 
                                     </table>
                                     <?php
-                                // add new employee
+// add new employee
                                 elseif ($display_mode == "new") :
                                     ?>
-                                    <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF'];      ?>" method="post">
+                                    <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF'];        ?>" method="post">
                                         <fieldset>
                                             <table class="table table-striped table-hover">
                                                 <tr>
@@ -642,8 +637,7 @@ if (isset($_POST['search'])) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Department </strong></td>
-											     <td><a href="#" id="department_id"></a></td>
-                                                  <!--  <td><input name="department_id" type="text" placeholder="Enter Department" /></td>-->
+                                                    <td><a href="#" id="department_id"></a></td>                                                  
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Staff Posting</strong></td>
@@ -657,11 +651,10 @@ if (isset($_POST['search'])) {
                                                     <td width="50%"><strong>Staff Professional Category</strong></td>
                                                     <td><a href="#" id="staff_professional_category"></a></td>
                                                 </tr>
-                                              
-                                                <!--<tr>
+                                                <tr>
                                                     <td width="50%"><strong>Posting Status</strong></td>
                                                     <td><input name="posting_status" type="text" placeholder="Enter posting_status" /></td>
-                                                </tr>-->
+                                                </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Code No.(Doctors Only):</strong></td>
                                                     <td><input name="staff_pds_code" type="text" placeholder="Enter Staff PDS code" /></td>
@@ -670,12 +663,11 @@ if (isset($_POST['search'])) {
                                                     <td width="50%"><strong>Staff Name</strong></td>
                                                     <td><input name="staff_name" type="text" placeholder="Enter Staff name" /></td>
                                                 </tr>
-												<!--
                                                 <tr>
                                                     <td width="50%"><strong>Staff Local</strong></td>
                                                     <td><input name="staff_local_id" type="text" placeholder="Enter staff local_id" /></td>
                                                 </tr>
-                                                <tr>-->
+                                                <tr>
                                                     <td width="50%"><strong>Father Name</strong></td>
                                                     <td><input name="father_name" type="text" placeholder="Enter Father name" /></td>
                                                 </tr>
@@ -782,14 +774,13 @@ if (isset($_POST['search'])) {
                                                 <tr>
                                                     <td width="50%"><strong>Reside in Govt. Quarter?</strong></td>                                                        
                                                     <td>
-													<a href="#" id="govt_quarter_id"></a>
+                                                        <a href="#" id="govt_quarter_id"></a>
                                                     </td>
-                                                </tr>
-												<!--
+                                                </tr>						
                                                 <tr>
                                                     <td width="50%"><strong>Job Status</strong></td>
                                                     <td><input name="job_status" type="text" placeholder="Enter job_status" /></td>
-                                                </tr>-->
+                                                </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Further Remarks/Explanation:</strong></td>
                                                     <td><input name="reason" type="text" placeholder="Enter Further Remarks/Explanation" /></td>
@@ -801,11 +792,11 @@ if (isset($_POST['search'])) {
                                             </table>
                                         </fieldset>
                                     </form>
-                                <?php 
-                                else: 
-                                   // echo "ELSE";
+                                    <?php
+                                else:
+                                    // echo "ELSE";
                                     ?>
-                                
+
                                 <?php endif; ?>
                             </div>
                         </div>
