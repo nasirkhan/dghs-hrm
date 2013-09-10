@@ -46,7 +46,8 @@ else if ($type == "org") {
         WHERE
             organization.org_code = \"$query_key\"
                 OR
-            organization.org_name LIKE \"%$query_key%\"";
+            organization.org_name LIKE \"%$query_key%\"
+            ORDER BY org_name";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_search_result:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
     //echo "$sql";
 
