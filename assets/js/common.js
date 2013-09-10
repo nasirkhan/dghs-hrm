@@ -6,6 +6,7 @@ var autoclave_code_values;
 var waste_disposal_code_values;
 var type_of_educational_qualification;
 var pay_scale_of_current_designation;
+var org_function_value;
 /**
  * 
  * Organization Profile Page

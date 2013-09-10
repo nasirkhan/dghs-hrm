@@ -213,13 +213,17 @@ if (isset($_POST['search'])) {
                                 <?php if ($display_mode == "view"): ?>
                                     <table class="table table-striped table-hover" id="employee-profile">
                                         <tr>
-                                            <td width="50%"><strong>Staff Name</strong></td>
-                                            <td><?php echo $data['staff_name']; ?></td>
+                                            <td width="50%"><strong>Organization Name</strong></td>
+                                            <td><?php echo $org_name; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Organization Name</strong></td>
-                                            <td><?php echo getOrgNameFormOrgCode(getOrgCodeFromStaffId($staff_id)); ?></td>
+                                            <td width="50%"><strong>Organization Code</strong></td>
+                                            <td><?php echo $org_code; ?></td>
                                         </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Staff Name</strong></td>
+                                            <td><?php echo $data['staff_name']; ?></td>
+                                        </tr>                                        
                                         <tr>
                                             <td width="50%"><strong><a href="#">Code No.(Doctors Only):</a></strong></td>
                                             <td><?php echo $data['staff_pds_code']; ?></td>
@@ -347,7 +351,7 @@ if (isset($_POST['search'])) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Education Qualification</strong></td><!--type_of_educational_qualification-->
-                                            <td><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);        ?></td>
+                                            <td><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);          ?></td>
                                         </tr>
 
                                         <script>
@@ -546,7 +550,7 @@ if (isset($_POST['search'])) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Education Qualification</strong></td><!--type_of_educational_qualification-->
-                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);        ?></a></td>
+                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);          ?></a></td>
                                         </tr>
 
                                         <script>
@@ -609,15 +613,19 @@ if (isset($_POST['search'])) {
 
                                     </table>
                                     <?php
-// add new employee
+                                // add new employee
                                 elseif ($display_mode == "new") :
                                     ?>
-                                    <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF'];        ?>" method="post">
+                                    <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF'];         ?>" method="post">
                                         <fieldset>
-                                            <table class="table table-striped table-hover">
+                                            <table class="table table-striped"> 
                                                 <tr>
-                                                    <td width="50%"><strong>Designation</strong></td>
-                                                    <td><?php echo $designation; ?></td>
+                                                    <td width="50%"><strong>Organization Name</strong></td>
+                                                    <td><?php echo $org_name; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Organization Code</strong></td>
+                                                    <td><?php echo $org_code; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Sanctioned Post ID</strong></td>
@@ -628,163 +636,81 @@ if (isset($_POST['search'])) {
                                                     <td><?php echo $data['staff_id']; ?> <em class="text-success">(Will be added automatically)</em> </td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Organization Name</strong></td>
-                                                    <td><?php echo $org_name; ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Organization Code</strong></td>
-                                                    <td><?php echo $org_code; ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Department </strong></td>
-                                                    <td><a href="#" id="department_id"></a></td>                                                  
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Staff Posting</strong></td>
-                                                    <td><a href="#" id="staff_posting"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Staff Job Class</strong></td>
-                                                    <td><a href="#" id="staff_job_class"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Staff Professional Category</strong></td>
-                                                    <td><a href="#" id="staff_professional_category"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Posting Status</strong></td>
-                                                    <td><input name="posting_status" type="text" placeholder="Enter posting_status" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Code No.(Doctors Only):</strong></td>
-                                                    <td><input name="staff_pds_code" type="text" placeholder="Enter Staff PDS code" /></td>
-                                                </tr>
-                                                <tr>
                                                     <td width="50%"><strong>Staff Name</strong></td>
-                                                    <td><input name="staff_name" type="text" placeholder="Enter Staff name" /></td>
+                                                    <td>
+                                                        <input type="text" id="staff_name" name="staff_name" placeholder="" >                                                        
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Staff Local</strong></td>
-                                                    <td><input name="staff_local_id" type="text" placeholder="Enter staff local_id" /></td>
+                                                    <td width="50%"><strong>Father's Name</strong></td>
+                                                    <td>
+                                                        <input type="text" id="father_name" name="father_name" placeholder="" >                                                        
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Father Name</strong></td>
-                                                    <td><input name="father_name" type="text" placeholder="Enter Father name" /></td>
+                                                    <td width="50%"><strong>Mother's Name</strong></td>
+                                                    <td>
+                                                        <input type="text" id="mother_name" name="mother_name" placeholder="" >                                                        
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Mother Name</strong></td>
-                                                    <td><input name="mother_name" type="text" placeholder="Enter Mother name" /></td>
+                                                    <td width="50%"><strong>Email</strong></td>
+                                                    <td>
+                                                        <input type="text" id="email_address1" name="email_address1" placeholder="" >                                                        
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Date of Birth</strong></td>
-                                                    <td><input name="birth_date" type="text" placeholder="Date format yyyy-mm-dd" class="datepicker" readonly /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Email Address</strong></td>
-                                                    <td><input name="email_address" type="text" placeholder="Enter Email address" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Contact No</strong></td>
-                                                    <td><input name="contact_no" type="text" placeholder="Enter Contact no" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Present Address</strong></td>
-                                                    <td><input name="mailing_address" type="text" placeholder="Enter Mailing address" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Permanent Address</strong></td>
-                                                    <td><input name="permanent_address" type="text" placeholder="Enter Permanent address" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Freedom Fighter?</strong></td>
-                                                    <td><a href="#" id="freedom_fighter_id"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Tribal?</strong></td>
-                                                    <td><a href="#" id="tribal_id"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Post Type</strong></td>
-                                                    <td><a href="#" id="post_type_id"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Salary drawn from which head </strong></td>
-                                                    <td><a href="#" id="draw_type_id"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Designation Type</strong></td>
-                                                    <td><a href="#" id="designation_type_id"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Posted As</strong></td>
-                                                    <td><a href="#" id="job_posting_id"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Working Status</strong></td>
-                                                    <td><a href="#" id="working_status_id"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Draw Salary from which place:</strong></td>
-                                                    <td><a href="#" id="draw_salary_id"></a></td>
+                                                    <td width="50%"><strong>Contact No.</strong></td>
+                                                    <td>
+                                                        <input type="text" id="contact_no" name="contact_no" placeholder="" >                                                        
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Sex</strong></td>
-                                                    <td><a href="#" id="sex"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Marital Status</strong></td>
-                                                    <td><a href="#" id="marital_status"></a></td>
+                                                    <td>
+                                                        <select id="sex" name="sex" >
+                                                            <option value="0">-- Select form the list --</option>
+                                                        </select>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Religious Group</strong></td>
-                                                    <td><a href="#" id="religion"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Date of Joining to Govt Health Service</strong></td>
-                                                    <td><input name="date_of_joining_to_govt_health_service" type="text" placeholder="Date format yyyy-mm-dd"  class="datepicker" readonly/></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Date of Joining to Current Place</strong></td>
-                                                    <td><input name="date_of_joining_to_current_place" type="text" placeholder="Date format yyyy-mm-dd" class="datepicker" readonly /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Date of Joining to Current Designation</strong></td>
-                                                    <td><input name="date_of_joining_to_current_designation" type="text" placeholder="Date format yyyy-mm-dd" class="datepicker" readonly /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Professional Discipline of Current Designation</strong></td>
-                                                    <td><a href="#" id="professional_discipline_of_current_designation" name="professional_discipline_of_current_designation"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Educational Qualification</strong></td>
-                                                    <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"></a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Actual Degree</strong></td>
-                                                    <td><input name="actual_degree" type="text" placeholder="Enter Actual Degree" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Pay Scale of Current Designation</strong></td>
-                                                    <td><a href="#" id="pay_scale_of_current_designation" name="pay_scale_of_current_designation"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Current Basic Pay Taka</strong></td>
-                                                    <td><input name="current_basic_pay_taka" type="text" placeholder="Enter Current Basic Pay Taka" /></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="50%"><strong>Reside in Govt. Quarter?</strong></td>                                                        
                                                     <td>
-                                                        <a href="#" id="govt_quarter_id"></a>
+                                                        <select id="religious_group" name="religious_group" >
+                                                            <option value="0">-- Select form the list --</option>
+                                                        </select>                                                        
                                                     </td>
-                                                </tr>						
-                                                <tr>
-                                                    <td width="50%"><strong>Job Status</strong></td>
-                                                    <td><input name="job_status" type="text" placeholder="Enter job_status" /></td>
                                                 </tr>
                                                 <tr>
-                                                    <td width="50%"><strong>Further Remarks/Explanation:</strong></td>
-                                                    <td><input name="reason" type="text" placeholder="Enter Further Remarks/Explanation" /></td>
+                                                    <td width="50%"><strong>Marital Status</strong></td>
+                                                    <td>
+                                                        <select id="merital_status" name="merital_status" >
+                                                            <option value="0">-- Select form the list --</option>
+                                                        </select>
+
+                                                    </td>
                                                 </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Job Class</strong></td>
+                                                    <td>
+
+                                                        <select id="job_class" name="job_class" >
+                                                            <option value="0">-- Select form the list --</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Present Address</strong></td>
+                                                    <td>
+                                                        <textarea type="text" id="present_address" name="present_address" placeholder="" ></textarea>                                                        
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Permanent Address</strong></td>
+                                                    <td>
+                                                        <textarea type="text" id="permanent_address" name="permanent_address" placeholder="" ></textarea>                                                        
+                                                    </td>
+                                                </tr>                                                
                                                 <tr>
                                                     <td width="50%"><strong></strong></td>
                                                     <td><button type="submit" class="btn btn-success btn-large disabled">Submit</button></td>
@@ -870,6 +796,8 @@ if (isset($_POST['search'])) {
             $('.datepicker').datepicker({
                 format: 'yyyy-mm-dd'
             });
+
+
         </script>
         <script src="assets/js/common.js"></script>
     </body>
