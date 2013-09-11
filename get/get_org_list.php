@@ -46,6 +46,7 @@ if ($row_count > 0) {
         echo "<li>";
         echo "<a href=\"org_profile.php?org_code=" . $data_list['org_code'] . "\" target=\"_blank\">";
         echo $data_list['org_name'];
+        echo " (Org Code:" . $data_list['org_code'] . ")";
         echo "</a>";
         echo "</li>";
     }
