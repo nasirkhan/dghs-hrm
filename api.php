@@ -2,7 +2,7 @@
 require_once 'api_config.php';
 
 $org_code = (int) mysql_real_escape_string(trim($_REQUEST['org_code']));
-$staff_id = (int) mysql_real_escape_string($_GET['staff_id']);
+$staff_id = (int) mysql_real_escape_string(trim($_REQUEST['staff_id']));
 
 $format = mysql_real_escape_string(trim($_REQUEST['format']));
 
