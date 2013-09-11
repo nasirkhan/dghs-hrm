@@ -6,17 +6,6 @@ $staff_id = (int) mysql_real_escape_string($_GET['staff_id']);
 
 $format = mysql_real_escape_string(trim($_REQUEST['format']));
 
-
-
-//echo "<pre>$org_code<br>$format";
-if ($org_code > 0) {
-    $data = getOrganizationBasicInfo($org_code, $format);
-}
-
-if ($staff_id > 0) {
-    $data = getOrganizationBasicInfo($org_code, $format);
-}
-
 function getOrganizationBasicInfo($org_code) {
     $sql = "SELECT * FROM organization WHERE  org_code =$org_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrganizationBasicInfo:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -26,7 +15,7 @@ function getOrganizationBasicInfo($org_code) {
     return $data;
 }
 
-function getStaffBasicInfo($staff_id) {
+function getStaffBasicInfo($staff_id, $format) {
     $sql = "SELECT
                 *
             FROM
@@ -44,9 +33,8 @@ function getStaffBasicInfo($staff_id) {
 
 <?php
 /*
- * Organization 
+ * Organization Information
  */
-
 if ($org_code > 0) :
     $data = getOrganizationBasicInfo($org_code, $format);
 
@@ -75,7 +63,7 @@ if ($org_code > 0) :
                 </style>
             </head>
             <body>
-                <div id="main">
+                <div id="main">                    
                     <h3><?php echo $data['org_name']; ?></h3>
                     <table border="1">
                         <tbody>
@@ -105,7 +93,7 @@ if ($org_code > 0) :
                             </tr>
                             <tr>
                                 <td width="50%">Urban/Rural Location</td>
-                                <td><?php // echo $data['org_code'];              ?></td>
+                                <td><?php // echo $data['org_code'];               ?></td>
                             </tr>
                             <tr>
                                 <td width="50%">Division Name</td>
@@ -207,9 +195,143 @@ if ($org_code > 0) :
         ?>    
     <?php endif; ?>
 
-<?php elseif ($staff_id > 0): ?>        
+    <?php
+/*
+ * Staff Information
+ */
+elseif ($staff_id > 0):
+    $data = getStaffBasicInfo($staff_id, $format);
 
-<?php else: ?>
+    if ($format == ""):
+        ?>
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>HRM API</title>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <style>
+                    html {
+                        font-family: sans-serif;
+                        font-size: 12pt;
+                    }
+                    table {
+                        border-collapse: collapse;
+                    }
+                    table, th, td {
+                        border: 1px solid #c0c0c0;
+                        padding: 3px;
+                    }
+                    h1, h2, h3 {
+                        text-transform: capitalize;
+                    } 
+                </style>
+            </head>
+            <body>
+                <div id="main">
+                    <?php 
+//                     echo "<pre>"; 
+//                    print_r($data); 
+                    ?>
+                    <h3><?php echo $data['staff_name']; ?></h3>
+                    <table border="1">
+                        <tbody>
+                            <tr>
+                                <td>Staff Code</td>
+                                <td><?php echo $data['staff_id']; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Staff Name</td>
+                                <td><?php echo $data['staff_name']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Sanctioned Post Id</td>
+                                <td><?php echo $data['sanctioned_post_id']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Designation</td>
+                                <td><?php echo getDesignationNameFormSanctionedPostId($data['sanctioned_post_id']); ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Organization Code</td>
+                                <td><?php echo $data['org_code']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Organization Name</td>
+                                <td><?php echo getOrgNameFormOrgCode($data['org_code']); ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Department Id</td>
+                                <td><?php echo $data['department_id']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Department Name</td>
+                                <td><?php echo getDeptNameFromId($data['department_id']); ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Father Name</td>
+                                <td><?php echo $data['father_name']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Mother Name</td>
+                                <td><?php echo $data['mother_name']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Date of Birth</td>
+                                <td><?php echo $data['birth_date']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Mailing Address</td>
+                                <td><?php echo $data['mailing_address']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Permanent Address</td>
+                                <td><?php echo $data['permanent_address']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Last Updated</td>
+                                <td><?php echo $data['last_update']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Updated By</td>
+                                <td><?php echo $data['updated_by']; ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </body>
+        </html>
+
+        <?php
+    elseif ($format == "json"):        
+        $data_all = array();
+        $data_all[] = array(
+            'staff_id' => $data['staff_id'],
+            'staff_name' => $data['staff_name'],
+            'sanctioned_post_id' => $data['sanctioned_post_id'],
+            'designation_name' => getDesignationNameFormSanctionedPostId($data['sanctioned_post_id']),
+            'org_code' => $data['org_code'],
+            'org_name' => getOrgNameFormOrgCode($data['org_code']),            
+            'department_id' => $data['department_id'],
+            'department_name' => getDeptNameFromId($data['department_id']),
+            'father_name' => $data['father_name'],
+            'mother_name' => $data['mother_name'],
+            'birth_date' => $data['birth_date'],
+            'mailing_address' => $data['mailing_address'],
+            'permanent_address' => $data['permanent_address'],
+            'last_update' => $data['last_update'],
+            'updated_by' => $data['updated_by']
+        );
+        $json_data = json_encode($data_all);
+
+        print_r($json_data);
+        ?>    
+    <?php endif; ?>
+
+<?php 
+/*
+ * If there is no parameter mentioned
+ */
+else: ?>
     <!DOCTYPE html>
     <html>
         <head>
@@ -250,12 +372,16 @@ if ($org_code > 0) :
                 </div>
                 <br />
                 <br />
-                <strong> parameter structure:</strong>
+                <strong> Parameter Structure:</strong>
                 <p>
                     <br />
                     Organization Basic Information: <em>org_code=ORGANIZATION_CODE </em>
                     <br />                
                     example: <em>api.php?org_code=10000001</em>
+                    <br /><br />
+                    Staff Basic Information: <em>staff_id=STAFF_ID </em>
+                    <br />                
+                    example: <em>api.php?staff_id=49633</em>
                 </p>
                 <p>
                     <br />
@@ -266,9 +392,11 @@ if ($org_code > 0) :
 
                 <p>
                     <br />
-                    API call with multiple parameters 
+                    API call with multiple parameters example: 
                     <br />                
-                    example: <em>api.php?org_code=10000001&format=json</em>
+                    <em>api.php?org_code=10000001&format=json</em>
+                    <br />                
+                    <em>api.php?staff_id=49633&format=json</em>
                 </p>
             </div>
         </body>
