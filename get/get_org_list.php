@@ -18,8 +18,8 @@ if ($upa_id > 0) {
 } else if ($dis_id > 0) {
     $query_string .= " AND organization.district_id = $dis_id";
 }
-if ($agency_code > 0) {
-    $query_string .= " AND organization.agency_code = $agency_code";
+if ($div_id > 0) {
+    $query_string .= " AND organization.division_id = $div_id";
 }
 if ($type_code > 0) {
     $query_string .= " AND organization.org_type_code = $type_code";
@@ -33,7 +33,7 @@ $sql = "SELECT
         FROM
             organization
         WHERE
-            organization.division_id = $div_id
+            organization.agency_code = $agency_code
             $query_string";
 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 //echo "$sql";
