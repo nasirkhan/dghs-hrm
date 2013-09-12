@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+<!--        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
         </script>
         <script>
             $(document).ready(function() {
@@ -27,7 +27,7 @@
                     });
                 });
             });
-        </script>
+        </script>-->
     </head>
     <body>
         <pre>
@@ -40,9 +40,11 @@
         echo "PHP example<br />";
         $data = file_get_contents("http://test.dghs.gov.bd/hrmnew/api.php?staff_id=49633&format=json");
 
-        $data= json_decode($data);
+        $data= json_decode($data, true);
 
         print_r($data); 
+        
+        echo $data[0]['staff_name'];
         echo "</pre>";   
         ?>
     </body>
