@@ -456,7 +456,7 @@ function getDesignationNameformCode($designation_code) {
  *  get organization administration information
  */
 function getDivisionNamefromCode($division_code) {
-    if (empty($bbs_code)){
+    if (empty($division_code)){
         return "";
     }
     $sql = "SELECT *  FROM `admin_division` WHERE `division_bbs_code` =$division_code LIMIT 1";

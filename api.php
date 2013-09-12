@@ -3,6 +3,13 @@ require_once 'api_config.php';
 
 $org_code = (int) mysql_real_escape_string(trim($_REQUEST['org_code']));
 $staff_id = (int) mysql_real_escape_string(trim($_REQUEST['staff_id']));
+$div_code = (int) mysql_real_escape_string(trim($_REQUEST['div_code']));
+$dis_code = (int) mysql_real_escape_string(trim($_REQUEST['dis_code']));
+$upa_code = (int) mysql_real_escape_string(trim($_REQUEST['upa_code']));
+$agency_code = (int) mysql_real_escape_string(trim($_REQUEST['agency_code']));
+$org_type_code = (int) mysql_real_escape_string(trim($_REQUEST['org_type_code']));
+
+
 
 $format = mysql_real_escape_string(trim($_REQUEST['format']));
 
@@ -26,6 +33,57 @@ function getStaffBasicInfo($staff_id, $format) {
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getStaffBasicInfo:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
+    return $data;
+}
+
+function getListOfOrganizations($div_code,$dis_code,$upa_code,$agency_code,$org_type_code){
+    $query_string = "";
+
+    if ($upa_code > 0) {
+        $query_string .= " AND organization.upazila_thana_code = $upa_code";
+    } 
+    if ($dis_code > 0) {
+        $query_string .= " AND organization.district_code = $dis_code";
+    }
+    if ($div_code > 0) {
+        $query_string .= " AND organization.division_code = $div_code";
+    }
+    if ($org_type_code > 0) {
+        $query_string .= " AND organization.org_type_code = $org_type_code";
+    }
+
+    $query_string .= " ORDER BY org_name";
+    
+    $sql = "SELECT
+                organization.org_code,
+                organization.org_name,
+                organization.division_code,
+                organization.district_code,
+                organization.upazila_thana_code,
+                organization.agency_code,
+                organization.org_type_code
+            FROM
+                organization
+            WHERE
+                organization.agency_code = $agency_code ";
+    $sql .= $query_string;
+    
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getListOfOrganizations:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = array();
+    while ($row = mysql_fetch_array($result)) {
+        $data[] = array(
+            'org_code' => $row['org_code'],
+            'org_name' => $row['org_name'],
+            'division_code' => $row['division_code'],
+            'district_code' => $row['district_code'],
+            'upazila_thana_code' => $row['upazila_thana_code'],
+            'union_code' => $row['union_code'],
+            'agency_code' => $row['agency_code'],
+            'org_type_code' => $row['org_type_code']
+        );
+    }
+
     return $data;
 }
 ?>
@@ -326,7 +384,84 @@ elseif ($staff_id > 0):
         print_r($json_data);
         ?>    
     <?php endif; ?>
+<?php 
+/*
+ * Get the list of organization form DIVISION, DISTRICT and UPAZILA code
+ */
+elseif($agency_code > 0 || $div_code > 0 || $dis_code > 0 || $upa_code > 0 || $agency_code > 0 || $org_type_code):
+    $data = getListOfOrganizations($div_code,$dis_code,$upa_code,$agency_code,$org_type_code); 
 
+     if ($format == ""):
+        ?>
+        <!DOCTYPE html>
+        <html>
+            <head>
+                <title>HRM API</title>
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+                <style>
+                    html {
+                        font-family: sans-serif;
+                        font-size: 12pt;
+                    }
+                    table {
+                        border-collapse: collapse;
+                    }
+                    table, th, td {
+                        border: 1px solid #c0c0c0;
+                        padding: 3px;
+                    }
+                    h1, h2, h3 {
+                        text-transform: capitalize;
+                    } 
+                </style>
+            </head>
+            <body>
+                <div id="main">
+                    <?php 
+//                     echo "<pre>"; 
+//                    print_r($data); 
+                    ?>
+                    <h3>List of Organizations under the <?php $count = count($data); echo getDivisionNamefromCode($div_code) . "($count)"; ?></h3>
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <td>Organization Name</td>
+                                <td>Organization Code</td>
+                                <td>Div Code</td>
+                                <td>Dis Code</td>
+                                <td>Upazila Code</td>
+                                <td>Agency Code</td>
+                                <td>Org Type Code</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                            $count = count($data);
+                            for($i=0; $i < $count; $i++): ?>
+                            <tr>
+                                <td><?php echo $data[$i]['org_code']; ?></td>
+                                <td><?php echo $data[$i]['org_name']; ?></td>
+                                <td><?php echo $data[$i]['division_code']; ?></td>
+                                <td><?php echo $data[$i]['district_code']; ?></td>
+                                <td><?php echo $data[$i]['upazila_thana_code']; ?></td>
+                                <td><?php echo $data[$i]['agency_code']; ?></td>
+                                <td><?php echo $data[$i]['org_type_code']; ?></td>
+                            </tr>                            
+                            <?php endfor; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </body>
+        </html>
+
+        <?php
+    elseif ($format == "json"):                
+        $json_data = json_encode($data);
+
+        print_r($json_data);
+        ?>    
+    <?php endif; ?>   
+        
 <?php 
 /*
  * If there is no parameter mentioned
@@ -397,6 +532,11 @@ else: ?>
                     <em>api.php?org_code=10000001&format=json</em>
                     <br />                
                     <em>api.php?staff_id=49633&format=json</em>
+                </p>
+                <p>
+                    Get he list of organizations of a specific administrative region
+                    <br />
+                    <em>api.php?agency_code=11&org_type_code=1050&div_code=10&dis_code=9&upa_code=18</em>
                 </p>
             </div>
         </body>
