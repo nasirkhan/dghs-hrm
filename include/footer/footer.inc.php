@@ -5,7 +5,7 @@
             <li class="muted">&middot;</li>
             <li><a href="#">Contact Us</a></li>
             <li class="muted">&middot;</li>
-            <li><a href="#">Contact Developer</a></li>
+            <li><a href="#">Contact to Developer</a></li>
         </ul>
     </div>
 </footer>
