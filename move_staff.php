@@ -298,7 +298,7 @@ if ($staff_id > 0) {
                                                     <div class="control-group">
                                                         <label class="control-label" for="govt_order">Memo No.:</label>
                                                         <div class="controls">
-                                                            <input type="text" id="govt_order" name="govt_order" placeholder="Memo Number">
+                                                            <input type="text" id="govt_order" name="govt_order" placeholder="Memo Number" autofocus="">
                                                         </div>
                                                     </div>
                                                     <div class="control-group">
@@ -330,9 +330,6 @@ if ($staff_id > 0) {
                                                         <input type="text" id="post_mv_to_des" name="post_mv_to_des" value="">
                                                     </div>
                                                     
-                                                    
-                                                    
-
                                                     <button type="submit" class="btn btn-warning">Confirm Move Out Request</button>
                                                 </form>
 
