@@ -294,7 +294,7 @@ if ($staff_id > 0) {
                                                         <td><span id="mv_to_des"></span></td>
                                                     </tr>
                                                 </table>
-                                                <form class="form-horizontal" action="move_staff_confirm.php" method="post" >
+                                                <form class="form-horizontal" action="move_staff_step_2.php" method="post" >
                                                     <div class="control-group">
                                                         <label class="control-label" for="govt_order">Memo No.:</label>
                                                         <div class="controls">
