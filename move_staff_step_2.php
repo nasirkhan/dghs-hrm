@@ -71,14 +71,6 @@ if ($insert_ok){
 
 }
 
-
-
-$staff_name = getStaffNameFromId($staff_id);
-
-$sanctioned_post_name_from = getSanctionedPostNameFromSanctionedPostId($post_mv_from_des);
-$sanctioned_post_name_to = getSanctionedPostNameFromSanctionedPostGroupCode($post_mv_to_des);
-
-$org_name_from = getOrgNameFormOrgCode($post_mv_from_org);
-$org_name_to = getOrgNameFormOrgCode($post_mv_to_org);
+//header("match_employee.php?org_code=$org_code");
 
 ?>

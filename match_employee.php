@@ -139,7 +139,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                     <th>Class</th>
                                     <th>Staff Id</th>
                                     <th>Sanctioned Post Id</th>
-                                    <!--<th></th>-->
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -156,7 +156,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                         <td><?php echo $designation_info['class']; ?></td>
                                         <td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>"><?php echo $data['staff_id']; ?></a></td>
                                         <td><a href="#" data-name="sanctioned_post_id" data-type="text" data-pk='<?php echo $data['staff_id']; ?>' class="text-input"><?php echo $data['sanctioned_post_id']; ?></a></td>
-                                        <!--<td></td>-->
+                                        <td><a href="move_staff.php?action=move_out&staff_id=<?php echo $data['staff_id']; ?>&org_code=<?php echo $org_code ?>" target="_blank">Move Out</a></td>
                                     </tr>
                                 <?php endwhile; ?>
                             </tbody>
