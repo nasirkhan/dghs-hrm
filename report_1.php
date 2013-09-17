@@ -26,8 +26,12 @@ FROM
 	total_manpower_imported_sanctioned_post_copy
 WHERE
 	pay_scale <= 9
+AND
+    designation like '%Director%'
+AND 
+    
 GROUP BY
-	pay_scale
+	designation
 ORDER BY
 	pay_scale ASC";
 $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:2 || Query:</b><br />___<br />$sql</p>");
@@ -48,14 +52,14 @@ echo "<pre>";
 <table>
     <tbody>
         <tr>
-            <!--<td>Designation</td>-->
+            <td>Designation</td>
             <td>Pay Scale</td>
             <td>Total post</td>
         </tr>
         <?php while ($data = mysql_fetch_assoc($result)): ?>
 
             <tr>
-                <!--<td><?php echo $data['designation']; ?></td>-->
+                <td><?php echo $data['designation']; ?></td>
                 <td><?php echo $data['pay_scale']; ?></td>                
                 <td><?php echo $data['total_number']; ?></td>                
             </tr>
