@@ -157,7 +157,8 @@ if ($staff_id > 0) {
                                     </tr>
                                 </tbody>
                             </table>
-                        <?php elseif ($action == "move_out"): ?>
+                        <?php 
+                        elseif ($action == "move_out"): ?>
                             <div id="move_out_main">
                                 <div class="alert alert-info">
                                     <h4>Transfer (Move Out)</h4>                                

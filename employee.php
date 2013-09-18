@@ -206,6 +206,15 @@ if (isset($_POST['search'])) {
                                                 </div>
                                             </form>
                                         </div>
+                                        <div id="staff_search_main">
+                                            <div id="staff_search_input">
+                                            
+                                            </div>
+                                            
+                                            <div id="staff_search_result">
+                                            
+                                            </div>
+                                        </div>
 
                                     </div>
                                 <?php endif; ?>
