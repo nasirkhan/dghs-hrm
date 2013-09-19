@@ -11,7 +11,10 @@ if (isset($_REQUEST["designation"])) {
     $designation = mysql_real_escape_string($_REQUEST['designation']);
 }
 
-$org_code = $_SESSION['org_code'];
+if (isset($_REQUEST["org_code"])) {
+    $org_code = mysql_real_escape_string($_REQUEST['org_code']);
+}
+//$org_code = $_SESSION['org_code'];
 
 $sql = "SELECT
 total_manpower_imported_sanctioned_post_copy.id,

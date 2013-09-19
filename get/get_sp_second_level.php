@@ -11,8 +11,11 @@ if (isset($_REQUEST["div"])) {
 if (isset($_REQUEST["loading"])) {
     $loading_id = mysql_real_escape_string($_REQUEST['loading']);
 }
+if (isset($_REQUEST["org_code"])) {
+    $org_code = mysql_real_escape_string($_REQUEST['org_code']);
+}
 
-$org_code = $_SESSION['org_code'];
+//$org_code = $_SESSION['org_code'];
 
 $sql = "SELECT
 total_manpower_imported_sanctioned_post_copy.second_level_id,
