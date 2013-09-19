@@ -70,7 +70,6 @@ while ($data_list = mysql_fetch_assoc($result)) {
                     $("#loading-desig<?php echo $data_list['designation_code']; ?>").hide();
                     $('#descri<?php echo $data_list['designation_code']; ?>').html("");
                     $("#descri<?php echo $data_list['designation_code']; ?>").append(data);
-                    $("#designation<?php echo $data_list['designation_code']; ?>").addClass('hide_content');
                 }
             });
 

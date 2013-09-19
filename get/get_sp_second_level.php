@@ -59,6 +59,7 @@ while ($data_list = mysql_fetch_assoc($result)) {
                 type: "POST",
                 url: "get/get_sp_designations.php",
                 data: {
+                    org_code:"<?php echo "$org_code";?>",
                     first_level_id: "<?php echo $first_level_id; ?>",
                     second_level_id: "<?php echo $data_list['second_level_id']; ?>"
                 },

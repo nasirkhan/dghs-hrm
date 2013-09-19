@@ -148,9 +148,13 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                             <div id="<?php echo "$first_level_accord_id"; ?>" class="accordion-body collapse">
                                                 <div class="accordion-inner">
                                                     <p>                                                    
-                                                        <button class="btn btn-primary btn-small" type="button">View Designations</button>
+                                                        <button class="btn btn-primary btn-small" type="button" id="btn_designations_under_<?php echo "$first_level_accord_id"; ?>">View Designations</button>
                                                         <button class="btn btn-info btn-small" type="button" id="load_2nd_for<?php echo $designation_div_id; ?>">View Second Level Divisions</button>
                                                     </p>
+                                                    <div id="designations_under_<?php echo "$first_level_accord_id"; ?>">
+                                                        
+                                                       
+                                                    </div>
                                                     <div id="div_2nd_<?php echo $designation_div_id; ?>"></div>
                                                     <div id="loading-2nd-<?php echo $designation_div_id; ?>"  class="alert" style="display: none;"><i class="icon-spinner icon-spin icon-large"></i> Loading second level divisions...</div>
                                                 </div>
@@ -162,9 +166,11 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                         type: "POST",
                                                         url: "get/get_sp_second_level.php",
                                                         data: {
+                                                            org_code:"<?php echo "$org_code";?>",
                                                             first_level_id: "<?php echo $first_level_list['first_level_id']; ?>",
                                                             div: "desi_2nd_",
                                                             loading: "loading-desi-"
+                                                            
                                                         },
                                                         success: function(data) {
                                                             $("#loading-2nd-<?php echo $designation_div_id; ?>").hide();
@@ -174,6 +180,27 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                     });
 
                                                 });
+                                                
+                                                $("#btn_designations_under_<?php echo "$first_level_accord_id"; ?>").click(function() {
+                                                    $("#loading-2nd-<?php echo $designation_div_id; ?>").show();
+                                                    $.ajax({
+                                                        type: "POST",
+                                                        url: "get/get_sp_designations.php",
+                                                        data: {
+                                                            org_code:"<?php echo "$org_code";?>",
+                                                            first_level_id: "<?php echo $first_level_list['first_level_id']; ?>"
+                                                        },
+                                                        success: function(data) {
+                                                            $("#loading-2nd-<?php echo $designation_div_id; ?>").hide();
+                                                            $('#designations_under_<?php echo "$first_level_accord_id"; ?>').html("");
+                                                            $("#designations_under_<?php echo "$first_level_accord_id"; ?>").append(data);
+                                                        }
+                                                    });
+
+                                                });
+//                                                $("#btn_designations_under_<?php echo "$first_level_accord_id"; ?>").click(function (){
+//                                                    $("#designations_under_<?php echo "$first_level_accord_id"; ?>").append("List");
+//                                                });
                                             </script>
                                         </div>
                                     <?php endwhile; ?>
