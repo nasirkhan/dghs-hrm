@@ -12,7 +12,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
     $form_passwd = mysql_real_escape_string(stripslashes($_POST['password']));
     $form_passwd = md5($form_passwd);
     unset($_POST);
-    $sql = "SELECT user_id, username, user_type, organization_id, org_code FROM user WHERE username LIKE \"$form_uname\" AND password LIKE \"$form_passwd\"";
+    $sql = "SELECT user_id, username, user_type, user_type_code, organization_id, org_code FROM user WHERE username LIKE \"$form_uname\" AND password LIKE \"$form_passwd\"";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
@@ -23,6 +23,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         $_SESSION['user_id'] = $data['user_id'];
         $_SESSION['username'] = $data['username'];
         $_SESSION['user_type'] = $data['user_type'];
+        $_SESSION['user_type_code'] = $data['user_type_code'];
         
         $_SESSION['organization_id'] = $data['organization_id'];
         $_SESSION['org_code'] = $data['org_code'];
