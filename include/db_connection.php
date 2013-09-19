@@ -9,7 +9,7 @@
 $dbhost='localhost';	
 $dbname='dghs_hrm_main';	
 $dbuser='root';
-$dbpass='saikat';
+$dbpass='';
 
 
 // remote 

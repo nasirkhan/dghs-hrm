@@ -5,6 +5,8 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
+
+
 // assign values from session array
 $org_code = $_SESSION['org_code'];
 $org_name = $_SESSION['org_name'];
