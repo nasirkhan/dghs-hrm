@@ -3,10 +3,10 @@
 //error_reporting(E_ALL);
 //ini_set('display_errors','On');
 if ($_POST["email"]<>'') {
-     
+  
     $EmailSubject = $_POST["subject"];
 	$ToEmail = $_POST["mailto"];
-	
+		
 	$mailheader = "From: ".$_POST["email"]."\r\n";
     $mailheader .= "Reply-To: ".$_POST["email"]."\r\n";
 	$mailheader .= "CC: ".$_POST["emailcc"]."\r\n";
@@ -14,9 +14,10 @@ if ($_POST["email"]<>'') {
     $MESSAGE_BODY .= "Name: ".$_POST["name"]."<br>";
 	$MESSAGE_BODY .= "Organization Name: ".$_POST["orgname"]."<br>";
 	$MESSAGE_BODY .= "Organization Code: ".$_POST["orgcode"]."<br>";
-	$MESSAGE_BODY .= "Mobile: ".$_POST["mobile"]."<br>";
-    $MESSAGE_BODY .= "Email: ".$_POST["email"]."";
-    $MESSAGE_BODY .= "Message";
+	$MESSAGE_BODY .= "Reason: ".$_POST["reason"]."<br>";
+    $MESSAGE_BODY .= "Message: ".$_POST["message"]."";
+	
+
 	
     //mail($ToEmail, $EmailSubject, $MESSAGE_BODY, $mailheader) or die ("Failure");
 	mail($ToEmail,$EmailSubject, $MESSAGE_BODY, $mailheader) or die ("Failure");
