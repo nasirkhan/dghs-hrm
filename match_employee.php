@@ -12,13 +12,11 @@ $org_type_name = $_SESSION['org_type_name'];
 
 
 // reassign org info
-if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
+if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $org_code = (int) mysql_real_escape_string($_GET['org_code']);
     $org_name = getOrgNameFormOrgCode($org_code);
     $org_type_name = getOrgTypeNameFormOrgCode($org_code);
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,7 +47,56 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
         <link rel="shortcut icon" href="assets/ico/favicon.png">
 
         <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
+        <?php // include_once 'include/header/header_ga.inc.php'; ?>
+        
+        <!--<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>-->
+        <script src="assets/js/jquery.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+
+        <script src="assets/js/holder/holder.js"></script>
+        <script src="assets/js/google-code-prettify/prettify.js"></script>
+
+        <script src="assets/js/application.js"></script>
+
+        <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+
+        <script src="library/dataTables-1.9.4/media/js/jquery.dataTables.min.js"></script>
+        <script src="library/dataTables-1.9.4/media/js/paging.js"></script>
+        <script>
+            $.fn.editable.defaults.mode = 'inline';
+
+            var org_code = <?php echo "$org_code"; ?>;
+            var designation = "";
+            
+            
+//            $(function() {
+//                $('#match_staff a.text-input').editable({
+//                    type: 'text',
+//                    url: 'post/post_match_staff.php',
+//                    params: function(params) {
+//                        params.org_code = org_code;
+//                        return params;
+//                    }
+//                });
+//            });
+
+            /* Table initialisation */
+            $(document).ready(function() {
+                $('#staff_list').dataTable({
+                    "sDom": "<'row'<'span5'l><'span4'f>r>t<'row'<'span4'i><'span5'p>>",
+                    "sPaginationType": "bootstrap"
+                });
+            });
+
+            $.extend($.fn.dataTableExt.oStdClasses, {
+                "sWrapper": "dataTables_wrapper form-inline",
+                "sSortAsc": "header headerSortDown",
+                "sSortDesc": "header headerSortUp",
+                "sSortable": "header"
+            });
+
+            
+        </script>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -110,7 +157,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                     <!-- main
                     ================================================== -->
                     <section id="match_staff">
-                        
+
                         <?php
                         $sql = "SELECT
                                     old_tbl_staff_organization.staff_id,
@@ -118,7 +165,8 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                     old_tbl_staff_organization.designation_id,
                                     old_tbl_staff_organization.department_id,
                                     old_tbl_staff_organization.staff_name,
-                                    old_tbl_staff_organization.father_name
+                                    old_tbl_staff_organization.father_name,
+                                    old_tbl_staff_organization.sp_id_2
                                 FROM
                                     old_tbl_staff_organization
                                 WHERE
@@ -135,9 +183,9 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                     <th>Dept</th>
                                     <!--<th>Father's Name</th>-->
                                     <th>Designation</th>
-                                    <th>Pay scale</th>
-                                    <th>Class</th>
-                                    <th>Staff Id</th>
+                                    <!--<th>Pay scale</th>-->
+                                    <!--<th>Class</th>-->
+                                    <!--<th>Staff Id</th>-->
                                     <th>Sanctioned Post Id</th>
                                     <th>Action</th>
                                 </tr>
@@ -145,17 +193,42 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                             <tbody>
                                 <?php while ($data = mysql_fetch_assoc($result)): ?>
                                     <tr>
-                                        <td><?php echo $data['staff_name']; ?></td>
+                                        <td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>"><?php echo $data['staff_name']; ?></a></td>
                                         <td><?php echo getDeptNameFromId($data['department_id']); ?></td>
                                         <!--<td><?php echo $data['father_name']; ?></td>-->
                                         <?php
                                         $designation_info = getDesignationInfoFromCode($data['designation_id']);
                                         ?>
                                         <td><?php echo $designation_info['designation']; ?></td>
-                                        <td><?php echo $designation_info['payscale']; ?></td>
-                                        <td><?php echo $designation_info['class']; ?></td>
-                                        <td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>"><?php echo $data['staff_id']; ?></a></td>
-                                        <td><a href="#" data-name="sanctioned_post_id" data-type="text" data-pk='<?php echo $data['staff_id']; ?>' class="text-input"><?php echo $data['sanctioned_post_id']; ?></a></td>
+                                        <!--<td><?php echo $designation_info['payscale']; ?></td>-->
+                                        <!--<td><?php echo $designation_info['class']; ?></td>-->
+                                        <!--<td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>"><?php echo $data['staff_id']; ?></a></td>-->
+                                        <!--<td><a href="#" data-name="sanctioned_post_id" data-type="text" data-pk='<?php echo $data['staff_id']; ?>' class="text-input"><?php echo $data['sanctioned_post_id']; ?></a></td>-->
+                                        
+                                        <td>
+                                            <?php 
+//                                            if ($data['sp_id_2'] > 0) : 
+//                                                echo $data['sp_id_2'];
+//                                            else: 
+                                                ?>
+                                            <a href="#" class="" id="sp_id-<?php echo $data['staff_id']; ?>" ><?php echo $data['sp_id_2']; ?></a>
+                                            <script type="text/javascript">
+                                            $(function() {
+                                                $('#sp_id-<?php echo $data['staff_id']; ?>').editable({
+                                                    type: 'select',
+                                                    pk: org_code,
+                                                    url: 'post/post_match_staff_sp.php',
+                                                    source: 'get/get_match_staff_sp_code_list.php?org_code=' + org_code + '&designation=<?php echo $designation_info['designation']; ?>',
+                                                    params: function(params) {
+                                                        params.staff_id = "<?php echo $data['staff_id']; ?>";
+                                                        return params;
+                                                    }
+                                                });
+                                            });
+                                            </script>
+                                            <?php // endif; ?>
+                                        </td>
+                                        <!--<td></td>-->
                                         <td><a href="move_staff.php?action=move_out&staff_id=<?php echo $data['staff_id']; ?>&org_code=<?php echo $org_code ?>" target="_blank">Move Out</a></td>
                                     </tr>
                                 <?php endwhile; ?>
@@ -178,7 +251,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<!--        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
         <script src="assets/js/jquery.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
 
@@ -220,6 +293,8 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                 "sSortDesc": "header headerSortUp",
                 "sSortable": "header"
             });
-        </script>
+
+            
+        </script>-->
     </body>
 </html>
