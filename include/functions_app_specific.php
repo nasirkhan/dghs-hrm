@@ -1085,4 +1085,18 @@ function getUpazilaCodeFormId($upazila_id){
     
     return $data['upazila_bbs_code'];
 }
+
+/**
+ * Get username form Organization Code
+ * @param INT $org_code
+ * @return STRING username
+ */
+function getUserNameFromOrgCode($org_code){
+    $sql = "SELECT username FROM `user` WHERE org_code=$org_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDivisionCodeFormId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data['username'];
+}
 ?>
