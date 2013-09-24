@@ -13,7 +13,7 @@ $org_type_name = $_SESSION['org_type_name'];
 $echoAdminInfo = "";
 
 // assign values admin users
-if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
+if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $org_code = (int) mysql_real_escape_string($_GET['org_code']);
     $org_name = getOrgNameFormOrgCode($org_code);
     $org_type_name = getOrgTypeNameFormOrgCode($org_code);
@@ -25,9 +25,9 @@ $username = $_SESSION['username'];
 
 $oldPasswordCorrect = TRUE;
 $newPassMatched = TRUE;
-$passwordUpdated =FALSE;
+$passwordUpdated = FALSE;
 
-if ($_POST['changePassword'] == 'true'){
+if ($_POST['changePassword'] == 'true') {
     // Password Change request
     $inputOldPassword = $_POST['inputOldPassword'];
     $inputNewPassword = $_POST['inputNewPassword'];
@@ -42,14 +42,13 @@ if ($_POST['changePassword'] == 'true'){
 
 //  check if old passwprd is correc    
     $oldPasswordCorrect = checkPasswordIsCorrect($username, $inputOldPassword);
-    
+
 // update new password
-    if($oldPasswordCorrect && $newPassMatched){
+    if ($oldPasswordCorrect && $newPassMatched) {
         updatePassword($username, $inputNewPassword);
         $passwordUpdated = TRUE;
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,11 +72,7 @@ if ($_POST['changePassword'] == 'true'){
         <![endif]-->
 
         <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
+        <?php include_once 'include/header/header_icon.inc.php'; ?>
 
         <!--Google analytics code-->
         <?php include_once 'include/header/header_ga.inc.php'; ?>
@@ -106,24 +101,24 @@ if ($_POST['changePassword'] == 'true'){
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php if ($_SESSION['user_type']=="admin"): ?>
-                        
-                        <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
-                        <li><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
-                        <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Add New</a>                        
-                        <li class="active"><a href="settings.php"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
-                        <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
-                        
+                        <?php if ($_SESSION['user_type'] == "admin"): ?>
+
+                            <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
+                            <li><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
+                            <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Add New</a>                        
+                            <li class="active"><a href="settings.php"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
+                            <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
+
                         <?php else: ?>
-                        
-                        <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
-                        <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
-                        <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
-                        <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
-                        <li><a href="move_staff.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-exchange"></i> Move Request</a></li>
-                        <li class="active"><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
-                        <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
-                        
+
+                            <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
+                            <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
+                            <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
+                            <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
+                            <li><a href="move_staff.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-exchange"></i> Move Request</a></li>
+                            <li class="active"><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
+                            <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
+
                         <?php endif; ?>
                     </ul>
                 </div>
@@ -134,43 +129,43 @@ if ($_POST['changePassword'] == 'true'){
 
                         <div class="row">
                             <div class="span9">
-                                <?php if(!$newPassMatched): ?>
-                                <div class="">
-                                    <div class="alert alert-block alert-Warnign">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <p class="lead"><strong>Warning!</strong><br /> 
-                                            You have to write the "New Password" twice.<br />
-                                            But unfortunately you have entered two different words in two input fields.<br />
-                                            Please try again. 
-                                        </p>
+                                <?php if (!$newPassMatched): ?>
+                                    <div class="">
+                                        <div class="alert alert-block alert-Warnign">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <p class="lead"><strong>Warning!</strong><br /> 
+                                                You have to write the "New Password" twice.<br />
+                                                But unfortunately you have entered two different words in two input fields.<br />
+                                                Please try again. 
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
                                 <?php endif; ?>
-                                
-                                <?php if($passwordUpdated): ?>
-                                <div class="">
-                                    <div class="alert alert-block alert-success">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <p class="lead"><strong>Congratulation!</strong><br /> 
-                                            Your password has been changed successfully.<br />
-                                            You have to use this new password from your next login.
-                                        </p>
+
+                                <?php if ($passwordUpdated): ?>
+                                    <div class="">
+                                        <div class="alert alert-block alert-success">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <p class="lead"><strong>Congratulation!</strong><br /> 
+                                                Your password has been changed successfully.<br />
+                                                You have to use this new password from your next login.
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
                                 <?php endif; ?>
-                                
-                                <?php if(!$oldPasswordCorrect): ?>
-                                <div class="">
-                                    <div class="alert alert-block alert-error">
-                                        <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                        <p class="lead"><strong>Warning!</strong><br /> 
-                                            Your have entered a wrong "Old Password"<br />
-                                            Please try again with the accurate credential.
-                                        </p>
+
+                                <?php if (!$oldPasswordCorrect): ?>
+                                    <div class="">
+                                        <div class="alert alert-block alert-error">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <p class="lead"><strong>Warning!</strong><br /> 
+                                                Your have entered a wrong "Old Password"<br />
+                                                Please try again with the accurate credential.
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
                                 <?php endif; ?>
-                                
+
                                 <h3>Change Password</h3>
                                 <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                                     <div class="control-group">
