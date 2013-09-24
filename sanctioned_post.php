@@ -104,7 +104,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                         <tr>
                                             <th>Sanctioned Post</th>  
 											<th><a href='sanctioned_post_print.php?org_code=<?php echo $org_code;?>'>Print</a></th>
-                                            <th><a href='sanctioned_post_print.php'>All Post</a></th>
+                                         
                                       
 										</tr>
                                     </thead>
