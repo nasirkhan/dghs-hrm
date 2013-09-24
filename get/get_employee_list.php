@@ -2,6 +2,7 @@
 
 require_once '../configuration.php';
 
+$org_code = (int) mysql_real_escape_string($_POST['org_code']);
 $organization_code = (int) mysql_real_escape_string($_POST['organization_id']);
 $designation_id = (int) mysql_real_escape_string($_POST['designation_id']);
 
@@ -50,7 +51,7 @@ while ($row = mysql_fetch_assoc($result)) {
         echo "<td><a href=\"employee.php?staff_id=" . $value['staff_id'] . "\" target=\"_blank\">" . $value['staff_name'] . "</a></td>";
         echo "<td>" . getStaffDepertmentFromDepertmentId($value['department_id']) . "</td>";
         echo "<td>" . $value['contact_no'] . "</td>";
-        echo "<td><a href=\"move_staff.php?action=move_in&staff_id=" . $value['staff_id'] . "\">Move In</a></td>";
+        echo "<td><a href=\"move_staff.php?action=move_in&staff_id=" . $value['staff_id'] . "&org_code=$org_code\">Move In</a></td>";
         echo "</tr>";
     }
 }

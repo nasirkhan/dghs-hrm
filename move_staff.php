@@ -21,7 +21,6 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $echoAdminInfo = " | Administrator";
     $isAdmin = TRUE;
 }
-
 $action = mysql_real_escape_string($_GET['action']);
 $staff_id = mysql_real_escape_string($_GET['staff_id']);
 
@@ -120,11 +119,11 @@ if ($staff_id > 0) {
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td><a href="move_staff.php?action=move_out&org_code =<?php echo "$org_code"; ?>">Transfer (Move Out)</a></td>
+                                        <td><a href="move_staff.php?action=move_out&org_code=<?php echo "$org_code"; ?>">Transfer (Move Out)</a></td>
                                         <td><em>Request transfer of an staff form this organization to some other organization</em></td>
                                     </tr>
                                     <tr>
-                                        <td><a href="move_staff.php?action=move_in&org_code =<?php echo "$org_code"; ?>">Transfer (Move In)</a></td>
+                                        <td><a href="move_staff.php?action=move_in&org_code=<?php echo "$org_code"; ?>">Transfer (Move In)</a></td>
                                         <td><em>Request transfer of an staff form another organization to this organization</em></td>
                                     </tr>
                                     <tr>
@@ -662,6 +661,7 @@ if ($staff_id > 0) {
                     type: "POST",
                     url: 'get/get_employee_list.php',
                     data: {
+                        org_code: <?php echo $org_code;?>,
                         organization_id: organization_id,
                         designation_id: designation_id
                     },
