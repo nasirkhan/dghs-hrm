@@ -153,7 +153,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
 
                     <input type="hidden" name="login_key" value="<?php echo $_SESSION['login_key'] ?>" />
                     <div class="input-append">
-                        <input name="email" type="text" class="input-block-level" placeholder="Email address">
+                        <input name="email" type="text" class="input-block-level" placeholder="Email address" autofocus="">
                         <span class="add-on"><i class="icon-envelope icon-2x"></i></span>
                     </div>
                     <div class="input-append">
