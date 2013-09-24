@@ -37,7 +37,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>get_match_staff_s
 $data = array();
 while ($row = mysql_fetch_array($result)) {
     $data[] = array(
-        'text' => $row['designation'],
+        'text' => $row['designation'] . " (" . $row['id'] . ")",
         'value' => $row['id']
     );
 }
