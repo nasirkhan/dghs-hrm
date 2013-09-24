@@ -4,6 +4,16 @@ require_once 'configuration.php';
 if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
+
+if($_SESSION['user_type_code'] == 3){
+    $homepage_url = "admin_home.php";
+}
+else if($_SESSION['user_type_code'] == 1){
+    $homepage_url = "home.php";
+}
+else {
+    $homepage_url = "index.php";
+}
 ?>
 
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -18,7 +28,7 @@ if ($_SESSION['logged'] != true) {
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li class="active">
-                        <a href="./index.php">Home</a>                                
+                        <a href="<?php echo $homepage_url; ?>">Home</a>                                
                     </li>
                     <li class="">
                         <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>
