@@ -15,6 +15,7 @@ if ($_POST["email"]<>'') {
 	$MESSAGE_BODY .= "Organization Name: ".$_POST["orgname"]."<br>";
 	$MESSAGE_BODY .= "Organization Code: ".$_POST["orgcode"]."<br>";
 	$MESSAGE_BODY .= "Reason: ".$_POST["reason"]."<br>";
+	$MESSAGE_BODY .= "Subject: ".$_POST["subject"]."<br>";
     $MESSAGE_BODY .= "Message: ".$_POST["message"]."";
 	
 
