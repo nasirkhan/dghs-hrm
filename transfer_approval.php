@@ -51,6 +51,8 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 
         <!--Google analytics code-->
         <?php include_once 'include/header/header_ga.inc.php'; ?>
+        
+        <script src="assets/js/jquery.js"></script>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -134,7 +136,39 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                 <td><?php $desInfo = getDesignationInfoFromCode($data['move_to_designation_id']); echo $desInfo['designation']; ?></td>
                                                 <td><?php echo $data['updated_by']; ?></td>
                                                 <td><?php echo $data['update_time']; ?></td>
-                                                <td><?php echo "Approve"; ?></td>                                                
+                                                <td>
+                                                    <div id="div<?php echo $data['id']; ?>">
+                                                        <button id="approve-<?php echo $data['id']; ?>" class="btn btn-success" value="approve"><?php echo "Approve"; ?></button>
+                                                        <button id="cancel-<?php echo $data['id']; ?>" class="btn btn-danger" value="cancel"><?php echo "Cancel"; ?></button>
+                                                    </div>
+                                                </td>
+                                                <script type="text/javascript">
+                                                    
+                                                $("#approve-<?php echo $data['id']; ?>").click(function (){
+                                                    $.ajax({
+                                                        type: "POST",
+                                                        url: 'post/post_transfer.php',
+                                                        data: {id:<?php echo $data['id']; ?>, action: "approve"},
+                                                        success: function(data) {
+                                                            $("#loading_content").hide();
+                                                            $("#div<?php echo $data['id']; ?>").html("");
+                                                            $("#div<?php echo $data['id']; ?>").html(data);
+                                                        }
+                                                    });
+                                                });
+                                                $("#cancel-<?php echo $data['id']; ?>").click(function (){
+                                                    $.ajax({
+                                                        type: "POST",
+                                                        url: 'post/post_transfer.php',
+                                                        data: {id:<?php echo $data['id']; ?>, action: "cancel"},
+                                                        success: function(data) {
+                                                            $("#loading_content").hide();
+                                                            $("#div<?php echo $data['id']; ?>").html("");
+                                                            $("#div<?php echo $data['id']; ?>").html(data);
+                                                        }
+                                                    });
+                                                });
+                                                </script>
                                             </tr>
                                         <?php endwhile; ?>
                                     </tbody>
@@ -164,7 +198,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
         <!--<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>-->
-        <script src="assets/js/jquery.js"></script>
+        <!--<script src="assets/js/jquery.js"></script>-->
         <script src="assets/js/bootstrap.min.js"></script>
 
         <script src="assets/js/holder/holder.js"></script>

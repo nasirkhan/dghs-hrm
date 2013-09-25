@@ -909,6 +909,9 @@ function showSanctionedBed($org_type_code) {
  * @return Array designation, payscale, class
  */
 function getDesignationInfoFromCode($des_code) {
+    if ($des_code <= 0){
+        return null;
+    }
     $sql = "SELECT
                 sanctioned_post_designation.designation,
                 sanctioned_post_designation.payscale,
