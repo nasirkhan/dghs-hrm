@@ -1,7 +1,7 @@
 <?php //
-if ($_SESSION['logged'] != true) {
-    header("location:login.php");
-}
+//if ($_SESSION['logged'] != true) {
+//    header("location:login.php");
+//}
 ?>
 
 <!DOCTYPE html>
