@@ -129,7 +129,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "user"){
         $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
         $new_user_pass = mysql_real_escape_string($_POST['new_user_pass']);
         $new_user_pass2 = mysql_real_escape_string($_POST['new_user_pass2']);
-        $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
+//        $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
         
         if ($new_user_pass != $new_user_pass2){
             $error= "Password did not matched.";
@@ -154,7 +154,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "user"){
                         '$district_id'
                         )";
 
-//            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
+            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
             $insert_success = TRUE;
 
             header("location:add_new.php?type=user&insert_success=true");
