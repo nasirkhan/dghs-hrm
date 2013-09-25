@@ -905,8 +905,8 @@ function showSanctionedBed($org_type_code) {
 
 /**
  * Get Designation info(designation name, payscale, class) form designation Code
- * @param INT $des_code
- * @return Array 
+ * @param INT $des_code Designation Code
+ * @return Array designation, payscale, class
  */
 function getDesignationInfoFromCode($des_code) {
     $sql = "SELECT
@@ -1079,7 +1079,7 @@ function getDistrictCodeFormId($district_id){
  */
 function getUpazilaCodeFormId($upazila_id){
     $sql = "SELECT upazila_bbs_code FROM admin_upazila WHERE old_upazila_id = $upazila_id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDivisionCodeFormId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>getUpazilaCodeFormId:1</p><p>Query:</b></br >___<p>$sql</p>");
     
     $data = mysql_fetch_assoc($result);
     
@@ -1093,7 +1093,7 @@ function getUpazilaCodeFormId($upazila_id){
  */
 function getUserNameFromOrgCode($org_code){
     $sql = "SELECT username FROM `user` WHERE org_code=$org_code LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDivisionCodeFormId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>getDivisionCodeFormId:1</p><p>Query:</b></br >___<p>$sql</p>");
     
     $data = mysql_fetch_assoc($result);
     
