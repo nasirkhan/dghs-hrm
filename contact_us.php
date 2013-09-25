@@ -1,7 +1,6 @@
-<?php //
-//if ($_SESSION['logged'] != true) {
-//    header("location:login.php");
-//}
+<?php
+$app_name = "Ministry of Health and Family Welfare";
+
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +32,7 @@
 
         <!--Google analytics code-->
         <?php include_once 'include/header/header_ga.inc.php'; ?>
-        
+
         <style type="text/css">
             body {
                 padding-top: 40px;
@@ -48,7 +47,7 @@
                 border: 1px solid #e5e5e5;
                 box-shadow: 0 1px 2px rgba(0,0,0,.05);
             }
-            
+
 
         </style>
 
@@ -56,52 +55,52 @@
 
     <body>
 
-   <div class="container">
+        <div class="container">
 
-    <form class="form-contact" action="send_email.php" method="post" name="form1" id="form1">
-     <fieldset>
-       <legend><h2>Contact Us</h2></legend>
-       
-       <label>To <font color="red"> * </font> </label>
-       <input type="text" id="mailto" name="mailto" class="input-block-level" placeholder="Email Address…" required>
-    
-    <label>CC  </label>
-    <input type="text" id="emailcc" name="emailcc" class="input-block-level"  placeholder="CC …">
-    
-    <label>From <font color="red"> * </font> </label>
-    <input type="text" id="email" name="email"  class="input-block-level" placeholder="Your Email Address …" required>
-    
-    <label>Name <font color="red"> * </font> </label>
-    <input type="text" id="name" name="name"  class="input-block-level" placeholder="Name" required>
-    
-    <label>Organization Name (Optional) </label>
-    <input type="text" id="orgname" name="orgname" class="input-block-level" placeholder="Organization Name">
-    
-    <label>Organization Code <font color="red"> * </font> </label>
-    <input type="text" id="orgcode" name="orgcode"  class="input-block-level" placeholder="Organization Code" required>
-    
-    
-    <label>Reason <font color="red"> * </font> </label>
-    <select id="reason" name="reason" class="input-block-level" required>
-      <option value="Login Problem">Login Problem</option>
-      <option value="Complain">Complain</option>
-      <option value="Suggestion">Suggestion</option>
-      <option value="Other">Other</option>  
-    </select>
-    
-    <label>Subject <font color="red"> * </font> </label>
-    <input type="text" id="subject" name="subject" class="input-block-level" placeholder="Subject" required>
-    
-    <label>Message <font color="red"> * </font> </label>
-    
-    <textarea name="message" id="message" rows="10" class="input-block-level" cols="58" required ></textarea>
-    
-<!--    <label class="checkbox">
-    <input type="checkbox"> Check me out
-    </label>-->
-    <button type="submit" class="btn">Submit</button>
-    </fieldset>
-    </form>
+            <div class="row-fluid">
+
+                <form class="form-contact" action="send_email.php" method="post" name="form1" id="form1">
+                    <fieldset>
+                        <legend><h2>Contact Us</h2></legend>
+
+                        <label>To <font color="red"> * </font> </label>
+                        <input type="text" id="mailto" name="mailto" class="input-block-level" placeholder="Email Address…" required>
+
+                        <label>CC  </label>
+                        <input type="text" id="emailcc" name="emailcc" class="input-block-level"  placeholder="CC …">
+
+                        <label>From <font color="red"> * </font> </label>
+                        <input type="text" id="email" name="email"  class="input-block-level" placeholder="Your Email Address …" required>
+
+                        <label>Name <font color="red"> * </font> </label>
+                        <input type="text" id="name" name="name"  class="input-block-level" placeholder="Name" required>
+
+                        <label>Organization Name (Optional) </label>
+                        <input type="text" id="orgname" name="orgname" class="input-block-level" placeholder="Organization Name">
+
+                        <label>Organization Code <font color="red"> * </font> </label>
+                        <input type="text" id="orgcode" name="orgcode"  class="input-block-level" placeholder="Organization Code" required>
+
+
+                        <label>Reason <font color="red"> * </font> </label>
+                        <select id="reason" name="reason" class="input-block-level" required>
+                            <option value="Login Problem">Login Problem</option>
+                            <option value="Complain">Complain</option>
+                            <option value="Suggestion">Suggestion</option>
+                            <option value="Other">Other</option>  
+                        </select>
+
+                        <label>Subject <font color="red"> * </font> </label>
+                        <input type="text" id="subject" name="subject" class="input-block-level" placeholder="Subject" required>
+
+                        <label>Message <font color="red"> * </font> </label>
+
+                        <textarea name="message" id="message" rows="10" class="input-block-level" cols="58" required ></textarea>
+
+                        <button type="submit" class="btn btn-info btn-large">Submit</button>
+                    </fieldset>
+                </form>
+            </div>
 
         </div> <!-- /container -->
 

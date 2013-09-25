@@ -207,9 +207,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                         
                                         <td>
                                             <?php 
-//                                            if ($data['sp_id_2'] > 0) : 
-//                                                echo $data['sp_id_2'];
-//                                            else: 
+                                            if ($data['sp_id_2'] > 0) : 
+                                                echo $data['sp_id_2'];
+                                            else: 
                                                 ?>
                                             <a href="#" class="" id="sp_id-<?php echo $data['staff_id']; ?>" ><?php echo $data['sp_id_2']; ?></a>
                                             <script type="text/javascript">
@@ -226,7 +226,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                 });
                                             });
                                             </script>
-                                            <?php // endif; ?>
+                                            <?php endif; ?>
                                         </td>
                                         <!--<td></td>-->
                                         <td><a href="move_staff.php?action=move_out&staff_id=<?php echo $data['staff_id']; ?>&org_code=<?php echo $org_code ?>" target="_blank">Move Out</a></td>
