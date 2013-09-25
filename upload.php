@@ -125,30 +125,31 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
                                 </table>                            
                             </div>
                         </div>
-                        <?php if ($upload_type == "photo"): ?>
+                        <?php  if ($upload_type == "photo"){ ?>
                         <div class="row-fluid">
                             <div class="span12">
 
                                 <!-- The fileinput-button span is used to style the file input field as button -->
-                                <span class="btn btn-success fileinput-button">
-                                    <i class="icon-plus icon-white"></i>
-                                    <span>Add files...</span>
-                                    <!-- The file input field used as target for the file upload widget -->
-                                    <input id="fileupload" type="file" name="files[]" multiple>
-                                </span>
-                                <br> <br>
-                                <!-- The global progress bar -->
-                                 <div id="progress" class="progress">
-									<div class="progress-bar progress-bar-success"></div>
-								</div>
-                                <!-- The container for the uploaded files -->
-                                <div id="files" class="files"></div>
+                                    <span class="btn btn-success fileinput-button">
+                                      <i class="glyphicon glyphicon-plus"></i>
+                                      <span>Add files...</span>
+                                      <!-- The file input field used as target for the file upload widget -->
+                                      <input id="fileupload" type="file" name="files[]" multiple>
+                                  </span>
+                                  <br>
+                                  <br>
+                                  <!-- The global progress bar -->
+                                  <div id="progress" class="progress">
+                                      <div class="progress-bar progress-bar-success"></div>
+                                  </div>
+                                  <!-- The container for the uploaded files -->
+                                  <div id="files" class="files"></div>
                                 <br>
 
                             </div>
                         </div>
 
-                        <?php endif; ?>
+                        <?php } ?>
                         
                     </section>
 
@@ -208,8 +209,7 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
 $(function () {
     'use strict';
     // Change this to the location of your server-side upload handler:
-    var url = window.location.hostname === 'blueimp.github.io' ?
-                '//jquery-file-upload.appspot.com/' : '/dghs_hrm1_8/library/jQuery-File-Upload-master/server/php/',
+		var url = window.location.hostname === 'http://gov.vd.com' ? '/fileupload/' : 'uploads/',
         uploadButton = $('<button/>')
             .addClass('btn btn-primary')
             .prop('disabled', true)
