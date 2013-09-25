@@ -80,9 +80,11 @@ $seach_type = mysql_real_escape_string($_GET['type']);
             <div class="row-fluid">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
+                        <?php if ($isAdmin): ?>
                         <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
                         <li class="active"><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
                         <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
+                            <?php endif; ?>
                         <!--                        
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
@@ -112,7 +114,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                             </td>
                                             <td>Search an organization using the organization name organization code, organization type or find it form the administrative divisions.</td>
                                         </tr>
-                                        <!--
+                                        
                                         <tr>
                                             <td>
                                                 <a href="search.php?type=staff" class="btn btn-large btn-info">
@@ -121,14 +123,14 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                             </td>
                                             <td>Find an individual staff from an organization, search by his name or staff id.</td>
                                         </tr>
-                                        -->
+                                        
                                         <tr>
                                             <td>
                                                 <a href="search.php?type=user" class="btn btn-large btn-primary">
                                                     <i class="icon-user icon-2x pull-left"></i> Search HRM Users
                                                 </a>
                                             </td>
-                                            <td>Find an individual staff from an organization, search by his name or staff id.</td>
+                                            <td>Find an HRM organization user, search by username or organization name.</td>
                                         </tr>
                                     </tbody>
                                 </table>                            
@@ -243,6 +245,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
 
                         <?php endif; ?>
                         
+                        <!-- search user -->
                         <?php if ($seach_type == "user"): ?>
                         <h3>Search User</h3>
                         <div id="search_user_main" class="row-fluid">
@@ -266,6 +269,51 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                 <button id="btn_reset" class="btn" type="button">Reset</button>
                                             </div>
                                         </div>
+                                        <div id="user_list_display"></div>
+                                    </div>                            
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                        
+                        <!-- search staff -->
+                        <?php if ($seach_type == "staff"): ?>
+                        <h3>Search Staff</h3>
+                        <div id="staff_user_main" class="row-fluid">
+                            <div id="staff_user_by_name" class="">
+                                <div class="row-fluid">
+                                    <div class="span12 alert alert-info">
+<!--                                        <div class="control-group">
+                                            <p class="lead">Search By Staff Name</p>
+                                            <div class="controls input-append">
+                                                <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
+                                                <button id="btn_search_staff" class="btn btn-info" type="button">Find Staff(s)</button>
+                                                <button id="btn_reset" class="btn" type="button">Reset</button>
+                                            </div>
+                                        </div>-->
+                                        <div class="control-group">
+                                            <label class="control-label" for="searchStaff">Search Keyword</label>
+                                            <div class="controls">
+                                                <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="searchStaffType">Search Type</label>
+                                            <div class="controls">
+                                                <select id="searchStaffType" name="searchStaffType" class="input-xlarge">
+                                                    <option id="searchStaffType_name" value="searchStaffType_name">Search By Name</option>
+                                                    <option id="searchStaffType_mobile" value="searchStaffType_mobile">Search By Mobile Number</option>
+                                                    <!--<option id="searchStaffType_email" value="searchStaffType_email">Search By Email</option>-->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <button id="btn_search_staff" class="btn btn-info" type="button">Find Staff(s)</button>
+                                                <button id="btn_reset" class="btn" type="button">Reset</button>
+                                            </div>
+                                        </div>
+                                        
                                         <div id="staff_list_display"></div>
                                     </div>                            
                                 </div>
@@ -389,7 +437,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 });
             });
             
-            // Search staff 
+            // Search user
             $('#btn_search_user_name').click(function() {
                 $("#loading_content").show();
                 var searchUser = $('#searchUser').val();
@@ -399,13 +447,30 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                     data: {type:"user", searchUser: searchUser},
                     success: function(data) {
                         $("#loading_content").hide();
+                        $("#user_list_display").html("");
+                        $("#user_list_display").html(data);
+                    }
+                });
+            });
+            
+            // Search user
+            $('#btn_search_staff').click(function() {
+                $("#loading_content").show();
+                var searchStaff = $('#searchStaff').val();
+                var searchStaffType = $('#searchStaffType').val();
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_search_result.php',
+                    data: {type:"staff", searchStaff: searchStaff, searchStaffType:searchStaffType},
+                    success: function(data) {
+                        $("#loading_content").hide();
                         $("#staff_list_display").html("");
                         $("#staff_list_display").html(data);
                     }
                 });
             });
             
-            // Search staff by org
+            // Search user by org
             $('#btn_user_search_org').click(function() {
                 $("#loading_content").show();
                 var searchOrg = $('#searchOrg').val();
@@ -415,8 +480,8 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                     data: {type:"staff_org", searchOrg: searchOrg},
                     success: function(data) {
                         $("#loading_content").hide();
-                        $("#staff_list_display").html("");
-                        $("#staff_list_display").html(data);
+                        $("#user_list_display").html("");
+                        $("#user_list_display").html(data);
                     }
                 });
             });
@@ -425,6 +490,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
             $("#btn_reset").click(function() {
                 $('#searchOrg').val("");
                 $("#org_list_display").html("");
+                $("#staff_list_display").html("");
             });
         </script>
     </body>
