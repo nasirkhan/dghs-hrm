@@ -82,16 +82,24 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                     <ul class="nav nav-list bs-docs-sidenav">
                         <?php if ($isAdmin): ?>
                         <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
+                        <?php endif; ?>
+                            
                         <li class="active"><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
+                        
+                        <?php if ($isAdmin): ?>
                         <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
-                            <?php endif; ?>
-                        <!--                        
+                        <?php endif; ?>
+                            
+                        <?php if (!$isAdmin): ?>
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
                         <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
-                        -->
+                        <?php endif; ?>
+                        <?php if ($isAdmin): ?>
                         <li><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-random"></i> Transfer Approval</a></li>
+                        <?php endif; ?>
+                        
                         <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
