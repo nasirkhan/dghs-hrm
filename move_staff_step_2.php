@@ -60,7 +60,7 @@ if ($insert_ok){
             '$user_name', 
             '$staff_id', 
             '$post_mv_from_des', 
-            NULL, 
+            '$post_mv_from_des', 
             '$post_mv_from_org', 
             '$post_mv_to_des', 
             '$post_mv_to_org', 
