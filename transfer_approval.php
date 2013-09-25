@@ -20,7 +20,6 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $echoAdminInfo = " | Administrator";
     $isAdmin = TRUE;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,15 +76,17 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php if ($_SESSION['user_type'] == "admin"): ?>
-                            <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
-                            <?php endif; ?>
-                        <li class="active"><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
+                        <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
+                        <li><a href="search.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
+                        <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
+                        
+<!--                        <li class="active"><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
                         <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
                         <li><a href="move_staff.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-exchange"></i> Move Request</a></li>
-                        <li><a href="match_employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-copy"></i> Match Employee</a></li>		
+                        <li><a href="match_employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-copy"></i> Match Employee</a></li>		-->
+                        <li class="active"><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-random"></i> Transfer Approval</a></li>		
                         <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>		
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
@@ -95,12 +96,57 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                     ================================================== -->
                     <section id="organization-profile">
 
-                        <div class="row">
-                            
+                        <h3>Transfer Approval</h3>
+
+                        <div class="row-fluid">
+
+                            <div class="span12">
+
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>From</th>
+                                            <th>To</th>
+                                            <th>Requested By</th>
+                                            <th>Time</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <?php
+                                        $sql = "SELECT
+                                                    *
+                                            FROM
+                                                    `transfer_post`
+                                            WHERE
+                                                    `active` = 1
+                                                AND 
+                                                    `status` = 1;";
+                                        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:1</p><p>Query:</b></br >___<p>$sql</p>");
+
+                                        while ($data = mysql_fetch_assoc($result)):
+                                            ?>
+                                            <tr>
+                                                <td><?php echo getStaffNameFromId($data['staff_id']); ?></td>
+                                                <td><?php echo getDesignationNameFormSanctionedPostId($data['present_sanctioned_post_id']); ?></td>
+                                                <td><?php $desInfo = getDesignationInfoFromCode($data['move_to_designation_id']); echo $desInfo['designation']; ?></td>
+                                                <td><?php echo $data['updated_by']; ?></td>
+                                                <td><?php echo $data['update_time']; ?></td>
+                                                <td><?php echo "Approve"; ?></td>                                                
+                                            </tr>
+                                        <?php endwhile; ?>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
                         </div>
 
                     </section>
-                    
+
                 </div>
             </div>
 
@@ -117,7 +163,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+        <!--<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>-->
         <script src="assets/js/jquery.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
 
