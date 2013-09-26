@@ -435,7 +435,7 @@ if ($staff_id > 0) {
                                                 <select id="org_list" name="org_list">
                                                     <option value="0">Select Organization</option>                                        
                                                 </select>
-                                                <select id="sanctioned_post" name="org_list">
+                                                <select id="sanctioned_post" name="sanctioned_post">
                                                     <option value="0">Select Designation</option>                                        
                                                 </select>
 

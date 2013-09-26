@@ -384,16 +384,20 @@ if (isset($_POST['search'])) {
                                         -->
                                         <tr>
                                             <td width="50%"><strong>Sanctioned Post ID</strong></td>
+                                            <?php 
+                                            if($sanctioned_post_id > 0){
+                                                echo "<td>" . $sanctioned_post_id . "</td>";
+                                            }
+                                            else if ($sanctioned_post_id == 0){
+                                                echo "<td>OSD</td>";
+                                            }
+                                            ?>
                                             <td><?php echo $sanctioned_post_id; ?></td>
                                         </tr>
 
                                         <tr>
                                             <td width="50%"><strong>Staff ID</strong></td>
                                             <td><?php echo $data['staff_id']; ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%"><strong>Organization Code</strong></td>
-                                            <td><?php echo $org_code; ?></td>
                                         </tr>
                                         <!--
                                         <tr>
@@ -436,8 +440,8 @@ if (isset($_POST['search'])) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Organization Name</strong></td>
-                                            <td><?php echo $org_name; ?></td>
-                                        </tr>
+                                            <td><?php echo getOrgNameFormOrgCode($data['org_code']); ?></td>
+                                        </tr>                                        
                                         <tr>
                                             <td width="50%"><strong><a href="#">Code No.(Doctors Only):</a></strong></td>
                                             <td><a href="#" class="text-input" data-type="text" id="staff_pds_code"><?php echo $data['staff_pds_code']; ?></a></td>
@@ -592,7 +596,7 @@ if (isset($_POST['search'])) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Organization Code</strong></td>
-                                            <td><?php echo $org_code; ?></td>
+                                            <td><?php echo $data['org_code']; ?></td>
                                         </tr>
                                         <!--
                                         <tr>

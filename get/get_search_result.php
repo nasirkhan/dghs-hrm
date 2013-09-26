@@ -43,8 +43,7 @@ if ($type == "user") {
     } else {
         echo "\" 0 (Zero) Staff found. \"";
     }
-} 
-else if ($type == "org") {
+} else if ($type == "org") {
     $sql = "SELECT
             organization.org_name,
             organization.org_code
@@ -73,8 +72,7 @@ else if ($type == "org") {
     } else {
         echo "\" 0 (Zero) Organization found. \"";
     }
-} 
-else if ($type == "staff_org") {
+} else if ($type == "staff_org") {
     $sql = "SELECT
             organization.org_name,
             organization.org_code,
@@ -103,8 +101,7 @@ else if ($type == "staff_org") {
     } else {
         echo "\" 0 (Zero) Staff Organization found. \"";
     }
-} 
-else if ($type == "staff") {
+} else if ($type == "staff") {
     echo "<div class=\"well\">";
     $query_string = "";
 
@@ -116,8 +113,10 @@ else if ($type == "staff") {
 
     $sql = "SELECT
                 old_tbl_staff_organization.staff_id,
+                old_tbl_staff_organization.staff_pds_code,
                 old_tbl_staff_organization.org_code,
                 old_tbl_staff_organization.staff_name,
+                old_tbl_staff_organization.father_name,
                 old_tbl_staff_organization.contact_no,
                 old_tbl_staff_organization.birth_date
             FROM
@@ -125,25 +124,31 @@ else if ($type == "staff") {
             WHERE $query_string
             ORDER BY old_tbl_staff_organization.org_code";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>get_search_result:1</b></p><p><b>Query:</b></p>___<p>$sql</p>");
+
+    echo "<table class=\"table\">";
+    echo "<thead><tr>";
+    echo "<td>Staff Name</td>";
+    echo "<td>Father's Name Name</td>";
+    echo "<td>Organization</td>";
+    echo "<td>Contact</td>";
+    echo "<td>Action</td>";
+    echo "</tr></thead>";
+
+    echo "<tbody>";
     while ($data_list = mysql_fetch_assoc($result)) {
-       
-        echo "<table class=\"table\">";
-        echo "<thead><tr>";
-        echo "<td>Staff Name</td>";
-        echo "<td>Organization</td>";
-        echo "<td>Contact</td>";
-        echo "<td>Action</td>";
-        echo "</tr></thead>";
-        
-        echo "<tbody>";
+
+
         echo "<tr>";
         echo "<td>";
-        echo $data_list['staff_name'] . " (ID:" . $data_list['staff_id'] . ")";
+        echo "<a href=\"employee.php?staff_id=" . $data_list['staff_id'] . "&org_code=" . $data_list['org_code'] . "\" target=\"_blank\">";
+        echo $data_list['staff_name'] . " (ID:" . $data_list['staff_id'] . " | PDS:" . $data_list['staff_pds_code'] . ")";
         echo "</td>";
         echo "<td>";
-        echo "<a href=\"employee.php?staff_id=" . $data_list['staff_id'] . "&org_code=" . $data_list['org_code'] . "\" target=\"_blank\">";
-        echo getOrgNameFormOrgCode($data_list['org_code']) ;        
+        echo $data_list['father_name'];
+        echo "</td>";
+        echo "<td>";
         echo "</a>";
+        echo getOrgNameFormOrgCode($data_list['org_code']);
         echo "</td>";
         echo "<td>";
         echo $data_list['contact_no'];
@@ -154,9 +159,9 @@ else if ($type == "staff") {
         echo "</a>";
         echo "</td>";
         echo "</tr>";
-        echo "</tbody>";
-        echo "</table>";
     }
+    echo "</tbody>";
+    echo "</table>";
 //    echo "$sql";
     echo "</div>";
 }

@@ -181,8 +181,8 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                             <thead>
                                 <tr>
                                     <th>Staff Name</th>
-                                    <th>Dept</th>
-                                    <!--<th>Father's Name</th>-->
+                                    <th>Father's Name</th>
+                                    <th>Dept</th>                                    
                                     <th>Designation</th>
                                     <!--<th>Pay scale</th>-->
                                     <!--<th>Class</th>-->
@@ -195,8 +195,8 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                 <?php while ($data = mysql_fetch_assoc($result)): ?>
                                     <tr>
                                         <td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>"><?php echo $data['staff_name']; ?></a></td>
-                                        <td><?php echo getDeptNameFromId($data['department_id']); ?></td>
-                                        <!--<td><?php echo $data['father_name']; ?></td>-->
+                                        <td><?php echo $data['father_name']; ?></td>
+                                        <td><?php echo getDeptNameFromId($data['department_id']); ?></td>                                        
                                         <?php
                                         $designation_info = getDesignationInfoFromCode($data['designation_id']);
                                         ?>

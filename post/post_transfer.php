@@ -26,19 +26,28 @@ if ($action == "approve") {
             id = $id";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:1</p><p>Query:</b></br >___<p>$sql</p>");
     
-    // get the staff_id 
-    $sql = "SELECT staff_id FROM transfer_post WHERE id= $id";
+    
+    
+    // get the staff info form transfer_post table
+    $sql = "SELECT * FROM transfer_post WHERE id= $id";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:1</p><p>Query:</b></br >___<p>$sql</p>");
     $data = mysql_fetch_assoc($result);
     $staff_id = $data['staff_id'];
     $move_to_sanctioned_post_id = $data['move_to_sanctioned_post_id'];
+    $move_to_org_code = $data['move_to_org_code'];
     
+    if (!$move_to_sanctioned_post_id > 0){
+        $move_to_sanctioned_post_id =0;
+    }
+    if (!$move_to_org_code > 0){
+        $move_to_org_code =0;
+    }
     //update staff profile
     // unlink the connection with the organization and sanctioned post
-    $sql = "UPDATE old_tbl_staff_organization SET org_code=0, sanctioned_post_id=0 WHERE staff_id=$staff_id";
+    $sql = "UPDATE old_tbl_staff_organization SET org_code=$move_to_org_code, sanctioned_post_id=$move_to_sanctioned_post_id, sp_id_2=$move_to_sanctioned_post_id WHERE staff_id=$staff_id";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:2</p><p>Query:</b></br >___<p>$sql</p>");
-    echo "$sql";
-    echo "Updated";
+//    echo "$sql";
+    echo "<span class=\"label label-success\">Success</span>";
 } else if ($action == "cancel") {
     $sql = "UPDATE 
             transfer_post 
