@@ -310,26 +310,26 @@ if ($staff_id > 0) {
                                                         </div>
                                                     </div>
                                                     <div class="control-group">                                                        
-                                                        request_submitted_by
-                                                        <input type="text" id="request_submitted_by" name="request_submitted_by" value="<?php echo $_SESSION['username']; ?>">
+                                                        <!--request_submitted_by-->
+                                                        <input type="hidden" id="request_submitted_by" name="request_submitted_by" value="<?php echo $_SESSION['username']; ?>">
                                                     </div>
                                                     <div class="control-group">
-                                                        org_code
-                                                        <input type="text" id="org_code" name="org_code" value="<?php echo $org_code; ?>">
-                                                        post_staff_id
-                                                        <input type="text" id="post_staff_id" name="post_staff_id" value="<?php echo $staff_id; ?>">
+                                                        <!--org_code-->
+                                                        <input type="hidden" id="org_code" name="org_code" value="<?php echo $org_code; ?>">
+                                                        <!--post_staff_id-->
+                                                        <input type="hidden" id="post_staff_id" name="post_staff_id" value="<?php echo $staff_id; ?>">
                                                     </div>
                                                     <div class="control-group">
-                                                        post_mv_from_org
-                                                        <input type="text" id="post_mv_from_org" name="post_mv_from_org" value="<?php echo $org_code; ?>">
-                                                        post_mv_from_des
-                                                        <input type="text" id="post_mv_from_des" name="post_mv_from_des" value="<?php echo $sanctioned_post_id; ?>">
+                                                        <!--post_mv_from_org-->
+                                                        <input type="hidden" id="post_mv_from_org" name="post_mv_from_org" value="<?php echo $org_code; ?>">
+                                                        <!--post_mv_from_des-->
+                                                        <input type="hidden" id="post_mv_from_des" name="post_mv_from_des" value="<?php echo $sanctioned_post_id; ?>">
                                                     </div>
                                                     <div class="control-group">
-                                                        post_mv_to_org
-                                                        <input type="text" id="post_mv_to_org" name="post_mv_to_org" value="">
-                                                        post_mv_to_des
-                                                        <input type="text" id="post_mv_to_des" name="post_mv_to_des" value="">
+                                                        <!--post_mv_to_org-->
+                                                        <input type="hidden" id="post_mv_to_org" name="post_mv_to_org" value="">
+                                                        <!--post_mv_to_des-->
+                                                        <input type="hidden" id="post_mv_to_des" name="post_mv_to_des" value="">
                                                     </div>
 
                                                     <button type="submit" class="btn btn-warning">Confirm Move Out Request</button>
@@ -540,26 +540,26 @@ if ($staff_id > 0) {
                                                         </div>
                                                     </div>
                                                     <div class="control-group">                                                        
-                                                        request_submitted_by
-                                                        <input type="text" id="request_submitted_by" name="request_submitted_by" value="<?php echo $_SESSION['username']; ?>">
+                                                        <!--request_submitted_by-->
+                                                        <input type="hidden" id="request_submitted_by" name="request_submitted_by" value="<?php echo $_SESSION['username']; ?>">
                                                     </div>
                                                     <div class="control-group">
-                                                        org_code
-                                                        <input type="text" id="org_code" name="org_code" value="<?php echo $org_code; ?>">
-                                                        post_staff_id
-                                                        <input type="text" id="post_staff_id" name="post_staff_id" value="<?php echo $staff_id; ?>">
+                                                        <!--org_code-->
+                                                        <input type="hidden" id="org_code" name="org_code" value="<?php echo $org_code; ?>">
+                                                        <!--post_staff_id-->
+                                                        <input type="hidden" id="post_staff_id" name="post_staff_id" value="<?php echo $staff_id; ?>">
                                                     </div>
                                                     <div class="control-group">
-                                                        post_mv_from_org
-                                                        <input type="text" id="post_mv_from_org" name="post_mv_from_org" value="">
-                                                        post_mv_from_des
-                                                        <input type="text" id="post_mv_from_des" name="post_mv_from_des" value="<?php echo $sanctioned_post_id; ?>">
+                                                        <!--post_mv_from_org-->
+                                                        <input type="hidden" id="post_mv_from_org" name="post_mv_from_org" value="">
+                                                        <!--post_mv_from_des-->
+                                                        <input type="hidden" id="post_mv_from_des" name="post_mv_from_des" value="<?php echo $sanctioned_post_id; ?>">
                                                     </div>
                                                     <div class="control-group">
-                                                        post_mv_to_org
-                                                        <input type="text" id="post_mv_to_org" name="post_mv_to_org" value="<?php echo $org_code; ?>">
-                                                        post_mv_to_des
-                                                        <input type="text" id="post_mv_to_des" name="post_mv_to_des" value="">
+                                                        <!--post_mv_to_org-->
+                                                        <input type="hidden" id="post_mv_to_org" name="post_mv_to_org" value="<?php echo $org_code; ?>">
+                                                        <!--post_mv_to_des-->
+                                                        <input type="hidden" id="post_mv_to_des" name="post_mv_to_des" value="">
                                                     </div>
 
                                                     <button type="submit" class="btn btn-warning">Confirm Move In Request</button>
