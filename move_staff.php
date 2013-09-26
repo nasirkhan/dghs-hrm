@@ -158,8 +158,8 @@ if ($staff_id > 0) {
                                     </tr>
                                 </tbody>
                             </table>
-                        <?php 
-                        elseif ($action == "move_out"): ?>
+                            <?php elseif ($action == "move_out"):
+                            ?>
                             <div id="move_out_main">
                                 <div class="alert alert-info">
                                     <h4>Transfer (Move Out)</h4>                                
@@ -331,7 +331,7 @@ if ($staff_id > 0) {
                                                         post_mv_to_des
                                                         <input type="text" id="post_mv_to_des" name="post_mv_to_des" value="">
                                                     </div>
-                                                    
+
                                                     <button type="submit" class="btn btn-warning">Confirm Move Out Request</button>
                                                 </form>
 
@@ -351,6 +351,46 @@ if ($staff_id > 0) {
                                 </div>
                                 <?php if (!$staff_id > 0): ?>
                                     <div id="move_in_step1">
+                                        <div id="staff_user_main" class="row-fluid">
+                                            <div id="staff_user_by_name" class="">
+                                                <div class="row-fluid">
+                                                    <div class="span12 alert alert-info">
+                                                        <!--                                        <div class="control-group">
+                                                                                                    <p class="lead">Search By Staff Name</p>
+                                                                                                    <div class="controls input-append">
+                                                                                                        <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
+                                                                                                        <button id="btn_search_staff" class="btn btn-info" type="button">Find Staff(s)</button>
+                                                                                                        <button id="btn_reset" class="btn" type="button">Reset</button>
+                                                                                                    </div>
+                                                                                                </div>-->
+                                                        <div class="control-group">
+                                                            <label class="control-label" for="searchStaff">Search Keyword</label>
+                                                            <div class="controls">
+                                                                <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="control-group">
+                                                            <label class="control-label" for="searchStaffType">Search Type</label>
+                                                            <div class="controls">
+                                                                <select id="searchStaffType" name="searchStaffType" class="input-xlarge">
+                                                                    <option id="searchStaffType_name" value="searchStaffType_name">Search By Name</option>
+                                                                    <option id="searchStaffType_mobile" value="searchStaffType_mobile">Search By Mobile Number</option>
+                                                                    <!--<option id="searchStaffType_email" value="searchStaffType_email">Search By Email</option>-->
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="control-group">
+                                                            <div class="controls">
+                                                                <button id="btn_search_staff" class="btn btn-info" type="button">Find Staff(s)</button>
+                                                                <button id="btn_reset" class="btn" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="staff_list_display"></div>
+                                                    </div>                            
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="">
                                             <div class="control-group">
                                                 <select id="admin_division" name="admin_division">
@@ -663,7 +703,7 @@ if ($staff_id > 0) {
                     type: "POST",
                     url: 'get/get_employee_list.php',
                     data: {
-                        org_code: <?php echo $org_code;?>,
+                        org_code: <?php echo $org_code; ?>,
                         organization_id: organization_id,
                         designation_id: designation_id
                     },
@@ -689,6 +729,28 @@ if ($staff_id > 0) {
 
                 var mv_to_des = $("#move_in_des_select option:selected").text();
                 $("#mv_to_des").html(mv_to_des);
+            });
+            
+            // Search staff
+            $('#btn_search_staff').click(function() {
+                $("#loading_content").show();
+                var searchStaff = $('#searchStaff').val();
+                var searchStaffType = $('#searchStaffType').val();
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_search_result.php',
+                    data: {type:"staff", searchStaff: searchStaff, searchStaffType:searchStaffType},
+                    success: function(data) {
+                        $("#loading_content").hide();
+                        $("#staff_list_display").html("");
+                        $("#staff_list_display").html(data);
+                    }
+                });
+            });
+            
+            //reset search field
+            $("#btn_reset").click(function() {
+                $("#staff_list_display").html("");
             });
         </script>
     </body>

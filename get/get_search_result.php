@@ -12,6 +12,8 @@ $query_key = mysql_real_escape_string(trim($_POST['searchOrg']));
 $query_staff = mysql_real_escape_string(trim($_POST['searchStaff']));
 
 $searchStaffType = mysql_real_escape_string(trim($_POST['searchStaffType']));
+
+
 if ($query_key == "" && $username == "" && $query_staff == "") {
 
     echo "<div class=\"well well-large\"><em>Please Enter a Search Word.</em><div>";
@@ -41,7 +43,8 @@ if ($type == "user") {
     } else {
         echo "\" 0 (Zero) Staff found. \"";
     }
-} else if ($type == "org") {
+} 
+else if ($type == "org") {
     $sql = "SELECT
             organization.org_name,
             organization.org_code
@@ -70,7 +73,8 @@ if ($type == "user") {
     } else {
         echo "\" 0 (Zero) Organization found. \"";
     }
-} else if ($type == "staff_org") {
+} 
+else if ($type == "staff_org") {
     $sql = "SELECT
             organization.org_name,
             organization.org_code,
@@ -99,7 +103,8 @@ if ($type == "user") {
     } else {
         echo "\" 0 (Zero) Staff Organization found. \"";
     }
-} else if ($type == "staff") {
+} 
+else if ($type == "staff") {
     echo "<div class=\"well\">";
     $query_string = "";
 
@@ -121,17 +126,36 @@ if ($type == "user") {
             ORDER BY old_tbl_staff_organization.org_code";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>get_search_result:1</b></p><p><b>Query:</b></p>___<p>$sql</p>");
     while ($data_list = mysql_fetch_assoc($result)) {
-        echo "<li>";
-        echo "<a href=\"employee.php?staff_id=" . $data_list['staff_id'] . "&org_code=" . $data_list['org_code'] . "\" target=\"_blank\">";
-        echo getOrgNameFormOrgCode($data_list['org_code']) ;
-        echo " - ";
+       
+        echo "<table class=\"table\">";
+        echo "<thead><tr>";
+        echo "<td>Staff Name</td>";
+        echo "<td>Organization</td>";
+        echo "<td>Contact</td>";
+        echo "<td>Action</td>";
+        echo "</tr></thead>";
+        
+        echo "<tbody>";
+        echo "<tr>";
+        echo "<td>";
         echo $data_list['staff_name'] . " (ID:" . $data_list['staff_id'] . ")";
-        echo " - ";
-        echo $data_list['contact_no'];
-        echo " - ";
-        echo $data_list['birth_date'];
+        echo "</td>";
+        echo "<td>";
+        echo "<a href=\"employee.php?staff_id=" . $data_list['staff_id'] . "&org_code=" . $data_list['org_code'] . "\" target=\"_blank\">";
+        echo getOrgNameFormOrgCode($data_list['org_code']) ;        
         echo "</a>";
-        echo "</li>";
+        echo "</td>";
+        echo "<td>";
+        echo $data_list['contact_no'];
+        echo "</td>";
+        echo "<td>";
+        echo "<a href=\"move_staff.php?action=move_in&staff_id=" . $data_list['staff_id'] . "&org_code=" . $data_list['org_code'] . "\" target=\"_blank\">";
+        echo "Move In";
+        echo "</a>";
+        echo "</td>";
+        echo "</tr>";
+        echo "</tbody>";
+        echo "</table>";
     }
 //    echo "$sql";
     echo "</div>";
