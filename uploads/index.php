@@ -19,6 +19,7 @@ class CustomUploadHandler extends UploadHandler
 protected function trim_file_name($name, $type) {
 $name = parent::trim_file_name($name, $type);
 // Your file name changes: $name = 'something';
+
 $Ext = strrchr($name,".");
 $name = $_SESSION['username'];
 
@@ -35,7 +36,7 @@ unlink("$oldName");
 $name = $name."$Ext";
 }
 
-$name = $name."$Ext";
+//$name = $name."$Ext";
 return $name;
 }
 }
