@@ -226,11 +226,11 @@ if (isset($_POST['search'])) {
                                     <table class="table table-striped table-hover" id="employee-profile">
                                         <tr>
                                             <td width="50%"><strong>Organization Name</strong></td>
-                                            <td><?php echo $org_name; ?></td>
+                                            <td><?php echo getOrgNameFormOrgCode($data['org_code']); ?></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Organization Code</strong></td>
-                                            <td><?php echo $org_code; ?></td>
+                                            <td><?php echo $data['org_code']; ?></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Staff Name</strong></td>
