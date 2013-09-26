@@ -464,6 +464,7 @@ if ($staff_id > 0) {
                                                 $sql = "SELECT
                                                     total_manpower_imported_sanctioned_post_copy.id,
                                                     total_manpower_imported_sanctioned_post_copy.designation,
+                                                    total_manpower_imported_sanctioned_post_copy.designation_code,
                                                     total_manpower_imported_sanctioned_post_copy.sanctioned_post_group_code
                                                     FROM
                                                     total_manpower_imported_sanctioned_post_copy
@@ -479,6 +480,10 @@ if ($staff_id > 0) {
                                                 }
                                                 ?>
                                             </select>
+                                            
+                                        <div id="load_sanctionedPost" >
+                                            
+                                        </div>
                                         </p>
                                         <div class="control-group">
                                             <button id="move_in_continue" type="button" class="btn btn-primary">Continue Move In Request</button>
@@ -751,6 +756,22 @@ if ($staff_id > 0) {
             //reset search field
             $("#btn_reset").click(function() {
                 $("#staff_list_display").html("");
+            });
+            
+            // load sanctioned post based on designaion selection
+            $("#move_in_des_select").change(function (){
+                $("#loading_content").show();
+                var des_group = $("#move_in_des_select").val();
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_sanctioned_post_from_designation.php',
+                    data: {des_group:des_group, org_code: <?php echo "$org_code"; ?>},
+                    success: function(data) {
+                        $("#loading_content").hide();
+                        $("#load_sanctionedPost").html("");
+                        $("#load_sanctionedPost").html(data);
+                    }
+                });
             });
         </script>
     </body>
