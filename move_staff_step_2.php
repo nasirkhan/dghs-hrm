@@ -1,4 +1,5 @@
 <?php
+
 require_once 'configuration.php';
 
 if ($_SESSION['logged'] != true) {
@@ -22,37 +23,36 @@ if ($_SESSION['user_type'] == "admin" && $_REQUEST['org_code'] != "") {
     $isAdmin = TRUE;
 }
 
-$govt_order = mysql_real_escape_string($_POST['govt_order']);
-$attachments = mysql_real_escape_string($_POST['attachments']);
-$staff_id = mysql_real_escape_string($_POST['post_staff_id']);
-$post_mv_from_org = mysql_real_escape_string($_POST['post_mv_from_org']);
-$post_mv_from_des = mysql_real_escape_string($_POST['post_mv_from_des']);
-$post_mv_to_org = mysql_real_escape_string($_POST['post_mv_to_org']);
-$post_mv_to_des = mysql_real_escape_string($_POST['post_mv_to_des']);
+$govt_order = mysql_real_escape_string($_REQUEST['govt_order']);
+$attachments = mysql_real_escape_string($_REQUEST['attachments']);
+$staff_id = mysql_real_escape_string($_REQUEST['post_staff_id']);
+$post_mv_from_org = mysql_real_escape_string($_REQUEST['post_mv_from_org']);
+$post_mv_from_des = mysql_real_escape_string($_REQUEST['post_mv_from_des']);
+$post_mv_to_org = mysql_real_escape_string($_REQUEST['post_mv_to_org']);
+$post_mv_to_des = mysql_real_escape_string($_REQUEST['post_mv_to_des']);
 
 
 // redirect direct access
-if (!$staff_id > 0){
-    if($_SESSION['user_type'] == "admin"){
+if (!$staff_id > 0) {
+    if ($_SESSION['user_type'] == "admin") {
         header("location:admin_home.php");
-    }
-    else {
+    } else {
         header("location:home.php");
-    }    
+    }
 }
 
 $insert_ok = TRUE;
 
 
 
-if ($insert_ok){
+if ($insert_ok) {
     $sql = "INSERT INTO `transfer_post` (
                 `request_submitted_by`, 
                 `staff_id`, 
                 `present_designation_id`, 
                 `present_sanctioned_post_id`, 
                 `present_org_code`, 
-                `move_to_designation_id`, 
+                `move_to_sanctioned_post_id`, 
                 `move_to_org_code`, 
                 `updated_by`, 
                 `status`) 
@@ -66,11 +66,22 @@ if ($insert_ok){
             '$post_mv_to_org', 
             '$user_name', 
             '1')";
-    
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertTransferRecord:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertTransferRecord:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+//    echo "$sql";
 }
 
-header("match_employee.php?org_code=$org_code");
+$url = "match_employee.php?org_code=$org_code";
+redirect($url);
 
+function redirect($url) {
+    if (headers_sent()) {
+        die('<script type="text/javascript">window.location.href="' . $url . '";</script>');
+    } else {
+        header('Location: ' . $url);
+        die();
+    }
+}
+
+echo "ok";
 ?>

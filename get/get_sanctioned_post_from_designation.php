@@ -10,13 +10,13 @@ $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>get_sanctioned_po
 
 $count = mysql_num_rows($result);
 if ($count > 0):
-    while ($row = mysql_fetch_assoc($result)):
-        ?>
-        <select id="move_in_sanctioned_post" class="input-block-level">
+    ?>
+    <select id="move_in_sanctioned_post" class="input-block-level">
+        <?php while ($row = mysql_fetch_assoc($result)): ?>
             <option value="<?php echo $row['id']; ?>"><?php echo $row['designation']; ?> (<?php echo $row['id']; ?>)</option>
-        </select>
+        <?php endwhile; ?>
+    </select>
 
-    <?php endwhile; ?>
 <?php else: ?>
     <select id="move_in_sanctioned_post" class="input-block-level">
         <option value="0">No Vacant Post</option>

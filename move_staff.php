@@ -511,7 +511,7 @@ if ($staff_id > 0) {
                                                     <td><span id="mv_to_des"></span></td>
                                                 </tr>
                                             </table>
-                                            <form class="form-horizontal">
+<!--                                            <form class="form-horizontal">
                                                 <div class="control-group">
                                                     <label class="control-label" for="govt_order">Memo No.:</label>
                                                     <div class="controls">
@@ -525,8 +525,46 @@ if ($staff_id > 0) {
                                                     </div>
                                                 </div>
 
-                                            </form>
-                                            <button id="move_in_confirm" type="button" class="btn btn-warning">Confirm Move In Request</button>
+                                            </form>-->
+                                            <form class="form-horizontal" action="move_staff_step_2.php" method="get" >
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="govt_order">Memo No.:</label>
+                                                        <div class="controls">
+                                                            <input type="text" id="govt_order" name="govt_order" placeholder="Memo Number" autofocus="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="comment">(Please mention the attachment if any): </label>
+                                                        <div class="controls">
+                                                            <textarea id="attachments" name="attachments" rows="3">Not Applicable</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">                                                        
+                                                        request_submitted_by
+                                                        <input type="text" id="request_submitted_by" name="request_submitted_by" value="<?php echo $_SESSION['username']; ?>">
+                                                    </div>
+                                                    <div class="control-group">
+                                                        org_code
+                                                        <input type="text" id="org_code" name="org_code" value="<?php echo $org_code; ?>">
+                                                        post_staff_id
+                                                        <input type="text" id="post_staff_id" name="post_staff_id" value="<?php echo $staff_id; ?>">
+                                                    </div>
+                                                    <div class="control-group">
+                                                        post_mv_from_org
+                                                        <input type="text" id="post_mv_from_org" name="post_mv_from_org" value="">
+                                                        post_mv_from_des
+                                                        <input type="text" id="post_mv_from_des" name="post_mv_from_des" value="<?php echo $sanctioned_post_id; ?>">
+                                                    </div>
+                                                    <div class="control-group">
+                                                        post_mv_to_org
+                                                        <input type="text" id="post_mv_to_org" name="post_mv_to_org" value="<?php echo $org_code; ?>">
+                                                        post_mv_to_des
+                                                        <input type="text" id="post_mv_to_des" name="post_mv_to_des" value="">
+                                                    </div>
+
+                                                    <button type="submit" class="btn btn-warning">Confirm Move In Request</button>
+                                                </form>
+                                            <!--<button id="move_in_confirm" type="button" class="btn btn-warning">Confirm Move In Request</button>-->
                                         </div>
                                     </div>
                                 <?php endif; ?>
@@ -732,8 +770,16 @@ if ($staff_id > 0) {
                 var mv_to_org = "<?php echo $org_name ?>";
                 $("#mv_to_org").html(mv_to_org);
 
-                var mv_to_des = $("#move_in_des_select option:selected").text();
+                var mv_to_des = $("#move_in_sanctioned_post option:selected").text();
                 $("#mv_to_des").html(mv_to_des);
+                
+                document.getElementById("post_mv_from_org").value = "<?php echo $_GET['org_code']; ?>";
+
+                document.getElementById("post_mv_from_des").value = "<?php if ($staff_id > 0) echo getSanctionedPostIdFromStaffId($staff_id); ?>";
+                
+                document.getElementById("post_mv_to_org").value = "<?php echo $org_code; ?>";
+
+                document.getElementById("post_mv_to_des").value = $("#move_in_sanctioned_post").val();
             });
             
             // Search staff
