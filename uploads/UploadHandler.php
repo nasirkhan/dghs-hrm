@@ -531,12 +531,14 @@ class UploadHandler
 
     protected function get_file_name($name,
             $type = null, $index = null, $content_range = null) {
-        return $this->get_unique_filename(
+       /* return $this->get_unique_filename(
             $this->trim_file_name($name, $type, $index, $content_range),
             $type,
             $index,
             $content_range
         );
+		*/
+		return $this->trim_file_name($name, $type, $index, $content_range);
     }
 
     protected function handle_form_data($file, $index) {

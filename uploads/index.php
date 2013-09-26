@@ -12,4 +12,32 @@
 
 error_reporting(E_ALL | E_STRICT);
 require('UploadHandler.php');
-$upload_handler = new UploadHandler();
+require('../configuration.php');
+
+class CustomUploadHandler extends UploadHandler
+{
+protected function trim_file_name($name, $type) {
+$name = parent::trim_file_name($name, $type);
+// Your file name changes: $name = 'something';
+$Ext = strrchr($name,".");
+$name = $_SESSION['username'];
+
+$oldName=$name."$Ext";
+
+$exists = file_exists($oldName);
+if(!$exists) {
+// do your processing
+$name = $name."$Ext";
+}
+else
+{
+unlink("$oldName");
+$name = $name."$Ext";
+}
+
+$name = $name."$Ext";
+return $name;
+}
+}
+
+$upload_handler = new CustomUploadHandler();

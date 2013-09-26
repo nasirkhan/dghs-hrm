@@ -10,6 +10,8 @@ $org_code = $_SESSION['org_code'];
 $org_name = $_SESSION['org_name'];
 $org_type_name = $_SESSION['org_type_name'];
 
+
+
 $echoAdminInfo = "";
 
 // assign values admin users
@@ -22,6 +24,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 }
 
 $upload_type = mysql_real_escape_string($_GET['upload']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,14 +116,14 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
                                             </td>
                                             <td> Upload the organization photo by form here. If any photo is uploaded previously, then it will be replaced by new new uploaded image.</td>
                                         </tr>
-                                        <tr>
+                                        <!--<tr>
                                             <td>
                                                 <a href="upload.php?org_code=<?php echo $org_code; ?>&upload=file" class="btn btn-large btn-info">
                                                     <i class="icon-copy icon-2x pull-left"></i> File (PDF/Doc) Upload
                                                 </a>
                                             </td>
                                             <td> Upload different files related to the organization, click the button and go to the upload form. Details information is described there.</td>
-                                        </tr>                                    
+                                        </tr>  -->                                  
                                     </tbody>
                                 </table>                            
                             </div>
@@ -219,7 +222,7 @@ $(function () {
                     data = $this.data();
                 $this
                     .off('click')
-                    .text('Abort')
+                    .text('Uploading..')
                     .on('click', function () {
                         $this.remove();
                         data.abort();
