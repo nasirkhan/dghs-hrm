@@ -71,6 +71,6 @@ if ($insert_ok){
 
 }
 
-//header("match_employee.php?org_code=$org_code");
+header("match_employee.php?org_code=$org_code");
 
 ?>
