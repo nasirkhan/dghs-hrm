@@ -30,6 +30,7 @@ $post_mv_from_org = mysql_real_escape_string($_REQUEST['post_mv_from_org']);
 $post_mv_from_des = mysql_real_escape_string($_REQUEST['post_mv_from_des']);
 $post_mv_to_org = mysql_real_escape_string($_REQUEST['post_mv_to_org']);
 $post_mv_to_des = mysql_real_escape_string($_REQUEST['post_mv_to_des']);
+$action_type = mysql_real_escape_string($_REQUEST['action_type']);
 
 
 // redirect direct access
@@ -71,6 +72,137 @@ if ($insert_ok) {
 //    echo "$sql";
 }
 
+
+
+
+/**
+ * *****************************************************************************
+ * 
+ * Skip the approval process 
+ * 
+ * *****************************************************************************
+ */
+
+/**
+ * 
+ * Transfer || move in
+ * 
+ * ***************************************
+ */
+if ($action_type == "move_in") {
+    // get the staff info form transfer_post table
+    $sql = "SELECT * FROM transfer_post WHERE staff_id = $staff_id AND `active` = '1'";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:1</p><p>Query:</b></br >___<p>$sql</p>");
+    $data = mysql_fetch_assoc($result);
+
+    $move_to_sanctioned_post_id = $data['move_to_sanctioned_post_id'];
+    $move_to_org_code = $data['move_to_org_code'];
+
+
+    if (!$move_to_sanctioned_post_id > 0) {
+        $move_to_sanctioned_post_id = 0;
+    }
+    if (!$move_to_org_code > 0) {
+        $move_to_org_code = 0;
+    }
+
+
+    // update staff table
+    $sql = "UPDATE 
+                old_tbl_staff_organization 
+            SET 
+                org_code=$move_to_org_code, 
+                sanctioned_post_id=$move_to_sanctioned_post_id, 
+                sp_id_2=$move_to_sanctioned_post_id 
+            WHERE 
+                staff_id=$staff_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:2</p><p>Query:</b></br >___<p>$sql</p>");
+
+
+    // update sanctioned post table
+    $sql = "UPDATE 
+                `total_manpower_imported_sanctioned_post_copy` 
+            SET 
+                staff_id_2 = $staff_id 
+            WHERE 
+                id=$move_to_sanctioned_post_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>OMG:1</b></p><p><b>Query:</b></p>___<p>$sql</p>");
+
+
+    // update transfer_post table
+    $sql = "UPDATE 
+            transfer_post 
+        SET 
+            step_1_updated_by = \"$user_name\", 
+            updated_by = \"$user_name\", 
+            `active` = '0', 
+            `status` = '2'
+        WHERE 
+            staff_id = $staff_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:1</p><p>Query:</b></br >___<p>$sql</p>");
+}
+
+/**
+ * 
+ * Transfer || move out
+ * 
+ * ************************************************
+ */ else if ($action_type == "move_out") {
+    // get the staff info form transfer_post table
+    $sql = "SELECT * FROM transfer_post WHERE staff_id = $staff_id AND `active` = '1'";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:1</p><p>Query:</b></br >___<p>$sql</p>");
+    $data = mysql_fetch_assoc($result);
+
+    $move_to_sanctioned_post_id = $data['move_to_sanctioned_post_id'];
+    $move_to_org_code = $data['move_to_org_code'];
+
+    // update staff table
+    $sql = "UPDATE 
+                old_tbl_staff_organization 
+            SET 
+                org_code=$move_to_org_code, 
+                sanctioned_post_id=$move_to_sanctioned_post_id, 
+                sp_id_2=$move_to_sanctioned_post_id 
+            WHERE 
+                staff_id=$staff_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:2</p><p>Query:</b></br >___<p>$sql</p>");
+
+
+    // update sanctioned post table
+    $sql = "UPDATE 
+                `total_manpower_imported_sanctioned_post_copy` 
+            SET 
+                staff_id_2 = '0' 
+            WHERE 
+                staff_id_2 = $staff_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>OMG:1</b></p><p><b>Query:</b></p>___<p>$sql</p>");
+
+
+    // update transfer_post table
+    $sql = "UPDATE 
+            transfer_post 
+        SET 
+            step_1_updated_by = \"$user_name\", 
+            updated_by = \"$user_name\", 
+            `active` = '0', 
+            `status` = '2'
+        WHERE 
+            staff_id = $staff_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:1</p><p>Query:</b></br >___<p>$sql</p>");
+}
+
+
+//    echo "$sql";
+//echo "Success";
+
+
+/**
+ * *******************************
+ * 
+ * redirect to the Match Page
+ * 
+ * *******************************
+ */
 $url = "match_employee.php?org_code=$org_code";
 redirect($url);
 

@@ -331,7 +331,7 @@ if ($staff_id > 0) {
                                                         <!--post_mv_to_des-->
                                                         <input type="hidden" id="post_mv_to_des" name="post_mv_to_des" value="">
                                                     </div>
-
+                                                    <input type="hidden" id="action_type" name="action_type" value="move_out">
                                                     <button type="submit" class="btn btn-warning">Confirm Move Out Request</button>
                                                 </form>
 
@@ -561,6 +561,7 @@ if ($staff_id > 0) {
                                                         <!--post_mv_to_des-->
                                                         <input type="hidden" id="post_mv_to_des" name="post_mv_to_des" value="">
                                                     </div>
+                                                    <input type="hidden" id="action_type" name="action_type" value="move_in">
 
                                                     <button type="submit" class="btn btn-warning">Confirm Move In Request</button>
                                                 </form>
@@ -761,13 +762,13 @@ if ($staff_id > 0) {
             $('#move_in_continue').click(function() {
                 $("#move_in_continue_details").slideDown();
 
-                var mv_from_org = "<?php if ($sanctioned_post_id > 0) echo getOrgNameFormSanctionedPostId($sanctioned_post_id) ?>";
+                var mv_from_org = "<?php echo getOrgNameFormOrgCode($_GET['org_code']); ?>";
                 $("#mv_from_org").html(mv_from_org);
 
                 var mv_from_des = "<?php if ($staff_id > 0) echo getDesignationNameFormStaffId($staff_id); ?>";
                 $("#mv_from_des").html(mv_from_des);
 
-                var mv_to_org = "<?php echo $org_name ?>";
+                var mv_to_org = "<?php echo $org_name; ?>";
                 $("#mv_to_org").html(mv_to_org);
 
                 var mv_to_des = $("#move_in_sanctioned_post option:selected").text();
