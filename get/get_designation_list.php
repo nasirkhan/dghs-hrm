@@ -22,6 +22,10 @@ $data[] = array(
     'text' => "Select Designation",
     'value' => 0
 );
+$data[] = array(
+        'text' => "OSD",
+        'value' => 0
+    );
 while ($row = mysql_fetch_array($result)) {
     $data[] = array(
         'text' => $row['designation'],
