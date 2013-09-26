@@ -462,7 +462,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 });
             });
             
-            // Search user
+            // Search staff
             $('#btn_search_staff').click(function() {
                 $("#loading_content").show();
                 var searchStaff = $('#searchStaff').val();
