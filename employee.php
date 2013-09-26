@@ -302,7 +302,7 @@ if (isset($_POST['search'])) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Designation</strong></td>
-                                            <td><?php echo $designation; ?></td>
+                                            <td><?php echo getDesignationNameFormSanctionedPostId($data['sanctioned_post_id']); ?></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Post Type</strong></td>
@@ -385,14 +385,14 @@ if (isset($_POST['search'])) {
                                         <tr>
                                             <td width="50%"><strong>Sanctioned Post ID</strong></td>
                                             <?php 
-                                            if($sanctioned_post_id > 0){
-                                                echo "<td>" . $sanctioned_post_id . "</td>";
+                                            if($data['sanctioned_post_id'] > 0){
+                                                echo "<td>" . $data['sanctioned_post_id'] . "</td>";
                                             }
-                                            else if ($sanctioned_post_id == 0){
+                                            else if ($data['sanctioned_post_id'] == 0){
                                                 echo "<td>OSD</td>";
                                             }
                                             ?>
-                                            <td><?php echo $sanctioned_post_id; ?></td>
+                                            <td><?php echo $data['sanctioned_post_id']; ?></td>
                                         </tr>
 
                                         <tr>
@@ -508,7 +508,7 @@ if (isset($_POST['search'])) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Designation</strong></td>
-                                            <td><?php echo $designation; ?></td>
+                                            <td><?php echo getDesignationNameFormSanctionedPostId($data['sanctioned_post_id']); ?></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Post Type</strong></td>
@@ -587,7 +587,7 @@ if (isset($_POST['search'])) {
                                         -->
                                         <tr>
                                             <td width="50%"><strong>Sanctioned Post ID</strong></td>
-                                            <td><?php echo $sanctioned_post_id; ?></td>
+                                            <td><?php echo $data['sanctioned_post_id']; ?></td>
                                         </tr>
 
                                         <tr>
