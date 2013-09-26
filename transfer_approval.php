@@ -132,8 +132,8 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                             ?>
                                             <tr>
                                                 <td><?php echo getStaffNameFromId($data['staff_id']); ?></td>
-                                                <td><?php echo getDesignationNameFormSanctionedPostId($data['present_sanctioned_post_id']); ?></td>
-                                                <td><?php $desInfo = getDesignationInfoFromCode($data['move_to_designation_id']); echo $desInfo['designation']; ?></td>
+                                                <td><?php echo getDesignationNameFormSanctionedPostId($data['present_sanctioned_post_id']); ?> <br />(<?php echo getOrgNameFormOrgCode($data['present_org_code']); ?>)</td>
+                                                <td><?php echo getDesignationNameFormSanctionedPostId($data['move_to_sanctioned_post_id']); ?> <br />(<?php echo getOrgNameFormOrgCode($data['move_to_org_code']); ?>)</td>
                                                 <td><?php echo $data['updated_by']; ?></td>
                                                 <td><?php echo $data['update_time']; ?></td>
                                                 <td>
