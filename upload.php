@@ -34,8 +34,8 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">   <!-- rajib modified --> 
-        <link rel="stylesheet" href="library/jQuery-File-Upload-master/css/jquery.fileupload-ui.css">    <!-- rajib modified --> 
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="library/jQuery-File-Upload-master/css/jquery.fileupload-ui.css">
 
         <!-- Le styles -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
