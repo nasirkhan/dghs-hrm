@@ -35,7 +35,7 @@ if ($action == "approve") {
     
     //update staff profile
     // unlink the connection with the organization and sanctioned post
-    $sql = "UPDATE old_tbl_staff_organization SET org_code=0, sanctioned_post_id=0 WHERE staff_id=$staff_id LIMIT 1";
+    $sql = "UPDATE old_tbl_staff_organization SET org_code=0, sanctioned_post_id=0 WHERE staff_id=$staff_id";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:2</p><p>Query:</b></br >___<p>$sql</p>");
     echo "$sql";
     echo "Updated";
