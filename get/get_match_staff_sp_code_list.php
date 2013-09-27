@@ -8,6 +8,7 @@ require_once '../configuration.php';
 
 $designation = mysql_real_escape_string(trim($_REQUEST['designation']));
 $org_code = (int) mysql_real_escape_string($_REQUEST['org_code']);
+$staff_id = (int) mysql_real_escape_string($_REQUEST['staff_id']);
 
 //$sql = "SELECT
 //            total_manpower_imported_sanctioned_post_copy.id,
@@ -21,6 +22,25 @@ $org_code = (int) mysql_real_escape_string($_REQUEST['org_code']);
 //                org_code =$org_code
 //            AND 
 //                staff_id_2 = 0";
+
+
+$sql = "SELECT 
+            id
+        FROM
+            total_manpower_imported_sanctioned_post_copy
+        WHERE
+                org_code =$org_code
+            AND 
+                staff_id_2 = $staff_id
+        LIMIT 1";
+$result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>get_match_staff_sp_code_list:1</b></p><p>Query:<br />___<br />$sql</p>");
+$count= mysql_num_rows($result);
+
+$value = mysql_fetch_assoc($result);
+if($count == 1){
+    return $value['id'];
+}
+
 $sql = "SELECT
             total_manpower_imported_sanctioned_post_copy.id,
             total_manpower_imported_sanctioned_post_copy.staff_id,
@@ -28,7 +48,6 @@ $sql = "SELECT
         FROM
             total_manpower_imported_sanctioned_post_copy
         WHERE
-                
                 org_code =$org_code
             AND 
                 staff_id_2 = 0

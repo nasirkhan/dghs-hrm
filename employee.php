@@ -645,7 +645,10 @@ if (isset($_POST['search'])) {
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Sanctioned Post ID</strong></td>
-                                                    <td><?php echo $sanctioned_post_id; ?></td>
+                                                    <td>
+                                                        <?php echo $sanctioned_post_id; ?>
+                                                        <input type="hidden" name="sanctioned_post" value="<?php echo $sanctioned_post_id; ?>" />
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Staff ID</strong></td>

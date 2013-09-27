@@ -518,6 +518,8 @@ function getDesignationNameFormStaffId($staff_id) {
 
     $data = mysql_fetch_assoc($result);
 
+    if (!$data['designation_id'] > 0)
+        return "0";
     $sql = "SELECT designation FROM old_designation WHERE id = " . $data['designation_id'];
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormStaffId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -591,6 +593,8 @@ function getOrgFunctionNameFromCode($org_function_code) {
 
 // get post type
 function getPostTypeFromId($post_type_id) {
+    if (!$post_type_id > 0)
+        return 0;
     $sql = "SELECT
             staff_post_type.post_type_name
             FROM
@@ -606,6 +610,8 @@ function getPostTypeFromId($post_type_id) {
 
 //staff_posting_type
 function getStaffPostingTypeFormId($posting_type_id) {
+    if (!$posting_type_id > 0)
+        return 0;
     $sql = "SELECT
             staff_posting_type.staff_posting_type_name
             FROM
@@ -620,6 +626,8 @@ function getStaffPostingTypeFormId($posting_type_id) {
 }
 
 function getStaffDepertmentFromDepertmentId($depertment_id) {
+    if (!$depertment_id > 0)
+        return "0";
     $sql = "SELECT
             very_old_departments.`name`
             FROM
@@ -634,6 +642,8 @@ function getStaffDepertmentFromDepertmentId($depertment_id) {
 }
 
 function getSalaryDrawTypeNameFromID($ID) {
+    if (!$ID > 0)
+        return "0";
     $sql = "SELECT
             staff_salary_draw_type.salary_draw_type_name
             FROM
@@ -648,6 +658,8 @@ function getSalaryDrawTypeNameFromID($ID) {
 }
 
 function getSalaryDrawNameFromID($ID) {
+    if (!$ID > 0)
+        return "0";
     $sql = "SELECT
             staff_draw_salaray_place.draw_salaray_place
             FROM
@@ -662,6 +674,8 @@ function getSalaryDrawNameFromID($ID) {
 }
 
 function getSexNameFromId($id) {
+    if (!$id > 0)
+        return "0";
     $sql = "SELECT
             staff_sex.sex_name
             FROM
@@ -676,13 +690,15 @@ function getSexNameFromId($id) {
 }
 
 function getReligeonNameFromId($id) {
+    if (!$id > 0)
+        return "0";
     $sql = "SELECT
             staff_religious_group.religious_group_name
             FROM
             staff_religious_group
             WHERE
             religious_group_id = $id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getReligeonNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -690,13 +706,15 @@ function getReligeonNameFromId($id) {
 }
 
 function getMaritalStatusFromId($id) {
+    if (!$id > 0)
+        return "0";
     $sql = "SELECT
             staff_marital_status.marital_status
             FROM
             staff_marital_status
             WHERE
             marital_status_id = $id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getMaritalStatusFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -704,13 +722,15 @@ function getMaritalStatusFromId($id) {
 }
 
 function getTribalNameFromId($id) {
+    if(!$id > 0 )
+        return 0;
     $sql = "SELECT
             staff_tribal.tribal_value
             FROM
             staff_tribal
             WHERE
             tribal_id = $id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getTribalNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -718,13 +738,15 @@ function getTribalNameFromId($id) {
 }
 
 function getFreedomFighterNameFromId($id) {
+    if(!$id>0)        
+        return 0;
     $sql = "SELECT
                staff_freedom_fighter.freedom_fighter_name
              FROM
                 staff_freedom_fighter
               WHERE
             staff_freedom_fighter.freedom_fighter_id = $id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getFreedomFighterNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -733,13 +755,15 @@ function getFreedomFighterNameFromId($id) {
 
 // @todo must replace with database
 function getProfessionalCategoryFromId($id) {
+    if(!$id>0)        
+        return 0;
     $sql = "SELECT
               staff_professional_category_type.professional_type_name
             FROM
               staff_professional_category_type
             WHERE
              professional_type_id = $id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getProfessionalCategoryFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -748,13 +772,15 @@ function getProfessionalCategoryFromId($id) {
 
 // @todo must replace with database
 function getDesignationTypeNameFromId($id) {
+    if(!$id>0)        
+        return 0;
     $sql = "SELECT
               staff_designation_type.designation_type
             FROM
              staff_designation_type
             WHERE
              designation_type_id = $id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationTypeNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -763,13 +789,15 @@ function getDesignationTypeNameFromId($id) {
 
 // @todo must replace with database
 function getJobPostingNameFromId($id) {
+    if(!$id>0)        
+        return 0;
     $sql = "SELECT
             staff_job_posting.job_posting_name
             FROM
             staff_job_posting
             WHERE
             job_posting_id = $id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getJobPostingNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -778,13 +806,15 @@ function getJobPostingNameFromId($id) {
 
 // @todo must replace with database
 function getWorkingStatusNameFromId($id) {
+    if(!$id>0)        
+        return 0;
     $sql = "SELECT
             staff_working_status.working_status_name
             FROM
             staff_working_status
             WHERE
             working_status_id = $id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getWorkingStatusNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -793,13 +823,15 @@ function getWorkingStatusNameFromId($id) {
 
 // @todo must replace with database
 function getDrawTypeNameFromId($id) {
+    if(!$id>0)        
+        return 0;
     $sql = "SELECT
             staff_salary_draw_type.salary_draw_type_name
             FROM
             staff_salary_draw_type
             WHERE
             salary_draw_type_id = $id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDrawTypeNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -807,13 +839,15 @@ function getDrawTypeNameFromId($id) {
 }
 
 function getFirstLevelNameFromID($first_level_id) {
+    if(!$first_level_id>0)
+        return 0;
     $sql = "SELECT
                 sanctioned_post_first_level.first_level_name
             FROM
                 sanctioned_post_first_level
             WHERE
                 sanctioned_post_first_level.first_level_code = $first_level_id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getFirstLevelNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -821,6 +855,8 @@ function getFirstLevelNameFromID($first_level_id) {
 }
 
 function getEducationalQualification($id) {
+    if(!$id>0)
+        return 0;
     $sql = "SELECT
                 staff_educational_qualification.educational_qualification
             FROM
@@ -835,6 +871,8 @@ function getEducationalQualification($id) {
 }
 
 function getGovtQuarter($id) {
+    if(!$id>0)
+        return 0;
     $sql = "SELECT
                 staff_govt_quater.govt_quater
             FROM
@@ -849,6 +887,8 @@ function getGovtQuarter($id) {
 }
 
 function getProfessionalDisciplineNameFromId($id) {
+    if(!$id>0)
+        return 0;
     $sql = "SELECT
                 staff_profesional_discipline.discipline_name
             FROM
@@ -933,6 +973,8 @@ function getDesignationInfoFromCode($des_code) {
  * @return STRIGN
  */
 function getDeptNameFromId($dept_id) {
+    if(!$dept_id >0)
+        return 0;
     $sql = "SELECT
                 very_old_departments.dept_id,
                 very_old_departments.department_id,
@@ -1009,6 +1051,9 @@ function getStaffInfoFromStaffId($staff_id){
  * @return STRING type_of_post_name
  */
 function getPayScaleId($id){
+    if ($id <= 0){
+        return null;
+    }
     $sql = "SELECT
                 staff_pay_scale.pay_scale
             FROM
@@ -1024,6 +1069,9 @@ function getPayScaleId($id){
 
 
 function getTypeOfPostNameFromCode($type_of_post_code){
+    if ($type_of_post_code <= 0){
+        return null;
+    }
     $sql = "SELECT
                 sanctioned_post_type_of_post.type_of_post_name
             FROM

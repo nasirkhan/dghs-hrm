@@ -81,19 +81,19 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 //            });
 
             /* Table initialisation */
-            $(document).ready(function() {
-                $('#staff_list').dataTable({
-                    "sDom": "<'row'<'span5'l><'span4'f>r>t<'row'<'span4'i><'span5'p>>",
-                    "sPaginationType": "bootstrap"
-                });
-            });
-
-            $.extend($.fn.dataTableExt.oStdClasses, {
-                "sWrapper": "dataTables_wrapper form-inline",
-                "sSortAsc": "header headerSortDown",
-                "sSortDesc": "header headerSortUp",
-                "sSortable": "header"
-            });
+//            $(document).ready(function() {
+//                $('#staff_list').dataTable({
+//                    "sDom": "<'row'<'span5'l><'span4'f>r>t<'row'<'span4'i><'span5'p>>",
+//                    "sPaginationType": "bootstrap"
+//                });
+//            });
+//
+//            $.extend($.fn.dataTableExt.oStdClasses, {
+//                "sWrapper": "dataTables_wrapper form-inline",
+//                "sSortAsc": "header headerSortDown",
+//                "sSortDesc": "header headerSortUp",
+//                "sSortable": "header"
+//            });
 
             
         </script>
@@ -218,14 +218,18 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                 $('#sp_id-<?php echo $data['staff_id']; ?>').editable({
                                                     type: 'select',
                                                     pk: org_code,
+                                                    sourceCache: false,
                                                     url: 'post/post_match_staff_sp.php',
-                                                    source: 'get/get_match_staff_sp_code_list.php?org_code=' + org_code + '&designation=<?php echo $designation_info['designation']; ?>',
+                                                    source: 'get/get_match_staff_sp_code_list.php?org_code=' + org_code + '&staff_id=<?php echo $data['staff_id'];?>&designation=<?php echo $designation_info['designation']; ?>',
                                                     params: function(params) {
                                                         params.staff_id = "<?php echo $data['staff_id']; ?>";
                                                         return params;
                                                     }
                                                 });
                                             });
+//                                            $('#sp_id-<?php echo $data['staff_id']; ?>').on('hidden', function() {
+//                                                $(this).data().editable.input.sourceData = null;
+//                                            });
                                             </script>
                                             <?php endif; ?>
                                         </td>

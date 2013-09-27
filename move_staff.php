@@ -116,19 +116,19 @@ if ($staff_id > 0) {
                         <?php if ($action == ""): ?>
                             <table class="table table-striped table-hover">                            
                                 <tbody>
-                                    <tr>
+<!--                                    <tr>
                                         <td><a href="#">Promotion</a></td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td><a href="move_staff.php?action=move_out&org_code=<?php echo "$org_code"; ?>">Transfer (Move Out)</a></td>
                                         <td><em>Request transfer of an staff form this organization to some other organization</em></td>
-                                    </tr>
+                                    </tr>-->
                                     <tr>
                                         <td><a href="move_staff.php?action=move_in&org_code=<?php echo "$org_code"; ?>">Transfer (Move In)</a></td>
                                         <td><em>Request transfer of an staff form another organization to this organization</em></td>
                                     </tr>
-                                    <tr>
+<!--                                    <tr>
                                         <td><a href="#">Retirement</a></td>
                                         <td></td>
                                     </tr>
@@ -155,7 +155,7 @@ if ($staff_id > 0) {
                                     <tr>
                                         <td><a href="#">Leave</a></td>
                                         <td></td>
-                                    </tr>
+                                    </tr>-->
                                 </tbody>
                             </table>
                             <?php elseif ($action == "move_out"):

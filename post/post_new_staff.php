@@ -23,6 +23,13 @@ if ($_SESSION['user_type'] == "admin" && $_REQUEST['org_code'] != "") {
     $isAdmin = TRUE;
 }
 
+function  getOrgCodeFromSanctionedPostId($sanctioned_post){
+    $sql = "SELECT org_code FROM total_manpower_imported_sanctioned_post_copy WHERE id = $sanctioned_post LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgTypeCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $org_type_data = mysql_fetch_assoc($result);
+    return $org_type_data['org_code'];    
+}
 
 if (isset($_POST['new_staff'])) {
     print_r($_POST);
@@ -38,10 +45,13 @@ if (isset($_POST['new_staff'])) {
     $staff_job_class = mysql_real_escape_string(trim($_POST['staff_job_class_value']));
     $present_address = mysql_real_escape_string(trim($_POST['present_address']));
     $permanent_address = mysql_real_escape_string(trim($_POST['permanent_address']));
-    
+    $sanctioned_post = mysql_real_escape_string(trim($_POST['sanctioned_post']));
     
     $sql = "INSERT INTO `old_tbl_staff_organization` (
                 `staff_name`, 
+                `sanctioned_post_id`,
+                `sp_id_2`, 
+                `org_code`,                
                 `father_name`, 
                 `mother_name`, 
                 `email_address`, 
@@ -50,12 +60,14 @@ if (isset($_POST['new_staff'])) {
                 `religion`,
                 `marital_status`,
                 `staff_job_class`,
-                `present_address`,
+                `mailing_address`,
                 `permanent_address`,
-                `updated_by`, 
-                `status`) 
+                `updated_by`) 
             VALUES (
             '$staff_name', 
+            '$sanctioned_post',
+            '$sanctioned_post', 
+            '" . getOrgCodeFromSanctionedPostId($sanctioned_post) . "',
             '$father_name', 
             '$mother_name', 
             '$email_address', 
@@ -66,11 +78,19 @@ if (isset($_POST['new_staff'])) {
             '$staff_job_class', 
             \"$present_address\", 
             \"$permanent_address\", 
-            '" . $user_name . "', 
-            '1')";
+            '" . $user_name . "')";
 //    echo "$sql";
 //    die();
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertTransferRecord:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    
+    $sql= "SELECT staff_id FROM old_tbl_staff_organization WHERE sanctioned_post_id=$sanctioned_post";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertTransferRecord:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");   
+    $data = mysql_fetch_assoc($result);
+    $staff_id = $data['staff_id'];
+    
+    $sql = "UPDATE total_manpower_imported_sanctioned_post_copy SET staff_id=$staff_id, staff_id_2=$staff_id WHERE id=$sanctioned_post";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertTransferRecord:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    
     
     // unset $_POST value
     unset($_POST);
@@ -84,7 +104,7 @@ if (isset($_POST['new_staff'])) {
  * 
  * *******************************
  */
-$url = "match_employee.php?org_code=$org_code";
+$url = "http://test.dghs.gov.bd/hrmnew/match_employee.php?org_code=$org_code";
 redirect($url);
 
 function redirect($url) {
