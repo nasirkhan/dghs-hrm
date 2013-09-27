@@ -209,7 +209,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                         <td>
                                             <?php 
                                             if ($data['sp_id_2'] > 0) : 
-                                                echo $data['sp_id_2'];
+                                                echo getDesignationNameFormStaffId($data['staff_id']) . "(" . $data['sp_id_2'] . ")" ;
                                             else: 
                                                 ?>
                                             <a href="#" class="" id="sp_id-<?php echo $data['staff_id']; ?>" ><?php echo $data['sp_id_2']; ?></a>
