@@ -10,7 +10,7 @@ if ($_REQUEST["designation"]) {
 $sql = "SELECT
 total_manpower_imported_sanctioned_post_copy.id,
 total_manpower_imported_sanctioned_post_copy.class,
-total_manpower_imported_sanctioned_post_copy.staff_id
+total_manpower_imported_sanctioned_post_copy.staff_id,
 total_manpower_imported_sanctioned_post_copy.staff_id_2
 FROM total_manpower_imported_sanctioned_post_copy
 WHERE designation LIKE \"" . $designation . "\"
