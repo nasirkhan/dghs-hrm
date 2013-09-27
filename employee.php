@@ -632,7 +632,7 @@ if (isset($_POST['search'])) {
                                 // add new employee
                                 elseif ($display_mode == "new") :
                                     ?>
-                                    <form class="form-horizontal" action="<?php echo "employee.php?sanctioned_post_id=$sanctioned_post_id&staff_id=$staff_id"; //echo $_SERVER['PHP_SELF'];         ?>" method="post">
+                                    <form class="form-horizontal" action="<?php echo "post/post_new_staff.php"; ?>" method="post">
                                         <fieldset>
                                             <table class="table table-striped"> 
                                                 <tr>
@@ -678,30 +678,61 @@ if (isset($_POST['search'])) {
                                                 <tr>
                                                     <td width="50%"><strong>Contact No.</strong></td>
                                                     <td>
-                                                        <input type="text" id="contact_no" name="contact_no" placeholder="" >                                                        
+                                                        <input type="text" id="contact_no" name="contact_no" placeholder="" >
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Sex</strong></td>
                                                     <td>
-                                                        <select id="sex" name="sex" >
+                                                        <?php 
+                                                        $sql = "SELECT staff_sex.sex_name,staff_sex.sex_type_id
+                                                                    FROM
+                                                                    staff_sex order by sex_name";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                        ?>
+                                                        <select id="staff_sex" name="staff_sex" >
                                                             <option value="0">-- Select form the list --</option>
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                            <option value="<?php echo $data['sex_type_id']; ?>"><?php echo $data['sex_name']; ?></option>
+                                                            <?php endwhile; ?>
                                                         </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Religious Group</strong></td>
                                                     <td>
-                                                        <select id="religious_group" name="religious_group" >
+                                                        <?php 
+                                                        $sql = "SELECT staff_religious_group.religious_group_name,staff_religious_group.religious_group_id
+                                                                    FROM
+                                                                    staff_religious_group order by religious_group_name";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                        ?>
+                                                        <select id="staff_religion" name="staff_religion" >
                                                             <option value="0">-- Select form the list --</option>
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                            <option value="<?php echo $data['religious_group_id']; ?>"><?php echo $data['religious_group_name']; ?></option>
+                                                            <?php endwhile; ?>
                                                         </select>                                                        
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Marital Status</strong></td>
                                                     <td>
-                                                        <select id="merital_status" name="merital_status" >
+                                                        <?php 
+                                                        $sql = "SELECT
+                                                                staff_marital_status.marital_status, staff_marital_status.marital_status_id
+                                                                FROM
+                                                                staff_marital_status";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                        ?>
+                                                        <select id="staff_marital_status" name="staff_marital_status" >
                                                             <option value="0">-- Select form the list --</option>
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                            <option value="<?php echo $data['marital_status_id']; ?>"><?php echo $data['marital_status']; ?></option>
+                                                            <?php endwhile; ?>
                                                         </select>
 
                                                     </td>
@@ -709,9 +740,18 @@ if (isset($_POST['search'])) {
                                                 <tr>
                                                     <td width="50%"><strong>Job Class</strong></td>
                                                     <td>
+                                                        <?php 
+                                                        $sql = "SELECT staff_job_class.job_class_name,staff_job_class.job_class_id
+                                                                FROM
+                                                                staff_job_class";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                                                        <select id="job_class" name="job_class" >
+                                                        ?>
+                                                        <select id="staff_job_class_value" name="staff_job_class_value" >
                                                             <option value="0">-- Select form the list --</option>
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                            <option value="<?php echo $data['job_class_id']; ?>"><?php echo $data['job_class_name']; ?></option>
+                                                            <?php endwhile; ?>
                                                         </select>
                                                     </td>
                                                 </tr>
@@ -726,10 +766,15 @@ if (isset($_POST['search'])) {
                                                     <td>
                                                         <textarea type="text" id="permanent_address" name="permanent_address" placeholder="" ></textarea>                                                        
                                                     </td>
-                                                </tr>                                                
+                                                </tr>
+                                                
+                                                
+                                                <input type="hidden" id="new_staff" name="new_staff" value="yes" >
+                                                
+                                                
                                                 <tr>
                                                     <td width="50%"><strong></strong></td>
-                                                    <td><button type="submit" class="btn btn-success btn-large disabled">Submit</button></td>
+                                                    <td><button type="submit" class="btn btn-success btn-large">Submit</button></td>
                                                 </tr>
                                             </table>
                                         </fieldset>
