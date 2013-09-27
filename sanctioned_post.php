@@ -212,7 +212,10 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 //
 //                                                                }
                                                                 else {
-                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" >Add Profile</a></div>";
+                                                                    data_list += "<div class=\"span2\"> </div>";
+                                                                    data_list += "<a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" >Add Profile</a>";
+                                                                    data_list += "<a href=\"move_staff.php?action=move_in&org_code=<?php echo "$org_code";?>\" target=\"_blank\"  class=\"btn btn-info btn-mini\" >Move In</a>";
+                                                                    data_list += "</div>";
                                                                 }
 
                                                                 data_list += "</div>";
