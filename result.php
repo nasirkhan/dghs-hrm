@@ -11,6 +11,7 @@ $sql = "SELECT
 total_manpower_imported_sanctioned_post_copy.id,
 total_manpower_imported_sanctioned_post_copy.class,
 total_manpower_imported_sanctioned_post_copy.staff_id
+total_manpower_imported_sanctioned_post_copy.staff_id_2
 FROM total_manpower_imported_sanctioned_post_copy
 WHERE designation LIKE \"" . $designation . "\"
 AND org_code =$org_code";
@@ -23,6 +24,7 @@ while ($data_list = mysql_fetch_assoc($sanctioned_post_list_result)) {
         "sanctioned_post_id" => $data_list['id'],
         "class" => $data_list['class'],
         "staff_id" => $staff_id,
+        "staff_id_2" => $staff_id_2,
         "staff_name" => $staff_name
     );
 }
