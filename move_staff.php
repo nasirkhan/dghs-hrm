@@ -364,12 +364,6 @@ if ($staff_id > 0) {
                                                                                                     </div>
                                                                                                 </div>-->
                                                         <div class="control-group">
-                                                            <label class="control-label" for="searchStaff">Search Keyword</label>
-                                                            <div class="controls">
-                                                                <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
-                                                            </div>
-                                                        </div>
-                                                        <div class="control-group">
                                                             <label class="control-label" for="searchStaffType">Search Type</label>
                                                             <div class="controls">
                                                                 <select id="searchStaffType" name="searchStaffType" class="input-xlarge">
@@ -379,6 +373,13 @@ if ($staff_id > 0) {
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        <div class="control-group">
+                                                            <label class="control-label" for="searchStaff">Search Keyword</label>
+                                                            <div class="controls">
+                                                                <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
+                                                            </div>
+                                                        </div>
+                                                        
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <button id="btn_search_staff" class="btn btn-info" type="button">Find Staff(s)</button>
