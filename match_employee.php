@@ -183,11 +183,11 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <th>Staff Name</th>
                                     <th>Father's Name</th>
                                     <th>Dept</th>                                    
-                                    <th>Designation</th>
+                                    <th>Designation(Old System)</th>
                                     <!--<th>Pay scale</th>-->
                                     <!--<th>Class</th>-->
                                     <!--<th>Staff Id</th>-->
-                                    <th>Sanctioned Post Id</th>
+                                    <th>Sanctioned Post Id(New System)</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -209,7 +209,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                         <td>
                                             <?php 
                                             if ($data['sp_id_2'] > 0) : 
-                                                echo getDesignationNameFormStaffId($data['staff_id']) . "(" . $data['sp_id_2'] . ")" ;
+                                                echo getDesignationNameFormSanctionedPostId($data['sp_id_2']) . "(" . $data['sp_id_2'] . ")" ;
                                             else: 
                                                 ?>
                                             <a href="#" class="" id="sp_id-<?php echo $data['staff_id']; ?>" ><?php echo $data['sp_id_2']; ?></a>
