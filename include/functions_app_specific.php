@@ -150,6 +150,8 @@ function checkEmployeeExistsInOrganization($org_code, $staff_id) {
  * @return boolean
  */
 function checkStaffProfileExists($staff_id) {
+    if(!$staff_id > 0)
+       return FALSE; 
     $sql = "SELECT
                 count(1) as exists_status
             FROM
@@ -518,14 +520,14 @@ function getDesignationNameFormSanctionedPostId($sanctioned_post_id) {
 
 function getDesignationNameFormStaffId($staff_id) {
     $sql = "SELECT designation_id FROM old_tbl_staff_organization WHERE staff_id= $staff_id LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormStaffId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
     if (!$data['designation_id'] > 0)
         return "0";
     $sql = "SELECT designation FROM old_designation WHERE id = " . $data['designation_id'];
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormStaffId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormStaffId:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -1017,6 +1019,8 @@ function getStaffNameFromId($staff_id) {
  * @return INT org_code
  */
 function getOrgCodeFromStaffId($staff_id){
+    if (!$staff_id >0)
+        return "";
     $sql = "SELECT
                 old_tbl_staff_organization.org_code
             FROM
@@ -1153,5 +1157,25 @@ function getUserNameFromOrgCode($org_code){
     $data = mysql_fetch_assoc($result);
     
     return $data['username'];
+}
+
+/**
+ * Get Pay Scale form the Scanctioned post
+ * @param INT $sanctioned_post_id
+ * @return INT pay_scale
+ */
+function getPayScaleFromSanctionedPostId($sanctioned_post_id) {
+    $sql = "SELECT
+                    total_manpower_imported_sanctioned_post_copy.pay_scale
+            FROM
+                    total_manpower_imported_sanctioned_post_copy
+            WHERE
+                    id = $sanctioned_post_id
+            LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data['pay_scale'];
 }
 ?>
