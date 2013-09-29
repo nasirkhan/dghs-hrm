@@ -20,10 +20,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $org_name = getOrgNameFormOrgCode($org_code);
     $org_type_name = getOrgTypeNameFormOrgCode($org_code);
     $echoAdminInfo = " | Administrator";
-    $isAdmin = TRUE;
-    $username = getUserNameFromOrgCode($org_code);
+    $isAdmin = TRUE;   
 }
-
+$username = getUserNameFromOrgCode($org_code);
 //get coordinates
 $sql = "SELECT latitude, longitude FROM organization WHERE  org_code = $org_code LIMIT 1";
 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
