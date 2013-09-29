@@ -122,7 +122,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                             echo "<td>";
                                             echo "<div class=\"row\">";
                                             echo "<div class=\"span9\">";
-                                            echo "<div class=\"pull-left\">" . $sp_data['designation'] . " (Payscale:" . getPayScaleFromSanctionedPostId($sp_data['id']) . ")</div>";
+                                            echo "<div class=\"pull-left\">" . $sp_data['designation'] . "</div>";
                                             $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation']));
                                             echo "<div class=\"pull-right\">" . $sp_data['sp_count'] . "&nbsp&nbsp&nbsp&nbsp";
                                             echo " <a name=\"sp-btn-$designation_div_id\" id=\"sp-btn-$designation_div_id\" href=\"#sp-$designation_div_id\" role=\"button\" class=\"btn btn-small\" data-toggle=\"modal\"><i class=\"icon-file-alt\"></i> Sanctioned Post Description</a>";
