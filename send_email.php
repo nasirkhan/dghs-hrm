@@ -22,6 +22,7 @@ die("Wrong Code Entered");
     $mailheader .= "CC: " . $_POST["emailcc"] . "\r\n";
     $mailheader .= "Content-type: text/html; charset=iso-8859-1\r\n";
     $MESSAGE_BODY .= "Name: " . $_POST["name"] . "<br>";
+    $MESSAGE_BODY .= "From Email: " . $_POST["email"] . "<br>";
     $MESSAGE_BODY .= "Organization Name: " . $_POST["orgname"] . "<br>";
     $MESSAGE_BODY .= "Organization Code: " . $_POST["orgcode"] . "<br>";
     $MESSAGE_BODY .= "Reason: " . $_POST["reason"] . "<br>";

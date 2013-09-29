@@ -69,7 +69,12 @@ $app_name = "Ministry of Health and Family Welfare";
     </head>
 
     <body>
-       
+     <?php session_start();
+     $username=$_SESSION['username'];
+     $orgcode= $_SESSION['org_code'];
+     $orgname=$_SESSION['org_name'];
+     
+     ?>   
 
         <div class="container">
 
@@ -83,19 +88,17 @@ $app_name = "Ministry of Health and Family Welfare";
                         <input type="text" id="mailto" name="mailto" class="input-block-level" placeholder="Email Address…" required>
 
                         <label>CC  <font color="red"> * </font></label>
-                        <input type="text" id="emailcc" name="emailcc" class="input-block-level"  placeholder="CC …" required>
-
-                        <label>From <font color="red"> * </font> </label>
-                        <input type="text" id="email" name="email"  class="input-block-level" placeholder="Your Email Address …" required>
+                        <input type="text" id="emailcc" name="emailcc" class="input-block-level"  value="">
+                        <input type="hidden" id="email" name="email"  class="input-block-level"  value="<? echo $username; ?>">
 
                         <label>Name <font color="red"> * </font> </label>
                         <input type="text" id="name" name="name"  class="input-block-level" placeholder="Name" required>
 
                         <label>Organization Name (Optional) </label>
-                        <input type="text" id="orgname" name="orgname" class="input-block-level" placeholder="Organization Name">
+                        <input type="text" id="orgname" name="orgname" class="input-block-level" value="<? echo $orgname; ?>">
 
-                        <label>Organization Code <font color="red"> * </font> </label>
-                        <input type="text" id="orgcode" name="orgcode"  class="input-block-level" placeholder="Organization Code" required>
+                        <label>Organization Code </label>
+                        <input type="text" id="orgcode" name="orgcode"  class="input-block-level"  value="<? echo $orgcode; ?>">
 
                         <label>Reason <font color="red"> * </font> </label>
                         <select id="reason" name="reason" class="input-block-level" required>
