@@ -792,7 +792,7 @@ if ($staff_id > 0) {
                 $.ajax({
                     type: "POST",
                     url: 'get/get_search_result.php',
-                    data: {type:"staff", searchStaff: searchStaff, searchStaffType:searchStaffType},
+                    data: {type:"staff", searchStaff: searchStaff, searchStaffType:searchStaffType,org_code:<?php echo $org_code;?>},
                     success: function(data) {
                         $("#loading_content").hide();
                         $("#staff_list_display").html("");
