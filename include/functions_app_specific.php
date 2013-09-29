@@ -6,6 +6,10 @@
  * @return string org_type_name
  */
 function getOrgTypeNameFormOrgCode($org_code) {
+    if (!$org_code > 0){
+        return "";
+    }
+    
     $sql = "SELECT org_code, org_name, org_type_code, organization_id FROM organization WHERE org_code = $org_code  LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
