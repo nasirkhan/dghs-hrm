@@ -220,11 +220,11 @@ function checkStaffExistsBySanctionedPost($sanctioned_post_id) {
 
     $row = mysql_fetch_assoc($result);
 
-    if ($row['staff_id'] > 0) {
-        $data['staff_id'] = $row['staff_id'];
+    if ($row['staff_id_2'] > 0) {
+        $data['staff_id'] = $row['staff_id_2'];
         $data['exists'] = TRUE;
     } else {
-        $data['staff_id'] = $row['staff_id'];
+        $data['staff_id'] = $row['staff_id_2'];
         $data['exists'] = FALSE;
     }
 
