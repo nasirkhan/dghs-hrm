@@ -16,6 +16,7 @@ if ($_POST["email"] <> '') {
     $MESSAGE_BODY .= "Organization Code: " . $_POST["orgcode"] . "<br>";
     $MESSAGE_BODY .= "Reason: " . $_POST["reason"] . "<br>";
     $MESSAGE_BODY .= "Subject: " . $_POST["subject"] . "<br>";
+    $MESSAGE_BODY .= "Captcha: " . $_POST["captcha"] . "<br>";
     $MESSAGE_BODY .= "Message: " . $_POST["message"] . "";
 
 
@@ -23,7 +24,7 @@ if ($_POST["email"] <> '') {
     //mail($ToEmail, $EmailSubject, $MESSAGE_BODY, $mailheader) or die ("Failure");
     mail($ToEmail, $EmailSubject, $MESSAGE_BODY, $mailheader) or die("Failure");
     ?>
-    Your message was sent
+    Your message was sent.
 
     <?php
 }

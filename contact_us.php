@@ -66,8 +66,8 @@ $app_name = "Ministry of Health and Family Welfare";
                         <label>To <font color="red"> * </font> </label>
                         <input type="text" id="mailto" name="mailto" class="input-block-level" placeholder="Email Address…" required>
 
-                        <label>CC  </label>
-                        <input type="text" id="emailcc" name="emailcc" class="input-block-level"  placeholder="CC …">
+                        <label>CC  <font color="red"> * </font></label>
+                        <input type="text" id="emailcc" name="emailcc" class="input-block-level"  placeholder="CC …" required>
 
                         <label>From <font color="red"> * </font> </label>
                         <input type="text" id="email" name="email"  class="input-block-level" placeholder="Your Email Address …" required>
@@ -96,6 +96,10 @@ $app_name = "Ministry of Health and Family Welfare";
                         <label>Message <font color="red"> * </font> </label>
 
                         <textarea name="message" id="message" rows="10" class="input-block-level" cols="58" required ></textarea>
+                        
+                         <label>Captcha <font color="red"> * </font> </label>
+                           <input id="captcha" name="captcha" type="text">
+                           <img src="captcha.php" /><br>
 
                         <button type="submit" class="btn btn-info btn-large">Submit</button>
                     </fieldset>
