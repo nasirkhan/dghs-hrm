@@ -47,7 +47,21 @@ $app_name = "Ministry of Health and Family Welfare";
                 border: 1px solid #e5e5e5;
                 box-shadow: 0 1px 2px rgba(0,0,0,.05);
             }
-
+            .responsive-image 
+            { max-width:100%;
+              height:30px;
+              margin: 0 auto 10px;
+            }
+            @media (max-width: 480px) {
+              h1,
+              h2,
+              h3,
+              h4,
+              h5,
+              h6 {
+                font-size: 80%;
+              }
+}
 
         </style>
 
@@ -81,7 +95,6 @@ $app_name = "Ministry of Health and Family Welfare";
                         <label>Organization Code <font color="red"> * </font> </label>
                         <input type="text" id="orgcode" name="orgcode"  class="input-block-level" placeholder="Organization Code" required>
 
-
                         <label>Reason <font color="red"> * </font> </label>
                         <select id="reason" name="reason" class="input-block-level" required>
                             <option value="Login Problem">Login Problem</option>
@@ -98,10 +111,9 @@ $app_name = "Ministry of Health and Family Welfare";
                         <textarea name="message" id="message" rows="10" class="input-block-level" cols="58" required ></textarea>
                         
                          <label>Captcha <font color="red"> * </font> </label>
-                           <input id="captcha" name="captcha" type="text">
-                           <img src="captcha.php" /><br>
+                          <input id="captcha" name="captcha" type="text" required >  <img src="captcha.php" class="responsive-image" /><br>
 
-                        <button type="submit" class="btn btn-info btn-large">Submit</button>
+                        <button type="submit" class="btn-info btn-large">Submit</button>
                     </fieldset>
                 </form>
             </div>
