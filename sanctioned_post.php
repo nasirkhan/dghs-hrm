@@ -156,7 +156,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                                 data_list += "<div class=\"span6\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff Name: " + v.staff_name + ", Id:" + v.staff_id_2 + ") </div>";
 //                                                                data_list += "<div class=\"span1\">Id:" + v.staff_id + "</div>";
                                                                 if (v.staff_id_2 > 0) {
-                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id_2 + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
+                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
                                                                     data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
                                                                     data_list += "<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
                                                                     data_list += "<div class=\"modal-header\">";
