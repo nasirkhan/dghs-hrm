@@ -21,6 +21,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $org_type_name = getOrgTypeNameFormOrgCode($org_code);
     $echoAdminInfo = " | Administrator";
     $isAdmin = TRUE;
+    $username = getUserNameFromOrgCode($org_code);
 }
 
 //get coordinates
@@ -115,7 +116,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                         <div class="row">
                             <div class="span5">
                                 <?php
-                                $image_src = "uploads/" . $_SESSION['username'] . ".jpg";
+                                $image_src = "uploads/" . $username . ".jpg";
 
                                 if (file_exists($image_src)) {
                                     echo "<img src=\"$image_src\" class=\"img-polaroid\" />";
