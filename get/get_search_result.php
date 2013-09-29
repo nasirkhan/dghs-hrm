@@ -13,6 +13,8 @@ $query_staff = mysql_real_escape_string(trim($_POST['searchStaff']));
 
 $searchStaffType = mysql_real_escape_string(trim($_POST['searchStaffType']));
 
+$org_code = mysql_real_escape_string(trim($_POST['org_code']));
+
 
 if ($query_key == "" && $username == "" && $query_staff == "") {
 
@@ -154,7 +156,7 @@ if ($type == "user") {
         echo $data_list['contact_no'];
         echo "</td>";
         echo "<td>";
-        echo "<a href=\"move_staff.php?action=move_in&staff_id=" . $data_list['staff_id'] . "&org_code=" . $data_list['org_code'] . "\" target=\"_blank\">";
+        echo "<a href=\"move_staff.php?action=move_in&staff_id=" . $data_list['staff_id'] . "&org_code=" . $org_code . "\" target=\"_blank\">";
         echo "Move In";
         echo "</a>";
         echo "</td>";

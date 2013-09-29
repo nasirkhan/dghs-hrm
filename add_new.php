@@ -154,12 +154,50 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "user"){
                         '$district_id'
                         )";
 
-            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
+            echo "$sql";
+//            die();
+//            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
             $insert_success = TRUE;
 
-            header("location:add_new.php?type=user&insert_success=true");
+//            header("location:add_new.php?type=user&insert_success=true");
+        }        
+    }
+    else if (isset($_POST['new_user_type']) && $_POST['new_user_type'] == "1"){
+        $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
+        $new_user_pass = mysql_real_escape_string($_POST['new_user_pass']);
+        $new_user_pass2 = mysql_real_escape_string($_POST['new_user_pass2']);
+//        $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
+        
+        if ($new_user_pass != $new_user_pass2){
+            $error= "Password did not matched.";
         }
         
+        if ($error == ""){
+            $sql = "INSERT INTO `users` (
+                        `username`, 
+                        `password`,
+                        `user_type`,
+                        `org_code`,
+                        `updated_datetime`,
+                        `updated_by`,
+                        `active`)
+                    VALUES (
+                        \"$new_user_name\",
+                        \"$new_user_pass\",
+                        '$new_agency_code',
+                        \"$new_established_year\",
+                         '$org_location_type',
+                        '$division_id',
+                        '$district_id'
+                        )";
+
+            echo "$sql";
+//            die();
+//            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
+            $insert_success = TRUE;
+
+//            header("location:add_new.php?type=user&insert_success=true");
+        }        
     }
 }
     
@@ -404,7 +442,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                         
                         <!--Add new user--> 
                         <?php if ($add_new_type == "user"): ?>
-                            <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+                            <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                                 <div class="control-group">
                                     <label class="control-label" for="new_user_name">UserName</label>
                                     <div class="controls">
@@ -660,7 +698,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
 
             $("#new_user_type").change(function() {
                 var selectedType = $("#new_user_type").val();
-                if (selectedType === "4") {
+                if (selectedType === "1") {
                     $("#new_admin_org_code").hide();
                     $("#org_select_block").slideDown();
                 }
