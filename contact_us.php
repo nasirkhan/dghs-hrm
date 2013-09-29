@@ -1,3 +1,4 @@
+
 <?php
 $app_name = "Ministry of Health and Family Welfare";
 
@@ -68,12 +69,13 @@ $app_name = "Ministry of Health and Family Welfare";
     </head>
 
     <body>
+       
 
         <div class="container">
 
             <div class="row-fluid">
 
-                <form class="form-contact" action="send_email.php" method="post" name="form1" id="form1">
+                <form class="form-contact" action="send_email.php" method="post" name="form1" id="form1" >
                     <fieldset>
                         <legend><h2>Contact Us</h2></legend>
 
@@ -111,8 +113,8 @@ $app_name = "Ministry of Health and Family Welfare";
                         <textarea name="message" id="message" rows="10" class="input-block-level" cols="58" required ></textarea>
                         
                          <label>Captcha <font color="red"> * </font> </label>
-                          <input id="captcha" name="captcha" type="text" required >  <img src="captcha.php" class="responsive-image" /><br>
-
+                          <input id="captcha" name="captcha" type="text" >  <img src="captcha.php" class="responsive-image" /><br>
+                         
                         <button type="submit" class="btn-info btn-large">Submit</button>
                     </fieldset>
                 </form>
