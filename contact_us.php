@@ -30,6 +30,7 @@ $app_name = "Ministry of Health and Family Welfare";
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="assets/ico/favicon.png">
+        
 
         <!--Google analytics code-->
         <?php include_once 'include/header/header_ga.inc.php'; ?>
@@ -48,6 +49,9 @@ $app_name = "Ministry of Health and Family Welfare";
                 border: 1px solid #e5e5e5;
                 box-shadow: 0 1px 2px rgba(0,0,0,.05);
             }
+            .input-append, .input-prepend{
+                width: 90%;
+            }
             .responsive-image 
             { max-width:100%;
               height:30px;
@@ -60,8 +64,23 @@ $app_name = "Ministry of Health and Family Welfare";
               h4,
               h5,
               h6 {
-                font-size: 80%;
+              font-size: 80%;
               }
+            @media (min-width: 768px) and (max-width: 979px){
+                .container{
+                    width: 760px;
+                }
+            }
+            @media (max-width: 767px){
+                .container{
+                    width: 760px;
+                }
+            }
+            @media (max-width: 480px) {
+                .container{
+                    width: 300px;
+                } 
+            }
 }
 
         </style>
@@ -84,12 +103,12 @@ $app_name = "Ministry of Health and Family Welfare";
                     <fieldset>
                         <legend><h2>Contact Us</h2></legend>
 
-                        <label>To <font color="red"> * </font> </label>
-                        <input type="text" id="mailto" name="mailto" class="input-block-level" placeholder="Email Address…" required>
+                        <input type="hidden" id="mailto" name="mailto" class="input-block-level" placeholder="Email Address…">
 
-                        <label>CC  <font color="red"> * </font></label>
-                        <input type="text" id="emailcc" name="emailcc" class="input-block-level"  value="">
-                        <input type="hidden" id="email" name="email"  class="input-block-level"  value="<? echo $username; ?>">
+                        <input type="hidden" id="emailcc" name="emailcc" class="input-block-level"  value="moly@mis.dghs.gov.bd">
+                        
+                        <label>From Email  <font color="red"> * </font></label>
+                        <input type="text" id="email" name="email"  class="input-block-level"  value="<? echo $username; ?>">
 
                         <label>Name <font color="red"> * </font> </label>
                         <input type="text" id="name" name="name"  class="input-block-level" placeholder="Name" required>
@@ -112,7 +131,6 @@ $app_name = "Ministry of Health and Family Welfare";
                         <input type="text" id="subject" name="subject" class="input-block-level" placeholder="Subject" required>
 
                         <label>Message <font color="red"> * </font> </label>
-
                         <textarea name="message" id="message" rows="10" class="input-block-level" cols="58" required ></textarea>
                         
                          <label>Captcha <font color="red"> * </font> </label>

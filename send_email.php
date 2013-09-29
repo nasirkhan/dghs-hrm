@@ -15,8 +15,8 @@ die("Wrong Code Entered");
 }
 
     $EmailSubject = $_POST["subject"];
-    $ToEmail = $_POST["mailto"];
-
+   // $ToEmail = nasir.khan@activationltd.com,dr.bashar@mis.dghs.gov.bd,rajib@mis.dghs.gov.bd,enamul.haque@activationltd.com;
+    $ToEmail ="rajib@mis.dghs.gov.bd,moly@mis.dghs.gov.bd";
     $mailheader = "From: " . $_POST["email"] . "\r\n";
     $mailheader .= "Reply-To: " . $_POST["email"] . "\r\n";
     $mailheader .= "CC: " . $_POST["emailcc"] . "\r\n";
