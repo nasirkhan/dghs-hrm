@@ -175,7 +175,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                     </div>
                 <?php endif; ?>
                 <div class="contact"><i class="icon-edit"></i> <a href="contact_us.php">Contact us for any assistance.</a></div>
-
+                 <div class="contact"><i class="icon-edit"></i> <a href="reset_password.php">Reset Password</a></div>
             </form>
 
         </div> <!-- /container -->
