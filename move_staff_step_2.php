@@ -106,8 +106,19 @@ if ($action_type == "move_in") {
         $move_to_org_code = 0;
     }
 
+    // clean previous data | update staff table
+    $sql = "UPDATE 
+                old_tbl_staff_organization 
+            SET 
+                org_code=0, 
+                sanctioned_post_id=0, 
+                sp_id_2=0 
+            WHERE 
+                staff_id=$staff_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:2</p><p>Query:</b></br >___<p>$sql</p>");
 
-    // update staff table
+
+    // clean previous data | update staff table
     $sql = "UPDATE 
                 old_tbl_staff_organization 
             SET 
@@ -118,6 +129,15 @@ if ($action_type == "move_in") {
                 staff_id=$staff_id";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:2</p><p>Query:</b></br >___<p>$sql</p>");
 
+    // update sanctioned post table
+    $sql = "UPDATE 
+                `total_manpower_imported_sanctioned_post_copy` 
+            SET 
+                staff_id_2 = 0 
+            WHERE 
+                staff_id_2 = $staff_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>OMG:1</b></p><p><b>Query:</b></p>___<p>$sql</p>");
+    
 
     // update sanctioned post table
     $sql = "UPDATE 
@@ -156,7 +176,32 @@ if ($action_type == "move_in") {
     $move_to_sanctioned_post_id = $data['move_to_sanctioned_post_id'];
     $move_to_org_code = $data['move_to_org_code'];
 
+    // clean previous data | update staff table
+    $sql = "UPDATE 
+                old_tbl_staff_organization 
+            SET 
+                org_code=0, 
+                sanctioned_post_id=0, 
+                sp_id_2=0 
+            WHERE 
+                staff_id=$staff_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:2</p><p>Query:</b></br >___<p>$sql</p>");
+
+    
     // update staff table
+    $sql = "UPDATE 
+                old_tbl_staff_organization 
+            SET 
+                org_code=$move_to_org_code, 
+                sanctioned_post_id=$move_to_sanctioned_post_id, 
+                sp_id_2=$move_to_sanctioned_post_id 
+            WHERE 
+                staff_id=$staff_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>approveTransfer:2</p><p>Query:</b></br >___<p>$sql</p>");
+
+    
+    
+    // clean previous data | update staff table
     $sql = "UPDATE 
                 old_tbl_staff_organization 
             SET 
