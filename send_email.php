@@ -15,8 +15,8 @@ die("Wrong Code Entered");
 }
 
     $EmailSubject = $_POST["subject"];
-   // $ToEmail = nasir.khan@activationltd.com,dr.bashar@mis.dghs.gov.bd,rajib@mis.dghs.gov.bd,enamul.haque@activationltd.com;
-    $ToEmail ="rajib@mis.dghs.gov.bd,moly@mis.dghs.gov.bd";
+    $ToEmail = "nasir.khan@activationltd.com,dr.bashar@mis.dghs.gov.bd,rajib@mis.dghs.gov.bd,enamul.haque@activationltd.com";
+    //$ToEmail ="rajib@mis.dghs.gov.bd,moly@mis.dghs.gov.bd";
     $mailheader = "From: " . $_POST["email"] . "\r\n";
     $mailheader .= "Reply-To: " . $_POST["email"] . "\r\n";
     $mailheader .= "CC: " . $_POST["emailcc"] . "\r\n";
@@ -27,7 +27,6 @@ die("Wrong Code Entered");
     $MESSAGE_BODY .= "Organization Code: " . $_POST["orgcode"] . "<br>";
     $MESSAGE_BODY .= "Reason: " . $_POST["reason"] . "<br>";
     $MESSAGE_BODY .= "Subject: " . $_POST["subject"] . "<br>";
-    $MESSAGE_BODY .= "Captcha: " . $_POST["captcha"] . "<br>";
     $MESSAGE_BODY .= "Message: " . $_POST["message"] . "";
 
 
