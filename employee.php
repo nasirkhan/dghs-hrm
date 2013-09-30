@@ -660,6 +660,12 @@ if (isset($_POST['search'])) {
                                                         <input type="text" id="staff_name" name="staff_name" placeholder="" >                                                        
                                                     </td>
                                                 </tr>
+                                                 <tr>
+                                                    <td width="50%"><strong>Code No.(Doctors Only):</strong></td>
+                                                    <td>
+                                                        <input type="text" id="staff_pds_code" name="staff_pds_code" placeholder="" >
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Father's Name</strong></td>
                                                     <td>
