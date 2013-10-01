@@ -666,6 +666,25 @@ if (isset($_POST['search'])) {
                                                         <input type="text" id="staff_pds_code" name="staff_pds_code" placeholder="" >
                                                     </td>
                                                 </tr>
+                                                 <tr>
+                                                    <td width="50%"><strong>Department:</strong></td>
+                                                     <td>
+                                                        <?php     $sql = "SELECT
+                                                                                very_old_departments.`name`
+                                                                                FROM
+                                                                                very_old_departments order by name asc";
+                                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getStaffDepertmentFromDepertmentId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                                        $data = mysql_fetch_assoc($result);
+                   ?>                                   <select id="department_id" name="department_id" >
+                                                            <option value="0">-- Select form the list --</option>
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                            <option value="<?php echo $data['department_id']; ?>"><?php echo $data['name']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select>
+                                                     </td>
+                                                  </tr>
+                                                   
                                                 <tr>
                                                     <td width="50%"><strong>Father's Name</strong></td>
                                                     <td>
