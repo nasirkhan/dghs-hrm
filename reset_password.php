@@ -48,6 +48,23 @@ $app_name = "Ministry of Health and Family Welfare";
             }
 
 
+             @media (min-width: 768px) and (max-width: 979px){
+                .container{
+                    width: 760px;
+                }
+            }
+            @media (max-width: 767px){
+                .container{
+                    width: 760px;
+                }
+            }
+            @media (max-width: 480px) {
+                .container{
+                    width: 300px;
+                }
+            }
+
+
         </style>
 
     </head>
