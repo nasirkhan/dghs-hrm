@@ -1,5 +1,11 @@
 <?php 
-require_once 'configuration.php';
+if(file_exists('configuration.php')){
+    require_once 'configuration.php';
+}
+else{
+    require_once '../configuration.php';
+}
+
 
 if ($_SESSION['logged'] != true) {
     header("location:login.php");
@@ -14,6 +20,8 @@ else if($_SESSION['user_type_code'] == 1){
 else {
     $homepage_url = "index.php";
 }
+
+$start_time = microtime(true);
 ?>
 
 <div class="navbar navbar-inverse navbar-fixed-top">
