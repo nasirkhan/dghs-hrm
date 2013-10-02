@@ -20,7 +20,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $org_name = getOrgNameFormOrgCode($org_code);
     $org_type_name = getOrgTypeNameFormOrgCode($org_code);
     $echoAdminInfo = " | Administrator";
-    $isAdmin = TRUE;   
+    $isAdmin = TRUE;
 }
 $username = getUserNameFromOrgCode($org_code);
 //get coordinates
@@ -150,6 +150,38 @@ if (!($latitude > 0) || !($longitude > 0)) {
                             </div>
                         </div>
                     </section>
+                    <?php
+                    $org_type_code = getOrgTypeCodeFromOrgCode($org_code);
+                    if ($org_type_code == 1029):
+                        $org_info = getOrgInfoFromOrgCode($org_code);
+
+                        $row_count = count($org_info);
+                        ?>
+                        <h3>List of Union Sub Center</h3>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <td><strong>Organization Name</strong></td>
+                                    <td><strong>Organization Code</strong></td>
+                                    <td><strong>Email Address</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php for ($i = 0; $i < $row_count; $i++): ?>
+                                    <tr>
+
+                                        <td><?php echo $org_info[$i]['org_name']; ?></td>
+                                        <td><?php echo $org_info[$i]['org_code']; ?></td>
+                                        <td><?php echo $org_info[$i]['email']; ?></td>
+
+                                    </tr>
+                                <?php endfor; ?>
+
+                            </tbody>                        
+
+                        </table>
+                    <?php endif; ?>
+
                 </div>
             </div>
 

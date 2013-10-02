@@ -6,20 +6,20 @@
  * @return string org_type_name
  */
 function getOrgTypeNameFormOrgCode($org_code) {
-    if (!$org_code > 0){
+    if (!$org_code > 0) {
         return "";
     }
-    
+
     $sql = "SELECT org_code, org_name, org_type_code, organization_id FROM organization WHERE org_code = $org_code  LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
     $org_type_code = $data['org_type_code'];
 
-    if (!$org_type_code > 0){
+    if (!$org_type_code > 0) {
         return "";
     }
-    
+
     $sql = "SELECT org_type_name  FROM `org_type` WHERE `org_type_code` = $org_type_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgCode:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -148,14 +148,15 @@ function checkEmployeeExistsInOrganization($org_code, $staff_id) {
         return FALSE;
     }
 }
+
 /**
  * Check if an Staff profile exists in the Staff table
  * @param INT $staff_id
  * @return boolean
  */
 function checkStaffProfileExists($staff_id) {
-    if(!$staff_id > 0)
-       return FALSE; 
+    if (!$staff_id > 0)
+        return FALSE;
     $sql = "SELECT
                 count(1) as exists_status
             FROM
@@ -174,6 +175,7 @@ function checkStaffProfileExists($staff_id) {
 
     return $exists;
 }
+
 /**
  * Check if a Sanctioned Post id is withing an Organziation
  * @param INT $staff_id
@@ -281,10 +283,9 @@ function checkPasswordIsCorrect($username, $password) {
 function updatePassword($username, $password) {
     $user_name = $_SESSION['username'];
     $sql = "UPDATE dghs_hrm_main.user SET password = \"" . md5($password) . "\" ,
-                `updated_datetime` = \"". date("Y-m-d H:i:s") . "\",
+                `updated_datetime` = \"" . date("Y-m-d H:i:s") . "\",
                 `updated_by` = \"$user_name\" WHERE user.username =\"$username\"";
     $result = mysql_query($sql) or die(mysql_error() . "<br />updatePassword:1<br /><b>Query:</b><br />___<br />$sql<br />");
-
 }
 
 /**
@@ -466,7 +467,7 @@ function getDesignationNameformCode($designation_code) {
  *  get organization administration information
  */
 function getDivisionNamefromCode($division_code) {
-    if (empty($division_code)){
+    if (empty($division_code)) {
         return "";
     }
     $sql = "SELECT *  FROM `admin_division` WHERE `division_bbs_code` =$division_code LIMIT 1";
@@ -478,7 +479,7 @@ function getDivisionNamefromCode($division_code) {
 }
 
 function getDistrictNamefromCode($bbs_code) {
-    if (empty($bbs_code)){
+    if (empty($bbs_code)) {
         return "";
     }
     $sql = "SELECT district_name  FROM `admin_district` WHERE `district_bbs_code` = $bbs_code LIMIT 1";
@@ -490,7 +491,7 @@ function getDistrictNamefromCode($bbs_code) {
 }
 
 function getUpazilaNamefromCode($bbs_code) {
-    if (empty($bbs_code)){
+    if (empty($bbs_code)) {
         return "";
     }
     $sql = "SELECT upazila_name  FROM `admin_upazila` WHERE `upazila_bbs_code` = $bbs_code LIMIT 1";
@@ -502,7 +503,7 @@ function getUpazilaNamefromCode($bbs_code) {
 }
 
 function getUnionNamefromCode($bbs_code) {
-    if (empty($bbs_code)){
+    if (empty($bbs_code)) {
         return "";
     }
     $sql = "SELECT union_name  FROM `admin_union` WHERE `union_bbs_code` = $bbs_code LIMIT 1";
@@ -546,6 +547,7 @@ function getSanctionedPostIdFromStaffId($staff_id) {
 
     return $data['id'];
 }
+
 function getSanctionedPostNameFromSanctionedPostId($SanctionedPostId) {
     $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE id= $SanctionedPostId LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -732,7 +734,7 @@ function getMaritalStatusFromId($id) {
 }
 
 function getTribalNameFromId($id) {
-    if(!$id > 0 )
+    if (!$id > 0)
         return 0;
     $sql = "SELECT
             staff_tribal.tribal_value
@@ -748,7 +750,7 @@ function getTribalNameFromId($id) {
 }
 
 function getFreedomFighterNameFromId($id) {
-    if(!$id>0)        
+    if (!$id > 0)
         return 0;
     $sql = "SELECT
                staff_freedom_fighter.freedom_fighter_name
@@ -765,7 +767,7 @@ function getFreedomFighterNameFromId($id) {
 
 // @todo must replace with database
 function getProfessionalCategoryFromId($id) {
-    if(!$id>0)        
+    if (!$id > 0)
         return 0;
     $sql = "SELECT
               staff_professional_category_type.professional_type_name
@@ -782,7 +784,7 @@ function getProfessionalCategoryFromId($id) {
 
 // @todo must replace with database
 function getDesignationTypeNameFromId($id) {
-    if(!$id>0)        
+    if (!$id > 0)
         return 0;
     $sql = "SELECT
               staff_designation_type.designation_type
@@ -799,7 +801,7 @@ function getDesignationTypeNameFromId($id) {
 
 // @todo must replace with database
 function getJobPostingNameFromId($id) {
-    if(!$id>0)        
+    if (!$id > 0)
         return 0;
     $sql = "SELECT
             staff_job_posting.job_posting_name
@@ -816,7 +818,7 @@ function getJobPostingNameFromId($id) {
 
 // @todo must replace with database
 function getWorkingStatusNameFromId($id) {
-    if(!$id>0)        
+    if (!$id > 0)
         return 0;
     $sql = "SELECT
             staff_working_status.working_status_name
@@ -833,7 +835,7 @@ function getWorkingStatusNameFromId($id) {
 
 // @todo must replace with database
 function getDrawTypeNameFromId($id) {
-    if(!$id>0)        
+    if (!$id > 0)
         return 0;
     $sql = "SELECT
             staff_salary_draw_type.salary_draw_type_name
@@ -849,7 +851,7 @@ function getDrawTypeNameFromId($id) {
 }
 
 function getFirstLevelNameFromID($first_level_id) {
-    if(!$first_level_id>0)
+    if (!$first_level_id > 0)
         return 0;
     $sql = "SELECT
                 sanctioned_post_first_level.first_level_name
@@ -865,7 +867,7 @@ function getFirstLevelNameFromID($first_level_id) {
 }
 
 function getEducationalQualification($id) {
-    if(!$id>0)
+    if (!$id > 0)
         return 0;
     $sql = "SELECT
                 staff_educational_qualification.educational_qualification
@@ -881,7 +883,7 @@ function getEducationalQualification($id) {
 }
 
 function getGovtQuarter($id) {
-    if(!$id>0)
+    if (!$id > 0)
         return 0;
     $sql = "SELECT
                 staff_govt_quater.govt_quater
@@ -897,7 +899,7 @@ function getGovtQuarter($id) {
 }
 
 function getProfessionalDisciplineNameFromId($id) {
-    if(!$id>0)
+    if (!$id > 0)
         return 0;
     $sql = "SELECT
                 staff_profesional_discipline.discipline_name
@@ -959,7 +961,7 @@ function showSanctionedBed($org_type_code) {
  * @return Array designation, payscale, class
  */
 function getDesignationInfoFromCode($des_code) {
-    if ($des_code <= 0){
+    if ($des_code <= 0) {
         return null;
     }
     $sql = "SELECT
@@ -983,7 +985,7 @@ function getDesignationInfoFromCode($des_code) {
  * @return STRIGN
  */
 function getDeptNameFromId($dept_id) {
-    if(!$dept_id >0)
+    if (!$dept_id > 0)
         return 0;
     $sql = "SELECT
                 very_old_departments.dept_id,
@@ -1017,13 +1019,14 @@ function getStaffNameFromId($staff_id) {
     $data = mysql_fetch_assoc($result);
     return $data['staff_name'];
 }
+
 /**
  * Get Org Code From Staff Id
  * @param INT $staff_id
  * @return INT org_code
  */
-function getOrgCodeFromStaffId($staff_id){
-    if (!$staff_id >0)
+function getOrgCodeFromStaffId($staff_id) {
+    if (!$staff_id > 0)
         return "";
     $sql = "SELECT
                 old_tbl_staff_organization.org_code
@@ -1043,7 +1046,7 @@ function getOrgCodeFromStaffId($staff_id){
  * @param INT $staff_id
  * @return ARRAY 
  */
-function getStaffInfoFromStaffId($staff_id){
+function getStaffInfoFromStaffId($staff_id) {
     $sql = "SELECT
                 *
             FROM
@@ -1062,8 +1065,8 @@ function getStaffInfoFromStaffId($staff_id){
  * @param INT $type_of_post_code
  * @return STRING type_of_post_name
  */
-function getPayScaleId($id){
-    if ($id <= 0){
+function getPayScaleId($id) {
+    if ($id <= 0) {
         return null;
     }
     $sql = "SELECT
@@ -1079,9 +1082,8 @@ function getPayScaleId($id){
     return $data['pay_scale'];
 }
 
-
-function getTypeOfPostNameFromCode($type_of_post_code){
-    if ($type_of_post_code <= 0){
+function getTypeOfPostNameFromCode($type_of_post_code) {
+    if ($type_of_post_code <= 0) {
         return null;
     }
     $sql = "SELECT
@@ -1097,13 +1099,12 @@ function getTypeOfPostNameFromCode($type_of_post_code){
     return $data['type_of_post_name'];
 }
 
-
-function getLastOrgIdFromOrganizationTable(){
+function getLastOrgIdFromOrganizationTable() {
     $sql = "SELECT org_code FROM organization ORDER BY id DESC LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getLastOrgIdFromOrganizationTable:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data['org_code'];
 }
 
@@ -1112,12 +1113,12 @@ function getLastOrgIdFromOrganizationTable(){
  * @param INT $division_id
  * @return INT division_bbs_code
  */
-function getDivisionCodeFormId($division_id){
+function getDivisionCodeFormId($division_id) {
     $sql = "SELECT division_bbs_code FROM admin_division WHERE old_division_id = $division_id LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDivisionCodeFormId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data['division_bbs_code'];
 }
 
@@ -1126,12 +1127,12 @@ function getDivisionCodeFormId($division_id){
  * @param INT $district_id
  * @return INT district_bbs_code
  */
-function getDistrictCodeFormId($district_id){
+function getDistrictCodeFormId($district_id) {
     $sql = "SELECT district_bbs_code FROM admin_district WHERE old_district_id = $district_id LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDivisionCodeFormId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data['district_bbs_code'];
 }
 
@@ -1140,12 +1141,12 @@ function getDistrictCodeFormId($district_id){
  * @param INT $upazila_id
  * @return INT upazila_bbs_code
  */
-function getUpazilaCodeFormId($upazila_id){
+function getUpazilaCodeFormId($upazila_id) {
     $sql = "SELECT upazila_bbs_code FROM admin_upazila WHERE old_upazila_id = $upazila_id LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>getUpazilaCodeFormId:1</p><p>Query:</b></br >___<p>$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data['upazila_bbs_code'];
 }
 
@@ -1154,12 +1155,12 @@ function getUpazilaCodeFormId($upazila_id){
  * @param INT $org_code
  * @return STRING username
  */
-function getUserNameFromOrgCode($org_code){
+function getUserNameFromOrgCode($org_code) {
     $sql = "SELECT username FROM `user` WHERE org_code=$org_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>getDivisionCodeFormId:1</p><p>Query:</b></br >___<p>$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data['username'];
 }
 
@@ -1177,9 +1178,81 @@ function getPayScaleFromSanctionedPostId($sanctioned_post_id) {
                     id = $sanctioned_post_id
             LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data['pay_scale'];
 }
+
+/**
+ * Get following info form org_code <br>
+  organization.id,
+  organization.org_name,
+  organization.org_code,
+  organization.org_type_code,
+  organization.division_code,
+  organization.division_name,
+  organization.district_code,
+  organization.district_name,
+  organization.upazila_thana_code,
+  organization.upazila_thana_name,
+  organization.union_code,
+  organization.union_name,
+  organization.email_address1
+ * @param INT $org_code
+ * @return Array
+ */
+function getOrgInfoFromOrgCode($org_code) {
+    $sql = "SELECT
+                    organization.id,
+                    organization.org_name,
+                    organization.org_code,
+                    organization.org_type_code,
+                    organization.division_code,
+                    organization.division_name,
+                    organization.district_code,
+                    organization.district_name,                    
+                    organization.upazila_thana_code,
+                    organization.upazila_thana_name,
+                    organization.union_code,
+                    organization.union_name
+            FROM
+                    organization
+            WHERE
+                    org_code = $org_code
+            LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgInfoFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+    $data = mysql_fetch_assoc($result);
+
+//    print_r($data);
+    $sql = "SELECT
+                    org_name,
+                    org_code,
+                    email_address1
+            FROM
+                    organization
+            WHERE
+                upazila_thana_name LIKE \"" . $data['upazila_thana_name'] . "\"
+            AND 
+                district_code = " . $data['district_code'] . "
+            AND 
+                division_code = " . $data['division_code'] . "
+            AND 
+                org_type_code = 1038";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgInfoFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+
+//    echo "$sql";
+//    echo mysql_num_rows($result);
+    $data = array();
+    while ($row = mysql_fetch_array($result)) {
+        $data[] = array(
+            'org_name' => $row['org_name'],
+            'org_code' => $row['org_code'],
+            'email' => $row['email_address1']
+        );
+    }
+
+    return $data;
+}
+
 ?>
