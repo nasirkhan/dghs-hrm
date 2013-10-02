@@ -16,6 +16,10 @@ function getOrgTypeNameFormOrgCode($org_code) {
     $data = mysql_fetch_assoc($result);
     $org_type_code = $data['org_type_code'];
 
+    if (!$org_type_code > 0){
+        return "";
+    }
+    
     $sql = "SELECT org_type_name  FROM `org_type` WHERE `org_type_code` = $org_type_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgCode:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
