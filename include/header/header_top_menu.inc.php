@@ -1,23 +1,25 @@
-<?php 
-if(file_exists('configuration.php')){
+<?php
+if (file_exists('configuration.php')) {
     require_once 'configuration.php';
-}
-else{
+} else {
     require_once '../configuration.php';
 }
 
 
 if ($_SESSION['logged'] != true) {
-    header("location:login.php");
+
+    if (file_exists('login.php')) {
+        header("location:login.php");
+    } else {
+        header("location:../login.php");
+    }
 }
 
-if($_SESSION['user_type_code'] == 3){
+if ($_SESSION['user_type_code'] == 3) {
     $homepage_url = "admin_home.php";
-}
-else if($_SESSION['user_type_code'] == 1){
+} else if ($_SESSION['user_type_code'] == 1) {
     $homepage_url = "home.php";
-}
-else {
+} else {
     $homepage_url = "index.php";
 }
 
