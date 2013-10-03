@@ -66,11 +66,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 
         <!-- Subhead
         ================================================== -->
-            <div class="container">
-                <h2><?php // echo "$org_name $echoAdminInfo"; ?></h2>
-                <p class="lead"><?php //echo "$org_type_name"; ?></p>
-            </div>
-
+        
 
         <div class="container">
 
@@ -92,34 +88,30 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 											<th><a href="" onclick="javascript:window.print()" >Print</a></th>
                                         </tr>
 										  <tr>
-                                            <th> Sanctioned Post</th>  
-											<th> No. of Post</th>
+                                            <th>Sanctioned Post</th>  
 											<th> Type  of Post</th>
 											<th> Pay Scale</th>
 											<th> Job Class</th>
-											<th> Existing Male</th>
-											<th> Existing Female</th>
 											<th> Existing total</th>
 											<th> Vacant Post</th>
+											<th> Sanctioned Post</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
 										
-                                        $sql = "SELECT id, designation, discipline,type_of_post,pay_scale,class,existing_male,existing_female,existing_total,vacant_post, COUNT(*) AS sp_count 
+                                        $sql = "SELECT id, designation, discipline,type_of_post,pay_scale,class,SUM(CASE WHEN staff_id != '0' THEN 1 ELSE 0 END) AS existing, COUNT(*) AS sp_count 
                                             FROM total_manpower_imported_sanctioned_post_copy 
                                             GROUP BY designation order by pay_scale asc";
+											
                                         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                       $cnt =0;
+                                        $cnt =0;
+                                     
                                         while ($sp_data = mysql_fetch_assoc($result)) {
-										 $cnt+=$sp_data['sp_count'];
                                             echo "<tr>";
                                             echo "<td>";
 											echo $sp_data['designation'];
 											echo "</td>";
-											 echo "<td align='right'>";
-											 echo  $sp_data['sp_count'];
-                                           echo "</td>";
 											 echo "<td>";
 											echo $sp_data['type_of_post'];
 											echo "</td>";
@@ -130,24 +122,34 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 											echo $sp_data['class'];
 											echo "</td>";
 											 echo "<td>";
-											echo $sp_data['existing_male'];
+										echo $sp_data['existing'];
 											echo "</td>";
 											echo "<td>";
-											echo $sp_data['existing_female'];
+								         echo $vacant=($sp_data['sp_count']-$sp_data['existing']);
 											echo "</td>";
-											echo "<td>";
-											echo $sp_data['existing_total'];
-											echo "</td>";
-											echo "<td>";
-											echo $sp_data['vacant_post'];
-											echo "</td>";
-											
+										
+											 echo "<td>";
+											 echo  $sp_data['sp_count'];
+                                           echo "</td>";
                                             echo "</div>";
                                             echo "</div>";
                                             echo "</div>";
 
                                             // sanctioned post list display
-                                           
+                                            echo "<div class=\"row\">";
+                                            echo "<div class=\"span9\">";
+                                            echo "<div id=\"$designation_div_id\" class=\"collapse\">";
+//                                            echo "<strong>First Level Division:</strong> ABCD, <strong>Second Level Division:</strong> EFGH<br />";
+                                            echo "<div class=\"clearfix alert alert-info\" id=\"list-$designation_div_id\">";
+                                            
+											?>
+                                        <div id="loading-<?php echo $designation_div_id; ?>"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</div>
+                                       
+                                        <?php
+                                        echo "</div>";
+                                        echo "</div>";
+                                        echo "</div>";
+                                        echo "</div>";
                                         ?>
 
                                         <div id="sp-<?php echo "$designation_div_id"; ?>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -163,26 +165,30 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
                                             </div>
                                         </div>
-                                    
+                                      
                                         <?php
                                         echo "</td>";
                                         echo "</tr>";
 										
-										
-										
+										 $total_existing+=$sp_data['existing'];
+										 $total_vacant+=$vacant;
+										 $total_sanction+=$sp_data['sp_count'];
 										
 										
                                     }
 									
 									echo "<tr>";
-									echo "<td >";
+									echo "<td colspan='4'>";
 									echo '<b>Total no of sanctioned post</b>';
 									echo "</td>";
-									echo "<td >";
-									echo $cnt;
-									echo "</td >";
-									echo "<td colspan='7'>";
-									
+								    echo "<td>";
+									echo  $total_existing;
+									echo "</td>";
+									echo "<td>";
+									echo  $total_vacant;
+									echo "</td>";
+									echo "<td>";
+									echo  $total_sanction;
 									echo "</td>";
 									echo "</tr>";
 									

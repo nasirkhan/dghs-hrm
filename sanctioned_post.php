@@ -153,12 +153,12 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                             $('#list-<?php echo $designation_div_id; ?>').html("");
                                                             $.each(data, function(k, v) {
                                                                 var data_list = "<div class=\"row\">";
-                                                                data_list += "<div class=\"span6\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff Name: " + v.staff_name + ", Id:" + v.staff_id_2 + ") </div>";
+                                                                data_list += "<div class=\"span6\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff Name: " + v.staff_name + ", Id:" + v.staff_id + ") </div>";
 //                                                                data_list += "<div class=\"span1\">Id:" + v.staff_id + "</div>";
-                                                                if (v.staff_id_2 > 0) {
-                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
+                                                                if (v.staff_id > 0) {
+                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
                                                                     data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
-                                                                    data_list += "<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
+                                                                    data_list += "'<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
                                                                     data_list += "<div class=\"modal-header\">";
                                                                     data_list += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>";
                                                                     data_list += "<h3 id=\"myModalLabel\">Move Out Type</h3>";
@@ -166,8 +166,8 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                                     data_list += "<div class=\"modal-body\">";
                                                                     data_list += "<ul>";
                                                                     data_list += "<li><a href=\"#\">Promotion</a></li>";
-                                                                    data_list += "<li><a href=\"move_staff.php?action=move_out&staff_id=" + v.staff_id_2 + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\" >Transfer</a></li>";
-                                                                    data_list += "<li><a href=\"#\">Retirement2</a></li>";
+                                                                    data_list += "<li><a href=\"move_staff.php?action=move_out&staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\" >Transfer</a></li>";
+                                                                    data_list += "<li><a href=\"#\">Retirement</a></li>";
                                                                     data_list += "<li><a href=\"#\">Suspension</a></li>";
                                                                     data_list += "<li><a href=\"#\">Termination</a></li>";
                                                                     data_list += "<li><a href=\"#\">Death</a></li>";
@@ -183,39 +183,8 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 
 
                                                                 }
-//                                                                else if (v.staff_id > 0) {
-//                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
-//                                                                    data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
-//                                                                    data_list += "'<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
-//                                                                    data_list += "<div class=\"modal-header\">";
-//                                                                    data_list += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>";
-//                                                                    data_list += "<h3 id=\"myModalLabel\">Move Out Type</h3>";
-//                                                                    data_list += "</div>";
-//                                                                    data_list += "<div class=\"modal-body\">";
-//                                                                    data_list += "<ul>";
-//                                                                    data_list += "<li><a href=\"#\">Promotion</a></li>";
-//                                                                    data_list += "<li><a href=\"move_staff.php?action=move_out&staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\" >Transfer</a></li>";
-//                                                                    data_list += "<li><a href=\"#\">Retirement</a></li>";
-//                                                                    data_list += "<li><a href=\"#\">Suspension</a></li>";
-//                                                                    data_list += "<li><a href=\"#\">Termination</a></li>";
-//                                                                    data_list += "<li><a href=\"#\">Death</a></li>";
-//                                                                    data_list += "<li><a href=\"#\">Leaving Job</a></li>";
-//                                                                    data_list += "<li><a href=\"#\">Unauthorised absent</a></li>";
-//                                                                    data_list += "<li><a href=\"#\">Leave</a></li>";
-//                                                                    data_list += "</ul>";
-//                                                                    data_list += "</div>";
-//                                                                    data_list += "<div class=\"modal-footer\">";
-//                                                                    data_list += "<button class=\"btn\" data-dismiss=\"modal\" aria-hidden=\"true\">Close</button>";
-//                                                                    data_list += "</div>";
-//                                                                    data_list += "</div>";
-//
-//
-//                                                                }
                                                                 else {
-                                                                    data_list += "<div class=\"span2\"> </div>";
-                                                                    data_list += "<a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" ><i class=\"icon-edit\"></i> Add Profile</a>";
-                                                                    data_list += "<a href=\"move_staff.php?action=move_in&org_code=<?php echo "$org_code";?>\" target=\"_blank\"  class=\"btn btn-info btn-mini\" ><i class=\"icon-signin\"></i> Move In</a>";
-                                                                    data_list += "</div>";
+                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" >Add Profile</a></div>";
                                                                 }
 
                                                                 data_list += "</div>";
