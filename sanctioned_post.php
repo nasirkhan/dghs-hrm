@@ -13,7 +13,7 @@ $org_type_name = $_SESSION['org_type_name'];
 $echoAdminInfo = "";
 
 // assign values admin users
-if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
+if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $org_code = (int) mysql_real_escape_string($_GET['org_code']);
     $org_name = getOrgNameFormOrgCode($org_code);
     $org_type_name = getOrgTypeNameFormOrgCode($org_code);
@@ -80,9 +80,9 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php if ($_SESSION['user_type']=="admin"): ?>
-                        <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
-                        <?php endif; ?>
+                        <?php if ($_SESSION['user_type'] == "admin"): ?>
+                            <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
+                            <?php endif; ?>
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li class="active"><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
@@ -153,12 +153,12 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                             $('#list-<?php echo $designation_div_id; ?>').html("");
                                                             $.each(data, function(k, v) {
                                                                 var data_list = "<div class=\"row\">";
-                                                                data_list += "<div class=\"span6\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff Name: " + v.staff_name + ", Id:" + v.staff_id + ") </div>";
-//                                                                data_list += "<div class=\"span1\">Id:" + v.staff_id + "</div>";
-                                                                if (v.staff_id > 0) {
-                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
+                                                                data_list += "<div class=\"span6\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff Name: " + v.staff_name + ", Id:" + v.staff_id_2 + ") </div>";
+    //                                                                data_list += "<div class=\"span1\">Id:" + v.staff_id + "</div>";
+                                                                if (v.staff_id_2 > 0) {
+                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
                                                                     data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
-                                                                    data_list += "'<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
+                                                                    data_list += "<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
                                                                     data_list += "<div class=\"modal-header\">";
                                                                     data_list += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>";
                                                                     data_list += "<h3 id=\"myModalLabel\">Move Out Type</h3>";
@@ -166,8 +166,8 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                                     data_list += "<div class=\"modal-body\">";
                                                                     data_list += "<ul>";
                                                                     data_list += "<li><a href=\"#\">Promotion</a></li>";
-                                                                    data_list += "<li><a href=\"move_staff.php?action=move_out&staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\" >Transfer</a></li>";
-                                                                    data_list += "<li><a href=\"#\">Retirement</a></li>";
+                                                                    data_list += "<li><a href=\"move_staff.php?action=move_out&staff_id=" + v.staff_id_2 + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\" >Transfer</a></li>";
+                                                                    data_list += "<li><a href=\"#\">Retirement2</a></li>";
                                                                     data_list += "<li><a href=\"#\">Suspension</a></li>";
                                                                     data_list += "<li><a href=\"#\">Termination</a></li>";
                                                                     data_list += "<li><a href=\"#\">Death</a></li>";
@@ -183,8 +183,39 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 
 
                                                                 }
+    //                                                                else if (v.staff_id > 0) {
+    //                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
+    //                                                                    data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
+    //                                                                    data_list += "'<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
+    //                                                                    data_list += "<div class=\"modal-header\">";
+    //                                                                    data_list += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>";
+    //                                                                    data_list += "<h3 id=\"myModalLabel\">Move Out Type</h3>";
+    //                                                                    data_list += "</div>";
+    //                                                                    data_list += "<div class=\"modal-body\">";
+    //                                                                    data_list += "<ul>";
+    //                                                                    data_list += "<li><a href=\"#\">Promotion</a></li>";
+    //                                                                    data_list += "<li><a href=\"move_staff.php?action=move_out&staff_id=" + v.staff_id + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\" >Transfer</a></li>";
+    //                                                                    data_list += "<li><a href=\"#\">Retirement</a></li>";
+    //                                                                    data_list += "<li><a href=\"#\">Suspension</a></li>";
+    //                                                                    data_list += "<li><a href=\"#\">Termination</a></li>";
+    //                                                                    data_list += "<li><a href=\"#\">Death</a></li>";
+    //                                                                    data_list += "<li><a href=\"#\">Leaving Job</a></li>";
+    //                                                                    data_list += "<li><a href=\"#\">Unauthorised absent</a></li>";
+    //                                                                    data_list += "<li><a href=\"#\">Leave</a></li>";
+    //                                                                    data_list += "</ul>";
+    //                                                                    data_list += "</div>";
+    //                                                                    data_list += "<div class=\"modal-footer\">";
+    //                                                                    data_list += "<button class=\"btn\" data-dismiss=\"modal\" aria-hidden=\"true\">Close</button>";
+    //                                                                    data_list += "</div>";
+    //                                                                    data_list += "</div>";
+    //
+    //
+    //                                                                }
                                                                 else {
-                                                                    data_list += "<div class=\"span2\"> <a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" >Add Profile</a></div>";
+                                                                    data_list += "<div class=\"span2\"> </div>";
+                                                                    data_list += "<a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" ><i class=\"icon-edit\"></i> Add Profile</a>";
+                                                                    data_list += "<a href=\"move_staff.php?action=move_in&org_code=<?php echo "$org_code"; ?>\" target=\"_blank\"  class=\"btn btn-info btn-mini\" ><i class=\"icon-signin\"></i> Move In</a>";
+                                                                    data_list += "</div>";
                                                                 }
 
                                                                 data_list += "</div>";
@@ -228,7 +259,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                             $('#sp-content-<?php echo $designation_div_id; ?>').html("");
                                                             $.each(data, function(k, v) {
                                                                 var data_all = "<table class=\"table\">";
-//                                                                data_all += "<tr><td><b>Sanctioned Post Id</b></td><td>" + v.sanctioned_post_id + "</td></tr>";
+    //                                                                data_all += "<tr><td><b>Sanctioned Post Id</b></td><td>" + v.sanctioned_post_id + "</td></tr>";
                                                                 data_all += "<tr><td><b>Organizaion Code</b></td><td><?php echo "$org_code"; ?></td></tr>";
                                                                 data_all += "<tr><td><b>Organizaion Name</b></td><td><?php echo "$org_name"; ?></td></tr>";
                                                                 data_all += "<tr><td><b>First Level Name</b></td><td>" + v.first_level_name + "</td></tr>";
@@ -237,7 +268,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                                 data_all += "<tr><td><b>Pay Scale</b></td><td>" + v.pay_scale + "</td></tr>";
                                                                 data_all += "<tr><td><b>Type of Post</b></td><td>" + v.type_of_post + "</td></tr>";
                                                                 data_all += "<tr><td><b>Discipline</b></td><td>" + v.discipline + "</td></tr>";
-																data_all += "<tr><td><b>Rank of the Post</b></td><td></td></tr>";
+                                                                data_all += "<tr><td><b>Rank of the Post</b></td><td></td></tr>";
                                                                 data_all += "<tr><td><b>Bangladesh Professional Category </b></td><td></td></tr>";
                                                                 data_all += "<tr><td><b>WHO Major Health Occupation Group</b></td><td></td></tr>";
                                                                 data_all += "<tr><td><b>WHO-ISCO Occupation Name </b></td><td></td></tr>";
@@ -294,6 +325,6 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
         <script src="assets/js/google-code-prettify/prettify.js"></script>
 
         <script src="assets/js/application.js"></script>
-        
+
     </body>
 </html>
