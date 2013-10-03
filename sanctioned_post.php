@@ -102,12 +102,14 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                             <div class="span9">
                                 <table class="table table-striped table-hover">
                                     <thead>
+                                        <!--
                                         <tr>
                                             <th>Sanctioned Post</th>  
-											<th><a href='sanctioned_post_print.php?org_code=<?php echo $org_code;?>'>Print</a></th>
-                                         
-                                      
-										</tr>
+                                            <th><a href='sanctioned_post_print.php?org_code=<?php echo $org_code;?>'>Print</a></th>
+
+
+                                        </tr>
+                                        --> 
                                     </thead>
                                     <tbody>
                                         <?php
