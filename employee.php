@@ -211,11 +211,11 @@ if (isset($_POST['search'])) {
                                         </div>
                                         <div id="staff_search_main">
                                             <div id="staff_search_input">
-                                            
+
                                             </div>
-                                            
+
                                             <div id="staff_search_result">
-                                            
+
                                             </div>
                                         </div>
 
@@ -363,7 +363,7 @@ if (isset($_POST['search'])) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Education Qualification</strong></td><!--type_of_educational_qualification-->
-                                            <td><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);          ?></td>
+                                            <td><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);            ?></td>
                                         </tr>
 
                                         <script>
@@ -384,11 +384,10 @@ if (isset($_POST['search'])) {
                                         -->
                                         <tr>
                                             <td width="50%"><strong>Sanctioned Post ID</strong></td>
-                                            <?php 
-                                            if($data['sanctioned_post_id'] > 0){
+                                            <?php
+                                            if ($data['sanctioned_post_id'] > 0) {
                                                 echo "<td>" . $data['sanctioned_post_id'] . "</td>";
-                                            }
-                                            else if ($data['sanctioned_post_id'] == 0){
+                                            } else if ($data['sanctioned_post_id'] == 0) {
                                                 echo "<td>OSD</td>";
                                             }
                                             ?>
@@ -430,8 +429,7 @@ if (isset($_POST['search'])) {
 
                                     </table>
 
-                                    <?php
-                                elseif ($display_mode == "edit"):
+                                <?php elseif ($display_mode == "edit"):
                                     ?>
                                     <table class="table table-striped table-hover" id="employee-profile">
                                         <tr>
@@ -566,7 +564,7 @@ if (isset($_POST['search'])) {
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Education Qualification</strong></td><!--type_of_educational_qualification-->
-                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);          ?></a></td>
+                                            <td><a href="#" id="type_of_educational_qualification" name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);            ?></a></td>
                                         </tr>
 
                                         <script>
@@ -629,12 +627,12 @@ if (isset($_POST['search'])) {
 
                                     </table>
                                     <?php
-                                // add new employee
+// add new employee
                                 elseif ($display_mode == "new") :
                                     ?>
                                     <form class="form-horizontal" action="<?php echo "post/post_new_staff.php"; ?>" method="post">
                                         <fieldset>
-                                            <table class="table table-striped"> 
+                                            <table class="table table-striped">
                                                 <tr>
                                                     <td width="50%"><strong>Organization Name</strong></td>
                                                     <td><?php echo $org_name; ?></td>
@@ -657,50 +655,58 @@ if (isset($_POST['search'])) {
                                                 <tr>
                                                     <td width="50%"><strong>Staff Name</strong></td>
                                                     <td>
-                                                        <input type="text" id="staff_name" name="staff_name" placeholder="" >                                                        
+                                                        <input type="text" id="staff_name" name="staff_name" placeholder="" >
                                                     </td>
                                                 </tr>
-                                                 <tr>
+                                                <tr>
                                                     <td width="50%"><strong>Code No.(Doctors Only):</strong></td>
                                                     <td>
                                                         <input type="text" id="staff_pds_code" name="staff_pds_code" placeholder="" >
                                                     </td>
                                                 </tr>
-                                                 <tr>
+                                                <tr>
                                                     <td width="50%"><strong>Department:</strong></td>
-                                                     <td>
-                                                        <?php     $sql = "SELECT
+                                                    <td>
+                                                        <?php
+                                                        $sql = "SELECT
                                                                                 very_old_departments.`name`,very_old_departments.`department_id`
                                                                                 FROM
                                                                                 very_old_departments order by name asc";
-                                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getStaffDepertmentFromDepertmentId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                                                        $data = mysql_fetch_assoc($result);
-                   ?>                                   <select id="department_id" name="department_id" >
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getStaffDepertmentFromDepertmentId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?>                                   <select id="staff_department_id" name="staff_department_id" >
                                                             <option value="0">-- Select form the list --</option>
                                                             <?php while ($data = mysql_fetch_assoc($result)): ?>
-                                                            <option value="<?php echo $data['department_id']; ?>"><?php echo $data['name']; ?></option>
+                                                                <option value="<?php echo $data['department_id']; ?>"><?php echo $data['name']; ?></option>
                                                             <?php endwhile; ?>
                                                         </select>
-                                                     </td>
-                                                  </tr>
-                                                   
+                                                    </td>
+                                                </tr>
+
                                                 <tr>
                                                     <td width="50%"><strong>Father's Name</strong></td>
                                                     <td>
-                                                        <input type="text" id="father_name" name="father_name" placeholder="" >                                                        
+                                                        <input type="text" id="father_name" name="father_name" placeholder="" >
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Mother's Name</strong></td>
                                                     <td>
-                                                        <input type="text" id="mother_name" name="mother_name" placeholder="" >                                                        
+                                                        <input type="text" id="mother_name" name="mother_name" placeholder="" >
                                                     </td>
                                                 </tr>
+                                                <!--
+                                                   <tr>
+                                                    <td width="50%"><strong>Date of Birth</strong></td>
+                                                    <td>
+                                                         
+                                                        <input type="text" id="date_of_birth" name="date_of_birth" >
+                                                    </td>
+                                                </tr>
+                                                -->
                                                 <tr>
                                                     <td width="50%"><strong>Email</strong></td>
                                                     <td>
-                                                        <input type="text" id="email_address1" name="email_address1" placeholder="" >                                                        
+                                                        <input type="text" id="email_address1" name="email_address1" placeholder="" >
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -712,17 +718,16 @@ if (isset($_POST['search'])) {
                                                 <tr>
                                                     <td width="50%"><strong>Sex</strong></td>
                                                     <td>
-                                                        <?php 
+                                                        <?php
                                                         $sql = "SELECT staff_sex.sex_name,staff_sex.sex_type_id
                                                                     FROM
                                                                     staff_sex order by sex_name";
                                                         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
                                                         ?>
                                                         <select id="staff_sex" name="staff_sex" >
                                                             <option value="0">-- Select form the list --</option>
                                                             <?php while ($data = mysql_fetch_assoc($result)): ?>
-                                                            <option value="<?php echo $data['sex_type_id']; ?>"><?php echo $data['sex_name']; ?></option>
+                                                                <option value="<?php echo $data['sex_type_id']; ?>"><?php echo $data['sex_name']; ?></option>
                                                             <?php endwhile; ?>
                                                         </select>
                                                     </td>
@@ -730,36 +735,34 @@ if (isset($_POST['search'])) {
                                                 <tr>
                                                     <td width="50%"><strong>Religious Group</strong></td>
                                                     <td>
-                                                        <?php 
+                                                        <?php
                                                         $sql = "SELECT staff_religious_group.religious_group_name,staff_religious_group.religious_group_id
                                                                     FROM
                                                                     staff_religious_group order by religious_group_name";
                                                         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
                                                         ?>
                                                         <select id="staff_religion" name="staff_religion" >
                                                             <option value="0">-- Select form the list --</option>
                                                             <?php while ($data = mysql_fetch_assoc($result)): ?>
-                                                            <option value="<?php echo $data['religious_group_id']; ?>"><?php echo $data['religious_group_name']; ?></option>
+                                                                <option value="<?php echo $data['religious_group_id']; ?>"><?php echo $data['religious_group_name']; ?></option>
                                                             <?php endwhile; ?>
-                                                        </select>                                                        
+                                                        </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Marital Status</strong></td>
                                                     <td>
-                                                        <?php 
+                                                        <?php
                                                         $sql = "SELECT
                                                                 staff_marital_status.marital_status, staff_marital_status.marital_status_id
                                                                 FROM
                                                                 staff_marital_status";
                                                         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
                                                         ?>
                                                         <select id="staff_marital_status" name="staff_marital_status" >
                                                             <option value="0">-- Select form the list --</option>
                                                             <?php while ($data = mysql_fetch_assoc($result)): ?>
-                                                            <option value="<?php echo $data['marital_status_id']; ?>"><?php echo $data['marital_status']; ?></option>
+                                                                <option value="<?php echo $data['marital_status_id']; ?>"><?php echo $data['marital_status']; ?></option>
                                                             <?php endwhile; ?>
                                                         </select>
 
@@ -768,17 +771,16 @@ if (isset($_POST['search'])) {
                                                 <tr>
                                                     <td width="50%"><strong>Job Class</strong></td>
                                                     <td>
-                                                        <?php 
+                                                        <?php
                                                         $sql = "SELECT staff_job_class.job_class_name,staff_job_class.job_class_id
                                                                 FROM
                                                                 staff_job_class ";
                                                         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
                                                         ?>
                                                         <select id="staff_job_class_value" name="staff_job_class_value" >
                                                             <option value="0">-- Select form the list --</option>
-                                                            <?php while($data = mysql_fetch_assoc($result)): ?>
-                                                            <option value="<?php echo $data['job_class_id']; ?>"><?php echo $data['job_class_name']; ?></option>
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                                <option value="<?php echo $data['job_class_id']; ?>"><?php echo $data['job_class_name']; ?></option>
                                                             <?php endwhile; ?>
                                                         </select>
                                                     </td>
@@ -786,95 +788,289 @@ if (isset($_POST['search'])) {
                                                 <tr>
                                                     <td width="50%"><strong>Present Address</strong></td>
                                                     <td>
-                                                        <textarea type="text" id="present_address" name="present_address" placeholder="" ></textarea>                                                        
+                                                        <textarea type="text" id="present_address" name="present_address" placeholder="" ></textarea>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Permanent Address</strong></td>
                                                     <td>
-                                                        <textarea type="text" id="permanent_address" name="permanent_address" placeholder="" ></textarea>                                                        
+                                                        <textarea type="text" id="permanent_address" name="permanent_address" placeholder="" ></textarea>
                                                     </td>
                                                 </tr>
 
-                                            
-                                                 <tr>
-                                            <td width="50%"><strong>Freedom Fighter? </strong></td>
-                                            <td>
-                                            <?php
-                                                   $sql2 = "SELECT staff_freedom_fighter.id,staff_freedom_fighter.freedom_fighter_name
+
+                                                <tr>
+                                                    <td width="50%"><strong>Freedom Fighter? </strong></td>
+                                                    <td>
+                                                        <?php
+                                                        $sql2 = "SELECT staff_freedom_fighter.id,staff_freedom_fighter.freedom_fighter_name
                                                             FROM
                                                             staff_freedom_fighter";
-                                                $result2 = mysql_query($sql2) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql2<br />");
-
-                                                $data2 = mysql_fetch_assoc($result2);
-
-
-                                                ?>
-                                                    <select id="freedom_fighter_id" name="freedom_fighter_id" >
+                                                        $result2 = mysql_query($sql2) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql2<br />");
+                                                        ?>
+                                                        <select id="staff_freedom_fighter" name="staff_freedom_fighter" >
                                                             <option value="0">-- Select form the list --</option>
                                                             <?php while ($data2 = mysql_fetch_assoc($result2)): ?>
-                                                            <option value="<?php echo $data2['id']; ?>"><?php echo $data2['freedom_fighter_name']; ?></option>
+                                                                <option value="<?php echo $data2['id']; ?>"><?php echo $data2['freedom_fighter_name']; ?></option>
                                                             <?php endwhile; ?>
-                                                    </select>
+                                                        </select>
 
-                                          
 
-                                          </tr>
-                                        <tr>
-                                            <td width="50%"><strong>Tribal?</strong></td>
-                                            <td>
-                                                <?php
-                                                   $sql = "SELECT staff_tribal.id, staff_tribal.tribal_value
+
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Tribal?</strong></td>
+                                                    <td>
+                                                        <?php
+                                                        $sql = "SELECT staff_tribal.id, staff_tribal.tribal_value
                                                            FROM
                                                            staff_tribal";
-                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?>
+                                                        <select id="staff_tribal_id" name="staff_tribal_id" >
 
-                                                $data = mysql_fetch_assoc($result);
-
-
-                                                ?>
-                                                    <select id="tribal_id" name="tribal_id" >
-                                                          
                                                             <?php while ($data = mysql_fetch_assoc($result)): ?>
-                                                            <option value="<?php echo $data['id']; ?>"><?php echo $data['tribal_value']; ?></option>
+                                                                <option value="<?php echo $data['id']; ?>"><?php echo $data['tribal_value']; ?></option>
                                                             <?php endwhile; ?>
-                                                    </select>
-                                            </td>
-                                                   </tr>
-                                          
-                                        <tr>
-                                            <td width="50%"><strong>Staff Professional Category</strong></td>
+                                                        </select>
+                                                    </td>
+                                                </tr>
 
-                                             <td>
-                                                <?php
-                                                   $sql = "SELECT staff_professional_category_type.professional_type_id,staff_professional_category_type.professional_type_name
+                                                <tr>
+                                                    <td width="50%"><strong>Staff Professional Category</strong></td>
+
+                                                    <td>
+                                                        <?php
+                                                        $sql = "SELECT staff_professional_category_type.professional_type_id,staff_professional_category_type.professional_type_name
                                                            FROM
                                                            staff_professional_category_type";
-                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                                                $data = mysql_fetch_assoc($result);
-
-
-                                                ?>
-                                                    <select id="staff_professional_category" name="staff_professional_category" >
+                                                        //   $data = mysql_fetch_assoc($result);
+                                                        ?>
+                                                        <select id="staff_professional_categories" name="staff_professional_categories" >
 
                                                             <?php while ($data = mysql_fetch_assoc($result)): ?>
-                                                            <option value="<?php echo $data['professional_type_id']; ?>"><?php echo $data['professional_type_name']; ?></option>
+                                                                <option value="<?php echo $data['professional_type_id']; ?>"><?php echo $data['professional_type_name']; ?></option>
                                                             <?php endwhile; ?>
-                                                    </select>
-                                            </td>
-                                            </tr>
-                                      
-                                      
+                                                        </select>
+                                                    </td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td width="50%"><strong>Post Type</strong></td>
+                                                    <td> <?php
+                                                        $sql = "SELECT
+                                                    staff_post_type.post_type_name,staff_post_type.post_type_id
+                                                    FROM
+                                                    staff_post_type ";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getPostTypeFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?>
+
+                                                        <select id="staff_post_type_id" name="staff_post_type_id" >
+
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                                <option value="<?php echo $data['post_type_id']; ?>"><?php echo $data['post_type_name']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select>
+
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Staff Posting</strong></td>
+                                                    <td>
+                                                        <?php
+                                                        $sql = "SELECT
+                                                    staff_posting_type.staff_posting_type_name, staff_posting_type.staff_posting_type_id
+                                                    FROM
+                                                    staff_posting_type
+                                                   ";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getStaffPostingTypeFormId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?>    <select id="staff_posting_type_id" name="staff_posting_type_id" >
+
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                                <option value="<?php echo $data['staff_posting_type_id']; ?>"><?php echo $data['staff_posting_type_name']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td width="50%"><strong>Draw Salary from which place:</strong></td> <!-- draw_salary_id-->
+                                                    <td>  <?php
+                                                        $sql = "SELECT
+                                                    staff_draw_salaray_place.draw_salaray_place,staff_draw_salaray_place.draw_salary_id
+                                                    FROM
+                                                    staff_draw_salaray_place order by draw_salary_id asc
+                                                   ";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?>    <select id="staff_draw_salary_id" name="staff_draw_salary_id" >
+
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                                <option value="<?php echo $data['draw_salary_id']; ?>"><?php echo $data['draw_salaray_place']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Designation Type</strong></td>
+                                                    <td>  <?php
+                                                        $sql = "SELECT
+              staff_designation_type.designation_type,  staff_designation_type.designation_type_id
+            FROM
+             staff_designation_type order by designation_type_id asc";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?>  <select id="staff_designation_type_id" name="staff_designation_type_id" >
+
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                                <option value="<?php echo $data['designation_type_id']; ?>"><?php echo $data['designation_type']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Posted As</strong></td> <!--job_posting_id-->
+                                                    <td>  <?php
+                                                        $sql = "SELECT staff_job_posting.job_posting_name,staff_job_posting.job_posting_id
+            FROM
+            staff_job_posting";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?>
+                                                        <select id="staff_job_posting_id" name="staff_job_posting_id" >
+
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                                <option value="<?php echo $data['job_posting_id']; ?>"><?php echo $data['job_posting_name']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Working Status</strong></td>
+                                                    <td> <?php
+                                                        $sql = "SELECT
+            staff_working_status.working_status_name,staff_working_status.working_status_id
+            FROM
+            staff_working_status order by working_status_id asc ";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?> <select id="staff_working_status_id" name="staff_working_status_id" >
+
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                                <option value="<?php echo $data['working_status_id']; ?>"><?php echo $data['working_status_name']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select> </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Salary drawn from which head:</strong></td><!-- draw_type_id-->
+                                                    <td> <?php
+                                                        $sql = "SELECT
+            staff_salary_draw_type.salary_draw_type_name,staff_salary_draw_type.salary_draw_type_id
+            FROM
+            staff_salary_draw_type order by salary_draw_type_id asc ";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSexNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?>
+                                                        <select id="staff_salary_draw_type_id" name="staff_salary_draw_type_id" >
+
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                                <option value="<?php echo $data['salary_draw_type_id']; ?>"><?php echo $data['salary_draw_type_name']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Pay Scale of Current Designation</strong></td>
+                                                    <td>  <?php
+                                                        $sql = "SELECT
+                staff_pay_scale.pay_scale, staff_pay_scale.pay_scale_id
+            FROM
+                staff_pay_scale order by pay_scale_id asc";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getTypeOfPostNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?> <select id="staff_pay_scale_id" name="staff_pay_scale_id" >
+
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                                <option value="<?php echo $data['pay_scale_id']; ?>"><?php echo $data['pay_scale']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select></td>
+                                                </tr>
+                                               
+                                                                                          <tr>
+                                                    <td width="50%"><strong>Professional Discipline of Current Designation</strong></td>
+                                                    <td>  <?php
+                                                        $sql = "SELECT
+                                                                                very_old_departments.`name`,very_old_departments.`department_id`
+                                                                                FROM
+                                                                                very_old_departments order by name asc";
+                                                      
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getTypeOfPostNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?> <select id="staff_professional_discipline" name="staff_professional_discipline" >
+                                                             <option value="0">-- Select form the list --</option>
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                                <option value="<?php echo $data['department_id']; ?>"><?php echo $data['name']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select></td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td width="50%"><strong>Current Basic Pay (Tk.):</strong></td>
+                                                    <td> <input type="text" id="current_basic_pay_tk" name="current_basic_pay_tk" placeholder="" ></td>
+                                                </tr>
+                                                <!--
+                                                <tr>
+                                                    <td width="50%"><strong>Date Of Joining to Govt. Health Service</strong></td>
+                                                      <td> <input type="text" id="date_of_joining_to_govt_service" name="date_of_joining_to_govt_service" placeholder="" ></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Date Of Joining to Current Place</strong></td>
+                                                      <td> <input type="text" id="date_of_joining_to_current_place" name="date_of_joining_to_current_place" placeholder="" ></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>Date Of Joining to Current Designation</strong></td>
+                                                     <td> <input type="text" id="date_of_joining_to_current_designation" name="date_of_joining_to_current_designation" class="" ></td>
+
+                                                </tr>
+                                                -->
+                                                <tr>
+                                                    <td width="50%"><strong>Education Qualification</strong></td><!--type_of_educational_qualification-->
+                                                    <td>  <?php
+                                                        $sql = "SELECT
+                staff_educational_qualification.educational_qualification, staff_educational_qualification.educational_qualifiaction_Id
+            FROM
+                staff_educational_qualification";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?>    <select id="staff_educational_qualifiaction_Id" name="staff_educational_qualifiaction_Id" >
+
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                                <option value="<?php echo $data['educational_qualifiaction_Id']; ?>"><?php echo $data['educational_qualification']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select></td>
+                                                </tr>
+
+
+
+                                                <tr>
+                                                    <td width="50%"><strong>Actual Degree</strong></td>
+                                                    <td> <input type="text" id="actual_degree" name="actual_degree" placeholder="" ></td>
+                                                </tr>
+
+                                                 <tr>
+                                                    <td width="50%"><strong> Reside in Govt. Quarter?</strong></td>
+                                                    <td> <?php
+                                                            $sql = "SELECT staff_govt_quater.govt_quater,staff_govt_quater.govt_quater_id FROM staff_govt_quater";
+                                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                ?>  
+                                                        <select id="staff_govt_quarter" name="staff_govt_quarter" >
+
+                                                            <?php while ($data = mysql_fetch_assoc($result)): ?>
+                                                                <option value="<?php echo $data['govt_quater_id']; ?>"><?php echo $data['govt_quater']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select></td>
+                                                </tr>
+                                               
 
                                                 <tr>
                                                     <td width="50%"><strong>Further Remarks/Explanation:</strong></td><!--reason -->
                                                     <td>   <textarea type="text" id="reason" name="reason" placeholder="" ></textarea>  </td>
-                                                 </tr>
-                                                
+                                                </tr>
+
                                                 <input type="hidden" id="new_staff" name="new_staff" value="yes" >
-                                                
-                                                
+
+
                                                 <tr>
                                                     <td width="50%"><strong></strong></td>
                                                     <td><button type="submit" class="btn btn-success btn-large">Submit</button></td>

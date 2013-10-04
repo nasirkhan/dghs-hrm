@@ -472,6 +472,7 @@ $(function() {
     $('#staff_posting').editable({
         type: 'select',
         pk: staff_id,
+        url: 'post/post_employee.php',
         source: "get/get_staff_posting_type.php",
         params: function(params) {
             params.org_code = org_code;
@@ -485,6 +486,7 @@ $(function() {
     $('#working_status_id').editable({
         type: 'select',
         pk: staff_id,
+        url: 'post/post_employee.php',
         source: "get/get_working_status_id.php",
         params: function(params) {
             params.org_code = org_code;
@@ -500,6 +502,7 @@ $(function() {
     $('#job_posting_id').editable({
         type: 'select',
         pk: staff_id,
+        url: 'post/post_employee.php',
         source: "get/get_job_posting_id.php",
         params: function(params) {
             params.org_code = org_code;
@@ -513,6 +516,7 @@ $(function() {
     $('#draw_type_id').editable({
         type: 'select',
         pk: staff_id,
+        url: 'post/post_employee.php',
         source: "get/get_draw_type_id.php",
         params: function(params) {
             params.org_code = org_code;
@@ -526,6 +530,7 @@ $(function() {
     $('#draw_salary_id').editable({
         type: 'select',
         pk: staff_id,
+        url: 'post/post_employee.php',
         source: "get/get_draw_salary_id.php",
         params: function(params) {
             params.org_code = org_code;
@@ -554,6 +559,7 @@ $(function() {
     $('#govt_quarter_id').editable({
         type: 'select',
         pk: staff_id,
+        url: 'post/post_employee.php',
         source: "get/get_govt_quater_id.php",
         params: function(params) {
             params.org_code = org_code;
@@ -568,6 +574,7 @@ $(function() {
     $('#designation_type_id').editable({
         type: 'select',
         pk: staff_id,
+        url: 'post/post_employee.php',
         source: "get/get_designation_type_id.php",
         params: function(params) {
             params.org_code = org_code;
@@ -582,6 +589,7 @@ $(function() {
     $('#professional_discipline_of_current_designation').editable({
         type: 'select',
         pk: staff_id,
+         url: 'post/post_employee.php',
         source: "get/get_professional_discipline_id.php",
         params: function(params) {
             params.org_code = org_code;
