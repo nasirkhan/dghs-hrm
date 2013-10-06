@@ -1,4 +1,4 @@
-<?php
+<?php 
 $app_name = "Ministry of Health and Family Welfare";
 ?>
 
@@ -114,7 +114,7 @@ if(!empty($token)&&!empty($email))
 <?php
 
 $email = $_POST['email'];
-$ran = rand(0,10000000);
+$ran = uniqid();
 $token = $ran;
 
 session_start();
