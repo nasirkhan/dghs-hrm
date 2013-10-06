@@ -98,8 +98,9 @@ $pass=md5('dghs123');
 if(!empty($token)&&!empty($email))
 {
    echo "Your Password has been reset.Please Login.";
-    $sql= mysql_query("UPDATE user SET password='$pass' WHERE username= '$email' AND token='$token'")
+    $sql= mysql_query("UPDATE user SET password='$pass',token='' WHERE username= '$email' AND token='$token'")
 	or die(mysql_error());
+    
 }else
 {
    echo "Your username or tokencode is incorrect";
