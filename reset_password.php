@@ -134,8 +134,9 @@ if(isset($_POST["captcha"]) && $_POST["captcha"] != "" && $_SESSION["code"] == $
     $reset_url = "http://test.dghs.gov.bd/hrmnew/reset_password.php?token=$token&email=$email";
     $message = "Please click the following URL to reset password. <a href=\"$reset_url\" >Click this link </a><br>";
     $message =$message."\n".$reset_url;
-
-    $mailheader = "From: " . $_POST["email"] . "\r\n";
+    $mailheader  = 'MIME-Version: 1.0' . "\r\n";
+    $mailheader .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $mailheader .= "From: " . $_POST["email"] . "\r\n";
     $mailheader .= "Reply-To: " . $ToEmail . "\r\n";
     $mailheader .= "CC: " . $ToEmail . "\r\n";
     $mailheader .= "Content-type: text/html; charset=iso-8859-1\r\n";
