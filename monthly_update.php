@@ -23,54 +23,19 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 date_default_timezone_set('Asia/Dhaka');
 $current_year = date("Y");
 $current_month = date("n");
+$current_dateTime = date("Y-m-d H:i:s");
 
 
-if (isset($_POST['postt_type'])) {
-    $move_in = mysql_real_escape_string(trim($_POST['move_in']));
-    $move_out = mysql_real_escape_string(trim($_POST['move_out']));
-    $add_new = mysql_real_escape_string(trim($_POST['add_new']));
-    $match_staff = mysql_real_escape_string(trim($_POST['match_staff']));
-    $current_year = mysql_real_escape_string(trim($_POST['current_year']));
-    $current_month = mysql_real_escape_string(trim($_POST['current_month']));
-    $org_code = mysql_real_escape_string(trim($_POST['org_code']));
 
-    $sql = "SELECT
-                    *
-            FROM
-                    monthly_update
-            WHERE
-                    org_code = $org_code
-            AND report_year = $current_year
-            AND report_month = $current_month
-            LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>monthlyUpdate:1</p><p>Query:</b></p>___<p>$sql</p>");
+if (isset($_POST['submit_success'])){       
+    $submit_org_code = mysql_real_escape_string(trim($_GET['submit_org_code']));
+    $submit_month = mysql_real_escape_string(trim($_GET['submit_month']));
+    $submit_year = mysql_real_escape_string(trim($_GET['submit_year']));
+    $submit_dateTime = mysql_real_escape_string(trim($_GET['submit_dateTime']));
 
-    if (mysql_num_rows($result) == 1) {
-        $username = $_SESSION['username'];
-        $sql = "UPDATE 
-                    monthly_update 
-                SET 
-                    move_in=$move_in,
-                    move_out=$move_out,
-                    add_profile=$add_new,
-                    match_employee=$match_staff,
-                    updated_by=\"$username\"    
-                WHERE
-                    org_code = $org_code
-                    AND 
-                    report_year = $current_year
-                    AND 
-                    report_month = $current_month";
-        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>monthlyUpdate:1</p><p>Query:</b></p>___<p>$sql</p>");
-    }
-    else{
-        $username = $_SESSION['username'];
-        $sql = "INSERT INTO 
-            `monthly_update` (`org_code`, `report_month`, `report_year`, `move_in`, `move_out`, `add_profile`, `match_employee`, `updated_by`, `updated_datetime`) 
-            VALUES ('$org_code', '$current_month', '$current_year', '$move_in', '$move_out', '$add_new', '$match_staff', \"$username\", \"" . date("Y-m-d H:i:s")  . "\")";
-        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>monthlyUpdate:1</p><p>Query:</b></p>___<p>$sql</p>");
-    }
+    $sql = "UPDATE organization SET ";
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -149,101 +114,28 @@ if (isset($_POST['postt_type'])) {
                         <div class="row">
 
                             <div class="span9">
+                                <div class="well well-large">
+                                    <p class="lead">
+                                        Did you updated the HRM System Data for the Month of <?php echo date("F"); ?>?
 
-                                <?php if ($_GET['update'] == ""): ?>
-
-                                    <div class="well well-large">
-
-                                        <p class="lead">
-
-                                            Do you want to submit the update report of HRM for this month?
-
-                                        </p>
-
-                                        <p>
-                                            <a class="btn btn-large btn-success" type="button" href="monthly_update.php?update=yes&year=<?php echo "$current_year"; ?>&month=<?php echo "$current_month"; ?>&org_code=<?php echo "$org_code"; ?>">Yes, update now</a>
-                                            <a class="btn btn-large btn-warning" type="button" href="monthly_update.php?update=no&year=<?php echo "$current_year"; ?>&month=<?php echo "$current_month"; ?>&org_code=<?php echo "$org_code"; ?>">No, update later</a>
-                                        </p>
-
-                                    </div>
-
-                                <?php endif; ?>
-
-                                <?php if ($_GET['update'] == "yes"): ?>
-                                    <?php
-                                    $current_month = mysql_real_escape_string(trim($_GET['month']));
-                                    $current_year = mysql_real_escape_string(trim($_GET['year']));
-                                    $org_code = mysql_real_escape_string(trim($_GET['org_code']));
-
-                                    $sql = "SELECT
-                                                *
-                                        FROM
-                                                monthly_update
-                                        WHERE
-                                                org_code = $org_code
-                                        AND report_year = $current_year
-                                        AND report_month = $current_month
-                                        LIMIT 1";
-                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>monthlyUpdate:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                    if (mysql_num_rows($result) == 1) {
-                                        $data = mysql_fetch_assoc($result);
-
-                                        $current_month = $data['report_month'];
-                                        $current_year = $data['report_year'];
-                                        $org_code = $data['org_code'];
-                                    }
-                                    ?>
-
-
-                                    <form class="form-horizontal" action="" method="POST">
-                                        <div class="control-group">
-                                            <label class="control-label" for="move_in">Total Move Out</label>
-                                            <div class="controls">
-                                                <input type="text" id="move_in" name="move_in" placeholder="Total Move Out" value="<?php echo $data['move_in']; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="move_out">Total Move In</label>
-                                            <div class="controls">
-                                                <input type="text" id="move_out" name="move_out" placeholder="Total Move In" value="<?php echo $data['move_out']; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="add_new">Total Add Profile</label>
-                                            <div class="controls">
-                                                <input type="text" id="add_new" name="add_new" placeholder="Total Add Profile" value="<?php echo $data['add_profile']; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="match_staff">Total Match Employee</label>
-                                            <div class="controls">
-                                                <input type="text" id="match_staff" name="match_staff" placeholder="Total Match Employee" value="<?php echo $data['match_employee']; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="match_staff"><em>Last Updated on</em></label>
-                                            <label class="control-label" for="match_staff"><em><?php echo $data['updated_datetime']; ?></em></label>
-                                        </div>
-                                        <input type="hidden" name="current_month" value="<?php echo "$current_month"; ?>">
-                                        <input type="hidden" name="current_year" value="<?php echo "$current_year"; ?>">
-                                        <input type="hidden" name="org_code" value="<?php echo "$org_code"; ?>">
-
-                                        <input type="hidden" name="postt_type" value="update_report">
-                                        <div class="control-group">
-                                            <div class="controls">                                                
-                                                <button type="submit" class="btn btn-large btn-info">Update Report</button>
-                                            </div>
-                                        </div>
+                                    <form class="form-horizontal" action="" method="post">
+                                        <input type="hidden" id="submit_org_code" name="submit_org_code" value="<?php echo "$org_code"; ?>"> 
+                                        <input type="hidden" id="submit_month" name="submit_month" value="<?php echo "$current_month"; ?>"> 
+                                        <input type="hidden" id="submit_year" name="submit_year" value="<?php echo "$current_year"; ?>"> 
+                                        <input type="hidden" id="submit_dateTime" name="submit_dateTime" value="<?php echo "$current_dateTime"; ?>"> 
+                                        <input type="hidden" id="submit_success" name="submit_success" value="yes"> 
+                                        <button type="submit" class="btn btn-large btn-success">Updated HRM Data</button>
                                     </form>
+                                    </p>
 
-                                <?php endif; ?>
-
-
-                                <?php if ($_GET['update'] == "no"): ?>
-
-
-                                <?php endif; ?>
+                                </div>
+                                <?php 
+                                $sql = "SELECT updated_datetime FROM organization where org_code=$org_code";
+                                $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>monthlyUpdate:1</p><p>Query:</b></p>___<p>$sql</p>");
+                                
+                                $last_update_datetime = mysql_fetch_assoc($result);
+                                ?>
+                                <span class="label label-info"><em>Last updated on <?php echo $last_update_datetime['updated_datetime'];?></em></span>
                             </div>
 
 
