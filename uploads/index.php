@@ -21,9 +21,13 @@ $name = parent::trim_file_name($name, $type);
 // Your file name changes: $name = 'something';
 
 $Ext = strrchr($name,".");
+
+$Ext =strtolower($Ext);
+
 $name = $_SESSION['username'];
 
 $oldName=$name."$Ext";
+
 
 $exists = file_exists($oldName);
 if(!$exists) {

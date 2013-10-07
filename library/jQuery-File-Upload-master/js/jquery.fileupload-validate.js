@@ -69,8 +69,8 @@
             // Error and info messages:
             messages: {
                 maxNumberOfFiles: 'Maximum number of files exceeded',
-                acceptFileTypes: 'File type not allowed',
-                maxFileSize: 'File is too large',
+                acceptFileTypes: 'File type not allowed.Only JPG format allowed',
+                maxFileSize: 'File is too large.Please upload the file smaller than 500KB',
                 minFileSize: 'File is too small'
             }
         },
