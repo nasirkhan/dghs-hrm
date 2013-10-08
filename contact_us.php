@@ -154,8 +154,8 @@ die("Wrong Code Entered");
 }
 
     $EmailSubject = $_POST["subject"];
-    //$ToEmail = "nasir.khan@activationltd.com,dr.bashar@mis.dghs.gov.bd,rajib@mis.dghs.gov.bd,enamul.haque@activationltd.com";
-     $ToEmail = "rajib@mis.dghs.gov.bd";
+     $ToEmail = "nasir.khan@activationltd.com,dr.bashar@mis.dghs.gov.bd,rajib@mis.dghs.gov.bd,enamul.haque@activationltd.com";
+    
  
     $mailheader  .= 'MIME-Version: 1.0' . "\r\n";
     $mailheader .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
