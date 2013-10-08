@@ -92,9 +92,9 @@ require_once 'include/db_connection.php';
 
 if(!empty($_GET))
 {
-$token=$_GET['token'];
-$email=$_GET['email'];
-$pass=md5('dghs123');
+$token=mysql_real_escape_string($_GET['token']);
+$email=mysql_real_escape_string($_GET['email']);
+$pass=mysql_real_escape_string(md5('dghs123'));
 
  $sql= mysql_query("select * from user WHERE username='$email' AND token='$token'") or die(mysql_error());
  $num_of_rows=  mysql_num_rows($sql);  
@@ -122,7 +122,7 @@ $email = $_POST['email'];
 session_start();
 
 if($_POST["submit"]){
-    $email = $_POST['email'];
+    $email = mysql_real_escape_string($_POST['email']);
     $EmailSubject = 'Password Reset';
     $ToEmail =  $email;
 
@@ -132,7 +132,7 @@ if($_POST["submit"]){
 if(isset($_POST["captcha"]) && $_POST["captcha"] != "" && $_SESSION["code"] == $_POST["captcha"] && $num_of_rows==1 ) {
   
      $ran = uniqid();
-     $token = $ran;
+     $token = mysql_real_escape_string($ran);
 
     require_once 'include/db_connection.php';
    
