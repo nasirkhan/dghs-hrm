@@ -85,150 +85,84 @@ $app_name = "Ministry of Health and Family Welfare";
                        
                         <input type="submit" value="Submit" name="submit"  class="btn btn-info btn-large">
                     </fieldset>
-                </form>
+             
 
-                <?php
+ <?php
 require_once 'include/db_connection.php';
+
 if(!empty($_GET))
 {
-$token=$_GET['token'];
-$email=$_GET['email'];
-$pass=md5('dghs123');
+$token=mysql_real_escape_string($_GET['token']);
+$email=mysql_real_escape_string($_GET['email']);
+$pass=mysql_real_escape_string(md5('dghs123'));
 
-if(!empty($token)&&!empty($email))
+ $sql= mysql_query("select * from user WHERE username='$email' AND token='$token'") or die(mysql_error());
+ $num_of_rows=  mysql_num_rows($sql);  
+
+if(!empty($token)&&!empty($email)&&$num_of_rows==1)
 {
-   echo "Your Password has been reset.Please Login.";
     $sql= mysql_query("UPDATE user SET password='$pass',token='' WHERE username= '$email' AND token='$token'")
 	or die(mysql_error());
+    
+    print "<script>";
+    print " self.location='login.php'"; // Comment this line if you don't want to redirect
+    print "</script>";
+
+    //echo "Your Password has been reset.Please Login.";
     
 }else
 {
    echo "Your username or tokencode is incorrect";
 }
-
 }
 ?>
-
-        </div> <!-- /container -->
-
+  
 <?php
-
 $email = $_POST['email'];
-$ran = uniqid();
-$token = $ran;
-
 session_start();
+
 if($_POST["submit"]){
-if(isset($_POST["captcha"]) && $_POST["captcha"] != "" && $_SESSION["code"] == $_POST["captcha"]) {
-    $email = $_POST['email'];
+    $email = mysql_real_escape_string($_POST['email']);
     $EmailSubject = 'Password Reset';
     $ToEmail =  $email;
 
-    $ran = rand(0, 10000000);
-    $token = $ran;
+    $sql= mysql_query("select * from user WHERE username='$email'") or die(mysql_error());
+    $num_of_rows=  mysql_num_rows($sql);  
+    
+if(isset($_POST["captcha"]) && $_POST["captcha"] != "" && $_SESSION["code"] == $_POST["captcha"] && $num_of_rows==1 ) {
+  
+     $ran = uniqid();
+     $token = mysql_real_escape_string($ran);
 
     require_once 'include/db_connection.php';
-
+   
     $sql= mysql_query("UPDATE user SET token='$token' WHERE username='$email'") or die(mysql_error());
 
     $reset_url = "http://test.dghs.gov.bd/hrmnew/reset_password.php?token=$token&email=$email";
-    $message = "Please click the following URL to reset password. <a href=\"$reset_url\" >Click this link </a><br>";
+    $message = "Please click the following URL to reset password. <a href=\"$reset_url\">Click this link </a><br>";
     $message =$message."\n".$reset_url;
-    $mailheader  = 'MIME-Version: 1.0' . "\r\n";
-    $mailheader .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $mailheader .= 'MIME-Version: 1.0' . "\r\n";
+    $mailheader .= "Content-type: text/html; charset=iso-8859-1\r\n";  
     $mailheader .= "From: " . $_POST["email"] . "\r\n";
     $mailheader .= "Reply-To: " . $ToEmail . "\r\n";
     $mailheader .= "CC: " . $ToEmail . "\r\n";
-    $mailheader .= "Content-type: text/html; charset=iso-8859-1\r\n";
     $MESSAGE_BODY .= "Subject: " . $EmailSubject . "<br>";
     $MESSAGE_BODY .= "Message: " . $message . "";
-
-    //echo $message;
-    //mail($ToEmail, $EmailSubject, $MESSAGE_BODY, $mailheader) or die ("Failure");
+    
     mail($ToEmail, $EmailSubject, $MESSAGE_BODY, $mailheader) or die("Failure");
-?>
-        Your message was sent to mail.
-        <?php
+
+       echo 'Your messge has been sent';
+     
     } else {
-        die("Wrong code entered");
+         die("Wrong code or wrong email adress entered");
     }
 }
 
-
-//}
-    /*
-      // we want to make sure that the form has actually been submitted
-      if(isset($_POST['submit'])){
-      require_once 'include/db_connection.php';
-      // your database connection script
-      //include('connect.php');
-
-      // post the form variables with mysql escaping
-      //$uname = mysql_real_escape_string($_POST['uname']);
-      $email = mysql_real_escape_string($_POST['email']);
-
-      // query the db for the user's account info.
-      // you will put your own table name in, of course
-
-      $sql = "SELECT username FROM user WHERE username='$email'";
-      $result = mysql_query($sql);
-
-
-      // if the user's info is not found, then they get a failure message
-      if(!result){
-      echo "Log in credentials not valid.";
-      exit;
-      }// if the user is found in the db, we continue
-      else {
-
-      // include the random password generator script
-      //include('randomPass.php');
-
-
-      // the generator script produces a random 7 character
-      // password named $random_chars
-      // we first want to have a variable ($passwd) that we can
-      // pass to the email we send
-      // then we give $random_chars a value of $password, and we encrypt
-      // it using sha1
-
-      $passwd = 'dghs12123';
-      $password = md5($passwd);
-
-      // next we update the user's password with the new encrypted password
-      // of course, you will want to make sure that the password field in
-      // your db is set to at least 40 characters and varchar
-
-      $sql="UPDATE user SET password='$password' WHERE username='$email'";
-      $result = mysql_query($sql);
-      if(!$result) {
-      echo "Password update failed.";
-
-      // you can comment out the above echo after testing
-      // if there are no updating problems, you can take out the if/else
-      // in this portion
-      // send email to user's account email, giving them their new
-      // temporary password.
-      // be sure to change the info inside to your own
-      }
-      else {
-      $to = "$email";
-      $subject = "Password Reset";
-      $body = "You or someone else with your email address has requested
-      to reset your password. Your temporary password is $passwd. \n \n
-      Please go to http://test.dghs.gov.bd/reset_password.php and change
-      your password to something easy to remember.\n\n Regards,\n Site Admin";
-      $additionalheaders = "From: rajib1111@gmail.com";
-      mail($to, $subject, $body, $additionalheaders);
-      if(mail){
-      echo "You have been sent a temporary password to $email";
-      } // end if update failed
-      } // end if mail
-      } // close else
-      } // end if submit
-
-     */
         ?>
+        
+         </form>
+ </div> <!-- /container -->
+
             </div>
 
 
