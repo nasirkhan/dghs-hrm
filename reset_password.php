@@ -100,7 +100,7 @@ if ($_POST["submit"]) {
                 background-color: #f5f5f5;
             }
             .form-contact {
-                max-width: 570px;
+                max-width: 635px;
                 padding: 19px 29px 29px;
                 margin: 0 auto 20px;
                 background-color: #fff;

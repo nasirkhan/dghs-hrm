@@ -42,7 +42,7 @@ $app_name = "Ministry of Health and Family Welfare";
                 background-color: #f5f5f5;
             }
             .form-contact {
-                max-width: 570px;
+                max-width: 630px;
                 padding: 19px 29px 29px;
                 margin: 0 auto 20px;
                 background-color: #fff;
