@@ -137,6 +137,8 @@ $app_name = "Ministry of Health and Family Welfare";
                           <input id="captcha" name="captcha" type="text" required>  <img src="captcha.php" class="responsive-image" /><br>
                          
                         <button type="submit" class="btn-info btn-large">Submit</button>
+						<br/><br/>
+							<img src="assets/img/contact_us.png">
                     </fieldset>
                     <?php
 session_start();

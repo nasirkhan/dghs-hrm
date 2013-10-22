@@ -147,6 +147,8 @@ if ($_POST["submit"]) {
                             <input name="captcha" type="text" class="input-block-level" required placeholder="Captcha code…">
 
                             <input type="submit" value="Submit" name="submit"  class="btn btn-info btn-large">
+							<br/><br/>
+							<img src="assets/img/reset_password.png">
                         </fieldset>
                     <?php
                     }
