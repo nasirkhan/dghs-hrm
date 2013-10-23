@@ -1,4 +1,6 @@
 <?php
+set_time_limit(120000);
+
 require_once '../configuration.php';
 
 if ($_SESSION['logged'] != true) {
@@ -22,58 +24,88 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 }
 
 //print_r($_POST);
-$div_id = (int) mysql_real_escape_string($_POST['admin_division']);
-$dis_id = (int) mysql_real_escape_string($_POST['admin_district']);
-$upa_id = (int) mysql_real_escape_string($_POST['admin_upazila']);
-$agency_code = (int) mysql_real_escape_string($_POST['org_agency']);
-$type_code = (int) mysql_real_escape_string($_POST['org_type']);
+$div_id = (int) mysql_real_escape_string(trim($_POST['admin_division']));
+$dis_id = (int) mysql_real_escape_string(trim($_POST['admin_district']));
+$upa_id = (int) mysql_real_escape_string(trim($_POST['admin_upazila']));
+$agency_code = (int) mysql_real_escape_string(trim($_POST['org_agency']));
+$type_code = (int) mysql_real_escape_string(trim($_POST['org_type']));
+$form_submit = (int) mysql_real_escape_string(trim($_POST['form_submit']));
 
+if ($form_submit == 1 && isset($_POST['form_submit'])) {
 
-$query_string = "";
-//echo "$div_id|$dis_id|$upa_id";
+    /*
+     * 
+     * query builder to get the organizatino list
+     */
+    $query_string = "";
+    if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
+        $query_string .= " WHERE ";
 
-if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
-    $query_string .= " WHERE ";
-
-    if ($agency_code > 0) {
-        $query_string .= "organization.agency_code = $agency_code";
-    }
-    if ($upa_id > 0) {
         if ($agency_code > 0) {
-            $query_string .= " AND ";
+            $query_string .= "organization.agency_code = $agency_code";
         }
-        $query_string .= "organization.upazila_id = $upa_id";
-    }
-    if ($dis_id > 0) {
-        if ($upa_id > 0 || $agency_code > 0) {
-            $query_string .= " AND ";
+        if ($upa_id > 0) {
+            if ($agency_code > 0) {
+                $query_string .= " AND ";
+            }
+            $query_string .= "organization.upazila_id = $upa_id";
         }
-        $query_string .= "organization.district_id = $dis_id";
-    }
-    if ($div_id > 0) {
-        if ($dis_id > 0 || $upa_id > 0 || $agency_code > 0) {
-            $query_string .= " AND ";
+        if ($dis_id > 0) {
+            if ($upa_id > 0 || $agency_code > 0) {
+                $query_string .= " AND ";
+            }
+            $query_string .= "organization.district_id = $dis_id";
         }
-        $query_string .= "organization.division_id = $div_id";
-    }
-    if ($type_code > 0) {
-        if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0) {
-            $query_string .= " AND ";
+        if ($div_id > 0) {
+            if ($dis_id > 0 || $upa_id > 0 || $agency_code > 0) {
+                $query_string .= " AND ";
+            }
+            $query_string .= "organization.division_id = $div_id";
         }
-        $query_string .= "organization.org_type_code = $type_code";
+        if ($type_code > 0) {
+            if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0) {
+                $query_string .= " AND ";
+            }
+            $query_string .= "organization.org_type_code = $type_code";
+        }
     }
-}
 
-$query_string .= " ORDER BY org_name";
+    $query_string .= " ORDER BY org_name";
 
-$sql = "SELECT
-            organization.org_name,
-            organization.org_code
+    $sql = "SELECT organization.org_name, organization.org_code FROM organization $query_string";
+    $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+//echo "$sql";
+
+    /*     * *
+     * 
+     * get the sanctioned post count
+     */
+    $desognation_query_string = "";
+    $data = mysql_fetch_assoc($org_list_result);
+    $desognation_query_string .= " org_code = " . $data['org_code'];
+    while ($data = mysql_fetch_assoc($org_list_result)) {
+        $desognation_query_string .= " OR org_code = " . $data['org_code'];
+    }
+
+    $sql = "SELECT
+                id,
+                designation,
+                designation_code,
+                COUNT(*) AS sp_count 
         FROM
-            organization
-            $query_string";
-//$result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-echo "$sql";
+                total_manpower_imported_sanctioned_post_copy
+        WHERE
+                $desognation_query_string
+        GROUP BY 
+                designation
+        ORDER BY
+                designation";
+    $designation_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $total_sanctioned_post = mysql_num_rows($designation_result);
+    $total_sanctioned_post_count_sum = 0;
+    $total_sanctioned_post_existing_sum = 0;
+//    echo "$sql";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -221,7 +253,7 @@ echo "$sql";
                                             </select>
                                         -->
                                     </div>
-
+                                    <input name="form_submit" value="1" type="hidden" />
                                     <div class="control-group">
                                         <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Organization(s) List</button>
 
@@ -229,6 +261,54 @@ echo "$sql";
                                     </div>  
                                 </form>
                             </div>
+                            <?php if ($form_submit == 1 && isset($_POST['form_submit'])) : ?>
+                                <div id="result_display">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Designation</th>
+                                                <th>Total Sanctioned Post(s)</th>
+                                                <th>Filled up Post(s)</th>
+                                                <th>Vacant Post(s)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            while ($row = mysql_fetch_assoc($designation_result)) :
+                                            $sql = "SELECT
+                                                        designation,
+                                                        designation_code,
+                                                        COUNT(*) AS existing_total_count
+                                                FROM
+                                                        total_manpower_imported_sanctioned_post_copy
+                                                WHERE
+                                                        ($desognation_query_string)
+                                                AND designation_code = " . $row['designation_code'] . "
+                                                AND staff_id_2 > 0;";
+//                                                echo "$sql";
+                                                $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                $a = mysql_fetch_assoc($r);
+
+                                                $total_sanctioned_post_count_sum += $row['sp_count'];
+                                                $total_sanctioned_post_existing_sum += $a['existing_total_count'];
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $row['designation']; ?></td>
+                                                    <td><?php echo $row['sp_count']; ?></td>
+                                                    <td><?php echo $a['existing_total_count']; ?></td>
+                                                    <td><?php echo $row['sp_count'] - $a['existing_total_count']; ?></td>
+                                                </tr>
+                                            <?php  endwhile; ?>
+                                            <tr class="info">
+                                                <td><strong>Summary</strong></td>
+                                                <td><strong><?php echo $total_sanctioned_post_count_sum; ?></strong></td>
+                                                <td><strong><?php echo $total_sanctioned_post_existing_sum; ?></strong></td>
+                                                <td><strong><?php echo $total_sanctioned_post_count_sum - $total_sanctioned_post_existing_sum; ?></string></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
                         </div>
 
                     </section>
