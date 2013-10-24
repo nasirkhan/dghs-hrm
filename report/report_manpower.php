@@ -82,9 +82,9 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
      */
     $desognation_query_string = "";
     $data = mysql_fetch_assoc($org_list_result);
-    $desognation_query_string .= " org_code = " . $data['org_code'];
+    $desognation_query_string .= " total_manpower_imported_sanctioned_post_copy.org_code = " . $data['org_code'];
     while ($data = mysql_fetch_assoc($org_list_result)) {
-        $desognation_query_string .= " OR org_code = " . $data['org_code'];
+        $desognation_query_string .= " OR total_manpower_imported_sanctioned_post_copy.org_code = " . $data['org_code'];
     }
 
     $sql = "SELECT
@@ -104,6 +104,8 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
     $total_sanctioned_post = mysql_num_rows($designation_result);
     $total_sanctioned_post_count_sum = 0;
     $total_sanctioned_post_existing_sum = 0;
+    $total_existing_male_sum = 0;
+    $total_existing_female_sum = 0;
 //    echo "$sql";
 }
 ?>
@@ -247,7 +249,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                     </div>
                                     <input name="form_submit" value="1" type="hidden" />
                                     <div class="control-group">
-                                        <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Organization(s) List</button>
+                                        <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
 
                                         <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                     </div>  
@@ -261,6 +263,8 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                                 <th>Designation</th>
                                                 <th>Total Sanctioned Post(s)</th>
                                                 <th>Filled up Post(s)</th>
+                                                <th>Total Male</th>
+                                                <th>Total Female</th>
                                                 <th>Vacant Post(s)</th>
                                             </tr>
                                         </thead>
@@ -280,14 +284,37 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
 //                                                echo "$sql";
                                                 $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                                 $a = mysql_fetch_assoc($r);
-
-                                                $total_sanctioned_post_count_sum += $row['sp_count'];
-                                                $total_sanctioned_post_existing_sum += $a['existing_total_count'];
+                                                $existing_total_count = $a['existing_total_count'];
+                                            
+                                            $sql= "SELECT
+                                                        total_manpower_imported_sanctioned_post_copy.designation,
+                                                        total_manpower_imported_sanctioned_post_copy.designation_code,
+                                                        COUNT(*) AS existing_male_count
+                                                FROM
+                                                        total_manpower_imported_sanctioned_post_copy
+                                                LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.staff_id = total_manpower_imported_sanctioned_post_copy.staff_id_2
+                                                WHERE
+                                                        ($desognation_query_string) 
+                                                AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row['designation_code'] . "
+                                                AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
+                                                AND old_tbl_staff_organization.sex=1";
+                                                    $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                            $a = mysql_fetch_assoc($r);
+                                            $existing_male_count = $a['existing_male_count'];
+                                            
+                                            $existing_female_count = $existing_total_count-$existing_male_count;
+                                            $total_sanctioned_post_count_sum += $row['sp_count'];
+                                            $total_sanctioned_post_existing_sum += $existing_total_count;
+                                            $total_existing_male_sum += $existing_male_count;
+                                            $total_existing_female_sum += $existing_female_count;
+                                            
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $row['designation']; ?></td>
                                                     <td><?php echo $row['sp_count']; ?></td>
-                                                    <td><?php echo $a['existing_total_count']; ?></td>
+                                                    <td><?php echo $existing_total_count; ?></td>
+                                                    <td><?php echo $existing_male_count; ?></td>
+                                                    <td><?php echo $existing_female_count; ?></td>
                                                     <td><?php echo $row['sp_count'] - $a['existing_total_count']; ?></td>
                                                 </tr>
                                             <?php endwhile; ?>
@@ -295,6 +322,8 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                                 <td><strong>Summary</strong></td>
                                                 <td><strong><?php echo $total_sanctioned_post_count_sum; ?></strong></td>
                                                 <td><strong><?php echo $total_sanctioned_post_existing_sum; ?></strong></td>
+                                                <td><strong><?php echo $total_existing_male_sum; ?></strong></td>
+                                                <td><strong><?php echo $total_existing_female_sum; ?></strong></td>
                                                 <td><strong><?php echo $total_sanctioned_post_count_sum - $total_sanctioned_post_existing_sum; ?></string></td>
                                             </tr>
                                         </tbody>
