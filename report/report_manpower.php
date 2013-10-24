@@ -184,7 +184,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                         <div class="row">
                             <div class="">
                                 <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                                    <p class="lead">Find Organization(s) from the administrative requin, agency type or organization type</p>
+                                    <p class="lead">Get the summation of the staffs</p>
                                     <div class="control-group">
                                         <select id="admin_division" name="admin_division">
                                             <option value="0">Select Division</option>
@@ -244,14 +244,6 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                             }
                                             ?>
                                         </select>
-                                        <!--
-                                            <select id="org_list" name="org_list">
-                                                <option value="0">Select Organization</option>                                        
-                                            </select>
-                                            <select id="sanctioned_post" name="org_list">
-                                                <option value="0">Select Designation</option>                                        
-                                            </select>
-                                        -->
                                     </div>
                                     <input name="form_submit" value="1" type="hidden" />
                                     <div class="control-group">
@@ -275,7 +267,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                         <tbody>
                                             <?php
                                             while ($row = mysql_fetch_assoc($designation_result)) :
-                                            $sql = "SELECT
+                                                $sql = "SELECT
                                                         designation,
                                                         designation_code,
                                                         COUNT(*) AS existing_total_count
@@ -298,7 +290,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                                     <td><?php echo $a['existing_total_count']; ?></td>
                                                     <td><?php echo $row['sp_count'] - $a['existing_total_count']; ?></td>
                                                 </tr>
-                                            <?php  endwhile; ?>
+                                            <?php endwhile; ?>
                                             <tr class="info">
                                                 <td><strong>Summary</strong></td>
                                                 <td><strong><?php echo $total_sanctioned_post_count_sum; ?></strong></td>
