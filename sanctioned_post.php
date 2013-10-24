@@ -86,6 +86,8 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                         <li class="active"><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
+                        <li><a href="sanctioned_post_sorted.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post [Sorted]</a></li>
+                        <li><a href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post [Tree View]</a></li>
                         <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
                         <li><a href="move_staff.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-exchange"></i> Move Request</a></li>
                         <li><a href="upload.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-upload-alt"></i> Upload</a></li>
@@ -97,7 +99,12 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                     <!-- Sanctioned Post
                     ================================================== -->
                     <section id="sanctioned-post">
-
+<!--                        <div class="row-fluid">
+                            <div class="span12">
+                                
+                            </div>
+                        </div>-->
+                            
                         <div class="row">
                             <div class="span9">
                                 <table class="table table-striped table-hover">
