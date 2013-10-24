@@ -27,15 +27,15 @@ $current_dateTime = date("Y-m-d H:i:s");
 
 
 
-if (isset($_POST['submit_success'])){       
+if (isset($_POST['submit_success'])) {
     $submit_org_code = mysql_real_escape_string(trim($_GET['submit_org_code']));
     $submit_month = mysql_real_escape_string(trim($_GET['submit_month']));
     $submit_year = mysql_real_escape_string(trim($_GET['submit_year']));
     $submit_dateTime = mysql_real_escape_string(trim($_GET['submit_dateTime']));
 
-    $sql = "UPDATE organization SET ";
+    $sql = "UPDATE organization SET monthly_update=1, monthly_update_datetime=\"$current_dateTime\"";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>monthlyUpdate:1</p><p>Query:</b></p>___<p>$sql</p>");
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -129,13 +129,13 @@ if (isset($_POST['submit_success'])){
                                     </p>
 
                                 </div>
-                                <?php 
+                                <?php
                                 $sql = "SELECT updated_datetime FROM organization where org_code=$org_code";
                                 $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>monthlyUpdate:1</p><p>Query:</b></p>___<p>$sql</p>");
-                                
+
                                 $last_update_datetime = mysql_fetch_assoc($result);
                                 ?>
-                                <span class="label label-info"><em>Last updated on <?php echo $last_update_datetime['updated_datetime'];?></em></span>
+                                <span class="label label-info"><em>Last updated on <?php echo $last_update_datetime['updated_datetime']; ?></em></span>
                             </div>
 
 
