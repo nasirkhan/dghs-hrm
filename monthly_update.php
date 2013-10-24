@@ -111,7 +111,7 @@ if (isset($_POST['submit_success'])) {
                             <div class="span9">
                                 <div class="well well-large">
                                     <p class="lead">
-                                        Did you updated the HRM System Data for the Month of <?php echo date("F"); ?>?
+                                        Have you updated the HRM System Data for the Month of <?php echo date("F"); ?>?
 
                                     <form class="form-horizontal" action="" method="post">
                                         <input type="hidden" id="submit_org_code" name="submit_org_code" value="<?php echo "$org_code"; ?>"> 
