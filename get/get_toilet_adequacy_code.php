@@ -8,7 +8,7 @@ $data = array();
 while ($row = mysql_fetch_array($result)) {
     $data[] = array(
         'text' => $row['toilet_adequacy_name'],
-        'value' => $row['water_supply_source_code']
+        'value' => $row['toilet_adequacy_code']
     );
 }
 $json_data = json_encode($data);
