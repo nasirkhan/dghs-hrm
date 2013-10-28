@@ -96,13 +96,16 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 
                         <div class="row">
                             <div class="span9">
-                                <table class="table table-striped table-hover">
+                                <table class="table table-striped table-hover table-bordered">
                                     <thead>
                                         <tr>
                                             <td>
                                                 <div class="row-fluid">
                                                     <div class="span5">
                                                         <strong>Designation</strong>
+                                                    </div>
+                                                    <div class="span1">
+                                                        <strong>Type of Post</strong>
                                                     </div>
                                                     <div class="span1">
                                                         <strong>Class</strong>
@@ -113,7 +116,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                     <div class="span1">
                                                         <strong>Total Post</strong>
                                                     </div>
-                                                    <div class="span4">
+                                                    <div class="span3">
                                                         <strong>Action</strong>
                                                     </div>
                                                 </div>
@@ -126,6 +129,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                         total_manpower_imported_sanctioned_post_copy.id,
                                                         total_manpower_imported_sanctioned_post_copy.designation,
                                                         total_manpower_imported_sanctioned_post_copy.discipline,
+                                                        total_manpower_imported_sanctioned_post_copy.type_of_post,
                                                         sanctioned_post_designation.ranking,
                                                         sanctioned_post_designation.class,
                                                         sanctioned_post_designation.payscale,
@@ -152,15 +156,18 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                             <?php echo $sp_data['designation']; ?>
                                                         </div>
                                                         <div class="span1">
+                                                            <?php echo getTypeOfPostNameFromCode($sp_data['sp_count']); ?>
+                                                        </div>
+                                                        <div class="span1">
                                                             <?php echo $sp_data['class']; ?>
                                                         </div>
                                                         <div class="span1">
                                                             <?php echo $sp_data['payscale']; ?>
-                                                        </div>
+                                                        </div>                                                        
                                                         <div class="span1">
                                                             <?php echo $sp_data['sp_count']; ?>
                                                         </div>
-                                                        <div class="span4">
+                                                        <div class="span3">
                                                             <?php $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation'])); ?>
                                                             <a id="sp-btn-<?php echo $designation_div_id; ?>" href="#sp-<?php echo $designation_div_id; ?>" role="button" class="btn btn-small" data-toggle="modal">
                                                                 <i class="icon-file-alt"></i> Sanctioned Post Description
