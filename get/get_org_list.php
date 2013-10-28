@@ -32,7 +32,8 @@ $query_string .= " ORDER BY org_name";
 
 $sql = "SELECT
             organization.org_name,
-            organization.org_code
+            organization.org_code,
+            organization.email_address1
         FROM
             organization
         WHERE
@@ -50,6 +51,7 @@ if ($row_count > 0) {
         echo "<a href=\"org_profile.php?org_code=" . $data_list['org_code'] . "\" target=\"_blank\">";
         echo $data_list['org_name'];
         echo " (Org Code:" . $data_list['org_code'] . ")";
+        echo " -- Email: "  . $data_list['email_address1'];
         echo "</a>";
         echo "</li>";
     }
