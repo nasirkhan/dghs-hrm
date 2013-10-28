@@ -38,7 +38,7 @@
     <a href="../monthly_update.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-th-list"></i> Monthly Update</a>
 </li>		
 <li <?php if ($active_menu == "report/index"){ echo " class=\"active\""; } ?>>
-    <a href="report/index.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-calendar"></i> Reports</a>
+    <a href="index.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-calendar"></i> Reports</a>
 </li>
 <li <?php if ($active_menu == "settings"){ echo " class=\"active\""; } ?>>
     <a href="../settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a>
