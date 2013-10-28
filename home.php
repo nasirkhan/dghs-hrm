@@ -147,7 +147,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                     </section>
                     <?php
                     $org_type_code = getOrgTypeCodeFromOrgCode($org_code);
-                    if ($org_type_code == 1029):
+                    if ($org_type_code == 1029 || $org_type_code == 1051):
                         $org_info = getOrgInfoFromOrgCode($org_code);
 
                         $row_count = count($org_info);
