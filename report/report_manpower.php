@@ -88,18 +88,22 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
     }
 
     $sql = "SELECT
-                id,
-                designation,
-                designation_code,
+                total_manpower_imported_sanctioned_post_copy.id,
+                total_manpower_imported_sanctioned_post_copy.designation,
+                total_manpower_imported_sanctioned_post_copy.designation_code,
+                total_manpower_imported_sanctioned_post_copy.type_of_post,
+                sanctioned_post_designation.class,
+                sanctioned_post_designation.payscale,
                 COUNT(*) AS sp_count 
         FROM
                 total_manpower_imported_sanctioned_post_copy
+        LEFT JOIN `sanctioned_post_designation` ON total_manpower_imported_sanctioned_post_copy.designation_code = sanctioned_post_designation.designation_code
         WHERE
                 $desognation_query_string
         GROUP BY 
-                designation
+                total_manpower_imported_sanctioned_post_copy.designation
         ORDER BY
-                designation";
+                sanctioned_post_designation.ranking";
     $designation_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
     $total_sanctioned_post = mysql_num_rows($designation_result);
     $total_sanctioned_post_count_sum = 0;
@@ -252,11 +256,14 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                             </div>
                             <?php if ($form_submit == 1 && isset($_POST['form_submit'])) : ?>
                                 <div id="result_display">
-                                    <table class="table table-striped">
+                                    <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>Designation</th>
-                                                <th>Total Sanctioned Post(s)</th>
+                                                <th>Type of Post</th>
+                                                <th>Class</th>
+                                                <th>Pay Scale</th>
+                                                <th>Total Post(s)</th>
                                                 <th>Filled up Post(s)</th>
                                                 <th>Total Male</th>
                                                 <th>Total Female</th>
@@ -275,8 +282,10 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                                 WHERE
                                                         ($desognation_query_string)
                                                 AND designation_code = " . $row['designation_code'] . "
-                                                AND staff_id_2 > 0;";
+                                                AND staff_id_2 > 0
+                                                ";
 //                                                echo "$sql";
+//                                                die();
                                                 $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                                 $a = mysql_fetch_assoc($r);
                                                 $existing_total_count = $a['existing_total_count'];
@@ -306,20 +315,37 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $row['designation']; ?></td>
+                                                    <td><?php echo getTypeOfPostNameFromCode($row['type_of_post']); ?></td>
+                                                    <td><?php echo $row['class']; ?></td>
+                                                    <td><?php echo $row['payscale']; ?></td>
                                                     <td><?php echo $row['sp_count']; ?></td>
                                                     <td><?php echo $existing_total_count; ?></td>
                                                     <td><?php echo $existing_male_count; ?></td>
                                                     <td><?php echo $existing_female_count; ?></td>
-                                                    <td><?php echo $row['sp_count'] - $a['existing_total_count']; ?></td>
+                                                    <td><?php echo $row['sp_count'] - $existing_total_count; ?></td>
                                                 </tr>
                                             <?php endwhile; ?>
                                             <tr class="info">
                                                 <td><strong>Summary</strong></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td><strong><?php echo $total_sanctioned_post_count_sum; ?></strong></td>
                                                 <td><strong><?php echo $total_sanctioned_post_existing_sum; ?></strong></td>
                                                 <td><strong><?php echo $total_existing_male_sum; ?></strong></td>
                                                 <td><strong><?php echo $total_existing_female_sum; ?></strong></td>
                                                 <td><strong><?php echo $total_sanctioned_post_count_sum - $total_sanctioned_post_existing_sum; ?></string></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Designation</td>
+                                                <td>Type of Post</td>
+                                                <td>Class</td>
+                                                <td>Pay Scale</td>
+                                                <td>Total Post(s)</td>
+                                                <td>Filled up Post(s)</td>
+                                                <td>Total Male</td>
+                                                <td>Total Female</td>
+                                                <td>Vacant Post(s)</td>
                                             </tr>
                                         </tbody>
                                     </table>
