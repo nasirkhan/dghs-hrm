@@ -84,7 +84,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                             <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
                             <?php endif; ?>
                         <?php 
-                        $active_menu = "sanctioned_post";
+                        $active_menu = "sanctioned_post_sorted";
                         include_once 'include/left_menu.php'; 
                         ?>
                     </ul>
