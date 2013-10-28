@@ -9,6 +9,9 @@ $upa_id = (int) mysql_real_escape_string($_POST['upa_id']);
 $agency_code = (int) mysql_real_escape_string($_POST['agency_code']);
 $type_code = (int) mysql_real_escape_string($_POST['type_code']);
 
+if (!$agency_code > 0) {
+    $agency_code = 11;
+}
 
 $query_string = "";
 //echo "$div_id|$dis_id|$upa_id";
@@ -51,7 +54,7 @@ if ($row_count > 0) {
         echo "</li>";
     }
     echo "</ul>";
-}
+} 
 else {
     echo "\" 0 (Zero) Organization found. \"";
 }
