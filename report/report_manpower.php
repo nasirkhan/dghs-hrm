@@ -281,6 +281,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
+                                                <th>#</th>
                                                 <th>Designation</th>
                                                 <th>Type of Post</th>
                                                 <th>Class</th>
@@ -294,7 +295,9 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                         </thead>
                                         <tbody>
                                             <?php
+                                            $row_serial = 0;
                                             while ($row = mysql_fetch_assoc($designation_result)) :
+                                                $row_serial++;
                                                 $sql = "SELECT
                                                         designation,
                                                         designation_code,
@@ -336,6 +339,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                             
                                                 ?>
                                                 <tr>
+                                                    <td><?php echo "$row_serial"; ?></td>
                                                     <td><?php echo $row['designation']; ?></td>
                                                     <td><?php echo getTypeOfPostNameFromCode($row['type_of_post']); ?></td>
                                                     <td><?php echo $row['class']; ?></td>
@@ -348,10 +352,8 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                                 </tr>
                                             <?php endwhile; ?>
                                             <tr class="info">
-                                                <td><strong>Summary</strong></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                
+                                                <td colspan="5"><strong>Summary</strong></td>                                                
                                                 <td><strong><?php echo $total_sanctioned_post_count_sum; ?></strong></td>
                                                 <td><strong><?php echo $total_sanctioned_post_existing_sum; ?></strong></td>
                                                 <td><strong><?php echo $total_existing_male_sum; ?></strong></td>
@@ -359,10 +361,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                                 <td><strong><?php echo $total_sanctioned_post_count_sum - $total_sanctioned_post_existing_sum; ?></string></td>
                                             </tr>
                                             <tr>
-                                                <td>Designation</td>
-                                                <td>Type of Post</td>
-                                                <td>Class</td>
-                                                <td>Pay Scale</td>
+                                                <td colspan="5"></td>
                                                 <td>Total Post(s)</td>
                                                 <td>Filled up Post(s)</td>
                                                 <td>Total Male</td>
