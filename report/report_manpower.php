@@ -172,7 +172,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                             <li><a href="../admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
                             <?php endif; ?>
                         <?php 
-                        $active_menu = "report/report_manpower";
+                        $active_menu = "report/index";
                         include_once '../include/left_menu_report_page.php'; 
                         ?>
                     </ul>
