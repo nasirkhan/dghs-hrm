@@ -256,6 +256,28 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                             </div>
                             <?php if ($form_submit == 1 && isset($_POST['form_submit'])) : ?>
                                 <div id="result_display">
+                                    <div class="alert alert-info">
+                                        Selected Parameters are:<br>
+                                        <?php
+                                        $echo_string="";
+                                        if ($div_id > 0){
+                                            $echo_string .= " Division: <strong>" . getDivisionNamefromCode(getDivisionCodeFormId($div_id)) . "</strong><br>";
+                                        }
+                                        if ($dis_id > 0){
+                                            $echo_string .= " District: <strong>" . getDistrictNamefromCode(getDistrictCodeFormId($dis_id)) . "</strong><br>";
+                                        }
+                                        if ($upa_id > 0){
+                                            $echo_string .= " Upazila: <strong>" . getUpazilaNamefromCode(getUpazilaCodeFormId($upa_id)) . "</strong><br>";
+                                        }
+                                        if ($agency_code > 0){
+                                            $echo_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong><br>";
+                                        }
+                                        if ($type_code > 0){
+                                            $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
+                                        }
+                                        echo "$echo_string";
+                                        ?>
+                                    </div>
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
