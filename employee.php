@@ -1192,8 +1192,7 @@ if (isset($_POST['search'])) {
                             email: true
                         },
                         current_basic_pay_tk: {number: true},
-                        date_of_joining_to_govt_service: {doj: true},
-                        reason: "required"
+                        date_of_joining_to_govt_service: {doj: true}
                     },
                     messages: {
                         staff_name: "You must type the name",
@@ -1208,8 +1207,7 @@ if (isset($_POST['search'])) {
                             email: "Please write a valid email address"
                         },
                         current_basic_pay_tk: {number: "Please write only numbers (0 - 9)!"},
-                        date_of_joining_to_govt_service: {doj: "Joining age should be minium 14."},
-                        reason: "Please enter reason"
+                        date_of_joining_to_govt_service: {doj: "Joining age should be minium 14."}
                     }
 
                 });
