@@ -61,12 +61,20 @@ if (isset($_POST['new_staff'])) {
     $staff_pay_scale_id = mysql_real_escape_string(trim($_POST['staff_pay_scale_id']));
     $current_basic_pay_tk = mysql_real_escape_string(trim($_POST['current_basic_pay_tk']));
     $staff_educational_qualifiaction_Id = mysql_real_escape_string(trim($_POST['staff_educational_qualifiaction_Id']));
-    $reason =mysql_real_escape_string(trim($_POST['reason']));
+    $reason = mysql_real_escape_string(trim($_POST['reason']));
     $staff_govt_quarter = mysql_real_escape_string(trim($_POST['staff_govt_quarter']));
     $email_address1 = mysql_real_escape_string(trim($_POST['email_address1']));
-   $staff_professional_discipline= mysql_real_escape_string(trim($_POST['staff_professional_discipline']));
-    
-    
+    $staff_professional_discipline = mysql_real_escape_string(trim($_POST['staff_professional_discipline']));
+
+    $birth_date = mysql_real_escape_string(trim($_POST['birth_date']));
+    $date_of_joining_to_govt_service = mysql_real_escape_string(trim($_POST['date_of_joining_to_govt_service']));
+    $date_of_joining_to_current_place = mysql_real_escape_string(trim($_POST['date_of_joining_to_current_place']));
+    $date_of_joining_to_current_designation = mysql_real_escape_string(trim($_POST['date_of_joining_to_current_designation']));
+
+
+
+
+
     $sql = "INSERT INTO `old_tbl_staff_organization` (
                 `staff_name`, 
                 `staff_pds_code`,
@@ -75,10 +83,14 @@ if (isset($_POST['new_staff'])) {
                 `org_code`,                
                 `father_name`, 
                 `mother_name`, 
+				 `birth_date`,
                 `email_address`, 
                 `contact_no`, 
                 `sex`, 
                 `religion`,
+				`date_of_joining_to_govt_health_service`,
+				`date_of_joining_to_current_place`,
+				`date_of_joining_to_current_designation`,
                 `marital_status`,
                 `staff_job_class`,
                 `mailing_address`,
@@ -110,10 +122,14 @@ if (isset($_POST['new_staff'])) {
             '" . getOrgCodeFromSanctionedPostId($sanctioned_post) . "',
             '$father_name', 
             '$mother_name', 
+			'$birth_date',
             '$email_address1', 
             '$contact_no', 
             '$sex',  
             '$religion',
+			'$date_of_joining_to_govt_service',
+			'$date_of_joining_to_current_place',
+			'$date_of_joining_to_current_designation',
             '$marital_status',
             '$staff_job_class', 
             \"$present_address\", 
