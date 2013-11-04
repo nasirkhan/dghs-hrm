@@ -1131,7 +1131,7 @@ if (isset($_POST['search'])) {
 
                     var checkdate = $("#birth_date").val();
                     var rawmonth = checkdate.substr(5, 2);
-                    var rawday = checkdate.substr(7, 2);
+                    var rawday = checkdate.substr(8, 2);
                     var rawyear = checkdate.substr(0, 4);
                     var age = 14;
                     var mydate = new Date();
