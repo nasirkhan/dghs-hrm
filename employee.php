@@ -1178,6 +1178,20 @@ if (isset($_POST['search'])) {
 
                 }, "joining date atleast 14 years of age.");
 
+                $.validator.addMethod("doj_current_place", function() {
+                	var doj_cur_pla = $("#date_of_joining_to_current_place").val();
+                    var checkdate = $("#date_of_joining_to_govt_service").val();
+                    return doj_cur_pla >= checkdate;
+
+                }, "Error");
+
+                $.validator.addMethod("doj_current_designation", function() {
+                	var doj_cur_des = $("#date_of_joining_to_current_designation").val();
+                    var checkdate = $("#date_of_joining_to_current_place").val();
+                    return doj_cur_des >= checkdate;
+
+                }, "Error");
+
                 var validator = $("#new_employee").validate({
                     rules: {
                         staff_name: "required",
@@ -1192,7 +1206,9 @@ if (isset($_POST['search'])) {
                             email: true
                         },
                         current_basic_pay_tk: {number: true},
-                        date_of_joining_to_govt_service: {doj: true}
+                        date_of_joining_to_govt_service: {doj: true},
+                        date_of_joining_to_current_place: {doj_current_place: true},
+                        date_of_joining_to_current_designation: {doj_current_designation: true}
                     },
                     messages: {
                         staff_name: "You must type the name",
@@ -1207,7 +1223,9 @@ if (isset($_POST['search'])) {
                             email: "Please write a valid email address"
                         },
                         current_basic_pay_tk: {number: "Please write only numbers (0 - 9)!"},
-                        date_of_joining_to_govt_service: {doj: "Joining age should be minium 14."}
+                        date_of_joining_to_govt_service: {doj: "Joining age should be minium 14"},
+                        date_of_joining_to_current_place: {doj_current_place: "Date Of Joining to Current Place age should Greater than Joining in Govt. Health Service"},
+                        date_of_joining_to_current_designation: {doj_current_designation: "Date Of Joining to Current Designation should Greater than Date Of Joining to Current Place"}
                     }
 
                 });
