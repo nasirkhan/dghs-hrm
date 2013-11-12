@@ -30,6 +30,8 @@ $upa_id = (int) mysql_real_escape_string(trim($_POST['admin_upazila']));
 $agency_code = (int) mysql_real_escape_string(trim($_POST['org_agency']));
 $type_code = (int) mysql_real_escape_string(trim($_POST['org_type']));
 $form_submit = (int) mysql_real_escape_string(trim($_POST['form_submit']));
+$staff_category = (int) mysql_real_escape_string(trim($_POST['staff_category']));
+
 
 if ($form_submit == 1 && isset($_POST['form_submit'])) {
 
@@ -67,7 +69,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                 $query_string .= " AND ";
             }
             $query_string .= "organization.org_type_code = $type_code";
-        }
+        }        
     }
 
     $query_string .= " ORDER BY org_name";
@@ -83,6 +85,10 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
     $desognation_query_string = "";
     $data = mysql_fetch_assoc($org_list_result);
     $desognation_query_string .= " total_manpower_imported_sanctioned_post_copy.org_code = " . $data['org_code'];
+    if ($staff_category > 0) {
+        $desognation_query_string .= " AND  total_manpower_imported_sanctioned_post_copy.bangladesh_professional_category_code = $staff_category";
+    }
+
     while ($data = mysql_fetch_assoc($org_list_result)) {
         $desognation_query_string .= " OR total_manpower_imported_sanctioned_post_copy.org_code = " . $data['org_code'];
     }
@@ -249,6 +255,24 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                             ?>
                                         </select>
                                         
+                                        <select id="staff_category" name="staff_category">
+                                            <option value="0">Select Staff Category</option>
+                                            <?php
+                                            $sql = "SELECT
+                                                            bangladesh_professional_category_code,
+                                                            bangladesh_professional_category_name
+                                                    FROM
+                                                            `sanctioned_post_bangladesh_professional_category`
+                                                    WHERE
+                                                            active LIKE 1;";
+                                            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>bangladesh_professional_category:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                            while ($rows = mysql_fetch_assoc($result)) {
+                                                echo "<option value=\"" . $rows['bangladesh_professional_category_code'] . "\">" . $rows['bangladesh_professional_category_name'] . "</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                        
                                     </div>
                                     <input name="form_submit" value="1" type="hidden" />
                                     <div class="control-group">
@@ -278,6 +302,9 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                         }
                                         if ($type_code > 0){
                                             $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
+                                        }
+                                        if($staff_category > 0){
+                                            $echo_string .= " Bangladesh Professional Staff Category: <strong>" . getBangladeshProfessionalStaffCategoryFromCode($staff_category) . "</strong><br>";
                                         }
                                         echo "$echo_string";
                                         ?>

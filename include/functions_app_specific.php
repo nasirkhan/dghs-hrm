@@ -1255,4 +1255,19 @@ function getOrgInfoFromOrgCode($org_code) {
     return $data;
 }
 
+function getBangladeshProfessionalStaffCategoryFromCode($code){
+    $sql = "SELECT
+                    bangladesh_professional_category_name
+            FROM
+                    `sanctioned_post_bangladesh_professional_category`
+            WHERE
+                    bangladesh_professional_category_code = 1
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgInfoFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data['bangladesh_professional_category_name'];
+}
+
 ?>
