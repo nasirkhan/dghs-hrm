@@ -1255,6 +1255,12 @@ function getOrgInfoFromOrgCode($org_code) {
     return $data;
 }
 
+/**
+ * Get Bangladesh Professional Staff Category From Code
+ * 
+ * @param INT $code
+ * @return STRING bangladesh_professional_category_name
+ */
 function getBangladeshProfessionalStaffCategoryFromCode($code){
     $sql = "SELECT
                     bangladesh_professional_category_name
