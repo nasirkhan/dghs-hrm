@@ -187,6 +187,25 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                 <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                                     <p class="lead">Get the summation of the staffs</p>
                                     <div class="control-group">
+                                        <select id="org_agency" name="org_agency">
+                                            <option value="0">Select Agency</option>
+                                            <?php
+                                            $sql = "SELECT
+                                                    org_agency_code.org_agency_code,
+                                                    org_agency_code.org_agency_name
+                                                FROM
+                                                    org_agency_code
+                                                ORDER BY
+                                                    org_agency_code.org_agency_code";
+                                            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                            while ($rows = mysql_fetch_assoc($result)) {
+                                                echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="control-group">
                                         <select id="admin_division" name="admin_division">
                                             <option value="0">Select Division</option>
                                             <?php
@@ -209,25 +228,9 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                         </select>
                                     </div>
 
+                                    
                                     <div class="control-group">
-                                        <select id="org_agency" name="org_agency">
-                                            <option value="0">Select Agency</option>
-                                            <?php
-                                            $sql = "SELECT
-                                                    org_agency_code.org_agency_code,
-                                                    org_agency_code.org_agency_name
-                                                FROM
-                                                    org_agency_code
-                                                ORDER BY
-                                                    org_agency_code.org_agency_code";
-                                            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                            while ($rows = mysql_fetch_assoc($result)) {
-                                                echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
-                                            }
-                                            ?>
-                                        </select>
-
+                                        
                                         <select id="org_type" name="org_type">
                                             <option value="0">Select Org Type</option>
                                             <?php
@@ -245,6 +248,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                             }
                                             ?>
                                         </select>
+                                        
                                     </div>
                                     <input name="form_submit" value="1" type="hidden" />
                                     <div class="control-group">
