@@ -107,6 +107,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <tr>                                        
                                         <td><a href="report_org_list.php">Organization List</a></td>
                                     </tr>
+                                    <tr>                                        
+                                        <td><a href="report_org_list.php">Designation Report</a></td>
+                                    </tr>
                                     <?php endif; ?>
                                 </tbody>
                                 
