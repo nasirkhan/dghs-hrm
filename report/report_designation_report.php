@@ -273,6 +273,10 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                             ?>
                                         </select>
                                         
+                                        <select id="staff_category" name="staff_category">
+                                            <option value="0">Select Designation</option>
+                                        </select>
+                                        
                                     </div>
                                     <input name="form_submit" value="1" type="hidden" />
                                     <div class="control-group">
