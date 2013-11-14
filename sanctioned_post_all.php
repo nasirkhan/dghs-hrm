@@ -102,6 +102,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 										
                                         $sql = "SELECT id, designation, discipline,type_of_post,pay_scale,class,SUM(CASE WHEN staff_id != '0' THEN 1 ELSE 0 END) AS existing, COUNT(*) AS sp_count 
                                             FROM total_manpower_imported_sanctioned_post_copy 
+                                            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                             GROUP BY designation order by pay_scale asc";
 											
                                         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");

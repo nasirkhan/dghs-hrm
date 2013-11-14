@@ -111,6 +111,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                         $sql = "SELECT id, designation, discipline,type_of_post,pay_scale,class,existing_male,existing_female,existing_total,vacant_post, COUNT(*) AS sp_count 
                                             FROM total_manpower_imported_sanctioned_post_copy 
                                             WHERE org_code = $org_code
+                                            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                             GROUP BY designation";
                                         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                        $cnt =0;

@@ -106,6 +106,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
         LEFT JOIN `sanctioned_post_designation` ON total_manpower_imported_sanctioned_post_copy.designation_code = sanctioned_post_designation.designation_code
         WHERE
                 $desognation_query_string
+                AND total_manpower_imported_sanctioned_post_copy.active LIKE 1    
         GROUP BY 
                 total_manpower_imported_sanctioned_post_copy.designation
         ORDER BY
@@ -357,7 +358,8 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                                         ($desognation_query_string) 
                                                 AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row['designation_code'] . "
                                                 AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
-                                                AND old_tbl_staff_organization.sex=1";
+                                                AND old_tbl_staff_organization.sex=1
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
                                                     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                             $a = mysql_fetch_assoc($r);
                                             $existing_male_count = $a['existing_male_count'];

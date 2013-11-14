@@ -14,7 +14,8 @@ total_manpower_imported_sanctioned_post_copy.staff_id,
 total_manpower_imported_sanctioned_post_copy.staff_id_2
 FROM total_manpower_imported_sanctioned_post_copy
 WHERE designation LIKE \"" . $designation . "\"
-AND org_code =$org_code";
+AND org_code =$org_code
+AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
 $sanctioned_post_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
 while ($data_list = mysql_fetch_assoc($sanctioned_post_list_result)) {

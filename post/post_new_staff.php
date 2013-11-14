@@ -24,7 +24,8 @@ if ($_SESSION['user_type'] == "admin" && $_REQUEST['org_code'] != "") {
 }
 
 function getOrgCodeFromSanctionedPostId($sanctioned_post) {
-    $sql = "SELECT org_code FROM total_manpower_imported_sanctioned_post_copy WHERE id = $sanctioned_post LIMIT 1";
+    $sql = "SELECT org_code FROM total_manpower_imported_sanctioned_post_copy WHERE id = $sanctioned_post 
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgTypeCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $org_type_data = mysql_fetch_assoc($result);
@@ -162,7 +163,8 @@ if (isset($_POST['new_staff'])) {
     $data = mysql_fetch_assoc($result);
     $staff_id = $data['staff_id'];
 
-    $sql = "UPDATE total_manpower_imported_sanctioned_post_copy SET staff_id=$staff_id, staff_id_2=$staff_id WHERE id=$sanctioned_post";
+    $sql = "UPDATE total_manpower_imported_sanctioned_post_copy SET staff_id=$staff_id, staff_id_2=$staff_id WHERE id=$sanctioned_post
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertTransferRecord:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
 

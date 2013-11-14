@@ -32,6 +32,7 @@ WHERE
 	total_manpower_imported_sanctioned_post_copy.first_level_id = $first_level_id
 AND total_manpower_imported_sanctioned_post_copy.second_level_id = $second_level_id
 AND total_manpower_imported_sanctioned_post_copy.org_code = $org_code
+AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
 GROUP BY
 	total_manpower_imported_sanctioned_post_copy.designation
 ORDER BY

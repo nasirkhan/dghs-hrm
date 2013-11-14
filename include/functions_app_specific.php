@@ -107,6 +107,7 @@ function getOrgNameFormSanctionedPostId($sanctioned_post_id) {
                 total_manpower_imported_sanctioned_post_copy
             WHERE
                 total_manpower_imported_sanctioned_post_copy.id = $sanctioned_post_id
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1        
             LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -188,7 +189,8 @@ function checkSanctionedPostWithinOrgFromSanctionedPostId($sanctioned_post_id, $
                 total_manpower_imported_sanctioned_post_copy
             WHERE
                 total_manpower_imported_sanctioned_post_copy.org_code = $org_code AND
-                total_manpower_imported_sanctioned_post_copy.id = $sanctioned_post_id";
+                total_manpower_imported_sanctioned_post_copy.id = $sanctioned_post_id
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkSanctionedPostWithinOrgFromSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
@@ -208,7 +210,8 @@ function checkSanctionedPostWithinOrgFromSanctionedPostId($sanctioned_post_id, $
  * @return boolean
  */
 function checkStaffExists($staff_id) {
-    $sql = "SELECT id FROM total_manpower_imported_sanctioned_post_copy WHERE staff_id= $staff_id LIMIT 1";
+    $sql = "SELECT id FROM total_manpower_imported_sanctioned_post_copy WHERE staff_id= $staff_id 
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkStaffExists:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
@@ -223,7 +226,8 @@ function checkStaffExists($staff_id) {
 }
 
 function checkStaffExistsBySanctionedPost($sanctioned_post_id) {
-    $sql = "SELECT staff_id FROM total_manpower_imported_sanctioned_post_copy WHERE id= $sanctioned_post_id LIMIT 1";
+    $sql = "SELECT staff_id FROM total_manpower_imported_sanctioned_post_copy WHERE id= $sanctioned_post_id 
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkStaffExistsBySanctionedPost:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $row = mysql_fetch_assoc($result);
@@ -515,7 +519,8 @@ function getUnionNamefromCode($bbs_code) {
 }
 
 function getDesignationNameFormSanctionedPostId($sanctioned_post_id) {
-    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE id= $sanctioned_post_id LIMIT 1";
+    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE id= $sanctioned_post_id 
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
@@ -540,7 +545,8 @@ function getDesignationNameFormStaffId($staff_id) {
 }
 
 function getSanctionedPostIdFromStaffId($staff_id) {
-    $sql = "SELECT id FROM total_manpower_imported_sanctioned_post_copy WHERE staff_id= $staff_id LIMIT 1";
+    $sql = "SELECT id FROM total_manpower_imported_sanctioned_post_copy WHERE staff_id= $staff_id 
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
@@ -549,7 +555,8 @@ function getSanctionedPostIdFromStaffId($staff_id) {
 }
 
 function getSanctionedPostNameFromSanctionedPostId($SanctionedPostId) {
-    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE id= $SanctionedPostId LIMIT 1";
+    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE id= $SanctionedPostId 
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
@@ -558,7 +565,8 @@ function getSanctionedPostNameFromSanctionedPostId($SanctionedPostId) {
 }
 
 function getSanctionedPostNameFromSanctionedPostGroupCode($group_code) {
-    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE sanctioned_post_group_code= $group_code LIMIT 1";
+    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE sanctioned_post_group_code= $group_code 
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSanctionedPostNameFromStaffId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
@@ -1176,6 +1184,7 @@ function getPayScaleFromSanctionedPostId($sanctioned_post_id) {
                     total_manpower_imported_sanctioned_post_copy
             WHERE
                     id = $sanctioned_post_id
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
             LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 

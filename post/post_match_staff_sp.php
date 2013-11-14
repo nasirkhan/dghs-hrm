@@ -33,7 +33,8 @@ if ($pk) {
                 `updated_datetime` = \"" . date("Y-m-d H:i:s") . "\",
                 `updated_by` = \"$user_name\"   
             WHERE 
-                `total_manpower_imported_sanctioned_post_copy`.`id` = $value;";
+                `total_manpower_imported_sanctioned_post_copy`.`id` = $value
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>post_match_staff_sp:1</b></p><p>Query:<br />___<br />$sql</p>");
 
     

@@ -22,9 +22,10 @@ total_manpower_imported_sanctioned_post_copy.second_level_id,
 total_manpower_imported_sanctioned_post_copy.second_level_name
 FROM total_manpower_imported_sanctioned_post_copy
 WHERE
-total_manpower_imported_sanctioned_post_copy.first_level_id = $first_level_id AND
-total_manpower_imported_sanctioned_post_copy.second_level_name != \"\" AND
-total_manpower_imported_sanctioned_post_copy.org_code=$org_code
+total_manpower_imported_sanctioned_post_copy.first_level_id = $first_level_id 
+AND total_manpower_imported_sanctioned_post_copy.second_level_name != \"\" 
+AND total_manpower_imported_sanctioned_post_copy.org_code=$org_code
+AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
 GROUP BY total_manpower_imported_sanctioned_post_copy.second_level_name
 ORDER BY total_manpower_imported_sanctioned_post_copy.second_level_name";
 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_sp_second_level:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");

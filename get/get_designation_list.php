@@ -11,6 +11,7 @@ $sql = "SELECT
             total_manpower_imported_sanctioned_post_copy
         WHERE
             org_code = $organization_id
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
         GROUP BY
             designation_id
         ORDER BY

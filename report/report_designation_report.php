@@ -84,7 +84,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
      */
     $desognation_query_string = "";
     $data = mysql_fetch_assoc($org_list_result);
-    $desognation_query_string .= " total_manpower_imported_sanctioned_post_copy.org_code = " . $data['org_code'];
+    $desognation_query_string .= " total_manpower_imported_sanctioned_post_copy.org_code = " . $data['org_code'] . "AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
     if ($staff_category > 0) {
         $desognation_query_string .= " AND  total_manpower_imported_sanctioned_post_copy.bangladesh_professional_category_code = $staff_category";
     }
@@ -341,6 +341,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                                         total_manpower_imported_sanctioned_post_copy
                                                 WHERE
                                                         ($desognation_query_string)
+                                                AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                 AND designation_code = " . $row['designation_code'] . "
                                                 AND staff_id_2 > 0
                                                 ";
@@ -361,7 +362,8 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                                         ($desognation_query_string) 
                                                 AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row['designation_code'] . "
                                                 AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
-                                                AND old_tbl_staff_organization.sex=1";
+                                                AND old_tbl_staff_organization.sex=1
+                                                AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
                                                     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                             $a = mysql_fetch_assoc($r);
                                             $existing_male_count = $a['existing_male_count'];
