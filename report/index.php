@@ -98,7 +98,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                 
                                 <tbody>
                                     <tr>
-                                        <td><a href="report_summary.php">Organization Summary Report</a></td>                                        
+                                        <td><a href="report_summary.php?org_code=<?php echo $org_code; ?>">Organization Summary Report</a></td>                                        
                                     </tr>
                                     <?php if($isAdmin): ?>
                                     <tr>                                        
