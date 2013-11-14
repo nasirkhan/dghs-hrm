@@ -101,6 +101,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                             total_manpower_imported_sanctioned_post_copy
                                     WHERE
                                             org_code = $org_code
+                                            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1    
                                     GROUP BY 
                                             designation
                                     ORDER BY
