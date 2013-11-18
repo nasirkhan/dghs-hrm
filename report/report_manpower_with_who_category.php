@@ -23,17 +23,17 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $isAdmin = TRUE;
 }
 
-//print_r($_POST);
-$div_id = (int) mysql_real_escape_string(trim($_POST['admin_division']));
-$dis_id = (int) mysql_real_escape_string(trim($_POST['admin_district']));
-$upa_id = (int) mysql_real_escape_string(trim($_POST['admin_upazila']));
-$agency_code = (int) mysql_real_escape_string(trim($_POST['org_agency']));
-$type_code = (int) mysql_real_escape_string(trim($_POST['org_type']));
-$form_submit = (int) mysql_real_escape_string(trim($_POST['form_submit']));
-$who_professional = (int) mysql_real_escape_string(trim($_POST['who_professional']));
+//print_r($_REQUEST);
+$div_id = (int) mysql_real_escape_string(trim($_REQUEST['admin_division']));
+$dis_id = (int) mysql_real_escape_string(trim($_REQUEST['admin_district']));
+$upa_id = (int) mysql_real_escape_string(trim($_REQUEST['admin_upazila']));
+$agency_code = (int) mysql_real_escape_string(trim($_REQUEST['org_agency']));
+$type_code = (int) mysql_real_escape_string(trim($_REQUEST['org_type']));
+$form_submit = (int) mysql_real_escape_string(trim($_REQUEST['form_submit']));
+$who_professional = (int) mysql_real_escape_string(trim($_REQUEST['who_professional']));
 
 
-if ($form_submit == 1 && isset($_POST['form_submit'])) {
+if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
 
     /*
      * 
@@ -198,7 +198,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
 
                         <div class="row">
                             <div class="">
-                                <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
                                     <p class="lead">Get the summation of the staffs</p>
                                     <div class="control-group">
                                         <select id="org_agency" name="org_agency">
@@ -263,7 +263,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                             ?>
                                         </select>
 
-                                        <select id="who_professional" name="staff_category">
+                                        <select id="who_professional" name="who_professional">
                                             <option value="0">Select WHO Health Professional Group</option>
                                             <?php
                                             $sql = "SELECT
@@ -291,7 +291,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
                                 </form>
                             </div>
 
-                            <?php if ($form_submit == 1 && isset($_POST['form_submit'])) : ?>
+                            <?php if ($form_submit == 1 && isset($_REQUEST['form_submit'])) : ?>
                                 <div id="result_display">
                                     <div class="alert alert-success" id="generate_report">
                                         <i class="icon-cog icon-spin icon-large"></i> <strong>Generating report...</strong>
