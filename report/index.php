@@ -110,6 +110,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <tr>                                        
                                         <td><a href="report_designation_report.php">Designation Report</a></td>
                                     </tr>
+                                    <tr>                                        
+                                        <td><a href="report_manpower_with_who_category.php">Summary Report WHO Health Professional Group (All Organization)</a></td>
+                                    </tr>
                                     <?php endif; ?>
                                 </tbody>
                                 

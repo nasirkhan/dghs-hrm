@@ -1285,4 +1285,24 @@ function getBangladeshProfessionalStaffCategoryFromCode($code){
     return $data['bangladesh_professional_category_name'];
 }
 
+/**
+ * Get Bangladesh Professional Staff Category From Code
+ * 
+ * @param INT $code
+ * @return STRING bangladesh_professional_category_name
+ */
+function getWhoProfessionalGroupNameFromCode($code){
+    $sql = "SELECT
+                    sanctioned_post_who_health_professional_group.who_health_professional_group_name
+            FROM
+                    `sanctioned_post_who_health_professional_group`
+            WHERE
+                    who_health_professional_group_code = $code
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getWhoProfessionalGroupNameFromCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data['who_health_professional_group_name'];
+}
 ?>
