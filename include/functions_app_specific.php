@@ -1276,7 +1276,7 @@ function getBangladeshProfessionalStaffCategoryFromCode($code){
             FROM
                     `sanctioned_post_bangladesh_professional_category`
             WHERE
-                    bangladesh_professional_category_code = 1
+                    bangladesh_professional_category_code = $code
             AND active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgInfoFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
     
