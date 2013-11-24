@@ -33,9 +33,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
 if ($org_type_code == 1029 || $org_type_code == 1051){  
-    $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
+    $child_org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
     
-    $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
+    $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($child_org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
     
     if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
@@ -191,7 +191,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                 <?php for ($i = 0; $i < $row_count; $i++): ?>
                                     <tr>
 
-                                        <td><a href="home.php?org_code=<?php echo $org_info[$i]['org_code']; ?>"><?php echo $org_info[$i]['org_name']; ?></a></td>
+                                        <td><a href="home.php?org_code=<?php echo $org_info[$i]['org_code']; ?>" target="_blank"><?php echo $org_info[$i]['org_name']; ?></a></td>
                                         <td><?php echo $org_info[$i]['org_code']; ?></td>
                                         <td><?php echo $org_info[$i]['email']; ?></td>
 
