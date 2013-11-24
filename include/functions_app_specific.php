@@ -1305,4 +1305,27 @@ function getWhoProfessionalGroupNameFromCode($code){
     
     return $data['who_health_professional_group_name'];
 }
+
+/**
+ * Organization District Code And Upazila Code From org_Code
+ * @param INT $org_code
+ * @return ARRAY
+ */
+function getOrgDisCodeAndUpaCodeFromOrgCode ($org_code){
+    $sql = "SELECT
+                    district_code,
+                    district_name,
+                    upazila_thana_code,
+                    upazila_thana_name
+            FROM
+                    `organization`
+            WHERE
+                    org_code = '$org_code'
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgDisCodeAndUpaCodeFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+        
+    return $data;
+}
 ?>
