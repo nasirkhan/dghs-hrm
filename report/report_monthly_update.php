@@ -27,7 +27,14 @@ $upa_id = (int) mysql_real_escape_string(trim($_REQUEST['admin_upazila']));
 $agency_code = (int) mysql_real_escape_string(trim($_REQUEST['org_agency']));
 $type_code = (int) mysql_real_escape_string(trim($_REQUEST['org_type']));
 $form_submit = (int) mysql_real_escape_string(trim($_REQUEST['form_submit']));
+$view = mysql_real_escape_string(trim($_REQUEST['view']));
+$status = mysql_real_escape_string(trim($_REQUEST['status']));
 
+
+date_default_timezone_set('Asia/Dhaka');
+$current_month = date("n");
+    
+    
 if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
 
     /*
@@ -66,14 +73,61 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             $query_string .= "organization.org_type_code = $type_code";
         }
     }
+
+
     
-    if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
-        $query_string .= " AND org_type_code > 0 ";
-    }
-    else {
-        $query_string .= "WHERE organization.org_type_code > 0 ";
-    }
-    $sql = "SELECT
+
+
+    $result_count = 0;
+    if ($view == "org_list") {
+        if ($status == "updated") {
+            $sql = "SELECT
+                    organization.org_name,
+                    organization.org_code,
+                    organization.division_name,
+                    organization.district_name,
+                    organization.upazila_thana_name,
+                    organization.mobile_number1,
+                    organization.email_address1
+            FROM
+                    organization
+            $query_string";
+            if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
+                $sql .= " AND monthly_update = $current_month ";
+            } else {
+                $sql .= "WHERE monthly_update = $current_month ";
+            }
+            $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+            $result_count = mysql_num_rows($org_list_result);
+        } else {
+            
+            $sql = "SELECT
+                    organization.org_name,
+                    organization.org_code,
+                    organization.division_name,
+                    organization.district_name,
+                    organization.upazila_thana_name,
+                    organization.mobile_number1,
+                    organization.email_address1
+            FROM
+                    organization
+            $query_string";
+            if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
+                $sql .= " AND monthly_update != $current_month ";
+            } else {
+                $sql .= "WHERE monthly_update != $current_month ";
+            }
+            $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+            $result_count = mysql_num_rows($org_list_result);
+        }
+    } else {
+        if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
+            $query_string .= " AND org_type_code > 0 ";
+        } else {
+            $query_string .= "WHERE organization.org_type_code > 0 ";
+        }
+
+        $sql = "SELECT
                     organization.org_type_name,
                     organization.org_type_code,
                     COUNT(*) AS total_count
@@ -82,22 +136,21 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             $query_string
             GROUP BY
                     organization.org_type_code";
-    $sql .= " ORDER BY org_type_name";
-    $org_type_summary_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+        $sql .= " ORDER BY org_type_name";
+        $org_type_summary_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+        $result_count = mysql_num_rows($org_type_summary_result);
+    }
+
+
 //    echo "$sql";
 
 
-    date_default_timezone_set('Asia/Dhaka');
-    $current_month = date("n");
+    
 
-    if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
-        $query_string .= "AND organization.monthly_update = $current_month";
-    }
+    $count_total_org = 0;
+    $count_total_org_updated = 0;
+    $count_total_org_not_updated = 0;
 }
-
-$count_total_org = 0;
-$count_total_org_updated = 0;
-$count_total_org_not_updated = 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -247,11 +300,11 @@ $count_total_org_not_updated = 0;
                                 </form>
                             </div>
 
-                            <?php
-                            if ($form_submit == 1 && isset($_REQUEST['form_submit'])) :
-                                if (mysql_num_rows($org_type_summary_result)):
-                                    ?>
-                                    <div class="alert alert-info">
+
+                            <?php if ($form_submit == 1 && isset($_REQUEST['form_submit'])) : ?>
+                                <?php if (!$result_count > 0): ?>
+                                    <div class="alert alert-warning">
+                                        <strong><em>No organization found for the following selection.</em></strong><br /><br />
                                         Selected Parameters are:<br>
                                         <?php
                                         $echo_string = "";
@@ -270,26 +323,84 @@ $count_total_org_not_updated = 0;
                                         if ($type_code > 0) {
                                             $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
                                         }
-                                        
+
                                         echo "$echo_string";
                                         ?>
                                     </div>
-                                    <table class="table table-striped table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <td><strong>Organization Type</strong></td>
-                                                <td><strong>Total Number</strong></td>
-                                                <td><strong>Updated HRM Data in Current Month</strong></td>
-                                                <td><strong>Did not updated HRM Data in Current Month</strong></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php while ($row = mysql_fetch_assoc($org_type_summary_result)): ?>
+                                <?php else: ?>
+                                    <div class="alert alert-success">
+                                        Selected Parameters are:<br>
+                                        <?php
+                                        $echo_string = "";
+                                        if ($div_id > 0) {
+                                            $echo_string .= " Division: <strong>" . getDivisionNamefromCode(getDivisionCodeFormId($div_id)) . "</strong><br>";
+                                        }
+                                        if ($dis_id > 0) {
+                                            $echo_string .= " District: <strong>" . getDistrictNamefromCode(getDistrictCodeFormId($dis_id)) . "</strong><br>";
+                                        }
+                                        if ($upa_id > 0) {
+                                            $echo_string .= " Upazila: <strong>" . getUpazilaNamefromCode(getUpazilaCodeFormId($upa_id)) . "</strong><br>";
+                                        }
+                                        if ($agency_code > 0) {
+                                            $echo_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong><br>";
+                                        }
+                                        if ($type_code > 0) {
+                                            $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
+                                        }
+
+                                        echo "$echo_string";
+                                        ?>
+                                    </div>
+
+                                    <?php if ($view == "org_list") : ?>
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
                                                 <tr>
-                                                    <td><?php echo $row['org_type_name']; ?></td>
-                                                    <td><?php echo $row['total_count']; ?></td>
-                                                    <?php
-                                                    $sql = "SELECT
+                                                    <td>#</td>
+                                                    <td><strong>Organization Name</strong></td>
+                                                    <td><strong>Division</strong></td>
+                                                    <td><strong>District</strong></td>
+                                                    <td><strong>Upazila</strong></td>
+                                                    <td><strong>Email</strong></td>
+                                                    <td><strong>Contact</strong></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $j = 0;
+                                                while ($row = mysql_fetch_assoc($org_list_result)):
+                                                    $j++;
+                                                    ?>
+                                                    <tr>
+                                                        <td><?php echo $j; ?></td>
+                                                        <td><?php echo $row['org_name'] . "(" . $row['org_code'] . ")"; ?></td>
+                                                        <td><?php echo $row['division_name']; ?></td>
+                                                        <td><?php echo $row['district_name']; ?></td>
+                                                        <td><?php echo $row['upazila_thana_name']; ?></td>
+                                                        <td><?php echo $row['email_address1']; ?></td>
+                                                        <td><?php echo $row['mobile_number1']; ?></td>
+                                                    </tr>
+                                                <?php endwhile; ?>
+                                            </tbody>
+                                        </table>
+
+                                    <?php else: ?>
+                                        <table class="table table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <td><strong>Organization Type</strong></td>
+                                                    <td><strong>Total Number</strong></td>
+                                                    <td><strong>Updated HRM Data in Current Month</strong></td>
+                                                    <td><strong>Did not updated HRM Data in Current Month</strong></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php while ($row = mysql_fetch_assoc($org_type_summary_result)): ?>
+                                                    <tr>
+                                                        <td><?php echo $row['org_type_name']; ?></td>
+                                                        <td><?php echo $row['total_count']; ?></td>
+                                                        <?php
+                                                        $sql = "SELECT
                                                                     org_type_name,
                                                                     org_type_code
                                                             FROM
@@ -297,52 +408,46 @@ $count_total_org_not_updated = 0;
                                                             WHERE
                                                                     org_type_code = " . $row['org_type_code'] . "
                                                             AND monthly_update = $current_month";
-                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                                    $total_updated = mysql_num_rows($result);
-                                                    $total_not_updated = $row['total_count'] - $total_updated;
-                                                    
-                                                    $count_total_org += $row['total_count'];
-                                                    $count_total_org_updated += $total_updated;
-                                                    ?>
-                                                    <td><?php echo $total_updated; ?></td>
-                                                    <td><?php echo $total_not_updated; ?></td>
-                                                </tr>
-                                            <?php endwhile; ?>
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        $total_updated = mysql_num_rows($result);
+                                                        $total_not_updated = $row['total_count'] - $total_updated;
+
+                                                        $count_total_org += $row['total_count'];
+                                                        $count_total_org_updated += $total_updated;
+                                                        ?>
+                                                        <td>
+                                                            <?php if ($total_updated > 0): ?>
+                                                            <a href="report_monthly_update.php?org_agency=<?php echo $agency_code; ?>&admin_division=<?php echo $div_id; ?>&admin_district=<?php echo $dis_id; ?>&admin_upazila=<?php echo $upa_id; ?>&org_type=<?php echo $row['org_type_code']; ?>&form_submit=1&view=org_list&status=updated"><?php echo $total_updated; ?></a>
+                                                            <?php else: ?>
+                                                                <?php echo $total_updated; ?>
+                                                            <?php endif; ?>
+                                                            
+                                                        </td>
+                                                        <td>
+                                                            <?php if ($total_not_updated > 0): ?>
+                                                            <a href="report_monthly_update.php?org_agency=<?php echo $agency_code; ?>&admin_division=<?php echo $div_id; ?>&admin_district=<?php echo $dis_id; ?>&admin_upazila=<?php echo $upa_id; ?>&org_type=<?php echo $row['org_type_code']; ?>&form_submit=1&view=org_list&status=not_updated"><?php echo $total_not_updated; ?></a>
+                                                            <?php else: ?>
+                                                                <?php echo $total_not_updated; ?>
+                                                            <?php endif; ?>
+                                                            
+                                                        </td>
+                                                    </tr>
+                                                <?php endwhile; ?>
                                                 <tr class="success">
                                                     <td><strong>Summary</strong></td>
                                                     <td><strong><?php echo $count_total_org; ?></strong></td>
                                                     <td><strong><?php echo $count_total_org_updated; ?></strong></td>
                                                     <td><strong><?php echo $count_total_org - $count_total_org_updated; ?></strong></td>
                                                 </tr>
-                                        </tbody>
-                                    </table>
-
+                                            </tbody>
+                                        </table>
+                                    <?php endif; ?>
                                 <?php endif; ?>
-                            <div class="alert alert-warning">
-                                <strong><em>No organization found for the following selection.</em></strong><br /><br />
-                                    Selected Parameters are:<br>
-                                    <?php
-                                    $echo_string = "";
-                                    if ($div_id > 0) {
-                                        $echo_string .= " Division: <strong>" . getDivisionNamefromCode(getDivisionCodeFormId($div_id)) . "</strong><br>";
-                                    }
-                                    if ($dis_id > 0) {
-                                        $echo_string .= " District: <strong>" . getDistrictNamefromCode(getDistrictCodeFormId($dis_id)) . "</strong><br>";
-                                    }
-                                    if ($upa_id > 0) {
-                                        $echo_string .= " Upazila: <strong>" . getUpazilaNamefromCode(getUpazilaCodeFormId($upa_id)) . "</strong><br>";
-                                    }
-                                    if ($agency_code > 0) {
-                                        $echo_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong><br>";
-                                    }
-                                    if ($type_code > 0) {
-                                        $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
-                                    }
 
-                                    echo "$echo_string";
-                                    ?>
-                                </div>
+
                             <?php endif; ?>
+
+
                         </div>
 
                     </section>
