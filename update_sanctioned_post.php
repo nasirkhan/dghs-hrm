@@ -30,6 +30,17 @@ if ($_SESSION['user_type'] != "admin"){
     header("location:home.php?org_code=$org_code");
 }
 
+$step = 0;
+if(isset($_REQUEST['step'])){
+    $step = (int) mysql_real_escape_string(trim($_REQUEST['step']));
+    
+    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
+    
+    $designation_code = (int) mysql_real_escape_string($_GET['designation_code']);
+    $designation_name = getDesignationNameformCode($designation_code);
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -103,27 +114,109 @@ if ($_SESSION['user_type'] != "admin"){
                     </ul>
                 </div>
                 <div class="span9">
-                    <!-- admin home
+                    <!-- Update Sanctioned Post
                     ================================================== -->
                     <section id="admin_home_main">
-                        <h3>Admin Dashboard</h3>
+                        <h3>Update Sanctioned Post</h3>
 
-                        <div class="row-fluid"> 
+                        <?php if ($step == 0) : ?>
+                        <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+                            <div class="control-group">
+                                <label class="control-label" for="org_code">Enter Org Code</label>
+                                <div class="controls">
+                                    <input type="text" id="org_code" name="org_code" placeholder="Organization Code" class="input-xlarge "> 
+                                </div>
+                            </div>
                             
-                            <a href="search.php" class="btn btn-large btn-warning">
-                                <i class="icon-search pull-left icon-3x"></i> Search
-                            </a>
+                            <div class="control-group">
+                                <div class="controls">   
+                                    <input type="hidden" id="step" name="step" value="1"> 
+                                    <button type="submit" class="btn btn-success btn-large">Get Designation List</button>
+                                </div>
+                            </div>
+                        </form>
+                        <?php endif; ?>
+                        <?php if ($step == 1) : ?>
+                        <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+                            <div class="control-group">
+                                <label class="control-label" for="designation_code">Designation</label>
+                                <div class="controls">
+                                    <select id="designation_code" name="designation_code">
+                                        <option value="0">Select Designation</option>
+                                        <?php
+                                        $sql = "SELECT
+                                                        *
+                                                FROM
+                                                        `total_manpower_imported_sanctioned_post_copy`
+                                                WHERE
+                                                        org_code = '$org_code'
+                                                AND active LIKE 1
+                                                GROUP BY
+                                                        designation_code";
+                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>designation_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                            <a href="add_new.php" class="btn btn-large btn-info">
-                                <i class="icon-plus pull-left icon-3x"></i> Add New
-                            </a>
+                                        while ($rows = mysql_fetch_assoc($result)) {
+                                            echo "<option value=\"" . $rows['designation_code'] . "\">" . $rows['designation'] . "</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
                             
-                            <a href="update_sanctioned_post.php" class="btn btn-large">
-                                <i class="icon-group pull-left icon-3x"></i> Update sanctioned Post
-                            </a>
-                            
-                        </div>  
-
+                            <div class="control-group">
+                                <div class="controls">   
+                                    <input type="hidden" id="org_code" name="org_code" value="<?php echo "$org_code"; ?>"> 
+                                    <input type="hidden" id="step" name="step" value="2">
+                                    <button type="submit" class="btn btn-success btn-large">Get Sanctioned Post List</button>
+                                </div>
+                            </div>
+                        </form>
+                        <?php endif; ?>
+                        <?php if ($step == 2) : ?>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <td><strong>Designation Name</strong></td>
+                                    <td><strong>Sanctioned Post ID</strong></td>
+                                    <td><strong>Staff Name (Staff ID)</strong></td>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php 
+                                
+                                $sql = "SELECT
+                                                *
+                                        FROM
+                                                `total_manpower_imported_sanctioned_post_copy`
+                                        WHERE
+                                                org_code = '$org_code'
+                                        AND designation_code = '$designation_code'            
+                                        AND active LIKE 1
+                                        GROUP BY
+                                                designation_code";
+                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>designation_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                while ($data = mysql_fetch_assoc($result)):
+                                ?>
+                                <tr>
+                                    <td><?php echo $designation_name; ?></td>
+                                    <td><?php echo $data['id']; ?></td>
+                                    <td>
+                                        <?php if ($data['staff_id_2'] > 0){
+                                            echo "<a href=\"employee.php?staff_id=" . $data['staff_id_2'] . "\" target=_blank>";
+                                            echo getStaffNameFromId($data['staff_id_2']) . "(" . $data['staff_id_2'] . ")";
+                                            echo "</a>";
+                                        }
+                                        else{
+                                            echo $data['staff_id_2'];
+                                        }
+?>
+                                    </td>
+                                </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                        <?php endif; ?>
                     </section> <!-- /admin_home_main -->                   
                 </div>
             </div>
