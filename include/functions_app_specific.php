@@ -536,7 +536,7 @@ function getDesignationNameFormStaffId($staff_id) {
 
     if (!$data['designation_id'] > 0)
         return "0";
-    $sql = "SELECT designation FROM old_designation WHERE id = " . $data['designation_id'];
+    $sql = "SELECT designation FROM sanctioned_post_designation WHERE id = " . $data['designation_id'];
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormStaffId:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
