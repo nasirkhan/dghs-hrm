@@ -66,7 +66,13 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             $query_string .= "organization.org_type_code = $type_code";
         }
     }
-
+    
+    if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
+        $query_string .= " AND org_type_code > 0 ";
+    }
+    else {
+        $query_string .= "WHERE organization.org_type_code > 0 ";
+    }
     $sql = "SELECT
                     organization.org_type_name,
                     organization.org_type_code,
@@ -79,15 +85,19 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
     $sql .= " ORDER BY org_type_name";
     $org_type_summary_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 //    echo "$sql";
-    
-    
+
+
     date_default_timezone_set('Asia/Dhaka');
     $current_month = date("n");
-    
-    if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0){
+
+    if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
         $query_string .= "AND organization.monthly_update = $current_month";
     }
 }
+
+$count_total_org = 0;
+$count_total_org_updated = 0;
+$count_total_org_not_updated = 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -237,9 +247,33 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                 </form>
                             </div>
 
-                            <?php if ($form_submit == 1 && isset($_REQUEST['form_submit'])) :
+                            <?php
+                            if ($form_submit == 1 && isset($_REQUEST['form_submit'])) :
                                 if (mysql_num_rows($org_type_summary_result)):
                                     ?>
+                                    <div class="alert alert-info">
+                                        Selected Parameters are:<br>
+                                        <?php
+                                        $echo_string = "";
+                                        if ($div_id > 0) {
+                                            $echo_string .= " Division: <strong>" . getDivisionNamefromCode(getDivisionCodeFormId($div_id)) . "</strong><br>";
+                                        }
+                                        if ($dis_id > 0) {
+                                            $echo_string .= " District: <strong>" . getDistrictNamefromCode(getDistrictCodeFormId($dis_id)) . "</strong><br>";
+                                        }
+                                        if ($upa_id > 0) {
+                                            $echo_string .= " Upazila: <strong>" . getUpazilaNamefromCode(getUpazilaCodeFormId($upa_id)) . "</strong><br>";
+                                        }
+                                        if ($agency_code > 0) {
+                                            $echo_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong><br>";
+                                        }
+                                        if ($type_code > 0) {
+                                            $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
+                                        }
+                                        
+                                        echo "$echo_string";
+                                        ?>
+                                    </div>
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -254,14 +288,60 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                 <tr>
                                                     <td><?php echo $row['org_type_name']; ?></td>
                                                     <td><?php echo $row['total_count']; ?></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <?php
+                                                    $sql = "SELECT
+                                                                    org_type_name,
+                                                                    org_type_code
+                                                            FROM
+                                                                    organization
+                                                            WHERE
+                                                                    org_type_code = " . $row['org_type_code'] . "
+                                                            AND monthly_update = $current_month";
+                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                    $total_updated = mysql_num_rows($result);
+                                                    $total_not_updated = $row['total_count'] - $total_updated;
+                                                    
+                                                    $count_total_org += $row['total_count'];
+                                                    $count_total_org_updated += $total_updated;
+                                                    ?>
+                                                    <td><?php echo $total_updated; ?></td>
+                                                    <td><?php echo $total_not_updated; ?></td>
                                                 </tr>
                                             <?php endwhile; ?>
+                                                <tr class="success">
+                                                    <td><strong>Summary</strong></td>
+                                                    <td><strong><?php echo $count_total_org; ?></strong></td>
+                                                    <td><strong><?php echo $count_total_org_updated; ?></strong></td>
+                                                    <td><strong><?php echo $count_total_org - $count_total_org_updated; ?></strong></td>
+                                                </tr>
                                         </tbody>
                                     </table>
 
                                 <?php endif; ?>
+                            <div class="alert alert-warning">
+                                <strong><em>No organization found for the following selection.</em></strong><br /><br />
+                                    Selected Parameters are:<br>
+                                    <?php
+                                    $echo_string = "";
+                                    if ($div_id > 0) {
+                                        $echo_string .= " Division: <strong>" . getDivisionNamefromCode(getDivisionCodeFormId($div_id)) . "</strong><br>";
+                                    }
+                                    if ($dis_id > 0) {
+                                        $echo_string .= " District: <strong>" . getDistrictNamefromCode(getDistrictCodeFormId($dis_id)) . "</strong><br>";
+                                    }
+                                    if ($upa_id > 0) {
+                                        $echo_string .= " Upazila: <strong>" . getUpazilaNamefromCode(getUpazilaCodeFormId($upa_id)) . "</strong><br>";
+                                    }
+                                    if ($agency_code > 0) {
+                                        $echo_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong><br>";
+                                    }
+                                    if ($type_code > 0) {
+                                        $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
+                                    }
+
+                                    echo "$echo_string";
+                                    ?>
+                                </div>
                             <?php endif; ?>
                         </div>
 
