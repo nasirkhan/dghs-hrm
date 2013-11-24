@@ -15,7 +15,7 @@ $area_level = mysql_real_escape_string(trim($_REQUEST['area_level']));
 $format = mysql_real_escape_string(trim($_REQUEST['format']));
 
 function getOrganizationBasicInfo($org_code) {
-    $sql = "SELECT * FROM organization WHERE  org_code =$org_code LIMIT 1";
+    $sql = "SELECT * FROM organization WHERE  org_code ='$org_code' LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrganizationBasicInfo:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
@@ -29,7 +29,7 @@ function getStaffBasicInfo($staff_id, $format) {
             FROM
                 old_tbl_staff_organization
             WHERE
-                old_tbl_staff_organization.staff_id = $staff_id
+                old_tbl_staff_organization.staff_id = '$staff_id'
             LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getStaffBasicInfo:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -41,16 +41,16 @@ function getListOfOrganizations($div_code, $dis_code, $upa_code, $agency_code, $
     $query_string = "";
 
     if ($upa_code > 0) {
-        $query_string .= " AND organization.upazila_thana_code = $upa_code";
+        $query_string .= " AND organization.upazila_thana_code = '$upa_code'";
     }
     if ($dis_code > 0) {
-        $query_string .= " AND organization.district_code = $dis_code";
+        $query_string .= " AND organization.district_code = '$dis_code'";
     }
     if ($div_code > 0) {
-        $query_string .= " AND organization.division_code = $div_code";
+        $query_string .= " AND organization.division_code = '$div_code'";
     }
     if ($org_type_code > 0) {
-        $query_string .= " AND organization.org_type_code = $org_type_code";
+        $query_string .= " AND organization.org_type_code = '$org_type_code'";
     }
 
     $query_string .= " ORDER BY org_name";
@@ -66,7 +66,7 @@ function getListOfOrganizations($div_code, $dis_code, $upa_code, $agency_code, $
             FROM
                 organization
             WHERE
-                organization.agency_code = $agency_code ";
+                organization.agency_code = '$agency_code' ";
     $sql .= $query_string;
 
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getListOfOrganizations:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
