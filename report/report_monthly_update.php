@@ -93,9 +93,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                     organization
             $query_string";
             if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
-                $sql .= " AND monthly_update = $current_month ";
+                $sql .= " AND monthly_update = $current_month AND active LIKE 1 ";
             } else {
-                $sql .= "WHERE monthly_update = $current_month ";
+                $sql .= "WHERE monthly_update = $current_month AND active LIKE 1 ";
             }
             $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
             $result_count = mysql_num_rows($org_list_result);
@@ -113,9 +113,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                     organization
             $query_string";
             if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
-                $sql .= " AND monthly_update != $current_month ";
+                $sql .= " AND monthly_update != $current_month  AND active LIKE 1 ";
             } else {
-                $sql .= "WHERE monthly_update != $current_month ";
+                $sql .= "WHERE monthly_update != $current_month  AND active LIKE 1 ";
             }
             $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
             $result_count = mysql_num_rows($org_list_result);
