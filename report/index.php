@@ -98,7 +98,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                 
                                 <tbody>
                                     <tr>
-                                        <td><a href="report_summary.php">Organization Summary Report</a></td>                                        
+                                        <td><a href="report_summary.php?org_code=<?php echo $org_code; ?>">Organization Summary Report</a></td>                                        
                                     </tr>
                                     <?php if($isAdmin): ?>
                                     <tr>                                        
@@ -106,6 +106,12 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     </tr>
                                     <tr>                                        
                                         <td><a href="report_org_list.php">Organization List</a></td>
+                                    </tr>
+                                    <tr>                                        
+                                        <td><a href="report_designation_report.php">Designation Report</a></td>
+                                    </tr>
+                                    <tr>                                        
+                                        <td><a href="report_manpower_with_who_category.php">Summary Report WHO Health Professional Group (All Organization)</a></td>
                                     </tr>
                                     <?php endif; ?>
                                 </tbody>

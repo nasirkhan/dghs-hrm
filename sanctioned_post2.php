@@ -129,6 +129,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                             FROM total_manpower_imported_sanctioned_post_copy
                                             WHERE total_manpower_imported_sanctioned_post_copy.org_code= $org_code 
                                             AND total_manpower_imported_sanctioned_post_copy.first_level_name != \"\"
+                                            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                             GROUP BY total_manpower_imported_sanctioned_post_copy.first_level_name
                                             ORDER BY total_manpower_imported_sanctioned_post_copy.first_level_name";
                                     $first_level_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sanctioned_post_divisions:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");

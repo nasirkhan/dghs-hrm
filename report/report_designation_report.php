@@ -31,7 +31,7 @@ $agency_code = (int) mysql_real_escape_string(trim($_REQUEST['org_agency']));
 $type_code = (int) mysql_real_escape_string(trim($_REQUEST['org_type']));
 $form_submit = (int) mysql_real_escape_string(trim($_REQUEST['form_submit']));
 $staff_category = (int) mysql_real_escape_string(trim($_REQUEST['staff_category']));
-
+$staff_designation = (int) mysql_real_escape_string(trim($_REQUEST['staff_designation']));
 
 if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
 
@@ -44,54 +44,58 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
         $query_string .= " WHERE ";
 
         if ($agency_code > 0) {
-            $query_string .= "organization.agency_code = $agency_code";
+            $query_string .= "organization.agency_code = '$agency_code'";
         }
         if ($upa_id > 0) {
             if ($agency_code > 0) {
                 $query_string .= " AND ";
             }
-            $query_string .= "organization.upazila_id = $upa_id";
+            $query_string .= "organization.upazila_id = '$upa_id'";
         }
         if ($dis_id > 0) {
             if ($upa_id > 0 || $agency_code > 0) {
                 $query_string .= " AND ";
             }
-            $query_string .= "organization.district_id = $dis_id";
+            $query_string .= "organization.district_id = '$dis_id'";
         }
         if ($div_id > 0) {
             if ($dis_id > 0 || $upa_id > 0 || $agency_code > 0) {
                 $query_string .= " AND ";
             }
-            $query_string .= "organization.division_id = $div_id";
+            $query_string .= "organization.division_id = '$div_id'";
         }
         if ($type_code > 0) {
             if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0) {
                 $query_string .= " AND ";
             }
-            $query_string .= "organization.org_type_code = $type_code";
-        }
+            $query_string .= "organization.org_type_code = '$type_code'";
+        }        
     }
 
     $query_string .= " ORDER BY org_name";
 
     $sql = "SELECT organization.org_name, organization.org_code FROM organization $query_string";
     $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-//    echo "$sql";
+    
+    $org_list_result_count = mysql_num_rows($org_list_result);
+//echo "$sql";
 
     /*     * *
      * 
      * get the sanctioned post count
      */
-    $desognation_query_string = "";
+    $designation_query_string = "";
     $data = mysql_fetch_assoc($org_list_result);
-    $data_count = mysql_num_rows($org_list_result);
-    $desognation_query_string .= " total_manpower_imported_sanctioned_post_copy.org_code = " . $data['org_code'];
+    $designation_query_string .= " total_manpower_imported_sanctioned_post_copy.org_code = '" . $data['org_code'] . "' AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
     if ($staff_category > 0) {
-        $desognation_query_string .= " AND  total_manpower_imported_sanctioned_post_copy.bangladesh_professional_category_code = $staff_category";
+        $designation_query_string .= " AND  total_manpower_imported_sanctioned_post_copy.bangladesh_professional_category_code = '$staff_category'";
+    }
+    if ($staff_designation > 0) {
+        $designation_query_string .= " AND  total_manpower_imported_sanctioned_post_copy.sanctioned_post_group_code = '$staff_designation'";
     }
 
     while ($data = mysql_fetch_assoc($org_list_result)) {
-        $desognation_query_string .= " OR total_manpower_imported_sanctioned_post_copy.org_code = '" . $data['org_code'] . "'";
+        $designation_query_string .= " OR total_manpower_imported_sanctioned_post_copy.org_code = '" . $data['org_code'] . "'";
     }
 
     $sql = "SELECT
@@ -106,20 +110,13 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                 total_manpower_imported_sanctioned_post_copy
         LEFT JOIN `sanctioned_post_designation` ON total_manpower_imported_sanctioned_post_copy.designation_code = sanctioned_post_designation.designation_code
         WHERE
-                $desognation_query_string
-                AND total_manpower_imported_sanctioned_post_copy.active LIKE 1    
+                $designation_query_string
         GROUP BY 
                 total_manpower_imported_sanctioned_post_copy.designation
         ORDER BY
                 sanctioned_post_designation.ranking";
-    
-    $total_sanctioned_post = 0;
-    if ($data_count > 0) {
-        $designation_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-        $total_sanctioned_post = mysql_num_rows($designation_result);
-    }
-
-    
+    $designation_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $total_sanctioned_post = mysql_num_rows($designation_result);
     $total_sanctioned_post_count_sum = 0;
     $total_sanctioned_post_existing_sum = 0;
     $total_existing_male_sum = 0;
@@ -131,7 +128,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title><?php echo $org_name . " Report | " . $app_name; ?></title>
+        <title><?php echo $org_name . " | " . $app_name; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="Nasir Khan Saikat(nasir8891@gmail.com)">
@@ -185,10 +182,10 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                         <?php if ($_SESSION['user_type'] == "admin"): ?>
                             <li><a href="../admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
                             <?php endif; ?>
-                            <?php
-                            $active_menu = "report/index";
-                            include_once '../include/left_menu_report_page.php';
-                            ?>
+                        <?php 
+                        $active_menu = "report/index";
+                        include_once '../include/left_menu_report_page.php'; 
+                        ?>
                     </ul>
                 </div>
                 <div class="span9">
@@ -199,7 +196,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                         <div class="row">
                             <div class="">
                                 <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                    <p class="lead">Get the summation of the staffs</p>
+                                    <p class="lead">Designation Report</p>
                                     <div class="control-group">
                                         <select id="org_agency" name="org_agency">
                                             <option value="0">Select Agency</option>
@@ -242,9 +239,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                         </select>
                                     </div>
 
-
+                                    
                                     <div class="control-group">
-
+                                        
                                         <select id="org_type" name="org_type">
                                             <option value="0">Select Org Type</option>
                                             <?php
@@ -262,7 +259,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             }
                                             ?>
                                         </select>
-
+                                        
                                         <select id="staff_category" name="staff_category">
                                             <option value="0">Select Staff Category</option>
                                             <?php
@@ -280,7 +277,11 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             }
                                             ?>
                                         </select>
-
+                                        
+                                        <select id="staff_designation" name="staff_designation">
+                                            <option value="0">Select Designation</option>
+                                        </select>
+                                        
                                     </div>
                                     <input name="form_submit" value="1" type="hidden" />
                                     <div class="control-group">
@@ -290,7 +291,6 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                     </div>  
                                 </form>
                             </div>
-
                             <?php if ($form_submit == 1 && isset($_REQUEST['form_submit'])) : ?>
                                 <div id="result_display">
                                     <div class="alert alert-success" id="generate_report">
@@ -299,29 +299,28 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                     <div class="alert alert-info">
                                         Selected Parameters are:<br>
                                         <?php
-                                        $echo_string = "";
-                                        if ($div_id > 0) {
+                                        $echo_string="";
+                                        if ($div_id > 0){
                                             $echo_string .= " Division: <strong>" . getDivisionNamefromCode(getDivisionCodeFormId($div_id)) . "</strong><br>";
                                         }
-                                        if ($dis_id > 0) {
+                                        if ($dis_id > 0){
                                             $echo_string .= " District: <strong>" . getDistrictNamefromCode(getDistrictCodeFormId($dis_id)) . "</strong><br>";
                                         }
-                                        if ($upa_id > 0) {
+                                        if ($upa_id > 0){
                                             $echo_string .= " Upazila: <strong>" . getUpazilaNamefromCode(getUpazilaCodeFormId($upa_id)) . "</strong><br>";
                                         }
-                                        if ($agency_code > 0) {
+                                        if ($agency_code > 0){
                                             $echo_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong><br>";
                                         }
-                                        if ($type_code > 0) {
+                                        if ($type_code > 0){
                                             $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
                                         }
-                                        if ($staff_category > 0) {
+                                        if($staff_category > 0){
                                             $echo_string .= " Bangladesh Professional Staff Category: <strong>" . getBangladeshProfessionalStaffCategoryFromCode($staff_category) . "</strong><br>";
                                         }
                                         echo "$echo_string";
                                         ?>
                                     </div>
-
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
@@ -340,28 +339,27 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                         <tbody>
                                             <?php
                                             $row_serial = 0;
-                                            if ($total_sanctioned_post > 0):
-
-                                                while ($row = mysql_fetch_assoc($designation_result)) :
-                                                    $row_serial++;
-                                                    $sql = "SELECT
+                                            while ($row = mysql_fetch_assoc($designation_result)) :
+                                                $row_serial++;
+                                                $sql = "SELECT
                                                         designation,
                                                         designation_code,
                                                         COUNT(*) AS existing_total_count
                                                 FROM
                                                         total_manpower_imported_sanctioned_post_copy
                                                 WHERE
-                                                        ($desognation_query_string)
+                                                        ($designation_query_string)
+                                                AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                 AND designation_code = " . $row['designation_code'] . "
                                                 AND staff_id_2 > 0
                                                 ";
 //                                                echo "$sql";
 //                                                die();
-                                                    $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                                    $a = mysql_fetch_assoc($r);
-                                                    $existing_total_count = $a['existing_total_count'];
-
-                                                    $sql = "SELECT
+                                                $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                $a = mysql_fetch_assoc($r);
+                                                $existing_total_count = $a['existing_total_count'];
+                                            
+                                            $sql= "SELECT
                                                         total_manpower_imported_sanctioned_post_copy.designation,
                                                         total_manpower_imported_sanctioned_post_copy.designation_code,
                                                         COUNT(*) AS existing_male_count
@@ -369,38 +367,37 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                         total_manpower_imported_sanctioned_post_copy
                                                 LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.staff_id = total_manpower_imported_sanctioned_post_copy.staff_id_2
                                                 WHERE
-                                                        ($desognation_query_string) 
+                                                        ($designation_query_string) 
                                                 AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row['designation_code'] . "
                                                 AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
                                                 AND old_tbl_staff_organization.sex=1
                                                 AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
                                                     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:4</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                                    $a = mysql_fetch_assoc($r);
-                                                    $existing_male_count = $a['existing_male_count'];
-
-                                                    $existing_female_count = $existing_total_count - $existing_male_count;
-                                                    $total_sanctioned_post_count_sum += $row['sp_count'];
-                                                    $total_sanctioned_post_existing_sum += $existing_total_count;
-                                                    $total_existing_male_sum += $existing_male_count;
-                                                    $total_existing_female_sum += $existing_female_count;
-                                                    ?>
-                                                    <tr>
-                                                        <td><?php echo "$row_serial"; ?></td>
-                                                        <td><?php echo $row['designation']; ?></td>
-                                                        <td><?php echo getTypeOfPostNameFromCode($row['type_of_post']); ?></td>
-                                                        <td><?php echo $row['class']; ?></td>
-                                                        <td><?php echo $row['payscale']; ?></td>
-                                                        <td><?php echo $row['sp_count']; ?></td>
-                                                        <td><?php echo $existing_total_count; ?></td>
-                                                        <td><?php echo $existing_male_count; ?></td>
-                                                        <td><?php echo $existing_female_count; ?></td>
-                                                        <td><?php echo $row['sp_count'] - $existing_total_count; ?></td>
-                                                    </tr>
-                                                <?php endwhile; ?>
-
-                                            <?php endif; ?>    
+                                            $a = mysql_fetch_assoc($r);
+                                            $existing_male_count = $a['existing_male_count'];
+                                            
+                                            $existing_female_count = $existing_total_count-$existing_male_count;
+                                            $total_sanctioned_post_count_sum += $row['sp_count'];
+                                            $total_sanctioned_post_existing_sum += $existing_total_count;
+                                            $total_existing_male_sum += $existing_male_count;
+                                            $total_existing_female_sum += $existing_female_count;
+                                            
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo "$row_serial"; ?></td>
+                                                    <td><?php echo $row['designation']; ?></td>
+                                                    <td><?php echo getTypeOfPostNameFromCode($row['type_of_post']); ?></td>
+                                                    <td><?php echo $row['class']; ?></td>
+                                                    <td><?php echo $row['payscale']; ?></td>
+                                                    <td><?php echo $row['sp_count']; ?></td>
+                                                    <td><?php echo $existing_total_count; ?></td>
+                                                    <td><?php echo $existing_male_count; ?></td>
+                                                    <td><?php echo $existing_female_count; ?></td>
+                                                    <td><?php echo $row['sp_count'] - $existing_total_count; ?></td>
+                                                </tr>
+                                            <?php endwhile; ?>
                                             <tr class="info">
-
+                                                
                                                 <td colspan="5"><strong>Summary</strong></td>                                                
                                                 <td><strong><?php echo $total_sanctioned_post_count_sum; ?></strong></td>
                                                 <td><strong><?php echo $total_sanctioned_post_existing_sum; ?></strong></td>
@@ -492,7 +489,28 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                     }
                 });
             });
-
+            
+            // load designation 
+            $('#staff_category').change(function() {
+                var bd_professional_category = $('#staff_category').val();
+                $("#loading_content").show();
+                $.ajax({
+                    type: "POST",
+                    url: '../get/get_designation_list_by_bd_profession.php',
+                    data: {bd_professional_category: bd_professional_category},
+                    dataType: 'json',
+                    success: function(data)
+                    {
+                        $("#loading_content").hide();
+                        var admin_upazila = document.getElementById('staff_designation');
+                        admin_upazila.options.length = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var d = data[i];
+                            admin_upazila.options.add(new Option(d.text, d.value));
+                        }
+                    }
+                });
+            });
             $("#generate_report").hide();
         </script>
     </body>

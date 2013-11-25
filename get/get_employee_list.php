@@ -11,6 +11,7 @@ $sql = "SELECT
             total_manpower_imported_sanctioned_post_copy.staff_id
         FROM
             total_manpower_imported_sanctioned_post_copy
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
         WHERE
             total_manpower_imported_sanctioned_post_copy.org_code = $organization_code
             

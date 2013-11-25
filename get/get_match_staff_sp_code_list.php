@@ -32,6 +32,7 @@ $sql = "SELECT
                 org_code =$org_code
             AND 
                 staff_id_2 = $staff_id
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
         LIMIT 1";
 $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>get_match_staff_sp_code_list:1</b></p><p>Query:<br />___<br />$sql</p>");
 $count= mysql_num_rows($result);
@@ -51,6 +52,7 @@ $sql = "SELECT
                 org_code =$org_code
             AND 
                 staff_id_2 = 0
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1    
         ORDER BY designation";
 $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>get_match_staff_sp_code_list:1</b></p><p>Query:<br />___<br />$sql</p>");
 $data = array();

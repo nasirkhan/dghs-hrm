@@ -30,7 +30,7 @@ $upa_id = (int) mysql_real_escape_string(trim($_REQUEST['admin_upazila']));
 $agency_code = (int) mysql_real_escape_string(trim($_REQUEST['org_agency']));
 $type_code = (int) mysql_real_escape_string(trim($_REQUEST['org_type']));
 $form_submit = (int) mysql_real_escape_string(trim($_REQUEST['form_submit']));
-$staff_category = (int) mysql_real_escape_string(trim($_REQUEST['staff_category']));
+$who_professional = (int) mysql_real_escape_string(trim($_REQUEST['who_professional']));
 
 
 if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
@@ -86,8 +86,8 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
     $data = mysql_fetch_assoc($org_list_result);
     $data_count = mysql_num_rows($org_list_result);
     $desognation_query_string .= " total_manpower_imported_sanctioned_post_copy.org_code = " . $data['org_code'];
-    if ($staff_category > 0) {
-        $desognation_query_string .= " AND  total_manpower_imported_sanctioned_post_copy.bangladesh_professional_category_code = $staff_category";
+    if ($who_professional > 0) {
+        $desognation_query_string .= " AND  total_manpower_imported_sanctioned_post_copy.who_occupation_group_code = $who_professional";
     }
 
     while ($data = mysql_fetch_assoc($org_list_result)) {
@@ -263,20 +263,20 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             ?>
                                         </select>
 
-                                        <select id="staff_category" name="staff_category">
-                                            <option value="0">Select Staff Category</option>
+                                        <select id="who_professional" name="who_professional">
+                                            <option value="0">Select WHO Health Professional Group</option>
                                             <?php
                                             $sql = "SELECT
-                                                            bangladesh_professional_category_code,
-                                                            bangladesh_professional_category_name
+                                                            sanctioned_post_who_health_professional_group.who_health_professional_group_code,
+                                                            sanctioned_post_who_health_professional_group.who_health_professional_group_name
                                                     FROM
-                                                            `sanctioned_post_bangladesh_professional_category`
+                                                            `sanctioned_post_who_health_professional_group`
                                                     WHERE
-                                                            active LIKE 1;";
-                                            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>bangladesh_professional_category:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                            active LIKE 1";
+                                            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>who_health_professional_group_code:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
-                                                echo "<option value=\"" . $rows['bangladesh_professional_category_code'] . "\">" . $rows['bangladesh_professional_category_name'] . "</option>";
+                                                echo "<option value=\"" . $rows['who_health_professional_group_code'] . "\">" . $rows['who_health_professional_group_name'] . "</option>";
                                             }
                                             ?>
                                         </select>
@@ -315,8 +315,8 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                         if ($type_code > 0) {
                                             $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
                                         }
-                                        if ($staff_category > 0) {
-                                            $echo_string .= " Bangladesh Professional Staff Category: <strong>" . getBangladeshProfessionalStaffCategoryFromCode($staff_category) . "</strong><br>";
+                                        if ($who_professional > 0) {
+                                            $echo_string .= " WHO Health Professional Group: <strong>" . getWhoProfessionalGroupNameFromCode($who_professional) . "</strong><br>";
                                         }
                                         echo "$echo_string";
                                         ?>

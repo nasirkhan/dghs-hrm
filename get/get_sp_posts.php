@@ -22,7 +22,8 @@ total_manpower_imported_sanctioned_post_copy.class,
 total_manpower_imported_sanctioned_post_copy.staff_id
 FROM total_manpower_imported_sanctioned_post_copy
 WHERE designation LIKE \"" . $designation . "\"
-AND org_code =$org_code";
+AND org_code =$org_code
+AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_sp_second_level:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
 //$total_rows= mysql_num_rows($sanctioned_post_list_result);

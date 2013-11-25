@@ -135,7 +135,8 @@ if ($action_type == "move_in") {
             SET 
                 staff_id_2 = 0 
             WHERE 
-                staff_id_2 = $staff_id";
+                staff_id_2 = $staff_id
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>OMG:1</b></p><p><b>Query:</b></p>___<p>$sql</p>");
     
 
@@ -145,7 +146,8 @@ if ($action_type == "move_in") {
             SET 
                 staff_id_2 = $staff_id 
             WHERE 
-                id=$move_to_sanctioned_post_id";
+                id=$move_to_sanctioned_post_id
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>OMG:1</b></p><p><b>Query:</b></p>___<p>$sql</p>");
 
 
@@ -219,7 +221,8 @@ if ($action_type == "move_in") {
             SET 
                 staff_id_2 = '0' 
             WHERE 
-                staff_id_2 = $staff_id";
+                staff_id_2 = $staff_id
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>OMG:1</b></p><p><b>Query:</b></p>___<p>$sql</p>");
 
 

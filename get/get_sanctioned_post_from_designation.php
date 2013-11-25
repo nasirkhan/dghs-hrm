@@ -5,7 +5,7 @@ require_once '../configuration.php';
 $des_group = mysql_real_escape_string(trim($_REQUEST['des_group']));
 $org_code = mysql_real_escape_string(trim($_REQUEST['org_code']));
 
-$sql = "SELECT * FROM `total_manpower_imported_sanctioned_post_copy` WHERE sanctioned_post_group_code=$des_group AND org_code=$org_code AND staff_id_2 <=0";
+$sql = "SELECT * FROM `total_manpower_imported_sanctioned_post_copy` WHERE sanctioned_post_group_code=$des_group AND org_code=$org_code AND staff_id_2 <=0 AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
 $result = mysql_query($sql) or die(mysql_error() . "<p>Code:<b>get_sanctioned_post_from_designation:1</b></p><p><b>Query:</b></p>___<p>$sql</p>");
 
 $count = mysql_num_rows($result);

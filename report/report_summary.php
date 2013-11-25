@@ -101,6 +101,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                             total_manpower_imported_sanctioned_post_copy
                                     WHERE
                                             org_code = $org_code
+                                            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1    
                                     GROUP BY 
                                             designation
                                     ORDER BY
@@ -137,7 +138,8 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                 WHERE
                                                         org_code = $org_code
                                                 AND designation_code = " . $row['designation_code'] . "
-                                                AND staff_id_2 > 0;";
+                                                AND staff_id_2 > 0
+                                                AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
                                                     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                             $a = mysql_fetch_assoc($r);
                                             $existing_total_count = $a['existing_total_count'];
@@ -153,7 +155,8 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                         total_manpower_imported_sanctioned_post_copy.org_code = $org_code
                                                 AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row['designation_code'] . "
                                                 AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
-                                                AND old_tbl_staff_organization.sex=1";
+                                                AND old_tbl_staff_organization.sex=1
+                                                AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
                                                     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                             $a = mysql_fetch_assoc($r);
                                             $existing_male_count = $a['existing_male_count'];

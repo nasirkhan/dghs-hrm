@@ -139,6 +139,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                 LEFT JOIN `sanctioned_post_designation` ON total_manpower_imported_sanctioned_post_copy.designation_code = sanctioned_post_designation.designation_code
                                                 WHERE
                                                         total_manpower_imported_sanctioned_post_copy.org_code = $org_code
+                                                        AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                 GROUP BY
                                                         total_manpower_imported_sanctioned_post_copy.designation
                                                 ORDER BY

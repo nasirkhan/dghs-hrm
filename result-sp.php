@@ -22,7 +22,8 @@ total_manpower_imported_sanctioned_post_copy.second_level_name,
 total_manpower_imported_sanctioned_post_copy.staff_id,
 total_manpower_imported_sanctioned_post_copy.discipline
 FROM total_manpower_imported_sanctioned_post_copy
-WHERE id =$staff_id LIMIT 1";
+WHERE id =$staff_id
+AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
 $sanctioned_post_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
 //$total_rows= mysql_num_rows($sanctioned_post_list_result);
