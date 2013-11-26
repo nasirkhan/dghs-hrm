@@ -108,20 +108,11 @@ if ($_SESSION['user_type'] != "admin"){
                     <section id="admin_home_main">
                         <h3>Admin Dashboard</h3>
 
-                        <div class="row-fluid"> 
-                            
-                            <a href="search.php" class="btn btn-large btn-warning">
-                                <i class="icon-search pull-left icon-3x"></i> Search
-                            </a>
-
-                            <a href="add_new.php" class="btn btn-large btn-info">
-                                <i class="icon-plus pull-left icon-3x"></i> Add New
-                            </a>
-                            
-                        </div>
+                        
                         
                         <?php 
-                        $sql = "SELECT * FROM `organization_requested` WHERE active LIKE 1;";
+                        $id = (int) mysql_real_escape_string($_GET['id']);
+                        $sql = "SELECT * FROM `organization_requested` WHERE id=$id AND active LIKE 1;";
                         $new_org_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
                         
                         $new_org_result_count = mysql_num_rows($new_org_result);
@@ -137,38 +128,36 @@ if ($_SESSION['user_type'] != "admin"){
                             <div class="spa12">
                                 <p class="lead">Organizations Pending for approval</p>
                                 <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <td><strong>#</strong></td>
-                                            <td><strong>Org Name</strong></td>
-                                            <td><strong>Agency</strong></td>
-                                            <td><strong>Ownarship</strong></td>
-                                            <td><strong>Division</strong></td>
-                                            <td><strong>District</strong></td>
-                                            <td><strong>Upazila</strong></td>
-                                            <td><strong>Review</strong></td>
-                                            <td><strong>Action</strong></td>
-                                        </tr>
-                                    </thead>
                                     <tbody>
-                                        <?php while($data = mysql_fetch_assoc($new_org_result)): ?>
+                                        <?php $data = mysql_fetch_assoc($new_org_result); ?>
                                         <tr>
-                                            <td><?php echo $count; ?></td>
-                                            <td><?php echo $data['org_name']; ?></td>
-                                            <td><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></td>
-                                            <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
-                                            <td><?php echo $data['division_name']; ?></td>
-                                            <td><?php echo $data['district_name']; ?></td>
-                                            <td><?php echo $data['upazila_thana_name']; ?></td>
-                                            <td>
-                                                <button class="btn  btn-info" type="button">View / Edit</button>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-block btn-success" type="button" href="admin_edit_org.php?id=<?php echo $data['id']; ?>&action=approve">&nbsp;&nbsp; Approve &nbsp;&nbsp;</a>
-                                                <a class="btn btn-block btn-danger" type="button" href="admin_edit_org.php?id=<?php echo $data['id']; ?>&action=reject">&nbsp;&nbsp; Reject &nbsp;&nbsp;</a>
-                                            </td>
+                                            <td><strong>Id</strong></td>
+                                            <td><?php echo $data['id']; ?></td>
                                         </tr>
-                                        <?php endwhile; ?>
+                                        <tr>
+                                            <td><strong>Org Name</strong></td>
+                                            <td><?php echo $data['org_name']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Agency</strong></td>
+                                            <td><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Ownarship</strong></td>
+                                            <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Division</strong></td>
+                                            <td><?php echo $data['division_name']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>District</strong></td>
+                                            <td><?php echo $data['district_name']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Upazila</strong></td>
+                                            <td><?php echo $data['upazila_thana_name']; ?></td>
+                                        </tr>                                        
                                     </tbody>
                                 </table>
                             </div>
