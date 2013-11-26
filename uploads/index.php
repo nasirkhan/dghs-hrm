@@ -9,6 +9,7 @@
  * Licensed under the MIT license:
  * http://www.opensource.org/licenses/MIT
  */
+echo $org_code;
 
 error_reporting(E_ALL | E_STRICT);
 require('UploadHandler.php');
@@ -25,6 +26,7 @@ $Ext = strrchr($name,".");
 $Ext =strtolower($Ext);
 
 $name = $_SESSION['username'];
+$org_code = $_SESSION['org_code'];
 
 $oldName=$name."$Ext";
 
@@ -33,12 +35,22 @@ $exists = file_exists($oldName);
 if(!$exists) {
 // do your processing
 $name = $name."$Ext";
+$sql="UPDATE organization 
+SET org_photo='$name'
+where org_code='$org_code'";
+$result = mysql_query($sql);
 }
 else
 {
 unlink("$oldName");
 $name = $name."$Ext";
+$sql="UPDATE organization 
+SET org_photo='$name'
+where org_code='$org_code'";
+$result = mysql_query($sql);
 }
+
+
 
 //$name = $name."$Ext";
 return $name;
