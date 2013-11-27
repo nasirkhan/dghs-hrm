@@ -3,7 +3,7 @@ $app_name = "Ministry of Health and Family Welfare";
 
 $flag = 0;
 $mail_sent = 0;
-require_once 'include/db_connection.php';
+require_once 'configuration.php';
 if (!empty($_GET)) {
     $token = mysql_real_escape_string($_GET['token']);
     $email = mysql_real_escape_string($_GET['email']);
@@ -37,7 +37,7 @@ if ($_POST["submit"]) {
         $ran = uniqid();
         $token = mysql_real_escape_string($ran);
 
-        require_once 'include/db_connection.php';
+       require_once 'configuration.php';
 
         $sql = mysql_query("UPDATE user SET token='$token' WHERE username='$email'") or die(mysql_error());
 
