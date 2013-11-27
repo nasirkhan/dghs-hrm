@@ -536,7 +536,7 @@ function getDesignationNameFormStaffId($staff_id) {
 
     if (!$data['designation_id'] > 0)
         return "0";
-    $sql = "SELECT designation FROM old_designation WHERE id = " . $data['designation_id'];
+    $sql = "SELECT designation FROM sanctioned_post_designation WHERE id = " . $data['designation_id'];
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormStaffId:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
@@ -1304,5 +1304,28 @@ function getWhoProfessionalGroupNameFromCode($code){
     $data = mysql_fetch_assoc($result);
     
     return $data['who_health_professional_group_name'];
+}
+
+/**
+ * Organization District Code And Upazila Code From org_Code
+ * @param INT $org_code
+ * @return ARRAY
+ */
+function getOrgDisCodeAndUpaCodeFromOrgCode ($org_code){
+    $sql = "SELECT
+                    district_code,
+                    district_name,
+                    upazila_thana_code,
+                    upazila_thana_name
+            FROM
+                    `organization`
+            WHERE
+                    org_code = '$org_code'
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgDisCodeAndUpaCodeFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+        
+    return $data;
 }
 ?>

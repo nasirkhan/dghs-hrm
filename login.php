@@ -8,8 +8,8 @@ if ($_SESSION['logged'] == true) {
 $login_sussess = 2;
 //cheak the login information
 if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] == $_SESSION['login_key']) {
-    $form_uname = mysql_real_escape_string(stripslashes($_POST['email']));
-    $form_passwd = mysql_real_escape_string(stripslashes($_POST['password']));
+    $form_uname = mysql_real_escape_string(stripslashes(trim($_POST['email'])));
+    $form_passwd = mysql_real_escape_string(stripslashes(trim($_POST['password'])));
     $form_passwd = md5($form_passwd);
     unset($_POST);
     $sql = "SELECT user_id, username, user_type, user_type_code, organization_id, org_code FROM user WHERE username LIKE \"$form_uname\" AND password LIKE \"$form_passwd\"";
@@ -28,6 +28,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         $_SESSION['organization_id'] = $data['organization_id'];
         $_SESSION['org_code'] = $data['org_code'];
         $_SESSION['org_name'] = getOrgNameFormOrgCode($data['org_code']);
+        $_SESSION['org_type_code'] = getOrgTypeCodeFromOrgCode($data['org_code']);
         $_SESSION['org_type_name'] = getOrgTypeNameFormOrgCode($data['org_code']);
         $_SESSION['logged'] = TRUE;        
         

@@ -11,6 +11,8 @@ if ($_SESSION['logged'] != true) {
 $org_code = $_SESSION['org_code'];
 $org_name = $_SESSION['org_name'];
 $org_type_name = $_SESSION['org_type_name'];
+$org_type_code = $_SESSION['org_type_code'];
+
 
 $echoAdminInfo = "";
 
@@ -22,6 +24,30 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $echoAdminInfo = " | Administrator";
     $isAdmin = TRUE;
 }
+
+
+/**
+ * Reassign org_code and enable edit permission for Upazila and below
+ * 
+ * Upazila users can edit the organizations under that UHC. 
+ * Like the UHC users can edit the USC and USC(New) and CC organizations
+ */
+if ($org_type_code == 1029 || $org_type_code == 1051){  
+    $child_org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
+    
+    $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($child_org_code);
+    $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
+    
+    if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
+        $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
+        $org_name = getOrgNameFormOrgCode($org_code);
+        $org_type_name = getOrgTypeNameFormOrgCode($org_code);
+        $echoAdminInfo = " | " . $parent_org_info['upazila_thana_name'];
+        $isAdmin = TRUE;
+    }
+}
+
+
 $username = getUserNameFromOrgCode($org_code);
 //get coordinates
 $sql = "SELECT latitude, longitude FROM organization WHERE  org_code = $org_code LIMIT 1";
@@ -153,7 +179,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                         $row_count = count($org_info);
                         ?>
                         <h3>List of Union Sub Center</h3>
-                        <table class="table table-striped">
+                        <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <td><strong>Organization Name</strong></td>
@@ -165,7 +191,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                 <?php for ($i = 0; $i < $row_count; $i++): ?>
                                     <tr>
 
-                                        <td><?php echo $org_info[$i]['org_name']; ?></td>
+                                        <td><a href="home.php?org_code=<?php echo $org_info[$i]['org_code']; ?>" target="_blank"><?php echo $org_info[$i]['org_name']; ?></a></td>
                                         <td><?php echo $org_info[$i]['org_code']; ?></td>
                                         <td><?php echo $org_info[$i]['email']; ?></td>
 

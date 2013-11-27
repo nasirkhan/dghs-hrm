@@ -22,6 +22,27 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $echoAdminInfo = " | Administrator";
     $isAdmin = TRUE;
 }
+/**
+ * Reassign org_code and enable edit permission for Upazila and below
+ * 
+ * Upazila users can edit the organizations under that UHC. 
+ * Like the UHC users can edit the USC and USC(New) and CC organizations
+ */
+if ($org_type_code == 1029 || $org_type_code == 1051){  
+    $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
+    
+    $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
+    $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
+    
+    if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
+        $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
+        $org_name = getOrgNameFormOrgCode($org_code);
+        $org_type_name = getOrgTypeNameFormOrgCode($org_code);
+        $echoAdminInfo = " | " . $parent_org_info['upazila_thana_name'];
+        $isAdmin = TRUE;
+    }
+}
+
 
 $upload_type = mysql_real_escape_string($_GET['upload']);
 
