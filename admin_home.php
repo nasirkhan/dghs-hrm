@@ -118,7 +118,7 @@ if ($_SESSION['user_type'] != "admin"){
                                 <i class="icon-plus pull-left icon-3x"></i> Add New
                             </a>
 
-                            <a href="#" class="btn btn-large">
+                            <a href="transfer.php" class="btn btn-large">
                                 <i class="icon-exchange pull-left icon-3x"></i> Transfer
                             </a>
                             
