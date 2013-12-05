@@ -235,7 +235,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
 
         <script>
 
-            var map = L.map('map').setView([<?php echo $coordinate; ?>], 13);
+            var map = L.map('map').setView([<?php echo $coordinate; ?>], 6);
 
             L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
                 maxZoom: 18,
