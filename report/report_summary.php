@@ -89,7 +89,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                     <!-- info area
                     ================================================== -->
                     <section id="report">
-
+                        <div class="alert alert-success" id="generate_report">
+                            <i class="icon-cog icon-spin icon-large"></i> <strong>Generating report...</strong>
+                        </div>
                         <div class="row">
                             <?php
                             $sql = "SELECT
@@ -214,6 +216,11 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
         <script src="../assets/js/google-code-prettify/prettify.js"></script>
 
         <script src="../assets/js/application.js"></script>
+        
+        
+        <script>
+            $("#generate_report").hide();
+        </script>
 
     </body>
 </html>

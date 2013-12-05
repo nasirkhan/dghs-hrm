@@ -97,9 +97,11 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                             <table class="table table-striped table-bordered">
                                 
                                 <tbody>
+                                    <?php if($org_code != 99999999): ?>
                                     <tr>
                                         <td><a href="report_summary.php?org_code=<?php echo $org_code; ?>">Organization Summary Report</a></td>                                        
                                     </tr>
+                                    <?php endif; ?>
                                     <?php if($isAdmin): ?>
                                     <tr>                                        
                                         <td><a href="report_manpower.php">Summary Report Includes All Organization</a></td>
