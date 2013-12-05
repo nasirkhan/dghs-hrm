@@ -17,7 +17,9 @@ $echoAdminInfo = "";
 if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $org_code = (int) mysql_real_escape_string($_GET['org_code']);
     $org_name = getOrgNameFormOrgCode($org_code);
-    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
+    $org_type_name = getOrgTypeNameFormOrgCode($org_code);    
+}
+if ($_SESSION['user_type'] == "admin"){
     $echoAdminInfo = " | Administrator";
     $isAdmin = TRUE;
 }
