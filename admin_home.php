@@ -132,8 +132,7 @@ if ($_SESSION['user_type'] != "admin"){
                         $new_org_result_count = mysql_num_rows($new_org_result);
                         
                         $count = 0;
-                        if ($new_org_result_count > 0): 
-                            $count++;
+                        if ($new_org_result_count > 0):
                         ?>
                         <div class="row-fluid">
                             <p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
@@ -151,12 +150,12 @@ if ($_SESSION['user_type'] != "admin"){
                                             <td><strong>Division</strong></td>
                                             <td><strong>District</strong></td>
                                             <td><strong>Upazila</strong></td>
-                                            <td><strong>Review</strong></td>
                                             <td><strong>Action</strong></td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php while($data = mysql_fetch_assoc($new_org_result)): ?>
+                                        <?php while($data = mysql_fetch_assoc($new_org_result)): 
+                                            $count++; ?>
                                         <tr>
                                             <td><?php echo $count; ?></td>
                                             <td><?php echo $data['org_name']; ?></td>
@@ -166,12 +165,8 @@ if ($_SESSION['user_type'] != "admin"){
                                             <td><?php echo $data['district_name']; ?></td>
                                             <td><?php echo $data['upazila_thana_name']; ?></td>
                                             <td>
-                                                <button class="btn  btn-info" type="button">View / Edit</button>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-block btn-success" type="button" href="admin_edit_org.php?id=<?php echo $data['id']; ?>&action=approve">&nbsp;&nbsp; Approve &nbsp;&nbsp;</a>
-                                                <a class="btn btn-block btn-danger" type="button" href="admin_edit_org.php?id=<?php echo $data['id']; ?>&action=reject">&nbsp;&nbsp; Reject &nbsp;&nbsp;</a>
-                                            </td>
+                                                <a class="btn  btn-info" href="admin_edit_org.php?id=<?php echo $data['id']; ?>">View / Edit</a>
+                                            </td>                                            
                                         </tr>
                                         <?php endwhile; ?>
                                     </tbody>

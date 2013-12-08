@@ -12,6 +12,7 @@ $org_type_name = $_SESSION['org_type_name'];
 $user_name = $_SESSION['username'];
 
 $echoAdminInfo = "";
+$action = "";
 
 // assign values admin users
 if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
@@ -28,6 +29,36 @@ if ($org_code == "") {
 // admin check 
 if ($_SESSION['user_type'] != "admin"){
     header("location:home.php?org_code=$org_code");
+}
+
+$id = (int) mysql_real_escape_string($_POST['id']);
+$action = mysql_real_escape_string($_POST['action']);
+
+if (isset($_POST['id']) && isset($_POST['action'])){
+    if ($action == "approve"){
+        $sql = "UPDATE organization_requested "
+                . "SET "
+                . "active='0', "
+                . "approved_rejected_by='$user_name', "
+                . "approved_rejected='approved', "
+                . "updated_by='$user_name' "
+                . "WHERE "
+                . "id=$id";
+//        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+        echo "<pre>$action || $sql</pre>";
+    }
+    else if ($action == "reject"){
+        $sql = "UPDATE organization_requested "
+                . "SET "
+                . "active='0', "
+                . "approved_rejected_by='$user_name', "
+                . "approved_rejected='approved', "
+                . "updated_by='$user_name' "
+                . "WHERE "
+                . "id=$id";
+//        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+        echo "<pre>$action || $sql</pre>";
+    }
 }
 
 ?>
@@ -107,9 +138,6 @@ if ($_SESSION['user_type'] != "admin"){
                     ================================================== -->
                     <section id="admin_home_main">
                         <h3>Admin Dashboard</h3>
-
-                        
-                        
                         <?php 
                         $id = (int) mysql_real_escape_string($_GET['id']);
                         $sql = "SELECT * FROM `organization_requested` WHERE id=$id AND active LIKE 1;";
@@ -121,9 +149,11 @@ if ($_SESSION['user_type'] != "admin"){
                         if ($new_org_result_count > 0): 
                             $count++;
                         ?>
+                        <!--                        
                         <div class="row-fluid">
                             <p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
                         </div>
+                        -->
                         <div class="row-fluid">
                             <div class="spa12">
                                 <p class="lead">Organizations Pending for approval</p>
@@ -157,7 +187,26 @@ if ($_SESSION['user_type'] != "admin"){
                                         <tr>
                                             <td><strong>Upazila</strong></td>
                                             <td><?php echo $data['upazila_thana_name']; ?></td>
-                                        </tr>                                        
+                                        </tr>  
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                            <td>
+                                                <div class="pull-left">
+                                                    <form method="post" action="">
+                                                        <input name="id" value="<?php echo $data['id']; ?>" type="hidden" />
+                                                        <input name="action" value="reject" type="hidden" />
+                                                        <button class="btn btn-danger" type="submit">Reject</button>   
+                                                    </form>
+                                                </div>
+                                                <div class="pull-left">
+                                                    <form method="post" action="">
+                                                        <input name="id" value="<?php echo $data['id']; ?>" type="hidden" />
+                                                        <input name="action" value="approve" type="hidden" />
+                                                        <button class="btn btn-success" type="submit">Approve</button>   
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
