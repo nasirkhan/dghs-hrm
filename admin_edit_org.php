@@ -1,5 +1,34 @@
 <?php
 require_once 'configuration.php';
+/**
+ * 
+ * Email settings
+ */
+require_once 'library/PHPMailer/PHPMailerAutoload.php';
+$mail = new PHPMailer;
+
+$mail->From = 'from@example.com';
+$mail->FromName = 'Mailer';
+$mail->addAddress('nasir8891@gmail.com', 'Nasir Khan');  // Add a recipient
+$mail->addAddress('ellen@example.com');               // Name is optional
+$mail->addReplyTo('info@example.com', 'Information');
+$mail->addCC('cc@example.com');
+$mail->addBCC('bcc@example.com');
+
+$mail->WordWrap = 50;                                 // Set word wrap to 50 characters
+$mail->isHTML(true);                                  // Set email format to HTML
+
+$hrm_url = "http://test.dghs.gov.bd/hrm-dev";
+$mail->Subject = "[Org Registry] New Organization Request for \"$org_name\"";
+$mail->Body    = "A new organizaion creation request has been submitted."
+                . "Please login to the HRM Software and review the submission."
+                . "<br />$hrm_url";
+if (!$mail->send()) {
+    $mail_sent = TRUE;
+//                echo 'Message could not be sent.';
+//                echo 'Mailer Error: ' . $mail->ErrorInfo;
+    exit;
+}
 
 if ($_SESSION['logged'] != true) {
     header("location:login.php");
