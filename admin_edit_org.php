@@ -10,25 +10,35 @@ $mail = new PHPMailer;
 $mail->From = 'from@example.com';
 $mail->FromName = 'Mailer';
 $mail->addAddress('nasir8891@gmail.com', 'Nasir Khan');  // Add a recipient
-$mail->addAddress('ellen@example.com');               // Name is optional
-$mail->addReplyTo('info@example.com', 'Information');
-$mail->addCC('cc@example.com');
-$mail->addBCC('bcc@example.com');
+
+$mail->addAddress('sukhendu@mis.dghs.gov.bd');
+$mail->addAddress('dr.bashar@mis.dghs.gov.bd');
+$mail->addAddress('zillur@mis.dghs.gov.bd');
+$mail->addAddress('asm.sayem@mis.dghs.gov.bd');
+$mail->addAddress('rajib@mis.dghs.gov.bd');
+$mail->addAddress('mahfuzur@mis.dghs.gov.bd');
+$mail->addAddress('prince@mis.dghs.gov.bd');
+$mail->addAddress('linkon@mis.dghs.gov.bd');
+$mail->addAddress('nasir.khan@activationltd.com');
+
+//$mail->addReplyTo('info@example.com', 'Information');
+//$mail->addCC('cc@example.com');
+//$mail->addBCC('bcc@example.com');
 
 $mail->WordWrap = 50;                                 // Set word wrap to 50 characters
 $mail->isHTML(true);                                  // Set email format to HTML
 
-$hrm_url = "http://test.dghs.gov.bd/hrm-dev";
-$mail->Subject = "[Org Registry] New Organization Request for \"$org_name\"";
-$mail->Body    = "A new organizaion creation request has been submitted."
-                . "Please login to the HRM Software and review the submission."
-                . "<br />$hrm_url";
-if (!$mail->send()) {
-    $mail_sent = TRUE;
-//                echo 'Message could not be sent.';
-//                echo 'Mailer Error: ' . $mail->ErrorInfo;
-    exit;
-}
+$hrm_url = "http://app.dghs.gov.bd/hrm";
+//$mail->Subject = "[Org Registry] New Organization Request for \"$org_name\"";
+//$mail->Body    = "A new organizaion creation request has been submitted."
+//                . "Please login to the HRM Software and review the submission."
+//                . "<br />$hrm_url";
+//if (!$mail->send()) {
+//    $mail_sent = TRUE;
+////                echo 'Message could not be sent.';
+////                echo 'Mailer Error: ' . $mail->ErrorInfo;
+//    exit;
+//}
 
 if ($_SESSION['logged'] != true) {
     header("location:login.php");
@@ -141,6 +151,25 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
             '$new_org_level_name'
             )";
         $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:3<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+        
+        /**
+         * Email content
+         * 
+         */
+        $mail->Subject = "'$new_org_name' has been approved";
+        $mail->Body    = "The '$new_org_name' has been approved by $user_name. You can view the organizaion profile form the following url <a href=\"$hrm_root_dir/org_profile.php?org_code=$new_org_code\">$hrm_root_dir/org_profile.php?org_code=$new_org_code</a>"
+                . "<table>"
+                . "<tr>"
+                . "<td>Org Name</td>" . "<td>$org_name</td>"
+                . "<td>Org Code</td>" . "<td>$new_org_code</td>"
+                . "</tr>"
+                . "</table>";
+        if (!$mail->send()) {
+            $mail_sent = TRUE;
+        //                echo 'Message could not be sent.';
+        //                echo 'Mailer Error: ' . $mail->ErrorInfo;
+            exit;
+        }
     } 
     else if ($action == "reject") {
         $sql = "UPDATE organization_requested "
@@ -487,3 +516,4 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
 
     </body>
 </html>
+
