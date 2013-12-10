@@ -110,6 +110,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         $new_functions_code = $data['org_function_code'];
         $new_org_level_code = $data['org_level_code'];
         $new_org_level_name = $data['org_level_name'];
+        $new_org_mobile = $data['mobile_number1'];
         
         
         // UPDATE organizaion table
@@ -128,6 +129,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
             `upazila_thana_name`,
             `ownership_code`,
             `email_address1`,
+            `mobile_number1`,
             `org_function_code`,
             `org_level_code`,
             `org_level_name`) 
@@ -146,6 +148,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
             '$upazila_name',    
             '$new_ownarship_info',
             '$new_org_email',
+            '$new_org_mobile',    
             '$new_functions_code',
             '$new_org_level_code',
             '$new_org_level_name'
@@ -162,6 +165,11 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                 . "<tr>"
                 . "<td>Org Name</td>" . "<td>$org_name</td>"
                 . "<td>Org Code</td>" . "<td>$new_org_code</td>"
+                . "<td>Division</td>" . "<td>$division_name</td>"
+                . "<td>District</td>" . "<td>$district_name</td>"
+                . "<td>Upazila</td>" . "<td>$upazila_name</td>"
+                . "<td>Email Address</td>" . "<td>$new_org_email</td>"
+                . "<td>Mobile Number</td>" . "<td>$new_org_mobile</td>"
                 . "</tr>"
                 . "</table>";
         if (!$mail->send()) {
