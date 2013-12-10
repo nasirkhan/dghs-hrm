@@ -1,44 +1,19 @@
 <?php
 require_once 'configuration.php';
+
 /**
- * 
- * Email settings
+ * PHP Email Configuration
  */
-require_once 'library/PHPMailer/PHPMailerAutoload.php';
-$mail = new PHPMailer;
+$to = 'asm.sayem@mis.dghs.gov.bd, sukhendu@mis.dghs.gov.bd , dr.bashar@mis.dghs.gov.bd , zillur@mis.dghs.gov.bd , rajib@mis.dghs.gov.bd , nasir.khan@activationltd.com , mahfuzur@mis.dghs.gov.bd , prince@mis.dghs.gov.bd , linkon@mis.dghs.gov.bd';
+//$to  = "nasir8891@gmail.com";
+// To send HTML mail, the Content-type header must be set
+$headers = 'MIME-Version: 1.0' . "\r\n";
+$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+$headers .= "To: $to \r\n";
 
-$mail->From = 'from@example.com';
-$mail->FromName = 'Mailer';
-$mail->addAddress('nasir8891@gmail.com', 'Nasir Khan');  // Add a recipient
 
-$mail->addAddress('sukhendu@mis.dghs.gov.bd');
-$mail->addAddress('dr.bashar@mis.dghs.gov.bd');
-$mail->addAddress('zillur@mis.dghs.gov.bd');
-$mail->addAddress('asm.sayem@mis.dghs.gov.bd');
-$mail->addAddress('rajib@mis.dghs.gov.bd');
-$mail->addAddress('mahfuzur@mis.dghs.gov.bd');
-$mail->addAddress('prince@mis.dghs.gov.bd');
-$mail->addAddress('linkon@mis.dghs.gov.bd');
-$mail->addAddress('nasir.khan@activationltd.com');
-
-//$mail->addReplyTo('info@example.com', 'Information');
-//$mail->addCC('cc@example.com');
-//$mail->addBCC('bcc@example.com');
-
-$mail->WordWrap = 50;                                 // Set word wrap to 50 characters
-$mail->isHTML(true);                                  // Set email format to HTML
-
-$hrm_url = "http://app.dghs.gov.bd/hrm";
-//$mail->Subject = "[Org Registry] New Organization Request for \"$org_name\"";
-//$mail->Body    = "A new organizaion creation request has been submitted."
-//                . "Please login to the HRM Software and review the submission."
-//                . "<br />$hrm_url";
-//if (!$mail->send()) {
-//    $mail_sent = TRUE;
-////                echo 'Message could not be sent.';
-////                echo 'Mailer Error: ' . $mail->ErrorInfo;
-//    exit;
-//}
+//$headers .= 'Cc: birthdayarchive@example.com' . "\r\n";
+//$headers .= 'Bcc: birthdaycheck@example.com' . "\r\n";
 
 if ($_SESSION['logged'] != true) {
     header("location:login.php");
@@ -85,34 +60,36 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                 . "WHERE "
                 . "id=$id";
         $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-        
+
         // GET organizaion data
         $sql = "SELECT * FROM `organization_requested` WHERE id=$id";
         $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:2<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-        
+
         $data = mysql_fetch_assoc($r);
-        
+
         $new_org_name = $data['org_name'];
         $last_org_code = (int) getLastOrgIdFromOrganizationTable();
         $new_org_code = $last_org_code + 1;
         $new_org_type = $data['org_type_code'];
         $new_agency_code = $data['agency_code'];
         $new_established_year = $data['year_established'];
-        $org_location_type  = $data['org_location_type'];
+        $org_location_type = $data['org_location_type'];
         $division_code = $data['division_code'];
         $division_name = $data['division_name'];
         $district_code = $data['district_code'];
         $district_name = $data['district_name'];
         $upazila_code = $data['upazila_thana_code'];
-        $upazila_name = $data['upazila_thana_name'];   
+        $upazila_name = $data['upazila_thana_name'];
         $new_ownarship_info = $data['ownership_code'];
         $new_org_email = $data['email_address1'];
         $new_functions_code = $data['org_function_code'];
         $new_org_level_code = $data['org_level_code'];
         $new_org_level_name = $data['org_level_name'];
         $new_org_mobile = $data['mobile_number1'];
-        
-        
+        $latitude = $data['latitude'];
+        $longitude = $data['longitude'];
+
+
         // UPDATE organizaion table
         $sql = "INSERT INTO `organization` (
             `org_name`, 
@@ -132,7 +109,9 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
             `mobile_number1`,
             `org_function_code`,
             `org_level_code`,
-            `org_level_name`) 
+            `org_level_name`,
+            `latitude`,
+            `longitude`) 
         VALUES (
             \"$new_org_name\",
             '$new_org_code',
@@ -151,35 +130,41 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
             '$new_org_mobile',    
             '$new_functions_code',
             '$new_org_level_code',
-            '$new_org_level_name'
+            '$new_org_level_name',
+            '$latitude',    
+            '$longitude'    
             )";
         $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:3<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-        
+
         /**
          * Email content
          * 
          */
-        $mail->Subject = "'$new_org_name' has been approved";
-        $mail->Body    = "The '$new_org_name' has been approved by $user_name. You can view the organizaion profile form the following url <a href=\"$hrm_root_dir/org_profile.php?org_code=$new_org_code\">$hrm_root_dir/org_profile.php?org_code=$new_org_code</a>"
-                . "<table>"
-                . "<tr>"
-                . "<td>Org Name</td>" . "<td>$org_name</td>"
-                . "<td>Org Code</td>" . "<td>$new_org_code</td>"
-                . "<td>Division</td>" . "<td>$division_name</td>"
-                . "<td>District</td>" . "<td>$district_name</td>"
-                . "<td>Upazila</td>" . "<td>$upazila_name</td>"
-                . "<td>Email Address</td>" . "<td>$new_org_email</td>"
-                . "<td>Mobile Number</td>" . "<td>$new_org_mobile</td>"
-                . "</tr>"
-                . "</table>";
-        if (!$mail->send()) {
-            $mail_sent = TRUE;
-        //                echo 'Message could not be sent.';
-        //                echo 'Mailer Error: ' . $mail->ErrorInfo;
-            exit;
-        }
-    } 
-    else if ($action == "reject") {
+        $headers .= "From: MIS, DGHS <info@dghs.gov.bd>" . "\r\n";
+        $subject = "[Org Registry] Request for \"$new_org_name\" has been Approved";
+        $message = "'$new_org_name' has been approved by '$user_name'. <br />"
+                . "View the profile from the following URL <br />'$hrm_root_dir/org_profile.php?org_code=$new_org_code'<br /><br /><br />";
+        $message .= "<table>";
+        $message .= "<tr><td>Organization Name</td>" . "<td>$new_org_name</td></tr>";
+        $message .= "<tr><td>Organization Type</td>" . "<td>" . getOrgTypeNameFormOrgTypeCode($new_org_type) . "</td></tr>";
+        $message .= "<tr><td>Ownarship</td>" . "<td>" . getOrgOwnarshioNameFromCode($new_ownarship_info) . "</td></tr>";
+        $message .= "<tr><td>Agency Name</td>" . "<td>" . getAgencyNameFromAgencyCode($new_agency_code) . "</td></tr>";
+        $message .= "<tr><td>Organization Function</td>" . "<td>" . getOrgFunctionNameFromCode($new_functions_code) . "</td></tr>";
+        $message .= "<tr><td>Level Name</td>" . "<td>" . $new_org_level_name . "</td></tr>";
+        $message .= "<tr><td>Year Established</td>" . "<td>" . $year_established . "</td></tr>";
+        $message .= "<tr><td>Organization Location</td>" . "<td>" . $org_location . "</td></tr>";
+        $message .= "<tr><td>Division Name</td>" . "<td>" . $division_name . "</td></tr>";
+        $message .= "<tr><td>District Name</td>" . "<td>" . $district_name . "</td></tr>";
+        $message .= "<tr><td>Upazila Name</td>" . "<td>" . $upazila_name . "</td></tr>";
+        $message .= "<tr><td>Latitude</td>" . "<td>" . $latitude . "</td></tr>";
+        $message .= "<tr><td>Longitude</td>" . "<td>" . $longitude . "</td></tr>";
+        $message .= "<tr><td>Contact</td>" . "<td>" . $new_org_mobile . "</td></tr>";
+        $message .= "<tr><td>Email</td>" . "<td>" . $new_org_email . "</td></tr>";
+        $message .= "</table>";
+        $message .= "<br /><br />Application submitted on: " . date("Y-m-d H:i:s");
+        // send mail
+        mail($to, $subject, $message, $headers);
+    } else if ($action == "reject") {
         $sql = "UPDATE organization_requested "
                 . "SET "
                 . "active='0', "
@@ -189,7 +174,63 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                 . "WHERE "
                 . "id=$id";
         $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:4<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-        echo "<pre>$action || $sql</pre>";
+
+        // GET organizaion data
+        $sql = "SELECT * FROM `organization_requested` WHERE id=$id";
+        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:2<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        $data = mysql_fetch_assoc($r);
+
+        $new_org_name = $data['org_name'];
+        $last_org_code = (int) getLastOrgIdFromOrganizationTable();
+        $new_org_code = $last_org_code + 1;
+        $new_org_type = $data['org_type_code'];
+        $new_agency_code = $data['agency_code'];
+        $new_established_year = $data['year_established'];
+        $org_location_type = $data['org_location_type'];
+        $division_code = $data['division_code'];
+        $division_name = $data['division_name'];
+        $district_code = $data['district_code'];
+        $district_name = $data['district_name'];
+        $upazila_code = $data['upazila_thana_code'];
+        $upazila_name = $data['upazila_thana_name'];
+        $new_ownarship_info = $data['ownership_code'];
+        $new_org_email = $data['email_address1'];
+        $new_functions_code = $data['org_function_code'];
+        $new_org_level_code = $data['org_level_code'];
+        $new_org_level_name = $data['org_level_name'];
+        $new_org_mobile = $data['mobile_number1'];
+        $latitude = $data['latitude'];
+        $longitude = $data['longitude'];
+        /**
+         * Email content
+         * 
+         */
+        $headers .= "From: MIS, DGHS <info@dghs.gov.bd>" . "\r\n";
+        $subject = "[Org Registry] Request for \"$new_org_name\" has been Rejected";
+        $message = "'$new_org_name' has been Rejected by '$user_name'. <br /><br /><br />";
+        $message .= "<table>";
+        $message .= "<tr><td>Organization Name</td>" . "<td>$new_org_name</td></tr>";
+        $message .= "<tr><td>Organization Type</td>" . "<td>" . getOrgTypeNameFormOrgTypeCode($new_org_type) . "</td></tr>";
+        $message .= "<tr><td>Ownarship</td>" . "<td>" . getOrgOwnarshioNameFromCode($new_ownarship_info) . "</td></tr>";
+        $message .= "<tr><td>Agency Name</td>" . "<td>" . getAgencyNameFromAgencyCode($new_agency_code) . "</td></tr>";
+        $message .= "<tr><td>Organization Function</td>" . "<td>" . getOrgFunctionNameFromCode($new_functions_code) . "</td></tr>";
+        $message .= "<tr><td>Level Name</td>" . "<td>" . $new_org_level_name . "</td></tr>";
+        $message .= "<tr><td>Year Established</td>" . "<td>" . $year_established . "</td></tr>";
+        $message .= "<tr><td>Organization Location</td>" . "<td>" . $org_location . "</td></tr>";
+        $message .= "<tr><td>Division Name</td>" . "<td>" . $division_name . "</td></tr>";
+        $message .= "<tr><td>District Name</td>" . "<td>" . $district_name . "</td></tr>";
+        $message .= "<tr><td>Upazila Name</td>" . "<td>" . $upazila_name . "</td></tr>";
+        $message .= "<tr><td>Latitude</td>" . "<td>" . $latitude . "</td></tr>";
+        $message .= "<tr><td>Longitude</td>" . "<td>" . $longitude . "</td></tr>";
+        $message .= "<tr><td>Contact</td>" . "<td>" . $new_org_mobile . "</td></tr>";
+        $message .= "<tr><td>Email</td>" . "<td>" . $new_org_email . "</td></tr>";
+        $message .= "</table>";
+        $message .= "<br /><br />Application submitted on: " . date("Y-m-d H:i:s");
+        // send mail
+        mail($to, $subject, $message, $headers);
+
+        header("location:admin_home.php");
     }
 }
 ?>
@@ -273,14 +314,14 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                             <div class="alert">
                                 <p class="lead">
                                     <strong><?php echo "$new_org_name"; ?></strong> has been approved and you can view the 
-                                profile from the following URL <em><a href="org_profile.php?org_code=<?php echo "$new_org_code"; ?>">org_profile.php?org_code=<?php echo "$new_org_code"; ?></a></em>
+                                    profile from the following URL <em><a href="org_profile.php?org_code=<?php echo "$new_org_code"; ?>">org_profile.php?org_code=<?php echo "$new_org_code"; ?></a></em>
                                 </p>
                             </div>
                         <?php endif; ?>
                         <?php
                         $id = (int) mysql_real_escape_string(trim($_GET['id']));
                         // if there is an ID mentioned, the details of that ID will be displayed. 
-                        
+
                         if ($id > 0):
                             $sql = "SELECT * FROM `organization_requested` WHERE id=$id AND active LIKE 1;";
                             $new_org_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -379,7 +420,8 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php while ($data = mysql_fetch_assoc($new_org_result)):
+                                                <?php
+                                                while ($data = mysql_fetch_assoc($new_org_result)):
                                                     $count++;
                                                     ?>
                                                     <tr>
@@ -394,13 +436,13 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                             <a class="btn  btn-info" href="admin_edit_org.php?id=<?php echo $data['id']; ?>">View / Edit</a>
                                                         </td>                                            
                                                     </tr>
-        <?php endwhile; ?>
+                                                <?php endwhile; ?>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                             <?php endif; ?>
-<?php endif; ?>
+                        <?php endif; ?>
 
                     </section> <!-- /admin_home_main -->                   
                 </div>
@@ -412,7 +454,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
 
         <!-- Footer
         ================================================== -->
-<?php include_once 'include/footer/footer.inc.php'; ?>
+        <?php include_once 'include/footer/footer.inc.php'; ?>
 
 
 
