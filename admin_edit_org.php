@@ -347,12 +347,20 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                     <td><?php echo $data['org_name']; ?></td>
                                                 </tr>
                                                 <tr>
+                                                    <td><strong>Organization Type</strong></td>
+                                                    <td><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></td>
+                                                </tr>
+                                                <tr>
                                                     <td><strong>Agency</strong></td>
                                                     <td><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><strong>Ownarship</strong></td>
-                                                    <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
+                                                    <td><strong>Year Established</strong></td>
+                                                    <td><?php echo $data['year_established']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Urban/Rural Location</strong></td>
+                                                    <td><?php echo $data['org_location']; ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Division</strong></td>
@@ -366,6 +374,34 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                     <td><strong>Upazila</strong></td>
                                                     <td><?php echo $data['upazila_thana_name']; ?></td>
                                                 </tr>  
+                                                <tr>
+                                                    <td><strong>Ownarship</strong></td>
+                                                    <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
+                                                </tr>  
+                                                <tr>
+                                                    <td><strong>Organization Function</strong></td>
+                                                    <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
+                                                </tr>  
+                                                <tr>
+                                                    <td><strong>Organization Level</strong></td>
+                                                    <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
+                                                </tr>  
+                                                <tr>
+                                                    <td><strong>Organization Email</strong></td>
+                                                    <td><?php echo $data['email_address1']; ?></td>
+                                                </tr>  
+                                                <tr>
+                                                    <td><strong>Organization Contact Number</strong></td>
+                                                    <td><?php echo $data['mobile_number1']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Latitude</strong></td>
+                                                    <td><?php echo $data['latitude']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Longitude</strong></td>
+                                                    <td><?php echo $data['longitude']; ?></td>
+                                                </tr>
                                                 <tr>
                                                     <td>&nbsp;</td>
                                                     <td>
