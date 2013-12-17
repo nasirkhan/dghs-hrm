@@ -188,7 +188,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%">Urban/Rural Location</td>
-                                            <td><a href="#" class="" id="org_location_type" ><?php echo $data['org_location_type']; ?></a></td>
+                                            <td><a href="#" class="" id="org_location_type" ><?php echo getOrgLocationTypeFromCode($data['org_location_type']); ?></a></td>
                                         </tr>                                        
                                         <tr class="success">
                                             <td width="50%" colspan="2"><strong>Regional location of the organization</strong></td>
