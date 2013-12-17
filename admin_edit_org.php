@@ -247,6 +247,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
         <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
         <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
@@ -504,6 +505,19 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         <script src="assets/js/google-code-prettify/prettify.js"></script>
 
         <script src="assets/js/application.js"></script>
+        
+        <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+        <script>
+            $.fn.editable.defaults.mode = 'inline';
+
+            var org_code = <?php echo $org_code; ?>;
+            var selected_div_name = $("#division_name").text();
+            
+            $("#district_name").change(function() {
+                selected_div_name = $("#division_name").text();
+            });
+
+        </script>
 
         <script type="text/javascript">
             // load division
