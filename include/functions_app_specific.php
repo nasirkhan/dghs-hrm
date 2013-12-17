@@ -587,6 +587,25 @@ function getUpazilaNamefromCode($bbs_code) {
     return $data['upazila_name'];
 }
 
+function getUpazilaThanaNamefromCode($upa_bbs_code, $dis_bbs_code) {
+    if (empty($upa_bbs_code) || empty($dis_bbs_code)) {
+        return "";
+    }
+    $sql = "SELECT
+                    admin_upazila.upazila_name
+            FROM
+                    admin_upazila
+            WHERE
+                    upazila_bbs_code = $upa_bbs_code
+            AND upazila_district_code = $dis_bbs_code
+            AND upazila_active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getUpazilaNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['upazila_name'];
+}
+
 function getUnionNamefromCode($bbs_code) {
     if (empty($bbs_code)) {
         return "";

@@ -265,6 +265,8 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
 
         <!--Google analytics code-->
         <?php include_once 'include/header/header_ga.inc.php'; ?>
+        
+        <script src="assets/js/jquery.js"></script>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -337,71 +339,73 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                     <div class="spa12">
                                         <p class="lead">Organizations Pending for approval</p>
                                         <table class="table table-bordered table-striped">
-                                            <tbody>
+                                            <thead>
                                                 <?php $data = mysql_fetch_assoc($new_org_result); ?>
                                                 <tr>
-                                                    <td><strong>Submission Id</strong></td>
-                                                    <td><?php echo $data['id']; ?></td>
+                                                    <td><strong>Submission Id</strong></td>                                                    
+                                                    <td width="60%"><?php echo $data['id']; ?></td>
                                                 </tr>
+                                            </thead>
+                                            <tbody>
                                                 <tr>
                                                     <td><strong>Organization Name</strong></td>
-                                                    <td><?php echo $data['org_name']; ?></td>
+                                                    <td width="60%"><a href="#" class="input-text" id="org_name" ><?php echo $data['org_name']; ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Organization Type</strong></td>
-                                                    <td><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></td>
+                                                    <td width="60%"><a href="#" class="" id="org_type_code" ><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Agency</strong></td>
-                                                    <td><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></td>
+                                                    <td width="60%"><a href="#" class="" id="agency_code" ><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Year Established</strong></td>
-                                                    <td><?php echo $data['year_established']; ?></td>
+                                                    <td width="60%"><a href="#" class="input-text" id="year_established" ><?php echo $data['year_established']; ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Urban/Rural Location</strong></td>
-                                                    <td><?php echo getOrgLocationTypeFromCode($data['org_location_type']); ?></td>
+                                                    <td width="60%"><a href="#" class="" id="org_location_type" ><?php echo getOrgLocationTypeFromCode($data['org_location_type']); ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Division</strong></td>
-                                                    <td><?php echo $data['division_name']; ?></td>
+                                                    <td width="60%"><a href="#" class="" id="division_code" ><?php echo getDivisionNamefromCode($data['division_code']); ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>District</strong></td>
-                                                    <td><?php echo $data['district_name']; ?></td>
+                                                    <td width="60%"><a href="#" class="" id="district_code" ><?php echo getDistrictNamefromCode($data['district_code']); ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Upazila</strong></td>
-                                                    <td><?php echo $data['upazila_thana_name']; ?></td>
+                                                    <td width="60%"><a href="#" class="" id="upazila_thana_code" ><?php echo getUpazilaThanaNamefromCode($data['upazila_thana_code'], $data['district_code']); ?></a></td>
                                                 </tr>  
                                                 <tr>
                                                     <td><strong>Ownarship</strong></td>
-                                                    <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
+                                                    <td width="60%"><a href="#" class="" id="ownership_code" ><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></a></td>
                                                 </tr>  
                                                 <tr>
                                                     <td><strong>Organization Function</strong></td>
-                                                    <td><?php echo getOrgFunctionNameFromCode($data['org_function_code']); ?></td>
+                                                    <td width="60%"><a href="#" class="" id="org_function_code" ><?php echo getOrgFunctionNameFromCode($data['org_function_code']); ?></a></td>
                                                 </tr>  
                                                 <tr>
-                                                    <td><strong>Organization Level</strong></td>
-                                                    <td><?php echo $data['org_level_name']; ?></td>
+                                                    <td width="40%"><strong>Organization Level</strong></td>
+                                                    <td width="60%"><a href="#" class="" id="org_level_code" ><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></a></td>
                                                 </tr>  
                                                 <tr>
                                                     <td><strong>Organization Email</strong></td>
-                                                    <td><?php echo $data['email_address1']; ?></td>
+                                                    <td><a href="#" class="input-text" id="email_address1" ><?php echo $data['email_address1']; ?></a></td>
                                                 </tr>  
                                                 <tr>
                                                     <td><strong>Organization Contact Number</strong></td>
-                                                    <td><?php echo $data['mobile_number1']; ?></td>
+                                                    <td><a href="#" class="input-text" id="latitude" ><?php echo $data['mobile_number1']; ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Latitude</strong></td>
-                                                    <td><?php echo $data['latitude']; ?></td>
+                                                    <td><a href="#" class="input-text" id="latitude" ><?php echo $data['latitude']; ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Longitude</strong></td>
-                                                    <td><?php echo $data['longitude']; ?></td>
+                                                    <td><a href="#" class="input-text" id="longitude" ><?php echo $data['longitude']; ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td>&nbsp;</td>
@@ -498,7 +502,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="assets/js/jquery.js"></script>
+<!--        <script src="assets/js/jquery.js"></script>-->
         <script src="assets/js/bootstrap.min.js"></script>
 
         <script src="assets/js/holder/holder.js"></script>
@@ -510,11 +514,104 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         <script>
             $.fn.editable.defaults.mode = 'inline';
 
-            var org_code = <?php echo $org_code; ?>;
-            var selected_div_name = $("#division_name").text();
+            var submission_id = <?php echo $id; ?>;
             
-            $("#district_name").change(function() {
-                selected_div_name = $("#division_name").text();
+            
+            $(function() {
+                $('a.input-text').editable({
+                    type: 'text',
+                    pk: submission_id,
+                    url: 'post/post_new_org.php'
+                });
+            });
+            
+            //division_name
+            $(function() {
+                $('#division_code').editable({
+                    type: 'select',
+                    pk: submission_id,
+                    url: 'post/post_new_org.php',
+                    source: 'get/get_org_division_name.php'
+                });
+            });
+            
+            //district
+            $(function() {
+                $('#district_code').editable({
+                    type: 'select',
+                    pk: submission_id,
+                    url: 'post/post_new_org.php',
+                    source: 'get/get_org_district_name.php'
+                });
+            });
+            
+            //upazila name
+            $(function() {
+                $('#upazila_thana_code').editable({
+                    type: 'select',
+                    pk: submission_id,
+                    url: 'post/post_new_org.php',
+                    source: 'get/get_org_upazila_thana_name.php'
+                });
+            });
+            
+            // org_type_code
+             $(function() {
+                $('#org_type_code').editable({
+                    type: 'select',
+                    pk: submission_id,
+                    url: 'post/post_new_org.php',
+                    source: 'get/get_org_type_name.php'
+                });
+            });
+            
+            //agency_code
+            $(function() {
+                $('#agency_code').editable({
+                    type: 'select',
+                    pk: submission_id,
+                    url: 'post/post_new_org.php',
+                    source: 'get/get_agency_code.php'
+                });
+            });
+            
+            // org_location_type
+            $(function() {
+                $('#org_location_type').editable({
+                    type: 'select',
+                    pk: submission_id,
+                    url: 'post/post_new_org.php',
+                    source: 'get/get_org_location_type.php'
+                });
+            });
+            
+            // org ownarship code
+             $(function() {
+                $('#ownership_code').editable({
+                    type: 'select',
+                    pk: submission_id,
+                    url: 'post/post_new_org.php',
+                    source: 'get/get_org_ownership.php'
+                });
+            });
+            //org_function_code
+            $(function() {
+                $('#org_function_code').editable({
+                    type: 'select',
+                    pk: submission_id,
+                    url: 'post/post_new_org.php',
+                    source: 'get/get_org_function_code.php'
+                });
+            });
+            
+            // organizaion level code
+            $(function() {
+                $('#org_level_code').editable({
+                    type: 'select',
+                    pk: submission_id,
+                    url: 'post/post_new_org.php',
+                    source: 'get/get_org_level_code.php'
+                });
             });
 
         </script>
