@@ -34,6 +34,9 @@ function getOrgTypeNameFormOrgCode($org_code) {
  * @return string org_type_name
  */
 function getOrgTypeNameFormOrgTypeCode($org_type_code) {
+    if (!$org_type_code > 0) {
+        return "";
+    }
     $sql = "SELECT org_type_id, org_type_code, org_type_name FROM org_type WHERE org_type_code = $org_type_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgTypeCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -48,6 +51,9 @@ function getOrgTypeNameFormOrgTypeCode($org_type_code) {
  * @return INT org_type_code
  */
 function getOrgTypeCodeFromOrgCode($org_code) {
+    if (!$org_code > 0) {
+        return "";
+    }
     $sql = "SELECT organization.org_type_code FROM organization WHERE organization.org_code = $org_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeCodeFromOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -61,6 +67,9 @@ function getOrgTypeCodeFromOrgCode($org_code) {
  * @return type
  */
 function getAgencyNameFromAgencyCode($agency_code) {
+    if (!$agency_code > 0) {
+        return "";
+    }
     $sql = "SELECT org_agency_name FROM org_agency_code WHERE org_agency_code = $agency_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getAgencyNameFromAgencyCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -75,6 +84,9 @@ function getAgencyNameFromAgencyCode($agency_code) {
  * @return String
  */
 function getFunctionalNameFromFunctionalCode($functional_code) {
+    if (!$functional_code > 0) {
+        return "";
+    }
     $sql = "SELECT org_organizational_functions_name FROM org_organizational_functions WHERE org_organizational_functions_code = $functional_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getFunctionalNameFromFunctionalCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -88,6 +100,9 @@ function getFunctionalNameFromFunctionalCode($functional_code) {
  * @return String org_name Organization Name
  */
 function getOrgNameFormOrgCode($org_code) {
+    if (!$org_code > 0) {
+        return "";
+    }
     $sql = "SELECT organization.id,organization.org_name FROM organization WHERE organization.org_code = $org_code";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgNameFormOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -101,6 +116,9 @@ function getOrgNameFormOrgCode($org_code) {
  * @return String org_name Organization Name
  */
 function getOrgNameFormSanctionedPostId($sanctioned_post_id) {
+    if (!$sanctioned_post_id > 0) {
+        return "";
+    }
     $sql = "SELECT
                 total_manpower_imported_sanctioned_post_copy.org_name
             FROM
@@ -121,6 +139,9 @@ function getOrgNameFormSanctionedPostId($sanctioned_post_id) {
  * @return String <b>Organization Name(org_name)</b> and <b>Organization Type Code (org_type_code)</b>
  */
 function getOrgNameAndOrgTypeCodeFormOrgCode($org_code) {
+    if (!$org_code > 0) {
+        return "";
+    }
     $sql = "SELECT organization.org_name,organization.org_type_code FROM organization WHERE organization.org_code = $org_code";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgNameAndOrgTypeCodeFormOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -139,6 +160,9 @@ function getOrgNameAndOrgTypeCodeFormOrgCode($org_code) {
  * @return boolean 
  */
 function checkEmployeeExistsInOrganization($org_code, $staff_id) {
+    if (!$org_code > 0 || !$staff_id > 0) {
+        return "";
+    }
     $sql = "SELECT old_tbl_staff_organization.org_code FROM old_tbl_staff_organization WHERE old_tbl_staff_organization.staff_id = $staff_id LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgNameFormOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -183,6 +207,9 @@ function checkStaffProfileExists($staff_id) {
  * @return boolean
  */
 function checkSanctionedPostWithinOrgFromSanctionedPostId($sanctioned_post_id, $org_code) {
+    if (!$org_code > 0 || !$sanctioned_post_id > 0) {
+        return "";
+    }
     $sql = "SELECT
                 Count(1) AS exists_status
             FROM
@@ -210,6 +237,9 @@ function checkSanctionedPostWithinOrgFromSanctionedPostId($sanctioned_post_id, $
  * @return boolean
  */
 function checkStaffExists($staff_id) {
+    if (!$staff_id > 0) {
+        return "";
+    }
     $sql = "SELECT id FROM total_manpower_imported_sanctioned_post_copy WHERE staff_id= $staff_id 
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkStaffExists:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -226,6 +256,9 @@ function checkStaffExists($staff_id) {
 }
 
 function checkStaffExistsBySanctionedPost($sanctioned_post_id) {
+    if (!$sanctioned_post_id > 0) {
+        return "";
+    }
     $sql = "SELECT staff_id FROM total_manpower_imported_sanctioned_post_copy WHERE id= $sanctioned_post_id 
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkStaffExistsBySanctionedPost:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -249,6 +282,9 @@ function checkStaffExistsBySanctionedPost($sanctioned_post_id) {
  * @return String Username
  */
 function getEmailAddressFromOrgCode($org_code) {
+    if (!$org_code > 0) {
+        return "";
+    }
     $sql = "SELECT `username` FROM `user` WHERE `org_code` = $org_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getEmailAddressFromOrgCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -264,6 +300,9 @@ function getEmailAddressFromOrgCode($org_code) {
  * @return boolean
  */
 function checkPasswordIsCorrect($username, $password) {
+    if (!$username > 0 || !$password > 0) {
+        return "";
+    }
     $sql = "SELECT `password` FROM `user` WHERE `username` like \"$username\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -285,6 +324,9 @@ function checkPasswordIsCorrect($username, $password) {
  * @param type $password
  */
 function updatePassword($username, $password) {
+    if (!$username > 0 || !$password > 0) {
+        return "";
+    }
     $user_name = $_SESSION['username'];
     $sql = "UPDATE dghs_hrm_main.user SET password = \"" . md5($password) . "\" ,
                 `updated_datetime` = \"" . date("Y-m-d H:i:s") . "\",
@@ -298,6 +340,9 @@ function updatePassword($username, $password) {
  * @return type
  */
 function getElectricityMainSourceNameFromCode($electricity_main_source_code) {
+    if (!$electricity_main_source_code > 0) {
+        return "";
+    }
     $sql = "SELECT `electricity_source_name` FROM `org_source_of_electricity_main` WHERE `electricity_source_code` = \"$electricity_main_source_code\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkPasswordIsCorrect:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -312,6 +357,9 @@ function getElectricityMainSourceNameFromCode($electricity_main_source_code) {
  * @return type
  */
 function getElectricityAlterSourceNameFromCode($electricity_alter_source_code) {
+    if (!$electricity_alter_source_code > 0) {
+        return "";
+    }
     $sql = "SELECT `electricity_source_name` FROM `org_source_of_electricity_main` WHERE `electricity_source_code` = \"$electricity_alter_source_code\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getElectricityAlterSourceNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -326,6 +374,9 @@ function getElectricityAlterSourceNameFromCode($electricity_alter_source_code) {
  * @return type
  */
 function getWaterMainSourceNameFromCode($water_source_code) {
+    if (!$water_source_code > 0) {
+        return "";
+    }
     $sql = "SELECT `water_supply_source_name` FROM `org_source_of_water_supply_main` WHERE `water_supply_source_code` = \"$water_source_code\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getWaterMainSourceNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -340,6 +391,9 @@ function getWaterMainSourceNameFromCode($water_source_code) {
  * @return type
  */
 function getWaterAlterSourceNameFromCode($water_source_code) {
+    if (!$water_source_code > 0) {
+        return "";
+    }
     $sql = "SELECT `water_supply_source_name` FROM `org_source_of_water_supply_main` WHERE `water_supply_source_code` = \"$water_source_code\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getWaterAlterSourceNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -354,6 +408,9 @@ function getWaterAlterSourceNameFromCode($water_source_code) {
  * @return type
  */
 function getToiletTypeNameFromCode($toilet_type_code) {
+    if (!$toilet_type_code > 0) {
+        return "";
+    }
     $sql = "SELECT `toilet_type_name` FROM `org_toilet_type` WHERE `toilet_type_code` = \"$toilet_type_code\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletTypeNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -368,6 +425,9 @@ function getToiletTypeNameFromCode($toilet_type_code) {
  * @return type
  */
 function getToiletAdequacyNameFromCode($toilet_adequacy_code) {
+    if (!$toilet_adequacy_code > 0) {
+        return "";
+    }
     $sql = "SELECT `toilet_adequacy_name` FROM `org_toilet_adequacy` WHERE `toilet_adequacy_code` = \"$toilet_adequacy_code\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -387,6 +447,9 @@ function getToiletAdequacyNameFromCode($toilet_adequacy_code) {
  * @todo update or remove function
  */
 function getFuelSourceNameFromCode($fuel_source_code) {
+    if (!$fuel_source_code > 0) {
+        return "";
+    }
     $sql = "SELECT `fuel_source_name` FROM `org_fuel_source` WHERE `fuel_source_code` = \"$fuel_source_code\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -401,6 +464,9 @@ function getFuelSourceNameFromCode($fuel_source_code) {
  * @return type
  */
 function getLaundrySourceNameFromCode($laundry_code) {
+    if (!$laundry_code > 0) {
+        return "";
+    }
     $sql = "SELECT `laundry_system_name` FROM `org_laundry_system` WHERE `laundry_system_code` = \"$laundry_code\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -415,6 +481,9 @@ function getLaundrySourceNameFromCode($laundry_code) {
  * @return type
  */
 function getAutoclaveSystemNameFromCode($autoclave_code) {
+    if (!$autoclave_code > 0) {
+        return "";
+    }
     $sql = "SELECT `autoclave_system_name` FROM `org_autoclave_system` WHERE `autoclave_system_code` = \"$autoclave_code\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -429,6 +498,9 @@ function getAutoclaveSystemNameFromCode($autoclave_code) {
  * @return type
  */
 function getWasteDisposalSystemNameFromCode($waste_disposal_code) {
+    if (!$waste_disposal_code > 0) {
+        return "";
+    }
     $sql = "SELECT `waste_disposal_system_name` FROM `org_waste_disposal_system` WHERE `waste_disposal_system_code` = \"$waste_disposal_code\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getToiletAdequacyNameFromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -438,6 +510,9 @@ function getWasteDisposalSystemNameFromCode($waste_disposal_code) {
 }
 
 function getOrgLevelNamefromCode($org_level_code) {
+    if (!$org_level_code > 0) {
+        return "";
+    }
     $sql = "SELECT `org_level_name` FROM `org_level` WHERE `org_level_code` = $org_level_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgLevelNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -450,6 +525,9 @@ function getOrgLevelNamefromCode($org_level_code) {
  * Staff profile functions
  */
 function getClassNameformId($class_code) {
+    if (!$class_code > 0) {
+        return "";
+    }
     $sql = "SELECT `class_name` FROM `sanctioned_post_class` WHERE `class_code` = \"$class_code\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getClassNameformId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -459,6 +537,9 @@ function getClassNameformId($class_code) {
 }
 
 function getDesignationNameformCode($designation_code) {
+    if (!$designation_code > 0) {
+        return "";
+    }
     $sql = "SELECT `designation` FROM `sanctioned_post_designation` WHERE `designation_code` = \"$designation_code\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameformCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -506,6 +587,25 @@ function getUpazilaNamefromCode($bbs_code) {
     return $data['upazila_name'];
 }
 
+function getUpazilaThanaNamefromCode($upa_bbs_code, $dis_bbs_code) {
+    if (empty($upa_bbs_code) || empty($dis_bbs_code)) {
+        return "";
+    }
+    $sql = "SELECT
+                    admin_upazila.upazila_name
+            FROM
+                    admin_upazila
+            WHERE
+                    upazila_bbs_code = $upa_bbs_code
+            AND upazila_district_code = $dis_bbs_code
+            AND upazila_active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getUpazilaNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['upazila_name'];
+}
+
 function getUnionNamefromCode($bbs_code) {
     if (empty($bbs_code)) {
         return "";
@@ -519,6 +619,9 @@ function getUnionNamefromCode($bbs_code) {
 }
 
 function getDesignationNameFormSanctionedPostId($sanctioned_post_id) {
+    if (empty($sanctioned_post_id)) {
+        return "";
+    }
     $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE id= $sanctioned_post_id 
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -529,6 +632,9 @@ function getDesignationNameFormSanctionedPostId($sanctioned_post_id) {
 }
 
 function getDesignationNameFormStaffId($staff_id) {
+    if (empty($staff_id)) {
+        return "";
+    }
     $sql = "SELECT designation_id FROM old_tbl_staff_organization WHERE staff_id= $staff_id LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormStaffId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -545,6 +651,9 @@ function getDesignationNameFormStaffId($staff_id) {
 }
 
 function getSanctionedPostIdFromStaffId($staff_id) {
+    if (empty($staff_id)) {
+        return "";
+    }
     $sql = "SELECT id FROM total_manpower_imported_sanctioned_post_copy WHERE staff_id= $staff_id 
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -555,6 +664,9 @@ function getSanctionedPostIdFromStaffId($staff_id) {
 }
 
 function getSanctionedPostNameFromSanctionedPostId($SanctionedPostId) {
+    if (empty($SanctionedPostId)) {
+        return "";
+    }
     $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE id= $SanctionedPostId 
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -565,6 +677,9 @@ function getSanctionedPostNameFromSanctionedPostId($SanctionedPostId) {
 }
 
 function getSanctionedPostNameFromSanctionedPostGroupCode($group_code) {
+    if (empty($group_code)) {
+        return "";
+    }
     $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE sanctioned_post_group_code= $group_code 
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSanctionedPostNameFromStaffId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -575,6 +690,9 @@ function getSanctionedPostNameFromSanctionedPostGroupCode($group_code) {
 }
 
 function getStaffNameFromStaffId($staff_id) {
+    if (empty($staff_id)) {
+        return "";
+    }
     $sql = "SELECT staff_name FROM old_tbl_staff_organization WHERE staff_id= $staff_id LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -584,6 +702,9 @@ function getStaffNameFromStaffId($staff_id) {
 }
 
 function getOrgOwnarshioNameFromCode($org_ownarship_code) {
+    if (empty($org_ownarship_code)) {
+        return "";
+    }
     $sql = "SELECT                
                 org_ownership_authority.org_ownership_authority_name
             FROM
@@ -598,6 +719,9 @@ function getOrgOwnarshioNameFromCode($org_ownarship_code) {
 }
 
 function getOrgFunctionNameFromCode($org_function_code) {
+    if (empty($org_function_code)) {
+        return "";
+    }
     $sql = "SELECT
                 org_organizational_functions.org_organizational_functions_name
             FROM
@@ -1327,5 +1451,28 @@ function getOrgDisCodeAndUpaCodeFromOrgCode ($org_code){
     $data = mysql_fetch_assoc($result);
         
     return $data;
+}
+
+/**
+ * Get Organization Location Type Form code
+ * @param INT $org_code
+ * @return ARRAY
+ */
+function getOrgLocationTypeFromCode ($org_location_code){
+    if (!$org_location_code > 0) {
+        return null;
+    }
+    $sql = "SELECT
+                    org_location_type_name
+            FROM
+                    org_location_type
+            WHERE
+                    org_location_type_code = $org_location_code
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgLocationTypeFromCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data['org_location_type_name'];
 }
 ?>

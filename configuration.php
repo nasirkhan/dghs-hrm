@@ -24,7 +24,7 @@ $dbpass='';
 
 mysql_select_db($dbname,mysql_connect($dbhost, $dbuser, $dbpass))or die(mysql_errno());
 
-
+$hrm_root_dir = "http://app.dghs.gov.bd/hrm";
 
 require_once 'include/functions_app_specific.php';
 require_once 'include/functions_generic.php';

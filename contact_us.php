@@ -1,7 +1,6 @@
 
 <?php
 $app_name = "Ministry of Health and Family Welfare";
-
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +29,7 @@ $app_name = "Ministry of Health and Family Welfare";
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="assets/ico/favicon.png">
-        
+
 
         <!--Google analytics code-->
         <?php include_once 'include/header/header_ga.inc.php'; ?>
@@ -58,42 +57,42 @@ $app_name = "Ministry of Health and Family Welfare";
               margin: 0 auto 10px;
             }
             @media (max-width: 480px) {
-              h1,
-              h2,
-              h3,
-              h4,
-              h5,
-              h6 {
-              font-size: 80%;
-              }
-            @media (min-width: 768px) and (max-width: 979px){
-                .container{
-                    width: 760px;
+                h1,
+                h2,
+                h3,
+                h4,
+                h5,
+                h6 {
+                    font-size: 80%;
+                }
+                @media (min-width: 768px) and (max-width: 979px){
+                    .container{
+                        width: 760px;
+                    }
+                }
+                @media (max-width: 767px){
+                    .container{
+                        width: 760px;
+                    }
+                }
+                @media (max-width: 480px) {
+                    .container{
+                        width: 300px;
+                    } 
                 }
             }
-            @media (max-width: 767px){
-                .container{
-                    width: 760px;
-                }
-            }
-            @media (max-width: 480px) {
-                .container{
-                    width: 300px;
-                } 
-            }
-}
 
         </style>
 
     </head>
 
     <body>
-     <?php session_start();
-     $username=$_SESSION['username'];
-     $orgcode= $_SESSION['org_code'];
-     $orgname=$_SESSION['org_name'];
-     
-     ?>   
+        <?php
+        session_start();
+        $username = $_SESSION['username'];
+        $orgcode = $_SESSION['org_code'];
+        $orgname = $_SESSION['org_name'];
+        ?>   
 
         <div class="container">
 
@@ -106,7 +105,7 @@ $app_name = "Ministry of Health and Family Welfare";
                         <input type="hidden" id="mailto" name="mailto" class="input-block-level" placeholder="Email Address…">
 
                         <input type="hidden" id="emailcc" name="emailcc" class="input-block-level"  value="moly@mis.dghs.gov.bd">
-                        
+
                         <label>From Email  <font color="red"> * </font></label>
                         <input type="text" id="email" name="email"  class="input-block-level"  value="<? echo $username; ?>">
 
@@ -132,69 +131,64 @@ $app_name = "Ministry of Health and Family Welfare";
 
                         <label>Message <font color="red"> * </font> </label>
                         <textarea name="message" id="message" rows="10" class="input-block-level" cols="58" required ></textarea>
-                        
-                         <label>Captcha <font color="red"> * </font> </label>
-                          <input id="captcha" name="captcha" type="text" required>  <img src="captcha.php" class="responsive-image" /><br>
-                         
+
+                        <label>Captcha <font color="red"> * </font> </label>
+                        <input id="captcha" name="captcha" type="text" required>  <img src="captcha.php" class="responsive-image" /><br>
+
                         <button type="submit" class="btn-info btn-large">Submit</button>
-						<br/><br/>
-							<img src="assets/img/contact_us.png">
+                        <br/><br/>
+                        <img src="assets/img/contact_us.png">
                     </fieldset>
                     <?php
-session_start();
+                    session_start();
 //error_reporting(E_ALL);
 //ini_set('display_errors','On');
-if ($_POST["email"] <> '') {
-    if(isset($_POST["captcha"])&&$_POST["captcha"]!=""&&$_SESSION["code"]==$_POST["captcha"])
-{
-echo "";
+                    if ($_POST["email"] <> '') {
+                        if (isset($_POST["captcha"]) && $_POST["captcha"] != "" && $_SESSION["code"] == $_POST["captcha"]) {
+                            echo "";
 //Do you stuff
-}
-else
-{
-die("Wrong Code Entered");
-}
+                        } else {
+                            die("Wrong Code Entered");
+                        }
 
-    $EmailSubject = $_POST["subject"];
-     $ToEmail = "nasir.khan@activationltd.com,dr.bashar@mis.dghs.gov.bd,rajib@mis.dghs.gov.bd,enamul.haque@activationltd.com";
-    
- 
-    $mailheader  .= 'MIME-Version: 1.0' . "\r\n";
-    $mailheader .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-    $mailheader .= "From: " . $_POST["email"] . "\r\n";
-    $mailheader .= "Reply-To: " . $_POST["email"] . "\r\n";
-    $mailheader .= "CC: " . $_POST["emailcc"] . "\r\n";
-    $MESSAGE_BODY .= "Name: " . $_POST["name"] . "<br>";
-    $MESSAGE_BODY .= "From Email: " . $_POST["email"] . "<br>";
-    $MESSAGE_BODY .= "Organization Name: " . $_POST["orgname"] . "<br>";
-    $MESSAGE_BODY .= "Organization Code: " . $_POST["orgcode"] . "<br>";
-    $MESSAGE_BODY .= "Reason: " . $_POST["reason"] . "<br>";
-    $MESSAGE_BODY .= "Subject: " . $_POST["subject"] . "<br>";
-    $MESSAGE_BODY .= "Message: " . $_POST["message"] . "";
+                        $EmailSubject = $_POST["subject"];
+                        $ToEmail = "nasir.khan@activationltd.com,dr.bashar@mis.dghs.gov.bd,rajib@mis.dghs.gov.bd,enamul.haque@activationltd.com";
 
 
-    mail($ToEmail, $EmailSubject, $MESSAGE_BODY, $mailheader) or die("Failure");
-    ?>
+                        $mailheader .= 'MIME-Version: 1.0' . "\r\n";
+                        $mailheader .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+                        $mailheader .= "From: " . $_POST["email"] . "\r\n";
+                        $mailheader .= "Reply-To: " . $_POST["email"] . "\r\n";
+                        $mailheader .= "CC: " . $_POST["emailcc"] . "\r\n";
+                        $MESSAGE_BODY .= "Name: " . $_POST["name"] . "<br>";
+                        $MESSAGE_BODY .= "From Email: " . $_POST["email"] . "<br>";
+                        $MESSAGE_BODY .= "Organization Name: " . $_POST["orgname"] . "<br>";
+                        $MESSAGE_BODY .= "Organization Code: " . $_POST["orgcode"] . "<br>";
+                        $MESSAGE_BODY .= "Reason: " . $_POST["reason"] . "<br>";
+                        $MESSAGE_BODY .= "Subject: " . $_POST["subject"] . "<br>";
+                        $MESSAGE_BODY .= "Message: " . $_POST["message"] . "";
 
 
-    Your message was sent.
- 
+                        mail($ToEmail, $EmailSubject, $MESSAGE_BODY, $mailheader) or die("Failure");
+                        ?>
 
-    <?php
-    if ($_SESSION['logged'] != true) {
-    print "<script>";
-    print " self.location='login.php'"; // Comment this line if you don't want to redirect
-    print "</script>";
-}else{
-    print "<script>";
-    print " self.location='home.php'"; // Comment this line if you don't want to redirect
-    print "</script>";
-    
-}
 
-}
-?>
-                    
+                        Your message was sent.
+
+
+                        <?php
+                        if ($_SESSION['logged'] != true) {
+                            print "<script>";
+                            print " self.location='login.php'"; // Comment this line if you don't want to redirect
+                            print "</script>";
+                        } else {
+                            print "<script>";
+                            print " self.location='home.php'"; // Comment this line if you don't want to redirect
+                            print "</script>";
+                        }
+                    }
+                    ?>
+
                 </form>
             </div>
 
