@@ -340,11 +340,11 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                             <tbody>
                                                 <?php $data = mysql_fetch_assoc($new_org_result); ?>
                                                 <tr>
-                                                    <td><strong>Id</strong></td>
+                                                    <td><strong>Submission Id</strong></td>
                                                     <td><?php echo $data['id']; ?></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><strong>Org Name</strong></td>
+                                                    <td><strong>Organization Name</strong></td>
                                                     <td><?php echo $data['org_name']; ?></td>
                                                 </tr>
                                                 <tr>
@@ -361,7 +361,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Urban/Rural Location</strong></td>
-                                                    <td><?php echo $data['org_location']; ?></td>
+                                                    <td><?php echo getOrgLocationTypeFromCode($data['org_location_type']); ?></td>
                                                 </tr>
                                                 <tr>
                                                     <td><strong>Division</strong></td>
@@ -381,11 +381,11 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                 </tr>  
                                                 <tr>
                                                     <td><strong>Organization Function</strong></td>
-                                                    <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
+                                                    <td><?php echo getOrgFunctionNameFromCode($data['org_function_code']); ?></td>
                                                 </tr>  
                                                 <tr>
                                                     <td><strong>Organization Level</strong></td>
-                                                    <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
+                                                    <td><?php echo $data['org_level_name']; ?></td>
                                                 </tr>  
                                                 <tr>
                                                     <td><strong>Organization Email</strong></td>
