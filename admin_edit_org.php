@@ -342,49 +342,49 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                             <thead>
                                                 <?php $data = mysql_fetch_assoc($new_org_result); ?>
                                                 <tr>
-                                                    <td><strong>Submission Id</strong></td>                                                    
+                                                    <td width="40%"><strong>Submission Id</strong></td>                                                    
                                                     <td width="60%"><?php echo $data['id']; ?></td>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td><strong>Organization Name</strong></td>
+                                                    <td width="40%"><strong>Organization Name</strong></td>
                                                     <td width="60%"><a href="#" class="input-text" id="org_name" ><?php echo $data['org_name']; ?></a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><strong>Organization Type</strong></td>
+                                                    <td width="40%"><strong>Organization Type</strong></td>
                                                     <td width="60%"><a href="#" class="" id="org_type_code" ><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><strong>Agency</strong></td>
+                                                    <td width="40%"><strong>Agency</strong></td>
                                                     <td width="60%"><a href="#" class="" id="agency_code" ><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><strong>Year Established</strong></td>
+                                                    <td width="40%"><strong>Year Established</strong></td>
                                                     <td width="60%"><a href="#" class="input-text" id="year_established" ><?php echo $data['year_established']; ?></a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><strong>Urban/Rural Location</strong></td>
+                                                    <td width="40%"><strong>Urban/Rural Location</strong></td>
                                                     <td width="60%"><a href="#" class="" id="org_location_type" ><?php echo getOrgLocationTypeFromCode($data['org_location_type']); ?></a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><strong>Division</strong></td>
+                                                    <td width="40%"><strong>Division</strong></td>
                                                     <td width="60%"><a href="#" class="" id="division_code" ><?php echo getDivisionNamefromCode($data['division_code']); ?></a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><strong>District</strong></td>
+                                                    <td width="40%"><strong>District</strong></td>
                                                     <td width="60%"><a href="#" class="" id="district_code" ><?php echo getDistrictNamefromCode($data['district_code']); ?></a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><strong>Upazila</strong></td>
+                                                    <td width="40%"><strong>Upazila</strong></td>
                                                     <td width="60%"><a href="#" class="" id="upazila_thana_code" ><?php echo getUpazilaThanaNamefromCode($data['upazila_thana_code'], $data['district_code']); ?></a></td>
                                                 </tr>  
                                                 <tr>
-                                                    <td><strong>Ownarship</strong></td>
+                                                    <td width="40%"><strong>Ownarship</strong></td>
                                                     <td width="60%"><a href="#" class="" id="ownership_code" ><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></a></td>
                                                 </tr>  
                                                 <tr>
-                                                    <td><strong>Organization Function</strong></td>
+                                                    <td width="40%"><strong>Organization Function</strong></td>
                                                     <td width="60%"><a href="#" class="" id="org_function_code" ><?php echo getOrgFunctionNameFromCode($data['org_function_code']); ?></a></td>
                                                 </tr>  
                                                 <tr>
@@ -392,20 +392,20 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                     <td width="60%"><a href="#" class="" id="org_level_code" ><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></a></td>
                                                 </tr>  
                                                 <tr>
-                                                    <td><strong>Organization Email</strong></td>
-                                                    <td><a href="#" class="input-text" id="email_address1" ><?php echo $data['email_address1']; ?></a></td>
+                                                    <td width="40%"><strong>Organization Email</strong></td>
+                                                    <td width="60%"><a href="#" class="input-text" id="email_address1" ><?php echo $data['email_address1']; ?></a></td>
                                                 </tr>  
                                                 <tr>
-                                                    <td><strong>Organization Contact Number</strong></td>
-                                                    <td><a href="#" class="input-text" id="latitude" ><?php echo $data['mobile_number1']; ?></a></td>
+                                                    <td width="40%"><strong>Organization Contact Number</strong></td>
+                                                    <td width="60%"><a href="#" class="input-text" id="latitude" ><?php echo $data['mobile_number1']; ?></a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><strong>Latitude</strong></td>
-                                                    <td><a href="#" class="input-text" id="latitude" ><?php echo $data['latitude']; ?></a></td>
+                                                    <td width="40%"><strong>Latitude</strong></td>
+                                                    <td width="60%"><a href="#" class="input-text" id="latitude" ><?php echo $data['latitude']; ?></a></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><strong>Longitude</strong></td>
-                                                    <td><a href="#" class="input-text" id="longitude" ><?php echo $data['longitude']; ?></a></td>
+                                                    <td width="40%"><strong>Longitude</strong></td>
+                                                    <td width="60%"><a href="#" class="input-text" id="longitude" ><?php echo $data['longitude']; ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td>&nbsp;</td>
