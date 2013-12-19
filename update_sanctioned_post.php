@@ -316,7 +316,7 @@ if (isset($_POST['action'])) {
 
                                 </div>
                             </div>
-                            <div class="row-fluid">
+<!--                            <div class="row-fluid">
                                 <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
                                     <div class="control-group">
                                         <label class="control-label" for="designation_code">Designation</label>
@@ -351,7 +351,7 @@ if (isset($_POST['action'])) {
                                         </div>
                                     </div>
                                 </form>
-                            </div>
+                            </div>-->
                         <?php endif; ?>
                         <?php if ($step == 2) : ?>
                             <div class="row-fluid">
