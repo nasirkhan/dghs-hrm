@@ -179,7 +179,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                             <?php echo $sp_data['designation']; ?>
                                                         </div>
                                                         <div class="span1">
-                                                            <?php echo getTypeOfPostNameFromCode($sp_data['sp_count']); ?>
+                                                            <?php echo getTypeOfPostNameFromCode($sp_data['type_of_post']); ?>
                                                         </div>
                                                         <div class="span1">
                                                             <?php echo $sp_data['class']; ?>

@@ -1486,4 +1486,39 @@ function getOrgLocationTypeFromCode ($org_location_code){
     
     return $data['org_location_type_name'];
 }
+
+
+function getTotalSanctionedPostCountFromOrgCode($org_code){
+    if (!$org_code > 0) {
+        return "";
+    }
+    $sql = "SELECT
+                    *
+            FROM
+                    total_manpower_imported_sanctioned_post_copy
+            WHERE
+                    org_code = '$org_code'
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getTotalSanctionedPostCountFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+    
+    return mysql_num_rows($result);
+}
+
+function getTotalFilledUpSanctionedPostCountFromOrgCode($org_code){
+    if (!$org_code > 0) {
+        return "";
+    }
+    $sql = "SELECT
+                    *
+            FROM
+                    total_manpower_imported_sanctioned_post_copy
+            WHERE
+                    total_manpower_imported_sanctioned_post_copy.org_code = '$org_code'
+            and total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getTotalFilledUpSanctionedPostCountFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+    
+    return mysql_num_rows($result);
+}
+
 ?>
