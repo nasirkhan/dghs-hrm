@@ -332,6 +332,17 @@ function updatePassword($username, $password) {
                 `updated_datetime` = \"" . date("Y-m-d H:i:s") . "\",
                 `updated_by` = \"$user_name\" WHERE user.username =\"$username\"";
     $result = mysql_query($sql) or die(mysql_error() . "<br />updatePassword:1<br /><b>Query:</b><br />___<br />$sql<br />");
+    
+        $to  = "$user_name";
+        // To send HTML mail, the Content-type header must be set
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $headers .= "To: $to \r\n";
+        $headers .= 'From: MIS DGHS <info@dghs.gov.bd>' . "\r\n";
+        $subject = "[HRM] Email Notification for Password change ";
+        $message = "Your password has been changed. ";
+        $message .= "Your new password is ".$password;
+        mail($to, $subject, $message, $headers);
 }
 
 /**
