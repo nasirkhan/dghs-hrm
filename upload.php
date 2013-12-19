@@ -5,12 +5,15 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
+
 // assign values from session array
-$org_code = $_SESSION['org_code'];
-$org_name = $_SESSION['org_name'];
-$org_type_name = $_SESSION['org_type_name'];
+$org_code =  (int) mysql_real_escape_string($_GET['org_code']);
+$org_name = getOrgNameFormOrgCode($org_code);
+$org_type_name = getOrgTypeNameFormOrgCode($org_code);
 
-
+session_start();
+$_SESSION['org_code'] = $org_code;
+$_SESSION['username'] = getUserNameFromOrgCode($org_code);
 
 $echoAdminInfo = "";
 
