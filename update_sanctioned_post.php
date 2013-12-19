@@ -229,7 +229,7 @@ if (isset($_POST['action'])) {
                                     <a href="update_sanctioned_post.php" class="btn btn-small btn-primary btn-block">Update Sanctioned post</a>
                                 </div>-->
                                 <div class="span2">
-                                    <a href="update_sanctioned_post.php" class="btn btn-small btn-info btn-block">Back</a>
+                                    <a href="update_sanctioned_post.php" class="btn btn-small btn-info btn-block"><i class="icon-mail-reply"></i> Back</a>
                                 </div>
                             </div>
                             <div class="row-fluid">
@@ -294,18 +294,18 @@ if (isset($_POST['action'])) {
                                                     <td><?php echo $sp_data['payscale']; ?></td>
                                                     <td><?php echo $sp_data['sp_count']; ?></td>
                                                     <td>
-                                                        <form class="form-inline" method="post">
+                                                        <form class="form-inline form-clear" method="post">
                                                             <input name="org_code" value="<?php echo $org_code; ?>" type="hidden" />
                                                             <input name="sp_id" value="<?php echo $sp_data['id']; ?>" type="hidden" />
                                                             <input name="action" value="add" type="hidden" />
-                                                            <button type="submit" class="btn btn-small btn-success">Add</button>
+                                                            <button type="submit" class="btn btn-small btn-success"><i class="icon-plus"></i> <strong>1</strong></button>
                                                         </form>
-                                                        <form class="form-inline" method="get">
+                                                        <form class="form-inline form-clear" method="get">
                                                             <input name="org_code" value="<?php echo $org_code; ?>" type="hidden" />
                                                             <input name="designation_code" value="<?php echo $sp_data['designation_code']; ?>" type="hidden" />
                                                             <input name="action" value="delete" type="hidden" />
                                                             <input type="hidden" id="step" name="step" value="2">
-                                                            <button type="submit" class="btn btn-small btn-danger">Del</button>
+                                                            <button type="submit" class="btn btn-small btn-danger"><i class="icon-minus"></i></button>
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -316,42 +316,6 @@ if (isset($_POST['action'])) {
 
                                 </div>
                             </div>
-<!--                            <div class="row-fluid">
-                                <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                    <div class="control-group">
-                                        <label class="control-label" for="designation_code">Designation</label>
-                                        <div class="controls">
-                                            <select id="designation_code" name="designation_code">
-                                                <option value="0">Select Designation</option>
-                                                <?php
-                                                $sql = "SELECT
-                                                            *
-                                                    FROM
-                                                            `total_manpower_imported_sanctioned_post_copy`
-                                                    WHERE
-                                                            org_code = '$org_code'
-                                                    AND active LIKE 1
-                                                    GROUP BY
-                                                            designation_code";
-                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>designation_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                                while ($rows = mysql_fetch_assoc($result)) {
-                                                    echo "<option value=\"" . $rows['designation_code'] . "\">" . $rows['designation'] . "</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="control-group">
-                                        <div class="controls">   
-                                            <input type="hidden" id="org_code" name="org_code" value="<?php echo "$org_code"; ?>"> 
-                                            <input type="hidden" id="step" name="step" value="2">
-                                            <button type="submit" class="btn btn-success">Get Sanctioned Post List</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>-->
                         <?php endif; ?>
                         <?php if ($step == 2) : ?>
                             <div class="row-fluid">
@@ -362,7 +326,7 @@ if (isset($_POST['action'])) {
                                     <a href="update_sanctioned_post.php" class="btn btn-small btn-primary btn-block">Update Sanctioned post</a>
                                 </div>
                                 <div class="span2">
-                                    <a href="update_sanctioned_post.php?org_code=<?php echo $org_code; ?>&step=1" class="btn btn-small btn-info btn-block">Back</a>
+                                    <a href="update_sanctioned_post.php?org_code=<?php echo $org_code; ?>&step=1" class="btn btn-small btn-info btn-block"><i class="icon-mail-reply"></i> Back</a>
                                 </div>
                             </div>
 
