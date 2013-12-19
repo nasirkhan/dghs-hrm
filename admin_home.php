@@ -122,6 +122,9 @@ if ($_SESSION['user_type'] != "admin"){
                                 <i class="icon-exchange pull-left icon-3x"></i> Transfer
                             </a>
                             
+							  <a href="delete.php" class="btn btn-danger btn-large">
+                                <i class="icon-trash pull-left icon-3x"></i> Delete
+                            </a>
                             
                         </div>
                         
