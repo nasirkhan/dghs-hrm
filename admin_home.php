@@ -26,10 +26,9 @@ if ($org_code == "") {
 }
 
 // admin check 
-if ($_SESSION['user_type'] != "admin"){
+if ($_SESSION['user_type'] != "admin") {
     header("location:home.php?org_code=$org_code");
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,13 +88,13 @@ if ($_SESSION['user_type'] != "admin"){
                         <li class="active"><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
                         <li><a href="search.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
                         <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
-                        <!--                        
-                        
-                        
-                        <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
-                        <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
-                        <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
-                        -->
+                            <!--                        
+                            
+                            
+                            <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
+                            <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
+                            <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
+                            -->
                         <li><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-random"></i> Transfer Approval</a></li>
                         <li><a href="report/index.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-calendar"></i> Reports</a></li>
                         <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
@@ -109,7 +108,7 @@ if ($_SESSION['user_type'] != "admin"){
                         <h3>Admin Dashboard</h3>
 
                         <div class="row-fluid"> 
-                            
+
                             <a href="search.php" class="btn btn-large btn-warning">
                                 <i class="icon-search pull-left icon-3x"></i> Search
                             </a>
@@ -122,68 +121,65 @@ if ($_SESSION['user_type'] != "admin"){
                                 <i class="icon-exchange pull-left icon-3x"></i> Transfer
                             </a>
 
+                            <a href="delete.php" class="btn btn-danger btn-large">
+                                <i class="icon-trash pull-left icon-3x"></i> Delete
+                            </a>
+                            
                             <a href="update_sanctioned_post.php" class="btn btn-large">
                                 <i class="icon-group pull-left icon-3x"></i> Update sanctioned Post
                             </a>
 
-                            <a href="update_sanctioned_post.php" class="btn btn-large">
-                                <i class="icon-group pull-left icon-3x"></i> Update sanctioned Post
-                            </a>
-                            
-							  <a href="delete.php" class="btn btn-danger btn-large">
-                                <i class="icon-trash pull-left icon-3x"></i> Delete
-                            </a>
-                            
                         </div>
-                        
-                        <?php 
+
+                        <?php
                         $sql = "SELECT * FROM `organization_requested` WHERE active LIKE 1;";
                         $new_org_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                        
+
                         $new_org_result_count = mysql_num_rows($new_org_result);
-                        
+
                         $count = 0;
                         if ($new_org_result_count > 0):
-                        ?>
-                        <div class="row-fluid">
-                            <p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                        </div>
-                        <div class="row-fluid">
-                            <div class="spa12">
-                                <p class="lead">Organizations Pending for approval</p>
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <td><strong>#</strong></td>
-                                            <td><strong>Org Name</strong></td>
-                                            <td><strong>Agency</strong></td>
-                                            <td><strong>Ownarship</strong></td>
-                                            <td><strong>Division</strong></td>
-                                            <td><strong>District</strong></td>
-                                            <td><strong>Upazila</strong></td>
-                                            <td><strong>Action</strong></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php while($data = mysql_fetch_assoc($new_org_result)): 
-                                            $count++; ?>
-                                        <tr>
-                                            <td><?php echo $count; ?></td>
-                                            <td><?php echo $data['org_name']; ?></td>
-                                            <td><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></td>
-                                            <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
-                                            <td><?php echo $data['division_name']; ?></td>
-                                            <td><?php echo $data['district_name']; ?></td>
-                                            <td><?php echo $data['upazila_thana_name']; ?></td>
-                                            <td>
-                                                <a class="btn  btn-info" href="admin_edit_org.php?id=<?php echo $data['id']; ?>">View / Edit</a>
-                                            </td>                                            
-                                        </tr>
-                                        <?php endwhile; ?>
-                                    </tbody>
-                                </table>
+                            ?>
+                            <div class="row-fluid">
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
                             </div>
-                        </div>
+                            <div class="row-fluid">
+                                <div class="spa12">
+                                    <p class="lead">Organizations Pending for approval</p>
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td><strong>#</strong></td>
+                                                <td><strong>Org Name</strong></td>
+                                                <td><strong>Agency</strong></td>
+                                                <td><strong>Ownarship</strong></td>
+                                                <td><strong>Division</strong></td>
+                                                <td><strong>District</strong></td>
+                                                <td><strong>Upazila</strong></td>
+                                                <td><strong>Action</strong></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php while ($data = mysql_fetch_assoc($new_org_result)):
+                                                $count++;
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $count; ?></td>
+                                                    <td><?php echo $data['org_name']; ?></td>
+                                                    <td><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></td>
+                                                    <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
+                                                    <td><?php echo $data['division_name']; ?></td>
+                                                    <td><?php echo $data['district_name']; ?></td>
+                                                    <td><?php echo $data['upazila_thana_name']; ?></td>
+                                                    <td>
+                                                        <a class="btn  btn-info" href="admin_edit_org.php?id=<?php echo $data['id']; ?>">View / Edit</a>
+                                                    </td>                                            
+                                                </tr>
+                                            <?php endwhile; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         <?php endif; ?>
 
                     </section> <!-- /admin_home_main -->                   
