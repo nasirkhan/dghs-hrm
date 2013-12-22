@@ -43,10 +43,12 @@ if (isset($_REQUEST['step'])) {
 /**
  * update sanctiond post
  */
+$action  = mysql_real_escape_string(trim($_GET['action']));
 if (isset($_POST['action'])) {
     $sp_id = (int) mysql_real_escape_string(trim($_POST['sp_id']));
     $org_code = (int) mysql_real_escape_string(trim($_POST['org_code']));
     $action  = mysql_real_escape_string(trim($_POST['action']));
+    
     if ($action == "add"){
         $sql = "SELECT
                         *
@@ -109,7 +111,6 @@ if (isset($_POST['action'])) {
                 `updated_by` = \"" . $_SESSION['username'] . "\"
                 WHERE id = '$sp_id'";
         $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:1</p><p>Query:</b></p>___<p>$sql</p>");
-//        echo "<pre>$sql</pre>";
         
         // search the post link in the staff table
         $sql = "SELECT * FROM `old_tbl_staff_organization` WHERE sp_id_2 = '$sp_id'";
@@ -119,6 +120,70 @@ if (isset($_POST['action'])) {
             // update the staff table by removeing the sanctioned post link 
             $sql = "UPDATE `old_tbl_staff_organization` SET `sp_id_2`='0', `sanctioned_post_id`='0', `updated_by` = \"" . $_SESSION['username'] . "\" WHERE sp_id_2 = '$sp_id'";
             $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:1</p><p>Query:</b></p>___<p>$sql</p>");
+        }
+        
+    }
+    else if ($action == "new_sp"){
+        $sp_number = (int) mysql_real_escape_string(trim($_POST['sp_number']));
+        $designation_code = (int) mysql_real_escape_string(trim($_POST['designation_code']));
+        $type_of_post = (int) mysql_real_escape_string(trim($_POST['type_of_post']));
+        $first_level_code = (int) mysql_real_escape_string(trim($_POST['first_level']));
+        $second_level_code = (int) mysql_real_escape_string(trim($_POST['second_level']));
+        
+        $sql = "SELECT
+                        *
+                FROM
+                        `sanctioned_post_designation`
+                WHERE
+                        designation_code = $designation_code";
+        $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:dessignation_data:1</p><p>Query:</b></p>___<p>$sql</p>");
+        
+        $data = mysql_fetch_assoc($result);
+        
+        if ($sp_number > 0){
+            $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
+                        `group`,
+                        `designation`,
+                        `type_of_post`,
+                        `sanctioned_post`,
+                        `sanctioned_post_group_code`,
+                        `pay_scale`,
+                        `class`,
+                        `first_level_id`,
+                        `first_level_name`,
+                        `org_code`,
+                        `designation_code`,
+                        `updated_by`,
+                        `second_level_id`,
+                        `second_level_name`,
+                        `bangladesh_professional_category_code`,
+                        `who_occupation_group_code`
+                    )
+                    VALUES
+                        (
+                        \"" . $data['group'] . "\",
+                        \"" . $data['designation'] . "\",
+                        \"" . $type_of_post . "\",
+                        \"" . $data['sanctioned_post'] . "\",
+                        \"" . $data['sanctioned_post_group_code'] . "\",
+                        \"" . $data['pay_scale'] . "\",
+                        \"" . $data['class'] . "\",
+                        \"" . $first_level_code . "\",
+                        \"" . getFirstLevelNameFromCode($first_level_code) . "\",
+                        \"" . $org_code . "\",
+                        \"" . $data['designation_code'] . "\",
+                        \"" . $_SESSION['username'] . "\",
+                        \"" . $second_level_code . "\",
+                        \"" . getSecondtLevelNameFromCode($second_level_code) . "\",
+                        \"" . $data['bangladesh_professional_category_code'] . "\",
+                        \"" . $data['who_occupation_group_code'] . "\"
+                    )";
+            
+            for ($i = 0; $i < $sp_number; $i++){
+                $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:dessignation_data:2</p><p>Query:</b></p>___<p>$sql</p>");
+            }
+            header("location:update_sanctioned_post.php?org_code=$org_code&step=1");
+            
         }
         
     }
@@ -233,18 +298,23 @@ if (isset($_POST['action'])) {
                                 </div>
                             </div>
                             <div class="row-fluid">
-                                <h4><a href="org_profile.php?org_code=<?php echo "$org_code"; ?>" target="_blank"><?php echo "$org_name ($org_code)"; ?></a></h4>
-                                <?php
-                                $total_post = getTotalSanctionedPostCountFromOrgCode($org_code);
-                                $total_filled_up = getTotalFilledUpSanctionedPostCountFromOrgCode($org_code);
-                                $total_vacant_post = $total_post - $total_filled_up;
-                                ?>
-                                <strong>Total Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_post; ?></span>
-                                <br />
-                                <strong>Total Filled up Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_filled_up; ?></span>
-                                <br />
-                                <strong>Total Vacant Post  Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_vacant_post; ?></span>
-                                <br /><br />
+                                <div class="span8">
+                                    <h4><a href="org_profile.php?org_code=<?php echo "$org_code"; ?>" target="_blank"><?php echo "$org_name ($org_code)"; ?></a></h4>
+                                    <?php
+                                    $total_post = getTotalSanctionedPostCountFromOrgCode($org_code);
+                                    $total_filled_up = getTotalFilledUpSanctionedPostCountFromOrgCode($org_code);
+                                    $total_vacant_post = $total_post - $total_filled_up;
+                                    ?>
+                                    <strong>Total Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_post; ?></span>
+                                    <br />
+                                    <strong>Total Filled up Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_filled_up; ?></span>
+                                    <br />
+                                    <strong>Total Vacant Post  Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_vacant_post; ?></span>
+                                    <br /><br />
+                                </div>
+                                <div class="span4">
+                                    <a href="update_sanctioned_post.php?org_code=<?php echo "$org_code"; ?>&action=new_designation&step=3" class="btn btn-small btn-warning btn-block"><i class="icon-list-ul"></i> Add New Designation</a>
+                                </div>
                             </div>
                             <div class="row-fluid">
                                 <div class="span12">
@@ -382,6 +452,118 @@ if (isset($_POST['action'])) {
                                 </tbody>
                             </table>
                         <?php endif; ?>
+                        <?php if ($action == "new_designation") : ?>
+                            <div class="row-fluid">
+                                <div class="span7">
+                                    <h3>Add New Sanctioned post Post</h3>
+                                </div>
+                                <div class="span3">
+                                    <a href="update_sanctioned_post.php" class="btn btn-small btn-primary btn-block">Update Sanctioned post</a>
+                                </div>
+                                <div class="span2">
+                                    <a href="update_sanctioned_post.php?org_code=<?php echo $org_code; ?>&step=1" class="btn btn-small btn-info btn-block"><i class="icon-mail-reply"></i> Back</a>
+                                </div>
+                            </div>
+
+                            <h4><a href="org_profile.php?org_code=<?php echo "$org_code"; ?>" target="_blank"><?php echo "$org_name ($org_code)"; ?></a></h4>
+                                <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                    <div class="control-group">
+                                        <label class="control-label" for="sp_number">Number of Posts</label>
+                                        <div class="controls">
+                                            <input type="text" id="sp_number" name="sp_number" placeholder="Number of sanctioned post" class="input-block-level"> 
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label" for="designation_code">Designation</label>
+                                        <div class="controls">
+                                            <select id="designation_code" name="designation_code" class="input-block-level">
+                                                <option value="0">-- Select form the list --</option>
+                                                <?php 
+                                                $sql = "SELECT
+                                                                sanctioned_post_designation.designation_group_code,
+                                                                sanctioned_post_designation.class,
+                                                                sanctioned_post_designation.payscale,
+                                                                sanctioned_post_designation.group_code,
+                                                                sanctioned_post_designation.designation_code,
+                                                                sanctioned_post_designation.designation
+                                                        FROM
+                                                                `sanctioned_post_designation`";
+                                                $designation_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_designation_list_by_bd_profession:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                while ($data = mysql_fetch_assoc($designation_result)):  ?>
+                                                <option value="<?php echo $data['designation_code']; ?>"><?php echo $data['designation']; ?>, <?php echo $data['class']; ?>, Payscale: <?php echo $data['payscale']; ?></option>
+                                                <?php endwhile; ?>
+                                            </select>                                         
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label" for="type_of_post">Type of Post</label>
+                                        <div class="controls">
+                                            <select id="type_of_post" name="type_of_post" class="input-block-level">
+                                                <option value="0">-- Select form the list --</option>
+                                                <?php 
+                                                $sql = "SELECT
+                                                                sanctioned_post_type_of_post.type_of_post_code,
+                                                                sanctioned_post_type_of_post.type_of_post_name
+                                                        FROM
+                                                                sanctioned_post_type_of_post
+                                                        WHERE
+                                                                active LIKE 1";
+                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_designation_list_by_bd_profession:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                while ($data = mysql_fetch_assoc($result)):  ?>
+                                                <option value="<?php echo $data['type_of_post_code']; ?>"><?php echo $data['type_of_post_name']; ?> (Code: <?php echo $data['type_of_post_code']; ?>)</option>
+                                                <?php endwhile; ?>
+                                            </select>                                         
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label" for="first_level">First Level Name</label>
+                                        <div class="controls">
+                                            <select id="first_level" name="first_level" class="input-block-level">
+                                                <option value="0">-- Select form the list --</option>
+                                                <?php 
+                                                $sql = "SELECT
+                                                                sanctioned_post_first_level.first_level_code,
+                                                                sanctioned_post_first_level.first_level_name
+                                                        FROM
+                                                                sanctioned_post_first_level
+                                                        WHERE
+                                                                active LIKE 1";
+                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_designation_list_by_bd_profession:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                while ($data = mysql_fetch_assoc($result)):  ?>
+                                                <option value="<?php echo $data['first_level_code']; ?>"><?php echo $data['first_level_name']; ?> (Code: <?php echo $data['first_level_code']; ?>)</option>
+                                                <?php endwhile; ?>
+                                            </select>                                         
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label" for="second_level">Second Level Name</label>
+                                        <div class="controls">
+                                            <select id="second_level" name="second_level" class="input-block-level">
+                                                <option value="0">-- Select form the list --</option>
+                                                <?php 
+                                                $sql = "SELECT
+                                                                sanctioned_post_second_level.second_level_code,
+                                                                sanctioned_post_second_level.second_level_name
+                                                        FROM
+                                                                `sanctioned_post_second_level`
+                                                        WHERE
+                                                                active LIKE 1";
+                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_designation_list_by_bd_profession:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                while ($data = mysql_fetch_assoc($result)):  ?>
+                                                <option value="<?php echo $data['second_level_code']; ?>"><?php echo $data['second_level_name']; ?> (Code: <?php echo $data['second_level_code']; ?>)</option>
+                                                <?php endwhile; ?>
+                                            </select>                                         
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="controls">   
+                                            <input type="hidden" id="org_code" name="org_code" value="<?php echo $org_code; ?>"> 
+                                            <input type="hidden" id="action" name="action" value="new_sp"> 
+                                            <button type="submit" class="btn btn-success">Add new</button>
+                                        </div>
+                                    </div>
+                                </form>
+                        <?php endif; ?>    
                     </section> <!-- /admin_home_main -->                   
                 </div>
             </div>

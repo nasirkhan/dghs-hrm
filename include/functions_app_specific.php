@@ -1521,4 +1521,43 @@ function getTotalFilledUpSanctionedPostCountFromOrgCode($org_code){
     return mysql_num_rows($result);
 }
 
+function getFirstLevelNameFromCode($code){
+    if (!$code > 0) {
+        return "";
+    }
+    
+    $sql= "SELECT
+                    sanctioned_post_first_level.first_level_name
+            FROM
+                    sanctioned_post_first_level
+            WHERE
+                    first_level_code = '$code'
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getFirstLevelNameFromCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data['first_level_name'];
+}
+
+
+function getSecondtLevelNameFromCode($code){
+    if (!$code > 0) {
+        return "";
+    }
+    
+    $sql= "SELECT
+                    sanctioned_post_second_level.second_level_name
+            FROM
+                    `sanctioned_post_second_level`
+            WHERE
+                    second_level_code = '$code'
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getFirstLevelNameFromCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data['second_level_name'];
+}
+
 ?>
