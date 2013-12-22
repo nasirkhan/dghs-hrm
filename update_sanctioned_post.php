@@ -455,7 +455,7 @@ if (isset($_POST['action'])) {
                         <?php if ($action == "new_designation") : ?>
                             <div class="row-fluid">
                                 <div class="span7">
-                                    <h3>Add New Sanctioned post Post</h3>
+                                    <h3>Add New Sanctioned Post</h3>
                                 </div>
                                 <div class="span3">
                                     <a href="update_sanctioned_post.php" class="btn btn-small btn-primary btn-block">Update Sanctioned post</a>
