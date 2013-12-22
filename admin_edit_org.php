@@ -466,6 +466,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                     <td><strong>Division</strong></td>
                                                     <td><strong>District</strong></td>
                                                     <td><strong>Upazila</strong></td>
+                                                    <td><strong>Requested on</strong></td>
                                                     <td><strong>Action</strong></td>
                                                 </tr>
                                             </thead>
@@ -482,6 +483,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                         <td><?php echo $data['division_name']; ?></td>
                                                         <td><?php echo $data['district_name']; ?></td>
                                                         <td><?php echo $data['upazila_thana_name']; ?></td>
+                                                        <td><?php echo $data['updated_datetime']; ?></td>
                                                         <td>
                                                             <a class="btn  btn-info" href="admin_edit_org.php?id=<?php echo $data['id']; ?>">View / Edit</a>
                                                         </td>                                            
