@@ -128,59 +128,26 @@ if ($_SESSION['user_type'] != "admin") {
                             <a href="update_sanctioned_post.php" class="btn btn-large">
                                 <i class="icon-group pull-left icon-3x"></i> Update sanctioned Post
                             </a>
+                           
+                            <a href="admin_edit_org.php" class="btn btn-large">
+                                 <?php
+                                    $sql = "SELECT * FROM `organization_requested` WHERE active LIKE 1;";
+                                    $new_org_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                    $new_org_result_count = mysql_num_rows($new_org_result);
+                                ?>
+                                <i class="icon-hospital pull-left icon-3x"></i> 
+                                Org Approval Queue
+                                <?php if ($new_org_result_count > 0): ?>
+                                <br />
+                                <span class="badge badge-warning">Total <?php echo "$new_org_result_count"; ?> pending</span>
+                                <?php endif; ?>
+                                
+                            </a>
 
                         </div>
 
-                        <?php
-                        $sql = "SELECT * FROM `organization_requested` WHERE active LIKE 1;";
-                        $new_org_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                        $new_org_result_count = mysql_num_rows($new_org_result);
-
-                        $count = 0;
-                        if ($new_org_result_count > 0):
-                            ?>
-                            <div class="row-fluid">
-                                <p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                            </div>
-                            <div class="row-fluid">
-                                <div class="spa12">
-                                    <p class="lead">Organizations Pending for approval</p>
-                                    <table class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <td><strong>#</strong></td>
-                                                <td><strong>Org Name</strong></td>
-                                                <td><strong>Agency</strong></td>
-                                                <td><strong>Ownarship</strong></td>
-                                                <td><strong>Division</strong></td>
-                                                <td><strong>District</strong></td>
-                                                <td><strong>Upazila</strong></td>
-                                                <td><strong>Action</strong></td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php while ($data = mysql_fetch_assoc($new_org_result)):
-                                                $count++;
-                                                ?>
-                                                <tr>
-                                                    <td><?php echo $count; ?></td>
-                                                    <td><?php echo $data['org_name']; ?></td>
-                                                    <td><?php echo getAgencyNameFromAgencyCode($data['agency_code']); ?></td>
-                                                    <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
-                                                    <td><?php echo $data['division_name']; ?></td>
-                                                    <td><?php echo $data['district_name']; ?></td>
-                                                    <td><?php echo $data['upazila_thana_name']; ?></td>
-                                                    <td>
-                                                        <a class="btn  btn-info" href="admin_edit_org.php?id=<?php echo $data['id']; ?>">View / Edit</a>
-                                                    </td>                                            
-                                                </tr>
-                                            <?php endwhile; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        <?php endif; ?>
+                        
 
                     </section> <!-- /admin_home_main -->                   
                 </div>

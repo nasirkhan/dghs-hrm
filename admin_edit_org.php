@@ -332,6 +332,15 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                             $new_org_result_count = mysql_num_rows($new_org_result);
 
                             $count = 0;
+                            if (!$new_org_result_count > 0):
+                            ?>    
+                            <div class="alert alert-info">
+                                <p class="lead">
+                                    No pending request. 
+                                </p>
+                            </div>
+                            <?php endif; ?>
+                            <?php
                             if ($new_org_result_count > 0):
                                 $count++;
                                 ?>
