@@ -263,7 +263,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                         </select>
                                                     -->
                                                 </div>
-</select>
+                                                </select>
                                                 <div class="control-group">
                                                     <button id="btn_show_org_list" type="button" class="btn btn-info">Show Organization(s) List</button>
 
@@ -317,14 +317,16 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                 <div id="staff_user_by_name" class="">
                                     <div class="row-fluid">
                                         <div class="span12 alert alert-info">
-                                            <!--                                        <div class="control-group">
-                                                                                        <p class="lead">Search By Staff Name</p>
-                                                                                        <div class="controls input-append">
-                                                                                            <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
-                                                                                            <button id="btn_search_staff" class="btn btn-info" type="button">Find Staff(s)</button>
-                                                                                            <button id="btn_reset" class="btn" type="button">Reset</button>
-                                                                                        </div>
-                                                                                    </div>-->
+                                            <!--                                        
+                                            <div class="control-group">
+                                                <p class="lead">Search By Staff Name</p>
+                                                <div class="controls input-append">
+                                                    <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
+                                                    <button id="btn_search_staff" class="btn btn-info" type="button">Find Staff(s)</button>
+                                                    <button id="btn_reset" class="btn" type="button">Reset</button>
+                                                </div>
+                                            </div>
+                                            -->
                                             <div class="control-group">
                                                 <label class="control-label" for="searchStaff">Search Keyword</label>
                                                 <div class="controls">
@@ -384,7 +386,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
         <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
         <script src="library/bootstrap-multiselect-bootstrap-2-3/js/bootstrap-multiselect.js"></script>
         <script type="text/javascript">
-             $('.multiselect').multiselect({
+            $('.multiselect').multiselect({
                 maxHeight: 200,
                 includeSelectAllOption: true
             });
