@@ -17,9 +17,9 @@ $echoAdminInfo = "";
 if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $org_code = (int) mysql_real_escape_string($_GET['org_code']);
     $org_name = getOrgNameFormOrgCode($org_code);
-    $org_type_name = getOrgTypeNameFormOrgCode($org_code);    
+    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
 }
-if ($_SESSION['user_type'] == "admin"){
+if ($_SESSION['user_type'] == "admin") {
     $echoAdminInfo = " | Administrator";
     $isAdmin = TRUE;
 }
@@ -29,13 +29,13 @@ if ($_SESSION['user_type'] == "admin"){
  * Upazila users can edit the organizations under that UHC. 
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){  
+if ($org_type_code == 1029 || $org_type_code == 1051) {
     $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
-    
+
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
-    
-    if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
+
+    if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])) {
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
         $org_type_name = getOrgTypeNameFormOrgCode($org_code);
@@ -47,7 +47,6 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
 
 // GET
 $seach_type = mysql_real_escape_string($_GET['type']);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,6 +62,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
         <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
         <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
+        <link href="library/bootstrap-multiselect-bootstrap-2-3/css/bootstrap-multiselect.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
         <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
@@ -104,25 +104,25 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <?php if ($isAdmin): ?>
-                        <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
-                        <?php endif; ?>
-                            
+                            <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
+                            <?php endif; ?>
+
                         <li class="active"><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
-                        
+
                         <?php if ($isAdmin): ?>
-                        <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
-                        <?php endif; ?>
-                            
-                        <?php if (!$isAdmin): ?>
-                        <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
-                        <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
-                        <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
-                        <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
+                            <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
+                            <?php endif; ?>
+
+                            <?php if (!$isAdmin): ?>
+                            <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
+                            <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
+                            <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
+                            <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
                         <?php endif; ?>
                         <?php if ($isAdmin): ?>
-                        <li><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-random"></i> Transfer Approval</a></li>
+                            <li><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-random"></i> Transfer Approval</a></li>
                         <?php endif; ?>
-                        
+
                         <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
@@ -131,48 +131,48 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                     <!-- Search main div
                     ================================================== -->
                     <section id="search_main">
-                        
+
                         <!-- search options -->
                         <?php if ($seach_type == ""): ?>
-                        <div id="search_options">
-                            <div class="row-fluid">
-                                <table class="table table-striped">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <a href="search.php?type=org" class="btn btn-large btn-warning">
-                                                    <i class="icon-hospital icon-2x pull-left"></i> Search Organization
-                                                </a>
-                                            </td>
-                                            <td>Search an organization using the organization name organization code, organization type or find it form the administrative divisions.</td>
-                                        </tr>
-                                        
-                                        <tr>
-                                            <td>
-                                                <a href="search.php?type=staff" class="btn btn-large btn-info">
-                                                    <i class="icon-user-md icon-2x pull-left"></i> Search Employee
-                                                </a>
-                                            </td>
-                                            <td>Find an individual staff from an organization, search by his name or staff id.</td>
-                                        </tr>
-                                        
-                                        <tr>
-                                            <td>
-                                                <a href="search.php?type=user" class="btn btn-large btn-primary">
-                                                    <i class="icon-user icon-2x pull-left"></i> Search HRM Users
-                                                </a>
-                                            </td>
-                                            <td>Find an HRM organization user, search by username or organization name.</td>
-                                        </tr>
-                                    </tbody>
-                                </table>                            
+                            <div id="search_options">
+                                <div class="row-fluid">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="search.php?type=org" class="btn btn-large btn-warning">
+                                                        <i class="icon-hospital icon-2x pull-left"></i> Search Organization
+                                                    </a>
+                                                </td>
+                                                <td>Search an organization using the organization name organization code, organization type or find it form the administrative divisions.</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <a href="search.php?type=staff" class="btn btn-large btn-info">
+                                                        <i class="icon-user-md icon-2x pull-left"></i> Search Employee
+                                                    </a>
+                                                </td>
+                                                <td>Find an individual staff from an organization, search by his name or staff id.</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <a href="search.php?type=user" class="btn btn-large btn-primary">
+                                                        <i class="icon-user icon-2x pull-left"></i> Search HRM Users
+                                                    </a>
+                                                </td>
+                                                <td>Find an HRM organization user, search by username or organization name.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>                            
+                                </div>
                             </div>
-                        </div>
                         <?php endif; ?> <!-- /search options -->
-                        
+
                         <!-- search organization -->
                         <?php if ($seach_type == "org"): ?>
-                        <h3>Search Organization</h3>
+                            <h3>Search Organization</h3>
                             <div id="search_org_main">
                                 <div  id="search_org">
                                     <!-- Search Organization by Organization name or code -->
@@ -212,7 +212,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                         ?>
                                                     </select>
                                                 </div>
-                                                
+
                                                 <div class="control-group">
                                                     <select id="admin_division" name="admin_division">
                                                         <option value="0">Select Division</option>
@@ -238,8 +238,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
 
                                                 <div class="control-group">                                                    
 
-                                                    <select id="org_type" name="org_type">
-                                                        <option value="0">Select Org Type</option>
+                                                    <select id="org_type" name="org_type[]" class="multiselect" multiple="multiple">
                                                         <?php
                                                         $sql = "SELECT
                                                             org_type.org_type_code,
@@ -264,7 +263,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                         </select>
                                                     -->
                                                 </div>
-
+</select>
                                                 <div class="control-group">
                                                     <button id="btn_show_org_list" type="button" class="btn btn-info">Show Organization(s) List</button>
 
@@ -279,81 +278,81 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                             </div>
 
                         <?php endif; ?>
-                        
+
                         <!-- search user -->
                         <?php if ($seach_type == "user"): ?>
-                        <h3>Search User</h3>
-                        <div id="search_user_main" class="row-fluid">
-                            <div id="search_user_by_name" class="">
-                                <div class="row-fluid">
-                                    <div class="span12 alert alert-info">
-                                        <div class="control-group">
-                                            <p class="lead">Search By User Name</p>
-                                            <div class="controls input-append">
-                                                <input type="text" id="searchUser" class="input-xlarge" placeholder="Enter User Name">
-                                                <button id="btn_search_user_name" class="btn btn-info" type="button">Find user(s)</button>
-                                                <button id="btn_reset" class="btn" type="button">Reset</button>
+                            <h3>Search User</h3>
+                            <div id="search_user_main" class="row-fluid">
+                                <div id="search_user_by_name" class="">
+                                    <div class="row-fluid">
+                                        <div class="span12 alert alert-info">
+                                            <div class="control-group">
+                                                <p class="lead">Search By User Name</p>
+                                                <div class="controls input-append">
+                                                    <input type="text" id="searchUser" class="input-xlarge" placeholder="Enter User Name">
+                                                    <button id="btn_search_user_name" class="btn btn-info" type="button">Find user(s)</button>
+                                                    <button id="btn_reset" class="btn" type="button">Reset</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                        
-                                        <div class="control-group">
-                                            <p class="lead">Search By Organization Name or Organization Code</p>
-                                            <div class="controls input-append">
-                                                <input type="text" id="searchOrg" class="input-xlarge" placeholder="Enter Organization Name or Code">
-                                                <button id="btn_user_search_org" class="btn btn-info" type="button">Find Organization(s)</button>
-                                                <button id="btn_reset" class="btn" type="button">Reset</button>
+
+                                            <div class="control-group">
+                                                <p class="lead">Search By Organization Name or Organization Code</p>
+                                                <div class="controls input-append">
+                                                    <input type="text" id="searchOrg" class="input-xlarge" placeholder="Enter Organization Name or Code">
+                                                    <button id="btn_user_search_org" class="btn btn-info" type="button">Find Organization(s)</button>
+                                                    <button id="btn_reset" class="btn" type="button">Reset</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div id="user_list_display"></div>
-                                    </div>                            
+                                            <div id="user_list_display"></div>
+                                        </div>                            
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <?php endif; ?>
-                        
+
                         <!-- search staff -->
                         <?php if ($seach_type == "staff"): ?>
-                        <h3>Search Staff</h3>
-                        <div id="staff_user_main" class="row-fluid">
-                            <div id="staff_user_by_name" class="">
-                                <div class="row-fluid">
-                                    <div class="span12 alert alert-info">
-<!--                                        <div class="control-group">
-                                            <p class="lead">Search By Staff Name</p>
-                                            <div class="controls input-append">
-                                                <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
-                                                <button id="btn_search_staff" class="btn btn-info" type="button">Find Staff(s)</button>
-                                                <button id="btn_reset" class="btn" type="button">Reset</button>
+                            <h3>Search Staff</h3>
+                            <div id="staff_user_main" class="row-fluid">
+                                <div id="staff_user_by_name" class="">
+                                    <div class="row-fluid">
+                                        <div class="span12 alert alert-info">
+                                            <!--                                        <div class="control-group">
+                                                                                        <p class="lead">Search By Staff Name</p>
+                                                                                        <div class="controls input-append">
+                                                                                            <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
+                                                                                            <button id="btn_search_staff" class="btn btn-info" type="button">Find Staff(s)</button>
+                                                                                            <button id="btn_reset" class="btn" type="button">Reset</button>
+                                                                                        </div>
+                                                                                    </div>-->
+                                            <div class="control-group">
+                                                <label class="control-label" for="searchStaff">Search Keyword</label>
+                                                <div class="controls">
+                                                    <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
+                                                </div>
                                             </div>
-                                        </div>-->
-                                        <div class="control-group">
-                                            <label class="control-label" for="searchStaff">Search Keyword</label>
-                                            <div class="controls">
-                                                <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
+                                            <div class="control-group">
+                                                <label class="control-label" for="searchStaffType">Search Type</label>
+                                                <div class="controls">
+                                                    <select id="searchStaffType" name="searchStaffType" class="input-xlarge">
+                                                        <option id="searchStaffType_name" value="searchStaffType_name">Search By Name</option>
+                                                        <option id="searchStaffType_mobile" value="searchStaffType_mobile">Search By Mobile Number</option>
+                                                        <!--<option id="searchStaffType_email" value="searchStaffType_email">Search By Email</option>-->
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="control-label" for="searchStaffType">Search Type</label>
-                                            <div class="controls">
-                                                <select id="searchStaffType" name="searchStaffType" class="input-xlarge">
-                                                    <option id="searchStaffType_name" value="searchStaffType_name">Search By Name</option>
-                                                    <option id="searchStaffType_mobile" value="searchStaffType_mobile">Search By Mobile Number</option>
-                                                    <!--<option id="searchStaffType_email" value="searchStaffType_email">Search By Email</option>-->
-                                                </select>
+                                            <div class="control-group">
+                                                <div class="controls">
+                                                    <button id="btn_search_staff" class="btn btn-info" type="button">Find Staff(s)</button>
+                                                    <button id="btn_reset" class="btn" type="button">Reset</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <div class="controls">
-                                                <button id="btn_search_staff" class="btn btn-info" type="button">Find Staff(s)</button>
-                                                <button id="btn_reset" class="btn" type="button">Reset</button>
-                                            </div>
-                                        </div>
-                                        
-                                        <div id="staff_list_display"></div>
-                                    </div>                            
+
+                                            <div id="staff_list_display"></div>
+                                        </div>                            
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <?php endif; ?>
 
                     </section>
@@ -383,6 +382,13 @@ $seach_type = mysql_real_escape_string($_GET['type']);
         <script src="assets/js/application.js"></script>
 
         <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+        <script src="library/bootstrap-multiselect-bootstrap-2-3/js/bootstrap-multiselect.js"></script>
+        <script type="text/javascript">
+             $('.multiselect').multiselect({
+                maxHeight: 200,
+                includeSelectAllOption: true
+            });
+        </script>
 
         <script type="text/javascript">
             // load division
@@ -463,7 +469,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 $.ajax({
                     type: "POST",
                     url: 'get/get_search_result.php',
-                    data: {type:"org", searchOrg: searchOrg},
+                    data: {type: "org", searchOrg: searchOrg},
                     success: function(data) {
                         $("#loading_content").hide();
                         $("#org_list_display").html("");
@@ -471,7 +477,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                     }
                 });
             });
-            
+
             // Search user
             $('#btn_search_user_name').click(function() {
                 $("#loading_content").show();
@@ -479,7 +485,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 $.ajax({
                     type: "POST",
                     url: 'get/get_search_result.php',
-                    data: {type:"user", searchUser: searchUser},
+                    data: {type: "user", searchUser: searchUser},
                     success: function(data) {
                         $("#loading_content").hide();
                         $("#user_list_display").html("");
@@ -487,7 +493,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                     }
                 });
             });
-            
+
             // Search staff
             $('#btn_search_staff').click(function() {
                 $("#loading_content").show();
@@ -496,7 +502,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 $.ajax({
                     type: "POST",
                     url: 'get/get_search_result.php',
-                    data: {type:"staff", searchStaff: searchStaff, searchStaffType:searchStaffType},
+                    data: {type: "staff", searchStaff: searchStaff, searchStaffType: searchStaffType},
                     success: function(data) {
                         $("#loading_content").hide();
                         $("#staff_list_display").html("");
@@ -504,7 +510,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                     }
                 });
             });
-            
+
             // Search user by org
             $('#btn_user_search_org').click(function() {
                 $("#loading_content").show();
@@ -512,7 +518,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 $.ajax({
                     type: "POST",
                     url: 'get/get_search_result.php',
-                    data: {type:"staff_org", searchOrg: searchOrg},
+                    data: {type: "staff_org", searchOrg: searchOrg},
                     success: function(data) {
                         $("#loading_content").hide();
                         $("#user_list_display").html("");
