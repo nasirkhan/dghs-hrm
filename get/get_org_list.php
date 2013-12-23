@@ -17,47 +17,47 @@ if (!$agency_code > 0) {
 }
 
 $query_string = "";
-if ($div_code > 0 || $dis_code > 0 || $upa_code > 0 || $agency_code > 0 || $type_code_count > 0) {
+if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code_count > 0) {
     $query_string .= " WHERE ";
 
     if ($agency_code > 0) {
         $query_string .= "organization.agency_code = $agency_code";
     }
-    if ($upa_code > 0) {
+    if ($upa_id > 0) {
         if ($agency_code > 0) {
             $query_string .= " AND ";
         }
-        $query_string .= "organization.upazila_id = $upa_code";
+        $query_string .= "organization.upazila_id = $upa_id";
     }
-    if ($dis_code > 0) {
-        if ($upa_code > 0 || $agency_code > 0) {
+    if ($dis_id > 0) {
+        if ($upa_id > 0 || $agency_code > 0) {
             $query_string .= " AND ";
         }
-        $query_string .= "organization.district_id = $dis_code";
+        $query_string .= "organization.district_id = $dis_id";
     }
-    if ($div_code > 0) {
-        if ($dis_code > 0 || $upa_code > 0 || $agency_code > 0) {
+    if ($div_id > 0) {
+        if ($dis_id > 0 || $upa_id > 0 || $agency_code > 0) {
             $query_string .= " AND ";
         }
-        $query_string .= "organization.division_id = $div_code";
+        $query_string .= "organization.division_id = $div_id";
     }
     if ($type_code_count > 0) {
-        if ($div_code > 0 || $dis_code > 0 || $upa_code > 0 || $agency_code > 0) {
+        if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0) {
             $query_string .= " AND ";
         }
         $org_type_selected_array = "";
         for ($i = 0; $i < $type_code_count; $i++) {
-            $org_type_selected_array .= " organization.org_type_code = '" . $type_code[$i] . "'";                
+            $org_type_selected_array .= " organization.org_type_code = '" . $type_code[$i] . "'";
             if ($i >= 0 && $i != $type_code_count - 1) {
                 $org_type_selected_array .= " OR ";
             }
         }
         $query_string .= " ( $org_type_selected_array ) ";
     }
-} else if (($div_code == 0 && $dis_code == 0 && $upa_code == 0 && $agency_code == 0) && $type_code > 0) {
+} else if (($div_id == 0 && $dis_id == 0 && $upa_id == 0 && $agency_code == 0) && $type_code > 0) {
     $org_type_selected_array = "";
     for ($i = 0; $i < $type_code_count; $i++) {
-        $org_type_selected_array .= " organization.org_type_code = '" . $type_code[$i] . "'";                
+        $org_type_selected_array .= " organization.org_type_code = '" . $type_code[$i] . "'";
         if ($i >= 0 && $i != $type_code_count - 1) {
             $org_type_selected_array .= " OR ";
         }
@@ -87,13 +87,12 @@ if ($row_count > 0) {
         echo "<a href=\"org_profile.php?org_code=" . $data_list['org_code'] . "\" target=\"_blank\">";
         echo $data_list['org_name'];
         echo " (Org Code:" . $data_list['org_code'] . ")";
-        echo " -- Email: "  . $data_list['email_address1'];
+        echo " -- Email: " . $data_list['email_address1'];
         echo "</a>";
         echo "</li>";
     }
     echo "</ul>";
-} 
-else {
+} else {
     echo "\" 0 (Zero) Organization found. \"";
 }
 ?>
