@@ -41,7 +41,7 @@ if ($_POST["submit"]) {
 
         $sql = mysql_query("UPDATE user SET token='$token' WHERE username='$email'") or die(mysql_error());
 
-        $reset_url = "http://test.dghs.gov.bd/hrmnew/reset_password.php?token=$token&email=$email";
+        $reset_url = "http://app.dghs.gov.bd/hrm/reset_password.php?token=$token&email=$email";
         $message = "Please click the following URL to reset password. <a href=\"$reset_url\">Click this link </a><br>";
         $message = $message . "\n" . $reset_url;
         $mailheader .= 'MIME-Version: 1.0' . "\r\n";
