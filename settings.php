@@ -128,6 +128,7 @@ if ($_POST['changePassword'] == 'true') {
                             <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
                             <li><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
                             <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Add New</a>                        
+                            <li><a href="org_users.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Org Users</a></li>
                             <li class="active"><a href="settings.php"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
                             <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
 
