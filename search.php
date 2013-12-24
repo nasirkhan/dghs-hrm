@@ -121,7 +121,6 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                         <?php endif; ?>
                         <?php if ($isAdmin): ?>
                             <li><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-random"></i> Transfer Approval</a></li>
-                            <li><a href="org_users.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Org Users</a></li>
                         <?php endif; ?>
 
                         <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
