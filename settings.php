@@ -26,13 +26,13 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
  * Upazila users can edit the organizations under that UHC. 
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){  
+if ($org_type_code == 1029 || $org_type_code == 1051) {
     $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
-    
+
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
-    
-    if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
+
+    if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])) {
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
         $org_type_name = getOrgTypeNameFormOrgCode($org_code);
@@ -70,6 +70,57 @@ if ($_POST['changePassword'] == 'true') {
         updatePassword($username, $inputNewPassword);
         $passwordUpdated = TRUE;
     }
+}
+
+/**
+ * *****************************************************************************
+ * 
+ * submitted by admin
+ * 
+ * *****************************************************************************
+ */
+// 
+if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true')) {
+    // Password Change request
+    $inputNewPassword = mysql_real_escape_string(trim($_POST['inputNewPassword']));
+
+    $user_username = mysql_real_escape_string(trim($_POST['user_username']));
+    $user_email = $user_username;
+    $user_password = $inputNewPassword;
+    $user_id = mysql_real_escape_string(trim($_POST['user_id']));
+    $user_org_code = mysql_real_escape_string(trim($_POST['user_org_code']));
+
+    // update user table
+    $sql = "UPDATE `user` SET "
+            . "`username`= '$user_username',"
+            . "`email` = '$user_email',"
+            . "`password` = '" . md5($user_password) . "'"
+            . "WHERE `org_code` = '$user_org_code' AND `id` = '$user_id'";
+    //    echo "<pre>$sql</pre>";
+    $result = mysql_query($sql) or die(mysql_error() . "<br />updatePassword:1<br /><b>Query:</b><br />___<br />$sql<br />");
+
+
+    // update 'email addtess' in organizaion table
+    $sql = "UPDATE `organization` SET "
+            . "`email_address1`= '$user_username'"
+            . "WHERE `org_code` = '$user_org_code'";
+    //    echo "<pre>$sql</pre>";
+    $result = mysql_query($sql) or die(mysql_error() . "<br />updatePassword:1<br /><b>Query:</b><br />___<br />$sql<br />");
+
+    // emil the user$to  = "$user_name";
+    $to = "$user_username";
+    $password = $user_password;
+    $headers = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $headers .= "To: $to \r\n";
+    $headers .= 'From: MIS DGHS <info@dghs.gov.bd>' . "\r\n";
+    $subject = "[HRM] Email Notification for Password change ";
+    $message = "Your password has been changed. ";
+    $message .= "Your new password is " . $password;
+    mail($to, $subject, $message, $headers);
+    
+    // load the same page
+    header("location:settings.php?org_code=$user_org_code");
 }
 ?>
 <!DOCTYPE html>
@@ -122,24 +173,14 @@ if ($_POST['changePassword'] == 'true') {
             ================================================== -->
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
-                    <ul class="nav nav-list bs-docs-sidenav">
+                    <ul class="nav nav-list bs-docs-sidenav">  
                         <?php if ($_SESSION['user_type'] == "admin"): ?>
-
-                            <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
-                            <li><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
-                            <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Add New</a>                        
-                            <li><a href="org_users.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Org Users</a></li>
-                            <li class="active"><a href="settings.php"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
-                            <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
-
-                        <?php else: ?>
-
-                            <?php 
-                        $active_menu = "settings";
-                        include_once 'include/left_menu.php'; 
-                        ?>
-
-                        <?php endif; ?>
+                            <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
+                            <?php endif; ?>
+                            <?php
+                            $active_menu = "settings";
+                            include_once 'include/left_menu.php';
+                            ?>    
                     </ul>
                 </div>
                 <div class="span9">
@@ -187,38 +228,71 @@ if ($_POST['changePassword'] == 'true') {
                                 <?php endif; ?>
 
                                 <h3>Change Password</h3>
-                                <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                                    <div class="control-group">
-                                        <label class="control-label" for="inputEmail">Login Email</label>
-                                        <div class="controls">
-                                            <span class="input-xlarge uneditable-input"><?php echo $username; ?></span>
+                                <?php
+                                if ($_SESSION['user_type'] == 'admin' && $org_code != 99999999):
+                                    $user_info = getUserInfoFromOrgCode($org_code);
+                                    $user_id = $user_info['id'];
+                                    $user_username = $user_info['username'];
+                                    $user_password = $user_info['password'];
+                                    $user_org_code = $user_info['org_code'];
+                                    ?>
+                                    <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                        <div class="control-group">
+                                            <label class="control-label" for="username">Login username</label>
+                                            <div class="controls">
+                                                <input type="text" id="user_username" name="user_username" value="<?php echo $user_username; ?>" class="input-xlarge " required=""> 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <label class="control-label" for="inputPassword">Old Password</label>
-                                        <div class="controls">
-                                            <input type="password" id="inputOldPassword" name="inputOldPassword" placeholder="Old Password" class="input-xlarge "> 
+                                        <div class="control-group">
+                                            <label class="control-label" for="inputPassword">New Password</label>
+                                            <div class="controls">
+                                                <input type="password" id="inputNewPassword" name="inputNewPassword" placeholder="New Password" class="input-xlarge " required=""> 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <label class="control-label" for="inputPassword">New Password</label>
-                                        <div class="controls">
-                                            <input type="password" id="inputNewPassword" name="inputNewPassword" placeholder="New Password" class="input-xlarge "> 
+                                        <div class="control-group">
+                                            <div class="controls">   
+                                                <input type="hidden" id="changePassword" name="changePassword" value="admin_true"> 
+                                                <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id; ?>">
+                                                <input type="hidden" id="user_org_code" name="user_org_code" value="<?php echo $user_org_code; ?>">
+                                                <button type="submit" class="btn btn-success">Change Password</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <label class="control-label" for="inputPassword">New Password(Type again)</label>
-                                        <div class="controls">
-                                            <input type="password" id="inputNewPassword2" name="inputNewPassword2" placeholder="New Password (Type again)" class="input-xlarge "> 
+                                    </form>
+                                <?php else: ?>
+
+                                    <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                                        <div class="control-group">
+                                            <label class="control-label" for="inputEmail">Login Email</label>
+                                            <div class="controls">
+                                                <span class="input-xlarge uneditable-input"><?php echo $username; ?></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <div class="controls">   
-                                            <input type="hidden" id="changePassword" name="changePassword" value="true"> 
-                                            <button type="submit" class="btn btn-success">Change Password</button>
+                                        <div class="control-group">
+                                            <label class="control-label" for="inputPassword">Old Password</label>
+                                            <div class="controls">
+                                                <input type="password" id="inputOldPassword" name="inputOldPassword" placeholder="Old Password" class="input-xlarge "> 
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
+                                        <div class="control-group">
+                                            <label class="control-label" for="inputPassword">New Password</label>
+                                            <div class="controls">
+                                                <input type="password" id="inputNewPassword" name="inputNewPassword" placeholder="New Password" class="input-xlarge "> 
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label class="control-label" for="inputPassword">New Password(Type again)</label>
+                                            <div class="controls">
+                                                <input type="password" id="inputNewPassword2" name="inputNewPassword2" placeholder="New Password (Type again)" class="input-xlarge "> 
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <div class="controls">   
+                                                <input type="hidden" id="changePassword" name="changePassword" value="true"> 
+                                                <button type="submit" class="btn btn-success">Change Password</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                <?php endif; ?>
                             </div>
                         </div>
 
