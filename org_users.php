@@ -97,6 +97,7 @@ if ($_SESSION['user_type'] != "admin") {
                             -->
                         <li><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-random"></i> Transfer Approval</a></li>
                         <li><a href="report/index.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-calendar"></i> Reports</a></li>
+                        <li><a href="org_users.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Org Users</a></li>
                         <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
@@ -110,7 +111,7 @@ if ($_SESSION['user_type'] != "admin") {
                         <div class="row-fluid"> 
                             <div class="span12">
                                 <?php
-                            $sql = "SELECT
+                                $sql = "SELECT
                                             `user`.id,
                                             `user`.user_id,
                                             `user`.username,
@@ -125,41 +126,41 @@ if ($_SESSION['user_type'] != "admin") {
                                     LEFT JOIN organization ON `user`.org_code = organization.org_code
                                     WHERE
                                             `user`.user_type LIKE 'user'
-                                    AND `user`.active LIKE 1";
-                            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                            ?>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <td><strong>User Id</strong></td>
-                                        <td><strong>User Name</strong></td>
-                                        <td><strong>Email</strong></td>
-                                        <td><strong>Password</strong></td>
-                                        <td><strong>Org Code</strong></td>
-                                        <td><strong>Org Name</strong></td>
-                                        <td><strong>District Name</strong></td>
-                                        <td><strong>Upazila Name</strong></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php while ($row = mysql_fetch_assoc($result)): ?>
-                                    <tr>
-                                        <td><?php echo $row['user_id'];?></td>
-                                        <td><?php echo $row['username'];?></td>
-                                        <td><?php echo $row['email'];?></td>
-                                        <td><?php echo $row['password'];?></td>
-                                        <td><?php echo $row['org_code'];?></td>
-                                        <td><?php echo $row['org_name'];?></td>
-                                        <td><?php echo $row['district_name'];?></td>
-                                        <td><?php echo $row['upazila_thana_name'];?></td>
-                                    </tr>
-                                    <?php endwhile; ?>
-                                </tbody>
-                            </table>
+                                    AND `user`.active LIKE 1 limit 10";
+                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                ?>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <td><strong>User Id</strong></td>
+                                            <td><strong>User Name</strong></td>
+                                            <td><strong>Email</strong></td>
+                                            <td><strong>Password</strong></td>
+                                            <td><strong>Org Code</strong></td>
+                                            <td><strong>Org Name</strong></td>
+                                            <td><strong>District Name</strong></td>
+                                            <td><strong>Upazila Name</strong></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php while ($row = mysql_fetch_assoc($result)): ?>
+                                            <tr>
+                                                <td><?php echo $row['user_id']; ?></td>
+                                                <td><?php echo $row['username']; ?></td>
+                                                <td><?php echo $row['email']; ?></td>
+                                                <td><?php echo $row['password']; ?></td>
+                                                <td><?php echo $row['org_code']; ?></td>
+                                                <td><?php echo $row['org_name']; ?></td>
+                                                <td><?php echo $row['district_name']; ?></td>
+                                                <td><?php echo $row['upazila_thana_name']; ?></td>
+                                            </tr>
+                                        <?php endwhile; ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
-                        
+
 
                     </section> <!-- /admin_home_main -->                   
                 </div>
