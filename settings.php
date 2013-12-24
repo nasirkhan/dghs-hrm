@@ -51,9 +51,13 @@ $passwordUpdated = FALSE;
 
 if ($_POST['changePassword'] == 'true') {
     // Password Change request
-    $inputOldPassword = $_POST['inputOldPassword'];
-    $inputNewPassword = $_POST['inputNewPassword'];
-    $inputNewPassword2 = $_POST['inputNewPassword2'];
+    $inputNewPassword = mysql_real_escape_string(trim($_POST['inputNewPassword']));
+    $inputNewPassword2 = mysql_real_escape_string(trim($_POST['inputNewPassword2']));
+    $inputOldPassword = mysql_real_escape_string(trim($_POST['inputOldPassword']));
+    
+//    $inputOldPassword = $_POST['inputOldPassword'];
+//    $inputNewPassword = $_POST['inputNewPassword'];
+//    $inputNewPassword2 = $_POST['inputNewPassword2'];
 
 //check if new password has been entered correctly or not
     if ($inputNewPassword == $inputNewPassword2) {
@@ -90,26 +94,27 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
     $user_id = mysql_real_escape_string(trim($_POST['user_id']));
     $user_org_code = mysql_real_escape_string(trim($_POST['user_org_code']));
 
+    
     // update user table
     $sql = "UPDATE `user` SET "
             . "`username`= '$user_username',"
             . "`email` = '$user_email',"
-            . "`password` = '" . md5($user_password) . "'"
+            . "`password` = '" . md5($user_password) . "',"
+            . "`updated_by` = '$username'"
             . "WHERE `org_code` = '$user_org_code' AND `id` = '$user_id'";
-    //    echo "<pre>$sql</pre>";
     $result = mysql_query($sql) or die(mysql_error() . "<br />updatePassword:1<br /><b>Query:</b><br />___<br />$sql<br />");
 
 
     // update 'email addtess' in organizaion table
     $sql = "UPDATE `organization` SET "
-            . "`email_address1`= '$user_username'"
+            . "`email_address1`= '$user_username',"
+            . "`updated_by` = '$username'"
             . "WHERE `org_code` = '$user_org_code'";
-    //    echo "<pre>$sql</pre>";
     $result = mysql_query($sql) or die(mysql_error() . "<br />updatePassword:1<br /><b>Query:</b><br />___<br />$sql<br />");
 
-    // emil the user$to  = "$user_name";
     $to = "$user_username";
     $password = $user_password;
+    
     $headers = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
     $headers .= "To: $to \r\n";
