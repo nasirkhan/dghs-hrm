@@ -103,7 +103,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <?php if ($_SESSION['user_type'] == "admin"): ?>
-                            <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
+                            <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-qrcode"></i> Admin Homepage</a>
                             <?php endif; ?>
                         <?php 
                         $active_menu = "sanctioned_post";
@@ -115,7 +115,12 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                     <!-- Sanctioned Post
                     ================================================== -->
                     <section id="sanctioned-post">
-
+                        
+                        <div class="btn-group pull-right">
+                            <button class="btn"><a href="sanctioned_post_sorted.php?org_code=<?php echo $org_code; ?>"><i class="icon-sort-by-alphabet"></i> Sorted</a></button>
+                            <button class="btn"><a href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-sitemap"></i> Tree View</a></button>
+                        </div>
+                        
                         <div class="row">
                             <div class="span9">
                                 <table class="table table-striped table-hover table-bordered">
