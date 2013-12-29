@@ -138,7 +138,10 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                     <!-- Sanctioned Post
                     ================================================== -->
                     <section id="sanctioned-post">
-
+                        <div class="btn-group pull-right">
+                            <a class="btn"href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-group"></i> Sanctioned Post</a>
+                            <a class="btn" href="sanctioned_post_sorted.php?org_code=<?php echo $org_code; ?>"><i class="icon-sort-by-alphabet"></i> Sorted</a>                            
+                        </div>
                         <div class="row">
                             <div class="span9">
                                 <h3>Sanctioned Post</h3>

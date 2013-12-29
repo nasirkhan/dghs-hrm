@@ -13,7 +13,7 @@
 <li <?php if ($active_menu == "org_profile"){ echo " class=\"active\""; } ?>>
     <a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-hospital"></i> Organization Profile</a>
 </li>
-<li tabindex="-1" <?php if ($active_menu == "sanctioned_post" || $active_menu == "sanctioned_post2"){ echo " class=\"active dropdown-submenu\""; } else {echo " class=\"dropdown-submenu\"";} ?>>
+<li tabindex="-1" <?php if ($active_menu == "sanctioned_post" || $active_menu == "sanctioned_post2" || $active_menu == "sanctioned_post_sorted"){ echo " class=\"active dropdown-submenu\""; } else {echo " class=\"dropdown-submenu\"";} ?>>
     <a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-group"></i> Sanctioned Post</a>
 
     <ul class="dropdown-menu">
@@ -23,7 +23,7 @@
         <li <?php if ($active_menu == "sanctioned_post2"){ echo " class=\"active\""; } ?>>
             <a href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-sitemap"></i> Sanctioned Post [Tree View]</a>
         </li>
-        <li <?php if ($active_menu == "sanctioned_post2"){ echo " class=\"active\""; } ?>>
+        <li <?php if ($active_menu == "sanctioned_add"){ echo " class=\"active\""; } ?>>
             <a href="update_sanctioned_post.php?org_code=<?php echo $org_code; ?>&action=new_designation&step=3"><i class="icon-plus"></i> Add Sanctioned Post</a>
         </li>
     </ul>
