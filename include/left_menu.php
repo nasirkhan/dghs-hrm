@@ -23,9 +23,14 @@
         <li <?php if ($active_menu == "sanctioned_post2"){ echo " class=\"active\""; } ?>>
             <a href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-sitemap"></i> Sanctioned Post [Tree View]</a>
         </li>
-        <li <?php if ($active_menu == "sanctioned_add"){ echo " class=\"active\""; } ?>>
-            <a href="update_sanctioned_post.php?org_code=<?php echo $org_code; ?>&action=new_designation&step=3"><i class="icon-plus"></i> Add Sanctioned Post</a>
-        </li>
+        <?php if($isAdmin): ?>
+            <li <?php if ($active_menu == "sanctioned_post_add"){ echo " class=\"active\""; } ?>>
+                <a href="update_sanctioned_post.php?org_code=<?php echo $org_code; ?>&action=new_designation&step=3"><i class="icon-plus"></i> Add Sanctioned Post</a>
+            </li>
+            <li <?php if ($active_menu == "sanctioned_post_repot"){ echo " class=\"active\""; } ?>>
+                <a href="#"><i class="icon-calendar-empty"></i> Sanctioned Post Report</a>
+            </li>
+        <?php endif; ?>
     </ul>
 </li>
 <li <?php if ($active_menu == "employee"){ echo " class=\"active\""; } ?>>
