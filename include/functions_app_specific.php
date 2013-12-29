@@ -1560,4 +1560,26 @@ function getSecondtLevelNameFromCode($code){
     return $data['second_level_name'];
 }
 
+function getUserInfoFromOrgCode($org_code) {
+    $sql = "SELECT
+                    `user`.username,
+                    `user`.user_id,
+                    `user`.id,
+                    `user`.email,
+                    `user`.`password`,
+                    `user`.user_type,
+                    `user`.user_type_code,
+                    `user`.org_code
+            FROM
+                    `user`
+            WHERE
+                    org_code = '$org_code'
+            AND active LIKE 1
+            LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUserInfoFromOrgCode:1</p><p>Query:</br >___<p>$sql</p>");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data;
+}
 ?>
