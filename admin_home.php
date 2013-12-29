@@ -85,20 +85,22 @@ if ($_SESSION['user_type'] != "admin") {
             <div class="row-fluid">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <li class="active"><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
-                        <li><a href="search.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
-                        <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
-                            <!--                        
+                        <li class="active"><a href="admin_home.php"><i class="icon-home"></i> Admin Homepage</a>
+                        <li><a href="search.php?type=org"><i class="icon-search"></i> Search</a></li>
+                        <li><a href="add_new.php"><i class="icon-plus"></i> Add New</a>
                             
-                            
-                            <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
-                            <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
-                            <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
-                            -->
-                        <li><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-random"></i> Transfer Approval</a></li>
-                        <li><a href="report/index.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-calendar"></i> Reports</a></li>
-                        <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
-                        <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
+                        <li class="dropdown-submenu">
+                            <a tabindex="-1" href="#">More options</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="add_new.php"><i class="icon-plus"></i> Add New</a>
+                                <li><a href="add_new.php"><i class="icon-plus"></i> Add New</a>
+                                <li><a href="add_new.php"><i class="icon-plus"></i> Add New</a>
+                            </ul>
+                        </li>
+                        <li><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-random"></i> Transfer Approval</a></li>
+                        <li><a href="report/index.php?org_code=<?php echo $org_code; ?>"><i class="icon-calendar"></i> Reports</a></li>
+                        <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-cogs"></i> Settings</a></li>
+                        <li><a href="logout.php"><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
                 </div>
                 <div class="span9">
