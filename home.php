@@ -28,17 +28,17 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 
 /**
  * Reassign org_code and enable edit permission for Upazila and below
- * 
- * Upazila users can edit the organizations under that UHC. 
+ *
+ * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){  
+if ($org_type_code == 1029 || $org_type_code == 1051) {
     $child_org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
-    
+
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($child_org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
-    
-    if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
+
+    if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])) {
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
         $org_type_name = getOrgTypeNameFormOrgCode($org_code);
@@ -121,11 +121,11 @@ if (!($latitude > 0) || !($longitude > 0)) {
                         <?php if ($_SESSION['user_type'] == "admin"): ?>
                             <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-qrcode"></i> Admin Homepage</a>
                             <?php endif; ?>
-                                
-                        <?php 
-                        $active_menu = "home";
-                        include_once 'include/left_menu.php'; 
-                        ?>        
+
+                            <?php
+                            $active_menu = "home";
+                            include_once 'include/left_menu.php';
+                            ?>
                     </ul>
                 </div>
                 <div class="span9">
@@ -198,7 +198,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                     </tr>
                                 <?php endfor; ?>
 
-                            </tbody>                        
+                            </tbody>
 
                         </table>
                     <?php endif; ?>
@@ -213,6 +213,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
         <!-- Footer
         ================================================== -->
         <?php include_once 'include/footer/footer_menu.inc.php'; ?>
+        <?php include_once 'include/footer/footer.inc.php'; ?>
 
 
 

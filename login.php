@@ -1,47 +1,16 @@
 <?php
 require_once 'configuration.php';
-
 if ($_SESSION['logged'] == true) {
     header("location:home.php?org_code=" . $_SESSION['org_code']);
 }
-
-$login_sussess = 2;
+$login_sussess = 0;
 //cheak the login information
 if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] == $_SESSION['login_key']) {
-    $form_uname = mysql_real_escape_string(stripslashes(trim($_POST['email'])));
-    $form_passwd = mysql_real_escape_string(stripslashes(trim($_POST['password'])));
-    $form_passwd = md5($form_passwd);
-    unset($_POST);
-    $sql = "SELECT user_id, username, user_type, user_type_code, organization_id, org_code FROM user WHERE username LIKE \"$form_uname\" AND password LIKE \"$form_passwd\"";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-    $data = mysql_fetch_assoc($result);
-
-
-//    set session variables
-    if (mysql_num_rows($result) >= 1) {
-        $_SESSION['user_id'] = $data['user_id'];
-        $_SESSION['username'] = $data['username'];
-        $_SESSION['user_type'] = $data['user_type'];
-        $_SESSION['user_type_code'] = $data['user_type_code'];
-
-        $_SESSION['organization_id'] = $data['organization_id'];
-        $_SESSION['org_code'] = $data['org_code'];
-        $_SESSION['org_name'] = getOrgNameFormOrgCode($data['org_code']);
-        $_SESSION['org_type_code'] = getOrgTypeCodeFromOrgCode($data['org_code']);
-        $_SESSION['org_type_name'] = getOrgTypeNameFormOrgCode($data['org_code']);
-        $_SESSION['logged'] = TRUE;
-
-        session_write_close();
-        $login_sussess = 1;
-
-        if ($_SESSION['user_type'] == "admin") {
-            header("location:admin_home.php?org_code=" . $_SESSION['org_code']);
-        } else {
-            header("location:home.php?org_code=" . $_SESSION['org_code']);
-        }
+    $login_sussess = login($_POST);
+    if ($login_sussess == 1 && $_SESSION['user_type'] == "admin") {
+        header("location:admin_home.php?org_code=" . $_SESSION['org_code']);
     } else {
-        $login_sussess = 0;
+        header("location:home.php?org_code=" . $_SESSION['org_code']);
     }
 } else {
     $_SESSION['login_key'] = mt_rand(1, 1000);
