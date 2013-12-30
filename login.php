@@ -18,33 +18,31 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
     $data = mysql_fetch_assoc($result);
 
 
-//    set session variables 
+//    set session variables
     if (mysql_num_rows($result) >= 1) {
         $_SESSION['user_id'] = $data['user_id'];
         $_SESSION['username'] = $data['username'];
         $_SESSION['user_type'] = $data['user_type'];
         $_SESSION['user_type_code'] = $data['user_type_code'];
-        
+
         $_SESSION['organization_id'] = $data['organization_id'];
         $_SESSION['org_code'] = $data['org_code'];
         $_SESSION['org_name'] = getOrgNameFormOrgCode($data['org_code']);
         $_SESSION['org_type_code'] = getOrgTypeCodeFromOrgCode($data['org_code']);
         $_SESSION['org_type_name'] = getOrgTypeNameFormOrgCode($data['org_code']);
-        $_SESSION['logged'] = TRUE;        
-        
+        $_SESSION['logged'] = TRUE;
+
         session_write_close();
         $login_sussess = 1;
-        
-        if ($_SESSION['user_type'] == "admin"){
+
+        if ($_SESSION['user_type'] == "admin") {
             header("location:admin_home.php?org_code=" . $_SESSION['org_code']);
-        }
-        else{
+        } else {
             header("location:home.php?org_code=" . $_SESSION['org_code']);
-        }        
+        }
     } else {
         $login_sussess = 0;
     }
-
 } else {
     $_SESSION['login_key'] = mt_rand(1, 1000);
 }
@@ -68,6 +66,8 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                 padding-top: 40px;
                 padding-bottom: 40px;
                 background-color: #f5f5f5;
+                background-image:url(assets/img/hrm_login_background.jpg);
+
             }
             .form-signin {
                 max-width: 350px;
@@ -75,9 +75,11 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                 margin: 0 auto 20px;
                 background-color: #fff;
                 border: 1px solid #e5e5e5;
-                -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-                box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 1);
+                -moz-box-shadow:    0px 0px 20px rgba(0, 0, 0, 1);
+                box-shadow:         0px 0px 20px rgba(0, 0, 0, 1);
+                opacity: 0.95;
+
             }
             .form-signin .form-signin-heading,
             .form-signin .checkbox {
@@ -96,10 +98,10 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                 padding: 9px 9px;
             }
             .input-append .add-on, .input-prepend .add-on{
-                height: 32px;
+                height: 29px;
             }
             .contact{
-                margin-top: 20px;
+                margin-top: 5px;
                 color: #0077b3;
             }
             .login-error{
@@ -123,7 +125,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
             @media (max-width: 480px) {
                 .container{
                     width: 300px;
-                } 
+                }
             }
 
         </style>
@@ -139,19 +141,27 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
         <link rel="shortcut icon" href="assets/ico/favicon.png">
-        
+
         <!--Google analytics code-->
         <?php include_once 'include/header/header_ga.inc.php'; ?>
     </head>
-
     <body>
-
         <div class="container">
-
             <form class="form-signin" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
                 <div class="" id="login_div">
                     <h2 class="form-signin-heading">Welcome to HRM Software<br /> <span class="mohfw">Ministry of Health and Family Welfare</span></h2>
 
+                    <?php
+                    if ($login_sussess == 0):
+                        ?>
+                        <div class="login-error">
+                            <div class="alert alert-block alert-error">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong><i class="icon-minus-sign"></i> Warning!</strong><br />Your login Username or Password is incorrect.
+                                <br />Please try again.
+                            </div>
+                        </div>
+                    <?php endif; ?>
                     <input type="hidden" name="login_key" value="<?php echo $_SESSION['login_key'] ?>" />
                     <div class="input-append">
                         <input name="email" type="text" class="input-block-level" placeholder="Email address" autofocus="">
@@ -162,21 +172,12 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                         <span class="add-on"><i class="icon-key icon-2x"></i></span>
                     </div>
                 </div>
-                <button class="btn btn-large btn-primary" type="submit" value="submit">Sign in <i class="icon-signin"></i></button>
+                <button class="btn btn-large btn-success" type="submit" value="submit">Sign in <i class="icon-signin"></i></button>
 
-                <?php
-                if ($login_sussess == 0):
-                    ?>
-                    <div class="login-error">
-                        <div class="alert alert-block alert-error">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong><i class="icon-minus-sign"></i> Warning!</strong><br />Your login Username or Password is incorrect. 
-                            <br />Please try again.
-                        </div>
-                    </div>
-                <?php endif; ?>
-                <div class="contact"><i class="icon-edit"></i> <a href="contact_us.php">Contact us for any assistance.</a></div>
-                 <div class="contact"><i class="icon-edit"></i> <a href="reset_password.php">Reset Password</a></div>
+                <div class="loginAdditionalLinks" style="float: right; width: 200ppx;">
+                    <div class="contact"><i class="icon-edit"></i> <a href="contact_us.php">Contact us for any assistance.</a></div>
+                    <div class="contact"><i class="icon-edit"></i> <a href="reset_password.php">Reset Password</a></div>
+                </div>
             </form>
 
         </div> <!-- /container -->
@@ -184,7 +185,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
         <!-- javascript
         ================================================== -->
         <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>  
+        <script src="assets/js/bootstrap.min.js"></script>
 
     </body>
 </html>
