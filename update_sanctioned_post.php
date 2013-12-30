@@ -250,7 +250,7 @@ if (isset($_POST['action'])) {
                                 <div class="control-group">
                                     <label class="control-label" for="org_code">Enter Org Code</label>
                                     <div class="controls">
-                                        <input type="text" id="org_code" name="org_code" placeholder="Organization Code" class="input-xlarge ">
+                                        <input type="text" id="org_code" name="org_code" placeholder="Organization Code" class="input-xlarge " required=""> 
                                     </div>
                                 </div>
 
