@@ -7,10 +7,8 @@ $login_sussess = 0;
 //cheak the login information
 if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] == $_SESSION['login_key']) {
     $login_sussess = login($_POST);
-    if ($login_sussess == 1 && $_SESSION['user_type'] == "admin") {
-        header("location:admin_home.php?org_code=" . $_SESSION['org_code']);
-    } else {
-        header("location:home.php?org_code=" . $_SESSION['org_code']);
+    if ($login_sussess == 1 ) {
+        header("location:".$_SESSION['redirect_url']);
     }
 } else {
     $_SESSION['login_key'] = mt_rand(1, 1000);
@@ -121,7 +119,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                     <h2 class="form-signin-heading">Welcome to HRM Software<br /> <span class="mohfw">Ministry of Health and Family Welfare</span></h2>
 
                     <?php
-                    if ($login_sussess == 0):
+                    if (isset($_POST['submit']) && $login_sussess == 0):
                         ?>
                         <div class="login-error">
                             <div class="alert alert-block alert-error">
