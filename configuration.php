@@ -19,9 +19,9 @@ $dbname = 'dghs_hrm_main';
 $dbuser = 'root';
 $dbpass = '';
 
-mysql_select_db($dbname, mysql_connect($dbhost, $dbuser, $dbpass)) or die(mysql_errno());
+mysql_select_db($dbname, mysql_connect($dbhost, $dbuser, $dbpass)) or die(mysql_error());
 
-$hrm_root_dir = "http://app.dghs.gov.bd/hrm";
+$hrm_root_dir = "http://peugeot.websitewelcome.com/~hrmdghsm/hrm";
 require_once 'include/config_variables.php';
 require_once 'include/functions_app_specific.php';
 require_once 'include/functions_generic.php';
@@ -29,9 +29,12 @@ require_once 'include/functions_generic.php';
 if (getFileName() != 'login.php') {
 
     /* temporary code to avoid session issue */
+    /*
     if ($_REQUEST[passcode] == '12345') {
         $_SESSION['logged'] = true;
     }
+     * 
+     */
     /*     * ************************ */
     if (!isset($_SESSION['logged']) && $_SESSION['logged'] != true) {
         session_destroy();

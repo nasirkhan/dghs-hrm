@@ -4,4 +4,3 @@
  * */
 $debug=true // True = shows the debug values at the bottom.
 ?>
-

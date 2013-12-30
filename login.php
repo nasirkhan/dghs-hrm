@@ -119,7 +119,9 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                     <h2 class="form-signin-heading">Welcome to HRM Software<br /> <span class="mohfw">Ministry of Health and Family Welfare</span></h2>
 
                     <?php
-                    if (isset($_POST['submit']) && $login_sussess == 0):
+                    //echo "<pre>$login_sussess</pre>"; //debug
+                    //echo "<pre>".var_dump($_POST)."</pre>"; //debug
+                    if (isset($_POST['submit']) && $login_sussess != 1):
                         ?>
                         <div class="login-error">
                             <div class="alert alert-block alert-error">
@@ -139,7 +141,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                         <span class="add-on"><i class="icon-key icon-2x"></i></span>
                     </div>
                 </div>
-                <button class="btn btn-large btn-success" type="submit" value="submit">Sign in <i class="icon-signin"></i></button>
+                <button name="submit" class="btn btn-large btn-success" type="submit" value="submit">Sign in <i class="icon-signin"></i></button>
 
                 <div class="loginAdditionalLinks" style="float: right; width: 200ppx;">
                     <div class="contact"><i class="icon-edit"></i> <a href="contact_us.php">Contact us for any assistance.</a></div>
