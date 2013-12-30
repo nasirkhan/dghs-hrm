@@ -25,7 +25,7 @@ if ($org_code == "") {
     $org_code = "99999999";
 }
 
-// admin check
+// admin check 
 if ($_SESSION['user_type'] != "admin") {
     header("location:home.php?org_code=$org_code");
 }
@@ -33,6 +33,7 @@ if ($_SESSION['user_type'] != "admin") {
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
         <?php
         include_once 'include/header/header_css_js.inc.php';
@@ -66,15 +67,8 @@ if ($_SESSION['user_type'] != "admin") {
                         <li class="active"><a href="admin_home.php"><i class="icon-home"></i> Admin Homepage</a>
                         <li><a href="search.php?type=org"><i class="icon-search"></i> Search</a></li>
                         <li><a href="add_new.php"><i class="icon-plus"></i> Add New</a>
-
-                        <li class="dropdown-submenu">
-                            <a tabindex="-1" href="#">More options</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="add_new.php"><i class="icon-plus"></i> Add New</a>
-                                <li><a href="add_new.php"><i class="icon-plus"></i> Add New</a>
-                                <li><a href="add_new.php"><i class="icon-plus"></i> Add New</a>
-                            </ul>
-                        </li>
+                        <li class="level2"><a href="add_new.php"><i class="icon-plus"></i> Add New</a>
+                        <li class="level3"><a href="add_new.php"><i class="icon-plus"></i> Add New</a>
                         <li><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-random"></i> Transfer Approval</a></li>
                         <li><a href="report/index.php?org_code=<?php echo $org_code; ?>"><i class="icon-calendar"></i> Reports</a></li>
                         <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-cogs"></i> Settings</a></li>

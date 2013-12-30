@@ -1351,3 +1351,30 @@ div.DTFC_LeftFootWrapper table {
 .form-clear{
     margin: 0px;
 }
+
+
+/*
+*   Left menu li
+*   Level 2
+*/
+.level2{
+    padding-left: 5px;
+    background: #0088cc;
+}
+.level2 > a{
+    background: #fff;
+    padding-left: 25px !important;
+}
+
+/*
+*   Left menu li
+*   Level 3
+*/
+.level3{
+    padding-left: 10px;
+    background: #0088cc;
+}
+.level3 > a{
+    background: #fff;
+    padding-left: 35px !important;
+}
