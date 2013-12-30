@@ -1,5 +1,5 @@
 <footer class="footer">
-    <div class="container">                
+    <div class="container">
         <ul class="footer-links">
             <li><a href="#">Home</a></li>
             <li class="muted">&middot;</li>
@@ -7,7 +7,7 @@
             <li class="muted">&middot;</li>
             <li><a href="#">Contact Developer</a></li>
         </ul>
-        <?php if ($_SESSION['username'] == "nasirkhan"): ?>    
+        <?php if ($_SESSION['username'] == "nasirkhan"): ?>
             <code>
                 <?php
                 $time_end = microtime(true);
@@ -22,3 +22,18 @@
         <?php endif; ?>
     </div>
 </footer>
+<div class="clear"></div>
+<div class="debug" style="">
+  <?php
+  if($debug){
+  	echo "Following information is only for software developers for testing this application.<br>===================<br>";
+  	echo "SESSION<br>===================<br>";
+  	myprint_r($_SESSION);
+  	echo "REQUEST<br>===================<br>";
+  	myprint_r($_REQUEST);
+    echo "FILES<br>===================<br>";
+  	myprint_r($_FILES);
+  }
+
+  ?>
+</div>

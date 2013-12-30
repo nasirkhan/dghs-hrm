@@ -125,7 +125,7 @@ function getOrgNameFormSanctionedPostId($sanctioned_post_id) {
                 total_manpower_imported_sanctioned_post_copy
             WHERE
                 total_manpower_imported_sanctioned_post_copy.id = $sanctioned_post_id
-            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1        
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
             LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -157,7 +157,7 @@ function getOrgNameAndOrgTypeCodeFormOrgCode($org_code) {
  * Check if a staff works in a specific organization or not
  * @param Integer $org_code
  * @param Integer $staff_id
- * @return boolean 
+ * @return boolean
  */
 function checkEmployeeExistsInOrganization($org_code, $staff_id) {
     if (!$org_code > 0 || !$staff_id > 0) {
@@ -240,7 +240,7 @@ function checkStaffExists($staff_id) {
     if (!$staff_id > 0) {
         return "";
     }
-    $sql = "SELECT id FROM total_manpower_imported_sanctioned_post_copy WHERE staff_id= $staff_id 
+    $sql = "SELECT id FROM total_manpower_imported_sanctioned_post_copy WHERE staff_id= $staff_id
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkStaffExists:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -259,7 +259,7 @@ function checkStaffExistsBySanctionedPost($sanctioned_post_id) {
     if (!$sanctioned_post_id > 0) {
         return "";
     }
-    $sql = "SELECT staff_id FROM total_manpower_imported_sanctioned_post_copy WHERE id= $sanctioned_post_id 
+    $sql = "SELECT staff_id FROM total_manpower_imported_sanctioned_post_copy WHERE id= $sanctioned_post_id
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>checkStaffExistsBySanctionedPost:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -332,17 +332,17 @@ function updatePassword($username, $password) {
                 `updated_datetime` = \"" . date("Y-m-d H:i:s") . "\",
                 `updated_by` = \"$user_name\" WHERE user.username =\"$username\"";
     $result = mysql_query($sql) or die(mysql_error() . "<br />updatePassword:1<br /><b>Query:</b><br />___<br />$sql<br />");
-    
-        $to  = "$user_name";
-        // To send HTML mail, the Content-type header must be set
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-        $headers .= "To: $to \r\n";
-        $headers .= 'From: MIS DGHS <info@dghs.gov.bd>' . "\r\n";
-        $subject = "[HRM] Email Notification for Password change ";
-        $message = "Your password has been changed. ";
-        $message .= "Your new password is ".$password;
-        mail($to, $subject, $message, $headers);
+
+    $to = "$user_name";
+    // To send HTML mail, the Content-type header must be set
+    $headers = 'MIME-Version: 1.0' . "\r\n";
+    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+    $headers .= "To: $to \r\n";
+    $headers .= 'From: MIS DGHS <info@dghs.gov.bd>' . "\r\n";
+    $subject = "[HRM] Email Notification for Password change ";
+    $message = "Your password has been changed. ";
+    $message .= "Your new password is " . $password;
+    mail($to, $subject, $message, $headers);
 }
 
 /**
@@ -449,12 +449,12 @@ function getToiletAdequacyNameFromCode($toilet_adequacy_code) {
 
 /**
  * <b>THIS FUNCTION IS NOT REQUIRED ANY MORE</b>
- * 
+ *
  * Get <b>Fuel Source Name</b> From <b>Fuel Source Code</b>
- * 
+ *
  * @param type $fuel_source_code
  * @return type
- * 
+ *
  * @todo update or remove function
  */
 function getFuelSourceNameFromCode($fuel_source_code) {
@@ -633,7 +633,7 @@ function getDesignationNameFormSanctionedPostId($sanctioned_post_id) {
     if (empty($sanctioned_post_id)) {
         return "";
     }
-    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE id= $sanctioned_post_id 
+    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE id= $sanctioned_post_id
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -665,7 +665,7 @@ function getSanctionedPostIdFromStaffId($staff_id) {
     if (empty($staff_id)) {
         return "";
     }
-    $sql = "SELECT id FROM total_manpower_imported_sanctioned_post_copy WHERE staff_id= $staff_id 
+    $sql = "SELECT id FROM total_manpower_imported_sanctioned_post_copy WHERE staff_id= $staff_id
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -678,7 +678,7 @@ function getSanctionedPostNameFromSanctionedPostId($SanctionedPostId) {
     if (empty($SanctionedPostId)) {
         return "";
     }
-    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE id= $SanctionedPostId 
+    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE id= $SanctionedPostId
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationNameFormSanctionedPostId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -691,7 +691,7 @@ function getSanctionedPostNameFromSanctionedPostGroupCode($group_code) {
     if (empty($group_code)) {
         return "";
     }
-    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE sanctioned_post_group_code= $group_code 
+    $sql = "SELECT designation FROM total_manpower_imported_sanctioned_post_copy WHERE sanctioned_post_group_code= $group_code
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1 LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSanctionedPostNameFromStaffId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -716,7 +716,7 @@ function getOrgOwnarshioNameFromCode($org_ownarship_code) {
     if (empty($org_ownarship_code)) {
         return "";
     }
-    $sql = "SELECT                
+    $sql = "SELECT
                 org_ownership_authority.org_ownership_authority_name
             FROM
                 org_ownership_authority
@@ -1187,7 +1187,7 @@ function getOrgCodeFromStaffId($staff_id) {
 /**
  * Get all staff info from staff id
  * @param INT $staff_id
- * @return ARRAY 
+ * @return ARRAY
  */
 function getStaffInfoFromStaffId($staff_id) {
     $sql = "SELECT
@@ -1355,7 +1355,7 @@ function getOrgInfoFromOrgCode($org_code) {
                     organization.division_code,
                     organization.division_name,
                     organization.district_code,
-                    organization.district_name,                    
+                    organization.district_name,
                     organization.upazila_thana_code,
                     organization.upazila_thana_name,
                     organization.union_code,
@@ -1377,11 +1377,11 @@ function getOrgInfoFromOrgCode($org_code) {
                     organization
             WHERE
                 upazila_thana_name LIKE \"" . $data['upazila_thana_name'] . "\"
-            AND 
+            AND
                 district_code = " . $data['district_code'] . "
-            AND 
+            AND
                 division_code = " . $data['division_code'] . "
-            AND 
+            AND
                 org_type_code = 1038";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgInfoFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
 
@@ -1401,11 +1401,11 @@ function getOrgInfoFromOrgCode($org_code) {
 
 /**
  * Get Bangladesh Professional Staff Category From Code
- * 
+ *
  * @param INT $code
  * @return STRING bangladesh_professional_category_name
  */
-function getBangladeshProfessionalStaffCategoryFromCode($code){
+function getBangladeshProfessionalStaffCategoryFromCode($code) {
     $sql = "SELECT
                     bangladesh_professional_category_name
             FROM
@@ -1414,19 +1414,19 @@ function getBangladeshProfessionalStaffCategoryFromCode($code){
                     bangladesh_professional_category_code = $code
             AND active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgInfoFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data['bangladesh_professional_category_name'];
 }
 
 /**
  * Get Bangladesh Professional Staff Category From Code
- * 
+ *
  * @param INT $code
  * @return STRING bangladesh_professional_category_name
  */
-function getWhoProfessionalGroupNameFromCode($code){
+function getWhoProfessionalGroupNameFromCode($code) {
     $sql = "SELECT
                     sanctioned_post_who_health_professional_group.who_health_professional_group_name
             FROM
@@ -1435,9 +1435,9 @@ function getWhoProfessionalGroupNameFromCode($code){
                     who_health_professional_group_code = $code
             AND active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getWhoProfessionalGroupNameFromCode:1</p><p>Query:</b></p>___<p>$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data['who_health_professional_group_name'];
 }
 
@@ -1446,7 +1446,7 @@ function getWhoProfessionalGroupNameFromCode($code){
  * @param INT $org_code
  * @return ARRAY
  */
-function getOrgDisCodeAndUpaCodeFromOrgCode ($org_code){
+function getOrgDisCodeAndUpaCodeFromOrgCode($org_code) {
     $sql = "SELECT
                     district_code,
                     district_name,
@@ -1458,9 +1458,9 @@ function getOrgDisCodeAndUpaCodeFromOrgCode ($org_code){
                     org_code = '$org_code'
             AND active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgDisCodeAndUpaCodeFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
-        
+
     return $data;
 }
 
@@ -1469,7 +1469,7 @@ function getOrgDisCodeAndUpaCodeFromOrgCode ($org_code){
  * @param INT $org_code
  * @return ARRAY
  */
-function getOrgLocationTypeFromCode ($org_location_code){
+function getOrgLocationTypeFromCode($org_location_code) {
     if (!$org_location_code > 0) {
         return null;
     }
@@ -1481,14 +1481,13 @@ function getOrgLocationTypeFromCode ($org_location_code){
                     org_location_type_code = $org_location_code
             AND active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgLocationTypeFromCode:1</p><p>Query:</b></p>___<p>$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data['org_location_type_name'];
 }
 
-
-function getTotalSanctionedPostCountFromOrgCode($org_code){
+function getTotalSanctionedPostCountFromOrgCode($org_code) {
     if (!$org_code > 0) {
         return "";
     }
@@ -1500,11 +1499,11 @@ function getTotalSanctionedPostCountFromOrgCode($org_code){
                     org_code = '$org_code'
             AND active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getTotalSanctionedPostCountFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
-    
+
     return mysql_num_rows($result);
 }
 
-function getTotalFilledUpSanctionedPostCountFromOrgCode($org_code){
+function getTotalFilledUpSanctionedPostCountFromOrgCode($org_code) {
     if (!$org_code > 0) {
         return "";
     }
@@ -1517,16 +1516,16 @@ function getTotalFilledUpSanctionedPostCountFromOrgCode($org_code){
             and total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getTotalFilledUpSanctionedPostCountFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
-    
+
     return mysql_num_rows($result);
 }
 
-function getFirstLevelNameFromCode($code){
+function getFirstLevelNameFromCode($code) {
     if (!$code > 0) {
         return "";
     }
-    
-    $sql= "SELECT
+
+    $sql = "SELECT
                     sanctioned_post_first_level.first_level_name
             FROM
                     sanctioned_post_first_level
@@ -1534,19 +1533,18 @@ function getFirstLevelNameFromCode($code){
                     first_level_code = '$code'
             AND active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getFirstLevelNameFromCode:1</p><p>Query:</b></p>___<p>$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data['first_level_name'];
 }
 
-
-function getSecondtLevelNameFromCode($code){
+function getSecondtLevelNameFromCode($code) {
     if (!$code > 0) {
         return "";
     }
-    
-    $sql= "SELECT
+
+    $sql = "SELECT
                     sanctioned_post_second_level.second_level_name
             FROM
                     `sanctioned_post_second_level`
@@ -1554,9 +1552,9 @@ function getSecondtLevelNameFromCode($code){
                     second_level_code = '$code'
             AND active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getFirstLevelNameFromCode:1</p><p>Query:</b></p>___<p>$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data['second_level_name'];
 }
 
@@ -1582,4 +1580,69 @@ function getUserInfoFromOrgCode($org_code) {
 
     return $data;
 }
+
+/**
+ * handle user login
+ * @param ARRAY $_POST
+ * @return INT 0,1
+ * @author Raihan Sikder <raihan.act@gmail.com>
+ */
+function login($POSTDATA) {
+    $form_uname = mysql_real_escape_string(stripslashes(trim($POSTDATA['email'])));
+    $form_passwd = mysql_real_escape_string(stripslashes(trim($POSTDATA['password'])));
+    $form_passwd = md5($form_passwd);
+    unset($_POST);
+    $sql = "SELECT user_id, username, user_type, user_type_code, organization_id, org_code FROM user WHERE username LIKE \"$form_uname\" AND password LIKE \"$form_passwd\"";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+    //myprint_r($data); // debug
+
+
+//    set session variables
+    if (mysql_num_rows($result) >= 1) {
+        if (setUserSession($data['username'])) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/**
+ * Sets session values for a successful login
+ * @param  $user_id
+ * @return bool
+ * @author Raihan Sikder <raihan.act@gmail.com>
+ */
+function setUserSession($username) {
+
+    //global $_SESSION;
+    if ($user = getUserFromUsername($username)) {
+        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['user_type'] = $user['user_type'];
+        $_SESSION['user_type_code'] = $user['user_type_code'];
+
+        $_SESSION['organization_id'] = $user['organization_id'];
+        $_SESSION['org_code'] = $user['org_code'];
+        $_SESSION['org_name'] = getOrgNameFormOrgCode($user['org_code']);
+        $_SESSION['org_type_code'] = getOrgTypeCodeFromOrgCode($user['org_code']);
+        $_SESSION['org_type_name'] = getOrgTypeNameFormOrgCode($user['org_code']);
+        $_SESSION['logged'] = TRUE;
+        session_write_close();
+        return TRUE;
+    }
+    return FALSE;
+}
+
+/**
+ * Get user from $user_id
+ * @param  $user_id
+ * @return array
+ * @author Raihan Sikder <raihan.act@gmail.com>
+ */
+function getUserFromUsername($username) {
+    return getRowVal('user', 'username', $username);
+}
+
 ?>
