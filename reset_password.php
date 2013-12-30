@@ -37,7 +37,7 @@ if ($_POST["submit"]) {
         $ran = uniqid();
         $token = mysql_real_escape_string($ran);
 
-       require_once 'configuration.php';
+        require_once 'configuration.php';
 
         $sql = mysql_query("UPDATE user SET token='$token' WHERE username='$email'") or die(mysql_error());
 
@@ -66,78 +66,18 @@ if ($_POST["submit"]) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Ministry of Health and Family Welfare HRM Application developed by Activation Ltd, http://activationltd.com">
-        <meta name="author" content="nasir khan saikat (nasir8891 AT gmail DOT com)">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-
-
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code--> 
-<?php include_once 'include/header/header_ga.inc.php'; ?>
-
-        <style type="text/css">
-            body {
-                padding-top: 40px;
-                padding-bottom: 40px;
-                background-color: #f5f5f5;
-            }
-            .form-contact {
-                max-width: 635px;
-                padding: 19px 29px 29px;
-                margin: 0 auto 20px;
-                background-color: #fff;
-                border: 1px solid #e5e5e5;
-                box-shadow: 0 1px 2px rgba(0,0,0,.05);
-            }
-
-
-            @media (min-width: 768px) and (max-width: 979px){
-                .container{
-                    width: 760px;
-                }
-            }
-            @media (max-width: 767px){
-                .container{
-                    width: 760px;
-                }
-            }
-            @media (max-width: 480px) {
-                .container{
-                    width: 300px;
-                }
-            }
-
-
-        </style>
-
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
+        <link href="assets/css/reset_password.css" rel="stylesheet"/>
     </head>
 
     <body>
-
         <div class="container">
-
             <div class="row-fluid">
-
-<?php if(empty($_GET)) { ?>
-
+                <?php if (empty($_GET)) { ?>
                     <form class="form-contact" action="" method="post" name="form1" id="form1">
                         <fieldset>
                             <legend><h2>Reset Password Form</h2></legend>
@@ -147,48 +87,41 @@ if ($_POST["submit"]) {
                             <input name="captcha" type="text" class="input-block-level" required placeholder="Captcha code…">
 
                             <input type="submit" value="Submit" name="submit"  class="btn btn-info btn-large">
-							<br/><br/>
-							<img src="assets/img/reset_password.png">
+                            <br/><br/>
+                            <img src="assets/img/reset_password.png">
                         </fieldset>
-                    <?php
+                        <?php
                     }
                     if ($mail_sent == 2):
                         ?>
                         <div class="alert alert-info">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong><i class="icon-minus-sign"></i> Warning!</strong><br />Wrong code or wrong email address entered. 
+                            <strong><i class="icon-minus-sign"></i> Warning!</strong><br />Wrong code or wrong email address entered.
                             <br />Please try again.
                         </div>
 
-                    <?php endif;
+                    <?php
+                    endif;
 
                     if ($mail_sent == 1):
                         ?>
                         <div class="alert alert-info">
                             <strong> Mail Sent successfully </strong>
                         </div>
-                    <?php endif;
+                    <?php
+                    endif;
 
                     if ($flag == 1):
-                    ?>
+                        ?>
                         <div class="alert alert-block alert-error">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <strong><i class="icon-minus-sign"></i> Warning!<strong> Your username or tokencode is incorrect.</strong> 
+                            <strong><i class="icon-minus-sign"></i> Warning!<strong> Your username or tokencode is incorrect.</strong>
                         </div>
-                        
-                    <?php endif; ?>
+
+<?php endif; ?>
 
                 </form>
             </div> <!-- /container -->
-
         </div>
-
-
-        <!-- javascript
-        ================================================== -->
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>  
-        <script src="assets/jquery Validation/dist/jquery.validate.js"></script>
-
     </body>
 </html>

@@ -22,16 +22,16 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 }
 /**
  * Reassign org_code and enable edit permission for Upazila and below
- * 
- * Upazila users can edit the organizations under that UHC. 
+ *
+ * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){  
+if ($org_type_code == 1029 || $org_type_code == 1051){
     $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
-    
+
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
-    
+
     if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
@@ -56,37 +56,11 @@ if ($action == 'move_out') {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
-        <![endif]-->
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-        
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
-
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -121,7 +95,7 @@ if ($action == 'move_out') {
                         <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
                         <li class="active"><a href="move_request.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-exchange"></i> Move Request</a></li>
                         <li><a href="upload.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-upload-alt"></i> Upload</a></li>
-                        <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>                        
+                        <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
                 </div>
@@ -169,10 +143,10 @@ if ($action == 'move_out') {
                                             ?>
                                         </select>
                                         <select id="admin_district" name="admin_district">
-                                            <option value="0">Select District</option>                                        
+                                            <option value="0">Select District</option>
                                         </select>
                                         <select id="admin_upazila" name="admin_upazila">
-                                            <option value="0">Select Upazila</option>                                        
+                                            <option value="0">Select Upazila</option>
                                         </select>
                                     </div>
                                     <div class="control-group">
@@ -194,10 +168,10 @@ if ($action == 'move_out') {
                                             ?>
                                         </select>
                                         <select id="org_list" name="org_list">
-                                            <option value="0">Select Organization</option>                                        
+                                            <option value="0">Select Organization</option>
                                         </select>
                                         <select id="sanctioned_post" name="org_list">
-                                            <option value="0">Select Designation</option>                                        
+                                            <option value="0">Select Designation</option>
                                         </select>
 
                                     </div>
@@ -212,11 +186,11 @@ if ($action == 'move_out') {
                                         <?php endif; ?>
                                         <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                     </div>
-                                    <!--                                    
-                                                                        
+                                    <!--
+
                                     <div class="control-group">
                                                                             <select id="employee_list" name="employee_list">
-                                                                                <option value="0">Select Employee</option>                                        
+                                                                                <option value="0">Select Employee</option>
                                                                             </select>
                                                                         </div>-->
                                 </form>
@@ -227,7 +201,7 @@ if ($action == 'move_out') {
                                     <div id="move_out_continue_details" class="alert alert-Warnign" style="display:none;">
                                         <table class="table table-hover">
                                             <tr>
-                                                <td colspan="3"><strong><?php echo $move_out_staff_name; ?></strong></td>                                                
+                                                <td colspan="3"><strong><?php echo $move_out_staff_name; ?></strong></td>
                                             </tr>
                                             <tr>
                                                 <td></td>
@@ -275,7 +249,7 @@ if ($action == 'move_out') {
         <!-- Footer
         ================================================== -->
         <footer class="footer">
-            <div class="container">                
+            <div class="container">
                 <ul class="footer-links">
                     <li><a href="#">Home</a></li>
                     <li class="muted">&middot;</li>
@@ -291,14 +265,6 @@ if ($action == 'move_out') {
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
         <script type="text/javascript">
 
             // division
@@ -325,7 +291,7 @@ if ($action == 'move_out') {
                 });
             });
 
-            // district 
+            // district
             $('#admin_district').change(function() {
                 var dis_id = $('#admin_district').val();
                 $("#loading_content").show();
@@ -347,7 +313,7 @@ if ($action == 'move_out') {
                 });
             });
 
-            // load organization 
+            // load organization
             $('#org_agency').change(function() {
                 var div_id = $('#admin_division').val();
                 var dis_id = $('#admin_district').val();
@@ -376,7 +342,7 @@ if ($action == 'move_out') {
                 });
             });
 
-            // load designation 
+            // load designation
             $('#org_list').change(function() {
                 var organization_id = $('#org_list').val();
                 $("#loading_content").show();
@@ -400,7 +366,7 @@ if ($action == 'move_out') {
                 });
             });
 
-            // load employee 
+            // load employee
             $('#show_employee').click(function() {
                 var organization_id = $('#org_list').val();
                 var designation_id = $('#sanctioned_post').val();
@@ -419,7 +385,7 @@ if ($action == 'move_out') {
                 });
             });
 
-            // load move_out_continue 
+            // load move_out_continue
             $('#move_out_continue').click(function() {
                 $("#move_out_continue_details").slideDown();
                 var mv_to_org = $("#org_list option:selected").text();
@@ -431,7 +397,7 @@ if ($action == 'move_out') {
 
             //move_out_confirm
             $('#move_out_confirm').click(function() {
-                <?php 
+                <?php
                 if ($staff_id > 0){
                     echo "var staff_id = $staff_id;";
                 }

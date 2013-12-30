@@ -22,16 +22,16 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 
 /**
  * Reassign org_code and enable edit permission for Upazila and below
- * 
- * Upazila users can edit the organizations under that UHC. 
+ *
+ * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){  
+if ($org_type_code == 1029 || $org_type_code == 1051){
     $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
-    
+
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
-    
+
     if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
@@ -66,39 +66,13 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
-
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
-
         <!-- Top navigation bar
         ================================================== -->
         <?php include_once 'include/header/header_top_menu.inc.php'; ?>
@@ -123,9 +97,9 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                         <?php if ($_SESSION['user_type']=="admin"): ?>
                         <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
                         <?php endif; ?>
-                        <?php 
+                        <?php
                         $active_menu = "org_profile";
-                        include_once 'include/left_menu.php'; 
+                        include_once 'include/left_menu.php';
                         ?>
                     </ul>
                 </div>
@@ -149,7 +123,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                             </li>
                             <li class="">
                                 <a href="#permission_approval-info" data-toggle="tab"><i class="icon-qrcode"></i> Permission/Approval Info</a>
-                            </li>                            
+                            </li>
                             <li class="">
                                 <a href="#facility-info" data-toggle="tab"><i class="icon-shield"></i> Facility Info</a>
                             </li>
@@ -166,7 +140,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         <tr>
                                             <td width="50%"><strong>Organization Code</strong></td>
                                             <td><?php echo $data['org_code']; ?></td>
-                                        </tr>                                        
+                                        </tr>
                                         <tr>
                                             <td width="50%"><strong>Agency code</strong></td>
                                             <td><?php echo $data['agency_code']; ?></td>
@@ -189,7 +163,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         <tr>
                                             <td width="50%">Urban/Rural Location</td>
                                             <td><a href="#" class="" id="org_location_type" ><?php echo getOrgLocationTypeFromCode($data['org_location_type']); ?></a></td>
-                                        </tr>                                        
+                                        </tr>
                                         <tr class="success">
                                             <td width="50%" colspan="2"><strong>Regional location of the organization</strong></td>
                                         </tr>
@@ -203,7 +177,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>District Name</strong></td>
-                                            <td><a href="#" class="" id="district_code" ><?php echo getDistrictNamefromCode($data['district_code']); ?></a></td>                                            
+                                            <td><a href="#" class="" id="district_code" ><?php echo getDistrictNamefromCode($data['district_code']); ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>District Code</strong></td>
@@ -336,7 +310,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                             <td width="50%"><strong>Latitude</strong></td>
                                             <td><a href="#" class="text-input" id="latitude" ><?php echo $data['latitude']; ?></a></td>
                                         </tr>
-                                    </table>                             
+                                    </table>
                                 <?php endif; ?>
                             </div>
                             <div class="tab-pane" id="ownership-info">
@@ -381,11 +355,11 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         <td><a href="#" class="text-input" id="land_mutation_number" ><?php // echo $data['org_code'];      ?></a></td>
                                     </tr>
                                     -->
-									
+
                                     <tr class="success">
                                         <td width="50%" colspan="2"><strong>Permission/Approval/License information</strong></td>
                                     </tr>
-                                  
+
                                     <tr>
                                         <td width="60%"><strong>Date of Permission/Approval/License information</strong></td>
                                         <td><a href="#" class="text-input" id="permission_approval_license_info_date" ><?php echo $data['permission_approval_license_info_date']; ?></a></td>
@@ -672,7 +646,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         <td><a href="#" class="text-input" id="land_functional_code" ><?php echo $data['land_functional_code']; ?></a></td>
                                     </tr>
                                     -->
-									
+
 									  <tr>
                                         <td width="50%"><strong>SA Dag No</strong></td>
                                         <td><a href="#" class="text-input" id="land_ss_dag_number" ><?php echo $data['land_ss_dag_number']; ?></a></td>
@@ -697,7 +671,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                             </div>
                         </div>
 
-                    </section>                    
+                    </section>
                 </div>
             </div>
         </div>
@@ -705,43 +679,22 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
         <!-- Footer
         ================================================== -->
         <?php include_once 'include/footer/footer_menu.inc.php'; ?>
-
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        <script type="text/javascript" src="assets/js/jquery.js"></script>
-        <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-
-        <script type="text/javascript" src="assets/js/holder/holder.js"></script>
-        <script type="text/javascript" src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script type="text/javascript" src="assets/js/application.js"></script>
-        
-        <script src="library/dataTables-1.9.4/media/js/jquery.dataTables.min.js"></script>
-        <script src="library/dataTables-1.9.4/media/js/paging.js"></script>
-        
         <script>
             $(function() {
                 $('.nav-tab-ul #basic-info').tab('show');
             });
         </script>
-
-
-        <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
         <script>
             $.fn.editable.defaults.mode = 'inline';
 
             var org_code = <?php echo $org_code; ?>;
             var selected_div_name = $("#division_name").text();
-            
+
             $("#district_name").change(function() {
                 selected_div_name = $("#division_name").text();
             });
 
         </script>
-        <script src="assets/js/common.js"></script>        
+        <script src="assets/js/common.js"></script>
     </body>
 </html>

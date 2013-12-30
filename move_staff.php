@@ -23,16 +23,16 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 }
 /**
  * Reassign org_code and enable edit permission for Upazila and below
- * 
- * Upazila users can edit the organizations under that UHC. 
+ *
+ * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){  
+if ($org_type_code == 1029 || $org_type_code == 1051){
     $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
-    
+
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
-    
+
     if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
@@ -54,47 +54,19 @@ if ($staff_id > 0) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="Nasir Khan Saikat(nasir8891@gmail.com)">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
-
-        <style type="text/css">
-            .padding_up_down{
-                padding: 20px 0px 20px 0px;
-            }
-        </style>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
+        <link href="assets/css/move_staff.css" rel="stylesheet"/>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
 
         <!-- Navbar
         ================================================== -->
-        <?php include_once 'include/header/header_top_menu.inc.php'; ?>                
+        <?php include_once 'include/header/header_top_menu.inc.php'; ?>
 
         <!-- Subhead
         ================================================== -->
@@ -116,9 +88,9 @@ if ($staff_id > 0) {
                         <?php if ($_SESSION['user_type'] == "admin"): ?>
                             <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
                             <?php endif; ?>
-                        <?php 
+                        <?php
                         $active_menu = "move_staff";
-                        include_once 'include/left_menu.php'; 
+                        include_once 'include/left_menu.php';
                         ?>
                     </ul>
                 </div>
@@ -130,7 +102,7 @@ if ($staff_id > 0) {
 
                         <!--if action is not defined -->
                         <?php if ($action == ""): ?>
-                            <table class="table table-striped table-hover">                            
+                            <table class="table table-striped table-hover">
                                 <tbody>
 <!--                                    <tr>
                                         <td><a href="#">Promotion</a></td>
@@ -178,7 +150,7 @@ if ($staff_id > 0) {
                             ?>
                             <div id="move_out_main">
                                 <div class="alert alert-info">
-                                    <h4>Transfer (Move Out)</h4>                                
+                                    <h4>Transfer (Move Out)</h4>
                                 </div>
                                 <?php if (!$staff_id > 0): ?>
                                     <?php
@@ -229,14 +201,14 @@ if ($staff_id > 0) {
                                     <!--move_out_step1-->
                                     <div id="move_out_step1">
                                         <p class="lead">
-                                            Move out request for :<br /> 
+                                            Move out request for :<br />
                                             <strong><a href="employee.php?staff_id=<?php echo $staff_id; ?>"><?php
                                                     echo "$staff_name (Staff Id: $staff_id)"
                                                     ?></a></strong>
                                             <br />
                                             <em>Select the new designation</em>
                                         </p>
-                                        <div class="">                                            
+                                        <div class="">
                                             <div class="control-group">
                                                 <select id="admin_division" name="admin_division">
                                                     <option value="0">Select Division</option>
@@ -253,10 +225,10 @@ if ($staff_id > 0) {
                                                     ?>
                                                 </select>
                                                 <select id="admin_district" name="admin_district">
-                                                    <option value="0">Select District</option>                                        
+                                                    <option value="0">Select District</option>
                                                 </select>
                                                 <select id="admin_upazila" name="admin_upazila">
-                                                    <option value="0">Select Upazila</option>                                        
+                                                    <option value="0">Select Upazila</option>
                                                 </select>
                                             </div>
                                             <div class="control-group">
@@ -278,10 +250,10 @@ if ($staff_id > 0) {
                                                     ?>
                                                 </select>
                                                 <select id="org_list" name="org_list">
-                                                    <option value="0">Select Organization</option>                                        
+                                                    <option value="0">Select Organization</option>
                                                 </select>
                                                 <select id="sanctioned_post" name="sanctioned_post">
-                                                    <option value="0">Select Designation</option>                                        
+                                                    <option value="0">Select Designation</option>
                                                 </select>
 
                                             </div>
@@ -294,7 +266,7 @@ if ($staff_id > 0) {
                                             <div id="move_out_continue_details" class="alert alert-Warnign" style="display:none;">
                                                 <table class="table">
                                                     <tr>
-                                                        <td colspan="3"><strong><?php echo $staff_name; ?></strong></td>                                                
+                                                        <td colspan="3"><strong><?php echo $staff_name; ?></strong></td>
                                                     </tr>
                                                     <tr>
                                                         <td></td>
@@ -325,7 +297,7 @@ if ($staff_id > 0) {
                                                             <textarea id="attachments" name="attachments" rows="3">Not Applicable</textarea>
                                                         </div>
                                                     </div>
-                                                    <div class="control-group">                                                        
+                                                    <div class="control-group">
                                                         <!--request_submitted_by-->
                                                         <input type="hidden" id="request_submitted_by" name="request_submitted_by" value="<?php echo $_SESSION['username']; ?>">
                                                     </div>
@@ -363,7 +335,7 @@ if ($staff_id > 0) {
 
                             <div id="move_in_main">
                                 <div class="alert alert-info">
-                                    <h4>Transfer (Move In)</h4>                                
+                                    <h4>Transfer (Move In)</h4>
                                 </div>
                                 <?php if (!$staff_id > 0): ?>
                                     <div id="move_in_step1">
@@ -395,7 +367,7 @@ if ($staff_id > 0) {
                                                                 <input type="text" id="searchStaff" class="input-xlarge" placeholder="Enter Staff Name" autofocus="">
                                                             </div>
                                                         </div>
-                                                        
+
                                                         <div class="control-group">
                                                             <div class="controls">
                                                                 <button id="btn_search_staff" class="btn btn-info" type="button">Find Staff(s)</button>
@@ -404,7 +376,7 @@ if ($staff_id > 0) {
                                                         </div>
 
                                                         <div id="staff_list_display"></div>
-                                                    </div>                            
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -425,10 +397,10 @@ if ($staff_id > 0) {
                                                     ?>
                                                 </select>
                                                 <select id="admin_district" name="admin_district">
-                                                    <option value="0">Select District</option>                                        
+                                                    <option value="0">Select District</option>
                                                 </select>
                                                 <select id="admin_upazila" name="admin_upazila">
-                                                    <option value="0">Select Upazila</option>                                        
+                                                    <option value="0">Select Upazila</option>
                                                 </select>
                                             </div>
                                             <div class="control-group">
@@ -450,10 +422,10 @@ if ($staff_id > 0) {
                                                     ?>
                                                 </select>
                                                 <select id="org_list" name="org_list">
-                                                    <option value="0">Select Organization</option>                                        
+                                                    <option value="0">Select Organization</option>
                                                 </select>
                                                 <select id="sanctioned_post" name="sanctioned_post">
-                                                    <option value="0">Select Designation</option>                                        
+                                                    <option value="0">Select Designation</option>
                                                 </select>
 
                                             </div>
@@ -462,7 +434,7 @@ if ($staff_id > 0) {
                                                 <button id="show_employee" type="button" class="btn btn-primary">Show Employee List</button>
 
                                                 <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
-                                            </div>                                        
+                                            </div>
                                         </div>
                                         <div id="employee_list"></div>
                                     </div>
@@ -485,11 +457,11 @@ if ($staff_id > 0) {
                                                     total_manpower_imported_sanctioned_post_copy.sanctioned_post_group_code
                                                     FROM
                                                     total_manpower_imported_sanctioned_post_copy
-                                                    WHERE 
+                                                    WHERE
                                                     org_code = $org_code
                                                     AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                     GROUP BY
-                                                    total_manpower_imported_sanctioned_post_copy.sanctioned_post_group_code 
+                                                    total_manpower_imported_sanctioned_post_copy.sanctioned_post_group_code
                                                     ";
                                                 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -498,9 +470,9 @@ if ($staff_id > 0) {
                                                 }
                                                 ?>
                                             </select>
-                                            
+
                                         <div id="load_sanctionedPost" >
-                                            
+
                                         </div>
                                         </p>
                                         <div class="control-group">
@@ -511,7 +483,7 @@ if ($staff_id > 0) {
                                         <div id="move_in_continue_details" class="alert alert-Warnign" style="display:none;">
                                             <table class="table">
                                                 <tr>
-                                                    <td colspan="3"><strong><?php echo $staff_name; ?></strong></td>                                                
+                                                    <td colspan="3"><strong><?php echo $staff_name; ?></strong></td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>
@@ -519,7 +491,7 @@ if ($staff_id > 0) {
                                                     <td>Designation</td>
                                                 </tr>
                                                 <tr class="error">
-                                                    <td>Present</td>                                                    
+                                                    <td>Present</td>
                                                     <td><span id="mv_from_org"></span></td>
                                                     <td><span id="mv_from_des"></span></td>
                                                 </tr>
@@ -557,7 +529,7 @@ if ($staff_id > 0) {
                                                             <textarea id="attachments" name="attachments" rows="3">Not Applicable</textarea>
                                                         </div>
                                                     </div>
-                                                    <div class="control-group">                                                        
+                                                    <div class="control-group">
                                                         <!--request_submitted_by-->
                                                         <input type="hidden" id="request_submitted_by" name="request_submitted_by" value="<?php echo $_SESSION['username']; ?>">
                                                     </div>
@@ -608,18 +580,7 @@ if ($staff_id > 0) {
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-
-        <script src="library/dataTables-1.9.4/media/js/jquery.dataTables.min.js"></script>
-        <script src="library/dataTables-1.9.4/media/js/paging.js"></script>
-
-        <script type="text/javascript">
+          <script type="text/javascript">
             /* Table initialisation */
             $(document).ready(function() {
                 $('#staff_list').dataTable({
@@ -657,7 +618,7 @@ if ($staff_id > 0) {
                 });
             });
 
-            // district 
+            // district
             $('#admin_district').change(function() {
                 var dis_id = $('#admin_district').val();
                 $("#loading_content").show();
@@ -679,7 +640,7 @@ if ($staff_id > 0) {
                 });
             });
 
-            // load organization 
+            // load organization
             $('#org_agency').change(function() {
                 $("#loading_content").show();
                 var div_id = $('#admin_division').val();
@@ -709,7 +670,7 @@ if ($staff_id > 0) {
                 });
             });
 
-            // load designation 
+            // load designation
             $('#org_list').change(function() {
                 var organization_id = $('#org_list').val();
                 $("#loading_content").show();
@@ -733,7 +694,7 @@ if ($staff_id > 0) {
                 });
             });
 
-            // load move_out_continue 
+            // load move_out_continue
             $('#move_out_continue').click(function() {
                 $("#move_out_continue_details").slideDown();
                 var mv_to_org = $("#org_list option:selected").text();
@@ -751,12 +712,12 @@ if ($staff_id > 0) {
 //            $('#move_out_confirm').click(function() {
 //                var post_mv_to_org = document.getElementById("post_mv_to_org");
 //                post_mv_to_org.value = $("#org_list option:selected").val();
-//                
+//
 //                var post_mv_to_des = document.getElementById("post_mv_to_des");
 //                post_mv_to_des.value = $("#sanctioned_post option:selected").val();
 //            });
 
-            // load employee 
+            // load employee
             $('#show_employee').click(function() {
                 var organization_id = $('#org_list').val();
                 var designation_id = $('#sanctioned_post').val();
@@ -776,7 +737,7 @@ if ($staff_id > 0) {
                 });
             });
 
-            // load move_in_continue 
+            // load move_in_continue
             $('#move_in_continue').click(function() {
                 $("#move_in_continue_details").slideDown();
 
@@ -791,16 +752,16 @@ if ($staff_id > 0) {
 
                 var mv_to_des = $("#move_in_sanctioned_post option:selected").text();
                 $("#mv_to_des").html(mv_to_des);
-                
+
                 document.getElementById("post_mv_from_org").value = "<?php echo $_GET['org_code']; ?>";
 
                 document.getElementById("post_mv_from_des").value = "<?php if ($staff_id > 0) echo getSanctionedPostIdFromStaffId($staff_id); ?>";
-                
+
                 document.getElementById("post_mv_to_org").value = "<?php echo $org_code; ?>";
 
                 document.getElementById("post_mv_to_des").value = $("#move_in_sanctioned_post").val();
             });
-            
+
             // Search staff
             $('#btn_search_staff').click(function() {
                 $("#loading_content").show();
@@ -817,12 +778,12 @@ if ($staff_id > 0) {
                     }
                 });
             });
-            
+
             //reset search field
             $("#btn_reset").click(function() {
                 $("#staff_list_display").html("");
             });
-            
+
             // load sanctioned post based on designaion selection
             $("#move_in_des_select").change(function (){
                 $("#loading_content").show();

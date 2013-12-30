@@ -66,33 +66,11 @@ if (!($latitude > 0) || !($longitude > 0)) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="Nasir Khan Saikat(nasir8891@gmail.com)">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
-        <![endif]-->
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <?php include_once 'include/header/header_icon.inc.php'; ?>
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -194,46 +172,20 @@ if (!($latitude > 0) || !($longitude > 0)) {
                                         <td><a href="home.php?org_code=<?php echo $org_info[$i]['org_code']; ?>" target="_blank"><?php echo $org_info[$i]['org_name']; ?></a></td>
                                         <td><?php echo $org_info[$i]['org_code']; ?></td>
                                         <td><?php echo $org_info[$i]['email']; ?></td>
-
                                     </tr>
                                 <?php endfor; ?>
-
                             </tbody>
-
                         </table>
                     <?php endif; ?>
-
                 </div>
             </div>
-
         </div>
-
-
-
         <!-- Footer
         ================================================== -->
         <?php include_once 'include/footer/footer_menu.inc.php'; ?>
         <?php include_once 'include/footer/footer.inc.php'; ?>
-
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-
-        <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
-
         <!-- Map
         ================================================== -->
-
         <script>
 
             var map = L.map('map').setView([<?php echo $coordinate; ?>], 6);

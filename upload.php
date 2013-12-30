@@ -27,16 +27,16 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 }
 /**
  * Reassign org_code and enable edit permission for Upazila and below
- * 
- * Upazila users can edit the organizations under that UHC. 
+ *
+ * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){  
+if ($org_type_code == 1029 || $org_type_code == 1051){
     $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
-    
+
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
-    
+
     if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
@@ -53,21 +53,20 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
-		
+
         <link rel="stylesheet" href="assets/bootstrap3/css/bootstrap.min.css">
         <link rel="stylesheet" href="library/jQuery-File-Upload-master/css/jquery.fileupload-ui.css">
-		 
+
         <!-- Le styles -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
         <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">     
+        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
         <noscript><link rel="stylesheet" href="library/jQuery-File-Upload-master/css/jquery.fileupload-ui-noscript.css"></noscript>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -109,14 +108,14 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
                         <?php if ($_SESSION['user_type'] == "admin"): ?>
                             <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
                             <?php endif; ?>
-                        <?php 
+                        <?php
                         $active_menu = "upload";
-                        include_once 'include/left_menu.php'; 
+                        include_once 'include/left_menu.php';
                         ?>
                     </ul>
                 </div>
                 <div class="span9" style="width:825px;">
-                    <!-- main 
+                    <!-- main
                     ================================================== -->
                     <section>
                         <h3>Upload Organization Photo/ File</h3>
@@ -140,9 +139,9 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
                                                 </a>
                                             </td>
                                             <td> Upload different files related to the organization, click the button and go to the upload form. Details information is described there.</td>
-                                        </tr>  -->                                  
+                                        </tr>  -->
                                     </tbody>
-                                </table>                            
+                                </table>
                             </div>
                         </div>
                         <?php  if ($upload_type == "photo"){ ?>
@@ -170,7 +169,7 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
                         </div>
 
                         <?php } ?>
-                        
+
                     </section>
 
                 </div>
@@ -198,7 +197,7 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
 
         <script src="assets/js/application.js"></script>
 
-        
+
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
         <script src="library/jQuery-File-Upload-master/js/vendor/jquery.ui.widget.js"></script>
@@ -248,7 +247,7 @@ $(function () {
                     $this.remove();
                 });
             });
-    $('#fileupload').fileupload({  
+    $('#fileupload').fileupload({
         url: url,
         dataType: 'json',
         autoUpload: false,
@@ -322,6 +321,6 @@ $(function () {
         .parent().addClass($.support.fileInput ? undefined : 'disabled');
 });
 </script>
-</body> 
+</body>
 
 </html>

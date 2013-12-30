@@ -26,7 +26,7 @@ if ($org_code == "") {
     $org_code = "99999999";
 }
 
-// admin check 
+// admin check
 if ($_SESSION['user_type'] != "admin") {
     header("location:home.php?org_code=$org_code");
 }
@@ -48,7 +48,7 @@ if (isset($_POST['action'])) {
     $sp_id = (int) mysql_real_escape_string(trim($_POST['sp_id']));
     $org_code = (int) mysql_real_escape_string(trim($_POST['org_code']));
     $action  = mysql_real_escape_string(trim($_POST['action']));
-    
+
     if ($action == "add"){
         $sql = "SELECT
                         *
@@ -59,7 +59,7 @@ if (isset($_POST['action'])) {
                 AND active LIKE 1";
         $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:1</p><p>Query:</b></p>___<p>$sql</p>");
         $data = mysql_fetch_assoc($result);
-        
+
         if ($org_code == $data['org_code']){
             $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
                 `group`,
@@ -111,17 +111,17 @@ if (isset($_POST['action'])) {
                 `updated_by` = \"" . $_SESSION['username'] . "\"
                 WHERE id = '$sp_id'";
         $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:1</p><p>Query:</b></p>___<p>$sql</p>");
-        
+
         // search the post link in the staff table
         $sql = "SELECT * FROM `old_tbl_staff_organization` WHERE sp_id_2 = '$sp_id'";
         $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:1</p><p>Query:</b></p>___<p>$sql</p>");
-        
+
         if (mysql_num_rows($result)) {
-            // update the staff table by removeing the sanctioned post link 
+            // update the staff table by removeing the sanctioned post link
             $sql = "UPDATE `old_tbl_staff_organization` SET `sp_id_2`='0', `sanctioned_post_id`='0', `updated_by` = \"" . $_SESSION['username'] . "\" WHERE sp_id_2 = '$sp_id'";
             $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:1</p><p>Query:</b></p>___<p>$sql</p>");
         }
-        
+
     }
     else if ($action == "new_sp"){
         $sp_number = (int) mysql_real_escape_string(trim($_POST['sp_number']));
@@ -129,7 +129,7 @@ if (isset($_POST['action'])) {
         $type_of_post = (int) mysql_real_escape_string(trim($_POST['type_of_post']));
         $first_level_code = (int) mysql_real_escape_string(trim($_POST['first_level']));
         $second_level_code = (int) mysql_real_escape_string(trim($_POST['second_level']));
-        
+
         $sql = "SELECT
                         *
                 FROM
@@ -137,9 +137,9 @@ if (isset($_POST['action'])) {
                 WHERE
                         designation_code = $designation_code";
         $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:dessignation_data:1</p><p>Query:</b></p>___<p>$sql</p>");
-        
+
         $data = mysql_fetch_assoc($result);
-        
+
         if ($sp_number > 0){
             $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
                         `group`,
@@ -178,14 +178,14 @@ if (isset($_POST['action'])) {
                         \"" . $data['bangladesh_professional_category_code'] . "\",
                         \"" . $data['who_occupation_group_code'] . "\"
                     )";
-            
+
             for ($i = 0; $i < $sp_number; $i++){
                 $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:dessignation_data:2</p><p>Query:</b></p>___<p>$sql</p>");
             }
             header("location:update_sanctioned_post.php?org_code=$org_code&step=1");
-            
+
         }
-        
+
     }
 }
 
@@ -193,33 +193,11 @@ if (isset($_POST['action'])) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="Nasir Khan Saikat">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -248,9 +226,9 @@ if (isset($_POST['action'])) {
                         <li class="active"><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
                         <li><a href="search.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
                         <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
-                            <!--                        
-                            
-                            
+                            <!--
+
+
                             <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                             <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
                             <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
@@ -272,20 +250,20 @@ if (isset($_POST['action'])) {
                                 <div class="control-group">
                                     <label class="control-label" for="org_code">Enter Org Code</label>
                                     <div class="controls">
-                                        <input type="text" id="org_code" name="org_code" placeholder="Organization Code" class="input-xlarge "> 
+                                        <input type="text" id="org_code" name="org_code" placeholder="Organization Code" class="input-xlarge ">
                                     </div>
                                 </div>
 
                                 <div class="control-group">
-                                    <div class="controls">   
-                                        <input type="hidden" id="step" name="step" value="1"> 
+                                    <div class="controls">
+                                        <input type="hidden" id="step" name="step" value="1">
                                         <button type="submit" class="btn btn-success"><strong>Get Summary</strong> <i class="icon-arrow-right"></i></button>
                                     </div>
                                 </div>
                             </form>
                         <?php endif; ?>
                         <?php if ($step == 1) : ?>
-                            
+
                             <div class="row-fluid">
                                 <div class="span10">
                                     <h3>Sanctioned Post Summary</h3>
@@ -418,7 +396,7 @@ if (isset($_POST['action'])) {
                                                 `total_manpower_imported_sanctioned_post_copy`
                                         WHERE
                                                 org_code = '$org_code'
-                                        AND designation_code = '$designation_code'            
+                                        AND designation_code = '$designation_code'
                                         AND active LIKE 1";
                                     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>designation_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                     while ($data = mysql_fetch_assoc($result)):
@@ -470,7 +448,7 @@ if (isset($_POST['action'])) {
                                     <div class="control-group">
                                         <label class="control-label" for="sp_number">Number of Posts</label>
                                         <div class="controls">
-                                            <input type="text" id="sp_number" name="sp_number" placeholder="Number of sanctioned post" class="input-block-level"> 
+                                            <input type="text" id="sp_number" name="sp_number" placeholder="Number of sanctioned post" class="input-block-level">
                                         </div>
                                     </div>
                                     <div class="control-group">
@@ -478,7 +456,7 @@ if (isset($_POST['action'])) {
                                         <div class="controls">
                                             <select id="designation_code" name="designation_code" class="input-block-level">
                                                 <option value="0">-- Select form the list --</option>
-                                                <?php 
+                                                <?php
                                                 $sql = "SELECT
                                                                 sanctioned_post_designation.designation_group_code,
                                                                 sanctioned_post_designation.class,
@@ -492,7 +470,7 @@ if (isset($_POST['action'])) {
                                                 while ($data = mysql_fetch_assoc($designation_result)):  ?>
                                                 <option value="<?php echo $data['designation_code']; ?>"><?php echo $data['designation']; ?>, <?php echo $data['class']; ?>, Payscale: <?php echo $data['payscale']; ?></option>
                                                 <?php endwhile; ?>
-                                            </select>                                         
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="control-group">
@@ -500,7 +478,7 @@ if (isset($_POST['action'])) {
                                         <div class="controls">
                                             <select id="type_of_post" name="type_of_post" class="input-block-level">
                                                 <option value="0">-- Select form the list --</option>
-                                                <?php 
+                                                <?php
                                                 $sql = "SELECT
                                                                 sanctioned_post_type_of_post.type_of_post_code,
                                                                 sanctioned_post_type_of_post.type_of_post_name
@@ -512,7 +490,7 @@ if (isset($_POST['action'])) {
                                                 while ($data = mysql_fetch_assoc($result)):  ?>
                                                 <option value="<?php echo $data['type_of_post_code']; ?>"><?php echo $data['type_of_post_name']; ?> (Code: <?php echo $data['type_of_post_code']; ?>)</option>
                                                 <?php endwhile; ?>
-                                            </select>                                         
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="control-group">
@@ -520,7 +498,7 @@ if (isset($_POST['action'])) {
                                         <div class="controls">
                                             <select id="first_level" name="first_level" class="input-block-level">
                                                 <option value="0">-- Select form the list --</option>
-                                                <?php 
+                                                <?php
                                                 $sql = "SELECT
                                                                 sanctioned_post_first_level.first_level_code,
                                                                 sanctioned_post_first_level.first_level_name
@@ -532,7 +510,7 @@ if (isset($_POST['action'])) {
                                                 while ($data = mysql_fetch_assoc($result)):  ?>
                                                 <option value="<?php echo $data['first_level_code']; ?>"><?php echo $data['first_level_name']; ?> (Code: <?php echo $data['first_level_code']; ?>)</option>
                                                 <?php endwhile; ?>
-                                            </select>                                         
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="control-group">
@@ -540,7 +518,7 @@ if (isset($_POST['action'])) {
                                         <div class="controls">
                                             <select id="second_level" name="second_level" class="input-block-level">
                                                 <option value="0">-- Select form the list --</option>
-                                                <?php 
+                                                <?php
                                                 $sql = "SELECT
                                                                 sanctioned_post_second_level.second_level_code,
                                                                 sanctioned_post_second_level.second_level_name
@@ -552,43 +530,27 @@ if (isset($_POST['action'])) {
                                                 while ($data = mysql_fetch_assoc($result)):  ?>
                                                 <option value="<?php echo $data['second_level_code']; ?>"><?php echo $data['second_level_name']; ?> (Code: <?php echo $data['second_level_code']; ?>)</option>
                                                 <?php endwhile; ?>
-                                            </select>                                         
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="control-group">
-                                        <div class="controls">   
-                                            <input type="hidden" id="org_code" name="org_code" value="<?php echo $org_code; ?>"> 
-                                            <input type="hidden" id="action" name="action" value="new_sp"> 
+                                        <div class="controls">
+                                            <input type="hidden" id="org_code" name="org_code" value="<?php echo $org_code; ?>">
+                                            <input type="hidden" id="action" name="action" value="new_sp">
                                             <button type="submit" class="btn btn-success">Add new</button>
                                         </div>
                                     </div>
                                 </form>
-                        <?php endif; ?>    
-                    </section> <!-- /admin_home_main -->                   
+                        <?php endif; ?>
+                    </section> <!-- /admin_home_main -->
                 </div>
             </div>
-
         </div>
-
-
-
         <!-- Footer
         ================================================== -->
         <?php include_once 'include/footer/footer.inc.php'; ?>
-
-
-
         <!-- Le javascript
         ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-
         <script type="text/javascript">
             // load division
             $('#admin_division').change(function() {
@@ -612,7 +574,7 @@ if (isset($_POST['action'])) {
                 });
             });
 
-            // load district 
+            // load district
             $('#admin_district').change(function() {
                 var dis_id = $('#admin_district').val();
                 $("#loading_content").show();
@@ -634,7 +596,7 @@ if (isset($_POST['action'])) {
                 });
             });
 
-            // load organization 
+            // load organization
             $('#btn_show_org_list').click(function() {
                 var div_id = $('#admin_division').val();
                 var dis_id = $('#admin_district').val();
@@ -661,7 +623,7 @@ if (isset($_POST['action'])) {
                 });
             });
 
-            // Search organization 
+            // Search organization
             $('#btn_search_org').click(function() {
                 $("#loading_content").show();
                 var searchOrg = $('#searchOrg').val();

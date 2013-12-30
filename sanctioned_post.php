@@ -22,16 +22,16 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 }
 /**
  * Reassign org_code and enable edit permission for Upazila and below
- * 
- * Upazila users can edit the organizations under that UHC. 
+ *
+ * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){  
+if ($org_type_code == 1029 || $org_type_code == 1051){
     $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
-    
+
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
-    
+
     if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
@@ -46,41 +46,13 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="Nasir Khan Saikat(nasir8891@gmail.com)">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
-
-
-
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
-
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
-
         <!-- Top navigation bar
         ================================================== -->
         <?php include_once 'include/header/header_top_menu.inc.php'; ?>
@@ -105,9 +77,9 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                         <?php if ($_SESSION['user_type'] == "admin"): ?>
                             <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-qrcode"></i> Admin Homepage</a>
                             <?php endif; ?>
-                        <?php 
+                        <?php
                         $active_menu = "sanctioned_post";
-                        include_once 'include/left_menu.php'; 
+                        include_once 'include/left_menu.php';
                         ?>
                     </ul>
                 </div>
@@ -115,12 +87,12 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                     <!-- Sanctioned Post
                     ================================================== -->
                     <section id="sanctioned-post">
-                        
+
                         <div class="btn-group pull-right">
                             <a class="btn" href="sanctioned_post_sorted.php?org_code=<?php echo $org_code; ?>"><i class="icon-sort-by-alphabet"></i> Sorted</a>
                             <a class="btn"href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-sitemap"></i> Tree View</a>
                         </div>
-                        
+
                         <div class="row">
                             <div class="span9">
                                 <table class="table table-striped table-hover table-bordered">
@@ -191,7 +163,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                         </div>
                                                         <div class="span1">
                                                             <?php echo $sp_data['payscale']; ?>
-                                                        </div>                                                        
+                                                        </div>
                                                         <div class="span1">
                                                             <?php echo $sp_data['sp_count']; ?>
                                                         </div>
@@ -250,7 +222,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                                                                 data_list += "<button class=\"btn\" data-dismiss=\"modal\" aria-hidden=\"true\">Close</button>";
                                                                                                 data_list += "</div>";
                                                                                                 data_list += "</div>";
-                                                                                            }                                                                                            
+                                                                                            }
                                                                                             else {
                                                                                                 data_list += "<div class=\"span2\"> </div>";
                                                                                                 data_list += "<a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" ><i class=\"icon-edit\"></i> Add Profile</a>";
@@ -268,7 +240,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                                     </script>
                                                                 </div>
                                                             </div>
-                                                        </div>                                                        
+                                                        </div>
                                                     </div>
                                                     <div id="sp-<?php echo "$designation_div_id"; ?>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                         <div class="modal-header">
@@ -320,49 +292,22 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                         });
                                                     </script>
                                                 </td>
-
                                             </tr>
-
-                                        <?php endwhile; ?> 
-
+                                        <?php endwhile; ?>
                                     </tbody>
-
                                 </table>
                             </div>
-
                         </div>
-
                     </section>
-
                 </div>
-
             </div>
-
         </div> <!-- /container -->
 
 
-        <!--        <div>
-                    <pre>
-        
-                    </pre>
-                </div>-->
         <!-- Footer
         ================================================== -->
         <?php include_once 'include/footer/footer_menu.inc.php'; ?>
 
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
 
     </body>
 </html>

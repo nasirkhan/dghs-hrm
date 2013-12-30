@@ -25,7 +25,7 @@ if ($org_code == "") {
     $org_code = "99999999";
 }
 
-// admin check 
+// admin check
 if ($_SESSION['user_type'] != "admin") {
     header("location:home.php?org_code=$org_code");
 }
@@ -33,33 +33,11 @@ if ($_SESSION['user_type'] != "admin") {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="Nasir Khan Saikat">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -88,9 +66,9 @@ if ($_SESSION['user_type'] != "admin") {
                         <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
                         <li><a href="search.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
                         <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
-                            <!--                        
-                            
-                            
+                            <!--
+
+
                             <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                             <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
                             <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
@@ -108,7 +86,7 @@ if ($_SESSION['user_type'] != "admin") {
                     <section id="admin_home_main">
                         <h3>Organizaion Users</h3>
 
-                        <div class="row-fluid"> 
+                        <div class="row-fluid">
                             <div class="span12">
                                 <?php
                                 $sql = "SELECT
@@ -162,7 +140,7 @@ if ($_SESSION['user_type'] != "admin") {
 
 
 
-                    </section> <!-- /admin_home_main -->                   
+                    </section> <!-- /admin_home_main -->
                 </div>
             </div>
 
@@ -179,14 +157,6 @@ if ($_SESSION['user_type'] != "admin") {
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-
         <script type="text/javascript">
             // load division
             $('#admin_division').change(function() {
@@ -210,7 +180,7 @@ if ($_SESSION['user_type'] != "admin") {
                 });
             });
 
-            // load district 
+            // load district
             $('#admin_district').change(function() {
                 var dis_id = $('#admin_district').val();
                 $("#loading_content").show();
@@ -232,7 +202,7 @@ if ($_SESSION['user_type'] != "admin") {
                 });
             });
 
-            // load organization 
+            // load organization
             $('#btn_show_org_list').click(function() {
                 var div_id = $('#admin_division').val();
                 var dis_id = $('#admin_district').val();
@@ -259,7 +229,7 @@ if ($_SESSION['user_type'] != "admin") {
                 });
             });
 
-            // Search organization 
+            // Search organization
             $('#btn_search_org').click(function() {
                 $("#loading_content").show();
                 var searchOrg = $('#searchOrg').val();

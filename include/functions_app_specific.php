@@ -1591,7 +1591,7 @@ function login($POSTDATA) {
     $form_uname = mysql_real_escape_string(stripslashes(trim($POSTDATA['email'])));
     $form_passwd = mysql_real_escape_string(stripslashes(trim($POSTDATA['password'])));
     $form_passwd = md5($form_passwd);
-    unset($_POST);
+    
     $sql = "SELECT user_id, username, user_type, user_type_code, organization_id, org_code FROM user WHERE username LIKE \"$form_uname\" AND password LIKE \"$form_passwd\"";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
