@@ -20,16 +20,16 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 
 /**
  * Reassign org_code and enable edit permission for Upazila and below
- * 
- * Upazila users can edit the organizations under that UHC. 
+ *
+ * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){  
+if ($org_type_code == 1029 || $org_type_code == 1051){
     $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
-    
+
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
-    
+
     if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
@@ -44,54 +44,18 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php // include_once 'include/header/header_ga.inc.php'; ?>
-        
-        <!--<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>-->
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-
-        <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
-
-        <script src="library/dataTables-1.9.4/media/js/jquery.dataTables.min.js"></script>
-        <script src="library/dataTables-1.9.4/media/js/paging.js"></script>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
         <script>
             $.fn.editable.defaults.mode = 'inline';
 
             var org_code = <?php echo "$org_code"; ?>;
             var designation = "";
-            
-            
+
+
 //            $(function() {
 //                $('#match_staff a.text-input').editable({
 //                    type: 'text',
@@ -118,7 +82,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
 //                "sSortable": "header"
 //            });
 
-            
+
         </script>
     </head>
 
@@ -138,7 +102,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li class="active">
-                                <a href="./index.html">Home</a>                                
+                                <a href="./index.html">Home</a>
                             </li>
                             <li class="">
                                 <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>
@@ -166,9 +130,9 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php 
+                        <?php
                         $active_menu = "match_employee";
-                        include_once 'include/left_menu.php'; 
+                        include_once 'include/left_menu.php';
                         ?>
                     </ul>
                 </div>
@@ -200,7 +164,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                 <tr>
                                     <th>Staff Name</th>
                                     <th>Father's Name</th>
-                                    <th>Dept</th>                                    
+                                    <th>Dept</th>
                                     <th>Designation(Old System)</th>
                                     <!--<th>Pay scale</th>-->
                                     <!--<th>Class</th>-->
@@ -214,7 +178,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                     <tr>
                                         <td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>"><?php echo $data['staff_name']; ?></a></td>
                                         <td><?php echo $data['father_name']; ?></td>
-                                        <td><?php echo getDeptNameFromId($data['department_id']); ?></td>                                        
+                                        <td><?php echo getDeptNameFromId($data['department_id']); ?></td>
                                         <?php
                                         $designation_info = getDesignationInfoFromCode($data['designation_id']);
                                         ?>
@@ -223,12 +187,12 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                         <!--<td><?php echo $designation_info['class']; ?></td>-->
                                         <!--<td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>"><?php echo $data['staff_id']; ?></a></td>-->
                                         <!--<td><a href="#" data-name="sanctioned_post_id" data-type="text" data-pk='<?php echo $data['staff_id']; ?>' class="text-input"><?php echo $data['sanctioned_post_id']; ?></a></td>-->
-                                        
+
                                         <td>
-                                            <?php 
-                                            if ($data['sp_id_2'] > 0) : 
+                                            <?php
+                                            if ($data['sp_id_2'] > 0) :
                                                 echo getDesignationNameFormSanctionedPostId($data['sp_id_2']) . "(" . $data['sp_id_2'] . ")" ;
-                                            else: 
+                                            else:
                                                 ?>
                                             <a href="#" class="" id="sp_id-<?php echo $data['staff_id']; ?>" ><?php echo $data['sp_id_2']; ?></a>
                                             <script type="text/javascript">
@@ -257,67 +221,12 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                 <?php endwhile; ?>
                             </tbody>
                         </table>
-                    </section>                    
+                    </section>
                 </div>
             </div>
-
         </div>
-
-
-
         <!-- Footer
         ================================================== -->
         <?php include_once 'include/footer/footer_menu.inc.php'; ?>
-
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-<!--        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-
-        <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
-
-        <script src="library/dataTables-1.9.4/media/js/jquery.dataTables.min.js"></script>
-        <script src="library/dataTables-1.9.4/media/js/paging.js"></script>
-        <script>
-            $.fn.editable.defaults.mode = 'inline';
-
-            var org_code = <?php echo "$org_code"; ?>;
-            $(function() {
-                $('#match_staff a.text-input').editable({
-                    type: 'text',
-                    url: 'post/post_match_staff.php',
-                    params: function(params) {
-                        params.org_code = org_code;
-                        return params;
-                    }
-                });
-            });
-
-            /* Table initialisation */
-            $(document).ready(function() {
-                $('#staff_list').dataTable({
-                    "sDom": "<'row'<'span5'l><'span4'f>r>t<'row'<'span4'i><'span5'p>>",
-                    "sPaginationType": "bootstrap"
-                });
-            });
-
-            $.extend($.fn.dataTableExt.oStdClasses, {
-                "sWrapper": "dataTables_wrapper form-inline",
-                "sSortAsc": "header headerSortDown",
-                "sSortDesc": "header headerSortUp",
-                "sSortable": "header"
-            });
-
-            
-        </script>-->
     </body>
 </html>

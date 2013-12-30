@@ -87,7 +87,7 @@ if (!$userCanEdit && $staff_profile_exists) {
     $data = getStaffInfoFromStaffId($staff_id);
 } else if ($action == "new" && $userCanEdit) {
     if ($sanctioned_post_id != "") {
-        
+
     }
     $display_mode = "new";
 }
@@ -116,54 +116,13 @@ if (isset($_POST ['search'])) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css"
-              rel="stylesheet">
-        <link href="library/bootstrap-editable/css/bootstrap-editable.css"
-              rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css"
-              rel="stylesheet">
-
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-                  <script src="assets/js/html5shiv.js"></script>
-                <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144"
-              href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114"
-              href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72"
-              href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed"
-              href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
-        <style>
-            .warning {
-                color: red;
-            }
-
-            .error {
-                font-size: 12px;
-                color: red;
-            }
-        </style>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
+        <link href="assets/css/employee.css" rel="stylesheet"/>
     </head>
-
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
 
         <!-- Top navigation bar
@@ -359,7 +318,7 @@ if (isset($_POST ['search'])) {
                     <td width="50%"><strong>Pay Scale of Current Designation</strong></td>
                     <td><?php echo $data['pay_scale_of_current_designation']; ?></td>
                 </tr>
-                
+
                 <tr>
                     <td width="50%"><strong>Current Basic Pay (Tk.):</strong></td>
                     <td><?php echo $data['current_basic_pay_taka']; ?></td>
@@ -386,7 +345,7 @@ if (isset($_POST ['search'])) {
                                         <tr>
                                             <td width="50%"><strong>Education Qualification</strong></td>
                                             <!--type_of_educational_qualification-->
-                                            <td><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);                    ?></td>
+                                            <td><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);                      ?></td>
                                         </tr>
 
                                         <script>
@@ -426,7 +385,7 @@ if (isset($_POST ['search'])) {
                     <td width="50%"><strong>Posting Status</strong></td>
                     <td></td>
                 </tr>
-              
+
                 <tr>
                     <td width="50%"><strong>Staff Local ID</strong></td>
                     <td><a href="#" class="text-input" data-type="text" id="staff_local_id"><?php echo $data['staff_local_id']; ?></a></td>
@@ -611,7 +570,7 @@ if (isset($_POST ['search'])) {
                                             <td width="50%"><strong>Education Qualification</strong></td>
                                             <!--type_of_educational_qualification-->
                                             <td><a href="#" id="type_of_educational_qualification"
-                                                   name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);                    ?></a></td>
+                                                   name="type_of_educational_qualification"><?php //  echo getEducationalQualification($data['type_of_educational_qualification']);                      ?></a></td>
                                         </tr>
 
                                         <script>
@@ -649,7 +608,7 @@ if (isset($_POST ['search'])) {
                     <td width="50%"><strong>Posting Status</strong></td>
                     <td></td>
                 </tr>
-              
+
                 <tr>
                     <td width="50%"><strong>Staff Local ID</strong></td>
                     <td><a href="#" class="text-input" data-type="text" id="staff_local_id"><?php echo $data['staff_local_id']; ?></a></td>
@@ -821,7 +780,7 @@ if (isset($_POST ['search'])) {
                    <tr>
                     <td width="50%"><strong>Date of Birth</strong></td>
                     <td>
-                         
+
                         <input type="text" id="date_of_birth" name="date_of_birth" >
                     </td>
                 </tr>
@@ -1161,7 +1120,7 @@ if (isset($_POST ['search'])) {
                                                     <td> <?php
                                                         $sql = "SELECT staff_govt_quater.govt_quater,staff_govt_quater.govt_quater_id FROM staff_govt_quater";
                                                         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getSalaryDrawTypeNameFromID:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                                        ?>  
+                                                        ?>
                                                         <select
                                                             id="staff_govt_quarter" name="staff_govt_quarter">
 
@@ -1199,175 +1158,145 @@ if (isset($_POST ['search'])) {
                                 <?php endif; ?>
                             </div>
                         </div>
-
                     </section>
-
                 </div>
             </div>
-
         </div>
-
-
-
         <!-- Footer
         ================================================== -->
         <?php include_once 'include/footer/footer_menu.inc.php'; ?>
-
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <script type="text/javascript"
-        src="http://platform.twitter.com/widgets.js"></script>
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-
-
-        <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
-
-        <link href="assets/css/datepicker.css" rel="stylesheet">
-        <script src="assets/js/bootstrap-datepicker.js"></script>
-
         <script>
+            $('.date-data').datepicker({
+                format: 'yyyy-mm-dd'
+            });
 
-                                        $('.date-data').datepicker({
-                                            format: 'yyyy-mm-dd'
-                                        });
+            $(document).ready(function() {
+                $.validator.addMethod("dob", function() {
 
+                    var checkdate = $("#birth_date").val();
+                    if (checkdate.length > 0) {
+                        var rawmonth = checkdate.substr(5, 2);
+                        var rawday = checkdate.substr(8, 2);
+                        var rawyear = checkdate.substr(0, 4);
+                        var age = 14;
+                        var mydate = new Date();
+                        mydate.setFullYear(rawyear, rawmonth - 1, rawday);
 
-                                        $(document).ready(function() {
+                        var currdate = new Date();
+                        currdate.setFullYear(currdate.getFullYear() - age);
 
-                                            $.validator.addMethod("dob", function() {
+                        return currdate >= mydate;
 
-                                                var checkdate = $("#birth_date").val();
-                                                if (checkdate.length > 0) {
-                                                    var rawmonth = checkdate.substr(5, 2);
-                                                    var rawday = checkdate.substr(8, 2);
-                                                    var rawyear = checkdate.substr(0, 4);
-                                                    var age = 14;
-                                                    var mydate = new Date();
-                                                    mydate.setFullYear(rawyear, rawmonth - 1, rawday);
+                    }
+                    return true;
 
-                                                    var currdate = new Date();
-                                                    currdate.setFullYear(currdate.getFullYear() - age);
+                }, "You must be at least 14 years of age.");
 
-                                                    return currdate >= mydate;
+                $.validator.addMethod("max", function() {
 
-                                                }
-                                                return true;
+                    var checkdate = $("#birth_date").val();
+                    if (checkdate.length > 0) {
+                        var rawmonth = checkdate.substr(5, 2);
+                        var rawday = checkdate.substr(8, 2);
+                        var rawyear = checkdate.substr(0, 4);
+                        var age = 70;
+                        var mydate = new Date();
+                        mydate.setFullYear(rawyear, rawmonth - 1, rawday);
 
-                                            }, "You must be at least 14 years of age.");
+                        var currdate = new Date();
+                        currdate.setFullYear(currdate.getFullYear() - age);
 
-                                            $.validator.addMethod("max", function() {
+                        return currdate < mydate;
 
-                                                var checkdate = $("#birth_date").val();
-                                                if (checkdate.length > 0) {
-                                                    var rawmonth = checkdate.substr(5, 2);
-                                                    var rawday = checkdate.substr(8, 2);
-                                                    var rawyear = checkdate.substr(0, 4);
-                                                    var age = 70;
-                                                    var mydate = new Date();
-                                                    mydate.setFullYear(rawyear, rawmonth - 1, rawday);
+                    }
+                    return true;
 
-                                                    var currdate = new Date();
-                                                    currdate.setFullYear(currdate.getFullYear() - age);
-
-                                                    return currdate < mydate;
-
-                                                }
-                                                return true;
-
-                                            }, "You must not elder than 70 years of age.");
+                }, "You must not elder than 70 years of age.");
 
 
-                                            $.validator.addMethod("doj", function() {
+                $.validator.addMethod("doj", function() {
 
-                                                var checkdate = $("#birth_date").val();
-                                                if (checkdate.length > 0) {
-                                                    var rawmonth = checkdate.substr(5, 2);
-                                                    var rawday = checkdate.substr(8, 2);
-                                                    var rawyear = checkdate.substr(0, 4);
-                                                    var mydate = new Date();
-                                                    mydate.setFullYear(rawyear, rawmonth - 1, rawday);
+                    var checkdate = $("#birth_date").val();
+                    if (checkdate.length > 0) {
+                        var rawmonth = checkdate.substr(5, 2);
+                        var rawday = checkdate.substr(8, 2);
+                        var rawyear = checkdate.substr(0, 4);
+                        var mydate = new Date();
+                        mydate.setFullYear(rawyear, rawmonth - 1, rawday);
 
 
-                                                    var tdate = $("#date_of_joining_to_govt_service").val();
-                                                    var rmonth = tdate.substr(5, 2);
-                                                    var rday = tdate.substr(8, 2);
-                                                    var ryear = tdate.substr(0, 4);
-                                                    var jdate = new Date();
-                                                    jdate.setFullYear(ryear - 14, rmonth - 1, rday);
+                        var tdate = $("#date_of_joining_to_govt_service").val();
+                        var rmonth = tdate.substr(5, 2);
+                        var rday = tdate.substr(8, 2);
+                        var ryear = tdate.substr(0, 4);
+                        var jdate = new Date();
+                        jdate.setFullYear(ryear - 14, rmonth - 1, rday);
 
-                                                    return jdate >= mydate;
-                                                }
-                                                return true;
+                        return jdate >= mydate;
+                    }
+                    return true;
 
-                                            }, "joining date atleast 14 years of age.");
+                }, "joining date atleast 14 years of age.");
 
-                                            $.validator.addMethod("doj_current_place", function() {
-                                                var doj_cur_pla = $("#date_of_joining_to_current_place").val();
-                                                var checkdate = $("#date_of_joining_to_govt_service").val();
-                                                if (checkdate.length > 0) {
-                                                    return doj_cur_pla >= checkdate;
-                                                }
-                                                return true;
+                $.validator.addMethod("doj_current_place", function() {
+                    var doj_cur_pla = $("#date_of_joining_to_current_place").val();
+                    var checkdate = $("#date_of_joining_to_govt_service").val();
+                    if (checkdate.length > 0) {
+                        return doj_cur_pla >= checkdate;
+                    }
+                    return true;
 
-                                            }, "Error");
+                }, "Error");
 
-                                            $.validator.addMethod("doj_current_designation", function() {
-                                                var doj_cur_des = $("#date_of_joining_to_current_designation").val();
-                                                var checkdate = $("#date_of_joining_to_current_place").val();
-                                                if (checkdate.length > 0) {
-                                                    return doj_cur_des >= checkdate;
-                                                }
-                                                return true;
-                                            }, "Error");
+                $.validator.addMethod("doj_current_designation", function() {
+                    var doj_cur_des = $("#date_of_joining_to_current_designation").val();
+                    var checkdate = $("#date_of_joining_to_current_place").val();
+                    if (checkdate.length > 0) {
+                        return doj_cur_des >= checkdate;
+                    }
+                    return true;
+                }, "Error");
 
-                                            $("#new_employee").validate({
-                                                rules: {
-                                                    staff_name: "required",
-                                                    birth_date: {
-                                                        dob: true,
-                                                        max: true,
-                                                        required: false},
-                                                    contact_no: {
-                                                        required: true,
-                                                        number: true
-                                                    },
-                                                    email_address1: {
-                                                        email: true
-                                                    },
-                                                    current_basic_pay_tk: {number: true},
-                                                    date_of_joining_to_govt_service: {doj: true},
-                                                    date_of_joining_to_current_place: {doj_current_place: true},
-                                                    date_of_joining_to_current_designation: {doj_current_designation: true}
-                                                },
-                                                messages: {
-                                                    staff_name: "You must type the name",
-                                                    birth_date: {dob: "Current age should be between 14 and 70 years !",
-                                                        max: "Current age should be between 14 and 70 years !"
-                                                    },
-                                                    contact_no: {
-                                                        required: "You must type contact number",
-                                                        number: "Please write only numbers (0 - 9)!"
-                                                    },
-                                                    email_address1: {
-                                                        email: "Please write a valid email address"
-                                                    },
-                                                    current_basic_pay_tk: {number: "Please write only numbers (0 - 9)!"},
-                                                    date_of_joining_to_govt_service: {doj: "Joining age should be minium 14"},
-                                                    date_of_joining_to_current_place: {doj_current_place: "Date Of Joining to Current Place age should Greater than Joining in Govt. Health Service"},
-                                                    date_of_joining_to_current_designation: {doj_current_designation: "Date Of Joining to Current Designation should Greater than Date Of Joining to Current Place"}
-                                                }
+                $("#new_employee").validate({
+                    rules: {
+                        staff_name: "required",
+                        birth_date: {
+                            dob: true,
+                            max: true,
+                            required: false},
+                        contact_no: {
+                            required: true,
+                            number: true
+                        },
+                        email_address1: {
+                            email: true
+                        },
+                        current_basic_pay_tk: {number: true},
+                        date_of_joining_to_govt_service: {doj: true},
+                        date_of_joining_to_current_place: {doj_current_place: true},
+                        date_of_joining_to_current_designation: {doj_current_designation: true}
+                    },
+                    messages: {
+                        staff_name: "You must type the name",
+                        birth_date: {dob: "Current age should be between 14 and 70 years !",
+                            max: "Current age should be between 14 and 70 years !"
+                        },
+                        contact_no: {
+                            required: "You must type contact number",
+                            number: "Please write only numbers (0 - 9)!"
+                        },
+                        email_address1: {
+                            email: "Please write a valid email address"
+                        },
+                        current_basic_pay_tk: {number: "Please write only numbers (0 - 9)!"},
+                        date_of_joining_to_govt_service: {doj: "Joining age should be minium 14"},
+                        date_of_joining_to_current_place: {doj_current_place: "Date Of Joining to Current Place age should Greater than Joining in Govt. Health Service"},
+                        date_of_joining_to_current_designation: {doj_current_designation: "Date Of Joining to Current Designation should Greater than Date Of Joining to Current Place"}
+                    }
 
-                                            });
+                });
 
-                                        });
+            });
 
         </script>
         <script>
@@ -1472,8 +1401,5 @@ if (isset($_POST ['search'])) {
 
 
         </script>
-        <script src="assets/js/common.js"></script>
-
-        <script src="assets/jquery Validation/dist/jquery.validate.js"></script>
     </body>
 </html>

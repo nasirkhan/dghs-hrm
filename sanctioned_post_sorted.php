@@ -23,16 +23,16 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 
 /**
  * Reassign org_code and enable edit permission for Upazila and below
- * 
- * Upazila users can edit the organizations under that UHC. 
+ *
+ * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){  
+if ($org_type_code == 1029 || $org_type_code == 1051){
     $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
-    
+
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
-    
+
     if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
@@ -47,37 +47,12 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
+
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="Nasir Khan Saikat(nasir8891@gmail.com)">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
-
-
-
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -106,9 +81,9 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                         <?php if ($_SESSION['user_type'] == "admin"): ?>
                             <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
                             <?php endif; ?>
-                        <?php 
+                        <?php
                         $active_menu = "sanctioned_post_sorted";
-                        include_once 'include/left_menu.php'; 
+                        include_once 'include/left_menu.php';
                         ?>
                     </ul>
                 </div>
@@ -120,24 +95,24 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                             <a class="btn" href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-group"></i> Sanctioned Post</a>
                             <a class="btn"href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-sitemap"></i> Tree View</a>
                         </div>
-                            
+
                         <div class="row">
                             <div class="span9">
                                 <table class="table table-striped table-hover">
                                     <thead>
                                         <!--
                                         <tr>
-                                            <th>Sanctioned Post</th>  
+                                            <th>Sanctioned Post</th>
                                             <th><a href='sanctioned_post_print.php?org_code=<?php echo $org_code;?>'>Print</a></th>
 
 
                                         </tr>
-                                        --> 
+                                        -->
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $sql = "SELECT id, designation, discipline, COUNT(*) AS sp_count 
-                                            FROM total_manpower_imported_sanctioned_post_copy 
+                                        $sql = "SELECT id, designation, discipline, COUNT(*) AS sp_count
+                                            FROM total_manpower_imported_sanctioned_post_copy
                                             WHERE org_code = $org_code
                                             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                             GROUP BY designation";
@@ -327,30 +302,8 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
             </div>
 
         </div> <!-- /container -->
-
-
-        <!--        <div>
-                    <pre>
-        
-                    </pre>
-                </div>-->
         <!-- Footer
         ================================================== -->
         <?php include_once 'include/footer/footer_menu.inc.php'; ?>
-
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-
     </body>
 </html>

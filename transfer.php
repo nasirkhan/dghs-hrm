@@ -17,7 +17,7 @@ $echoAdminInfo = "";
 if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $org_code = (int) mysql_real_escape_string($_GET['org_code']);
     $org_name = getOrgNameFormOrgCode($org_code);
-    $org_type_name = getOrgTypeNameFormOrgCode($org_code);    
+    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
 }
 if ($_SESSION['user_type'] == "admin"){
     $echoAdminInfo = " | Administrator";
@@ -25,16 +25,16 @@ if ($_SESSION['user_type'] == "admin"){
 }
 /**
  * Reassign org_code and enable edit permission for Upazila and below
- * 
- * Upazila users can edit the organizations under that UHC. 
+ *
+ * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){  
+if ($org_type_code == 1029 || $org_type_code == 1051){
     $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
-    
+
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
-    
+
     if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
@@ -52,32 +52,11 @@ $seach_type = mysql_real_escape_string($_GET['type']);
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- favicon and touch icons -->
-        <?php include_once 'include/header/header_icon.inc.php'; ?>
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
-
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -106,13 +85,13 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                         <?php if ($isAdmin): ?>
                         <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
                         <?php endif; ?>
-                            
+
                         <li class="active"><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
-                        
+
                         <?php if ($isAdmin): ?>
                         <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
                         <?php endif; ?>
-                            
+
                         <?php if (!$isAdmin): ?>
                         <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
                         <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
@@ -122,7 +101,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                         <?php if ($isAdmin): ?>
                         <li><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-random"></i> Transfer Approval</a></li>
                         <?php endif; ?>
-                        
+
                         <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
                         <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
                     </ul>
@@ -131,14 +110,14 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                     <!-- Search main div
                     ================================================== -->
                     <section id="search_main">
-                        
+
                         <!-- search options -->
                         <?php if ($seach_type == ""): ?>
                         <div id="search_options">
                             <div class="row-fluid">
                                 <h2> Transfer</h2>
                                 <table class="table table-bordered table-hover">
-                                    
+
                                     <tbody>
                                         <tr>
                                             <td>
@@ -148,7 +127,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                             </td>
                                             <td>Search an organization using the organization name organization code, organization type or find it form the administrative divisions.</td>
                                         </tr>
-                                        
+
                                         <tr>
                                             <td>
                                                 <a href="search.php?type=staff" class="btn btn-large btn-info">
@@ -156,13 +135,13 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                 </a>
                                             </td>
                                             <td>Find an individual staff from an organization, search by his name or staff id.</td>
-                                        </tr>                                                                                
+                                        </tr>
                                     </tbody>
-                                </table>                            
+                                </table>
                             </div>
                         </div>
                         <?php endif; ?> <!-- /search options -->
-                        
+
                         <!-- search organization -->
                         <?php if ($seach_type == "org"): ?>
                         <h3>Search Organization</h3>
@@ -179,7 +158,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                     <button id="btn_reset" class="btn" type="button">Reset</button>
                                                 </div>
                                             </div>
-                                        </div>                            
+                                        </div>
                                     </div>
                                     <!-- Search Organization by administrative location -->
                                     <div class="row-fluid">
@@ -205,7 +184,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                         ?>
                                                     </select>
                                                 </div>
-                                                
+
                                                 <div class="control-group">
                                                     <select id="admin_division" name="admin_division">
                                                         <option value="0">Select Division</option>
@@ -222,14 +201,14 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                         ?>
                                                     </select>
                                                     <select id="admin_district" name="admin_district">
-                                                        <option value="0">Select District</option>                                        
+                                                        <option value="0">Select District</option>
                                                     </select>
                                                     <select id="admin_upazila" name="admin_upazila">
-                                                        <option value="0">Select Upazila</option>                                        
+                                                        <option value="0">Select Upazila</option>
                                                     </select>
                                                 </div>
 
-                                                <div class="control-group">                                                    
+                                                <div class="control-group">
 
                                                     <select id="org_type" name="org_type">
                                                         <option value="0">Select Org Type</option>
@@ -250,10 +229,10 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                     </select>
                                                     <!--
                                                         <select id="org_list" name="org_list">
-                                                            <option value="0">Select Organization</option>                                        
+                                                            <option value="0">Select Organization</option>
                                                         </select>
                                                         <select id="sanctioned_post" name="org_list">
-                                                            <option value="0">Select Designation</option>                                        
+                                                            <option value="0">Select Designation</option>
                                                         </select>
                                                     -->
                                                 </div>
@@ -262,7 +241,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                     <button id="btn_show_org_list" type="button" class="btn btn-info">Show Organization(s) List</button>
 
                                                     <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
-                                                </div>                                        
+                                                </div>
                                             </div>
                                             <div id="org_list_display"></div>
                                         </div>
@@ -271,7 +250,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                 </div> <!-- /search_org -->
                             </div>
 
-                        <?php endif; ?>                        
+                        <?php endif; ?>
                         <!-- search staff -->
                         <?php if ($seach_type == "staff"): ?>
                         <h3>Search Staff</h3>
@@ -309,9 +288,9 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                 <button id="btn_reset" class="btn" type="button">Reset</button>
                                             </div>
                                         </div>
-                                        
+
                                         <div id="staff_list_display"></div>
-                                    </div>                            
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -329,22 +308,6 @@ $seach_type = mysql_real_escape_string($_GET['type']);
         <!-- Footer
         ================================================== -->
         <?php include_once 'include/footer/footer_menu.inc.php'; ?>
-
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-
-        <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
-
         <script type="text/javascript">
             // load division
             $('#admin_division').change(function() {
@@ -368,7 +331,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 });
             });
 
-            // load district 
+            // load district
             $('#admin_district').change(function() {
                 var dis_id = $('#admin_district').val();
                 $("#loading_content").show();
@@ -390,7 +353,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 });
             });
 
-            // load organization 
+            // load organization
             $('#btn_show_org_list').click(function() {
                 var div_id = $('#admin_division').val();
                 var dis_id = $('#admin_district').val();
@@ -417,7 +380,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 });
             });
 
-            // Search organization 
+            // Search organization
             $('#btn_search_org').click(function() {
                 $("#loading_content").show();
                 var searchOrg = $('#searchOrg').val();
@@ -432,7 +395,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                     }
                 });
             });
-            
+
             // Search user
             $('#btn_search_user_name').click(function() {
                 $("#loading_content").show();
@@ -448,7 +411,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                     }
                 });
             });
-            
+
             // Search staff
             $('#btn_search_staff').click(function() {
                 $("#loading_content").show();
@@ -465,7 +428,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                     }
                 });
             });
-            
+
             // Search user by org
             $('#btn_user_search_org').click(function() {
                 $("#loading_content").show();

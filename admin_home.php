@@ -25,7 +25,7 @@ if ($org_code == "") {
     $org_code = "99999999";
 }
 
-// admin check 
+// admin check
 if ($_SESSION['user_type'] != "admin") {
     header("location:home.php?org_code=$org_code");
 }
@@ -33,33 +33,11 @@ if ($_SESSION['user_type'] != "admin") {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="Nasir Khan Saikat">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -88,7 +66,7 @@ if ($_SESSION['user_type'] != "admin") {
                         <li class="active"><a href="admin_home.php"><i class="icon-home"></i> Admin Homepage</a>
                         <li><a href="search.php?type=org"><i class="icon-search"></i> Search</a></li>
                         <li><a href="add_new.php"><i class="icon-plus"></i> Add New</a>
-                            
+
                         <li class="dropdown-submenu">
                             <a tabindex="-1" href="#">More options</a>
                             <ul class="dropdown-menu">
@@ -109,7 +87,7 @@ if ($_SESSION['user_type'] != "admin") {
                     <section id="admin_home_main">
                         <h3>Admin Dashboard</h3>
 
-                        <div class="row-fluid"> 
+                        <div class="row-fluid">
 
                             <a href="search.php" class="btn btn-large btn-warning">
                                 <i class="icon-search pull-left icon-3x"></i> Search
@@ -126,56 +104,42 @@ if ($_SESSION['user_type'] != "admin") {
                             <a href="delete.php" class="btn btn-danger btn-large">
                                 <i class="icon-trash pull-left icon-3x"></i> Delete
                             </a>
-                            
+
                             <a href="update_sanctioned_post.php" class="btn btn-large">
                                 <i class="icon-group pull-left icon-3x"></i> Update sanctioned Post
                             </a>
-                           
-                            <a href="admin_edit_org.php" class="btn btn-large">
-                                 <?php
-                                    $sql = "SELECT * FROM `organization_requested` WHERE active LIKE 1;";
-                                    $new_org_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                                    $new_org_result_count = mysql_num_rows($new_org_result);
+                            <a href="admin_edit_org.php" class="btn btn-large">
+                                <?php
+                                $sql = "SELECT * FROM `organization_requested` WHERE active LIKE 1;";
+                                $new_org_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                $new_org_result_count = mysql_num_rows($new_org_result);
                                 ?>
-                                <i class="icon-hospital pull-left icon-3x"></i> 
+                                <i class="icon-hospital pull-left icon-3x"></i>
                                 Org Approval Queue
                                 <?php if ($new_org_result_count > 0): ?>
-                                <br />
-                                <span class="badge badge-warning">Total <?php echo "$new_org_result_count"; ?> pending</span>
+                                    <br />
+                                    <span class="badge badge-warning">Total <?php echo "$new_org_result_count"; ?> pending</span>
                                 <?php endif; ?>
-                                
+
                             </a>
 
                         </div>
 
-                        
 
-                    </section> <!-- /admin_home_main -->                   
+
+                    </section> <!-- /admin_home_main -->
                 </div>
             </div>
 
         </div>
-
-
-
         <!-- Footer
         ================================================== -->
         <?php include_once 'include/footer/footer.inc.php'; ?>
-
-
-
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-
         <script type="text/javascript">
             // load division
             $('#admin_division').change(function() {
@@ -199,7 +163,7 @@ if ($_SESSION['user_type'] != "admin") {
                 });
             });
 
-            // load district 
+            // load district
             $('#admin_district').change(function() {
                 var dis_id = $('#admin_district').val();
                 $("#loading_content").show();
@@ -221,7 +185,7 @@ if ($_SESSION['user_type'] != "admin") {
                 });
             });
 
-            // load organization 
+            // load organization
             $('#btn_show_org_list').click(function() {
                 var div_id = $('#admin_division').val();
                 var dis_id = $('#admin_district').val();
@@ -248,7 +212,7 @@ if ($_SESSION['user_type'] != "admin") {
                 });
             });
 
-            // Search organization 
+            // Search organization
             $('#btn_search_org').click(function() {
                 $("#loading_content").show();
                 var searchOrg = $('#searchOrg').val();

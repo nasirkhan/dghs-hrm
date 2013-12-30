@@ -22,8 +22,8 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 }
 /**
  * Reassign org_code and enable edit permission for Upazila and below
- * 
- * Upazila users can edit the organizations under that UHC. 
+ *
+ * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
 if ($org_type_code == 1029 || $org_type_code == 1051) {
@@ -54,7 +54,7 @@ if ($_POST['changePassword'] == 'true') {
     $inputNewPassword = mysql_real_escape_string(trim($_POST['inputNewPassword']));
     $inputNewPassword2 = mysql_real_escape_string(trim($_POST['inputNewPassword2']));
     $inputOldPassword = mysql_real_escape_string(trim($_POST['inputOldPassword']));
-    
+
 //    $inputOldPassword = $_POST['inputOldPassword'];
 //    $inputNewPassword = $_POST['inputNewPassword'];
 //    $inputNewPassword2 = $_POST['inputNewPassword2'];
@@ -66,7 +66,7 @@ if ($_POST['changePassword'] == 'true') {
         $newPassMatched = FALSE;
     }
 
-//  check if old passwprd is correc    
+//  check if old passwprd is correc
     $oldPasswordCorrect = checkPasswordIsCorrect($username, $inputOldPassword);
 
 // update new password
@@ -78,12 +78,12 @@ if ($_POST['changePassword'] == 'true') {
 
 /**
  * *****************************************************************************
- * 
+ *
  * submitted by admin
- * 
+ *
  * *****************************************************************************
  */
-// 
+//
 if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true')) {
     // Password Change request
     $inputNewPassword = mysql_real_escape_string(trim($_POST['inputNewPassword']));
@@ -94,7 +94,7 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
     $user_id = mysql_real_escape_string(trim($_POST['user_id']));
     $user_org_code = mysql_real_escape_string(trim($_POST['user_org_code']));
 
-    
+
     // update user table
     $sql = "UPDATE `user` SET "
             . "`username`= '$user_username',"
@@ -114,7 +114,7 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
 
     $to = "$user_username";
     $password = $user_password;
-    
+
     $headers = 'MIME-Version: 1.0' . "\r\n";
     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
     $headers .= "To: $to \r\n";
@@ -123,7 +123,7 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
     $message = "Your password has been changed. ";
     $message .= "Your new password is " . $password;
     mail($to, $subject, $message, $headers);
-    
+
     // load the same page
     header("location:settings.php?org_code=$user_org_code");
 }
@@ -131,29 +131,11 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">        
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <?php include_once 'include/header/header_icon.inc.php'; ?>
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -178,18 +160,18 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
             ================================================== -->
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
-                    <ul class="nav nav-list bs-docs-sidenav">  
+                    <ul class="nav nav-list bs-docs-sidenav">
                         <?php if ($_SESSION['user_type'] == "admin"): ?>
                             <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
                             <?php endif; ?>
                             <?php
                             $active_menu = "settings";
                             include_once 'include/left_menu.php';
-                            ?>    
+                            ?>
                     </ul>
                 </div>
                 <div class="span9">
-                    <!-- main 
+                    <!-- main
                     ================================================== -->
                     <section id="user_settings">
 
@@ -199,10 +181,10 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
                                     <div class="">
                                         <div class="alert alert-block alert-Warnign">
                                             <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                            <p class="lead"><strong>Warning!</strong><br /> 
+                                            <p class="lead"><strong>Warning!</strong><br />
                                                 You have to write the "New Password" twice.<br />
                                                 But unfortunately you have entered two different words in two input fields.<br />
-                                                Please try again. 
+                                                Please try again.
                                             </p>
                                         </div>
                                     </div>
@@ -212,7 +194,7 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
                                     <div class="">
                                         <div class="alert alert-block alert-success">
                                             <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                            <p class="lead"><strong>Congratulation!</strong><br /> 
+                                            <p class="lead"><strong>Congratulation!</strong><br />
                                                 Your password has been changed successfully.<br />
                                                 You have to use this new password from your next login.
                                             </p>
@@ -224,7 +206,7 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
                                     <div class="">
                                         <div class="alert alert-block alert-error">
                                             <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                            <p class="lead"><strong>Warning!</strong><br /> 
+                                            <p class="lead"><strong>Warning!</strong><br />
                                                 Your have entered a wrong "Old Password"<br />
                                                 Please try again with the accurate credential.
                                             </p>
@@ -245,18 +227,18 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
                                         <div class="control-group">
                                             <label class="control-label" for="username">Login username</label>
                                             <div class="controls">
-                                                <input type="text" id="user_username" name="user_username" value="<?php echo $user_username; ?>" class="input-xlarge " required=""> 
+                                                <input type="text" id="user_username" name="user_username" value="<?php echo $user_username; ?>" class="input-xlarge " required="">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label" for="inputPassword">New Password</label>
                                             <div class="controls">
-                                                <input type="password" id="inputNewPassword" name="inputNewPassword" placeholder="New Password" class="input-xlarge " required=""> 
+                                                <input type="password" id="inputNewPassword" name="inputNewPassword" placeholder="New Password" class="input-xlarge " required="">
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <div class="controls">   
-                                                <input type="hidden" id="changePassword" name="changePassword" value="admin_true"> 
+                                            <div class="controls">
+                                                <input type="hidden" id="changePassword" name="changePassword" value="admin_true">
                                                 <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id; ?>">
                                                 <input type="hidden" id="user_org_code" name="user_org_code" value="<?php echo $user_org_code; ?>">
                                                 <button type="submit" class="btn btn-success">Change Password</button>
@@ -275,24 +257,24 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
                                         <div class="control-group">
                                             <label class="control-label" for="inputPassword">Old Password</label>
                                             <div class="controls">
-                                                <input type="password" id="inputOldPassword" name="inputOldPassword" placeholder="Old Password" class="input-xlarge "> 
+                                                <input type="password" id="inputOldPassword" name="inputOldPassword" placeholder="Old Password" class="input-xlarge ">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label" for="inputPassword">New Password</label>
                                             <div class="controls">
-                                                <input type="password" id="inputNewPassword" name="inputNewPassword" placeholder="New Password" class="input-xlarge "> 
+                                                <input type="password" id="inputNewPassword" name="inputNewPassword" placeholder="New Password" class="input-xlarge ">
                                             </div>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label" for="inputPassword">New Password(Type again)</label>
                                             <div class="controls">
-                                                <input type="password" id="inputNewPassword2" name="inputNewPassword2" placeholder="New Password (Type again)" class="input-xlarge "> 
+                                                <input type="password" id="inputNewPassword2" name="inputNewPassword2" placeholder="New Password (Type again)" class="input-xlarge ">
                                             </div>
                                         </div>
                                         <div class="control-group">
-                                            <div class="controls">   
-                                                <input type="hidden" id="changePassword" name="changePassword" value="true"> 
+                                            <div class="controls">
+                                                <input type="hidden" id="changePassword" name="changePassword" value="true">
                                                 <button type="submit" class="btn btn-success">Change Password</button>
                                             </div>
                                         </div>
@@ -300,32 +282,12 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
                                 <?php endif; ?>
                             </div>
                         </div>
-
                     </section>
-
                 </div>
             </div>
-
         </div>
-
-
-
         <!-- Footer
         ================================================== -->
         <?php include_once 'include/footer/footer_menu.inc.php'; ?>
-
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
     </body>
 </html>

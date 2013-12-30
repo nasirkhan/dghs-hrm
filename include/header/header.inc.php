@@ -4,7 +4,7 @@
 include_once 'header_meta_info.inc.php';
 
 // css
-include_once 'header_css.inc.inc.php';
+include_once 'header_css.inc.php';
 
 // css
 include_once 'header_icons.inc.php';

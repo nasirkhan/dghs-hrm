@@ -25,8 +25,8 @@ if ($_SESSION['user_type'] == "admin") {
 }
 /**
  * Reassign org_code and enable edit permission for Upazila and below
- * 
- * Upazila users can edit the organizations under that UHC. 
+ *
+ * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
 if ($org_type_code == 1029 || $org_type_code == 1051) {
@@ -51,35 +51,12 @@ $seach_type = mysql_real_escape_string($_GET['type']);
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
-        <link href="library/bootstrap-multiselect-bootstrap-2-3/css/bootstrap-multiselect.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- favicon and touch icons -->
-        <?php include_once 'include/header/header_icon.inc.php'; ?>
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
-
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
-
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
 
         <!-- Top navigation bar
@@ -165,7 +142,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                 <td>Find an HRM organization user, search by username or organization name.</td>
                                             </tr>
                                         </tbody>
-                                    </table>                            
+                                    </table>
                                 </div>
                             </div>
                         <?php endif; ?> <!-- /search options -->
@@ -186,7 +163,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                     <button id="btn_reset" class="btn" type="button">Reset</button>
                                                 </div>
                                             </div>
-                                        </div>                            
+                                        </div>
                                     </div>
                                     <!-- Search Organization by administrative location -->
                                     <div class="row-fluid">
@@ -229,14 +206,14 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                         ?>
                                                     </select>
                                                     <select id="admin_district" name="admin_district">
-                                                        <option value="0">Select District</option>                                        
+                                                        <option value="0">Select District</option>
                                                     </select>
                                                     <select id="admin_upazila" name="admin_upazila">
-                                                        <option value="0">Select Upazila</option>                                        
+                                                        <option value="0">Select Upazila</option>
                                                     </select>
                                                 </div>
 
-                                                <div class="control-group">                                                    
+                                                <div class="control-group">
 
                                                     <select id="org_type" name="org_type[]" class="multiselect" multiple="multiple">
                                                         <?php
@@ -256,10 +233,10 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                     </select>
                                                     <!--
                                                         <select id="org_list" name="org_list">
-                                                            <option value="0">Select Organization</option>                                        
+                                                            <option value="0">Select Organization</option>
                                                         </select>
                                                         <select id="sanctioned_post" name="org_list">
-                                                            <option value="0">Select Designation</option>                                        
+                                                            <option value="0">Select Designation</option>
                                                         </select>
                                                     -->
                                                 </div>
@@ -268,7 +245,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                     <button id="btn_show_org_list" type="button" class="btn btn-info">Show Organization(s) List</button>
 
                                                     <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
-                                                </div>                                        
+                                                </div>
                                             </div>
                                             <div id="org_list_display"></div>
                                         </div>
@@ -304,7 +281,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                 </div>
                                             </div>
                                             <div id="user_list_display"></div>
-                                        </div>                            
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -317,7 +294,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                 <div id="staff_user_by_name" class="">
                                     <div class="row-fluid">
                                         <div class="span12 alert alert-info">
-                                            <!--                                        
+                                            <!--
                                             <div class="control-group">
                                                 <p class="lead">Search By Staff Name</p>
                                                 <div class="controls input-append">
@@ -351,7 +328,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                             </div>
 
                                             <div id="staff_list_display"></div>
-                                        </div>                            
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -370,21 +347,6 @@ $seach_type = mysql_real_escape_string($_GET['type']);
         ================================================== -->
         <?php include_once 'include/footer/footer_menu.inc.php'; ?>
 
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-
-        <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
-        <script src="library/bootstrap-multiselect-bootstrap-2-3/js/bootstrap-multiselect.js"></script>
         <script type="text/javascript">
             $('.multiselect').multiselect({
                 maxHeight: 200,
@@ -415,7 +377,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 });
             });
 
-            // load district 
+            // load district
             $('#admin_district').change(function() {
                 var dis_id = $('#admin_district').val();
                 $("#loading_content").show();
@@ -437,7 +399,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 });
             });
 
-            // load organization 
+            // load organization
             $('#btn_show_org_list').click(function() {
                 var div_id = $('#admin_division').val();
                 var dis_id = $('#admin_district').val();
@@ -464,7 +426,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 });
             });
 
-            // Search organization 
+            // Search organization
             $('#btn_search_org').click(function() {
                 $("#loading_content").show();
                 var searchOrg = $('#searchOrg').val();

@@ -18,99 +18,12 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Ministry of Health and Family Welfare HRM Application developed by Activation Ltd, http://activationltd.com">
-        <meta name="author" content="nasir khan saikat (nasir8891 AT gmail DOT com)">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <style type="text/css">
-            body {
-                padding-top: 40px;
-                padding-bottom: 40px;
-                background-color: #f5f5f5;
-                background-image:url(assets/img/hrm_login_background.jpg);
-
-            }
-            .form-signin {
-                max-width: 350px;
-                padding: 19px 29px 29px;
-                margin: 0 auto 20px;
-                background-color: #fff;
-                border: 1px solid #e5e5e5;
-                -webkit-box-shadow: 0px 0px 20px rgba(0, 0, 0, 1);
-                -moz-box-shadow:    0px 0px 20px rgba(0, 0, 0, 1);
-                box-shadow:         0px 0px 20px rgba(0, 0, 0, 1);
-                opacity: 0.95;
-
-            }
-            .form-signin .form-signin-heading,
-            .form-signin .checkbox {
-                margin-bottom: 10px;
-                font-size: 26px;
-                text-align: center;
-            }
-            .input-append, .input-prepend{
-                width: 90%;
-            }
-            .form-signin input[type="text"],
-            .form-signin input[type="password"] {
-                font-size: 16px;
-                height: auto;
-                margin-bottom: 15px;
-                padding: 9px 9px;
-            }
-            .input-append .add-on, .input-prepend .add-on{
-                height: 29px;
-            }
-            .contact{
-                margin-top: 5px;
-                color: #0077b3;
-            }
-            .login-error{
-                margin-top: 30px;
-            }
-
-            .mohfw{
-                font-family: Georgia, serif;
-            }
-
-            @media (min-width: 768px) and (max-width: 979px){
-                .container{
-                    width: 760px;
-                }
-            }
-            @media (max-width: 767px){
-                .container{
-                    width: 760px;
-                }
-            }
-            @media (max-width: 480px) {
-                .container{
-                    width: 300px;
-                }
-            }
-
-        </style>
-
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
+        <link href="assets/css/login.css" rel="stylesheet"/>
     </head>
     <body>
         <div class="container">
@@ -148,13 +61,6 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                     <div class="contact"><i class="icon-edit"></i> <a href="reset_password.php">Reset Password</a></div>
                 </div>
             </form>
-
         </div> <!-- /container -->
-
-        <!-- javascript
-        ================================================== -->
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
     </body>
 </html>

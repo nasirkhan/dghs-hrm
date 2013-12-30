@@ -26,37 +26,11 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php //echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="Nasir Khan Saikat(nasir8891@gmail.com)">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
-
-
-
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
 
     <body data-spy="scroll">
@@ -66,14 +40,14 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 
         <!-- Subhead
         ================================================== -->
-        
+
 
         <div class="container">
 
             <!-- nav
             ================================================== -->
             <div class="row">
-       
+
                 <div class="span9">
                     <!-- Sanctioned Post
                     ================================================== -->
@@ -84,11 +58,11 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                 <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th colspan="7">&nbsp;</th>  
+                                            <th colspan="7">&nbsp;</th>
 											<th><a href="" onclick="javascript:window.print()" >Print</a></th>
                                         </tr>
 										  <tr>
-                                            <th>Sanctioned Post</th>  
+                                            <th>Sanctioned Post</th>
 											<th> Type  of Post</th>
 											<th> Pay Scale</th>
 											<th> Job Class</th>
@@ -99,15 +73,15 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                     </thead>
                                     <tbody>
                                         <?php
-										
-                                        $sql = "SELECT id, designation, discipline,type_of_post,pay_scale,class,SUM(CASE WHEN staff_id != '0' THEN 1 ELSE 0 END) AS existing, COUNT(*) AS sp_count 
-                                            FROM total_manpower_imported_sanctioned_post_copy 
+
+                                        $sql = "SELECT id, designation, discipline,type_of_post,pay_scale,class,SUM(CASE WHEN staff_id != '0' THEN 1 ELSE 0 END) AS existing, COUNT(*) AS sp_count
+                                            FROM total_manpower_imported_sanctioned_post_copy
                                             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                             GROUP BY designation order by pay_scale asc";
-											
+
                                         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                         $cnt =0;
-                                     
+
                                         while ($sp_data = mysql_fetch_assoc($result)) {
                                             echo "<tr>";
                                             echo "<td>";
@@ -128,7 +102,7 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 											echo "<td>";
 								         echo $vacant=($sp_data['sp_count']-$sp_data['existing']);
 											echo "</td>";
-										
+
 											 echo "<td>";
 											 echo  $sp_data['sp_count'];
                                            echo "</td>";
@@ -142,10 +116,10 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                             echo "<div id=\"$designation_div_id\" class=\"collapse\">";
 //                                            echo "<strong>First Level Division:</strong> ABCD, <strong>Second Level Division:</strong> EFGH<br />";
                                             echo "<div class=\"clearfix alert alert-info\" id=\"list-$designation_div_id\">";
-                                            
+
 											?>
                                         <div id="loading-<?php echo $designation_div_id; ?>"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</div>
-                                       
+
                                         <?php
                                         echo "</div>";
                                         echo "</div>";
@@ -166,18 +140,18 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
                                                 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
                                             </div>
                                         </div>
-                                      
+
                                         <?php
                                         echo "</td>";
                                         echo "</tr>";
-										
+
 										 $total_existing+=$sp_data['existing'];
 										 $total_vacant+=$vacant;
 										 $total_sanction+=$sp_data['sp_count'];
-										
-										
+
+
                                     }
-									
+
 									echo "<tr>";
 									echo "<td colspan='4'>";
 									echo '<b>Total no of sanctioned post</b>';
@@ -192,51 +166,21 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
 									echo  $total_sanction;
 									echo "</td>";
 									echo "</tr>";
-									
+
 									//print_r($sp_data);
 									//echo $sp_data[0]['sp_count'];
 								    // $sp_count=mysql_fetch_array($result);
 									 //print_r($sp_count)
-							
+
 									 //echo $sp_count[0]['sp_count'];
                                     ?>
                                     </tbody>
-
                                 </table>
                             </div>
-
                         </div>
-
                     </section>
-
                 </div>
-
             </div>
-
-        </div> <!-- /container -->
-
-
-        <!--        <div>
-                    <pre>
-        
-                    </pre>
-                </div>-->
-        <!-- Footer
-        ================================================== -->
-        
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-        
+        </div>
     </body>
 </html>

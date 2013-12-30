@@ -40,7 +40,7 @@ if ($org_code == "") {
     $org_code = "99999999";
 }
 
-// admin check 
+// admin check
 if ($_SESSION['user_type'] != "admin") {
     header("location:home.php?org_code=$org_code");
 }
@@ -92,7 +92,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
 
         // UPDATE organizaion table
         $sql = "INSERT INTO `organization` (
-            `org_name`, 
+            `org_name`,
             `org_code`,
             `org_type_code`,
             `agency_code`,
@@ -111,7 +111,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
             `org_level_code`,
             `org_level_name`,
             `latitude`,
-            `longitude`) 
+            `longitude`)
         VALUES (
             \"$new_org_name\",
             '$new_org_code',
@@ -120,25 +120,25 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
             \"$new_established_year\",
              '$org_location_type',
             '$division_code',
-            '$division_name',    
+            '$division_name',
             '$district_code',
             '$district_name',
             '$upazila_code',
-            '$upazila_name',    
+            '$upazila_name',
             '$new_ownarship_info',
             '$new_org_email',
-            '$new_org_mobile',    
+            '$new_org_mobile',
             '$new_functions_code',
             '$new_org_level_code',
             '$new_org_level_name',
-            '$latitude',    
-            '$longitude'    
+            '$latitude',
+            '$longitude'
             )";
         $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:3<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
         /**
          * Email content
-         * 
+         *
          */
         $headers .= "From: MIS, DGHS <info@dghs.gov.bd>" . "\r\n";
         $subject = "[Org Registry] Request for \"$new_org_name\" has been Approved";
@@ -204,7 +204,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         $longitude = $data['longitude'];
         /**
          * Email content
-         * 
+         *
          */
         $headers .= "From: MIS, DGHS <info@dghs.gov.bd>" . "\r\n";
         $subject = "[Org Registry] Request for \"$new_org_name\" has been Rejected";
@@ -237,37 +237,11 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="Nasir Khan Saikat">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
-        <link href="library/dataTables-1.9.4/media/css/jquery.dataTables.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
-
-        <script src="assets/js/jquery.js"></script>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -296,9 +270,9 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                         <li class="active"><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
                         <li><a href="search.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
                         <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
-                            <!--                        
-                            
-                            
+                            <!--
+
+
                             <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
                             <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
                             <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
@@ -317,14 +291,14 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                         <?php if ($action == "approve"): ?>
                             <div class="alert">
                                 <p class="lead">
-                                    <strong><?php echo "$new_org_name"; ?></strong> has been approved and you can view the 
+                                    <strong><?php echo "$new_org_name"; ?></strong> has been approved and you can view the
                                     profile from the following URL <em><a href="org_profile.php?org_code=<?php echo "$new_org_code"; ?>">org_profile.php?org_code=<?php echo "$new_org_code"; ?></a></em>
                                 </p>
                             </div>
                         <?php endif; ?>
                         <?php
                         $id = (int) mysql_real_escape_string(trim($_GET['id']));
-                        // if there is an ID mentioned, the details of that ID will be displayed. 
+                        // if there is an ID mentioned, the details of that ID will be displayed.
 
                         if ($id > 0):
                             $sql = "SELECT * FROM `organization_requested` WHERE id=$id AND active LIKE 1;";
@@ -333,7 +307,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                             $new_org_result_count = mysql_num_rows($new_org_result);
 
                             $count = 0;
-                                ?>    
+                                ?>
                             <?php
                             if ($new_org_result_count > 0):
                                 $count++;
@@ -345,7 +319,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                             <thead>
                                                 <?php $data = mysql_fetch_assoc($new_org_result); ?>
                                                 <tr>
-                                                    <td width="40%"><strong>Submission Id</strong></td>                                                    
+                                                    <td width="40%"><strong>Submission Id</strong></td>
                                                     <td width="60%"><?php echo $data['id']; ?></td>
                                                 </tr>
                                             </thead>
@@ -381,23 +355,23 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                 <tr>
                                                     <td width="40%"><strong>Upazila</strong></td>
                                                     <td width="60%"><a href="#" class="" id="upazila_thana_code" ><?php echo getUpazilaThanaNamefromCode($data['upazila_thana_code'], $data['district_code']); ?></a></td>
-                                                </tr>  
+                                                </tr>
                                                 <tr>
                                                     <td width="40%"><strong>Ownarship</strong></td>
                                                     <td width="60%"><a href="#" class="" id="ownership_code" ><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></a></td>
-                                                </tr>  
+                                                </tr>
                                                 <tr>
                                                     <td width="40%"><strong>Organization Function</strong></td>
                                                     <td width="60%"><a href="#" class="" id="org_function_code" ><?php echo getOrgFunctionNameFromCode($data['org_function_code']); ?></a></td>
-                                                </tr>  
+                                                </tr>
                                                 <tr>
                                                     <td width="40%"><strong>Organization Level</strong></td>
                                                     <td width="60%"><a href="#" class="" id="org_level_code" ><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></a></td>
-                                                </tr>  
+                                                </tr>
                                                 <tr>
                                                     <td width="40%"><strong>Organization Email</strong></td>
                                                     <td width="60%"><a href="#" class="input-text" id="email_address1" ><?php echo $data['email_address1']; ?></a></td>
-                                                </tr>  
+                                                </tr>
                                                 <tr>
                                                     <td width="40%"><strong>Organization Contact Number</strong></td>
                                                     <td width="60%"><a href="#" class="input-text" id="latitude" ><?php echo $data['mobile_number1']; ?></a></td>
@@ -417,14 +391,14 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                             <form method="post" action="">
                                                                 <input name="id" value="<?php echo $data['id']; ?>" type="hidden" />
                                                                 <input name="action" value="reject" type="hidden" />
-                                                                <button class="btn btn-danger" type="submit">Reject</button>   
+                                                                <button class="btn btn-danger" type="submit">Reject</button>
                                                             </form>
                                                         </div>
                                                         <div class="pull-left">
                                                             <form method="post" action="">
                                                                 <input name="id" value="<?php echo $data['id']; ?>" type="hidden" />
                                                                 <input name="action" value="approve" type="hidden" />
-                                                                <button class="btn btn-success" type="submit">Approve</button>   
+                                                                <button class="btn btn-success" type="submit">Approve</button>
                                                             </form>
                                                         </div>
                                                     </td>
@@ -446,7 +420,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                             ?>
                             <div class="alert alert-info">
                                 <p class="lead">
-                                    No pending request. 
+                                    No pending request.
                                 </p>
                             </div>
                             <?php endif; ?>
@@ -489,7 +463,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                         <td><?php echo $data['updated_datetime']; ?></td>
                                                         <td>
                                                             <a class="btn  btn-info" href="admin_edit_org.php?id=<?php echo $data['id']; ?>">View / Edit</a>
-                                                        </td>                                            
+                                                        </td>
                                                     </tr>
                                                 <?php endwhile; ?>
                                             </tbody>
@@ -499,7 +473,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                             <?php endif; ?>
                         <?php endif; ?>
 
-                    </section> <!-- /admin_home_main -->                   
+                    </section> <!-- /admin_home_main -->
                 </div>
             </div>
 
@@ -511,28 +485,12 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         ================================================== -->
         <?php include_once 'include/footer/footer.inc.php'; ?>
 
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-<!--        <script src="assets/js/jquery.js"></script>-->
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-
-        <script src="library/dataTables-1.9.4/media/js/jquery.dataTables.min.js"></script>
-        <script src="library/dataTables-1.9.4/media/js/paging.js"></script>
-
         <script>
             $(document).ready(function() {
                 $('#org_request_table').dataTable();
             });</script>
 
-        <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+
         <script>
             $.fn.editable.defaults.mode = 'inline';
 
@@ -661,7 +619,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                 });
             });
 
-            // load district 
+            // load district
             $('#admin_district').change(function() {
                 var dis_id = $('#admin_district').val();
                 $("#loading_content").show();
@@ -683,7 +641,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                 });
             });
 
-            // load organization 
+            // load organization
             $('#btn_show_org_list').click(function() {
                 var div_id = $('#admin_division').val();
                 var dis_id = $('#admin_district').val();
@@ -710,7 +668,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                 });
             });
 
-            // Search organization 
+            // Search organization
             $('#btn_search_org').click(function() {
                 $("#loading_content").show();
                 var searchOrg = $('#searchOrg').val();
