@@ -248,6 +248,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
         <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
         <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
+        <link href="library/dataTables-1.9.4/media/css/jquery.dataTables.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
         <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
@@ -265,7 +266,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
 
         <!--Google analytics code-->
         <?php include_once 'include/header/header_ga.inc.php'; ?>
-        
+
         <script src="assets/js/jquery.js"></script>
     </head>
 
@@ -332,6 +333,8 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                             $new_org_result_count = mysql_num_rows($new_org_result);
 
                             $count = 0;
+                                ?>    
+                            <?php
                             if ($new_org_result_count > 0):
                                 $count++;
                                 ?>
@@ -439,6 +442,15 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                             $new_org_result_count = mysql_num_rows($new_org_result);
 
                             $count = 0;
+                            if (!$new_org_result_count > 0):
+                            ?>
+                            <div class="alert alert-info">
+                                <p class="lead">
+                                    No pending request. 
+                                </p>
+                            </div>
+                            <?php endif; ?>
+                            <?php
                             if ($new_org_result_count > 0):
                                 ?>
                                 <div class="row-fluid">
@@ -447,7 +459,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                 <div class="row-fluid">
                                     <div class="spa12">
                                         <p class="lead">Organizations Pending for approval</p>
-                                        <table class="table table-bordered table-striped">
+                                        <table id="org_request_table" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
                                                     <td><strong>#</strong></td>
@@ -457,6 +469,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                     <td><strong>Division</strong></td>
                                                     <td><strong>District</strong></td>
                                                     <td><strong>Upazila</strong></td>
+                                                    <td><strong>Requested on</strong></td>
                                                     <td><strong>Action</strong></td>
                                                 </tr>
                                             </thead>
@@ -473,6 +486,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                         <td><?php echo $data['division_name']; ?></td>
                                                         <td><?php echo $data['district_name']; ?></td>
                                                         <td><?php echo $data['upazila_thana_name']; ?></td>
+                                                        <td><?php echo $data['updated_datetime']; ?></td>
                                                         <td>
                                                             <a class="btn  btn-info" href="admin_edit_org.php?id=<?php echo $data['id']; ?>">View / Edit</a>
                                                         </td>                                            
@@ -509,14 +523,22 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         <script src="assets/js/google-code-prettify/prettify.js"></script>
 
         <script src="assets/js/application.js"></script>
-        
+
+        <script src="library/dataTables-1.9.4/media/js/jquery.dataTables.min.js"></script>
+        <script src="library/dataTables-1.9.4/media/js/paging.js"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#org_request_table').dataTable();
+            });</script>
+
         <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
         <script>
             $.fn.editable.defaults.mode = 'inline';
 
             var submission_id = <?php echo $id; ?>;
-            
-            
+
+
             $(function() {
                 $('a.input-text').editable({
                     type: 'text',
@@ -524,7 +546,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                     url: 'post/post_new_org.php'
                 });
             });
-            
+
             //division_name
             $(function() {
                 $('#division_code').editable({
@@ -534,7 +556,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                     source: 'get/get_org_division_name.php'
                 });
             });
-            
+
             //district
             $(function() {
                 $('#district_code').editable({
@@ -544,7 +566,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                     source: 'get/get_org_district_name.php'
                 });
             });
-            
+
             //upazila name
             $(function() {
                 $('#upazila_thana_code').editable({
@@ -554,9 +576,9 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                     source: 'get/get_org_upazila_thana_name.php'
                 });
             });
-            
+
             // org_type_code
-             $(function() {
+            $(function() {
                 $('#org_type_code').editable({
                     type: 'select',
                     pk: submission_id,
@@ -564,7 +586,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                     source: 'get/get_org_type_name.php'
                 });
             });
-            
+
             //agency_code
             $(function() {
                 $('#agency_code').editable({
@@ -574,7 +596,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                     source: 'get/get_agency_code.php'
                 });
             });
-            
+
             // org_location_type
             $(function() {
                 $('#org_location_type').editable({
@@ -584,9 +606,9 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                     source: 'get/get_org_location_type.php'
                 });
             });
-            
+
             // org ownarship code
-             $(function() {
+            $(function() {
                 $('#ownership_code').editable({
                     type: 'select',
                     pk: submission_id,
@@ -603,7 +625,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                     source: 'get/get_org_function_code.php'
                 });
             });
-            
+
             // organizaion level code
             $(function() {
                 $('#org_level_code').editable({

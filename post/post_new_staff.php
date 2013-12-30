@@ -180,7 +180,7 @@ if (isset($_POST['new_staff'])) {
  * 
  * *******************************
  */
-$url = "http://test.dghs.gov.bd/hrmnew/match_employee.php?org_code=$org_code";
+$url = "http://app.dghs.gov.bd/hrm/match_employee.php?org_code=$org_code";
 redirect($url);
 
 function redirect($url) {
