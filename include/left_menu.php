@@ -15,32 +15,38 @@
 </li>
 <li tabindex="-1" <?php if ($active_menu == "sanctioned_post" || $active_menu == "sanctioned_post2" || $active_menu == "sanctioned_post_sorted"){ echo " class=\"active dropdown-submenu\""; } else {echo " class=\"dropdown-submenu\"";} ?>>
     <a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-group"></i> Sanctioned Post</a>
-
-    <ul class="dropdown-menu">
-        <li <?php if ($active_menu == "sanctioned_post_sorted"){ echo " class=\"active\""; } ?>>
-            <a href="sanctioned_post_sorted.php?org_code=<?php echo $org_code; ?>"><i class="icon-sort-by-alphabet"></i> Sanctioned Post [Sorted]</a>
-        </li>
-        <li <?php if ($active_menu == "sanctioned_post2"){ echo " class=\"active\""; } ?>>
-            <a href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-sitemap"></i> Sanctioned Post [Tree View]</a>
-        </li>
-        <?php if($isAdmin): ?>
-            <li <?php if ($active_menu == "sanctioned_post_add"){ echo " class=\"active\""; } ?>>
-                <a href="update_sanctioned_post.php?org_code=<?php echo $org_code; ?>&action=new_designation&step=3"><i class="icon-plus"></i> Add Sanctioned Post</a>
-            </li>
-            <li <?php if ($active_menu == "sanctioned_post_repot"){ echo " class=\"active\""; } ?>>
-                <a href="#"><i class="icon-calendar-empty"></i> Sanctioned Post Report</a>
-            </li>
-        <?php endif; ?>
-    </ul>
 </li>
+
+<li class="level2" <?php if ($active_menu == "sanctioned_post_sorted"){ echo " class=\"active\""; } ?>>
+    <a href="sanctioned_post_sorted.php?org_code=<?php echo $org_code; ?>"><i class="icon-sort-by-alphabet"></i> Sanctioned Post [Sorted]</a>
+</li>
+<li class="level2" <?php if ($active_menu == "sanctioned_post2"){ echo " class=\"active\""; } ?>>
+    <a href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-sitemap"></i> Sanctioned Post [Tree View]</a>
+</li>
+<?php if($isAdmin): ?>
+    <li class="level2" <?php if ($active_menu == "sanctioned_post_add"){ echo " class=\"active\""; } ?>>
+        <a href="update_sanctioned_post.php?org_code=<?php echo $org_code; ?>&action=new_designation&step=3"><i class="icon-plus"></i> Add Sanctioned Post</a>
+    </li>
+    <li class="level2" <?php if ($active_menu == "sanctioned_post_repot"){ echo " class=\"active\""; } ?>>
+        <a href="#"><i class="icon-calendar-empty"></i> Sanctioned Post Report</a>
+    </li>
+<?php endif; ?>
+
+
 <li <?php if ($active_menu == "employee"){ echo " class=\"active\""; } ?>>
     <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-user-md"></i> Employee Profile</a>
 </li>
-<li <?php if ($active_menu == "match_employee"){ echo " class=\"active\""; } ?>>
-    <a href="match_employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-copy"></i> Match Employee</a>
-</li>		
-<li <?php if ($active_menu == "move_staff"){ echo " class=\"active\""; } ?>>
+<li class="level2" <?php if ($active_menu == "employee_add"){ echo " class=\"active\""; } ?>>
+    <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-user-md"></i> Add Employee Profile</a>
+</li>
+<li class="level2" <?php if ($active_menu == "move_staff"){ echo " class=\"active\""; } ?>>
     <a href="move_staff.php?org_code=<?php echo $org_code; ?>"><i class="icon-exchange"></i> Move Request</a>
+</li>
+<li class="level2" <?php if ($active_menu == "match_employee"){ echo " class=\"active\""; } ?>>
+    <a href="match_employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-copy"></i> Match Employee</a>
+</li>
+<li class="level2" <?php if ($active_menu == "employee_add"){ echo " class=\"active\""; } ?>>
+    <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-calendar-empty"></i> Employee Reports</a>
 </li>                        
 <li <?php if ($active_menu == "upload"){ echo " class=\"active\""; } ?>>
     <a href="upload.php?org_code=<?php echo $org_code; ?>"><i class="icon-upload-alt"></i> Upload</a>
