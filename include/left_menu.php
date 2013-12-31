@@ -7,12 +7,13 @@
 ?>
 <?php if($isAdmin): ?>
 <li class= "<?php echo ($active_menu == "admin_home") ? "active" : ""; ?>">
-    <a href="admin_home.php"><i class="icon-home"></i> Admin Homepage</a>
+    <a href="admin_home.php"><i class="icon-qrcode"></i> Admin Homepage</a>
 </li>
 <li class= "<?php echo ($active_menu == "search") ? "active" : ""; ?>">
     <a href="search.php?type=org"><i class="icon-search"></i> Search</a>
 </li>
 <?php endif; ?>
+<?php if (($active_menu != "admin_home") && ($active_menu != "search")): ?>
 <li class= "<?php echo ($active_menu == "home") ? "active" : ""; ?>">
     <a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-home"></i><?php if($isAdmin) echo "$org_name"; else echo "Homepage";?> </a>
 </li>
@@ -68,6 +69,7 @@
 <li class= "<?php echo ($active_menu == "monthly_update") ? "active" : ""; ?>">
     <a href="monthly_update.php?org_code=<?php echo $org_code; ?>"><i class="icon-th-list"></i> Monthly Update</a>
 </li>
+<?php endif; ?>   
 <li class= "<?php echo ($active_menu == "report/index") ? "active" : ""; ?>">
     <a href="report/index.php?org_code=<?php echo $org_code; ?>"><i class="icon-calendar"></i> Reports</a>
 </li>
@@ -93,7 +95,7 @@
     <li class= "level2 <?php echo ($active_menu == "##") ? "active" : ""; ?>">
         <a href="#"><i class="icon-list-ul"></i> Second Level Names</a>
     </li>
-    <?php endif; ?>
+    <?php endif; ?> 
 <li class= "<?php echo ($active_menu == "logout") ? "active" : ""; ?>">
     <a href="logout.php"><i class="icon-signout"></i> Sign out</a>
 </li>
