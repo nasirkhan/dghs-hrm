@@ -36,18 +36,27 @@
 <li <?php if ($active_menu == "employee"){ echo " class=\"active\""; } ?>>
     <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-user-md"></i> Employee Profile</a>
 </li>
-<li class="level2" <?php if ($active_menu == "employee_add"){ echo " class=\"active\""; } ?>>
-    <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-user-md"></i> Add Employee Profile</a>
+    <li class="level2" <?php if ($active_menu == "employee_add"){ echo " class=\"active\""; } ?>>
+        <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-user-md"></i> Add Employee Profile</a>
+    </li>
+    <li class="level2" <?php if ($active_menu == "move_staff"){ echo " class=\"active\""; } ?>>
+        <a href="move_staff.php?org_code=<?php echo $org_code; ?>"><i class="icon-exchange"></i> Move Request</a>
+    </li>
+    <li class="level2" <?php if ($active_menu == "match_employee"){ echo " class=\"active\""; } ?>>
+        <a href="match_employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-copy"></i> Match Employee</a>
+    </li>
+    <li class="level2" <?php if ($active_menu == "employee_add"){ echo " class=\"active\""; } ?>>
+        <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-calendar-empty"></i> Employee Reports</a>
+    </li>  
+<li <?php if ($active_menu == "org_add"){ echo " class=\"active\""; } ?>>
+    <li><a href="add_new.php"><i class="icon-plus"></i> Add Organization</a>
+</li>  
+<li <?php if ($active_menu == "org_add"){ echo " class=\"active\""; } ?>>
+    <a href="admin_edit_org.php"><i class="icon-ok"></i> Org Request Approval</a>
 </li>
-<li class="level2" <?php if ($active_menu == "move_staff"){ echo " class=\"active\""; } ?>>
-    <a href="move_staff.php?org_code=<?php echo $org_code; ?>"><i class="icon-exchange"></i> Move Request</a>
+<li <?php if ($active_menu == "#"){ echo " class=\"active\""; } ?>>
+    <a href="#"><i class="icon-list"></i> All Employee</a>
 </li>
-<li class="level2" <?php if ($active_menu == "match_employee"){ echo " class=\"active\""; } ?>>
-    <a href="match_employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-copy"></i> Match Employee</a>
-</li>
-<li class="level2" <?php if ($active_menu == "employee_add"){ echo " class=\"active\""; } ?>>
-    <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-calendar-empty"></i> Employee Reports</a>
-</li>                        
 <li <?php if ($active_menu == "upload"){ echo " class=\"active\""; } ?>>
     <a href="upload.php?org_code=<?php echo $org_code; ?>"><i class="icon-upload-alt"></i> Upload</a>
 </li>
@@ -59,7 +68,25 @@
 </li>
 <li <?php if ($active_menu == "settings"){ echo " class=\"active\""; } ?>>
     <a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-cogs"></i> Settings</a>
-</li>		
+</li>	
+    <li class="level2"<?php if ($active_menu == "#"){ echo " class=\"active\""; } ?>>
+        <a href="#"><i class="icon-list-ul"></i> Designations</a>
+    </li>
+    <li class="level2"<?php if ($active_menu == "#"){ echo " class=\"active\""; } ?>>
+        <a href="#"><i class="icon-list-ul"></i> Class</a>
+    </li>
+    <li class="level2"<?php if ($active_menu == "#"){ echo " class=\"active\""; } ?>>
+        <a href="#"><i class="icon-list-ul"></i> Pay Scale</a>
+    </li>
+    <li class="level2"<?php if ($active_menu == "#"){ echo " class=\"active\""; } ?>>
+        <a href="#"><i class="icon-list-ul"></i> Type of Posts</a>
+    </li>
+    <li class="level2"<?php if ($active_menu == "#"){ echo " class=\"active\""; } ?>>
+        <a href="#"><i class="icon-list-ul"></i> First Level Names</a>
+    </li>
+    <li class="level2"<?php if ($active_menu == "#"){ echo " class=\"active\""; } ?>>
+        <a href="#"><i class="icon-list-ul"></i> Second Level Names</a>
+    </li>
 <li <?php if ($active_menu == "logout"){ echo " class=\"active\""; } ?>>
     <a href="logout.php"><i class="icon-signout"></i> Sign out</a>
 </li>
