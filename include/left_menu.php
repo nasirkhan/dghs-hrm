@@ -5,8 +5,14 @@
  */
 
 ?>
-
-
+<?php if($isAdmin): ?>
+<li class= "<?php echo ($active_menu == "admin_home") ? "active" : ""; ?>">
+    <a href="admin_home.php"><i class="icon-home"></i> Admin Homepage</a>
+</li>
+<li class= "<?php echo ($active_menu == "search") ? "active" : ""; ?>">
+    <a href="search.php?type=org"><i class="icon-search"></i> Search</a>
+</li>
+<?php endif; ?>
 <li class= "<?php echo ($active_menu == "home") ? "active" : ""; ?>">
     <a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-home"></i><?php if($isAdmin) echo "$org_name"; else echo "Homepage";?> </a>
 </li>
@@ -22,15 +28,14 @@
 <li class= "level2 <?php echo ($active_menu == "sanctioned_post2") ? "active" : ""; ?>">
     <a href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-sitemap"></i> Sanctioned Post [Tree View]</a>
 </li>
-<?php if($isAdmin): ?>
+    <?php if($isAdmin): ?>
     <li class= "level2 <?php echo ($active_menu == "sanctioned_post_add") ? "active" : ""; ?>">
         <a href="update_sanctioned_post.php?org_code=<?php echo $org_code; ?>&action=new_designation&step=3"><i class="icon-plus"></i> Add Sanctioned Post</a>
     </li>
     <li class= "level2 <?php echo ($active_menu == "sanctioned_post_repot") ? "active" : ""; ?>">
         <a href="#"><i class="icon-calendar-empty"></i> Sanctioned Post Report</a>
     </li>
-<?php endif; ?>
-
+    <?php endif; ?>
 <li class= "<?php echo ($active_menu == "employee") ? "active" : ""; ?>">
     <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-user-md"></i> Employee Profile</a>
 </li>
@@ -46,6 +51,7 @@
     <li class= "level2 <?php echo ($active_menu == "employee_report") ? "active" : ""; ?>">
         <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-calendar-empty"></i> Employee Reports</a>
     </li>  
+<?php if($isAdmin): ?>    
 <li class= "<?php echo ($active_menu == "org_add") ? "active" : ""; ?>">
     <li><a href="add_new.php"><i class="icon-plus"></i> Add Organization</a>
 </li>  
@@ -55,6 +61,7 @@
 <li class= "<?php echo ($active_menu == "#") ? "active" : ""; ?>">
     <a href="#"><i class="icon-list"></i> All Employee</a>
 </li>
+<?php endif; ?>
 <li class= "<?php echo ($active_menu == "upload") ? "active" : ""; ?>">
     <a href="upload.php?org_code=<?php echo $org_code; ?>"><i class="icon-upload-alt"></i> Upload</a>
 </li>
@@ -67,6 +74,7 @@
 <li class= "<?php echo ($active_menu == "settings") ? "active" : ""; ?>">
     <a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-cogs"></i> Settings</a>
 </li>
+    <?php if($isAdmin): ?>
     <li class= "level2 <?php echo ($active_menu == "##") ? "active" : ""; ?>">
         <a href="#"><i class="icon-list-ul"></i> Designations</a>
     </li>
@@ -85,6 +93,7 @@
     <li class= "level2 <?php echo ($active_menu == "##") ? "active" : ""; ?>">
         <a href="#"><i class="icon-list-ul"></i> Second Level Names</a>
     </li>
+    <?php endif; ?>
 <li class= "<?php echo ($active_menu == "logout") ? "active" : ""; ?>">
     <a href="logout.php"><i class="icon-signout"></i> Sign out</a>
 </li>
