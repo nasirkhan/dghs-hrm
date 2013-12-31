@@ -10,7 +10,13 @@ $site_name = "DGHS HRM";
 $copyright = "DGHS";
 
 
-require_once 'include/db_connection.php';
+$dbhost='localhost';	
+$dbname='dghs_hrm_main';	
+$dbuser='root';
+$dbpass='';
+
+mysql_select_db($dbname,mysql_connect($dbhost, $dbuser, $dbpass))or die(mysql_errno());
+
 require_once 'include/functions_app_specific.php';
 require_once 'include/functions_generic.php';
 
