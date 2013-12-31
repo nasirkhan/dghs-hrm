@@ -74,9 +74,6 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php if ($_SESSION['user_type'] == "admin"): ?>
-                            <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-qrcode"></i> Admin Homepage</a>
-                            <?php endif; ?>
                         <?php
                         $active_menu = "sanctioned_post";
                         include_once 'include/left_menu.php';
@@ -87,11 +84,34 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                     <!-- Sanctioned Post
                     ================================================== -->
                     <section id="sanctioned-post">
-
-                        <div class="btn-group pull-right">
-                            <a class="btn" href="sanctioned_post_sorted.php?org_code=<?php echo $org_code; ?>"><i class="icon-sort-by-alphabet"></i> Sorted</a>
-                            <a class="btn"href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-sitemap"></i> Tree View</a>
+                        <!--
+                            Sanctioned post summary
+                        -->
+                        <div class="row-fluid">
+                            <div class="span8">
+                                <h4><a href="org_profile.php?org_code=<?php echo "$org_code"; ?>" target="_blank"><?php echo "$org_name ($org_code)"; ?></a></h4>
+                                <?php
+                                $total_post = getTotalSanctionedPostCountFromOrgCode($org_code);
+                                $total_filled_up = getTotalFilledUpSanctionedPostCountFromOrgCode($org_code);
+                                $total_vacant_post = $total_post - $total_filled_up;
+                                ?>
+                                <strong>Total Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_post; ?></span>
+                                <br />
+                                <strong>Total Filled up Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_filled_up; ?></span>
+                                <br />
+                                <strong>Total Vacant Post  Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_vacant_post; ?></span>
+                                <br /><br />
+                            </div>
+                            <div class="span4">
+                                <a href="update_sanctioned_post.php?org_code=<?php echo "$org_code"; ?>&action=new_designation&step=3" class="btn btn-small btn-warning btn-block"><i class="icon-list-ul"></i> Add New Designation</a>
+                                <div class="btn-group pull-right">
+                                    <a class="btn" href="sanctioned_post_sorted.php?org_code=<?php echo $org_code; ?>"><i class="icon-sort-by-alphabet"></i> Sorted</a>
+                                    <a class="btn"href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-sitemap"></i> Tree View</a>
+                                </div>
+                            </div>
                         </div>
+
+                        
 
                         <div class="row">
                             <div class="span9">
