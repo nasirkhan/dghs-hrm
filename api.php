@@ -147,6 +147,22 @@ if ($org_code > 0) :
                             <tr>
                                 <td>Organization Name</td>
                                 <td><?php echo $data['org_name']; ?></td>
+                            </tr> 
+                            <tr>
+                                <td width="50%">Type Code</td>
+                                <td><?php echo $data['org_type_code']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Type Name</td>
+                                <td><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Org Level code</td>
+                                <td><?php echo $data['org_level_code']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Org Level Name</td>
+                                <td><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></td>
                             </tr>
                             <tr>
                                 <td width="50%">Agency code</td>
@@ -213,6 +229,22 @@ if ($org_code > 0) :
                                 <td><?php echo $data['house_number']; ?></td>
                             </tr>
                             <tr>
+                                <td width="50%">Org Photo</td>
+                                <td><?php echo $data['org_photo']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Land Phone 1</td>
+                                <td><?php echo $data['land_phone1']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Mobile Number 1</td>
+                                <td><?php echo $data['mobile_number1']; ?></td>
+                            </tr>
+                            <tr>
+                                <td width="50%">Email Address 1</td>
+                                <td><?php echo $data['email_address1']; ?></td>
+                            </tr>
+                            <tr>
                                 <td width="50%">Longitude</td>
                                 <td><?php echo $data['longitude']; ?></td>
                             </tr>
@@ -242,6 +274,10 @@ if ($org_code > 0) :
         $data_all[] = array(
             'org_code' => $data['org_code'],
             'org_name' => $data['org_name'],
+            'org_type_code' => $data['org_type_code'],
+            'org_type_code' => getOrgTypeNameFormOrgTypeCode($data['org_type_code']),
+            'org_level_code' => $data['org_level_code'],
+            'org_level_name' => getOrgLevelNamefromCode($data['org_level_code']),
             'agency_code' => $data['agency_code'],
             'agency_name' => getAgencyNameFromAgencyCode($data['agency_code']),
             'financial_revenue_code' => $data['financial_revenue_code'],
@@ -257,6 +293,10 @@ if ($org_code > 0) :
             'ward_code' => $data['ward_code'],
             'village_code' => $data['village_code'],
             'house_number' => $data['house_number'],
+            'org_photo' => $data['org_photo'],
+            'land_phone1' => $data['land_phone1'],
+            'mobile_number1' => $data['mobile_number1'],
+            'email_address1' => $data['email_address1'],
             'longitude' => $data['longitude'],
             'latitude' => $data['latitude'],
             'updated_datetime' => $data['updated_datetime'],

@@ -161,13 +161,10 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php if ($_SESSION['user_type'] == "admin"): ?>
-                            <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
-                            <?php endif; ?>
-                            <?php
-                            $active_menu = "settings";
-                            include_once 'include/left_menu.php';
-                            ?>
+                        <?php
+                        $active_menu = "settings";
+                        include_once 'include/left_menu.php';
+                        ?>
                     </ul>
                 </div>
                 <div class="span9">

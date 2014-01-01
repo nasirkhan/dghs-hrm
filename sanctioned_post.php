@@ -74,9 +74,6 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php if ($_SESSION['user_type'] == "admin"): ?>
-                            <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-qrcode"></i> Admin Homepage</a>
-                            <?php endif; ?>
                         <?php
                         $active_menu = "sanctioned_post";
                         include_once 'include/left_menu.php';
@@ -87,11 +84,36 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                     <!-- Sanctioned Post
                     ================================================== -->
                     <section id="sanctioned-post">
-
-                        <div class="btn-group pull-right">
-                            <a class="btn" href="sanctioned_post_sorted.php?org_code=<?php echo $org_code; ?>"><i class="icon-sort-by-alphabet"></i> Sorted</a>
-                            <a class="btn"href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-sitemap"></i> Tree View</a>
+                        <!--
+                            Sanctioned post summary
+                        -->
+                        <div class="row-fluid">
+                            <div class="span8">
+                                <h4><a href="org_profile.php?org_code=<?php echo "$org_code"; ?>" target="_blank"><?php echo "$org_name ($org_code)"; ?></a></h4>
+                                <?php
+                                $total_post = getTotalSanctionedPostCountFromOrgCode($org_code);
+                                $total_filled_up = getTotalFilledUpSanctionedPostCountFromOrgCode($org_code);
+                                $total_vacant_post = $total_post - $total_filled_up;
+                                ?>
+                                <strong>Total Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_post; ?></span>
+                                <br />
+                                <strong>Total Filled up Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_filled_up; ?></span>
+                                <br />
+                                <strong>Total Vacant Post  Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_vacant_post; ?></span>
+                                <br /><br />
+                            </div>
+                            <div class="span4">
+                                <?php if($isAdmin): ?>
+                                <a href="update_sanctioned_post.php?org_code=<?php echo "$org_code"; ?>&action=new_designation&step=3" class="btn btn-small btn-warning btn-block"><i class="icon-list-ul"></i> Add New Designation</a>
+                                <?php endif; ?>
+                                <div class="btn-group pull-right">
+                                    <a class="btn" href="sanctioned_post_sorted.php?org_code=<?php echo $org_code; ?>"><i class="icon-sort-by-alphabet"></i> Sorted</a>
+                                    <a class="btn"href="sanctioned_post2.php?org_code=<?php echo $org_code; ?>"><i class="icon-sitemap"></i> Tree View</a>
+                                </div>
+                            </div>
                         </div>
+
+                        
 
                         <div class="row">
                             <div class="span9">
@@ -103,7 +125,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                     <div class="span5">
                                                         <strong>Designation</strong>
                                                     </div>
-                                                    <div class="span1">
+                                                    <div class="span2">
                                                         <strong>Type of Post</strong>
                                                     </div>
                                                     <div class="span1">
@@ -115,7 +137,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                     <div class="span1">
                                                         <strong>Total Post</strong>
                                                     </div>
-                                                    <div class="span3">
+                                                    <div class="span2">
                                                         <strong>Action</strong>
                                                     </div>
                                                 </div>
@@ -153,9 +175,12 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                 <td>
                                                     <div class="row-fluid">
                                                         <div class="span5">
-                                                            <?php echo $sp_data['designation']; ?>
+                                                            <?php $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation'])); ?>                                                                                                                        
+                                                            <a id="sp-btn-<?php echo $designation_div_id; ?>" href="#sp-<?php echo $designation_div_id; ?>" role="button" data-toggle="modal">
+                                                                <?php echo $sp_data['designation']; ?>
+                                                            </a>
                                                         </div>
-                                                        <div class="span1">
+                                                        <div class="span2">
                                                             <?php echo getTypeOfPostNameFromCode($sp_data['type_of_post']); ?>
                                                         </div>
                                                         <div class="span1">
@@ -167,11 +192,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                         <div class="span1">
                                                             <?php echo $sp_data['sp_count']; ?>
                                                         </div>
-                                                        <div class="span3">
-                                                            <?php $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation'])); ?>
-                                                            <a id="sp-btn-<?php echo $designation_div_id; ?>" href="#sp-<?php echo $designation_div_id; ?>" role="button" class="btn btn-small" data-toggle="modal">
-                                                                <i class="icon-file-alt"></i> Sanctioned Post Description
-                                                            </a>
+                                                        <div class="span2">                                                                                                                        
                                                             <button type="submit" id="btn-<?php echo $designation_div_id; ?>" value="<?php echo $sp_data['designation']; ?>" class="btn btn-info btn-small" data-toggle="collapse" data-target="#<?php echo "$designation_div_id"; ?>" >
                                                                 <i class="icon-list-ul"></i> View Staff List
                                                             </button>

@@ -105,9 +105,6 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php if ($_SESSION['user_type'] == "admin"): ?>
-                            <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
-                            <?php endif; ?>
                         <?php
                         $active_menu = "upload";
                         include_once 'include/left_menu.php';
