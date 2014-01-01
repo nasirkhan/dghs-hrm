@@ -88,7 +88,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                     organization.district_name,
                     organization.upazila_thana_name,
                     organization.mobile_number1,
-                    organization.email_address1
+                    organization.email_address1,
+                    organization.monthly_update,
+                    organization.monthly_update_datetime
             FROM
                     organization
             $query_string";
@@ -97,6 +99,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             } else {
                 $sql .= "WHERE monthly_update = $current_month AND active LIKE 1 ";
             }
+//            echo "<pre>$sql</pre>";
             $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
             $result_count = mysql_num_rows($org_list_result);
         } else {
@@ -108,7 +111,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                     organization.district_name,
                     organization.upazila_thana_name,
                     organization.mobile_number1,
-                    organization.email_address1
+                    organization.email_address1,
+                    organization.monthly_update,
+                    organization.monthly_update_datetime
             FROM
                     organization
             $query_string";
@@ -117,8 +122,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             } else {
                 $sql .= "WHERE monthly_update != $current_month  AND active LIKE 1 ";
             }
-            $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+            $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
             $result_count = mysql_num_rows($org_list_result);
+//            echo "<pre>$sql</pre>";
         }
     } else {
         if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
@@ -137,15 +143,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             GROUP BY
                     organization.org_type_code";
         $sql .= " ORDER BY org_type_name";
-        $org_type_summary_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-        $result_count = mysql_num_rows($org_type_summary_result);
+        $org_type_summary_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+        $result_count = mysql_num_rows($org_type_summary_result);   
     }
-
-
-//    echo "$sql";
-
-
-    
 
     $count_total_org = 0;
     $count_total_org_updated = 0;
@@ -207,13 +207,10 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php if ($_SESSION['user_type'] == "admin"): ?>
-                            <li><a href="../admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
-                            <?php endif; ?>
-                            <?php
-                            $active_menu = "report/index";
-                            include_once '../include/left_menu_report_page.php';
-                            ?>
+                        <?php
+                        $active_menu = "report/index";
+                        include_once '../include/left_menu_report_page.php';
+                        ?>
                     </ul>
                 </div>
                 <div class="span9">
@@ -363,10 +360,11 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                     <td><strong>Upazila</strong></td>
                                                     <td><strong>Email</strong></td>
                                                     <td><strong>Contact</strong></td>
+                                                    <td><strong>Last Updated</strong></td>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php
+                                                <?php                                                
                                                 $j = 0;
                                                 while ($row = mysql_fetch_assoc($org_list_result)):
                                                     $j++;
@@ -379,6 +377,17 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                         <td><?php echo $row['upazila_thana_name']; ?></td>
                                                         <td><?php echo $row['email_address1']; ?></td>
                                                         <td><?php echo $row['mobile_number1']; ?></td>
+                                                        <td>
+                                                            <?php
+                                                            $dd = explode(" ", $row['monthly_update_datetime']);
+                                                            if ($row['monthly_update'] > 0){
+                                                                echo getMonthNameFromMonthNumber($row['monthly_update']) . "(" . $dd[0] . ")"; 
+                                                            }
+                                                            else{
+                                                                echo getMonthNameFromMonthNumber($row['monthly_update']); 
+                                                            }
+                                                            ?>
+                                                        </td>
                                                     </tr>
                                                 <?php endwhile; ?>
                                             </tbody>
@@ -400,18 +409,27 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                         <td><?php echo $row['org_type_name']; ?></td>
                                                         <td><?php echo $row['total_count']; ?></td>
                                                         <?php
+                                                        if ($query_string == ""){
+                                                            $query_string .= "WHERE organization.monthly_update = $current_month";
+                                                        }
+                                                        else{
+                                                            $query_string .= "AND organization.monthly_update = $current_month";
+                                                        }
                                                         $sql = "SELECT
-                                                                    org_type_name,
-                                                                    org_type_code
+                                                                    organization.org_type_name,
+                                                                    organization.org_type_code,
+                                                                    COUNT(*) AS total_count
                                                             FROM
                                                                     organization
-                                                            WHERE
-                                                                    org_type_code = " . $row['org_type_code'] . "
-                                                            AND monthly_update = $current_month";
-                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                                        $total_updated = mysql_num_rows($result);
+                                                            $query_string
+                                                            GROUP BY
+                                                                    organization.org_type_code";
+                                                        $sql .= " ORDER BY org_type_name";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:4</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+//                                                        $total_updated = mysql_num_rows($result);
+                                                        $total_updated_data = mysql_fetch_assoc($result);
+                                                        $total_updated = $total_updated_data['total_count'];
                                                         $total_not_updated = $row['total_count'] - $total_updated;
-
                                                         $count_total_org += $row['total_count'];
                                                         $count_total_org_updated += $total_updated;
                                                         ?>
@@ -419,7 +437,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                             <?php if ($total_updated > 0): ?>
                                                             <a href="report_monthly_update.php?org_agency=<?php echo $agency_code; ?>&admin_division=<?php echo $div_id; ?>&admin_district=<?php echo $dis_id; ?>&admin_upazila=<?php echo $upa_id; ?>&org_type=<?php echo $row['org_type_code']; ?>&form_submit=1&view=org_list&status=updated"><?php echo $total_updated; ?></a>
                                                             <?php else: ?>
-                                                                <?php echo $total_updated; ?>
+                                                                <?php echo 0; ?>
                                                             <?php endif; ?>
                                                             
                                                         </td>

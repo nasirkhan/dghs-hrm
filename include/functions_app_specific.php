@@ -1582,4 +1582,105 @@ function getUserInfoFromOrgCode($org_code) {
 
     return $data;
 }
+
+
+/**
+ * handle user login
+ * @param ARRAY $_POST
+ * @return INT 0,1
+ * @author Raihan Sikder <raihan.act@gmail.com>
+ */
+function login($POSTDATA) {
+    $form_uname = mysql_real_escape_string(stripslashes(trim($POSTDATA['email'])));
+    $form_passwd = mysql_real_escape_string(stripslashes(trim($POSTDATA['password'])));
+    $form_passwd = md5($form_passwd);
+    
+    $sql = "SELECT user_id, username, user_type, user_type_code, organization_id, org_code FROM user WHERE username LIKE \"$form_uname\" AND password LIKE \"$form_passwd\"";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+    //myprint_r($data); // debug
+
+
+//    set session variables
+    if (mysql_num_rows($result) >= 1) {
+        if (setUserSession($data['username'])) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/**
+ * Sets session values for a successful login
+ * @param  $user_id
+ * @return bool
+ * @author Raihan Sikder <raihan.act@gmail.com>
+ */
+function setUserSession($username) {
+
+    //global $_SESSION;
+    if ($user = getUserFromUsername($username)) {
+        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['username'] = $user['username'];
+        $_SESSION['user_type'] = $user['user_type'];
+        $_SESSION['user_type_code'] = $user['user_type_code'];
+
+        $_SESSION['organization_id'] = $user['organization_id'];
+        $_SESSION['org_code'] = $user['org_code'];
+        $_SESSION['org_name'] = getOrgNameFormOrgCode($user['org_code']);
+        $_SESSION['org_type_code'] = getOrgTypeCodeFromOrgCode($user['org_code']);
+        $_SESSION['org_type_name'] = getOrgTypeNameFormOrgCode($user['org_code']);
+        $_SESSION['logged'] = TRUE;
+        session_write_close();
+        return TRUE;
+    }
+    return FALSE;
+}
+
+/**
+ * Get user from $user_id
+ * @param  $user_id
+ * @return array
+ * @author Raihan Sikder <raihan.act@gmail.com>
+ */
+function getUserFromUsername($username) {
+    return getRowVal('user', 'username', $username);
+}
+
+/**
+ * Get the Month Name From the Month Number
+ * @param INT $number
+ */
+function getMonthNameFromMonthNumber($number) {
+    switch ($i) {
+        case 0:
+            return "Never Updated";
+        case 1:
+            return "January";
+        case 2:
+            return "February";
+        case 3:
+            return "March";
+        case 4:
+            return "April";
+        case 5:
+            return "May"; 
+        case 6:
+            return "June";
+        case 7:
+            return "July";
+        case 8:
+            return "August";
+        case 9:
+            return "September";
+        case 10:
+            return "October";
+        case 11:
+            return "November";    
+        case 12:
+            return "December";    
+    }
+}
+
 ?>
