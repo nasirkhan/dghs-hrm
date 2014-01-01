@@ -49,15 +49,16 @@
 <!--==bootstrap Date picker==-->
 <link href="assets/css/datepicker.css" rel="stylesheet">
 <script src="assets/js/bootstrap-datepicker.js"></script>
-<!--==leaflet for map==-->
-<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+
 <!--==Common JS==-->
 <script src="assets/js/common.js"></script>
 
 <!--==Bootstrap multiselect==-->
 <link href="library/bootstrap-multiselect-bootstrap-2-3/css/bootstrap-multiselect.css" rel="stylesheet">
 <script src="library/bootstrap-multiselect-bootstrap-2-3/js/bootstrap-multiselect.js"></script>
-
+<!--==leaflet for map==-->
+<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
 <!--==Application CSS==-->
 <link href="assets/css/style.css" rel="stylesheet"/>
 
