@@ -609,4 +609,43 @@ function number_pad($number, $n) {
   return str_pad((int) $number, $n, "0", STR_PAD_LEFT);
 }
 
+/** Checks whether certain action is permitted for this user. If not then returns false.
+ *
+ * This function need the permission table
+ * @param $module_system_name
+ * @param $action
+ * @param $username =user_email
+ * @author Raihan Sikder <raihan.act@gmail.com>
+ * @return boolean ture if has permission else FALSE
+ *
+ */
+function hasPermission($module_system_name, $action, $username) {
+  $p_user_types = userTypesPermittedForAction($module_system_name, $action);
+  if (strlen($p_user_types)) {
+    $sql = "select * from user where username='$username' and user_type in('" . str_replace(",", "','", trim($p_user_types, ",")) . "')";
+    $r = mysql_query($sql) or die(mysql_error() . "<br>Query<br>_____<br>$sql<br>");
+    if (mysql_num_rows($r))
+      return true;
+    else
+      return false;
+  }else {
+    return false;
+  }
+}
+
+
+/** Returns the user_type that has permission for certain action.
+ *
+ * This function need the permission table
+ * @param $module_system_name
+ * @param $action
+ * @author Raihan Sikder <raihan.act@gmail.com>
+ *
+ */
+function userTypesPermittedForAction($module_system_name, $action) {
+  $sql = "select p_user_type_names from permission where p_module_system_name='$module_system_name' and p_action='$action'";
+  $r = mysql_query($sql) or die(mysql_error() . "<b>Query:</b><br>___<br>$sql<br>");
+  $a = mysql_fetch_assoc($r);
+  return trim($a['p_user_type_names'], ', ');
+}
 ?>
