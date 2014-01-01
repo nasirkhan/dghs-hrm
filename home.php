@@ -95,7 +95,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
             ================================================== -->
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
-                    <ul class="nav nav-list bs-docs-sidenav">                        
+                    <ul class="nav nav-list bs-docs-sidenav">
                         <?php
                         $active_menu = "home";
                         include_once 'include/left_menu.php';
@@ -178,10 +178,11 @@ if (!($latitude > 0) || !($longitude > 0)) {
         </div>
         <!-- Footer
         ================================================== -->
-        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
+        <?php //include_once 'include/footer/footer_menu.inc.php'; ?>
         <?php include_once 'include/footer/footer.inc.php'; ?>
         <!-- Map
         ================================================== -->
+        
         <script>
 
             var map = L.map('map').setView([<?php echo $coordinate; ?>], 6);
