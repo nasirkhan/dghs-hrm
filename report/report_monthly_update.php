@@ -410,15 +410,23 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                         <td><?php echo $row['org_type_name']; ?></td>
                                                         <td><?php echo $row['total_count']; ?></td>
                                                         <?php
-                                                        
-                                                        if ($query_string_without_type == ""){
-                                                            $query_string_with_type = " WHERE organization.org_type_code= " . $row['org_type_code'];
+                                                        if (strlen($query_string_without_type) == 7){
+                                                            $query_string_with_type = $query_string_without_type;
+                                                            $query_string_with_type .= " organization.org_type_code= " . $row['org_type_code'];
+                                                            $query_string_with_type .= " AND organization.monthly_update = $current_month ";
+                                                        }
+                                                        else if (strlen($query_string_without_type) < 7){
+                                                            $query_string_with_type = $query_string_without_type;
+                                                            $query_string_with_type .= " WHERE organization.org_type_code= " . $row['org_type_code'];
                                                             $query_string_with_type .= " AND organization.monthly_update = $current_month ";
                                                         }
                                                         else{
-                                                            $query_string_with_type = " AND organization.org_type_code= " . $row['org_type_code'];
+                                                            
+                                                            $query_string_with_type = $query_string_without_type;
+                                                            $query_string_with_type .= " AND organization.org_type_code= " . $row['org_type_code'];
                                                             $query_string_with_type .= " AND organization.monthly_update = $current_month ";
                                                         }
+                                                        
                                                         $sql = "SELECT
                                                                     organization.org_type_name,
                                                                     organization.org_type_code,
@@ -429,14 +437,12 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                             GROUP BY
                                                                     organization.org_type_code";
                                                         $sql .= " ORDER BY org_type_name";
-                                                        $result = mysql_query($sql) or die(mysql_error() . "<br />$query_string_without_type<br />Code:<b>get_org_type_summary:4</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-//                                                        $total_updated = mysql_num_rows($result);
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:4</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                                         $total_updated_data = mysql_fetch_assoc($result);
                                                         $total_updated = $total_updated_data['total_count'];
                                                         $total_not_updated = $row['total_count'] - $total_updated;
                                                         $count_total_org += $row['total_count'];
                                                         $count_total_org_updated += $total_updated; 
-//                                                        echo "<pre>$sql</pre>";
                                                         ?>
                                                         <td>
                                                             <?php if ($total_updated > 0): ?>
