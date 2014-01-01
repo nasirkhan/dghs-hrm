@@ -1653,7 +1653,7 @@ function getUserFromUsername($username) {
  * @param INT $number
  */
 function getMonthNameFromMonthNumber($number) {
-    switch ($i) {
+    switch ($number) {
         case 0:
             return "Never Updated";
         case 1:

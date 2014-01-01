@@ -100,7 +100,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             } else {
                 $sql .= "WHERE monthly_update = $current_month AND active LIKE 1 ";
             }
-            echo "<pre>$sql</pre>";
+//            echo "<pre>$sql</pre>";
             $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
             $result_count = mysql_num_rows($org_list_result);
         } else {
