@@ -32,8 +32,9 @@ if (isset($_POST['search_type']) && isset($_POST['code'])) {
      * Search By Staff Mobile Number
      */
     if ($search_type == "staff_mobile") {
-        if (isValidStaffMobile($code)) {
-            header("location:employee.php?staff_id=$code");
+        $ivValidMobile = isValidStaffMobile($code);
+        if ($ivValidMobile) {
+            header("location:employee.php?staff_id=$ivValidMobile");
         } else {
             header("location:index.php");
         }
