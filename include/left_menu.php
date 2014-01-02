@@ -142,3 +142,13 @@ if($active_menu == "settings"){
 <li class= "<?php echo ($active_menu == "logout") ? "active" : ""; ?>">
     <a href="logout.php"><i class="icon-signout"></i> Sign out</a>
 </li>
+
+<!-- NEW MENU -->
+<?php 
+if(hasPermission('mod_admin', 'view', getLoggedUserName())){
+    include_once 'left_menu_admin.php';
+}
+if(hasPermission('mod_admin', 'view', getLoggedUserName())){
+    include_once 'left_menu_org_admin.php';
+}
+?>

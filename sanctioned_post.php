@@ -51,6 +51,8 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
         include_once 'include/header/header_css_js.inc.php';
         include_once 'include/header/header_ga.inc.php';
         ?>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+
     </head>
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
         <!-- Top navigation bar
