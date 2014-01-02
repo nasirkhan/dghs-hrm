@@ -1649,4 +1649,80 @@ function getUserFromUsername($username) {
 function getLoggedUserName(){
     return $_SESSION['username'];
 }
+
+
+/**
+ * Get Logged in Ueer Type
+ * @return string
+ * @author Nasir Khan <nasir8891@gmail.com>
+ * 
+ */
+function getLoggedUserType(){
+    return $_SESSION['user_type'];
+}
+
+
+/**
+ * Check if the org code is valid or not
+ * @param type $org_code
+ * @return string|boolean
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function isValidOrgCode($org_code) {
+    $org_code = (int) $org_code;
+    if (!$org_code > 0) {
+        return "";
+    }
+    $sql = "SELECT org_code FROM organization WHERE org_code = $org_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+
+    if (mysql_num_rows($result) == 1) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+
+/**
+ * Check if the Staff Id is valid or not
+ * @param type $staff_id
+ * @return string|boolean
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function isValidStaffId($staff_id){
+    $staff_id = (int) $staff_id;
+    if (!$staff_id > 0) {
+        return "";
+    }
+    $sql = "SELECT staff_id FROM `old_tbl_staff_organization` WHERE staff_id=$staff_id LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+
+    if (mysql_num_rows($result) == 1) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+/**
+ * Check if the Staff Id is valid or not
+ * @param type $staff_id
+ * @return string|boolean
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function isValidStaffMobile($mobile_number){
+    if ($mobile_number == "") {
+        return "";
+    }
+    $sql = "SELECT staff_id FROM `old_tbl_staff_organization` WHERE contact_no LIKE \"$mobile_number\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+
+    if (mysql_num_rows($result) == 1) {
+        $a = mysql_fetch_assoc($result);
+        return $a['staff_id'];
+    } else {
+        return FALSE;
+    }
+}
 ?>
