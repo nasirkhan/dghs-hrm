@@ -32,6 +32,8 @@ if ($add_new_type == "org") {
 
 $insert_success = mysql_real_escape_string($_GET['insert_success']);
 
+
+
 if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
     
 
@@ -58,6 +60,9 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
         
        
     //@TODO: verify the required fields
+     
+        
+        
         $new_org_name = mysql_real_escape_string($_POST['new_org_name']);
         $new_org_code = mysql_real_escape_string($_POST['new_org_code']);
         $new_agency_code = mysql_real_escape_string($_POST['agency_code']);
@@ -112,7 +117,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
             '$new_org_level_code'
             )";
         
-//        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
+        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");    
         $insert_success = TRUE;
         
         header("location:add_new.php?type=org&insert_success=true");
