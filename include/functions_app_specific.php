@@ -1649,4 +1649,15 @@ function getUserFromUsername($username) {
 function getLoggedUserName(){
     return $_SESSION['username'];
 }
+
+
+/**
+ * Get Logged in Ueer Type
+ * @return string
+ * @author Nasir Khan <nasir8891@gmail.com>
+ * 
+ */
+function getLoggedUserType(){
+    return $_SESSION['user_type'];
+}
 ?>
