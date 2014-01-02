@@ -26,8 +26,7 @@ if (isset($_POST['search_type']) && isset($_POST['code'])) {
             header("location:index.php");
         }
     }
-    
-    
+
     /**
      * Search By Staff Mobile Number
      */
@@ -68,7 +67,7 @@ if (isset($_POST['search_type']) && isset($_POST['code'])) {
                             <option value="staff_id"> Staff Id </option>
                             <option value="staff_mobile"> Staff Mobile Number </option>
                         </select>
-                        <button class="btn" type="submit">Go</button>
+                        <button class="btn btn-primary" type="submit">Go</button>
                     </form>
                 </div><!--/.nav-collapse -->
             <?php else: ?>
