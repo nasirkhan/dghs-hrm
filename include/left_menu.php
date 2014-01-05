@@ -146,12 +146,13 @@ if($active_menu == "settings"){
 <!-- NEW MENU -->
 <?php 
 
-if(hasPermission('mod_admin', 'view', getLoggedUserName())){    
-    require_once 'left_menu_admin.php';
-}
 if(hasPermission('mod_organizations_profile', 'view', getLoggedUserName())){
     if(isValidOrgCode($_SESSION['org_code'])){require_once 'left_menu_org_admin.php';}
 }else{
     echo "No permission";
 }
+if(hasPermission('mod_admin', 'view', getLoggedUserName())){    
+    require_once 'left_menu_admin.php';
+}
+
 ?>

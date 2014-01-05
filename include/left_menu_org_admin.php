@@ -1,25 +1,35 @@
 <?php ?>
 <h4>ORGANIZATION MENU</h4>
+
 <ul id="leftMenuAdmin">
-    <li><a href="">TEST MENU ITEM</a></li>
-    <!--
-    <li><a href="">Admin Home</a></li>
-    <li><a href="">Organizations</a></li>
+    <li><a href="home.php?org_code=<?= $org_code?>"><?= $org_name ?></a></li>    
     <ul>
-        <li><a href="">Search</a></li>
-        <li><a href="">Add</a></li>
-        <li><a href="">Organizations Awaiting Approval</a></li>
-        <li><a href="">All Employee</a></li>
-    </ul>
-    <li><a href="">Reports</a></li>
-    <li><a href="">Settings</a></li>  
-    <ul>
-        <li><a href="">Designations</a></li>
-        <li><a href="">Class</a></li>
-        <li><a href="">Payscale</a></li>
-        <li><a href="">Type of Post</a></li>
-        <li><a href="">First Level Names</a></li>
-        <li><a href="">Second Level Name</a></li>        
+        <li><a href="org_profile.php?org_code=<?= $org_code?>">Profile</a></li>
+        <li><a href="sanctioned_post.php?org_code=<?= $org_code?>">Sanctioned Post</a></li>
+        <ul>
+            <li><a href="sanctioned_post_sorted.php?org_code=<?= $org_code?>">Search</a></li>
+            <li><a href="update_sanctioned_post.php?org_code=<?= $org_code?>">Add</a></li>
+            <li><a href="sanctioned_post.php?org_code=<?= $org_code?>">Report</a></li>
+        </ul>
+        <li><a href=""></a></li>
+        <li><a href=""></a></li>
     </ul>    
-    -->
 </ul>
+
+<!--
+|-- Search ** (List + edit/delete)
+|-- | -- Org Home - SELECTED_ORG_NAME
+|-- | -- | -- Profile (Editable page)
+|-- | -- | -- Sanctioned Post
+|-- | -- | -- | -- Search ** (List + edit/delete)
+|-- | -- | -- | -- Add
+|-- | -- | -- | -- Reports
+|-- | -- | -- Employee
+|-- | -- | -- | -- Search ** (List+ edit/delete/Move Out)
+|-- | -- | -- | -- Add
+|-- | -- | -- | -- Move Request
+|-- | -- | -- | -- Match Employee
+|-- | -- | -- | -- Reports
+|-- | -- | -- Org Admin Users
+|-- | -- | -- Reports
+-->
