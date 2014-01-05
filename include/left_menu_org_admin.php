@@ -1,6 +1,8 @@
 <?php ?>
-<h4>ADMIN MENU</h4>
+<h4>ORGANIZATION MENU</h4>
 <ul id="leftMenuAdmin">
+    <li><a href="">TEST MENU ITEM</a></li>
+    <!--
     <li><a href="">Admin Home</a></li>
     <li><a href="">Organizations</a></li>
     <ul>
@@ -19,4 +21,5 @@
         <li><a href="">First Level Names</a></li>
         <li><a href="">Second Level Name</a></li>        
     </ul>    
+    -->
 </ul>
