@@ -11,8 +11,12 @@
             <li><a href="update_sanctioned_post.php?org_code=<?= $org_code?>">Add</a></li>
             <li><a href="sanctioned_post.php?org_code=<?= $org_code?>">Report</a></li>
         </ul>
-        <li><a href=""></a></li>
-        <li><a href=""></a></li>
+        <li><a href="sanctioned_post.php?org_code=<?= $org_code?>">Sanctioned Post</a></li>
+        <ul>
+            <li><a href="sanctioned_post_sorted.php?org_code=<?= $org_code?>">Search</a></li>
+            <li><a href="update_sanctioned_post.php?org_code=<?= $org_code?>">Add</a></li>
+            <li><a href="sanctioned_post.php?org_code=<?= $org_code?>">Report</a></li>
+        </ul>
     </ul>    
 </ul>
 
