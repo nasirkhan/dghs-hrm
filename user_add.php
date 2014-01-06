@@ -120,7 +120,7 @@ if (isset($_POST['new_user_type']) && $_POST['new_post_type'] == "user") {
                     <!-- main
                     ================================================== -->
                     <section id="add-new">
-                        <h3>Add new <?php echo $new_type; ?></h3>
+                        <h3>Add new User</h3>
                         <?php if ($insert_success): ?>
                             <div class="alert alert-success">
                                 <button type="button" class="close" data-dismiss="alert">&times;</button>
