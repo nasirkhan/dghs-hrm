@@ -1671,7 +1671,7 @@ function getLoggedUserType(){
 function isValidOrgCode($org_code) {
     $org_code = (int) $org_code;
     if (!$org_code > 0) {
-        return "";
+        return FALSE;
     }
     $sql = "SELECT org_code FROM organization WHERE org_code = $org_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
@@ -1693,7 +1693,7 @@ function isValidOrgCode($org_code) {
 function isValidStaffId($staff_id){
     $staff_id = (int) $staff_id;
     if (!$staff_id > 0) {
-        return "";
+        return FALSE;
     }
     $sql = "SELECT staff_id FROM `old_tbl_staff_organization` WHERE staff_id=$staff_id LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
@@ -1713,7 +1713,7 @@ function isValidStaffId($staff_id){
  */
 function isValidStaffMobile($mobile_number){
     if ($mobile_number == "") {
-        return "";
+        return FALSE;
     }
     $sql = "SELECT staff_id FROM `old_tbl_staff_organization` WHERE contact_no LIKE \"$mobile_number\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
