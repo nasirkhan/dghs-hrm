@@ -1725,4 +1725,66 @@ function isValidStaffMobile($mobile_number){
         return FALSE;
     }
 }
+
+
+/**
+ * Check if an username exists or not
+ * @param type $staff_id
+ * @return string|boolean
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function isUserExists($username){
+    if ($username == "") {
+        return FALSE;
+    }
+    $sql = "SELECT username FROM `user` WHERE username LIKE \"$username\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isUserExists:1</p><p>Query:</b></p>___<p>$sql</p>");
+
+    if (mysql_num_rows($result) == 1) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+
+function addNewUser($username, $email, $password, $user_type, $org_code) {
+    $username = stripslashes(trim($username));
+    $email = stripslashes(trim($email));
+    $password = md5(stripslashes(trim($password)));
+    $user_type = stripslashes(trim($user_type));
+    $org_code = stripslashes(trim($org_code));
+    $updated_datetime = date("Y-m-d H:i:s");
+    $updated_by = $_SESSION['username'];    
+    $active = 1;
+    
+    if ($username == "" || $email == "" || $password == "" || $user_type == "" || $org_code == ""){
+        return FALSE;
+    }
+    
+    $sql = "INSERT INTO `user` (
+                    `username`,
+                    `email`,
+                    `password`,
+                    `user_type`,
+                    `org_code`,
+                    `updated_datetime`,
+                    `updated_by`,
+                    `active`)
+                VALUES (
+                    \"$username\",
+                    \"$email\",    
+                    \"" . md5($password) . "\",
+                    '$user_type',
+                    \"$org_code\",
+                     '$updated_datetime',
+                    \"$updated_by\",
+                    '$active'
+                    )";
+
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:addNewUser:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    
+    return TRUE;
+}
+
 ?>

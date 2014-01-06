@@ -21,68 +21,58 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $isAdmin = TRUE;
 }
 
-$add_new_type = mysql_real_escape_string($_GET['type']);
 
-$new_type = "";
-if ($add_new_type == "org") {
-    $new_type = "Organization";
-} else if ($add_new_type == "user") {
-    $new_type = "User";
+$insert_success = FALSE;
+if (isset($_GET['insert_success'])){
+    $insert_success = mysql_real_escape_string($_GET['insert_success']);
 }
 
-$insert_success = mysql_real_escape_string($_GET['insert_success']);
-
-
-
 $error = "";
-if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "user") {
+if (isset($_POST['new_user_type']) && $_POST['new_post_type'] == "user") {
     // if " new_user_type " == " Super Admin "
     // @TODO restructure the User table, include user_type info
-    if (isset($_POST['new_user_type']) && $_POST['new_user_type'] == "3") {
-        $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
-        $new_user_email = mysql_real_escape_string($_POST['new_user_email']);
-        $new_user_pass = mysql_real_escape_string($_POST['new_user_pass']);
-        $new_user_pass2 = mysql_real_escape_string($_POST['new_user_pass2']);
+    $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
+    $new_user_email = mysql_real_escape_string($_POST['new_user_email']);
+    $new_user_pass = mysql_real_escape_string($_POST['new_user_pass']);
+    $new_user_pass2 = mysql_real_escape_string($_POST['new_user_pass2']);
+
+
+    /**
+     * super admin user
+     */
+    if ($_POST['new_user_type'] == "admin"){
+        $new_user_org_code = '99999999';
+        $new_user_type = "admin";
+    }
+
+    /**
+     * organization user
+     */
+    if ($_POST['new_user_type'] == "user"){
         $new_user_org_code = mysql_real_escape_string($_POST['org_list']);
-//        $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
+        $new_user_type = "user";
+    }
 
-        if ($new_user_pass != $new_user_pass2) {
-            $error = "Password did not matched.";
-        }
 
-        if ($error == "") {
-            $sql = "INSERT INTO `users` (
-                        `username`,
-                        `email`,
-                        `password`,
-                        `user_type`,
-                        `org_code`,
-                        `updated_datetime`,
-                        `updated_by`,
-                        `active`)
-                    VALUES (
-                        \"$new_user_name\",
-                        \"$new_user_email\",    
-                        \"$new_user_pass\",
-                        '$new_agency_code',
-                        \"$new_established_year\",
-                         '$org_location_type',
-                        '$division_id',
-                        '$district_id'
-                        )";
 
-            echo "$sql";
-//            die();
-//            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-            $insert_success = TRUE;
-
-//            header("location:add_new.php?type=user&insert_success=true");
-        }
+    if ($new_user_pass != $new_user_pass2) {
+        $error = "Password did not matched.";
+    }
+    if(isUserExists($new_user_name)){
+        $error = "This username '$new_user_name' already exists. Please use another one.";    
+    }
+    
+    
+    if ($error == "") {
+        /**
+         * Add new user | database update function
+         */
+        if(addNewUser($new_user_name, $new_user_email, $new_user_pass, $new_user_type, $new_user_org_code)){
+            header("location:user_add.php?insert_success=true");
+        }        
     }
 }
 
-
-$required_missing = mysql_real_escape_string($_GET['required_missing']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -135,7 +125,15 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                             <div class="alert alert-success">
                                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                                 &nbsp;<br />
-                                <h4>New information has been successfully added to the database.<br><?php echo $sql; ?></h4>
+                                <h4>New information has been successfully added to the database.</h4>
+                                &nbsp;<br />
+                            </div>
+                        <?php endif; ?>
+                        <?php if ($error != ""): ?>
+                            <div class="alert alert-error">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                &nbsp;<br />
+                                <h4><?php echo $error; ?></h4>
                                 &nbsp;<br />
                             </div>
                         <?php endif; ?>
@@ -143,7 +141,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
 
                         <!--Add new user-->
 
-                        <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
+                        <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                             <div class="control-group">
                                 <label class="control-label" for="new_user_name">UserName</label>
                                 <div class="controls">
@@ -173,27 +171,9 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                 <div class="controls">
                                     <select id="new_user_type" name="new_user_type"  required="">
                                         <option value="0">Select User Type</option>
-                                        <?php
-                                        /**
-                                         * @todo restructure the user type table
-                                         */
-                                        $sql = "SELECT user_type_code, user_type_name FROM user_type WHERE active LIKE 1";
-                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                        while ($rows = mysql_fetch_assoc($result)) {
-                                            echo "<option value=\"" . $rows['user_type_code'] . "\">" . $rows['user_type_name'] . "</option>";
-                                        }
-                                        ?>
+                                        <option value="user">Organization User</option>
+                                        <option value="admin">Super Admin</option>                                        
                                     </select>
-                                </div>
-                            </div>
-                            <div id="new_admin_org_code" style="display: none;">
-                                <div class="control-group">
-                                    <label class="control-label" for="new_org_code">Organization Code</label>
-                                    <div class="controls">
-                                        <input type="text" value="99999999" disabled=""/>
-                                        <input type="hidden" id="new_org_code" name="new_org_code" value="99999999" />
-                                    </div>
                                 </div>
                             </div>
 
@@ -295,13 +275,9 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
 
             $("#new_user_type").change(function() {
                 var selectedType = $("#new_user_type").val();
-                if (selectedType === "2") {
+                if (selectedType === "user") {
                     $("#new_admin_org_code").hide();
                     $("#org_select_block").slideDown();
-                }
-                else if (selectedType === "3") {
-                    $("#org_select_block").hide();
-                    $("#new_admin_org_code").slideDown();
                 }
             });
             // load district
