@@ -35,7 +35,7 @@ if (isset($_POST['new_user_type']) && $_POST['new_post_type'] == "user") {
     $new_user_email = mysql_real_escape_string($_POST['new_user_email']);
     $new_user_pass = mysql_real_escape_string($_POST['new_user_pass']);
     $new_user_pass2 = mysql_real_escape_string($_POST['new_user_pass2']);
-
+    $new_user_mobile = mysql_real_escape_string($_POST['new_user_mobile']);
 
     /**
      * super admin user
@@ -67,7 +67,7 @@ if (isset($_POST['new_user_type']) && $_POST['new_post_type'] == "user") {
         /**
          * Add new user | database update function
          */
-        if(addNewUser($new_user_name, $new_user_email, $new_user_pass, $new_user_type, $new_user_org_code)){
+        if(addNewUser($new_user_name, $new_user_email, $new_user_pass, $new_user_type, $new_user_org_code, $new_user_mobile)){
             header("location:user_add.php?insert_success=true");
         }        
     }
@@ -152,6 +152,12 @@ if (isset($_POST['new_user_type']) && $_POST['new_post_type'] == "user") {
                                 <label class="control-label" for="new_user_email">Email Address</label>
                                 <div class="controls">
                                     <input type="text" id="new_user_email" name="new_user_email" placeholder="Email Address" required="" >
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="new_user_mobile">Mobile Number</label>
+                                <div class="controls">
+                                    <input type="text" id="new_user_mobile" name="new_user_mobile" placeholder="Mobile Number" required="" >
                                 </div>
                             </div>
                             <div class="control-group">

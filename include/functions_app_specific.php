@@ -1747,8 +1747,18 @@ function isUserExists($username){
     }
 }
 
-
-function addNewUser($username, $email, $password, $user_type, $org_code) {
+/**
+ * Add a new user (admin / organization user)
+ * 
+ * @param type $username
+ * @param type $email
+ * @param type $password
+ * @param type $user_type
+ * @param type $org_code
+ * @param string $mobile_number
+ * @return boolean
+ */
+function addNewUser($username, $email, $password, $user_type, $org_code, $mobile_number) {
     $username = stripslashes(trim($username));
     $email = stripslashes(trim($email));
     $password = md5(stripslashes(trim($password)));
@@ -1758,13 +1768,14 @@ function addNewUser($username, $email, $password, $user_type, $org_code) {
     $updated_by = $_SESSION['username'];    
     $active = 1;
     
-    if ($username == "" || $email == "" || $password == "" || $user_type == "" || $org_code == ""){
+    if ($username == "" || $email == "" || $password == "" || $user_type == "" || $org_code == "" || $mobile_number = ""){
         return FALSE;
     }
     
     $sql = "INSERT INTO `user` (
                     `username`,
                     `email`,
+                    `mobile`,
                     `password`,
                     `user_type`,
                     `org_code`,
@@ -1774,6 +1785,7 @@ function addNewUser($username, $email, $password, $user_type, $org_code) {
                 VALUES (
                     \"$username\",
                     \"$email\",    
+                    \"$mobile_number\",    
                     \"" . md5($password) . "\",
                     '$user_type',
                     \"$org_code\",
