@@ -307,7 +307,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
 
         <!-- Footer
         ================================================== -->
-        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
+        <?php include_once 'include/footer/footer.inc.php'; ?>
         <script type="text/javascript">
             // load division
             $('#admin_division').change(function() {

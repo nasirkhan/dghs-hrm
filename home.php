@@ -178,7 +178,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
         </div>
         <!-- Footer
         ================================================== -->
-        <?php //include_once 'include/footer/footer_menu.inc.php'; ?>
+        <?php //include_once 'include/footer/footer.inc.php'; ?>
         <?php include_once 'include/footer/footer.inc.php'; ?>
         <!-- Map
         ================================================== -->

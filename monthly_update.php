@@ -141,6 +141,6 @@ if (isset($_POST['submit_success'])) {
         </div>
         <!-- Footer
         ================================================== -->
-        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
+        <?php include_once 'include/footer/footer.inc.php'; ?>
     </body>
 </html>

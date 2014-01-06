@@ -556,7 +556,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
 
         <!-- Footer
         ================================================== -->
-        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
+        <?php include_once 'include/footer/footer.inc.php'; ?>
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->

@@ -260,7 +260,7 @@ if (isset($_POST['postt_type'])) {
 
         <!-- Footer
         ================================================== -->
-        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
+        <?php include_once 'include/footer/footer.inc.php'; ?>
 
 
 
