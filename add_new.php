@@ -272,7 +272,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="add_new.php?type=user" class="btn btn-large btn-info">
+                                                    <a href="user_add.php" class="btn btn-large btn-info">
                                                         <i class="icon-user-md icon-2x pull-left"></i> Add New Organization User
                                                     </a>
                                                 </td>
