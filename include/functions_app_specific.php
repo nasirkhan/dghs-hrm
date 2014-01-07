@@ -1658,10 +1658,9 @@ function getLoggedUserName(){
  * @author Nasir Khan <nasir8891@gmail.com>
  * 
  */
-function getLoggedUserType(){
+function getLoggedUserType() {
     return $_SESSION['user_type'];
 }
-
 
 /**
  * Check if the org code is valid or not
@@ -1684,14 +1683,13 @@ function isValidOrgCode($org_code) {
     }
 }
 
-
 /**
  * Check if the Staff Id is valid or not
  * @param type $staff_id
  * @return string|boolean
  * @author Nasir Khan <nasir8891@gmail.com>
  */
-function isValidStaffId($staff_id){
+function isValidStaffId($staff_id) {
     $staff_id = (int) $staff_id;
     if (!$staff_id > 0) {
         return FALSE;
@@ -1712,7 +1710,7 @@ function isValidStaffId($staff_id){
  * @return string|boolean
  * @author Nasir Khan <nasir8891@gmail.com>
  */
-function isValidStaffMobile($mobile_number){
+function isValidStaffMobile($mobile_number) {
     if ($mobile_number == "") {
         return FALSE;
     }
@@ -1727,14 +1725,13 @@ function isValidStaffMobile($mobile_number){
     }
 }
 
-
 /**
  * Check if an username exists or not
  * @param type $staff_id
  * @return string|boolean
  * @author Nasir Khan <nasir8891@gmail.com>
  */
-function isUserExists($username){
+function isUserExists($username) {
     if ($username == "") {
         return FALSE;
     }
@@ -1767,13 +1764,13 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
     $user_type = stripslashes(trim($user_type));
     $org_code = stripslashes(trim($org_code));
     $updated_datetime = date("Y-m-d H:i:s");
-    $updated_by = $_SESSION['username'];    
+    $updated_by = $_SESSION['username'];
     $active = 1;
-    
-    if ($username == "" || $email == "" || $password == "" || $user_type == "" || $org_code == "" || $mobile_number = ""){
+
+    if ($username == "" || $email == "" || $password == "" || $user_type == "" || $org_code == "" || $mobile_number = "") {
         return FALSE;
     }
-    
+
     $sql = "INSERT INTO `user` (
                     `username`,
                     `email`,
@@ -1797,7 +1794,7 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
                     )";
 
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:addNewUser:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
-    
+
     return TRUE;
 }
 
@@ -1811,8 +1808,8 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
  * 
  * @author Nasir Khan <nasir8891@gmail.com>
  */
-function updateOrgRequest($id, $user_name){
-    $id = (int) $id; 
+function updateOrgRequest($id, $user_name) {
+    $id = (int) $id;
     if (!$id > 0) {
         return FALSE;
     }
@@ -1820,15 +1817,15 @@ function updateOrgRequest($id, $user_name){
         return FALSE;
     }
     $sql = "UPDATE organization_requested "
-                . "SET "
-                . "active='0', "
-                . "approved_rejected_by='$user_name', "
-                . "approved_rejected='approved', "
-                . "updated_by='$user_name' "
-                . "WHERE "
-                . "id=$id";
+            . "SET "
+            . "active='0', "
+            . "approved_rejected_by='$user_name', "
+            . "approved_rejected='approved', "
+            . "updated_by='$user_name' "
+            . "WHERE "
+            . "id=$id";
     $r = mysql_query($sql) or die(mysql_error() . "<p>Code:updateOrgRequest:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-    
+
     return TRUE;
 }
 
@@ -1840,16 +1837,16 @@ function updateOrgRequest($id, $user_name){
  * 
  * @author Nasir Khan <nasir8891@gmail.com>
  */
-function getOrgInfoFromOrganizationRequestTable($id){
-    $id = (int) $id; 
+function getOrgInfoFromOrganizationRequestTable($id) {
+    $id = (int) $id;
     if (!$id > 0) {
         return FALSE;
     }
     $sql = "SELECT * FROM `organization_requested` WHERE id=$id";
     $r = mysql_query($sql) or die(mysql_error() . "<p>Code:getOrgInfoFromOrganizationRequestTable:2<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-    
+
     $data = mysql_fetch_assoc($r);
-    
+
     return $data;
 }
 
@@ -1862,36 +1859,36 @@ function getOrgInfoFromOrganizationRequestTable($id){
  * 
  * @author Nasir Khan <nasir8891@gmail.com>
  */
-function insertNewOrganization($data){
+function insertNewOrganization($data) {
 //        if (!count($data)){
 //            return FALSE;
 //        }
-    
-        $new_org_name = $data['org_name'];
-        $last_org_code = (int) getLastOrgIdFromOrganizationTable();
-        $new_org_code = $last_org_code + 1;
-        $new_org_type = $data['org_type_code'];
-        $new_agency_code = $data['agency_code'];
-        $new_established_year = $data['year_established'];
-        $org_location_type = $data['org_location_type'];
-        $division_code = $data['division_code'];
-        $division_name = $data['division_name'];
-        $district_code = $data['district_code'];
-        $district_name = $data['district_name'];
-        $upazila_code = $data['upazila_thana_code'];
-        $upazila_name = $data['upazila_thana_name'];
-        $new_ownarship_info = $data['ownership_code'];
-        $new_org_email = $data['email_address1'];
-        $new_functions_code = $data['org_function_code'];
-        $new_org_level_code = $data['org_level_code'];
-        $new_org_level_name = $data['org_level_name'];
-        $new_org_mobile = $data['mobile_number1'];
-        $latitude = $data['latitude'];
-        $longitude = $data['longitude'];
+
+    $new_org_name = $data['org_name'];
+    $last_org_code = (int) getLastOrgIdFromOrganizationTable();
+    $new_org_code = $last_org_code + 1;
+    $new_org_type = $data['org_type_code'];
+    $new_agency_code = $data['agency_code'];
+    $new_established_year = $data['year_established'];
+    $org_location_type = $data['org_location_type'];
+    $division_code = $data['division_code'];
+    $division_name = $data['division_name'];
+    $district_code = $data['district_code'];
+    $district_name = $data['district_name'];
+    $upazila_code = $data['upazila_thana_code'];
+    $upazila_name = $data['upazila_thana_name'];
+    $new_ownarship_info = $data['ownership_code'];
+    $new_org_email = $data['email_address1'];
+    $new_functions_code = $data['org_function_code'];
+    $new_org_level_code = $data['org_level_code'];
+    $new_org_level_name = $data['org_level_name'];
+    $new_org_mobile = $data['mobile_number1'];
+    $latitude = $data['latitude'];
+    $longitude = $data['longitude'];
 
 
-        // UPDATE organizaion table
-        $sql = "INSERT INTO `organization` (
+    // UPDATE organizaion table
+    $sql = "INSERT INTO `organization` (
             `org_name`,
             `org_code`,
             `org_type_code`,
@@ -1934,11 +1931,14 @@ function insertNewOrganization($data){
             '$latitude',
             '$longitude'
             )";
-        
-        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:3<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-        
-        return TRUE;
+
+    $r = mysql_query($sql) or die(mysql_error() . "<p>Code:insertNewOrganization:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    return $new_org_code;
 }
 
+function addSanctionedPost($org_code){
+    
+}
 
 ?>
