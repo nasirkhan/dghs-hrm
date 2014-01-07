@@ -259,7 +259,7 @@ if ($staff_id > 0) {
                                             </div>
 
                                             <div class="control-group">
-                                                <button id="move_out_continue" type="button" class="btn btn-primary">Continue Move Out Request</button>
+                                                <button id="move_out_continue" type="button" class="btn btn-success">Continue Move Out Request</button>
 
                                                 <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                             </div>
@@ -476,7 +476,7 @@ if ($staff_id > 0) {
                                         </div>
                                         </p>
                                         <div class="control-group">
-                                            <button id="move_in_continue" type="button" class="btn btn-primary">Continue Move In Request</button>
+                                            <button id="move_in_continue" type="button" class="btn btn-success">Continue Move In Request</button>
 
                                             <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                         </div>

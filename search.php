@@ -50,6 +50,11 @@ if ($org_type_code == 1029 || $org_type_code == 1051) {
 
 // GET
 $seach_type = mysql_real_escape_string($_GET['type']);
+
+
+if ($seach_type == "staff"){
+    header("location:search.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -108,7 +113,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                 </td>
                                                 <td>Search an organization using the organization name organization code, organization type or find it form the administrative divisions.</td>
                                             </tr>
-
+                                            <!--
                                             <tr>
                                                 <td>
                                                     <a href="search.php?type=staff" class="btn btn-large btn-info">
@@ -117,7 +122,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                 </td>
                                                 <td>Find an individual staff from an organization, search by his name or staff id.</td>
                                             </tr>
-
+                                            -->
                                             <tr>
                                                 <td>
                                                     <a href="search.php?type=user" class="btn btn-large btn-primary">
@@ -274,12 +279,13 @@ $seach_type = mysql_real_escape_string($_GET['type']);
 
                         <!-- search staff -->
                         <?php if ($seach_type == "staff"): ?>
+                            <!--                            
                             <h3>Search Staff</h3>
                             <div id="staff_user_main" class="row-fluid">
                                 <div id="staff_user_by_name" class="">
                                     <div class="row-fluid">
                                         <div class="span12 alert alert-info">
-                                            <!--
+                                            
                                             <div class="control-group">
                                                 <p class="lead">Search By Staff Name</p>
                                                 <div class="controls input-append">
@@ -288,7 +294,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                     <button id="btn_reset" class="btn" type="button">Reset</button>
                                                 </div>
                                             </div>
-                                            -->
+                                            
                                             <div class="control-group">
                                                 <label class="control-label" for="searchStaff">Search Keyword</label>
                                                 <div class="controls">
@@ -301,7 +307,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                                     <select id="searchStaffType" name="searchStaffType" class="input-xlarge">
                                                         <option id="searchStaffType_name" value="searchStaffType_name">Search By Name</option>
                                                         <option id="searchStaffType_mobile" value="searchStaffType_mobile">Search By Mobile Number</option>
-                                                        <!--<option id="searchStaffType_email" value="searchStaffType_email">Search By Email</option>-->
+                                                        <option id="searchStaffType_email" value="searchStaffType_email">Search By Email</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -317,6 +323,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                                     </div>
                                 </div>
                             </div>
+                            -->
                         <?php endif; ?>
 
                     </section>

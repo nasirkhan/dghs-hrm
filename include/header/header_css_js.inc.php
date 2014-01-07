@@ -61,6 +61,3 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
 <!--==Application CSS==-->
 <link href="assets/css/style.css" rel="stylesheet"/>
-
-
-
