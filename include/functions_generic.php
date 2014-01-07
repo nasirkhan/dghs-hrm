@@ -567,7 +567,7 @@ function getRowVal($dbTableName, $UniqueIdFieldName, $UniqueIdValue) {
 
 function getRows($dbTableName, $condition = "") {
   $sql = "select * from $dbTableName $condition ";
-  //echo $sql;
+  echo $sql;
   $r = mysql_query($sql) or die(mysql_error() . "<b>Query:</b><br>$sql<br>");
   if (mysql_num_rows($r)) {
     $a = mysql_fetch_rowsarr($r);

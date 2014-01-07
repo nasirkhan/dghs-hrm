@@ -24,6 +24,8 @@
 <link href="assets/css/bootstrap-responsive.css" rel="stylesheet"/>
 <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
 
+<!--<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>-->
+
 <!--==Bootstrap-editable==-->
 <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
 <script src="library/bootstrap-editable/js/bootstrap-editable.min.js"></script>
@@ -56,8 +58,5 @@
 <!--==Bootstrap multiselect==-->
 <link href="library/bootstrap-multiselect-bootstrap-2-3/css/bootstrap-multiselect.css" rel="stylesheet">
 <script src="library/bootstrap-multiselect-bootstrap-2-3/js/bootstrap-multiselect.js"></script>
-<!--==leaflet for map==-->
-<script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
 <!--==Application CSS==-->
 <link href="assets/css/style.css" rel="stylesheet"/>

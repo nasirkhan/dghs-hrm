@@ -71,6 +71,9 @@ if (!($latitude > 0) || !($longitude > 0)) {
         include_once 'include/header/header_css_js.inc.php';
         include_once 'include/header/header_ga.inc.php';
         ?>
+        <!--==leaflet for map==-->
+        <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -182,7 +185,7 @@ if (!($latitude > 0) || !($longitude > 0)) {
         <?php include_once 'include/footer/footer.inc.php'; ?>
         <!-- Map
         ================================================== -->
-        
+
         <script>
 
             var map = L.map('map').setView([<?php echo $coordinate; ?>], 6);
