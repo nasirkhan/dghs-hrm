@@ -2018,7 +2018,7 @@ function addCommunityClinicSanctionedPost($org_code) {
 
 /**
  * Get District and Division Name form Upazila and district code
- * 
+ *
  * @param type $upa_code Upazila Code
  * @param type $dis_code District Code
  * @return Array
@@ -2044,7 +2044,7 @@ function getDisDivNameCodeFromUpazilaAndDistrictCode($upa_code, $dis_code) {
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgLevelNameFromCode || Query:</b><br />___<br />$sql</p>");
 
     $data = mysql_fetch_assoc($result);
-    
+
     if (mysql_num_rows($result) > 0) {
         return $data;
     } else {
@@ -2054,7 +2054,7 @@ function getDisDivNameCodeFromUpazilaAndDistrictCode($upa_code, $dis_code) {
 
 /**
  * Get Division Name form district Code
- * 
+ *
  * @param type $dis_code District Code
  * @return division_name Division Name
  */
@@ -2078,7 +2078,7 @@ function getDivisionNameFromDistrictCode($dis_code) {
         return $data['division_name'];
     } else {
         return FALSE;
-    }    
+    }
 }
 
 /**
@@ -2099,7 +2099,56 @@ function getDivisionCodeFromDistrictCode($dis_code) {
         return $data['division_bbs_code'];
     } else {
         return FALSE;
-    }    
+    }
+}
+
+
+/**
+ * saves log info in log table
+ * +--------------------------------------+---------------------+------+-----+---------+----------------+
+| Field                                | Type                | Null | Key | Default | Extra          |
++--------------------------------------+---------------------+------+-----+---------+----------------+
+| log_id                               | bigint(20) unsigned | NO   | PRI | NULL    | auto_increment |
+| log_module                           | text                | YES  |     | NULL    |                |
+| log_event                            | text                | YES  |     | NULL    |                |
+| log_affected_table_name              | text                | YES  |     | NULL    |                |
+| log_affected_table_primary_key_field | text                | YES  |     | NULL    |                |
+| log_affected_table_primary_key_value | text                | YES  |     | NULL    |                |
+| log_sql_query_string                 | text                | YES  |     | NULL    |                |
+| log_event_user_id                    | bigint(20)          | YES  |     | NULL    |                |
+| log_datetime                         | datetime            | YES  |     | NULL    |                |
+| log_information                      | text                | YES  |     | NULL    |                |
+| log_active                           | enum('0','1')       | YES  |     | 1       |                |
++--------------------------------------+---------------------+------+-----+---------+----------------+
+ * @param type $dis_code District Code
+ * @return division_bbs_code
+ */
+function insertLog($log_module, $log_event, $log_affected_table_name, $log_affected_table_primary_key_field, $log_affected_table_primary_key_value, $log_sql_query_string, $log_event_user_id, $log_information) {
+  $sql = "
+      INSERT INTO log(
+      log_module,
+      log_event,
+      log_affected_table_name,
+      log_affected_table_primary_key_field,
+      log_affected_table_primary_key_value,
+      log_sql_query_string,
+      log_event_user_id,
+      log_datetime,
+      log_information
+      )value(
+      '" . mysql_real_escape_string($log_module) . "',
+      '" . mysql_real_escape_string($log_event) . "',
+      '" . mysql_real_escape_string($log_affected_table_name) . "',
+      '" . mysql_real_escape_string($log_affected_table_primary_key_field) . "',
+      '" . mysql_real_escape_string($log_affected_table_primary_key_value) . "',
+      '" . mysql_real_escape_string($log_sql_query_string) . "',
+      '" . mysql_real_escape_string($log_event_user_id) . "',
+      '" . getDateTime() . "',
+      '" . mysql_real_escape_string($log_information) . "'
+      )
+      ";
+  //echo $sql;
+  $r = mysql_query($sql) or die(mysql_error() . "<br>Query:<br>____<br>$sql<br>");
 }
 
 
