@@ -2016,4 +2016,31 @@ function addCommunityClinicSanctionedPost($org_code) {
     return TRUE;
 }
 
+function insertLog($log_module, $log_event, $log_affected_table_name, $log_affected_table_primary_key_field, $log_affected_table_primary_key_value, $log_sql_query_string, $log_event_user_id, $log_information) {
+  $sql = "
+      INSERT INTO log(
+      log_module,
+      log_event,
+      log_affected_table_name,
+      log_affected_table_primary_key_field,
+      log_affected_table_primary_key_value,
+      log_sql_query_string,
+      log_event_user_id,
+      log_datetime,
+      log_information
+      )value(
+      '" . mysql_real_escape_string($log_module) . "',
+      '" . mysql_real_escape_string($log_event) . "',
+      '" . mysql_real_escape_string($log_affected_table_name) . "',
+      '" . mysql_real_escape_string($log_affected_table_primary_key_field) . "',
+      '" . mysql_real_escape_string($log_affected_table_primary_key_value) . "',
+      '" . mysql_real_escape_string($log_sql_query_string) . "',
+      '" . mysql_real_escape_string($log_event_user_id) . "',
+      '" . getDateTime() . "',
+      '" . mysql_real_escape_string($log_information) . "'
+      )
+      ";
+  //echo $sql;
+  $r = mysql_query($sql) or die(mysql_error() . "<br>Query:<br>____<br>$sql<br>");
+}
 ?>
