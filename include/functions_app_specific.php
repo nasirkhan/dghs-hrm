@@ -1656,7 +1656,7 @@ function getLoggedUserName(){
  * Get Logged in Ueer Type
  * @return string
  * @author Nasir Khan <nasir8891@gmail.com>
- * 
+ *
  */
 function getLoggedUserType() {
     return $_SESSION['user_type'];
@@ -1670,9 +1670,12 @@ function getLoggedUserType() {
  */
 function isValidOrgCode($org_code) {
     $org_code = (int) $org_code;
+    /* Commented out by raihan, not sure why athor wrote this logic
     if (!$org_code > 0) {
         return FALSE;
     }
+     *
+     */
     $sql = "SELECT org_code FROM organization WHERE org_code = $org_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
 
