@@ -41,6 +41,7 @@ if ($_SESSION['user_type'] != "admin") {
         include_once 'include/header/header_css_js.inc.php';
         include_once 'include/header/header_ga.inc.php';
         ?>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -76,50 +77,13 @@ if ($_SESSION['user_type'] != "admin") {
                     <!-- admin home
                     ================================================== -->
                     <section id="admin_home_main">
-                        <h3>Admin Dashboard</h3>
+                        <h3>Organizations</h3>
 
                         <div class="row-fluid">
 
-                            <a href="search.php" class="btn btn-large btn-warning">
-                                <i class="icon-search pull-left icon-3x"></i> Search
-                            </a>
-
-                            <a href="add_new.php" class="btn btn-large btn-info">
-                                <i class="icon-plus pull-left icon-3x"></i> Add New
-                            </a>
-
-                            <a href="transfer.php" class="btn btn-large">
-                                <i class="icon-exchange pull-left icon-3x"></i> Transfer
-                            </a>
-
-                            <a href="delete.php" class="btn btn-danger btn-large">
-                                <i class="icon-trash pull-left icon-3x"></i> Delete
-                            </a>
-
-                            <a href="update_sanctioned_post.php" class="btn btn-large">
-                                <i class="icon-group pull-left icon-3x"></i> Update sanctioned Post
-                            </a>
-
-                            <a href="admin_edit_org.php" class="btn btn-large">
-                                <?php
-                                $sql = "SELECT * FROM `organization_requested` WHERE active LIKE 1;";
-                                $new_org_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                $new_org_result_count = mysql_num_rows($new_org_result);
-                                ?>
-                                <i class="icon-hospital pull-left icon-3x"></i>
-                                Org Approval Queue
-                                <?php if ($new_org_result_count > 0): ?>
-                                    <br />
-                                    <span class="badge badge-warning">Total <?php echo "$new_org_result_count"; ?> pending</span>
-                                <?php endif; ?>
-
-                            </a>
+                            <iframe src="org_tree.php" width="700" height="500" frameborder="0"></iframe> 
 
                         </div>
-
-
-
                     </section> <!-- /admin_home_main -->
                 </div>
             </div>
@@ -131,100 +95,7 @@ if ($_SESSION['user_type'] != "admin") {
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script type="text/javascript">
-            // load division
-            $('#admin_division').change(function() {
-                $("#loading_content").show();
-                var div_id = $('#admin_division').val();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_district_list.php',
-                    data: {div_id: div_id},
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var admin_district = document.getElementById('admin_district');
-                        admin_district.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            var d = data[i];
-                            admin_district.options.add(new Option(d.text, d.value));
-                        }
-                    }
-                });
-            });
 
-            // load district
-            $('#admin_district').change(function() {
-                var dis_id = $('#admin_district').val();
-                $("#loading_content").show();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_upazila_list.php',
-                    data: {dis_id: dis_id},
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var admin_upazila = document.getElementById('admin_upazila');
-                        admin_upazila.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            var d = data[i];
-                            admin_upazila.options.add(new Option(d.text, d.value));
-                        }
-                    }
-                });
-            });
-
-            // load organization
-            $('#btn_show_org_list').click(function() {
-                var div_id = $('#admin_division').val();
-                var dis_id = $('#admin_district').val();
-                var upa_id = $('#admin_upazila').val();
-                var agency_code = $('#org_agency').val();
-                var type_code = $('#org_type').val();
-                $("#loading_content").show();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_org_list.php',
-                    data: {
-                        div_id: div_id,
-                        dis_id: dis_id,
-                        upa_id: upa_id,
-                        agency_code: agency_code,
-                        type_code: type_code
-                    },
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        $("#org_list_display").html("");
-                        $("#org_list_display").html(data);
-                    }
-                });
-            });
-
-            // Search organization
-            $('#btn_search_org').click(function() {
-                $("#loading_content").show();
-                var searchOrg = $('#searchOrg').val();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_search_result.php',
-                    data: {searchOrg: searchOrg},
-                    success: function(data) {
-                        $("#loading_content").hide();
-                        $("#org_list_display").html("");
-                        $("#org_list_display").html(data);
-                    }
-                });
-            });
-
-            //reset search field
-            $("#btn_reset").click(function() {
-                $('#searchOrg').val("");
-                $("#org_list_display").html("");
-            });
-        </script>
 
     </body>
 </html>
