@@ -1248,7 +1248,8 @@ function getLastOrgIdFromOrganizationTable() {
 
     $data = mysql_fetch_assoc($result);
 
-    return $data['org_code'];
+    $org_code = (int) $data['org_code'];
+    return $org_code;
 }
 
 /**
@@ -1757,6 +1758,7 @@ function isUserExists($username){
  * @param type $org_code
  * @param string $mobile_number
  * @return boolean
+ * @author Nasir Khan <nasir8891@gmail.com>
  */
 function addNewUser($username, $email, $password, $user_type, $org_code, $mobile_number) {
     $username = stripslashes(trim($username));
@@ -1798,5 +1800,145 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
     
     return TRUE;
 }
+
+/**
+ * Update organization requirest table. 
+ * update the request status as 'Approved'
+ * 
+ * @param type $id
+ * @param type $user_name
+ * @return boolean
+ * 
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function updateOrgRequest($id, $user_name){
+    $id = (int) $id; 
+    if (!$id > 0) {
+        return FALSE;
+    }
+    if ($user_name == "") {
+        return FALSE;
+    }
+    $sql = "UPDATE organization_requested "
+                . "SET "
+                . "active='0', "
+                . "approved_rejected_by='$user_name', "
+                . "approved_rejected='approved', "
+                . "updated_by='$user_name' "
+                . "WHERE "
+                . "id=$id";
+    $r = mysql_query($sql) or die(mysql_error() . "<p>Code:updateOrgRequest:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+    
+    return TRUE;
+}
+
+/**
+ * Get all info of an organization form Organization Request table
+ * 
+ * @param INT $id `id` of the organization in `organization_request` table
+ * @return boolean
+ * 
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function getOrgInfoFromOrganizationRequestTable($id){
+    $id = (int) $id; 
+    if (!$id > 0) {
+        return FALSE;
+    }
+    $sql = "SELECT * FROM `organization_requested` WHERE id=$id";
+    $r = mysql_query($sql) or die(mysql_error() . "<p>Code:getOrgInfoFromOrganizationRequestTable:2<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+    
+    $data = mysql_fetch_assoc($r);
+    
+    return $data;
+}
+
+/**
+ * Insert a new organization to the `organization` table. 
+ * 
+ * 
+ * @param Array $data All info of a requested organization
+ * @return boolean If successfully updated, returns true
+ * 
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function insertNewOrganization($data){
+//        if (!count($data)){
+//            return FALSE;
+//        }
+    
+        $new_org_name = $data['org_name'];
+        $last_org_code = (int) getLastOrgIdFromOrganizationTable();
+        $new_org_code = $last_org_code + 1;
+        $new_org_type = $data['org_type_code'];
+        $new_agency_code = $data['agency_code'];
+        $new_established_year = $data['year_established'];
+        $org_location_type = $data['org_location_type'];
+        $division_code = $data['division_code'];
+        $division_name = $data['division_name'];
+        $district_code = $data['district_code'];
+        $district_name = $data['district_name'];
+        $upazila_code = $data['upazila_thana_code'];
+        $upazila_name = $data['upazila_thana_name'];
+        $new_ownarship_info = $data['ownership_code'];
+        $new_org_email = $data['email_address1'];
+        $new_functions_code = $data['org_function_code'];
+        $new_org_level_code = $data['org_level_code'];
+        $new_org_level_name = $data['org_level_name'];
+        $new_org_mobile = $data['mobile_number1'];
+        $latitude = $data['latitude'];
+        $longitude = $data['longitude'];
+
+
+        // UPDATE organizaion table
+        $sql = "INSERT INTO `organization` (
+            `org_name`,
+            `org_code`,
+            `org_type_code`,
+            `agency_code`,
+            `year_established`,
+            `org_location_type`,
+            `division_code`,
+            `division_name`,
+            `district_code`,
+            `district_name`,
+            `upazila_thana_code`,
+            `upazila_thana_name`,
+            `ownership_code`,
+            `email_address1`,
+            `mobile_number1`,
+            `org_function_code`,
+            `org_level_code`,
+            `org_level_name`,
+            `latitude`,
+            `longitude`)
+        VALUES (
+            \"$new_org_name\",
+            '$new_org_code',
+            '$new_org_type',
+            '$new_agency_code',
+            \"$new_established_year\",
+             '$org_location_type',
+            '$division_code',
+            '$division_name',
+            '$district_code',
+            '$district_name',
+            '$upazila_code',
+            '$upazila_name',
+            '$new_ownarship_info',
+            '$new_org_email',
+            '$new_org_mobile',
+            '$new_functions_code',
+            '$new_org_level_code',
+            '$new_org_level_name',
+            '$latitude',
+            '$longitude'
+            )";
+        
+        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:3<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+        
+        return TRUE;
+}
+
 
 ?>
