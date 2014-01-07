@@ -57,10 +57,10 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         $data = getOrgInfoFromOrganizationRequestTable($id);
         
         // Insect new organization
-        insertNewOrganization($data);
+        $new_org_code = insertNewOrganization($data);
         
         // Add Sanctioned Post
-        
+        addCommunityClinicSanctionedPost($new_org_code);
 
         /**
          * Email content

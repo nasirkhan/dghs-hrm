@@ -1937,8 +1937,82 @@ function insertNewOrganization($data) {
     return $new_org_code;
 }
 
-function addSanctionedPost($org_code){
+/**
+ * Populate sanctioed post for an organization.
+ * 
+ * @param type $org_code
+ * @return string
+ * @author Nasir Khan Saikat <nasir8891@gmail.com>
+ */
+function addCommunityClinicSanctionedPost($org_code){
+    $org_type_code = getOrgTypeCodeFromOrgCode($org_code);
+    $updated_datetime = date("Y-m-d H:i:s");
+    $updated_by = $_SESSION['username'];
     
+    $group = "Community health care provider";
+    $designation = "Community health care provider";
+    $type_of_post =  "3";
+    $sanctioned_post = 1;
+    $sanctioned_post_group_code = 11645;
+    $pay_scale = "14";
+    $class = "Class 3";
+    $first_level_id = "1004";
+    $first_level_name = "Administration";
+    $designation_code = "designation_code";
+    $second_level_id = "0";
+    $second_level_name = "";
+    $bangladesh_professional_category_code = "4";
+    $who_occupation_group_code = "102";
+    
+    
+    if ($org_type_code == 1039){
+        $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
+                `group`,
+                `designation`,
+                `type_of_post`,
+                `sanctioned_post`,
+                `sanctioned_post_group_code`,
+                `pay_scale`,
+                `class`,
+                `first_level_id`,
+                `first_level_name`,
+                `org_code`,
+                `designation_code`,
+                `updated_by`,
+                `updated_datetime`,
+                `second_level_id`,
+                `second_level_name`,
+                `bangladesh_professional_category_code`,
+                `who_occupation_group_code`
+            )
+            VALUES
+                (
+		'$group',
+		'$designation',
+		'$type_of_post',
+		'1',
+		'$sanctioned_post_group_code',
+		'$pay_scale',
+		'$class',
+		'$first_level_id',
+		'$first_level_name',
+		'$org_code',
+		'$designation_code',
+		'$updated_by',
+		'$updated_datetime',
+		'$second_level_id',
+		'$second_level_name',
+                '$bangladesh_professional_category_code',
+                '$who_occupation_group_code'
+            )";
+    $result = mysql_query($sql) or die(mysql_error() . "Query:addCommunityClinicSanctionedPost<br />___<br />$sql<br />");
+    } else {
+        $return_string = "This organization is not allowed to populate Sanctioend Post automatically.";
+        
+        return $return_string;
+    }
+    
+    return TRUE;
 }
 
 ?>
