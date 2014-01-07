@@ -10,14 +10,14 @@
         <li><a href="">All Employee</a></li>
     </ul>
     <li><a href="">Reports</a></li>
-    <li><a href="setting.php?org_code=<?= $org_code?>">Settings</a></li>  
+    <li><a href="#">Configuration</a></li>
     <ul>
         <li><a href="#">Designations</a></li>
         <li><a href="#">Class</a></li>
         <li><a href="#">Payscale</a></li>
         <li><a href="#">Type of Post</a></li>
         <li><a href="#">First Level Names</a></li>
-        <li><a href="#">Second Level Name</a></li>        
-    </ul>    
+        <li><a href="#">Second Level Name</a></li>
+    </ul>
 </ul>
 

@@ -1598,8 +1598,6 @@ function login($POSTDATA) {
 
     $data = mysql_fetch_assoc($result);
     //myprint_r($data); // debug
-
-
 //    set session variables
     if (mysql_num_rows($result) >= 1) {
         if (setUserSession($data['username'])) {
@@ -1646,11 +1644,9 @@ function getUserFromUsername($username) {
     return getRowVal('user', 'username', $username);
 }
 
-
-function getLoggedUserName(){
+function getLoggedUserName() {
     return $_SESSION['username'];
 }
-
 
 /**
  * Get Logged in Ueer Type
@@ -1669,21 +1665,23 @@ function getLoggedUserType() {
  * @author Nasir Khan <nasir8891@gmail.com>
  */
 function isValidOrgCode($org_code) {
-    $org_code = (int) $org_code;
+    //$org_code = (int) $org_code;
     /* Commented out by raihan, not sure why athor wrote this logic
-    if (!$org_code > 0) {
-        return FALSE;
-    }
+      if (!$org_code > 0) {
+      return FALSE;
+      }
      *
      */
-    $sql = "SELECT org_code FROM organization WHERE org_code = $org_code LIMIT 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+    //$sql = "SELECT org_code FROM organization WHERE org_code = $org_code LIMIT 1";
+    //$result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
 
-    if (mysql_num_rows($result) == 1) {
-        return TRUE;
-    } else {
-        return FALSE;
-    }
+    return getRows('organization', " WHERE org_code='$org_code'");
+
+//    if (mysql_num_rows($result)) {
+//        return TRUE;
+//    }
+//
+//    return FALSE;
 }
 
 /**
@@ -1750,7 +1748,7 @@ function isUserExists($username) {
 
 /**
  * Add a new user (admin / organization user)
- * 
+ *
  * @param type $username
  * @param type $email
  * @param type $password
@@ -1786,8 +1784,8 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
                     `active`)
                 VALUES (
                     \"$username\",
-                    \"$email\",    
-                    \"$mobile_number\",    
+                    \"$email\",
+                    \"$mobile_number\",
                     \"" . md5($password) . "\",
                     '$user_type',
                     \"$org_code\",
@@ -1802,13 +1800,13 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
 }
 
 /**
- * Update organization requirest table. 
+ * Update organization requirest table.
  * update the request status as 'Approved'
- * 
+ *
  * @param type $id
  * @param type $user_name
  * @return boolean
- * 
+ *
  * @author Nasir Khan <nasir8891@gmail.com>
  */
 function updateOrgRequest($id, $user_name) {
@@ -1834,10 +1832,10 @@ function updateOrgRequest($id, $user_name) {
 
 /**
  * Get all info of an organization form Organization Request table
- * 
+ *
  * @param INT $id `id` of the organization in `organization_request` table
  * @return boolean
- * 
+ *
  * @author Nasir Khan <nasir8891@gmail.com>
  */
 function getOrgInfoFromOrganizationRequestTable($id) {
@@ -1854,12 +1852,12 @@ function getOrgInfoFromOrganizationRequestTable($id) {
 }
 
 /**
- * Insert a new organization to the `organization` table. 
- * 
- * 
+ * Insert a new organization to the `organization` table.
+ *
+ *
  * @param Array $data All info of a requested organization
  * @return boolean If successfully updated, returns true
- * 
+ *
  * @author Nasir Khan <nasir8891@gmail.com>
  */
 function insertNewOrganization($data) {
@@ -1942,19 +1940,19 @@ function insertNewOrganization($data) {
 
 /**
  * Populate sanctioed post for an organization.
- * 
+ *
  * @param type $org_code
  * @return string
  * @author Nasir Khan Saikat <nasir8891@gmail.com>
  */
-function addCommunityClinicSanctionedPost($org_code){
+function addCommunityClinicSanctionedPost($org_code) {
     $org_type_code = getOrgTypeCodeFromOrgCode($org_code);
     $updated_datetime = date("Y-m-d H:i:s");
     $updated_by = $_SESSION['username'];
-    
+
     $group = "Community health care provider";
     $designation = "Community health care provider";
-    $type_of_post =  "3";
+    $type_of_post = "3";
     $sanctioned_post = 1;
     $sanctioned_post_group_code = 11645;
     $pay_scale = "14";
@@ -1966,9 +1964,9 @@ function addCommunityClinicSanctionedPost($org_code){
     $second_level_name = "";
     $bangladesh_professional_category_code = "4";
     $who_occupation_group_code = "102";
-    
-    
-    if ($org_type_code == 1039){
+
+
+    if ($org_type_code == 1039) {
         $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
                 `group`,
                 `designation`,
@@ -2008,13 +2006,13 @@ function addCommunityClinicSanctionedPost($org_code){
                 '$bangladesh_professional_category_code',
                 '$who_occupation_group_code'
             )";
-    $result = mysql_query($sql) or die(mysql_error() . "Query:addCommunityClinicSanctionedPost<br />___<br />$sql<br />");
+        $result = mysql_query($sql) or die(mysql_error() . "Query:addCommunityClinicSanctionedPost<br />___<br />$sql<br />");
     } else {
         $return_string = "This organization is not allowed to populate Sanctioend Post automatically.";
-        
+
         return $return_string;
     }
-    
+
     return TRUE;
 }
 
