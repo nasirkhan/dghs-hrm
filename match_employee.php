@@ -227,6 +227,6 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
         </div>
         <!-- Footer
         ================================================== -->
-        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
+        <?php include_once 'include/footer/footer.inc.php'; ?>
     </body>
 </html>

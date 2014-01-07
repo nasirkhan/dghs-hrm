@@ -285,6 +285,6 @@ if (isset($_POST['changePassword']) && ($_POST['changePassword'] == 'admin_true'
         </div>
         <!-- Footer
         ================================================== -->
-        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
+        <?php include_once 'include/footer/footer.inc.php'; ?>
     </body>
 </html>

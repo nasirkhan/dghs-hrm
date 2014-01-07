@@ -276,7 +276,7 @@ if ($form_submit == 1 && isset($_POST['form_submit'])) {
 
         <!-- Footer
         ================================================== -->
-        <?php include_once '../include/footer/footer_menu.inc.php'; ?>
+        <?php include_once '../include/footer/footer.inc.php'; ?>
 
 
 

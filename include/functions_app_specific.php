@@ -1248,7 +1248,8 @@ function getLastOrgIdFromOrganizationTable() {
 
     $data = mysql_fetch_assoc($result);
 
-    return $data['org_code'];
+    $org_code = (int) $data['org_code'];
+    return $org_code;
 }
 
 /**
@@ -1657,10 +1658,9 @@ function getLoggedUserName(){
  * @author Nasir Khan <nasir8891@gmail.com>
  *
  */
-function getLoggedUserType(){
+function getLoggedUserType() {
     return $_SESSION['user_type'];
 }
-
 
 /**
  * Check if the org code is valid or not
@@ -1672,7 +1672,7 @@ function isValidOrgCode($org_code) {
     $org_code = (int) $org_code;
     /* Commented out by raihan, not sure why athor wrote this logic
     if (!$org_code > 0) {
-        return "";
+        return FALSE;
     }
      *
      */
@@ -1686,17 +1686,16 @@ function isValidOrgCode($org_code) {
     }
 }
 
-
 /**
  * Check if the Staff Id is valid or not
  * @param type $staff_id
  * @return string|boolean
  * @author Nasir Khan <nasir8891@gmail.com>
  */
-function isValidStaffId($staff_id){
+function isValidStaffId($staff_id) {
     $staff_id = (int) $staff_id;
     if (!$staff_id > 0) {
-        return "";
+        return FALSE;
     }
     $sql = "SELECT staff_id FROM `old_tbl_staff_organization` WHERE staff_id=$staff_id LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
@@ -1714,9 +1713,9 @@ function isValidStaffId($staff_id){
  * @return string|boolean
  * @author Nasir Khan <nasir8891@gmail.com>
  */
-function isValidStaffMobile($mobile_number){
+function isValidStaffMobile($mobile_number) {
     if ($mobile_number == "") {
-        return "";
+        return FALSE;
     }
     $sql = "SELECT staff_id FROM `old_tbl_staff_organization` WHERE contact_no LIKE \"$mobile_number\" LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
@@ -1728,4 +1727,295 @@ function isValidStaffMobile($mobile_number){
         return FALSE;
     }
 }
+
+/**
+ * Check if an username exists or not
+ * @param type $staff_id
+ * @return string|boolean
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function isUserExists($username) {
+    if ($username == "") {
+        return FALSE;
+    }
+    $sql = "SELECT username FROM `user` WHERE username LIKE \"$username\" LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isUserExists:1</p><p>Query:</b></p>___<p>$sql</p>");
+
+    if (mysql_num_rows($result) == 1) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
+}
+
+/**
+ * Add a new user (admin / organization user)
+ * 
+ * @param type $username
+ * @param type $email
+ * @param type $password
+ * @param type $user_type
+ * @param type $org_code
+ * @param string $mobile_number
+ * @return boolean
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function addNewUser($username, $email, $password, $user_type, $org_code, $mobile_number) {
+    $username = stripslashes(trim($username));
+    $email = stripslashes(trim($email));
+    $password = md5(stripslashes(trim($password)));
+    $user_type = stripslashes(trim($user_type));
+    $org_code = stripslashes(trim($org_code));
+    $updated_datetime = date("Y-m-d H:i:s");
+    $updated_by = $_SESSION['username'];
+    $active = 1;
+
+    if ($username == "" || $email == "" || $password == "" || $user_type == "" || $org_code == "" || $mobile_number = "") {
+        return FALSE;
+    }
+
+    $sql = "INSERT INTO `user` (
+                    `username`,
+                    `email`,
+                    `mobile`,
+                    `password`,
+                    `user_type`,
+                    `org_code`,
+                    `updated_datetime`,
+                    `updated_by`,
+                    `active`)
+                VALUES (
+                    \"$username\",
+                    \"$email\",    
+                    \"$mobile_number\",    
+                    \"" . md5($password) . "\",
+                    '$user_type',
+                    \"$org_code\",
+                     '$updated_datetime',
+                    \"$updated_by\",
+                    '$active'
+                    )";
+
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:addNewUser:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    return TRUE;
+}
+
+/**
+ * Update organization requirest table. 
+ * update the request status as 'Approved'
+ * 
+ * @param type $id
+ * @param type $user_name
+ * @return boolean
+ * 
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function updateOrgRequest($id, $user_name) {
+    $id = (int) $id;
+    if (!$id > 0) {
+        return FALSE;
+    }
+    if ($user_name == "") {
+        return FALSE;
+    }
+    $sql = "UPDATE organization_requested "
+            . "SET "
+            . "active='0', "
+            . "approved_rejected_by='$user_name', "
+            . "approved_rejected='approved', "
+            . "updated_by='$user_name' "
+            . "WHERE "
+            . "id=$id";
+    $r = mysql_query($sql) or die(mysql_error() . "<p>Code:updateOrgRequest:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    return TRUE;
+}
+
+/**
+ * Get all info of an organization form Organization Request table
+ * 
+ * @param INT $id `id` of the organization in `organization_request` table
+ * @return boolean
+ * 
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function getOrgInfoFromOrganizationRequestTable($id) {
+    $id = (int) $id;
+    if (!$id > 0) {
+        return FALSE;
+    }
+    $sql = "SELECT * FROM `organization_requested` WHERE id=$id";
+    $r = mysql_query($sql) or die(mysql_error() . "<p>Code:getOrgInfoFromOrganizationRequestTable:2<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    $data = mysql_fetch_assoc($r);
+
+    return $data;
+}
+
+/**
+ * Insert a new organization to the `organization` table. 
+ * 
+ * 
+ * @param Array $data All info of a requested organization
+ * @return boolean If successfully updated, returns true
+ * 
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function insertNewOrganization($data) {
+//        if (!count($data)){
+//            return FALSE;
+//        }
+
+    $new_org_name = $data['org_name'];
+    $last_org_code = (int) getLastOrgIdFromOrganizationTable();
+    $new_org_code = $last_org_code + 1;
+    $new_org_type = $data['org_type_code'];
+    $new_agency_code = $data['agency_code'];
+    $new_established_year = $data['year_established'];
+    $org_location_type = $data['org_location_type'];
+    $division_code = $data['division_code'];
+    $division_name = $data['division_name'];
+    $district_code = $data['district_code'];
+    $district_name = $data['district_name'];
+    $upazila_code = $data['upazila_thana_code'];
+    $upazila_name = $data['upazila_thana_name'];
+    $new_ownarship_info = $data['ownership_code'];
+    $new_org_email = $data['email_address1'];
+    $new_functions_code = $data['org_function_code'];
+    $new_org_level_code = $data['org_level_code'];
+    $new_org_level_name = $data['org_level_name'];
+    $new_org_mobile = $data['mobile_number1'];
+    $latitude = $data['latitude'];
+    $longitude = $data['longitude'];
+
+
+    // UPDATE organizaion table
+    $sql = "INSERT INTO `organization` (
+            `org_name`,
+            `org_code`,
+            `org_type_code`,
+            `agency_code`,
+            `year_established`,
+            `org_location_type`,
+            `division_code`,
+            `division_name`,
+            `district_code`,
+            `district_name`,
+            `upazila_thana_code`,
+            `upazila_thana_name`,
+            `ownership_code`,
+            `email_address1`,
+            `mobile_number1`,
+            `org_function_code`,
+            `org_level_code`,
+            `org_level_name`,
+            `latitude`,
+            `longitude`)
+        VALUES (
+            \"$new_org_name\",
+            '$new_org_code',
+            '$new_org_type',
+            '$new_agency_code',
+            \"$new_established_year\",
+             '$org_location_type',
+            '$division_code',
+            '$division_name',
+            '$district_code',
+            '$district_name',
+            '$upazila_code',
+            '$upazila_name',
+            '$new_ownarship_info',
+            '$new_org_email',
+            '$new_org_mobile',
+            '$new_functions_code',
+            '$new_org_level_code',
+            '$new_org_level_name',
+            '$latitude',
+            '$longitude'
+            )";
+
+    $r = mysql_query($sql) or die(mysql_error() . "<p>Code:insertNewOrganization:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    return $new_org_code;
+}
+
+/**
+ * Populate sanctioed post for an organization.
+ * 
+ * @param type $org_code
+ * @return string
+ * @author Nasir Khan Saikat <nasir8891@gmail.com>
+ */
+function addCommunityClinicSanctionedPost($org_code){
+    $org_type_code = getOrgTypeCodeFromOrgCode($org_code);
+    $updated_datetime = date("Y-m-d H:i:s");
+    $updated_by = $_SESSION['username'];
+    
+    $group = "Community health care provider";
+    $designation = "Community health care provider";
+    $type_of_post =  "3";
+    $sanctioned_post = 1;
+    $sanctioned_post_group_code = 11645;
+    $pay_scale = "14";
+    $class = "Class 3";
+    $first_level_id = "1004";
+    $first_level_name = "Administration";
+    $designation_code = "designation_code";
+    $second_level_id = "0";
+    $second_level_name = "";
+    $bangladesh_professional_category_code = "4";
+    $who_occupation_group_code = "102";
+    
+    
+    if ($org_type_code == 1039){
+        $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
+                `group`,
+                `designation`,
+                `type_of_post`,
+                `sanctioned_post`,
+                `sanctioned_post_group_code`,
+                `pay_scale`,
+                `class`,
+                `first_level_id`,
+                `first_level_name`,
+                `org_code`,
+                `designation_code`,
+                `updated_by`,
+                `updated_datetime`,
+                `second_level_id`,
+                `second_level_name`,
+                `bangladesh_professional_category_code`,
+                `who_occupation_group_code`
+            )
+            VALUES
+                (
+		'$group',
+		'$designation',
+		'$type_of_post',
+		'1',
+		'$sanctioned_post_group_code',
+		'$pay_scale',
+		'$class',
+		'$first_level_id',
+		'$first_level_name',
+		'$org_code',
+		'$designation_code',
+		'$updated_by',
+		'$updated_datetime',
+		'$second_level_id',
+		'$second_level_name',
+                '$bangladesh_professional_category_code',
+                '$who_occupation_group_code'
+            )";
+    $result = mysql_query($sql) or die(mysql_error() . "Query:addCommunityClinicSanctionedPost<br />___<br />$sql<br />");
+    } else {
+        $return_string = "This organization is not allowed to populate Sanctioend Post automatically.";
+        
+        return $return_string;
+    }
+    
+    return TRUE;
+}
+
 ?>

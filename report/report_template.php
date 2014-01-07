@@ -102,7 +102,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 
         <!-- Footer
         ================================================== -->
-        <?php include_once '../include/footer/footer_menu.inc.php'; ?>
+        <?php include_once '../include/footer/footer.inc.php'; ?>
 
 
 

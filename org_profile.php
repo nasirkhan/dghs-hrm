@@ -678,7 +678,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
 
         <!-- Footer
         ================================================== -->
-        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
+        <?php include_once 'include/footer/footer.inc.php'; ?>
         <script>
             $(function() {
                 $('.nav-tab-ul #basic-info').tab('show');

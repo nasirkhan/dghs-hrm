@@ -1164,7 +1164,7 @@ if (isset($_POST ['search'])) {
         </div>
         <!-- Footer
         ================================================== -->
-        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
+        <?php include_once 'include/footer/footer.inc.php'; ?>
         <script>
             $('.date-data').datepicker({
                 format: 'yyyy-mm-dd'

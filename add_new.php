@@ -28,6 +28,7 @@ if ($add_new_type == "org") {
     $new_type = "Organization";
 } else if ($add_new_type == "user") {
     $new_type = "User";
+    header("location:user_add.php");
 }
 
 $insert_success = mysql_real_escape_string($_GET['insert_success']);
@@ -119,84 +120,6 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
 }
 
 $error = "";
-if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "user") {
-    // if " new_user_type " == " Super Admin "
-    // @TODO restructure the User table, include user_type info
-    if (isset($_POST['new_user_type']) && $_POST['new_user_type'] == "3") {
-        $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
-        $new_user_pass = mysql_real_escape_string($_POST['new_user_pass']);
-        $new_user_pass2 = mysql_real_escape_string($_POST['new_user_pass2']);
-//        $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
-
-        if ($new_user_pass != $new_user_pass2) {
-            $error = "Password did not matched.";
-        }
-
-        if ($error == "") {
-            $sql = "INSERT INTO `users` (
-                        `username`,
-                        `password`,
-                        `user_type`,
-                        `org_code`,
-                        `updated_datetime`,
-                        `updated_by`,
-                        `active`)
-                    VALUES (
-                        \"$new_user_name\",
-                        \"$new_user_pass\",
-                        '$new_agency_code',
-                        \"$new_established_year\",
-                         '$org_location_type',
-                        '$division_id',
-                        '$district_id'
-                        )";
-
-            echo "$sql";
-//            die();
-//            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-            $insert_success = TRUE;
-
-//            header("location:add_new.php?type=user&insert_success=true");
-        }
-    } else if (isset($_POST['new_user_type']) && $_POST['new_user_type'] == "1") {
-        $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
-        $new_user_pass = mysql_real_escape_string($_POST['new_user_pass']);
-        $new_user_pass2 = mysql_real_escape_string($_POST['new_user_pass2']);
-//        $new_user_name = mysql_real_escape_string($_POST['new_user_name']);
-
-        if ($new_user_pass != $new_user_pass2) {
-            $error = "Password did not matched.";
-        }
-
-        if ($error == "") {
-            $sql = "INSERT INTO `users` (
-                        `username`,
-                        `password`,
-                        `user_type`,
-                        `org_code`,
-                        `updated_datetime`,
-                        `updated_by`,
-                        `active`)
-                    VALUES (
-                        \"$new_user_name\",
-                        \"$new_user_pass\",
-                        '$new_agency_code',
-                        \"$new_established_year\",
-                         '$org_location_type',
-                        '$division_id',
-                        '$district_id'
-                        )";
-
-            echo "$sql";
-//            die();
-//            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-            $insert_success = TRUE;
-
-//            header("location:add_new.php?type=user&insert_success=true");
-        }
-    }
-}
-
 
 $required_missing = mysql_real_escape_string($_GET['required_missing']);
 ?>
@@ -272,7 +195,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <a href="add_new.php?type=user" class="btn btn-large btn-info">
+                                                    <a href="user_add.php" class="btn btn-large btn-info">
                                                         <i class="icon-user-md icon-2x pull-left"></i> Add New Organization User
                                                     </a>
                                                 </td>
@@ -412,138 +335,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                                     </div>
                                 </div>
                             </form>
-                        <?php endif; ?>
-
-                        <!--Add new user-->
-                        <?php if ($add_new_type == "user"): ?>
-                            <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-                                <div class="control-group">
-                                    <label class="control-label" for="new_user_name">UserName</label>
-                                    <div class="controls">
-                                        <input type="text" id="new_user_name" name="new_user_name" placeholder="User Name" >
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="new_user_pass">Password</label>
-                                    <div class="controls">
-                                        <input type="password" id="new_user_pass" name="new_user_pass" placeholder="Password" >
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="new_user_pass2">Retype Password</label>
-                                    <div class="controls">
-                                        <input type="password" id="new_user_pass2" name="new_user_pass2" placeholder="Retype Password" >
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label class="control-label" for="new_user_type">User Type</label>
-                                    <div class="controls">
-                                        <select id="new_user_type" name="new_user_type" required>
-                                            <option value="0">Select User Type</option>
-                                            <?php
-                                            /**
-                                             * @todo restructure the user type table
-                                             */
-                                            $sql = "SELECT user_type_code, user_type_name FROM user_type";
-                                            $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                            while ($rows = mysql_fetch_assoc($result)) {
-                                                echo "<option value=\"" . $rows['user_type_code'] . "\">" . $rows['user_type_name'] . "</option>";
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="new_admin_org_code" style="display: none;">
-                                    <div class="control-group">
-                                        <label class="control-label" for="new_org_code">Organization Code</label>
-                                        <div class="controls">
-                                            <input type="text" value="99999999" disabled=""/>
-                                            <input type="hidden" id="new_org_code" name="new_org_code" value="99999999" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div id="org_select_block" class="row-fluid" style="display: none;">
-                                    <div class="span12 alert alert-info">
-                                        <div class="">
-                                            <p class="lead">Select Organization(s) from the administrative region, agency type or organization type</p>
-                                            <div class="control-group">
-                                                <select id="admin_division" name="admin_division">
-                                                    <option value="0">Select Division</option>
-                                                    <?php
-                                                    /**
-                                                     * @todo change old_visision_id to division_bbs_code
-                                                     */
-                                                    $sql = "SELECT admin_division.division_name, admin_division.old_division_id FROM admin_division";
-                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                                    while ($rows = mysql_fetch_assoc($result)) {
-                                                        echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
-                                                    }
-                                                    ?>
-                                                </select>
-                                                <select id="admin_district" name="admin_district">
-                                                    <option value="0">Select District</option>
-                                                </select>
-                                                <select id="admin_upazila" name="admin_upazila">
-                                                    <option value="0">Select Upazila</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="control-group">
-                                                <select id="org_agency" name="org_agency">
-                                                    <option value="0">Select Agency</option>
-                                                    <?php
-                                                    $sql = "SELECT
-                                                    org_agency_code.org_agency_code,
-                                                    org_agency_code.org_agency_name
-                                                FROM
-                                                    org_agency_code
-                                                ORDER BY
-                                                    org_agency_code.org_agency_code";
-                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                                    while ($rows = mysql_fetch_assoc($result)) {
-                                                        echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
-                                                    }
-                                                    ?>
-                                                </select>
-
-                                                <select id="org_type" name="org_type">
-                                                    <option value="0">Select Org Type</option>
-                                                    <?php
-                                                    $sql = "SELECT
-                                                            org_type.org_type_code,
-                                                            org_type.org_type_name
-                                                        FROM
-                                                            org_type
-                                                        ORDER BY
-                                                            org_type.org_type_name ASC";
-                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                                    while ($rows = mysql_fetch_assoc($result)) {
-                                                        echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
-                                                    }
-                                                    ?>
-                                                </select>
-
-                                                <select id="org_list" name="org_list">
-                                                    <option value="0">Select Organization</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <input type="hidden" id="new_post_type" name="new_post_type" value="user" />
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <button type="submit" class="btn btn-large btn-info">Add New User</button>
-                                    </div>
-                                </div>
-                            </form>
-                        <?php endif; ?>
+                        <?php endif; ?>                      
 
                     </section>
 
@@ -556,7 +348,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
 
         <!-- Footer
         ================================================== -->
-        <?php include_once 'include/footer/footer_menu.inc.php'; ?>
+        <?php include_once 'include/footer/footer.inc.php'; ?>
         <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
@@ -655,17 +447,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                 }
             });
 
-            $("#new_user_type").change(function() {
-                var selectedType = $("#new_user_type").val();
-                if (selectedType === "1") {
-                    $("#new_admin_org_code").hide();
-                    $("#org_select_block").slideDown();
-                }
-                else if (selectedType === "3") {
-                    $("#org_select_block").hide();
-                    $("#new_admin_org_code").slideDown();
-                }
-            });
+            
             // load district
             $('#admin_division').change(function() {
                 $("#loading_content").show();

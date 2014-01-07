@@ -51,90 +51,16 @@ $action = mysql_real_escape_string($_POST['action']);
 if (isset($_POST['id']) && isset($_POST['action'])) {
     if ($action == "approve") {
         // UPDATE organization_requested
-        $sql = "UPDATE organization_requested "
-                . "SET "
-                . "active='0', "
-                . "approved_rejected_by='$user_name', "
-                . "approved_rejected='approved', "
-                . "updated_by='$user_name' "
-                . "WHERE "
-                . "id=$id";
-        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+        updateOrgRequest($id, $user_name);
 
         // GET organizaion data
-        $sql = "SELECT * FROM `organization_requested` WHERE id=$id";
-        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:2<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-
-        $data = mysql_fetch_assoc($r);
-
-        $new_org_name = $data['org_name'];
-        $last_org_code = (int) getLastOrgIdFromOrganizationTable();
-        $new_org_code = $last_org_code + 1;
-        $new_org_type = $data['org_type_code'];
-        $new_agency_code = $data['agency_code'];
-        $new_established_year = $data['year_established'];
-        $org_location_type = $data['org_location_type'];
-        $division_code = $data['division_code'];
-        $division_name = $data['division_name'];
-        $district_code = $data['district_code'];
-        $district_name = $data['district_name'];
-        $upazila_code = $data['upazila_thana_code'];
-        $upazila_name = $data['upazila_thana_name'];
-        $new_ownarship_info = $data['ownership_code'];
-        $new_org_email = $data['email_address1'];
-        $new_functions_code = $data['org_function_code'];
-        $new_org_level_code = $data['org_level_code'];
-        $new_org_level_name = $data['org_level_name'];
-        $new_org_mobile = $data['mobile_number1'];
-        $latitude = $data['latitude'];
-        $longitude = $data['longitude'];
-
-
-        // UPDATE organizaion table
-        $sql = "INSERT INTO `organization` (
-            `org_name`,
-            `org_code`,
-            `org_type_code`,
-            `agency_code`,
-            `year_established`,
-            `org_location_type`,
-            `division_code`,
-            `division_name`,
-            `district_code`,
-            `district_name`,
-            `upazila_thana_code`,
-            `upazila_thana_name`,
-            `ownership_code`,
-            `email_address1`,
-            `mobile_number1`,
-            `org_function_code`,
-            `org_level_code`,
-            `org_level_name`,
-            `latitude`,
-            `longitude`)
-        VALUES (
-            \"$new_org_name\",
-            '$new_org_code',
-            '$new_org_type',
-            '$new_agency_code',
-            \"$new_established_year\",
-             '$org_location_type',
-            '$division_code',
-            '$division_name',
-            '$district_code',
-            '$district_name',
-            '$upazila_code',
-            '$upazila_name',
-            '$new_ownarship_info',
-            '$new_org_email',
-            '$new_org_mobile',
-            '$new_functions_code',
-            '$new_org_level_code',
-            '$new_org_level_name',
-            '$latitude',
-            '$longitude'
-            )";
-        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:sql:3<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+        $data = getOrgInfoFromOrganizationRequestTable($id);
+        
+        // Insect new organization
+        $new_org_code = insertNewOrganization($data);
+        
+        // Add Sanctioned Post
+        addCommunityClinicSanctionedPost($new_org_code);
 
         /**
          * Email content
