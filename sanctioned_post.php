@@ -28,7 +28,66 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
     }
 }
 
+$action  = mysql_real_escape_string(trim($_GET['action']));
+if (isset($_POST['action'])) {
+    $sp_id = (int) mysql_real_escape_string(trim($_POST['sp_id']));
+    $org_code = (int) mysql_real_escape_string(trim($_POST['org_code']));
+    $action  = mysql_real_escape_string(trim($_POST['action']));
 
+    if ($action == "add"){
+        $sql = "SELECT
+                        *
+                FROM
+                        total_manpower_imported_sanctioned_post_copy
+                WHERE
+                        id = '$sp_id'
+                AND active LIKE 1";
+        $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:1</p><p>Query:</b></p>___<p>$sql</p>");
+        $data = mysql_fetch_assoc($result);
+
+        if ($org_code == $data['org_code']){
+            $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
+                `group`,
+                `designation`,
+                `type_of_post`,
+                `sanctioned_post`,
+                `sanctioned_post_group_code`,
+                `pay_scale`,
+                `class`,
+                `first_level_id`,
+                `first_level_name`,
+                `org_code`,
+                `designation_code`,
+                `updated_by`,
+                `second_level_id`,
+                `second_level_name`,
+                `bangladesh_professional_category_code`,
+                `who_occupation_group_code`
+            )
+            VALUES
+                (
+		\"" . $data['group'] . "\",
+		\"" . $data['designation'] . "\",
+		\"" . $data['type_of_post'] . "\",
+		\"" . $data['sanctioned_post'] . "\",
+		\"" . $data['sanctioned_post_group_code'] . "\",
+		\"" . $data['pay_scale'] . "\",
+		\"" . $data['class'] . "\",
+		\"" . $data['first_level_id'] . "\",
+		\"" . $data['first_level_name'] . "\",
+		\"" . $data['org_code'] . "\",
+		\"" . $data['designation_code'] . "\",
+		\"" . $_SESSION['username'] . "\",
+		\"" . $data['second_level_id'] . "\",
+		\"" . $data['second_level_name'] . "\",
+                \"" . $data['bangladesh_professional_category_code'] . "\",
+                \"" . $data['who_occupation_group_code'] . "\"
+            )";
+//            echo "<pre>$sql</pre>";
+            $result = mysql_query($sql) or die(mysql_error() . "Query:1<br />___<br />$sql<br />");
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -111,7 +170,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                         <tr>
                                             <td>
                                                 <div class="row-fluid">
-                                                    <div class="span5">
+                                                    <div class="span4">
                                                         <strong>Designation</strong>
                                                     </div>
                                                     <div class="span2">
@@ -123,7 +182,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                     <div class="span1">
                                                         <strong>Payscale</strong>
                                                     </div>
-                                                    <div class="span1">
+                                                    <div class="span2">
                                                         <strong>Total Post</strong>
                                                     </div>
                                                     <div class="span2">
@@ -143,6 +202,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                         sanctioned_post_designation.ranking,
                                                         sanctioned_post_designation.class,
                                                         sanctioned_post_designation.payscale,
+                                                        sanctioned_post_designation.designation_code,
                                                         COUNT(*) AS sp_count
                                                 FROM
                                                         `total_manpower_imported_sanctioned_post_copy`
@@ -163,7 +223,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
 
                                                 <td>
                                                     <div class="row-fluid">
-                                                        <div class="span5">
+                                                        <div class="span4">
                                                             <?php $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation'])); ?>                                                                                                                        
                                                             <a id="sp-btn-<?php echo $designation_div_id; ?>" href="#sp-<?php echo $designation_div_id; ?>" role="button" data-toggle="modal">
                                                                 <?php echo $sp_data['designation']; ?>
@@ -178,10 +238,26 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                         <div class="span1">
                                                             <?php echo $sp_data['payscale']; ?>
                                                         </div>
-                                                        <div class="span1">
+                                                        <div class="span2">
                                                             <?php echo $sp_data['sp_count']; ?>
+                                                            <form class="form-inline form-clear pull-right" action="sanctioned_post_update.php" method="get">
+                                                                <input name="org_code" value="<?php echo $org_code; ?>" type="hidden" />
+                                                                <input name="designation_code" value="<?php echo $sp_data['designation_code']; ?>" type="hidden" />
+                                                                <input name="action" value="delete" type="hidden" />
+                                                                <input type="hidden" id="step" name="step" value="2">
+                                                                <button type="submit" class="btn btn-small btn-danger"><i class="icon-minus"></i></button>
+                                                            </form>
+                                                            
+                                                            <form class="form-inline form-clear pull-right" method="post">
+                                                                <input name="org_code" value="<?php echo $org_code; ?>" type="hidden" />
+                                                                <input name="sp_id" value="<?php echo $sp_data['id']; ?>" type="hidden" />
+                                                                <input name="action" value="add" type="hidden" />
+                                                                <button type="submit" class="btn btn-small btn-success"><i class="icon-plus"></i></button>
+                                                            </form>
+                                                            
+                                                            
                                                         </div>
-                                                        <div class="span2">                                                                                                                        
+                                                        <div class="span2">                                                            
                                                             <button type="submit" id="btn-<?php echo $designation_div_id; ?>" value="<?php echo $sp_data['designation']; ?>" class="btn btn-info btn-small" data-toggle="collapse" data-target="#<?php echo "$designation_div_id"; ?>" >
                                                                 <i class="icon-list-ul"></i> View Staff List
                                                             </button>
@@ -205,10 +281,15 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                                                         $('#list-<?php echo $designation_div_id; ?>').html("");
                                                                                         $.each(data, function(k, v) {
                                                                                             var data_list = "<div class=\"row-fluid\">";
-                                                                                            data_list += "<div class=\"span6\">Sanctioned PostId: " + v.sanctioned_post_id + " (Staff Name: " + v.staff_name + ", Id:" + v.staff_id_2 + ") </div>";
+                                                                                            var staff_info = "";                                                                                            
+                                                                                            if (v.staff_id_2 > 0){
+                                                                                                staff_info = " (Staff Name: <a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\" ><i class=\"icon-user\"></i> " + v.staff_name + ", Id: " + v.staff_id_2 + "</a>)";
+                                                                                            }
+                                                                                            data_list += "<div class=\"span9\">Sanctioned PostId: " + v.sanctioned_post_id + staff_info + " </div>";
                                                                                             //                                                                data_list += "<div class=\"span1\">Id:" + v.staff_id + "</div>";
                                                                                             if (v.staff_id_2 > 0) {
-                                                                                                data_list += "<div class=\"span2\"> <a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
+                                                                                                data_list += "<div class=\"span3\">";
+//                                                                                                data_list += "<a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
                                                                                                 data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
                                                                                                 data_list += "<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
                                                                                                 data_list += "<div class=\"modal-header\">";
@@ -234,7 +315,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                                                                                                 data_list += "</div>";
                                                                                             }
                                                                                             else {
-                                                                                                data_list += "<div class=\"span2\"> </div>";
+                                                                                                data_list += "<div class=\"span3\">";
                                                                                                 data_list += "<a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" ><i class=\"icon-edit\"></i> Add Profile</a>";
                                                                                                 data_list += "<a href=\"move_staff.php?action=move_in&org_code=<?php echo "$org_code"; ?>\" target=\"_blank\"  class=\"btn btn-info btn-mini\" ><i class=\"icon-signin\"></i> Move In</a>";
                                                                                                 data_list += "</div>";
