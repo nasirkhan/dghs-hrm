@@ -107,13 +107,10 @@ if (isset($_POST['new_user_type']) && $_POST['new_post_type'] == "user") {
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
-                        <li><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
-                        <li class="active"><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
-                        <li><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-random"></i> Transfer Approval</a></li>
-                        <li><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
-                        <li><a href="settings.php"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
-                        <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
+                        <?php
+                        $active_menu = "";
+                        include_once 'include/left_menu.php';
+                        ?>
                     </ul>
                 </div>
                 <div class="span9">

@@ -158,7 +158,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <?php
-                        $active_menu = "org_add";
+                        $active_menu = "";
                         include_once 'include/left_menu.php';
                         ?>
                     </ul>

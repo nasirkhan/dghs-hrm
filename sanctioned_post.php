@@ -77,7 +77,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <?php
-                        $active_menu = "sanctioned_post";
+                        $active_menu = "";
                         include_once 'include/left_menu.php';
                         ?>
                     </ul>

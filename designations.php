@@ -141,7 +141,7 @@ $dataRows = getRows($dbTableName, $condition);
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <?php
-                        $active_menu = "admin_home";
+                        $active_menu = "";
                         include_once 'include/left_menu.php';
                         ?>
                     </ul>
