@@ -10,6 +10,7 @@
         <li><a href="">All Employee</a></li>
     </ul>
     <li><a href="">Reports</a></li>
+    <!--
     <li><a href="#">Configuration</a></li>
     <ul>
         <li><a href="#">Designations</a></li>
@@ -19,5 +20,6 @@
         <li><a href="#">First Level Names</a></li>
         <li><a href="#">Second Level Name</a></li>
     </ul>
+    -->
 </ul>
 
