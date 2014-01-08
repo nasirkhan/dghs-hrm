@@ -16,7 +16,6 @@
         <li><a href="match_employee.php?org_code=<?= $org_code?>">Employee</a></li>
         <ul>
             <li><a href="match_employee.php?org_code=<?= $org_code?>">Search</a></li>
-            <li><a href="employee.php?org_code=<?= $org_code?>">Add</a></li>
             <li><a href="sanctioned_post_update.php?org_code=<?= $org_code?>">Add</a></li>
             <li><a href="move_staff.php?org_code=<?= $org_code?>">Move Request</a></li>
             <li><a href="match_employee.php?org_code=<?= $org_code?>">Match Employee</a></li>

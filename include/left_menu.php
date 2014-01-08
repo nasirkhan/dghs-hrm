@@ -43,8 +43,11 @@ if ($_REQUEST['show_old_menu'] == 'true') {
     <?php endif; ?>
     <?php if (($active_menu != "admin_home") && ($active_menu != "search")): ?>
         <li class= "<?php echo ($active_menu == "home") ? "active" : ""; ?>">
-            <a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-home"></i><?php if ($isAdmin) echo "$org_name";
-        else echo "Homepage"; ?> </a>
+            <a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-home"></i><?php if ($isAdmin)
+            echo "$org_name";
+        else
+            echo "Homepage";
+        ?> </a>
         </li>
         <li class= "<?php echo ($active_menu == "org_profile") ? "active" : ""; ?>">
             <a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-hospital"></i> Organization Profile</a>
@@ -144,7 +147,7 @@ if ($_REQUEST['show_old_menu'] == 'true') {
 if (hasPermission('mod_organizations_profile', 'view', getLoggedUserName())) {
     if (isValidOrgCode($_SESSION['org_code'])) {
         require_once 'left_menu_org_admin.php';
-    }else{
+    } else {
         //echo "org code not valid" ; // debug
     }
 } else {
@@ -152,5 +155,7 @@ if (hasPermission('mod_organizations_profile', 'view', getLoggedUserName())) {
 }
 if (hasPermission('mod_admin', 'view', getLoggedUserName())) {
     require_once 'left_menu_admin.php';
+} else {
+    echo "No permission"; // debug
 }
 ?>

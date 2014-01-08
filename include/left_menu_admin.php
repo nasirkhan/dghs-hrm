@@ -10,6 +10,7 @@
         <!--<li><a href="">All Employee</a></li>-->
     </ul>
     <li><a href="">Reports</a></li>
+    <li><a href="user_add.php">Add User</a></li>
     <!--
     <li><a href="#">Configuration</a></li>
     <ul>
