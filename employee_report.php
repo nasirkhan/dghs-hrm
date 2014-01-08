@@ -139,7 +139,7 @@ require_once './include/check_org_code.php';
                                         ?>
                                     <tr>
                                         <td><?php echo $row['designation']; ?></td>
-                                        <td><?php echo $row['type_of_post']; ?></td>
+                                        <td><?php echo getTypeOfPostNameFromCode($row['type_of_post']); ?></td>
                                         <td><?php echo $row['class']; ?></td>
                                         <td><?php echo $row['designation']; ?></td>
                                         <td><?php echo $row['sp_count']; ?></td>
@@ -150,7 +150,7 @@ require_once './include/check_org_code.php';
                                     </tr>
                                     <?php endwhile; ?>
                                     <tr class="info">
-                                        <td><strong>Summary</strong></td>
+                                        <td colspan="4"><strong>Summary</strong></td>
                                         <td><strong><?php echo $total_sanctioned_post_count_sum; ?></strong></td>
                                         <td><strong><?php echo $total_sanctioned_post_existing_sum; ?></strong></td>
                                         <td><strong><?php echo $total_existing_male_sum; ?></strong></td>
