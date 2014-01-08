@@ -5,21 +5,8 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
-// assign values from session array
-$org_code = $_SESSION['org_code'];
-$org_name = $_SESSION['org_name'];
-$org_type_name = $_SESSION['org_type_name'];
+require_once './include/check_org_code.php';
 
-$echoAdminInfo = "";
-
-// assign values admin users
-if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
-    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
-    $org_name = getOrgNameFormOrgCode($org_code);
-    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
-    $echoAdminInfo = " | Administrator";
-    $isAdmin = TRUE;
-}
 /**
  * Reassign org_code and enable edit permission for Upazila and below
  *
@@ -94,11 +81,8 @@ if (isset($_POST['submit_success'])) {
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php if ($_SESSION['user_type'] == "admin"): ?>
-                            <li><a href="admin_home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-qrcode"></i> Admin Homepage</a>
-                            <?php endif; ?>
                         <?php
-                        $active_menu = "monthly_update";
+                        $active_menu = "";
                         include_once 'include/left_menu.php';
                         ?>
                     </ul>

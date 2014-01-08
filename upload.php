@@ -6,25 +6,9 @@ if ($_SESSION['logged'] != true) {
 }
 
 
-// assign values from session array
-$org_code =  (int) mysql_real_escape_string($_GET['org_code']);
-$org_name = getOrgNameFormOrgCode($org_code);
-$org_type_name = getOrgTypeNameFormOrgCode($org_code);
+require_once './include/check_org_code.php';
 
-session_start();
-$_SESSION['org_code'] = $org_code;
-$_SESSION['username'] = getUserNameFromOrgCode($org_code);
 
-$echoAdminInfo = "";
-
-// assign values admin users
-if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
-    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
-    $org_name = getOrgNameFormOrgCode($org_code);
-    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
-    $echoAdminInfo = " | Administrator";
-    $isAdmin = TRUE;
-}
 /**
  * Reassign org_code and enable edit permission for Upazila and below
  *

@@ -5,24 +5,8 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
-// assign values from session array
-$org_code = $_SESSION['org_code'];
-$org_name = $_SESSION['org_name'];
-$org_type_name = $_SESSION['org_type_name'];
-$user_name = $_SESSION['username'];
+require_once './include/check_org_code.php';
 
-$echoAdminInfo = "";
-
-// assign values admin users
-if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
-    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
-    $org_name = getOrgNameFormOrgCode($org_code);
-    $org_type_name = getOrgTypeNameFormOrgCode($org_code);    
-}
-if ($_SESSION['user_type'] == "admin"){
-    $echoAdminInfo = " | Administrator";
-    $isAdmin = TRUE;
-}
 /**
  * Reassign org_code and enable edit permission for Upazila and below
  * 
@@ -103,28 +87,10 @@ $seach_type = mysql_real_escape_string($_GET['type']);
             <div class="row-fluid">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php if ($isAdmin): ?>
-                        <li><a href="admin_home.php"><i class="icon-chevron-right"></i><i class="icon-home"></i> Admin Homepage</a>
-                        <?php endif; ?>
-                            
-                        <li class="active"><a href="search.php"><i class="icon-chevron-right"></i><i class="icon-search"></i> Search</a></li>
-                        
-                        <?php if ($isAdmin): ?>
-                        <li><a href="add_new.php"><i class="icon-chevron-right"></i><i class="icon-plus"></i> Add New</a>
-                        <?php endif; ?>
-                            
-                        <?php if (!$isAdmin): ?>
-                        <li><a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-home"></i> Homepage</a>
-                        <li><a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-hospital"></i> Organization Profile</a></li>
-                        <li><a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-group"></i> Sanctioned Post</a></li>
-                        <li><a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-user-md"></i> Employee Profile</a></li>
-                        <?php endif; ?>
-                        <?php if ($isAdmin): ?>
-                        <li><a href="transfer_approval.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-random"></i> Transfer Approval</a></li>
-                        <?php endif; ?>
-                        
-                        <li><a href="settings.php?org_code=<?php echo $org_code; ?>"><i class="icon-chevron-right"></i><i class="icon-cogs"></i> Settings</a></li>
-                        <li><a href="logout.php"><i class="icon-chevron-right"></i><i class="icon-signout"></i> Sign out</a></li>
+                        <?php
+                        $active_menu = "";
+                        include_once 'include/left_menu.php';
+                        ?>
                     </ul>
                 </div>
                 <div class="span9">

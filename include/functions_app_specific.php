@@ -1601,6 +1601,9 @@ function login($POSTDATA) {
 //    set session variables
     if (mysql_num_rows($result) >= 1) {
         if (setUserSession($data['username'])) {
+            if (isValidOrgCode($data['org_code'])){
+                setOrgSession($data['org_code']);
+            }            
             return 1;
         }
     }

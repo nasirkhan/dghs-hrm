@@ -5,31 +5,12 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
-// assign values from session array
-$org_code = $_SESSION['org_code'];
-$org_name = $_SESSION['org_name'];
-$org_type_name = $_SESSION['org_type_name'];
-$user_name = $_SESSION['username'];
-
-$echoAdminInfo = "";
-
-// assign values admin users
-if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
-    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
-    if ($org_code == 0) $org_code = 99999999;
-    $org_name = getOrgNameFormOrgCode($org_code);
-    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
-    $echoAdminInfo = " | Administrator";
-    $isAdmin = TRUE;
-}
-if ($org_code == "") {
-    $org_code = "99999999";
-}
+require_once './include/check_org_code.php';
 
 // admin check
-if ($_SESSION['user_type'] != "admin") {
-    header("location:home.php?org_code=$org_code");
-}
+//if ($_SESSION['user_type'] != "admin") {
+//    header("location:home.php?org_code=$org_code");
+//}
 
 $step = 0;
 if (isset($_REQUEST['step'])) {
@@ -39,6 +20,10 @@ if (isset($_REQUEST['step'])) {
 
     $designation_code = (int) mysql_real_escape_string($_GET['designation_code']);
     $designation_name = getDesignationNameformCode($designation_code);
+}
+
+if ($step == 0){
+    header("location:sanctioned_post.php?org_code=$org_code");
 }
 /**
  * update sanctiond post
@@ -182,7 +167,7 @@ if (isset($_POST['action'])) {
             for ($i = 0; $i < $sp_number; $i++){
                 $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:dessignation_data:2</p><p>Query:</b></p>___<p>$sql</p>");
             }
-            header("location:update_sanctioned_post.php?org_code=$org_code&step=1");
+            header("location:sanctioned_post_update.php?org_code=$org_code&step=1");
 
         }
 
@@ -224,7 +209,7 @@ if (isset($_POST['action'])) {
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
                         <?php
-                        $active_menu = "sanctioned_post_add";
+                        $active_menu = "";
                         include_once 'include/left_menu.php';
                         ?>
                     </ul>
@@ -259,10 +244,10 @@ if (isset($_POST['action'])) {
                                     <h3>Sanctioned Post Summary</h3>
                                 </div>
 <!--                                <div class="span3">
-                                    <a href="update_sanctioned_post.php" class="btn btn-small btn-primary btn-block">Update Sanctioned post</a>
+                                    <a href="sanctioned_post_update.php" class="btn btn-small btn-primary btn-block">Update Sanctioned post</a>
                                 </div>-->
                                 <div class="span2">
-                                    <a href="update_sanctioned_post.php" class="btn btn-small btn-info btn-block"><i class="icon-mail-reply"></i> Back</a>
+                                    <a href="sanctioned_post_update.php" class="btn btn-small btn-info btn-block"><i class="icon-mail-reply"></i> Back</a>
                                 </div>
                             </div>
                             <div class="row-fluid">
@@ -281,7 +266,7 @@ if (isset($_POST['action'])) {
                                     <br /><br />
                                 </div>
                                 <div class="span4">
-                                    <a href="update_sanctioned_post.php?org_code=<?php echo "$org_code"; ?>&action=new_designation&step=3" class="btn btn-small btn-warning btn-block"><i class="icon-list-ul"></i> Add New Designation</a>
+                                    <a href="sanctioned_post_update.php?org_code=<?php echo "$org_code"; ?>&action=new_designation&step=3" class="btn btn-small btn-warning btn-block"><i class="icon-list-ul"></i> Add New Designation</a>
                                 </div>
                             </div>
                             <div class="row-fluid">
@@ -357,14 +342,16 @@ if (isset($_POST['action'])) {
                         <?php endif; ?>
                         <?php if ($step == 2) : ?>
                             <div class="row-fluid">
-                                <div class="span7">
+                                <div class="span10">
                                     <h3>Delete Sanctioned Post</h3>
                                 </div>
+                                <!--                                
                                 <div class="span3">
-                                    <a href="update_sanctioned_post.php" class="btn btn-small btn-primary btn-block">Update Sanctioned post</a>
+                                    <a href="sanctioned_post_update.php" class="btn btn-small btn-primary btn-block">Update Sanctioned post</a>
                                 </div>
+                                -->
                                 <div class="span2">
-                                    <a href="update_sanctioned_post.php?org_code=<?php echo $org_code; ?>&step=1" class="btn btn-small btn-info btn-block"><i class="icon-mail-reply"></i> Back</a>
+                                    <a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>&step=1" class="btn btn-small btn-info btn-block"><i class="icon-mail-reply"></i> Back</a>
                                 </div>
                             </div>
 
@@ -422,14 +409,16 @@ if (isset($_POST['action'])) {
                         <?php endif; ?>
                         <?php if ($action == "new_designation") : ?>
                             <div class="row-fluid">
-                                <div class="span7">
+                                <div class="span10">
                                     <h3>Add New Sanctioned Post</h3>
                                 </div>
+                                <!--
                                 <div class="span3">
-                                    <a href="update_sanctioned_post.php" class="btn btn-small btn-primary btn-block">Update Sanctioned post</a>
+                                    <a href="sanctioned_post_update.php" class="btn btn-small btn-primary btn-block">Update Sanctioned post</a>
                                 </div>
+                                -->
                                 <div class="span2">
-                                    <a href="update_sanctioned_post.php?org_code=<?php echo $org_code; ?>&step=1" class="btn btn-small btn-info btn-block"><i class="icon-mail-reply"></i> Back</a>
+                                    <a href="sanctioned_post.php?org_code=<?php echo $org_code; ?>&step=1" class="btn btn-small btn-info btn-block"><i class="icon-mail-reply"></i> Back</a>
                                 </div>
                             </div>
 
