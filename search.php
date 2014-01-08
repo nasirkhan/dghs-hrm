@@ -52,7 +52,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051) {
 $seach_type = mysql_real_escape_string($_GET['type']);
 
 
-if ($seach_type == "staff"){
+if ($seach_type == "staff") {
     header("location:search.php");
 }
 ?>
@@ -342,7 +342,8 @@ if ($seach_type == "staff"){
         <script type="text/javascript">
             $('.multiselect').multiselect({
                 maxHeight: 200,
-                includeSelectAllOption: true
+                includeSelectAllOption: true,
+                nonSelectedText: "Select Organization Types"
             });
         </script>
 
