@@ -96,62 +96,144 @@ $dataRows = getRows($dbTableName, $condition);
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
     <head>
-        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-    </head>
-    <body>
-        <?php require_once "$crudFrameworkRelativePath/cf_jquery_modal_popup.php"; ?>
-
-        <div class="<?= $cssPrefix ?>formTitle"><?= ucfirst($param) . " " . $moduleTitle ?></div>
-        <div class="<?= $cssPrefix ?>alert"><?php printAlert($valid, $alert); ?></div>
-        <div class="<?= $cssPrefix ?>addButton"><a href="<?php echo $_SERVER['PHP_SELF']; ?>">[+] Add</a></div>
-        <div id="<?= $cssPrefix ?>form">
-
+        <meta charset="utf-8">
+            <title><?php echo $org_name . " | " . $app_name; ?></title>
+             <!--Datatable-->
+            <link href="assets/datatable/css/demo_table.css" media="screen" rel="stylesheet" type="text/css" />
+            <script src="assets/datatable/js/jquery.dataTables.js" type="text/javascript"></script>
             <?php
-            if (hasPermission($moduleName, $param, getLoggedUserName())) {
-                ?>
-                <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-                    <input name="designation" type="text" value="<?= addEditInputField('designation') ?>"/>
-                    <input name="submit" type="submit" class="" value="Save" />
-                    <input name="reset" type="reset" class="" value="Reset" />
-                    <?php if (strlen($dbTablePrimaryKeyFieldVal)) { ?>
-                        <input type="hidden" name="<?= $dbTablePrimaryKeyFieldName ?>" value="<?php echo $dbTablePrimaryKeyFieldVal; ?>" />
-                    <?php } ?>
-                </form>
-            <?php }
+            include_once 'include/header/header_css_js.inc.php';
+            include_once 'include/header/header_ga.inc.php';
             ?>
 
-        </div>
-        <div id="right_m">
-            <!--<h2>List of Departments</h2>-->
-            <table id="datatable" width="100%">
-                <thead>
-                    <tr>
-                        <td>id</td>
-                        <td>designation_code</td>
-                        <td>designation</td>
-                        <td>Action</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $i = 0;
-                    foreach ($dataRows as $dataRow) {
+            <!--CSS-->
+            <style>
+                .formTitle {
+                    color: inherit;
+                    font-family: inherit;
+                    font-weight: bold;
+                    line-height: 20px;
+                    margin: 10px 0;
+                    text-rendering: optimizelegibility;}
+                #tabularData{font-size: 12px;}
+            </style>
+    </head>
+    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+        <?php require_once "$crudFrameworkRelativePath/cf_jquery_modal_popup.php"; ?>
+
+        <!-- Top navigation bar
+       ================================================== -->
+        <?php include_once 'include/header/header_top_menu.inc.php'; ?>
+
+        <!-- Subhead
+        ================================================== -->
+        <header class="jumbotron subhead" id="overview">
+            <div class="container">
+                <h1><?php echo $org_name; ?></h1>
+                <p class="lead"><?php echo "$org_type_name"; ?></p>
+            </div>
+        </header>
+        <div class="container">
+
+            <!-- Docs nav
+            ================================================== -->
+            <div class="row-fluid">
+                <div class="span3 bs-docs-sidebar">
+                    <ul class="nav nav-list bs-docs-sidenav">
+                        <?php
+                        $active_menu = "admin_home";
+                        include_once 'include/left_menu.php';
                         ?>
-                        <tr>
-                            <td><a href="<?= $_SERVER['PHP_SELF'] ?>?param=edit&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow['id'] ?>"><?= $dataRow['id'] ?></td>
-                            <td><?= $dataRow['designation_code'] ?></td>
-                            <td><?= $dataRow['designation'] ?></td>
-                            <td>
-                                <?php if (hasPermission($moduleName, 'manage', getLoggedUserName())) { ?>
-                                    <a class='cf_delete' id='<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>"' href='#'>Delete</a>
-                                    <?php
-                                }
-                                ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+                    </ul>
+                </div>
+                <div class="span9">
+                    <!-- Form
+          ================================================== -->
+
+                    <h4 class="<?= $cssPrefix ?>formTitle"><?= ucfirst($param) . " " . $moduleTitle ?></h4>
+                    <div class="<?= $cssPrefix ?>toAlertMsg"><?php printAlert($valid, $alert); ?></div>
+                    <div class="<?= $cssPrefix ?>addButton"><a href="<?php echo $_SERVER['PHP_SELF']; ?>">[+] Add</a></div>
+                    <div id="<?= $cssPrefix ?>form">
+
+                        <?php
+                        if (hasPermission($moduleName, $param, getLoggedUserName())) {
+                            ?>
+                            <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+                                <input name="designation" type="text" value="<?= addEditInputField('designation') ?>"/>
+                                <input name="submit" type="submit" class="" value="Save" />
+                                <input name="reset" type="reset" class="" value="Reset" />
+                                <?php if (strlen($dbTablePrimaryKeyFieldVal)) { ?>
+                                    <input type="hidden" name="<?= $dbTablePrimaryKeyFieldName ?>" value="<?php echo $dbTablePrimaryKeyFieldVal; ?>" />
+                                <?php } ?>
+                            </form>
+                        <?php }
+                        ?>
+
+                    </div>   <div id="<?= $cssPrefix ?>tabularData">
+                        <!--<h2>List of Departments</h2>-->
+                        <table id="datatable" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th><!--designation_code-->code</th>
+                                    <th>designation</th>
+                                    <th>payscale</th>
+                                    <th>class</th>
+                                    <th>DGC<!--designation_group_code--></th>
+                                    <th>GC</th>
+                                    <th>ranking</th>
+                                    <th>bpcc<!--bangladesh_professional_category_code--></th>
+                                    <th>wogc<!--who_occupation_group_codebook--></th>
+                                    <th>updated by</th>
+                                    <th>updated on</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $i = 0;
+                                foreach ($dataRows as $dataRow) {
+                                    ?>
+                                    <tr>
+                                        <td><a href="<?= $_SERVER['PHP_SELF'] ?>?param=edit&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow['id'] ?>"><?= $dataRow['id'] ?></td>
+                                        <td><?= $dataRow['designation_code'] ?></td>
+                                        <td><?= $dataRow['designation'] ?></td>
+                                        <td><?= $dataRow['payscale'] ?></td>
+                                        <td><?= $dataRow['class'] ?></td>
+                                        <td><?= $dataRow['designation_group_code'] ?></td>
+                                        <td><?= $dataRow['group_code'] ?></td>
+                                        <td><?= $dataRow['ranking'] ?></td>
+                                        <td><?= $dataRow['bangladesh_professional_category_code'] ?></td>
+                                        <td><?= $dataRow['who_occupation_group_codebook'] ?></td>
+                                        <td><?= $dataRow['updated_by'] ?></td>
+                                        <td><?= $dataRow['updated_datetime'] ?></td>
+                                        <td>
+                                            <?php if (hasPermission($moduleName, 'manage', getLoggedUserName())) { ?>
+                                                <a class='cf_delete' id='<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>"' href='#'>Delete</a>
+                                                <?php
+                                            }
+                                            ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
+        <!-- Footer
+        ================================================== -->
+        <?php include_once 'include/footer/footer.inc.php'; ?>
+        <script type="text/javascript">
+            $('table#datatable').dataTable({
+                "sPaginationType": "full_numbers",
+                "aaSorting": [[0, "desc"]],
+                "iDisplayLength": 25,
+                "bStateSave": true
+            });
+        </script>
     </body>
 </html>

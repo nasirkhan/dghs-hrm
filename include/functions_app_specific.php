@@ -1622,16 +1622,56 @@ function setUserSession($username) {
         $_SESSION['user_type'] = $user['user_type'];
         $_SESSION['user_type_code'] = $user['user_type_code'];
 
-        $_SESSION['organization_id'] = $user['organization_id'];
-        $_SESSION['org_code'] = $user['org_code'];
-        $_SESSION['org_name'] = getOrgNameFormOrgCode($user['org_code']);
-        $_SESSION['org_type_code'] = getOrgTypeCodeFromOrgCode($user['org_code']);
-        $_SESSION['org_type_name'] = getOrgTypeNameFormOrgCode($user['org_code']);
+//
+//        $_SESSION['organization_id'] = $user['organization_id'];
+//        $_SESSION['org_code'] = $user['org_code'];
+//        $_SESSION['org_name'] = getOrgNameFormOrgCode($user['org_code']);
+//        $_SESSION['org_type_code'] = getOrgTypeCodeFromOrgCode($user['org_code']);
+//        $_SESSION['org_type_name'] = getOrgTypeNameFormOrgCode($user['org_code']);
         $_SESSION['logged'] = TRUE;
-        session_write_close();
+        //session_write_close();
         return TRUE;
     }
     return FALSE;
+}
+
+/**
+ * Sets session values for a successful login
+ * @param  $org_code
+ * @return bool
+ * @author Raihan Sikder <raihan.act@gmail.com>
+ */
+function setOrgSession($org_code) {
+
+    //global $_SESSION;
+    if(isValidOrgCode($org_code)) {
+        if ($org = getOrganization($org_code)) {
+//        $_SESSION['user_id'] = $user['user_id'];
+//        $_SESSION['username'] = $user['username'];
+//        $_SESSION['user_type'] = $user['user_type'];
+//        $_SESSION['user_type_code'] = $user['user_type_code'];
+
+            $_SESSION['organization_id'] = $org['id'];
+            $_SESSION['org_code'] = $org['org_code'];
+            $_SESSION['org_name'] = $org['org_name'];
+            $_SESSION['org_type_code'] = $org['org_type_code'];
+            $_SESSION['org_type_name'] = $org['org_type_name'];
+
+            //session_write_close();
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+/**
+ * Sets session values for a successful login
+ * @param  $org_code
+ * @return ARRAY if org found
+ * @return bool if not found
+ * @author Raihan Sikder <raihan.act@gmail.com>
+ */
+function getOrganization($org_code) {
+    return getRowVal('organization', 'org_code', $org_code);
 }
 
 /**
@@ -2024,7 +2064,7 @@ function addCommunityClinicSanctionedPost($org_code) {
  * @return Array
  */
 function getDisDivNameCodeFromUpazilaAndDistrictCode($upa_code, $dis_code) {
-    if(!$upa_code > 0 || !$dis_code > 0){
+    if (!$upa_code > 0 || !$dis_code > 0) {
         return FALSE;
     }
     $sql = "SELECT
@@ -2059,7 +2099,7 @@ function getDisDivNameCodeFromUpazilaAndDistrictCode($upa_code, $dis_code) {
  * @return division_name Division Name
  */
 function getDivisionNameFromDistrictCode($dis_code) {
-    if(!$dis_code > 0){
+    if (!$dis_code > 0) {
         return FALSE;
     }
     $sql = "SELECT
@@ -2087,7 +2127,7 @@ function getDivisionNameFromDistrictCode($dis_code) {
  * @return division_bbs_code
  */
 function getDivisionCodeFromDistrictCode($dis_code) {
-    if(!$dis_code > 0){
+    if (!$dis_code > 0) {
         return FALSE;
     }
     $sql = "SELECT division_bbs_code FROM admin_district WHERE district_bbs_code = $dis_code and active like 1";
@@ -2102,29 +2142,28 @@ function getDivisionCodeFromDistrictCode($dis_code) {
     }
 }
 
-
 /**
  * saves log info in log table
  * +--------------------------------------+---------------------+------+-----+---------+----------------+
-| Field                                | Type                | Null | Key | Default | Extra          |
-+--------------------------------------+---------------------+------+-----+---------+----------------+
-| log_id                               | bigint(20) unsigned | NO   | PRI | NULL    | auto_increment |
-| log_module                           | text                | YES  |     | NULL    |                |
-| log_event                            | text                | YES  |     | NULL    |                |
-| log_affected_table_name              | text                | YES  |     | NULL    |                |
-| log_affected_table_primary_key_field | text                | YES  |     | NULL    |                |
-| log_affected_table_primary_key_value | text                | YES  |     | NULL    |                |
-| log_sql_query_string                 | text                | YES  |     | NULL    |                |
-| log_event_user_id                    | bigint(20)          | YES  |     | NULL    |                |
-| log_datetime                         | datetime            | YES  |     | NULL    |                |
-| log_information                      | text                | YES  |     | NULL    |                |
-| log_active                           | enum('0','1')       | YES  |     | 1       |                |
-+--------------------------------------+---------------------+------+-----+---------+----------------+
+  | Field                                | Type                | Null | Key | Default | Extra          |
+  +--------------------------------------+---------------------+------+-----+---------+----------------+
+  | log_id                               | bigint(20) unsigned | NO   | PRI | NULL    | auto_increment |
+  | log_module                           | text                | YES  |     | NULL    |                |
+  | log_event                            | text                | YES  |     | NULL    |                |
+  | log_affected_table_name              | text                | YES  |     | NULL    |                |
+  | log_affected_table_primary_key_field | text                | YES  |     | NULL    |                |
+  | log_affected_table_primary_key_value | text                | YES  |     | NULL    |                |
+  | log_sql_query_string                 | text                | YES  |     | NULL    |                |
+  | log_event_user_id                    | bigint(20)          | YES  |     | NULL    |                |
+  | log_datetime                         | datetime            | YES  |     | NULL    |                |
+  | log_information                      | text                | YES  |     | NULL    |                |
+  | log_active                           | enum('0','1')       | YES  |     | 1       |                |
+  +--------------------------------------+---------------------+------+-----+---------+----------------+
  * @param type $dis_code District Code
  * @return division_bbs_code
  */
 function insertLog($log_module, $log_event, $log_affected_table_name, $log_affected_table_primary_key_field, $log_affected_table_primary_key_value, $log_sql_query_string, $log_event_user_id, $log_information) {
-  $sql = "
+    $sql = "
       INSERT INTO log(
       log_module,
       log_event,
@@ -2147,9 +2186,8 @@ function insertLog($log_module, $log_event, $log_affected_table_name, $log_affec
       '" . mysql_real_escape_string($log_information) . "'
       )
       ";
-  //echo $sql;
-  $r = mysql_query($sql) or die(mysql_error() . "<br>Query:<br>____<br>$sql<br>");
+    //echo $sql;
+    $r = mysql_query($sql) or die(mysql_error() . "<br>Query:<br>____<br>$sql<br>");
 }
-
 
 ?>

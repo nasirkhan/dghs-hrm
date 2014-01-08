@@ -73,7 +73,7 @@ if ($_REQUEST['show_old_menu'] == 'true') {
         <li class= "<?php echo ($active_menu == "employee") ? "active" : ""; ?>">
             <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-user-md"></i> Employee Profile</a>
         </li>
-        <?php if ($show_employee_child_menu): ?> 
+        <?php if ($show_employee_child_menu): ?>
             <li class= "level2 <?php echo ($active_menu == "employee_add") ? "active" : ""; ?>">
                 <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-user-md"></i> Add Employee Profile</a>
             </li>
@@ -85,12 +85,12 @@ if ($_REQUEST['show_old_menu'] == 'true') {
             </li>
             <li class= "level2 <?php echo ($active_menu == "employee_report") ? "active" : ""; ?>">
                 <a href="employee.php?org_code=<?php echo $org_code; ?>"><i class="icon-calendar-empty"></i> Employee Reports</a>
-            </li>  
+            </li>
         <?php endif; ?>
-        <?php if ($isAdmin): ?>    
+        <?php if ($isAdmin): ?>
             <li class= "<?php echo ($active_menu == "org_add") ? "active" : ""; ?>">
             <li><a href="add_new.php"><i class="icon-plus"></i> Add Organization</a>
-            </li>  
+            </li>
             <li class= "<?php echo ($active_menu == "org_approve") ? "active" : ""; ?>">
                 <a href="admin_edit_org.php"><i class="icon-ok"></i> Org Request Approval</a>
             </li>
@@ -104,7 +104,7 @@ if ($_REQUEST['show_old_menu'] == 'true') {
         <li class= "<?php echo ($active_menu == "monthly_update") ? "active" : ""; ?>">
             <a href="monthly_update.php?org_code=<?php echo $org_code; ?>"><i class="icon-th-list"></i> Monthly Update</a>
         </li>
-    <?php endif; ?>   
+    <?php endif; ?>
     <li class= "<?php echo ($active_menu == "report/index") ? "active" : ""; ?>">
         <a href="report/index.php?org_code=<?php echo $org_code; ?>"><i class="icon-calendar"></i> Reports</a>
     </li>
@@ -131,8 +131,8 @@ if ($_REQUEST['show_old_menu'] == 'true') {
             <li class= "level2 <?php echo ($active_menu == "##") ? "active" : ""; ?>">
                 <a href="#"><i class="icon-list-ul"></i> Second Level Names</a>
             </li>
-        <?php endif; ?> 
-    <?php endif; ?> 
+        <?php endif; ?>
+    <?php endif; ?>
     <li class= "<?php echo ($active_menu == "logout") ? "active" : ""; ?>">
         <a href="logout.php"><i class="icon-signout"></i> Sign out</a>
     </li>
@@ -144,9 +144,11 @@ if ($_REQUEST['show_old_menu'] == 'true') {
 if (hasPermission('mod_organizations_profile', 'view', getLoggedUserName())) {
     if (isValidOrgCode($_SESSION['org_code'])) {
         require_once 'left_menu_org_admin.php';
+    }else{
+        //echo "org code not valid" ; // debug
     }
 } else {
-    echo "No permission";
+    echo "No permission"; // debug
 }
 if (hasPermission('mod_admin', 'view', getLoggedUserName())) {
     require_once 'left_menu_admin.php';

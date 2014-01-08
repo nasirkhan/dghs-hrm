@@ -14,7 +14,7 @@ if (hasPermission($moduleName, $param, getLoggedUserName())) {
     }
 
     $sql = "UPDATE $dbTableName set $str $str_additioal where $dbTablePrimaryKeyFieldName='$dbTablePrimaryKeyFieldVal'";
-    echo "<pre>$sql</pre>";
+    //echo "<pre>$sql</pre>"; //debug
     mysql_query($sql) or die(mysql_error() . "<b>Query:</b><br>$sql<br>");
     require_once 'cf_log.php';
     array_push($alert, "Information saved!");

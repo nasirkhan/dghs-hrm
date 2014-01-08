@@ -3,6 +3,7 @@
  * @author nasir khan saikat <nasir8891@gmail.com>
  */
 ?>
+<!--
 <script type="text/javascript">
     (function(i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
@@ -20,3 +21,4 @@
     ga('send', 'pageview');
 
 </script>
+-->
