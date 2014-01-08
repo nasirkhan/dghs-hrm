@@ -182,10 +182,10 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             <div class="row">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                            <?php
-                            $active_menu = "report/index";
-                            include_once '../include/left_menu_report_page.php';
-                            ?>
+                        <?php
+                        $active_menu = "";
+                        include_once '../include/left_menu.php';
+                        ?>
                     </ul>
                 </div>
                 <div class="span9">

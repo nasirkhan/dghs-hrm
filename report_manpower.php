@@ -1,10 +1,10 @@
 <?php
 set_time_limit(120000);
 
-require_once '../configuration.php';
+require_once 'configuration.php';
 
 if ($_SESSION['logged'] != true) {
-    header("location:../login.php");
+    header("location:login.php");
 }
 
 // assign values from session array
@@ -132,38 +132,17 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
     <head>
         <meta charset="utf-8">
         <title><?php echo $org_name . " Report | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="Nasir Khan Saikat(nasir8891@gmail.com)">
-
-        <!-- Le styles -->
-        <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="../library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="../assets/css/style.css" rel="stylesheet">
-        <link href="../assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- Le fav and touch icons -->
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
-        <link rel="shortcut icon" href="../assets/ico/favicon.png">
-
-        <!--Google analytics code-->
-        <?php include_once '../include/header/header_ga.inc.php'; ?>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
     </head>
 
-    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+    <body>
 
         <!-- Top navigation bar
         ================================================== -->
-        <?php include_once '../include/header/header_top_menu.inc.php'; ?>
+        <?php include_once 'include/header/header_top_menu.inc.php'; ?>
 
         <!-- Subhead
         ================================================== -->
@@ -184,7 +163,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                     <ul class="nav nav-list bs-docs-sidenav">
                         <?php
                         $active_menu = "";
-                        include_once '../include/left_menu.php';
+                        include_once 'include/left_menu.php';
                         ?>
                     </ul>
                 </div>
@@ -430,21 +409,8 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
 
         <!-- Footer
         ================================================== -->
-        <?php include_once '../include/footer/footer.inc.php'; ?>
+        <?php include_once 'include/footer/footer.inc.php'; ?>
 
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <!--<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>-->
-        <script src="../assets/js/jquery.js"></script>
-        <script src="../assets/js/bootstrap.min.js"></script>
-
-        <script src="../assets/js/holder/holder.js"></script>
-        <script src="../assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="../assets/js/application.js"></script>
         <script type="text/javascript">
             // load division
             $('#admin_division').change(function() {
@@ -452,7 +418,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                 var div_id = $('#admin_division').val();
                 $.ajax({
                     type: "POST",
-                    url: '../get/get_district_list.php',
+                    url: 'get/get_district_list.php',
                     data: {div_id: div_id},
                     dataType: 'json',
                     success: function(data)
@@ -474,7 +440,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                 $("#loading_content").show();
                 $.ajax({
                     type: "POST",
-                    url: '../get/get_upazila_list.php',
+                    url: 'get/get_upazila_list.php',
                     data: {dis_id: dis_id},
                     dataType: 'json',
                     success: function(data)

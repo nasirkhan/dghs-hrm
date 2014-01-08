@@ -9,7 +9,7 @@
         <li><a href="admin_edit_org.php">Organizations Awaiting Approval</a></li>
         <!--<li><a href="">All Employee</a></li>-->
     </ul>
-    <li><a href="">Reports</a></li>
+    <li><a href="report_index.php">Reports</a></li>
     <li><a href="user_add.php">Add User</a></li>
     <!--
     <li><a href="#">Configuration</a></li>
