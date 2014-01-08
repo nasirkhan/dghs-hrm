@@ -172,22 +172,7 @@ require_once './include/check_org_code.php';
 
         <!-- Footer
         ================================================== -->
-        <?php include_once 'include/footer/footer.inc.php'; ?>
-
-
-
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <!--<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>-->
-        <script src="assets/js/jquery.js"></script>
-        <script src="assets/js/bootstrap.min.js"></script>
-
-        <script src="assets/js/holder/holder.js"></script>
-        <script src="assets/js/google-code-prettify/prettify.js"></script>
-
-        <script src="assets/js/application.js"></script>
-        
+        <?php include_once 'include/footer/footer.inc.php'; ?>      
         
         <script>
             $("#generate_report").hide();
