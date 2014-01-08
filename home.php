@@ -6,25 +6,7 @@ if ($_SESSION['logged'] != true) {
 }
 
 
-
-// assign values from session array
-$org_code = $_SESSION['org_code'];
-$org_name = $_SESSION['org_name'];
-$org_type_name = $_SESSION['org_type_name'];
-$org_type_code = $_SESSION['org_type_code'];
-
-
-$echoAdminInfo = "";
-
-// assign values admin users
-if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
-    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
-    $org_name = getOrgNameFormOrgCode($org_code);
-    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
-    $echoAdminInfo = " | Administrator";
-    $isAdmin = TRUE;
-}
-
+require_once './include/check_org_code.php';
 
 /**
  * Reassign org_code and enable edit permission for Upazila and below
@@ -57,11 +39,7 @@ $data = mysql_fetch_assoc($result);
 $latitude = $data['latitude'];
 $longitude = $data['longitude'];
 $coordinate = $longitude . "," . $latitude;
-if (!($latitude > 0) || !($longitude > 0)) {
-    $map_popup = "";
-} else {
-    $map_popup = $org_name;
-}
+$map_popup = $org_name;
 ?>
 <!DOCTYPE html>
 <html lang="en">

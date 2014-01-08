@@ -62,7 +62,7 @@ if ($_REQUEST['show_old_menu'] == 'true') {
             </li>
             <?php if ($isAdmin): ?>
                 <li class= "level2 <?php echo ($active_menu == "sanctioned_post_add") ? "active" : ""; ?>">
-                    <a href="update_sanctioned_post.php?org_code=<?php echo $org_code; ?>&action=new_designation&step=3"><i class="icon-plus"></i> Add Sanctioned Post</a>
+                    <a href="sanctioned_post_update.php?org_code=<?php echo $org_code; ?>&action=new_designation&step=3"><i class="icon-plus"></i> Add Sanctioned Post</a>
                 </li>
                 <li class= "level2 <?php echo ($active_menu == "sanctioned_post_repot") ? "active" : ""; ?>">
                     <a href="#"><i class="icon-calendar-empty"></i> Sanctioned Post Report</a>

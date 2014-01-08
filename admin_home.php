@@ -97,7 +97,7 @@ if ($_SESSION['user_type'] != "admin") {
                                 <i class="icon-trash pull-left icon-3x"></i> Delete
                             </a>
 
-                            <a href="update_sanctioned_post.php" class="btn btn-large">
+                            <a href="sanctioned_post_update.php" class="btn btn-large">
                                 <i class="icon-group pull-left icon-3x"></i> Update sanctioned Post
                             </a>
 

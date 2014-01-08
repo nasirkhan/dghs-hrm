@@ -93,7 +93,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
                             </div>
                             <div class="span4">
                                 <?php if($isAdmin): ?>
-                                <a href="update_sanctioned_post.php?org_code=<?php echo "$org_code"; ?>&action=new_designation&step=3" class="btn btn-small btn-warning btn-block"><i class="icon-list-ul"></i> Add New Designation</a>
+                                <a href="sanctioned_post_update.php?org_code=<?php echo "$org_code"; ?>&action=new_designation&step=3" class="btn btn-small btn-warning btn-block"><i class="icon-list-ul"></i> Add New Designation</a>
                                 <?php endif; ?>
                                 <div class="btn-group pull-right">
                                     <a class="btn" href="sanctioned_post_sorted.php?org_code=<?php echo $org_code; ?>"><i class="icon-sort-by-alphabet"></i> Sorted</a>

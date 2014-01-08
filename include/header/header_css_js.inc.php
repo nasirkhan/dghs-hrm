@@ -47,7 +47,7 @@
 <script src="library/dataTables-1.9.4/media/js/jquery.dataTables.min.js"></script>
 <script src="library/dataTables-1.9.4/media/js/paging.js"></script>
 <!--==twiterwidget==-->
-<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<!--<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>-->
 <!--==bootstrap Date picker==-->
 <link href="assets/css/datepicker.css" rel="stylesheet">
 <script src="assets/js/bootstrap-datepicker.js"></script>

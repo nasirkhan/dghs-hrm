@@ -5,7 +5,18 @@ if ($_SESSION ['logged'] != true) {
     header("location:login.php");
 }
 
-require_once './include/check_org_code.php';
+// assign values from session array
+$org_code = $_SESSION ['org_code'];
+$org_name = $_SESSION ['org_name'];
+$org_type_name = $_SESSION ['org_type_name'];
+
+$echoAdminInfo = "";
+
+// assign values admin users
+if ($_SESSION ['user_type'] == "admin") {
+    $echoAdminInfo = " | Administrator";
+    $isAdmin = TRUE;
+}
 
 // GET values
 $staff_id = (int) mysql_real_escape_string($_GET ['staff_id']);
