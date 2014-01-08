@@ -9,8 +9,10 @@ if (strlen($_REQUEST['org_code'])) {
         $org_name = $_SESSION['org_name'];
         $org_type_name = $_SESSION['org_type_name'];
 
-        $echoAdminInfo = " | Administrator";
-        $isAdmin = TRUE;
+        if ($_SESSION['user_type'] == "admin") {
+            $echoAdminInfo = " | Administrator";
+            $isAdmin = TRUE;
+        }
     } else {
         echo "No valid org code found.";
         die();
