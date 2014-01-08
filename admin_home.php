@@ -23,11 +23,12 @@ if ($_SESSION['user_type'] == "admin") {
     $echoAdminInfo = " | Administrator";
     $isAdmin = TRUE;
 }
-if ($org_code == "") {
-    $org_code = "99999999";
-}
+//
+//if ($org_code == "") {
+//    $org_code = "99999999";
+//}
 
-// admin check 
+// admin check
 if ($_SESSION['user_type'] != "admin") {
     header("location:home.php?org_code=$org_code");
 }
@@ -65,7 +66,7 @@ if ($_SESSION['user_type'] != "admin") {
             ================================================== -->
             <div class="row-fluid">
                 <div class="span3 bs-docs-sidebar">
-                    <ul class="nav nav-list bs-docs-sidenav">                        
+                    <ul class="nav nav-list bs-docs-sidenav">
                         <?php
                         $active_menu = "admin_home";
                         include_once 'include/left_menu.php';

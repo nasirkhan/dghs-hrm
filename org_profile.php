@@ -5,10 +5,13 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
-// assign values from session array
-$org_code = $_SESSION['org_code'];
-$org_name = $_SESSION['org_name'];
-$org_type_name = $_SESSION['org_type_name'];
+if(strlen($_REQUEST['org_code'])){
+    if(isValidOrgCode($_REQUEST['org_code'])){
+        $org_code=$_REQUEST['org_code'];
+        setOrgSession($org_code); // assign values from session array
+    }
+}
+
 
 // assign values admin users
 if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){

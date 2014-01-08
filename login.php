@@ -61,6 +61,8 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                     <div class="contact"><i class="icon-edit"></i> <a href="reset_password.php">Reset Password</a></div>
                 </div>
             </form>
+
         </div> <!-- /container -->
     </body>
+    <?php include_once 'include/footer/footer.inc.php'; ?>
 </html>

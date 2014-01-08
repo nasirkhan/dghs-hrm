@@ -145,7 +145,7 @@ if (hasPermission('mod_organizations_profile', 'view', getLoggedUserName())) {
     if (isValidOrgCode($_SESSION['org_code'])) {
         require_once 'left_menu_org_admin.php';
     }else{
-        echo "org code not valid" ; // debug
+        //echo "org code not valid" ; // debug
     }
 } else {
     echo "No permission"; // debug
