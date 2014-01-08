@@ -5,18 +5,7 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
-// session data
-$org_code = $_SESSION['org_code'];
-$org_name = $_SESSION['org_name'];
-$org_type_name = $_SESSION['org_type_name'];
-
-
-// reassign org info
-if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
-    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
-    $org_name = getOrgNameFormOrgCode($org_code);
-    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
-}
+require_once './include/check_org_code.php';
 
 /**
  * Reassign org_code and enable edit permission for Upazila and below

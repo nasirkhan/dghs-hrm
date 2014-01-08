@@ -7,7 +7,7 @@
         <li><a href="search.php?type=org">Search</a></li>
         <li><a href="add_new.php?type=org">Add</a></li>
         <li><a href="admin_edit_org.php">Organizations Awaiting Approval</a></li>
-        <li><a href="">All Employee</a></li>
+        <!--<li><a href="">All Employee</a></li>-->
     </ul>
     <li><a href="">Reports</a></li>
     <!--

@@ -5,22 +5,7 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
-if(strlen($_REQUEST['org_code'])){
-    if(isValidOrgCode($_REQUEST['org_code'])){
-        $org_code=$_REQUEST['org_code'];
-        setOrgSession($org_code); // assign values from session array
-    }
-}
-
-
-// assign values admin users
-if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
-    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
-    $org_name = getOrgNameFormOrgCode($org_code);
-    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
-    $echoAdminInfo = " | Administrator";
-    $isAdmin = TRUE;
-}
+require_once './include/check_org_code.php';
 
 
 /**
@@ -29,13 +14,13 @@ if($_SESSION['user_type']=="admin" && $_GET['org_code'] != ""){
  * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){
+if ($org_type_code == 1029 || $org_type_code == 1051) {
     $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
 
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
 
-    if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
+    if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])) {
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
         $org_type_name = getOrgTypeNameFormOrgCode($org_code);
@@ -64,7 +49,6 @@ if ($org_type_code == 1039) {
 }
 
 $showSanctionedBed = showSanctionedBed($org_type_code);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -248,15 +232,15 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr  class="success">
                                             <td width="50%" colspan="2"><strong>Urban/Rural Location Information of the Organization</strong></td>
-                                            <!--<td><?php // echo $data['org_code'];      ?></td>-->
+                                            <!--<td><?php // echo $data['org_code'];       ?></td>-->
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Urban/Rural Location</strong></td>
-                                            <td><?php // echo $data['org_code'];      ?></td>
+                                            <td><?php // echo $data['org_code'];       ?></td>
                                         </tr>
                                         <tr  class="success">
                                             <td width="50%" colspan="2"><strong>Regional location of the organization</strong></td>
-                                            <!--<td><?php // echo $data['org_code'];      ?></td>-->
+                                            <!--<td><?php // echo $data['org_code'];       ?></td>-->
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Division Name</strong></td>
@@ -326,9 +310,9 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     <tr>
                                         <td width="50%"><strong>Organization Function</strong></td>
                                         <td width="50%"><a href="#" class="" id="org_function_code" ></a></td>
-                                        <script>
-                                            var org_function_value = "<?php echo $data['org_function_code']; ?>";
-                                        </script>
+                                    <script>
+                                        var org_function_value = "<?php echo $data['org_function_code']; ?>";
+                                    </script>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Organization Level</strong></td>
@@ -352,7 +336,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     <!--
                                     <tr>
                                         <td width="60%"><strong>Special service / status of the hospital / clinic</strong></td>
-                                        <td><a href="#" class="text-input" id="land_mutation_number" ><?php // echo $data['org_code'];      ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_mutation_number" ><?php // echo $data['org_code'];       ?></a></td>
                                     </tr>
                                     -->
 
@@ -447,11 +431,11 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     <!--
                                     <tr>
                                         <td><strong>Website2</strong></td>
-                                        <td><?php // echo $data['org_code'];      ?></td>
+                                        <td><?php // echo $data['org_code'];       ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Website3</strong></td>
-                                        <td><?php // echo $data['district_code'];      ?></td>
+                                        <td><?php // echo $data['district_code'];       ?></td>
                                     </tr>
                                     -->
                                     <tr>
@@ -559,9 +543,9 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     <tr>
                                         <td width="50%">Fuel source</td>
                                         <td><a href="#" class="" id="fuel_source_code" ></a></td>
-                                        <script>
-                                            var fuel_source_code_values = "<?php echo $data['fuel_source_code']; ?>";
-                                        </script>
+                                    <script>
+                                        var fuel_source_code_values = "<?php echo $data['fuel_source_code']; ?>";
+                                    </script>
                                     </tr>
                                     <tr class="success">
                                         <td width="50%" colspan="2"><strong>Laundry System</strong></td>
@@ -569,9 +553,9 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     <tr>
                                         <td width="50%">Laundry system</td>
                                         <td><a href="#" class="" id="laundry_code" ></a></td>
-                                        <script>
-                                            var laundry_code_values = "<?php echo $data['laundry_code']; ?>";
-                                        </script>
+                                    <script>
+                                        var laundry_code_values = "<?php echo $data['laundry_code']; ?>";
+                                    </script>
                                     </tr>
                                     <tr class="success">
                                         <td width="50%" colspan="2"><strong>Autoclave System</strong></td>
@@ -579,9 +563,9 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     <tr>
                                         <td width="50%">Autoclave System</td>
                                         <td><a href="#" class="" id="autoclave_code" ></a></td>
-                                        <script>
-                                            var autoclave_code_values = "<?php echo $data['autoclave_code']; ?>";
-                                        </script>
+                                    <script>
+                                        var autoclave_code_values = "<?php echo $data['autoclave_code']; ?>";
+                                    </script>
                                     </tr>
                                     <tr class="success">
                                         <td width="50%" colspan="2"><strong>Waste Disposal System</strong></td>
@@ -589,9 +573,9 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     <tr>
                                         <td width="50%">Waste disposal</td>
                                         <td><a href="#" class="" id="waste_disposal_code" ></a></td>
-                                        <script>
-                                            var waste_disposal_code_values = "<?php echo $data['waste_disposal_code']; ?>";
-                                        </script>
+                                    <script>
+                                        var waste_disposal_code_values = "<?php echo $data['waste_disposal_code']; ?>";
+                                    </script>
                                     </tr>
                                     <tr class="success">
                                         <td width="50%" colspan="2"><strong>Sanctioned Assets</strong></td>
@@ -604,11 +588,11 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         <td width="50%">Sanctioned vehicles</td>
                                         <td><a href="#" class="text-input" id="sanctioned_vehicles" ><?php echo $data['sanctioned_vehicles']; ?></a></td>
                                     </tr>
-                                    <?php if($showSanctionedBed): ?>
-                                    <tr>
-                                        <td width="50%">Sanctioned Bed No</td>
-                                        <td><a href="#" class="text-input" id="sanctioned_bed_number" ><?php echo $data['sanctioned_bed_number']; ?></a></td>
-                                    </tr>
+                                    <?php if ($showSanctionedBed): ?>
+                                        <tr>
+                                            <td width="50%">Sanctioned Bed No</td>
+                                            <td><a href="#" class="text-input" id="sanctioned_bed_number" ><?php echo $data['sanctioned_bed_number']; ?></a></td>
+                                        </tr>
                                     <?php endif; ?>
                                     <tr>
                                         <td width="50%">Other miscellaneous issues</td>
@@ -647,7 +631,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     </tr>
                                     -->
 
-									  <tr>
+                                    <tr>
                                         <td width="50%"><strong>SA Dag No</strong></td>
                                         <td><a href="#" class="text-input" id="land_ss_dag_number" ><?php echo $data['land_ss_dag_number']; ?></a></td>
                                     </tr>
