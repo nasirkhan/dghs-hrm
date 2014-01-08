@@ -41,7 +41,7 @@ if (isset($_POST['new_user_type']) && $_POST['new_post_type'] == "user") {
      * super admin user
      */
     if ($_POST['new_user_type'] == "admin"){
-        $new_user_org_code = '99999999';
+        $new_user_org_code = '';
         $new_user_type = "admin";
     }
 
@@ -281,6 +281,8 @@ if (isset($_POST['new_user_type']) && $_POST['new_post_type'] == "user") {
                 if (selectedType === "user") {
                     $("#new_admin_org_code").hide();
                     $("#org_select_block").slideDown();
+                } else if (selectedType === "admin") {
+                    $("#org_select_block").hide();
                 }
             });
             // load district
