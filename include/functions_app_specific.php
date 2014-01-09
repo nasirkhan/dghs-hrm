@@ -1817,6 +1817,9 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
     if ($user_type == "user" && $org_code == ""){
         return FALSE;
     }
+    if ($user_type == "admin"){
+        $org_code = "";
+    }
 
     $sql = "INSERT INTO `user` (
                     `username`,
