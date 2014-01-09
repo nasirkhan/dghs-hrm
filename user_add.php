@@ -28,7 +28,7 @@ if (isset($_GET['insert_success'])){
 }
 
 $error = "";
-if (isset($_POST['new_user_type']) && $_POST['new_post_type'] == "user") {
+if (isset($_POST['new_user_type']) && $_POST['new_post_type'] == "user") {    
     // if " new_user_type " == " Super Admin "
     // @TODO restructure the User table, include user_type info
     $new_user_name = mysql_real_escape_string($_POST['new_user_name']);

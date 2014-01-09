@@ -1811,7 +1811,10 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
     $updated_by = $_SESSION['username'];
     $active = 1;
 
-    if ($username == "" || $email == "" || $password == "" || $user_type == "" || $org_code == "" || $mobile_number = "") {
+    if ($username == "" || $email == "" || $password == "" || $user_type == "" || $mobile_number = "") {
+        return FALSE;        
+    }
+    if ($user_type == "user" && $org_code == ""){
         return FALSE;
     }
 
@@ -1838,7 +1841,7 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
                     )";
 
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:addNewUser:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
+    echo "<pre>$sql</pre>";
     return TRUE;
 }
 
