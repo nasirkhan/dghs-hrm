@@ -2193,4 +2193,73 @@ function insertLog($log_module, $log_event, $log_affected_table_name, $log_affec
     $r = mysql_query($sql) or die(mysql_error() . "<br>Query:<br>____<br>$sql<br>");
 }
 
+/**
+ * Get Organization Function Name for a single org_function_code
+ * 
+ * @param INT $org_function_code Single org_function_code
+ * @return string|boolean
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function getOrgFucntionNameFromCode($org_function_code){
+    if (!$org_function_code > 0) {
+        return FALSE;
+    }
+    $org_function_code = (int) trim($org_function_code);
+    $sql = "SELECT org_organizational_functions_name FROM org_organizational_functions WHERE org_organizational_functions_code=$org_function_code LIMIT 1";    
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgFucntionNameFromCode || Query:</b><br />___<br />$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+
+    if (mysql_num_rows($result) > 0) {
+        return $data['org_organizational_functions_name'];
+    } else {
+        return FALSE;
+    }
+}
+
+
+/**
+ * Get the names of organization function from org_function_code
+ * 
+ * @param STRING $org_function_code org_function_code Array fetched form orgnizaion table
+ * @return string|boolean
+ * 
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function getOrgFucntionNameStringFromCode($org_function_code){
+    if ($org_function_code == "") {
+        return FALSE;
+    }
+    $r = array("[", "]");
+    $org_function_code = str_replace($r, "", $org_function_code);
+    
+    $code_array = explode(",", $org_function_code);
+    $count = count($code_array);
+    
+    $return_string = "";
+    for ($i=0; $i < $count; $i++){
+        $return_string .= getOrgFucntionNameFromCode($code_array[$i]) . ",<br>";
+    }
+   
+    return $return_string;
+}
+
+function getHealthCareLevelNameFromCode($org_healthcare_level_code){
+    $org_healthcare_level_code = (int) trim($org_healthcare_level_code);
+    
+    if (!$org_healthcare_level_code > 0) {
+        return FALSE;
+    }
+    
+    $sql = "SELECT healthcare_name FROM org_healthcare_levels WHERE healthcare_code=$org_healthcare_level_code LIMIT 1";    
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgFucntionNameFromCode || Query:</b><br />___<br />$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+
+    if (mysql_num_rows($result) > 0) {
+        return $data['healthcare_name'];
+    } else {
+        return FALSE;
+    }
+}
 ?>

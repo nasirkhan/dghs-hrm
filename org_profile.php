@@ -7,7 +7,6 @@ if ($_SESSION['logged'] != true) {
 
 require_once './include/check_org_code.php';
 
-
 /**
  * Reassign org_code and enable edit permission for Upazila and below
  *
@@ -208,7 +207,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     <table class="table table-striped table-hover">
                                         <tr>
                                             <td width="50%"><strong>Organization Name</strong></td>
-                                            <td><?php echo "$org_name"; ?></td>
+                                            <td><a href="#" class="text-input" id="org_name" ><?php echo $data['org_name']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Organization Code</strong></td>
@@ -224,19 +223,18 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Financial Code (Revenue Code)</strong></td>
-                                            <td><?php echo $data['financial_revenue_code']; ?></td>
+                                            <td><a href="#" class="text-input" id="financial_revenue_code" ><?php echo $data['financial_revenue_code']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Year Established</strong></td>
-                                            <td><?php echo $data['year_established']; ?></td>
+                                            <td><a href="#" class="text-input" data-placeholder="Example, 2011" id="year_established" ><?php echo $data['year_established']; ?></a></td>
                                         </tr>
                                         <tr  class="success">
                                             <td width="50%" colspan="2"><strong>Urban/Rural Location Information of the Organization</strong></td>
-                                            <!--<td><?php // echo $data['org_code'];       ?></td>-->
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Urban/Rural Location</strong></td>
-                                            <td><?php // echo $data['org_code'];       ?></td>
+                                            <td width="50%">Urban/Rural Location</td>
+                                            <td><a href="#" class="" id="org_location_type" ><?php echo getOrgLocationTypeFromCode($data['org_location_type']); ?></a></td>
                                         </tr>
                                         <tr  class="success">
                                             <td width="50%" colspan="2"><strong>Regional location of the organization</strong></td>
@@ -275,16 +273,16 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                             <td><?php echo $data['union_code']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Ward</strong></td>
-                                            <td><?php echo $data['ward_code']; ?></td>
+                                            <td width="50%"><strong>Ward Name</strong></td>
+                                            <td><a href="#" class="text-input" id="ward_code" ><?php echo $data['ward_code']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Village/Street</strong></td>
-                                            <td><?php echo $data['village_code']; ?></td>
+                                            <td><a href="#" class="text-input" id="village_code" ><?php echo $data['village_code']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>House No</strong></td>
-                                            <td><?php echo $data['house_number']; ?></td>
+                                            <td><a href="#" class="text-input" id="house_number" ><?php echo $data['house_number']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Longitude</strong></td>
@@ -299,28 +297,50 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                             </div>
                             <div class="tab-pane" id="ownership-info">
                                 <table class="table table-striped table-hover">
+                                    
                                     <tr>
                                         <td width="50%"><strong>Ownership</strong></td>
+                                        <?php if ($isAdmin): ?>
                                         <td width="50%"><a href="#" class="" id="ownership_code" ><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></a></td>
+                                        <?php else: ?>
+                                        <td width="50%"><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
+                                        <?php endif; ?>
                                     </tr>
                                     <tr>
-                                        <td width="50%"><strong>Organization Type</strong></td>
+                                        <td width="50%"><strong>Organization Type</strong></td>                                        
+                                        <?php if ($isAdmin): ?>
                                         <td width="50%"><a href="#" class="" id="org_type_code" ><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></a></td>
+                                        <?php else: ?>
+                                        <td width="50%"><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></td>
+                                        <?php endif; ?>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Organization Function</strong></td>
+                                        <?php if ($isAdmin): ?>
                                         <td width="50%"><a href="#" class="" id="org_function_code" ></a></td>
-                                    <script>
-                                        var org_function_value = "<?php echo $data['org_function_code']; ?>";
-                                    </script>
+                                        <script>
+                                            var org_function_value = "<?php echo $data['org_function_code']; ?>";
+                                        </script>
+                                        <?php else: ?>
+                                        <td width="50%"><?php echo getOrgFucntionNameStringFromCode($data['org_function_code']); ?></td>
+                                        <?php endif; ?>
+                                        
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Organization Level</strong></td>
+                                        <?php if ($isAdmin): ?>
                                         <td width="50%"><a href="#" class="" id="org_level_code" ><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></a></td>
+                                        <?php else: ?>
+                                        <td width="50%"><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></td>
+                                        <?php endif; ?>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Health Care Level</strong></td>
-                                        <td width="50%"><a href="#" class="" id="org_healthcare_level_code" ><?php echo $data['org_healthcare_level_code']; ?></a></td>
+                                        <?php if ($isAdmin): ?>
+                                        <td width="50%"><a href="#" class="" id="org_healthcare_level_code" ><?php echo getHealthCareLevelNameFromCode($data['org_healthcare_level_code']); ?></a></td>
+                                        <?php else: ?>
+                                        <td width="50%"><?php echo getHealthCareLevelNameFromCode($data['org_healthcare_level_code']); ?></td>
+                                        <?php endif; ?>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Special service / status of the hospital / clinic</strong></td>
