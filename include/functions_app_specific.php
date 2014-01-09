@@ -1811,7 +1811,7 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
     $updated_by = $_SESSION['username'];
     $active = 1;
 
-    if ($username == "" || $email == "" || $password == "" || $user_type == "" || $mobile_number = "") {
+    if ($username == "" || $email == "" || $password == "" || $user_type == "" || $mobile_number == "") {
         return FALSE;        
     }
     if ($user_type == "user" && $org_code == ""){
@@ -1832,7 +1832,7 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
                     \"$username\",
                     \"$email\",
                     \"$mobile_number\",
-                    \"" . md5($password) . "\",
+                    \"$password\",
                     '$user_type',
                     \"$org_code\",
                      '$updated_datetime',
