@@ -8,15 +8,16 @@
                 <small>You are now logged in as Super Admin of the system. Please select an organization to start your activity.</small>
             </blockquote>
         </li>
-        <li><a href="org.php">Organizations</a></li>
+        <li><a href="org.php"><i class="icon-hospital"></i> Organizations</a></li>
         <ul>
-            <li><a href="search.php?type=org">Search</a></li>
-            <li><a href="add_new.php?type=org">Add</a></li>
-            <li><a href="admin_edit_org.php">Organizations Awaiting Approval</a></li>
+            <li><a href="search.php?type=org"><i class="icon-search"></i> Search</a></li>
+            <li><a href="add_new.php?type=org"><i class="icon-plus"></i> Add</a></li>
+            <li><a href="admin_edit_org.php"><i class="icon-check"></i> Organizations Awaiting Approval</a></li>
             <!--<li><a href="">All Employee</a></li>-->
         </ul>
-        <li><a href="report_index.php">Reports</a></li>
-        <li><a href="user_add.php">Add User</a></li>
+        <li><a href="<?= $attendanceMonitorUrl ?>" target="_blank"><i class="icon-check-sign"></i> Attendance</a></li>
+        <li><a href="report_index.php"><i class="icon-list"></i> Reports</a></li>
+        <li><a href="user_add.php"><i class="icon-user"></i> Add User</a></li>
 
         <!--
         <li><a href="#">Configuration</a></li>

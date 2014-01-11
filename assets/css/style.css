@@ -1385,3 +1385,6 @@ div.DTFC_LeftFootWrapper table {
 *
 */
 div#headerJumpMenu{width:500px;}
+blockquote{
+    margin-bottom: 5px;
+}

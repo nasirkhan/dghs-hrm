@@ -1,4 +1,9 @@
 <?php
+/**
+ * Different variables that are globally accessed.
+ */
+
+$attendanceMonitorUrl='http://app.dghs.gov.bd/attendance-dashboard/attendance.php';
 
 /**
  * Get the organization type Name form the Organization code
