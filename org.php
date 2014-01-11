@@ -27,7 +27,7 @@ if ($org_code == "") {
     $org_code = "99999999";
 }
 
-// admin check 
+// admin check
 if ($_SESSION['user_type'] != "admin") {
     header("location:home.php?org_code=$org_code");
 }
@@ -66,7 +66,7 @@ if ($_SESSION['user_type'] != "admin") {
             ================================================== -->
             <div class="row-fluid">
                 <div class="span3 bs-docs-sidebar">
-                    <ul class="nav nav-list bs-docs-sidenav">                        
+                    <ul class="nav nav-list bs-docs-sidenav">
                         <?php
                         $active_menu = "";
                         include_once 'include/left_menu.php';
@@ -77,11 +77,11 @@ if ($_SESSION['user_type'] != "admin") {
                     <!-- admin home
                     ================================================== -->
                     <section id="admin_home_main">
-                        <h3>Organizations</h3>
+                        <h5>Organizations</h5>
 
                         <div class="row-fluid">
 
-                            <iframe src="org_tree.php" width="700" height="500" frameborder="0"></iframe> 
+                            <iframe src="org_tree.php" width="700" height="500" frameborder="0"></iframe>
 
                         </div>
                     </section> <!-- /admin_home_main -->

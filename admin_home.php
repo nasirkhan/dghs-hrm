@@ -27,7 +27,6 @@ if ($_SESSION['user_type'] == "admin") {
 //if ($org_code == "") {
 //    $org_code = "99999999";
 //}
-
 // admin check
 if ($_SESSION['user_type'] != "admin") {
     header("location:home.php?org_code=$org_code");
@@ -45,6 +44,23 @@ if ($_SESSION['user_type'] != "admin") {
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
+        <?php if(!orgSelected()){?>
+        <div class="homepageHint" style="margin: 0 auto;
+             opacity: 0.7;
+             position: absolute;
+             text-align: center;
+             top: 0;
+             width: 100%;
+             z-index: 10000;">
+            <img src="assets/img/org_selection_handwriting_hint.png"/>
+        </div>
+        <script>
+            $('.homepageHint').click(function(){
+                $(this).fadeOut('slow');
+                $('#rightContainerMain').css('padding-top','0px');
+            });
+        </script>
+        <?php } ?>
 
         <!-- Top navigation bar
         ================================================== -->
@@ -52,12 +68,12 @@ if ($_SESSION['user_type'] != "admin") {
 
         <!-- Subhead
         ================================================== -->
-        <header class="jumbotron subhead" id="overview">
-            <div class="container">
-                <h1><?php echo $org_name; ?></h1>
-                <p class="lead"><?php echo "$org_type_name"; ?></p>
-            </div>
-        </header>
+        <!--        <header class="jumbotron subhead" id="overview">
+                    <div class="container">
+                        <h1><?php echo $org_name; ?></h1>
+                        <p class="lead"><?php echo "$org_type_name"; ?></p>
+                    </div>
+                </header>-->
 
 
         <div class="container">
@@ -73,7 +89,8 @@ if ($_SESSION['user_type'] != "admin") {
                         ?>
                     </ul>
                 </div>
-                <div class="span9">
+
+                <div id="rightContainerMain" class="span9" <?php if(!orgSelected()){echo " style='padding-top:70px'";}?>>
                     <!-- admin home
                     ================================================== -->
                     <section id="admin_home_main">

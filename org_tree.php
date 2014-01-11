@@ -35,7 +35,7 @@ if (isset($_GET['level']) && isset($_GET['code'])) {
                         organization.org_code,
                         organization.org_name,
                         organization.org_type_code,
-                        org_type.org_type_name,	
+                        org_type.org_type_name,
                         organization.org_level_code,
                         org_level.org_level_name,
                         organization.org_photo
@@ -51,19 +51,19 @@ if (isset($_GET['level']) && isset($_GET['code'])) {
             $showReportTable = TRUE;
         }
     } else if ($level == "upa") {
-        
+
         $upa_info = getDisDivNameCodeFromUpazilaAndDistrictCode($code, $dis_code);
         $division_name = $upa_info['district_name'];
         $division_code = $upa_info['upazila_division_code'];
         $district_name = $upa_info['division_name'];
         $district_code = $upa_info['upazila_district_code'];
         $upazila_name = $upa_info['upazila_name'];
-        
+
         $sql = "SELECT
                     organization.org_code,
                     organization.org_name,
                     organization.org_type_code,
-                    org_type.org_type_name,	
+                    org_type.org_type_name,
                     organization.org_level_code,
                     org_level.org_level_name,
                     organization.org_photo
@@ -73,7 +73,7 @@ if (isset($_GET['level']) && isset($_GET['code'])) {
                 LEFT JOIN org_level ON organization.org_level_code = org_level.org_level_code
                 WHERE
                     organization.upazila_thana_code = $code
-                AND organization.district_code = $dis_code            
+                AND organization.district_code = $dis_code
                 AND organization.active LIKE 1";
         $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:divOrgList || Query:</b><br />___<br />$sql</p>");
         if (mysql_num_rows($result) > 0) {
@@ -96,6 +96,11 @@ if (isset($_GET['level']) && isset($_GET['code'])) {
 
         <link rel="stylesheet" href="assets/bootstrap3/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/main.css">
+        <style>
+            body{
+                font-size: 12px;
+            }
+        </style>
 
     </head>
     <body>
@@ -172,7 +177,7 @@ if (isset($_GET['level']) && isset($_GET['code'])) {
                             </ul>
                         </div>
                     </div><!--/.well -->
-                    
+
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-8">
                     <?php if ($showReportTable): ?>
@@ -189,28 +194,28 @@ if (isset($_GET['level']) && isset($_GET['code'])) {
                                 <li><a href="org_tree.php?level=div&code=<?php echo $division_code; ?>"><?php echo $division_name; ?></a></li>
                                 <li><a href="org_tree.php?level=dis&code=<?php echo $district_code; ?>"><?php echo $district_name; ?></a></li>
                                 <li class="active"><?php echo $upazila_name; ?></li>
-                            <?php endif; ?>    
+                            <?php endif; ?>
                         </ol>
                         <!--<h2><?php echo $division_name; ?></h2>-->
-                    <div class="alert alert-info">
-                        All Organizations under 
+<!--                    <div class="alert alert-info">
+                        All Organizations under
                         <em>
                             <?php if ($level == "div") { echo "<strong>" . $division_name . "</strong> division"; } ?>
                             <?php if ($level == "dis") { echo "<strong>" . $division_name . "</strong> division" . " under " . "<strong>" .  $district_name . "</strong> district"; } ?>
-                            <?php if ($level == "upa") { 
+                            <?php if ($level == "upa") {
                                 echo "<strong>" . $division_name . "</strong> division";
-                                echo " under " . "<strong>" .  $district_name . "</strong> district"; 
-                                echo " under " . "<strong>" .  $district_name . "</strong> district"; 
+                                echo " under " . "<strong>" .  $district_name . "</strong> district";
+                                echo " under " . "<strong>" .  $district_name . "</strong> district";
                             } ?>
                         </em> <br />
                         Total <em><strong><?php echo mysql_num_rows($result); ?></strong></em> organization(s) found.
-                    </div>
+                    </div>-->
                         <table class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <td><strong>#</strong></td>
-                                    <td><strong>Organization Name</strong></td>
-                                    <td><strong>Organization Code</strong></td>
+                                    <td><strong>Organization</strong></td>
+                                    <td><strong>Code</strong></td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -232,16 +237,16 @@ if (isset($_GET['level']) && isset($_GET['code'])) {
                 </div>
 
             </div>
-        </div> <!-- /container -->        
+        </div> <!-- /container -->
 
 
         <!-- Bootstrap core JavaScript
         ================================================== -->
 
-                
+
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
-        
+
 
         <!--<script type="text/javascript" src="library/jstree-bootstrap-theme-master/jquery.js"></script>-->
         <script type="text/javascript" src="library/jstree-bootstrap-theme-master/jquery.cookie.js"></script>
@@ -263,6 +268,6 @@ if (isset($_GET['level']) && isset($_GET['code'])) {
             })
         });
         </script>
-        
+
     </body>
 </html>

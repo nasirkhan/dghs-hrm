@@ -76,12 +76,10 @@
 <link href="assets/datatable/css/demo_table.css" media="screen" rel="stylesheet" type="text/css" />
 <script src="assets/datatable/js/jquery.dataTables.js" type="text/javascript"></script>
 
-
 <!--==Common JS==-->
 <script src="assets/js/common.js"></script>
 <link href="assets/css/style.css" rel="stylesheet"/>
 
-<!--==Validator==-->
-<link href="assets/validator/validationEngine.jquery.css" rel="stylesheet">
-<script src="assets/validator/jquery.validationEngine-en.js"></script>
-<script src="assets/validator/jquery.validationEngine.js"></script>
+
+
+
