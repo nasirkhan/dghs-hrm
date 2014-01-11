@@ -16,6 +16,18 @@
 
 <!--==Jquery==-->
 <script src="assets/js/jquery.js"></script>
+<!--==Jquery UI==-->
+<script src="assets/js/jquery/jquery-ui.js" type="text/javascript"></script>
+<link href="assets/js/jquery/themes/base/jquery.ui.all.css" rel="stylesheet" />
+
+<!--==JQuery UI core==-->
+<script src="assets/js/jquery/ui/jquery.ui.core.js" type="text/javascript"></script>
+<script src="assets/js/jquery/ui/jquery.ui.widget.js" type="text/javascript"></script>
+<script src="assets/js/jquery/ui/jquery.ui.position.js" type="text/javascript"></script>
+<script src="assets/js/jquery/ui/jquery.ui.autocomplete.js" type="text/javascript"></script>
+<script src="assets/js/jquery/ui/jquery.ui.slider.js" type="text/javascript"></script>
+<script src="assets/js/jquery/ui/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
+
 <!--==Jquery Validation==-->
 <script src="assets/jquery Validation/dist/jquery.validate.js"></script>
 <!--==Bootstrap==-->
@@ -43,10 +55,9 @@
 <script src="assets/js/holder/holder.js"></script>
 <!--==appolication==-->
 <script src="assets/js/application.js"></script>
-<!--==datatable==-->
-<script src="library/dataTables-1.9.4/media/js/jquery.dataTables.min.js"></script>
-<script src="library/dataTables-1.9.4/media/js/paging.js"></script>
-<!--==twiterwidget==-->
+<!--Datatable-->
+<link href="assets/datatable/css/demo_table.css" media="screen" rel="stylesheet" type="text/css" />
+<script src="assets/datatable/js/jquery.dataTables.js" type="text/javascript"></script><!--==twiterwidget==-->
 <!--<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>-->
 <!--==bootstrap Date picker==-->
 <link href="assets/css/datepicker.css" rel="stylesheet">

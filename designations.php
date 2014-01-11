@@ -98,9 +98,7 @@ $dataRows = getRows($dbTableName, $condition);
     <head>
         <meta charset="utf-8">
             <title><?php echo $org_name . " | " . $app_name; ?></title>
-             <!--Datatable-->
-            <link href="assets/datatable/css/demo_table.css" media="screen" rel="stylesheet" type="text/css" />
-            <script src="assets/datatable/js/jquery.dataTables.js" type="text/javascript"></script>
+
             <?php
             include_once 'include/header/header_css_js.inc.php';
             include_once 'include/header/header_ga.inc.php';
@@ -119,7 +117,7 @@ $dataRows = getRows($dbTableName, $condition);
             </style>
     </head>
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
-        <?php require_once "$crudFrameworkRelativePath/cf_jquery_modal_popup.php"; ?>
+        <?php //require_once "$crudFrameworkRelativePath/cf_jquery_modal_popup.php"; ?>
 
         <!-- Top navigation bar
        ================================================== -->
@@ -140,20 +138,17 @@ $dataRows = getRows($dbTableName, $condition);
             <div class="row-fluid">
                 <div class="span3 bs-docs-sidebar">
                     <ul class="nav nav-list bs-docs-sidenav">
-                        <?php
-                        $active_menu = "";
-                        include_once 'include/left_menu.php';
-                        ?>
+                        <?php include_once 'include/left_menu.php'; ?>
                     </ul>
                 </div>
                 <div class="span9">
                     <!-- Form
-          ================================================== -->
+                    ================================================== -->
 
                     <h4 class="<?= $cssPrefix ?>formTitle"><?= ucfirst($param) . " " . $moduleTitle ?></h4>
                     <div class="<?= $cssPrefix ?>toAlertMsg"><?php printAlert($valid, $alert); ?></div>
                     <div class="<?= $cssPrefix ?>addButton"><a href="<?php echo $_SERVER['PHP_SELF']; ?>">[+] Add</a></div>
-                    <div id="<?= $cssPrefix ?>form">
+                    <div class="<?= $cssPrefix ?>form">
 
                         <?php
                         if (hasPermission($moduleName, $param, getLoggedUserName())) {
@@ -194,7 +189,7 @@ $dataRows = getRows($dbTableName, $condition);
                                 $i = 0;
                                 foreach ($dataRows as $dataRow) {
                                     ?>
-                                    <tr>
+                                    <tr id="<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>">
                                         <td><a href="<?= $_SERVER['PHP_SELF'] ?>?param=edit&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow['id'] ?>"><?= $dataRow['id'] ?></td>
                                         <td><?= $dataRow['designation_code'] ?></td>
                                         <td><?= $dataRow['designation'] ?></td>
@@ -215,7 +210,7 @@ $dataRows = getRows($dbTableName, $condition);
                                             ?>
                                         </td>
                                     </tr>
-                                <?php } ?>
+                                <?php exit();} ?>
                             </tbody>
                         </table>
                     </div>

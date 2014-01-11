@@ -137,7 +137,7 @@ $dataRows = getRows($dbTableName, $condition);
                     $i = 0;
                     foreach ($dataRows as $dataRow) {
                         ?>
-                        <tr>
+                        <tr id="<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>">
                             <td><a href="<?= $_SERVER['PHP_SELF'] ?>?param=edit&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow['id'] ?>"><?= $dataRow['id'] ?></td>
                             <td><?= $dataRow['designation_code'] ?></td>
                             <td><?= $dataRow['designation'] ?></td>
