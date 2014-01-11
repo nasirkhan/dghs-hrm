@@ -16,6 +16,10 @@
 
 <!--==Jquery==-->
 <script src="assets/js/jquery.js"></script>
+
+<!--==Jquery Validation==-->
+<script src="assets/jquery Validation/dist/jquery.validate.js"></script>
+
 <!--==Jquery UI==-->
 <script src="assets/js/jquery/jquery-ui.js" type="text/javascript"></script>
 <link href="assets/js/jquery/themes/base/jquery.ui.all.css" rel="stylesheet" />
@@ -28,15 +32,20 @@
 <script src="assets/js/jquery/ui/jquery.ui.slider.js" type="text/javascript"></script>
 <script src="assets/js/jquery/ui/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
 
-<!--==Jquery Validation==-->
-<script src="assets/jquery Validation/dist/jquery.validate.js"></script>
 <!--==Bootstrap==-->
+<!--<link href="bootstrap/css/bootstrap.css" rel="stylesheet"/>-->
 <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
 <script src="assets/js/bootstrap.min.js"></script>
 <link href="assets/css/bootstrap-responsive.css" rel="stylesheet"/>
 <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
 
-<!--<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>-->
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+  <script src="assets/js/html5shiv.js"></script>
+<![endif]-->
+<!-- Le fav and touch icons -->
+
 
 <!--==Bootstrap-editable==-->
 <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
@@ -45,29 +54,34 @@
 <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet"/>
 <script src="assets/js/google-code-prettify/prettify.js"></script>
 
-<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-  <script src="assets/js/html5shiv.js"></script>
-<![endif]-->
-<!-- Le fav and touch icons -->
-
 <!--==holder==-->
 <script src="assets/js/holder/holder.js"></script>
 <!--==appolication==-->
 <script src="assets/js/application.js"></script>
-<!--Datatable-->
-<link href="assets/datatable/css/demo_table.css" media="screen" rel="stylesheet" type="text/css" />
-<script src="assets/datatable/js/jquery.dataTables.js" type="text/javascript"></script><!--==twiterwidget==-->
+
+
+<!--==twiterwidget==-->
 <!--<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>-->
 <!--==bootstrap Date picker==-->
 <link href="assets/css/datepicker.css" rel="stylesheet">
 <script src="assets/js/bootstrap-datepicker.js"></script>
 
-<!--==Common JS==-->
-<script src="assets/js/common.js"></script>
-
 <!--==Bootstrap multiselect==-->
 <link href="library/bootstrap-multiselect-bootstrap-2-3/css/bootstrap-multiselect.css" rel="stylesheet">
 <script src="library/bootstrap-multiselect-bootstrap-2-3/js/bootstrap-multiselect.js"></script>
-<!--==Application CSS==-->
+
+<!--Datatable-->
+<!--<link href="assets/datatable/css/demo_table.css" media="screen" rel="stylesheet" type="text/css" />-->
+<link href="assets/datatable/css/demo_table_jui.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="assets/datatable/css/demo_table.css" media="screen" rel="stylesheet" type="text/css" />
+<script src="assets/datatable/js/jquery.dataTables.js" type="text/javascript"></script>
+
+
+<!--==Common JS==-->
+<script src="assets/js/common.js"></script>
 <link href="assets/css/style.css" rel="stylesheet"/>
+
+<!--==Validator==-->
+<link href="assets/validator/validationEngine.jquery.css" rel="stylesheet">
+<script src="assets/validator/jquery.validationEngine-en.js"></script>
+<script src="assets/validator/jquery.validationEngine.js"></script>

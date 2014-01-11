@@ -1,5 +1,8 @@
 <?php
 require_once 'configuration.php'; // your config file
+if ($_SESSION['logged'] != true) { // checks whether you are already logged in
+    header("location:login.php");
+}
 /**
  * crudFrame work relative location from this
  */
@@ -93,34 +96,34 @@ if (isset($_POST[submit])) {
 /* * **************************************** */
 $dataRows = getRows($dbTableName, $condition);
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
-            <title><?php echo $org_name . " | " . $app_name; ?></title>
+        <title><?php echo $org_name . " | " . $app_name; ?></title>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        //include_once 'include/header/header_ga.inc.php';
+        ?>
 
-            <?php
-            include_once 'include/header/header_css_js.inc.php';
-            include_once 'include/header/header_ga.inc.php';
-            ?>
+        <!--CSS-->
+        <style type="text/css">
+            .formTitle {
+                color: inherit;
+                font-family: inherit;
+                font-weight: bold;
+                line-height: 20px;
+                margin: 10px 0;
+                text-rendering: optimizelegibility;}
+            #tabularData{font-size: 12px;}
 
-            <!--CSS-->
-            <style>
-                .formTitle {
-                    color: inherit;
-                    font-family: inherit;
-                    font-weight: bold;
-                    line-height: 20px;
-                    margin: 10px 0;
-                    text-rendering: optimizelegibility;}
-                #tabularData{font-size: 12px;}
-            </style>
+        </style>
     </head>
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
         <?php //require_once "$crudFrameworkRelativePath/cf_jquery_modal_popup.php"; ?>
 
         <!-- Top navigation bar
-       ================================================== -->
+        ================================================== -->
         <?php include_once 'include/header/header_top_menu.inc.php'; ?>
 
         <!-- Subhead
@@ -142,7 +145,7 @@ $dataRows = getRows($dbTableName, $condition);
                     </ul>
                 </div>
                 <div class="span9">
-                    <!-- Form
+                    <!-- Form Start here
                     ================================================== -->
 
                     <h4 class="<?= $cssPrefix ?>formTitle"><?= ucfirst($param) . " " . $moduleTitle ?></h4>
@@ -153,18 +156,22 @@ $dataRows = getRows($dbTableName, $condition);
                         <?php
                         if (hasPermission($moduleName, $param, getLoggedUserName())) {
                             ?>
-                            <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-                                <input name="designation" type="text" value="<?= addEditInputField('designation') ?>"/>
-                                <input name="submit" type="submit" class="" value="Save" />
-                                <input name="reset" type="reset" class="" value="Reset" />
+                            <form class="cmxform" id="commentForm"  action="<?= $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
+                                <input id="cdesignation" name="designation" type="text" value="<?= addEditInputField('designation') ?>" class="validate[requried]"/>
+
+                                <!-- Default input items -->
+                                <input name="submit" type="submit" class="btn" value="Save" />
+                                <input name="reset" type="reset" class="btn" value="Reset" />
                                 <?php if (strlen($dbTablePrimaryKeyFieldVal)) { ?>
                                     <input type="hidden" name="<?= $dbTablePrimaryKeyFieldName ?>" value="<?php echo $dbTablePrimaryKeyFieldVal; ?>" />
                                 <?php } ?>
+                                <!-- =================== -->
                             </form>
                         <?php }
                         ?>
 
-                    </div>   <div id="<?= $cssPrefix ?>tabularData">
+                    </div>
+                    <div id="<?= $cssPrefix ?>tabularData">
                         <!--<h2>List of Departments</h2>-->
                         <table id="datatable" width="100%">
                             <thead>
@@ -186,7 +193,7 @@ $dataRows = getRows($dbTableName, $condition);
                             </thead>
                             <tbody>
                                 <?php
-                                $i = 0;
+                                $i = 1;
                                 foreach ($dataRows as $dataRow) {
                                     ?>
                                     <tr id="<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>">
@@ -210,20 +217,22 @@ $dataRows = getRows($dbTableName, $condition);
                                             ?>
                                         </td>
                                     </tr>
-                                <?php exit();} ?>
+                                    <?php
+                                    $i++;
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
-
         </div>
         <!-- Footer
         ================================================== -->
         <?php include_once 'include/footer/footer.inc.php'; ?>
         <script type="text/javascript">
             $('table#datatable').dataTable({
+                "bJQueryUI": true,
                 "sPaginationType": "full_numbers",
                 "aaSorting": [[0, "desc"]],
                 "iDisplayLength": 25,
