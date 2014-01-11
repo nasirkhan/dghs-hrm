@@ -44,12 +44,12 @@ if ($_SESSION['user_type'] != "admin") {
     </head>
 
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
-        <?php if(!orgSelected()){?>
+        <?php if(!orgSelected() && $_SESSION['admin_home_hint_status']!='closed'){?>
         <div class="homepageHint" style="margin: 0 auto;
              opacity: 0.7;
              position: absolute;
              text-align: center;
-             top: 0;
+             top: -25px;
              width: 100%;
              z-index: 10000;">
             <img src="assets/img/org_selection_handwriting_hint.png"/>
@@ -90,7 +90,7 @@ if ($_SESSION['user_type'] != "admin") {
                     </ul>
                 </div>
 
-                <div id="rightContainerMain" class="span9" <?php if(!orgSelected()){echo " style='padding-top:70px'";}?>>
+                <div id="rightContainerMain" class="span9" <?php if(!orgSelected()&& $_SESSION['admin_home_hint_status']!='closed'){echo " style='padding-top:100px'";}?>>
                     <!-- admin home
                     ================================================== -->
                     <section id="admin_home_main">
@@ -246,3 +246,6 @@ if ($_SESSION['user_type'] != "admin") {
 
     </body>
 </html>
+<?php
+$_SESSION['admin_home_hint_status']='closed';
+?>
