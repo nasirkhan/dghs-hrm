@@ -4,6 +4,7 @@
 body {
   position: relative;
   padding-top: 40px;
+  font-size: 12px;
 }
 
 /* Code in headings */
@@ -45,7 +46,7 @@ body > .navbar .brand:hover {
 
 /* padding for in-page bookmarks and fixed navbar */
 section {
-  padding-top: 30px;
+  padding-top: 0px;
 }
 section > .page-header,
 section > .lead {
@@ -103,7 +104,7 @@ hr.soften {
   line-height: 1;
 }
 .jumbotron p {
-  font-size: 20px;
+  font-size: 14px;
   font-weight: 300;
   line-height: 1.25;
   margin-bottom: 30px;
@@ -242,7 +243,7 @@ only screen and (     -o-min-device-pixel-ratio: 2/1) {
   font-size: 24px;
 }
 .subhead p {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 .subhead .navbar {
   display: none;
@@ -916,6 +917,7 @@ form.bs-docs-example {
   }
   .bs-docs-sidenav {
     width: 258px;
+    margin-top: 0px;
   }
   .bs-docs-sidenav > li > a {
     width: 230px \9; /* Override the previous IE8-9 hack */
@@ -956,7 +958,7 @@ form.bs-docs-example {
     margin-right: 0;
   }
 }
-/*  Desktop 
+/*  Desktop
 --------------------------*/
 @media (min-width: 980px) and (max-width: 1199px){
     .bs-docs-sidenav-l2 > li > a{
@@ -1059,7 +1061,7 @@ form.bs-docs-example {
 
 /* Landscape phones
 ------------------------- */
-@media (max-width: 480px) { 
+@media (max-width: 480px) {
   /* Remove padding above jumbotron */
   body {
     padding-top: 0;
@@ -1164,10 +1166,10 @@ form.bs-docs-example {
         font-size: 24px;
         line-height: 30px;
     }
-    
+
 }
 
-/*  DataTable 
+/*  DataTable
 --------------------------*/
 
 div.dataTables_length label {

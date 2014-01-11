@@ -1,30 +1,42 @@
 <?php ?>
-<h4>ORGANIZATION MENU</h4>
+<div id="orgMenu" class="leftMenuContainer">
+    <!--    <h4>ORGANIZATION MENU</h4>-->
 
-<ul id="leftMenuAdmin">
-    <li><a href="home.php?org_code=<?= $org_code?>"><?= $org_name ?></a></li>    
-    <ul>
-        <li><a href="org_profile.php?org_code=<?= $org_code?>">Profile</a></li>
-        <li><a href="sanctioned_post.php?org_code=<?= $org_code?>">Sanctioned Post</a></li>
-        <ul>
-            <li><a href="sanctioned_post_sorted.php?org_code=<?= $org_code?>">Search</a></li>
-            <!--
-            <li><a href="sanctioned_post_update.php?org_code=<?= $org_code?>">Add</a></li>
-            <li><a href="sanctioned_post.php?org_code=<?= $org_code?>">Report</a></li>
-            -->
-        </ul>
-        <li><a href="match_employee.php?org_code=<?= $org_code?>">Employee</a></li>
-        <ul>
-            <li><a href="match_employee.php?org_code=<?= $org_code?>">Search</a></li>
-            <li><a href="sanctioned_post_update.php?org_code=<?= $org_code?>">Add</a></li>
-            <li><a href="move_staff.php?org_code=<?= $org_code?>">Move Request</a></li>
-            <li><a href="match_employee.php?org_code=<?= $org_code?>">Match Employee</a></li>
-            <li><a href="employee_report.php?org_code=<?= $org_code?>">Report</a></li>
-        </ul>
-        <!--<li><a href="employee.php.php?org_code=<?= $org_code?>">Org admin users</a></li>-->
-    </ul>    
-</ul>
 
+    <ul id="leftMenuAdmin">
+        <li><h5 class="pull-left"><i class="icon-hospital"></i> <a href="home.php?org_code=<?= $org_code ?>"><?= $org_name ?></a>
+                <a href="org.php"><span class="btn btn-success btn-mini pull-right">Change</span></a>
+            </h5>
+
+            <div class="clearfix"></div>
+            <blockquote>
+                <small>You are now logged in as Admin of the above organization. Now you can manage organizational information, profile, sanctioned post and
+                other employee related information from the menu below</small>
+            </blockquote>
+        </li>
+        <ul>
+            <li><a href="org_profile.php?org_code=<?= $org_code ?>">Profile</a></li>
+            <li><a href="sanctioned_post.php?org_code=<?= $org_code ?>">Sanctioned Post</a></li>
+            <ul>
+                <li><a href="sanctioned_post_sorted.php?org_code=<?= $org_code ?>">Search</a></li>
+                <!--
+                <li><a href="sanctioned_post_update.php?org_code=<?= $org_code ?>">Add</a></li>
+                <li><a href="sanctioned_post.php?org_code=<?= $org_code ?>">Report</a></li>
+                -->
+            </ul>
+            <li><a href="match_employee.php?org_code=<?= $org_code ?>">Employee</a></li>
+            <ul>
+                <li><a href="match_employee.php?org_code=<?= $org_code ?>">Search</a></li>
+                <li><a href="sanctioned_post_update.php?org_code=<?= $org_code ?>">Add</a></li>
+                <li><a href="move_staff.php?org_code=<?= $org_code ?>">Move Request</a></li>
+                <li><a href="match_employee.php?org_code=<?= $org_code ?>">Match Employee</a></li>
+                <li><a href="employee_report.php?org_code=<?= $org_code ?>">Report</a></li>
+            </ul>
+            <!--<li><a href="employee.php.php?org_code=<?= $org_code ?>">Org admin users</a></li>-->
+        </ul>
+    </ul>
+
+</div>
 <!--
 |-- Search ** (List + edit/delete)
 |-- | -- Org Home - SELECTED_ORG_NAME

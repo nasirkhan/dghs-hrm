@@ -1,3 +1,28 @@
+<style>
+    .leftMenuContainer{
+        padding: 0px 5px;
+    }
+    .leftMenuContainer  blockquote small,
+    .leftMenuContainer  blockquote small:before{
+        color: #999999;
+        display: block;
+        font-size: 11px;
+        line-height: 1.1em;
+        content: '';
+    }
+
+    #adminMenu{
+
+    }
+
+    ul#leftMenuAdmin,
+    ul#leftMenuAdmin li{
+        margin-left: 0px;
+        padding-left: 10px;
+        list-style: none;
+    }
+</style>
+
 <?php
 /*
  * To change this template, choose Tools | Templates
@@ -43,11 +68,12 @@ if ($_REQUEST['show_old_menu'] == 'true') {
     <?php endif; ?>
     <?php if (($active_menu != "admin_home") && ($active_menu != "search")): ?>
         <li class= "<?php echo ($active_menu == "home") ? "active" : ""; ?>">
-            <a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-home"></i><?php if ($isAdmin)
-            echo "$org_name";
-        else
-            echo "Homepage";
-        ?> </a>
+            <a href="home.php?org_code=<?php echo $org_code; ?>"><i class="icon-home"></i><?php
+                if ($isAdmin)
+                    echo "$org_name";
+                else
+                    echo "Homepage";
+                ?> </a>
         </li>
         <li class= "<?php echo ($active_menu == "org_profile") ? "active" : ""; ?>">
             <a href="org_profile.php?org_code=<?php echo $org_code; ?>"><i class="icon-hospital"></i> Organization Profile</a>

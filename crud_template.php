@@ -1,5 +1,8 @@
 <?php
 require_once 'configuration.php'; // your config file
+if ($_SESSION['logged'] != true) { // checks whether you are already logged in
+    header("location:login.php");
+}
 /**
  * crudFrame work relative location from this
  */
@@ -111,11 +114,13 @@ $dataRows = getRows($dbTableName, $condition);
                 ?>
                 <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
                     <input name="designation" type="text" value="<?= addEditInputField('designation') ?>"/>
-                    <input name="submit" type="submit" class="" value="Save" />
-                    <input name="reset" type="reset" class="" value="Reset" />
+                    <!-- Default input items -->
+                    <input name="submit" type="submit" class="btn" value="Save" />
+                    <input name="reset" type="reset" class="btn" value="Reset" />
                     <?php if (strlen($dbTablePrimaryKeyFieldVal)) { ?>
                         <input type="hidden" name="<?= $dbTablePrimaryKeyFieldName ?>" value="<?php echo $dbTablePrimaryKeyFieldVal; ?>" />
                     <?php } ?>
+                    <!-- =================== -->
                 </form>
             <?php }
             ?>
@@ -134,10 +139,10 @@ $dataRows = getRows($dbTableName, $condition);
                 </thead>
                 <tbody>
                     <?php
-                    $i = 0;
+                    $i = 1;
                     foreach ($dataRows as $dataRow) {
                         ?>
-                        <tr>
+                        <tr id="<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>">
                             <td><a href="<?= $_SERVER['PHP_SELF'] ?>?param=edit&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow['id'] ?>"><?= $dataRow['id'] ?></td>
                             <td><?= $dataRow['designation_code'] ?></td>
                             <td><?= $dataRow['designation'] ?></td>
@@ -149,7 +154,10 @@ $dataRows = getRows($dbTableName, $condition);
                                 ?>
                             </td>
                         </tr>
-                    <?php } ?>
+                        <?php
+                        $i++;
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>
