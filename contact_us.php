@@ -80,7 +80,7 @@ $app_name = "Ministry of Health and Family Welfare";
                         }
 
                         $EmailSubject = $_POST["subject"];
-                        $ToEmail = "nasir.khan@activationltd.com,dr.bashar@mis.dghs.gov.bd,rajib@mis.dghs.gov.bd,enamul.haque@activationltd.com";
+                        $ToEmail = "dr.bashar@mis.dghs.gov.bd,monirhossain@mis.dghs.gov.bd";
 
 
                         $mailheader .= 'MIME-Version: 1.0' . "\r\n";
