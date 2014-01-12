@@ -133,21 +133,22 @@ $map_popup = $org_name;
 
                         $row_count = count($org_info);
                         ?>
-                        <h3>List of Union Sub Center</h3>
+                        <h4>List of Union Sub Center and Community Clinic</h4>
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <td><strong>Organization Name</strong></td>
                                     <td><strong>Organization Code</strong></td>
+                                    <td><strong>Organization Type</strong></td>
                                     <td><strong>Email Address</strong></td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php for ($i = 0; $i < $row_count; $i++): ?>
                                     <tr>
-
                                         <td><a href="home.php?org_code=<?php echo $org_info[$i]['org_code']; ?>" target="_blank"><?php echo $org_info[$i]['org_name']; ?></a></td>
                                         <td><?php echo $org_info[$i]['org_code']; ?></td>
+                                        <td><?php echo $org_info[$i]['org_type_name']; ?></td>
                                         <td><?php echo $org_info[$i]['email']; ?></td>
                                     </tr>
                                 <?php endfor; ?>
