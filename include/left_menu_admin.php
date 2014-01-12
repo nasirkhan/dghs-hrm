@@ -5,7 +5,11 @@
 
         <li><h5><i class="icon-desktop"></i> <a href="admin_home.php">Admin Dashboard</a></h5>
             <blockquote>
-                <small>You are now logged in as Super Admin of the system. Please select an organization to start your activity.</small>
+                <small>You are now logged in as Super Admin of the system.
+                    <?php if (!orgSelected()) { ?>
+                        Please select an organization to start your activity.
+                    <?php } ?>
+                </small>
             </blockquote>
         </li>
         <li><a href="org.php"><i class="icon-hospital"></i> Organizations</a></li>
