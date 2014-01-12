@@ -1927,6 +1927,7 @@ function insertNewOrganization($data) {
     $last_org_code = (int) getLastOrgIdFromOrganizationTable();
     $new_org_code = $last_org_code + 1;
     $new_org_type = $data['org_type_code'];
+    $new_org_type_name = getOrgTypeNameFormOrgTypeCode($data['org_type_code']);
     $new_agency_code = $data['agency_code'];
     $new_established_year = $data['year_established'];
     $org_location_type = $data['org_location_type'];
@@ -1951,6 +1952,7 @@ function insertNewOrganization($data) {
             `org_name`,
             `org_code`,
             `org_type_code`,
+            `org_type_name`,
             `agency_code`,
             `year_established`,
             `org_location_type`,
@@ -1972,6 +1974,7 @@ function insertNewOrganization($data) {
             \"$new_org_name\",
             '$new_org_code',
             '$new_org_type',
+            '$new_org_type_name',
             '$new_agency_code',
             \"$new_established_year\",
              '$org_location_type',

@@ -15,7 +15,7 @@
         <li><a href="org.php"><i class="icon-hospital"></i> Organizations</a></li>
         <ul>
             <li><a href="search.php?type=org"><i class="icon-search"></i> Search</a></li>
-            <li><a href="add_new.php?type=org"><i class="icon-plus"></i> Add</a></li>
+            <li><a href="org_add.php"><i class="icon-plus"></i> Add</a></li>
             <li><a href="admin_edit_org.php"><i class="icon-check"></i> Organizations Awaiting Approval</a></li>
             <!--<li><a href="">All Employee</a></li>-->
         </ul>

@@ -26,6 +26,7 @@ $add_new_type = mysql_real_escape_string($_GET['type']);
 $new_type = "";
 if ($add_new_type == "org") {
     $new_type = "Organization";
+    header("location:org_add.php");
 } else if ($add_new_type == "user") {
     $new_type = "User";
     header("location:user_add.php");
