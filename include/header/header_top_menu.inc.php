@@ -47,7 +47,7 @@ if (isset($_POST['search_type']) && isset($_POST['code'])) {
             <!--<a class="brand" href="./index.php"><?php echo $app_name; ?></a>-->
             <ul class="nav">
                 <li class="active">
-                    <a href="index.php">Home</a>
+                    <a href="index.php"><i class="icon-home"></i></a>
                 </li>
                 <li class="">
                     <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>
