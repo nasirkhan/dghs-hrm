@@ -1,7 +1,7 @@
 <?php
 require_once 'configuration.php';
 if ($_SESSION['logged'] == true) {
-    header("location:home.php?org_code=" . $_SESSION['org_code']);
+    header("location:index.php");
 }
 $login_sussess = 0;
 //cheak the login information

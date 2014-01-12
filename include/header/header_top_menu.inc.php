@@ -10,9 +10,11 @@ if (isset($_POST['search_type']) && isset($_POST['code'])) {
      */
     if ($search_type == "org_code") {
         if (isValidOrgCode($code)) {
-            header("location:home.php?org_code=$code");
+//            header("location:home.php?org_code=$code");
+            echo "<script type=\"text/javascript\">window.location.href = \"home.php?org_code=$code\";</script>";
         } else {
-            header("location:index.php");
+//            header("location:index.php");
+            echo "<script type=\"text/javascript\">window.location.href = \"index.php\";</script>";
         }
     }
 

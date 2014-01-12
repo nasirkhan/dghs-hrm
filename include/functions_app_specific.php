@@ -603,7 +603,7 @@ function getUpazilaNamefromCode($bbs_code) {
     return $data['upazila_name'];
 }
 
-function getUpazilaThanaNamefromCode($upa_bbs_code, $dis_bbs_code) {
+function getUpazilaNamefromBBSCode($upa_bbs_code, $dis_bbs_code) {
     if (empty($upa_bbs_code) || empty($dis_bbs_code)) {
         return "";
     }
@@ -615,7 +615,7 @@ function getUpazilaThanaNamefromCode($upa_bbs_code, $dis_bbs_code) {
                     upazila_bbs_code = $upa_bbs_code
             AND upazila_district_code = $dis_bbs_code
             AND upazila_active LIKE 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getUpazilaNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getUpazilaNamefromBBSCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
 
@@ -1351,6 +1351,7 @@ function getPayScaleFromSanctionedPostId($sanctioned_post_id) {
   organization.email_address1
  * @param INT $org_code
  * @return Array
+ * @author Nasir Khan Saikat <nasir8891@gmail.com>
  */
 function getOrgInfoFromOrgCode($org_code) {
     $sql = "SELECT
@@ -1378,6 +1379,7 @@ function getOrgInfoFromOrgCode($org_code) {
     $sql = "SELECT
                     org_name,
                     org_code,
+                    org_type_code,
                     email_address1
             FROM
                     organization
@@ -1388,7 +1390,8 @@ function getOrgInfoFromOrgCode($org_code) {
             AND
                 division_code = " . $data['division_code'] . "
             AND
-                org_type_code = 1038";
+                (org_type_code = 1038 OR org_type_code = 1039) 
+            ORDER BY org_type_code";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgInfoFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
 
 //    echo "$sql";
@@ -1398,6 +1401,7 @@ function getOrgInfoFromOrgCode($org_code) {
         $data[] = array(
             'org_name' => $row['org_name'],
             'org_code' => $row['org_code'],
+            'org_type_name' => getOrgTypeNameFormOrgTypeCode($row['org_type_code']),
             'email' => $row['email_address1']
         );
     }
