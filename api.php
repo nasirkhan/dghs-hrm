@@ -286,7 +286,7 @@ if ($org_code > 0) :
             'division_code' => $data['division_code'],
             'district_name' => getDistrictNamefromCode($data['district_code']),
             'district_code' => $data['district_code'],
-            'upazila_thana_name' => getUpazilaNamefromCode($data['upazila_thana_code']),
+            'upazila_thana_name' => getUpazilaNamefromBBSCode($data['upazila_thana_code'], $data['district_code']),
             'upazila_thana_code' => $data['upazila_thana_code'],
             'union_name' => getUnionNamefromCode($data['union_code']),
             'union_code' => $data['union_code'],

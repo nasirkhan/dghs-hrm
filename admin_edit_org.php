@@ -270,7 +270,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                 </tr>
                                                 <tr>
                                                     <td width="40%"><strong>Upazila</strong></td>
-                                                    <td width="60%"><a href="#" class="" id="upazila_thana_code" ><?php echo getUpazilaThanaNamefromCode($data['upazila_thana_code'], $data['district_code']); ?></a></td>
+                                                    <td width="60%"><a href="#" class="" id="upazila_thana_code" ><?php echo getUpazilaNamefromBBSCode($data['upazila_thana_code'], $data['district_code']); ?></a></td>
                                                 </tr>
                                                 <tr>
                                                     <td width="40%"><strong>Ownarship</strong></td>
