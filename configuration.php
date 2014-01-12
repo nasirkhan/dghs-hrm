@@ -26,14 +26,14 @@ require_once 'include/config_variables.php';
 require_once 'include/functions_app_specific.php';
 require_once 'include/functions_generic.php';
 
-if (getFileName() != 'login.php') {
+if (getFileName() != 'login.php' && getFileName() != 'reset_password.php') {
 
     /* temporary code to avoid session issue */
     /*
     if ($_REQUEST[passcode] == '12345') {
         $_SESSION['logged'] = true;
     }
-     * 
+     *
      */
     /*     * ************************ */
     if (!isset($_SESSION['logged']) && $_SESSION['logged'] != true) {
