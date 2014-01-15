@@ -22,7 +22,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 }
 
 $insert_success = mysql_real_escape_string($_GET['insert_success']);
-$new_org_code =  mysql_real_escape_string($_GET['new_org_code']);
+$new_org_code = mysql_real_escape_string($_GET['new_org_code']);
 
 
 if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
@@ -91,12 +91,29 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
             \"" . $_SESSION['username'] . "\"
             )";
 
-        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
     $insert_success = TRUE;
+
+//    if ($_SESSION['user_type'] == "admin"){
+//        // UPDATE organization_requested
+//        updateOrgRequest($id);
+//
+//        // GET organizaion data
+//        $data = getOrgInfoFromOrganizationRequestTable($id);
+//        
+//        // Insect new organization
+//        $new_org_code = insertNewOrganization($data);
+//        
+//        // Add Sanctioned Post
+//        addCommunityClinicSanctionedPost($new_org_code);
+//        
+//        // add new organization user
+//        addNewUser($new_user_name, $new_user_email, $new_user_pass, $new_user_type, $new_user_org_code, $new_user_mobile);
+//    }
 
     header("location:org_add.php?type=org&insert_success=true");
 
-        echo "$sql";
+    echo "$sql";
 //    }
 }
 
@@ -310,7 +327,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
              * validation 
              */
             $("#org_add").validate();
-            
+
             $.ajax({
                 url: 'get/get_agency_code.php',
                 type: 'get',
@@ -403,7 +420,7 @@ $required_missing = mysql_real_escape_string($_GET['required_missing']);
                     });
                 }
             });
-            
+
             //load division names
             $.ajax({
                 url: 'get/get_org_division_name.php',
