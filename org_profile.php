@@ -168,7 +168,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Upazila Name</strong></td>
-                                            <td><a href="#" class="" id="upazila_thana_code" ><?php echo $data['upazila_thana_name']; ?></a></td>
+                                            <td><a href="#" class="" id="upazila_thana_code" ><?php echo getUpazilaNamefromBBSCode($data['upazila_thana_code'], $data['district_code']); ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Upazila Code</strong></td>
