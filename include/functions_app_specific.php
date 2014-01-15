@@ -1867,8 +1867,9 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
  *
  * @author Nasir Khan <nasir8891@gmail.com>
  */
-function updateOrgRequest($id, $user_name) {
+function updateOrgRequest($id) {
     $id = (int) $id;
+    $user_name = $_SESSION['username'];
     if (!$id > 0) {
         return FALSE;
     }

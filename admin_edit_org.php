@@ -51,7 +51,7 @@ $action = mysql_real_escape_string($_POST['action']);
 if (isset($_POST['id']) && isset($_POST['action'])) {
     if ($action == "approve") {
         // UPDATE organization_requested
-        updateOrgRequest($id, $user_name);
+        updateOrgRequest($id);
 
         // GET organizaion data
         $data = getOrgInfoFromOrganizationRequestTable($id);
