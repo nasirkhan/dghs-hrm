@@ -1883,7 +1883,7 @@ function updateOrgRequest($id) {
             . "SET "
             . "active='0', "
             . "approved_rejected_by='$user_name', "
-            . "approved_rejected='approved', "
+            . "approved_rejected='Approved', "
             . "updated_by='$user_name' "
             . "WHERE "
             . "id=$id";
@@ -2288,4 +2288,203 @@ function getHealthCareLevelNameFromCode($org_healthcare_level_code){
 function orgSelected(){
     return (isValidOrgCode($_SESSION['org_code']));
 }
+
+
+function requestNewOrganization($data) {
+    //@TODO: verify the required fields
+    $new_org_name = mysql_real_escape_string(trim($data['new_org_name']));
+    $new_agency_code = mysql_real_escape_string(trim($data['agency_code']));
+    $new_established_year = mysql_real_escape_string(trim($data['new_established_year']));
+    $org_location_type = mysql_real_escape_string(trim($data['org_location_type']));
+    $division_code = mysql_real_escape_string(trim($data['admin_division']));
+    $division_name = getDivisionNameFromCode($division_code);
+    $district_code = mysql_real_escape_string(trim($data['admin_district']));
+    $district_name = getDistrictNameFromCode($district_code);
+    $upazila_code = mysql_real_escape_string(trim($data['admin_upazila']));
+    $upazila_name = getUpazilaNamefromCode($upazila_code, $district_code);
+    $new_ownarship_info = mysql_real_escape_string(trim($data['new_ownarship_info']));
+    $new_org_email = mysql_real_escape_string(trim($data['new_org_email']));
+    $new_org_type = mysql_real_escape_string(trim($data['org_type']));
+    $new_org_type_name = getOrgTypeNameFormOrgTypeCode($data['org_type']);
+    $new_functions_code = mysql_real_escape_string(trim($data['org_organizational_functions_code']));
+    $new_org_level_code = mysql_real_escape_string(trim($data['org_level_code']));
+    $new_org_level_name = getOrgLevelNameFromCode($new_org_level_code);
+    $org_contact_number = mysql_real_escape_string(trim($data['org_contact_number']));
+    $latitude = mysql_real_escape_string(trim(trim($data['latitude'])));
+    $longitude = mysql_real_escape_string(trim(trim($data['longitude'])));
+    
+    $last_org_code = (int) getLastOrgIdFromOrganizationTable();
+    $new_org_code = $last_org_code + 1;        
+    
+    if($_SESSION['user_type'] == "admin") {
+        $request_status = "Approved";
+        $approved_rejected_by = $_SESSION['username'];
+        
+        
+        /**
+         * insert into request table
+         */
+        $sql = "INSERT INTO `organization_requested` (
+                    `org_name`,
+                    `org_type_code`,
+                    `agency_code`,
+                    `year_established`,
+                    `org_location_type`,
+                    `division_code`,
+                    `division_name`,
+                    `district_code`,
+                    `district_name`,
+                    `upazila_thana_code`,
+                    `upazila_thana_name`,
+                    `ownership_code`,
+                    `email_address1`,
+                    `org_function_code`,
+                    `org_level_code`,
+                    `org_level_name`,
+                    `latitude`,
+                    `longitude`,
+                    `mobile_number1`,
+                    `approved_rejected`,
+                    `approved_rejected_by`,
+                    `updated_by`)
+                VALUES (
+                    \"$new_org_name\",
+                    '$new_org_type',
+                    '$new_agency_code',
+                    \"$new_established_year\",
+                     '$org_location_type',
+                    '$division_code',
+                    \"" . $division_name . "\",
+                    '$district_code',
+                    \"" . getDistrictNameFromCode($district_code) . "\",    
+                    '$upazila_code',
+                    \"" . getUpazilaNamefromCode($upazila_code, $district_code) . "\" ,   
+                    '$new_ownarship_info',
+                    '$new_org_email',
+                    '$new_functions_code',
+                    '$new_org_level_code',
+                    \"" . getOrgLevelNameFromCode($new_org_level_code) . "\",
+                    '$latitude',
+                    '$longitude',
+                    \"" . $org_contact_number . "\",
+                    '$request_status',
+                    \"" . $approved_rejected_by . "\",
+                    \"" . $_SESSION['username'] . "\"
+                    )";
+
+        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+        
+        /**
+         * insert into organization table
+         */
+
+        // UPDATE organizaion table
+        $sql = "INSERT INTO `organization` (
+                `org_name`,
+                `org_code`,
+                `org_type_code`,
+                `org_type_name`,
+                `agency_code`,
+                `year_established`,
+                `org_location_type`,
+                `division_code`,
+                `division_name`,
+                `district_code`,
+                `district_name`,
+                `upazila_thana_code`,
+                `upazila_thana_name`,
+                `ownership_code`,
+                `email_address1`,
+                `mobile_number1`,
+                `org_function_code`,
+                `org_level_code`,
+                `org_level_name`,
+                `latitude`,
+                `longitude`)
+            VALUES (
+                \"$new_org_name\",
+                '$new_org_code',
+                '$new_org_type',
+                '$new_org_type_name',
+                '$new_agency_code',
+                \"$new_established_year\",
+                 '$org_location_type',
+                '$division_code',
+                '$division_name',
+                '$district_code',
+                '$district_name',
+                '$upazila_code',
+                '$upazila_name',
+                '$new_ownarship_info',
+                '$new_org_email',
+                '$org_contact_number',
+                '$new_functions_code',
+                '$new_org_level_code',
+                '$new_org_level_name',
+                '$latitude',
+                '$longitude'
+                )";
+
+        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:insertNewOrganization:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        return $new_org_code;
+    }  else {
+        $request_status = "Pending";
+        $approved_rejected_by = "";
+        
+        $sql = "INSERT INTO `organization_requested` (
+                    `org_name`,
+                    `org_type_code`,
+                    `agency_code`,
+                    `year_established`,
+                    `org_location_type`,
+                    `division_code`,
+                    `division_name`,
+                    `district_code`,
+                    `district_name`,
+                    `upazila_thana_code`,
+                    `upazila_thana_name`,
+                    `ownership_code`,
+                    `email_address1`,
+                    `org_function_code`,
+                    `org_level_code`,
+                    `org_level_name`,
+                    `latitude`,
+                    `longitude`,
+                    `mobile_number1`,
+                    `approved_rejected`,
+                    `approved_rejected_by`,
+                    `updated_by`)
+                VALUES (
+                    \"$new_org_name\",
+                    '$new_org_type',
+                    '$new_agency_code',
+                    \"$new_established_year\",
+                     '$org_location_type',
+                    '$division_code',
+                    \"" . getDivisionNameFromCode($division_code) . "\",
+                    '$district_code',
+                    \"" . getDistrictNameFromCode($district_code) . "\",    
+                    '$upazila_code',
+                    \"" . getUpazilaNamefromCode($upazila_code, $district_code) . "\" ,   
+                    '$new_ownarship_info',
+                    '$new_org_email',
+                    '$new_functions_code',
+                    '$new_org_level_code',
+                    \"" . getOrgLevelNameFromCode($new_org_level_code) . "\",
+                    '$latitude',
+                    '$longitude',
+                    \"" . $org_contact_number . "\",
+                    '$request_status',
+                    \"" . $approved_rejected_by . "\",
+                    \"" . $_SESSION['username'] . "\"
+                    )";
+
+        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    }       
+    
+    return TRUE;
+//            header("location:org_add.php?type=org&insert_success=true");
+}
+
 ?>

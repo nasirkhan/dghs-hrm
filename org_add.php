@@ -28,92 +28,40 @@ $new_org_code = mysql_real_escape_string($_GET['new_org_code']);
 if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
 
     //@TODO: verify the required fields
-    $new_org_name = mysql_real_escape_string($_POST['new_org_name']);
-    $new_agency_code = mysql_real_escape_string($_POST['agency_code']);
-    $new_established_year = mysql_real_escape_string($_POST['new_established_year']);
-    $org_location_type = mysql_real_escape_string($_POST['org_location_type']);
-    $division_code = mysql_real_escape_string($_POST['admin_division']);
-    $district_code = mysql_real_escape_string($_POST['admin_district']);
-    $upazila_code = mysql_real_escape_string($_POST['admin_upazila']);
-    $new_ownarship_info = mysql_real_escape_string($_POST['new_ownarship_info']);
-    $new_org_email = mysql_real_escape_string($_POST['new_org_email']);
-    $new_org_type = mysql_real_escape_string($_POST['org_type']);
-    $new_functions_code = mysql_real_escape_string($_POST['org_organizational_functions_code']);
-    $new_org_level_code = mysql_real_escape_string($_POST['org_level_code']);
-    $org_contact_number = mysql_real_escape_string(trim($_REQUEST['org_contact_number']));
-    $latitude = mysql_real_escape_string(trim($_REQUEST['latitude']));
-    $longitude = mysql_real_escape_string(trim($_REQUEST['longitude']));
 
-    //@TODO change the division, district ID to CODE
-    $sql = "INSERT INTO `organization_requested` (
-            `org_name`,
-            `org_type_code`,
-            `agency_code`,
-            `year_established`,
-            `org_location_type`,
-            `division_code`,
-            `division_name`,
-            `district_code`,
-            `district_name`,
-            `upazila_thana_code`,
-            `upazila_thana_name`,
-            `ownership_code`,
-            `email_address1`,
-            `org_function_code`,
-            `org_level_code`,
-            `org_level_name`,
-            `latitude`,
-            `longitude`,
-            `mobile_number1`,
-            `approved_rejected`,
-            `updated_by`)
-        VALUES (
-            \"$new_org_name\",
-            '$new_org_type',
-            '$new_agency_code',
-            \"$new_established_year\",
-             '$org_location_type',
-            '$division_code',
-            \"" . getDivisionNameFromCode($division_code) . "\",
-            '$district_code',
-            \"" . getDistrictNameFromCode($district_code) . "\",    
-            '$upazila_code',
-            \"" . getUpazilaNamefromCode($upazila_code, $district_code) . "\" ,   
-            '$new_ownarship_info',
-            '$new_org_email',
-            '$new_functions_code',
-            '$new_org_level_code',
-            \"" . getOrgLevelNameFromCode($new_org_level_code) . "\",
-            '$latitude',
-            '$longitude',
-            \"" . $org_contact_number . "\",
-            'Pending',
-            \"" . $_SESSION['username'] . "\"
-            )";
+    /**
+     * If admin has submitted the new org request
+     */
+    if ($_SESSION['user_type'] == "admin"){
+        // d
+        $new_org_code= requestNewOrganization($_POST);
+        $insert_success = TRUE;
+        
+        $new_org_type = mysql_real_escape_string(trim($_POST['org_type']));        
+        // if org type is Community clinic (1039)
+        if ($new_org_type == "1039"){
+            // Add Sanctioned Post
+            addCommunityClinicSanctionedPost($new_org_code);
+            
+            $new_user_name = mysql_real_escape_string(trim($_POST['new_org_email']));
+            $new_user_email = mysql_real_escape_string(trim($_POST['new_org_email']));
+            $new_user_pass = "";
+            $new_user_type = "user";
+            $new_user_org_code = $new_org_code; 
+            $new_user_mobile = mysql_real_escape_string(trim($_REQUEST['org_contact_number']));
+            // add new organization user
+            addNewUser($new_user_name, $new_user_email, $new_user_pass, $new_user_type, $new_user_org_code, $new_user_mobile);
+        }
+        
+        header("location:org_add.php?type=org&insert_success=true");
+    } else{
+        $insert_status = requestNewOrganization($_POST);
+        $insert_success = TRUE;
 
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-    $insert_success = TRUE;
+        header("location:org_add.php?type=org&insert_success=true");
+    }
 
-//    if ($_SESSION['user_type'] == "admin"){
-//        // UPDATE organization_requested
-//        updateOrgRequest($id);
-//
-//        // GET organizaion data
-//        $data = getOrgInfoFromOrganizationRequestTable($id);
-//        
-//        // Insect new organization
-//        $new_org_code = insertNewOrganization($data);
-//        
-//        // Add Sanctioned Post
-//        addCommunityClinicSanctionedPost($new_org_code);
-//        
-//        // add new organization user
-//        addNewUser($new_user_name, $new_user_email, $new_user_pass, $new_user_type, $new_user_org_code, $new_user_mobile);
-//    }
-
-    header("location:org_add.php?type=org&insert_success=true");
-
-    echo "$sql";
+//    echo "$sql";
 //    }
 }
 
