@@ -299,7 +299,11 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                         if ($type_code > 0) {
                                             $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
                                         }
-
+                                        if ($status == "updated"){
+                                            $echo_string .= " Status: <strong><span class=\"label label-success\">Updated</span></strong><br>";
+                                        } else if ($status == "not_updated"){
+                                            $echo_string .= " Status: <strong><span class=\"label label-important\">Not Updated</span></strong><br>";
+                                        }
                                         echo "$echo_string";
                                         ?>
                                     </div>
@@ -323,7 +327,11 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                         if ($type_code > 0) {
                                             $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
                                         }
-
+                                        if ($status == "updated"){
+                                            $echo_string .= " Status: <strong><span class=\"label label-success\">Updated</span></strong><br>";
+                                        } else if ($status == "not_updated"){
+                                            $echo_string .= " Status: <strong><span class=\"label label-important\">Not Updated</span></strong><br>";
+                                        }
                                         echo "$echo_string";
                                         ?>
                                     </div>
