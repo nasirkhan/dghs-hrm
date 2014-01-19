@@ -59,18 +59,20 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         // Insect new organization
         $new_org_code = insertNewOrganization($data);
         
-        // Add Sanctioned Post
-        addCommunityClinicSanctionedPost($new_org_code);
-        
-        // Add new user 
-        $new_user_name = $data['email_address1'];
-        $new_user_email = $data['email_address1'];
-        $new_user_pass = "";
-        $new_user_type = "user";
-        $new_user_org_code = $new_org_code;
-        $new_user_mobile = $data['mobile_number1'];
-        addNewUser($new_user_name, $new_user_email, $new_user_pass, $new_user_type, $new_user_org_code, $new_user_mobile);
+        if ($data['org_type_code'] == 1039){
+            // Add Sanctioned Post
+            addCommunityClinicSanctionedPost($new_org_code);
 
+            // Add new user 
+            $new_user_name = $data['email_address1'];
+            $new_user_email = $data['email_address1'];
+            $new_user_pass = "";
+            $new_user_type = "user";
+            $new_user_org_code = $new_org_code;
+            $new_user_mobile = $data['mobile_number1'];
+            addNewUser($new_user_name, $new_user_email, $new_user_pass, $new_user_type, $new_user_org_code, $new_user_mobile);
+        }
+        
         /**
          * Email content
          *
