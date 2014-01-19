@@ -61,6 +61,15 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         
         // Add Sanctioned Post
         addCommunityClinicSanctionedPost($new_org_code);
+        
+        // Add new user 
+        $new_user_name = $data['email_address1'];
+        $new_user_email = $data['email_address1'];
+        $new_user_pass = "";
+        $new_user_type = "user";
+        $new_user_org_code = $new_org_code;
+        $new_user_mobile = $data['mobile_number1'];
+        addNewUser($new_user_name, $new_user_email, $new_user_pass, $new_user_type, $new_user_org_code, $new_user_mobile);
 
         /**
          * Email content
