@@ -1594,6 +1594,7 @@ function getUserInfoFromOrgCode($org_code) {
     return $data;
 }
 
+
 /**
  * handle user login
  * @param ARRAY $_POST
@@ -1604,7 +1605,7 @@ function login($POSTDATA) {
     $form_uname = mysql_real_escape_string(stripslashes(trim($POSTDATA['email'])));
     $form_passwd = mysql_real_escape_string(stripslashes(trim($POSTDATA['password'])));
     $form_passwd = md5($form_passwd);
-
+    
     $sql = "SELECT user_id, username, user_type, user_type_code, organization_id, org_code FROM user WHERE username LIKE \"$form_uname\" AND password LIKE \"$form_passwd\"";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -1698,6 +1699,7 @@ function getOrganization($org_code) {
 function getUserFromUsername($username) {
     return getRowVal('user', 'username', $username);
 }
+
 
 function getLoggedUserName() {
     return $_SESSION['username'];
@@ -2486,5 +2488,42 @@ function requestNewOrganization($data) {
     return TRUE;
 //            header("location:org_add.php?type=org&insert_success=true");
 }
+
+
+/**
+ * Get the Month Name From the Month Number
+ * @param INT $number
+ */
+function getMonthNameFromMonthNumber($number) {
+    switch ($number) {
+        case 0:
+            return "Never Updated";
+        case 1:
+            return "January";
+        case 2:
+            return "February";
+        case 3:
+            return "March";
+        case 4:
+            return "April";
+        case 5:
+            return "May"; 
+        case 6:
+            return "June";
+        case 7:
+            return "July";
+        case 8:
+            return "August";
+        case 9:
+            return "September";
+        case 10:
+            return "October";
+        case 11:
+            return "November";    
+        case 12:
+            return "December";    
+    }
+}
+
 
 ?>

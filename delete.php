@@ -389,7 +389,7 @@ $seach_type = mysql_real_escape_string($_GET['type']);
                 $("#loading_content").show();
                 $.ajax({
                     type: "POST",
-                    url: 'get/get_org_list.php',
+                    url: 'get/get_org_list_delete.php',
                     data: {
                         div_id: div_id,
                         dis_id: dis_id,
