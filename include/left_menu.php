@@ -177,11 +177,11 @@ if (hasPermission('mod_organizations_profile', 'view', getLoggedUserName())) {
         //echo "org code not valid" ; // debug
     }
 } else {
-    echo "No permission"; // debug
+    echo $debug ? "No permission" : ""; // debug
 }
 if (hasPermission('mod_admin', 'view', getLoggedUserName())) {
     require_once 'left_menu_admin.php';
 } else {
-    echo "No permission"; // debug
+    echo $debug ? "No permission" : ""; // debug
 }
 ?>
