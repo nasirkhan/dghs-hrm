@@ -5,7 +5,7 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
-require_once './include/check_org_code.php';
+//require_once './include/check_org_code.php';
 
 /**
  * Reassign org_code and enable edit permission for Upazila and below
