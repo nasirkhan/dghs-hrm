@@ -61,7 +61,7 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                     <div class="contact"><i class="icon-edit"></i> <a href="<?php echo "$urlAddOrganizationRequest"; ?>">Add your organization</a></div>
                 </div>
                  <ul class="nav nav-pills">                       
-                        <li class="tab-content-item"><a href="reset_password.php">Reset Password</a></li>
+                        <li class="tab-content-item"><a href="reset_password.php"><i class="icon-edit"></i> Reset Password</a></li>
                  </ul>
             </form>
             
