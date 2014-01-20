@@ -5,7 +5,7 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
-require_once './include/check_org_code.php'; 
+require_once './include/check_org_code.php';
 
 /**
  * Reassign org_code and enable edit permission for Upazila and below
@@ -13,13 +13,13 @@ require_once './include/check_org_code.php';
  * Upazila users can edit the organizations under that UHC.
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
-if ($org_type_code == 1029 || $org_type_code == 1051){
+if ($org_type_code == 1029 || $org_type_code == 1051) {
     $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
 
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
 
-    if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])){
+    if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])) {
         $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
         $org_type_name = getOrgTypeNameFormOrgCode($org_code);
@@ -28,13 +28,13 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
     }
 }
 
-$action  = mysql_real_escape_string(trim($_GET['action']));
+$action = mysql_real_escape_string(trim($_GET['action']));
 if (isset($_POST['action'])) {
     $sp_id = (int) mysql_real_escape_string(trim($_POST['sp_id']));
     $org_code = (int) mysql_real_escape_string(trim($_POST['org_code']));
-    $action  = mysql_real_escape_string(trim($_POST['action']));
+    $action = mysql_real_escape_string(trim($_POST['action']));
 
-    if ($action == "add"){
+    if ($action == "add") {
         $sql = "SELECT
                         *
                 FROM
@@ -45,7 +45,7 @@ if (isset($_POST['action'])) {
         $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:1</p><p>Query:</b></p>___<p>$sql</p>");
         $data = mysql_fetch_assoc($result);
 
-        if ($org_code == $data['org_code']){
+        if ($org_code == $data['org_code']) {
             $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
                 `group`,
                 `designation`,
@@ -88,6 +88,33 @@ if (isset($_POST['action'])) {
         }
     }
 }
+
+
+/**
+ * Sanctioned post info of the organization
+ *
+ */
+$sql = "SELECT
+                total_manpower_imported_sanctioned_post_copy.id,
+                total_manpower_imported_sanctioned_post_copy.designation,
+                total_manpower_imported_sanctioned_post_copy.discipline,
+                total_manpower_imported_sanctioned_post_copy.type_of_post,
+                sanctioned_post_designation.ranking,
+                sanctioned_post_designation.class,
+                sanctioned_post_designation.payscale,
+                sanctioned_post_designation.designation_code,
+                COUNT(*) AS sp_count
+        FROM
+                `total_manpower_imported_sanctioned_post_copy`
+        LEFT JOIN `sanctioned_post_designation` ON total_manpower_imported_sanctioned_post_copy.designation_code = sanctioned_post_designation.designation_code
+        WHERE
+                total_manpower_imported_sanctioned_post_copy.org_code = $org_code
+                AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
+        GROUP BY
+                total_manpower_imported_sanctioned_post_copy.designation
+        ORDER BY
+                sanctioned_post_designation.ranking";
+$result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,7 +124,6 @@ if (isset($_POST['action'])) {
         include_once 'include/header/header_css_js.inc.php';
         include_once 'include/header/header_ga.inc.php';
         ?>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
 
     </head>
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
@@ -132,9 +158,7 @@ if (isset($_POST['action'])) {
                     <!-- Sanctioned Post
                     ================================================== -->
                     <section id="sanctioned-post">
-                        <!--
-                            Sanctioned post summary
-                        -->
+
                         <div class="row-fluid">
                             <div class="span8">
                                 <h4><a href="org_profile.php?org_code=<?php echo "$org_code"; ?>" target="_blank"><?php echo "$org_name ($org_code)"; ?></a></h4>
@@ -161,8 +185,8 @@ if (isset($_POST['action'])) {
                                 </table>
                             </div>
                             <div class="span4">
-                                <?php if($isAdmin): ?>
-                                <a href="sanctioned_post_update.php?org_code=<?php echo "$org_code"; ?>&action=new_designation&step=3" class="btn btn-small btn-warning btn-block"><i class="icon-list-ul"></i> Add New Designation</a>
+                                <?php if ($isAdmin): ?>
+                                    <a href="sanctioned_post_update.php?org_code=<?php echo "$org_code"; ?>&action=new_designation&step=3" class="btn btn-small btn-warning btn-block"><i class="icon-list-ul"></i> Add New Designation</a>
                                 <?php endif; ?>
                                 <div class="btn-group pull-right">
                                     <a class="btn" href="sanctioned_post_sorted.php?org_code=<?php echo $org_code; ?>"><i class="icon-sort-by-alphabet"></i> Sorted</a>
@@ -171,7 +195,6 @@ if (isset($_POST['action'])) {
                             </div>
                         </div>
 
-                        
 
                         <div class="row">
                             <div class="span9">
@@ -203,41 +226,15 @@ if (isset($_POST['action'])) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        $sql = "SELECT
-                                                        total_manpower_imported_sanctioned_post_copy.id,
-                                                        total_manpower_imported_sanctioned_post_copy.designation,
-                                                        total_manpower_imported_sanctioned_post_copy.discipline,
-                                                        total_manpower_imported_sanctioned_post_copy.type_of_post,
-                                                        sanctioned_post_designation.ranking,
-                                                        sanctioned_post_designation.class,
-                                                        sanctioned_post_designation.payscale,
-                                                        sanctioned_post_designation.designation_code,
-                                                        COUNT(*) AS sp_count
-                                                FROM
-                                                        `total_manpower_imported_sanctioned_post_copy`
-                                                LEFT JOIN `sanctioned_post_designation` ON total_manpower_imported_sanctioned_post_copy.designation_code = sanctioned_post_designation.designation_code
-                                                WHERE
-                                                        total_manpower_imported_sanctioned_post_copy.org_code = $org_code
-                                                        AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
-                                                GROUP BY
-                                                        total_manpower_imported_sanctioned_post_copy.designation
-                                                ORDER BY
-                                                        sanctioned_post_designation.ranking";
-                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                        while ($sp_data = mysql_fetch_assoc($result)):
-                                            ?>
-
+                                        <?php while ($sp_data = mysql_fetch_assoc($result)): ?>
                                             <tr>
-
                                                 <td>
                                                     <div class="row-fluid">
                                                         <div class="span4">
-                                                            <?php $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation'])); ?>                                                                                                                        
-                                                            <a id="sp-btn-<?php echo $designation_div_id; ?>" href="#sp-<?php echo $designation_div_id; ?>" role="button" data-toggle="modal">
+                                                            <?php $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation'])); ?>                    
+                                                            <button id="sp-btn-<?php echo $designation_div_id; ?>" onclick="showSanctionedPostDetails('<?php echo $sp_data['id']; ?>', '<?php echo $designation_div_id; ?>')">
                                                                 <?php echo $sp_data['designation']; ?>
-                                                            </a>
+                                                            </button>
                                                         </div>
                                                         <div class="span2">
                                                             <?php echo getTypeOfPostNameFromCode($sp_data['type_of_post']); ?>
@@ -257,15 +254,14 @@ if (isset($_POST['action'])) {
                                                                 <input type="hidden" id="step" name="step" value="2">
                                                                 <button type="submit" class="btn btn-small btn-danger"><i class="icon-minus"></i></button>
                                                             </form>
-                                                            
+
                                                             <form class="form-inline form-clear pull-right" method="post">
                                                                 <input name="org_code" value="<?php echo $org_code; ?>" type="hidden" />
                                                                 <input name="sp_id" value="<?php echo $sp_data['id']; ?>" type="hidden" />
                                                                 <input name="action" value="add" type="hidden" />
                                                                 <button type="submit" class="btn btn-small btn-success"><i class="icon-plus"></i></button>
                                                             </form>
-                                                            
-                                                            
+
                                                         </div>
                                                         <div class="span2">                                                            
                                                             <button type="submit" id="btn-<?php echo $designation_div_id; ?>" value="<?php echo $sp_data['designation']; ?>" class="btn btn-info btn-small" data-toggle="collapse" data-target="#<?php echo "$designation_div_id"; ?>" >
@@ -291,15 +287,15 @@ if (isset($_POST['action'])) {
                                                                                         $('#list-<?php echo $designation_div_id; ?>').html("");
                                                                                         $.each(data, function(k, v) {
                                                                                             var data_list = "<div class=\"row-fluid\">";
-                                                                                            var staff_info = "";                                                                                            
-                                                                                            if (v.staff_id_2 > 0){
+                                                                                            var staff_info = "";
+                                                                                            if (v.staff_id_2 > 0) {
                                                                                                 staff_info = " (Staff Name: <a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\" ><i class=\"icon-user\"></i> " + v.staff_name + ", Id: " + v.staff_id_2 + "</a>)";
                                                                                             }
                                                                                             data_list += "<div class=\"span9\">Sanctioned PostId: " + v.sanctioned_post_id + staff_info + " </div>";
                                                                                             //                                                                data_list += "<div class=\"span1\">Id:" + v.staff_id + "</div>";
                                                                                             if (v.staff_id_2 > 0) {
                                                                                                 data_list += "<div class=\"span3\">";
-//                                                                                                data_list += "<a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
+    //                                                                                                data_list += "<a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
                                                                                                 data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
                                                                                                 data_list += "<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
                                                                                                 data_list += "<div class=\"modal-header\">";
@@ -356,49 +352,13 @@ if (isset($_POST['action'])) {
                                                             <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
                                                         </div>
                                                     </div>
-                                                    <script type="text/javascript" language="javascript">
-                                                        $(document).ready(function() {
-                                                            $("#sp-btn-<?php echo $designation_div_id; ?>").click(function(event) {
-                                                                $.ajax({
-                                                                    type: "POST",
-                                                                    url: "result-sp.php",
-                                                                    data: {id: "<?php echo $sp_data['id']; ?>"},
-                                                                    dataType: 'json',
-                                                                    success: function(data) {
-                                                                        $('#sp-loading-<?php echo $designation_div_id; ?>').hide();
-                                                                        $('#sp-content-<?php echo $designation_div_id; ?>').html("");
-                                                                        $.each(data, function(k, v) {
-                                                                            var data_all = "<table class=\"table\">";
-                                                                            //                                                                data_all += "<tr><td><b>Sanctioned Post Id</b></td><td>" + v.sanctioned_post_id + "</td></tr>";
-                                                                            data_all += "<tr><td><b>Organizaion Code</b></td><td><?php echo "$org_code"; ?></td></tr>";
-                                                                            data_all += "<tr><td><b>Organizaion Name</b></td><td><?php echo "$org_name"; ?></td></tr>";
-                                                                            data_all += "<tr><td><b>First Level Name</b></td><td>" + v.first_level_name + "</td></tr>";
-                                                                            data_all += "<tr><td><b>Second Level Name</b></td><td>" + v.second_level_name + "</td></tr>";
-                                                                            data_all += "<tr><td><b>Class</b></td><td>" + v.class + "</td></tr>";
-                                                                            data_all += "<tr><td><b>Pay Scale</b></td><td>" + v.pay_scale + "</td></tr>";
-                                                                            data_all += "<tr><td><b>Type of Post</b></td><td>" + v.type_of_post + "</td></tr>";
-                                                                            data_all += "<tr><td><b>Discipline</b></td><td>" + v.discipline + "</td></tr>";
-                                                                            data_all += "<tr><td><b>Rank of the Post</b></td><td></td></tr>";
-                                                                            data_all += "<tr><td><b>Bangladesh Professional Category </b></td><td></td></tr>";
-                                                                            data_all += "<tr><td><b>WHO Major Health Occupation Group</b></td><td></td></tr>";
-                                                                            data_all += "<tr><td><b>WHO-ISCO Occupation Name </b></td><td></td></tr>";
-                                                                            data_all += "<tr><td><b>Year when the post created </b></td><td></td></tr>";
-                                                                            data_all += "<tr><td><b>Recruitment rule for the post</b></td><td></td></tr>";
-                                                                            data_all += "</table>";
-                                                                            $('#sp-content-<?php echo $designation_div_id; ?>').append(data_all);
-                                                                        });
-                                                                    }
-                                                                });
-                                                            });
-                                                        });
-                                                    </script>
                                                 </td>
                                             </tr>
                                         <?php endwhile; ?>
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
+                        </div>                        
                     </section>
                 </div>
             </div>
@@ -409,6 +369,46 @@ if (isset($_POST['action'])) {
         ================================================== -->
         <?php include_once 'include/footer/footer.inc.php'; ?>
 
+        <script type="text/javascript" language="javascript">
+            
+            function showSanctionedPostDetails(sp_id, designation_div) {
+                var designation_div_id = "#sp-" + designation_div;
+                var designation_div_content = "#sp-content-" + designation_div;
+                var designation_div_loading = "#sp-loading-" + designation_div;
 
+                $(designation_div_id).modal('show');
+
+                $.ajax({
+                    type: "POST",
+                    url: "result-sp.php",
+                    data: {id: sp_id},
+                    dataType: 'json',
+                    success: function(data) {
+                        $(designation_div_loading).hide();
+                        $(designation_div_content).html("");
+                        $.each(data, function(k, v) {
+                            var data_all = "<table class=\"table\">";
+                            data_all += "<tr><td><b>Organizaion Code</b></td><td><?php echo "$org_code"; ?></td></tr>";
+                            data_all += "<tr><td><b>Organizaion Name</b></td><td><?php echo "$org_name"; ?></td></tr>";
+                            data_all += "<tr><td><b>First Level Name</b></td><td>" + v.first_level_name + "</td></tr>";
+                            data_all += "<tr><td><b>Second Level Name</b></td><td>" + v.second_level_name + "</td></tr>";
+                            data_all += "<tr><td><b>Class</b></td><td>" + v.class + "</td></tr>";
+                            data_all += "<tr><td><b>Pay Scale</b></td><td>" + v.pay_scale + "</td></tr>";
+                            data_all += "<tr><td><b>Type of Post</b></td><td>" + v.type_of_post + "</td></tr>";
+                            data_all += "<tr><td><b>Discipline</b></td><td>" + v.discipline + "</td></tr>";
+                            data_all += "<tr><td><b>Rank of the Post</b></td><td></td></tr>";
+                            data_all += "<tr><td><b>Bangladesh Professional Category </b></td><td></td></tr>";
+                            data_all += "<tr><td><b>WHO Major Health Occupation Group</b></td><td></td></tr>";
+                            data_all += "<tr><td><b>WHO-ISCO Occupation Name </b></td><td></td></tr>";
+                            data_all += "<tr><td><b>Year when the post created </b></td><td></td></tr>";
+                            data_all += "<tr><td><b>Recruitment rule for the post</b></td><td></td></tr>";
+                            data_all += "</table>";
+                            $(designation_div_content).append(data_all);
+                        });
+                    }
+                });
+            }
+
+        </script>
     </body>
 </html>
