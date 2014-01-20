@@ -2,11 +2,12 @@
 <div id="orgMenu" class="leftMenuContainer">
     <!--    <h4>ORGANIZATION MENU</h4>-->
 
-
     <ul id="leftMenuAdmin">
-        <li><h5 class="pull-left"><i class="icon-hospital"></i> <a href="home.php?org_code=<?= $org_code ?>"><?= $org_name ?></a>
+        <li>
+            <h5 class="pull-left">
+                <i class="icon-hospital"></i> <a href="home.php?org_code=<?= $org_code ?>"><?= $org_name ?></a>
                 <?php if (hasPermission('mod_admin', 'view', getLoggedUserName())): ?>
-                <a href="org.php"><span class="btn btn-success btn-mini pull-right">Change</span></a>
+                    <a href="org.php"><span class="btn btn-success btn-mini pull-right">Change</span></a>
                 <?php endif; ?> 
             </h5>
 
