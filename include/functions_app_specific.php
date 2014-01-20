@@ -1824,6 +1824,10 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
     $updated_datetime = date("Y-m-d H:i:s");
     $updated_by = $_SESSION['username'];
     $active = 1;
+    
+    if (isUserExists($username)){
+        return FALSE;
+    }
 
     if ($username == "" || $email == "" || $password == "" || $user_type == "" || $mobile_number == "") {
         return FALSE;
@@ -1858,7 +1862,7 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
                     )";
 
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:addNewUser:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
-    echo "<pre>$sql</pre>";
+//    echo "<pre>$sql</pre>";
     return TRUE;
 }
 

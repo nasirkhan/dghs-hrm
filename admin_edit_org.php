@@ -58,6 +58,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
         
         // Insect new organization
         $new_org_code = insertNewOrganization($data);
+        $new_org_name = getOrgNameFormOrgCode($new_org_code);
         
         if ($data['org_type_code'] == 1039){
             // Add Sanctioned Post
@@ -66,11 +67,15 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
             // Add new user 
             $new_user_name = $data['email_address1'];
             $new_user_email = $data['email_address1'];
-            $new_user_pass = "";
+            $new_user_pass = "dghs123";
             $new_user_type = "user";
             $new_user_org_code = $new_org_code;
             $new_user_mobile = $data['mobile_number1'];
-            addNewUser($new_user_name, $new_user_email, $new_user_pass, $new_user_type, $new_user_org_code, $new_user_mobile);
+            if (addNewUser($new_user_name, $new_user_email, $new_user_pass, $new_user_type, $new_user_org_code, $new_user_mobile)){
+                $action_text = "User Created!";
+            } else {
+                $action_text = "No user created!";
+            }
         }
         
         /**
@@ -217,9 +222,16 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                         <h3>Admin Dashboard</h3>
                         <?php if ($action == "approve"): ?>
                             <div class="alert">
+                                <p class="lead">                                    
+                                    <a href="admin_edit_org.php" class="btn btn-info pull-right">Go back to the approval queue.</a>
+                                </p>
                                 <p class="lead">
                                     <strong><?php echo "$new_org_name"; ?></strong> has been approved and you can view the
                                     profile from the following URL <em><a href="org_profile.php?org_code=<?php echo "$new_org_code"; ?>">org_profile.php?org_code=<?php echo "$new_org_code"; ?></a></em>
+                                </p>
+                                <p class="lead">
+                                    
+                                    <?php echo $action_text; ?>
                                 </p>
                             </div>
                         <?php endif; ?>
