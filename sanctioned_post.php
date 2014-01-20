@@ -143,12 +143,22 @@ if (isset($_POST['action'])) {
                                 $total_filled_up = getTotalFilledUpSanctionedPostCountFromOrgCode($org_code);
                                 $total_vacant_post = $total_post - $total_filled_up;
                                 ?>
-                                <strong>Total Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_post; ?></span>
-                                <br />
-                                <strong>Total Filled up Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_filled_up; ?></span>
-                                <br />
-                                <strong>Total Vacant Post  Sanctioned Post :</strong> <span class="label label-info"><?php echo $total_vacant_post; ?></span>
-                                <br /><br />
+                                <table class="table table-bordered table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Total Sanctioned Post :</strong></td>
+                                            <td><span class="label label-info"><?php echo $total_post; ?></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Total Filled up Sanctioned Post :</strong></td>
+                                            <td><span class="label label-info"><?php echo $total_filled_up; ?></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Total Vacant Post  Sanctioned Post :</strong></td>
+                                            <td><span class="label label-info"><?php echo $total_vacant_post; ?></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="span4">
                                 <?php if($isAdmin): ?>
