@@ -195,7 +195,6 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                             </div>
                         </div>
 
-
                         <div class="row">
                             <div class="span9">
                                 <table class="table table-striped table-hover table-bordered">
@@ -232,7 +231,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                                     <div class="row-fluid">
                                                         <div class="span4">
                                                             <?php $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation'])); ?>                    
-                                                            <button id="sp-btn-<?php echo $designation_div_id; ?>" onclick="showSanctionedPostDetails('<?php echo $sp_data['id']; ?>', '<?php echo $designation_div_id; ?>')">
+                                                            <button id="sp-btn-<?php echo $designation_div_id; ?>" class="btn btn-link" onclick="showSanctionedPostDetails('<?php echo $sp_data['id']; ?>', '<?php echo $designation_div_id; ?>')">
                                                                 <?php echo $sp_data['designation']; ?>
                                                             </button>
                                                         </div>
@@ -264,7 +263,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
 
                                                         </div>
                                                         <div class="span2">                                                            
-                                                            <button type="submit" id="btn-<?php echo $designation_div_id; ?>" value="<?php echo $sp_data['designation']; ?>" class="btn btn-info btn-small" data-toggle="collapse" data-target="#<?php echo "$designation_div_id"; ?>" >
+                                                            <button type="submit" onclick="showDesignationList('<?php echo $sp_data['designation']; ?>', '<?php echo $designation_div_id; ?>');" value="<?php echo $sp_data['designation']; ?>" class="btn btn-info btn-small" >
                                                                 <i class="icon-list-ul"></i> View Staff List
                                                             </button>
                                                         </div>
@@ -273,68 +272,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                                         <div class="">
                                                             <div id="<?php echo $designation_div_id; ?>" class="collapse">
                                                                 <div class="clearfix alert alert-info" id="list-<?php echo $designation_div_id; ?>">
-                                                                    <div id="loading-<?php echo $designation_div_id; ?>"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</div>
-                                                                    <script type="text/javascript" language="javascript">
-                                                                        $(document).ready(function() {
-                                                                            $("#btn-<?php echo $designation_div_id; ?>").click(function(event) {
-                                                                                $.ajax({
-                                                                                    type: "POST",
-                                                                                    url: "result.php",
-                                                                                    data: {designation: "<?php echo $sp_data['designation']; ?>", org_code:<?php echo $org_code; ?>},
-                                                                                    dataType: 'json',
-                                                                                    success: function(data) {
-                                                                                        $('#loading-<?php echo $designation_div_id; ?>').hide();
-                                                                                        $('#list-<?php echo $designation_div_id; ?>').html("");
-                                                                                        $.each(data, function(k, v) {
-                                                                                            var data_list = "<div class=\"row-fluid\">";
-                                                                                            var staff_info = "";
-                                                                                            if (v.staff_id_2 > 0) {
-                                                                                                staff_info = " (Staff Name: <a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\" ><i class=\"icon-user\"></i> " + v.staff_name + ", Id: " + v.staff_id_2 + "</a>)";
-                                                                                            }
-                                                                                            data_list += "<div class=\"span9\">Sanctioned PostId: " + v.sanctioned_post_id + staff_info + " </div>";
-                                                                                            //                                                                data_list += "<div class=\"span1\">Id:" + v.staff_id + "</div>";
-                                                                                            if (v.staff_id_2 > 0) {
-                                                                                                data_list += "<div class=\"span3\">";
-    //                                                                                                data_list += "<a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\"  class=\"btn btn-warning btn-mini\" ><i class=\"icon-user\"></i> View Profile</a>";
-                                                                                                data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
-                                                                                                data_list += "<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
-                                                                                                data_list += "<div class=\"modal-header\">";
-                                                                                                data_list += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>";
-                                                                                                data_list += "<h3 id=\"myModalLabel\">Move Out Type</h3>";
-                                                                                                data_list += "</div>";
-                                                                                                data_list += "<div class=\"modal-body\">";
-                                                                                                data_list += "<ul>";
-                                                                                                data_list += "<li><a href=\"#\">Promotion</a></li>";
-                                                                                                data_list += "<li><a href=\"move_staff.php?action=move_out&staff_id=" + v.staff_id_2 + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\" >Transfer</a></li>";
-                                                                                                data_list += "<li><a href=\"#\">Retirement2</a></li>";
-                                                                                                data_list += "<li><a href=\"#\">Suspension</a></li>";
-                                                                                                data_list += "<li><a href=\"#\">Termination</a></li>";
-                                                                                                data_list += "<li><a href=\"#\">Death</a></li>";
-                                                                                                data_list += "<li><a href=\"#\">Leaving Job</a></li>";
-                                                                                                data_list += "<li><a href=\"#\">Unauthorised absent</a></li>";
-                                                                                                data_list += "<li><a href=\"#\">Leave</a></li>";
-                                                                                                data_list += "</ul>";
-                                                                                                data_list += "</div>";
-                                                                                                data_list += "<div class=\"modal-footer\">";
-                                                                                                data_list += "<button class=\"btn\" data-dismiss=\"modal\" aria-hidden=\"true\">Close</button>";
-                                                                                                data_list += "</div>";
-                                                                                                data_list += "</div>";
-                                                                                            }
-                                                                                            else {
-                                                                                                data_list += "<div class=\"span3\">";
-                                                                                                data_list += "<a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" ><i class=\"icon-edit\"></i> Add Profile</a>";
-                                                                                                data_list += "<a href=\"move_staff.php?action=move_in&org_code=<?php echo "$org_code"; ?>\" target=\"_blank\"  class=\"btn btn-info btn-mini\" ><i class=\"icon-signin\"></i> Move In</a>";
-                                                                                                data_list += "</div>";
-                                                                                            }
-
-                                                                                            data_list += "</div>";
-                                                                                            $("#list-<?php echo $designation_div_id; ?>").append(data_list);
-                                                                                        });
-                                                                                    }
-                                                                                });
-                                                                            });
-                                                                        });
-                                                                    </script>
+                                                                    <div id="loading-<?php echo $designation_div_id; ?>"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</div>                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -370,7 +308,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
         <?php include_once 'include/footer/footer.inc.php'; ?>
 
         <script type="text/javascript" language="javascript">
-            
+            // show sanctioned post details on a modal
             function showSanctionedPostDetails(sp_id, designation_div) {
                 var designation_div_id = "#sp-" + designation_div;
                 var designation_div_content = "#sp-content-" + designation_div;
@@ -409,6 +347,70 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                 });
             }
 
+            // show exployee/sanctioned post list
+            function showDesignationList(designation, designation_div){
+                var designation_div_id = "#" + designation_div;
+                var designation_div_loading = "#loading-" + designation_div;
+                var designation_div_list = "#list-" + designation_div;                
+                var org_code = <?php echo $org_code; ?>;
+                
+                $(designation_div_id).collapse('toggle');
+                
+                $.ajax({
+                    type: "POST",
+                    url: "result.php",
+                    data: {designation: designation, org_code:org_code},
+                    dataType: 'json',
+                    success: function(data) {
+                        $(designation_div_loading).hide();
+                        $(designation_div_list).html("");
+                        $.each(data, function(k, v) {
+                            var data_list = "<div class=\"row-fluid\">";
+                            var staff_info = "";
+                            if (v.staff_id_2 > 0) {
+                                staff_info = " (Staff Name: <a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\" ><i class=\"icon-user\"></i> " + v.staff_name + ", Id: " + v.staff_id_2 + "</a>)";
+                            }
+                            data_list += "<div class=\"span9\">Sanctioned PostId: " + v.sanctioned_post_id + staff_info + " </div>";
+                            if (v.staff_id_2 > 0) {
+                                data_list += "<div class=\"span3\">";
+                                data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";
+                                data_list += "<div id=\"moveOut_" + v.sanctioned_post_id + "\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">;";
+                                data_list += "<div class=\"modal-header\">";
+                                data_list += "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>";
+                                data_list += "<h3 id=\"myModalLabel\">Move Out Type</h3>";
+                                data_list += "</div>";
+                                data_list += "<div class=\"modal-body\">";
+                                data_list += "<ul>";
+                                data_list += "<li><a href=\"#\">Promotion</a></li>";
+                                data_list += "<li><a href=\"move_staff.php?action=move_out&staff_id=" + v.staff_id_2 + "&sanctioned_post_id=" + v.sanctioned_post_id + "&org_code=<?php echo $org_code; ?>\" target=\"_blank\" >Transfer</a></li>";
+                                data_list += "<li><a href=\"#\">Retirement2</a></li>";
+                                data_list += "<li><a href=\"#\">Suspension</a></li>";
+                                data_list += "<li><a href=\"#\">Termination</a></li>";
+                                data_list += "<li><a href=\"#\">Death</a></li>";
+                                data_list += "<li><a href=\"#\">Leaving Job</a></li>";
+                                data_list += "<li><a href=\"#\">Unauthorised absent</a></li>";
+                                data_list += "<li><a href=\"#\">Leave</a></li>";
+                                data_list += "</ul>";
+                                data_list += "</div>";
+                                data_list += "<div class=\"modal-footer\">";
+                                data_list += "<button class=\"btn\" data-dismiss=\"modal\" aria-hidden=\"true\">Close</button>";
+                                data_list += "</div>";
+                                data_list += "</div>";
+                            }
+                            else {
+                                data_list += "<div class=\"span3\">";
+                                data_list += "<a href=\"employee.php?sanctioned_post_id=" + v.sanctioned_post_id + "&action=new\" target=\"_blank\"  class=\"btn btn-success btn-mini\" ><i class=\"icon-edit\"></i> Add Profile</a>";
+                                data_list += "<a href=\"move_staff.php?action=move_in&org_code=<?php echo "$org_code"; ?>\" target=\"_blank\"  class=\"btn btn-info btn-mini\" ><i class=\"icon-signin\"></i> Move In</a>";
+                                data_list += "</div>";
+                            }
+
+                            data_list += "</div>";
+                            $(designation_div_list).append(data_list);
+                        });
+                    }
+                });
+            }
+            
         </script>
     </body>
 </html>
