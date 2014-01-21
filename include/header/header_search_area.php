@@ -1,6 +1,8 @@
 <?php
 
 require_once '../../configuration.php';
+
+
 if (hasPermission('mod_admin', 'view', getLoggedUserName())) {
     if (isset($_POST['search_type']) && isset($_POST['code'])) {
         $code = mysql_real_escape_string(stripslashes(trim($_POST['code'])));

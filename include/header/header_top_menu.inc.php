@@ -1,7 +1,5 @@
 <?php
 $start_time = microtime(true);
-
-
 ?>
 
 <div class="navbar navbar-inverse navbar-fixed-top">
