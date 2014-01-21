@@ -359,7 +359,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $j; ?></td>
-                                                        <td><a href="org_profile.php?org_code=<?php echo $row['org_code']; ?>" target="_blank"><?php echo $row['org_name'] . "(" . $row['org_code'] . ")"; ?></a></td>
+                                                        <td><a href="org_profile.php?org_code=<?php echo $row['org_code']; ?>" target="_blank"><?php echo $row['org_name'] . " (" . $row['org_code'] . ")"; ?></a></td>
                                                         <td><?php echo $row['division_name']; ?></td>
                                                         <td><?php echo $row['district_name']; ?></td>
                                                         <td><?php echo $row['upazila_thana_name']; ?></td>
