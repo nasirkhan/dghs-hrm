@@ -113,10 +113,11 @@ if ($_SESSION['user_type'] != "admin") {
                             <a href="delete.php" class="btn btn-danger btn-large">
                                 <i class="icon-trash pull-left icon-3x"></i> Delete
                             </a>
-
+                            <!--
                             <a href="sanctioned_post_update.php" class="btn btn-large">
-                                <i class="icon-group pull-left icon-3x"></i> Update sanctioned Post
+                                <i class="icon-group pull-left icon-3x"></i> Manage Sanctioned Post
                             </a>
+                            -->
 
                             <a href="admin_edit_org.php" class="btn btn-large">
                                 <?php
