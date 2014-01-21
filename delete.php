@@ -7,6 +7,15 @@ if ($_SESSION['logged'] != true) {
 
 //require_once './include/check_org_code.php';
 
+
+// assign values from session array
+$org_code = $_SESSION['org_code'];
+$org_name = $_SESSION['org_name'];
+$org_type_name = $_SESSION['org_type_name'];
+
+$echoAdminInfo = "";
+
+
 /**
  * Reassign org_code and enable edit permission for Upazila and below
  * 
@@ -38,29 +47,10 @@ $seach_type = mysql_real_escape_string($_GET['type']);
     <head>
         <meta charset="utf-8">
         <title><?php echo $org_name . " | " . $app_name; ?></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <!-- Le styles -->
-        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="library/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-        <link href="library/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
-        <link href="assets/css/style.css" rel="stylesheet">
-        <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
-
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="assets/js/html5shiv.js"></script>
-        <![endif]-->
-
-        <!-- favicon and touch icons -->
-        <?php include_once 'include/header/header_icon.inc.php'; ?>
-
-        <!--Google analytics code-->
-        <?php include_once 'include/header/header_ga.inc.php'; ?>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
 
     </head>
 
