@@ -116,7 +116,7 @@ if (isset($_POST['submit_success'])) {
 
                                 $last_update_datetime = mysql_fetch_assoc($result);
                                 ?>
-                                <span class="label label-info"><em>Last updated on <?php echo $last_update_datetime['monthly_update_datetime']; ?></em></span>
+                                <span class="label label-info"><em><h5>&nbsp;Last updated on <?php echo $last_update_datetime['monthly_update_datetime']; ?> &nbsp;</h5></em></span>
                             </div>
                         </div>
                     </section>

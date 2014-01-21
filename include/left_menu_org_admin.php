@@ -38,6 +38,7 @@
         <!--<li><a href="employee.php.php?org_code=<?= $org_code ?>">Org admin users</a></li>-->
 
         <li><a href="<?= $attendanceMonitorUrl ?>?org_code[]=<?= $org_code ?>&submit=Filter" target="_blank">Attendance</a></li>
+        <li><a href="monthly_update.php?org_code=<?= $org_code ?>">Monthly Update</a></li>
     </ul>
 
 </div>
