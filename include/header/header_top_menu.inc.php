@@ -1,46 +1,7 @@
 <?php
 $start_time = microtime(true);
 
-if (isset($_POST['search_type']) && isset($_POST['code'])) {
-    $code = mysql_real_escape_string(stripslashes(trim($_POST['code'])));
-    $search_type = mysql_real_escape_string(stripslashes(trim($_POST['search_type'])));
 
-    /**
-     * Search by Org Code
-     */
-    if ($search_type == "org_code") {
-        if (isValidOrgCode($code)) {
-//            header("location:home.php?org_code=$code");
-            echo "<script type=\"text/javascript\">window.location.href = \"home.php?org_code=$code\";</script>";
-        } else {
-//            header("location:index.php");
-            echo "<script type=\"text/javascript\">window.location.href = \"index.php\";</script>";
-        }
-    }
-
-    /**
-     * Search By Staff Id
-     */
-    if ($search_type == "staff_id") {
-        if (isValidStaffId($code)) {
-            header("location:employee.php?staff_id=$code");
-        } else {
-            header("location:index.php");
-        }
-    }
-
-    /**
-     * Search By Staff Mobile Number
-     */
-    if ($search_type == "staff_mobile") {
-        $ivValidMobile = isValidStaffMobile($code);
-        if ($ivValidMobile) {
-            header("location:employee.php?staff_id=$ivValidMobile");
-        } else {
-            header("location:index.php");
-        }
-    }
-}
 ?>
 
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -72,7 +33,7 @@ if (isset($_POST['search_type']) && isset($_POST['code'])) {
                 <?php if (hasPermission('mod_top_nav_search', 'view', getLoggedUserName())): ?>
                     <div class="nav-collapse collapse pull-right">
 
-                        <form class="navbar-form pull-left" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                        <form class="navbar-form pull-left" action="include/header/header_search_area.php" method="post">
                             <input name="code" type="text" placeholder="Code" class="span2">
                             <select name="search_type" class="span2">
                                 <option value="org_code"> Org Code </option>
