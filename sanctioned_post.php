@@ -246,6 +246,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                                         </div>
                                                         <div class="span2">
                                                             <?php echo $sp_data['sp_count']; ?>
+                                                            <?php if (hasPermission('mod_admin', 'view', getLoggedUserName())): ?>
                                                             <form class="form-inline form-clear pull-right" action="sanctioned_post_update.php" method="get">
                                                                 <input name="org_code" value="<?php echo $org_code; ?>" type="hidden" />
                                                                 <input name="designation_code" value="<?php echo $sp_data['designation_code']; ?>" type="hidden" />
@@ -260,7 +261,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                                                 <input name="action" value="add" type="hidden" />
                                                                 <button type="submit" class="btn btn-small btn-success"><i class="icon-plus"></i></button>
                                                             </form>
-
+                                                            <?php endif; ?>
                                                         </div>
                                                         <div class="span2">                                                            
                                                             <button type="submit" onclick="showDesignationList('<?php echo $sp_data['designation']; ?>', '<?php echo $designation_div_id; ?>');" value="<?php echo $sp_data['designation']; ?>" class="btn btn-info btn-small" >
