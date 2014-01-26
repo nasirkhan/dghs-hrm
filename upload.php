@@ -32,6 +32,12 @@ if ($org_type_code == 1029 || $org_type_code == 1051){
 
 
 $upload_type = mysql_real_escape_string($_GET['upload']);
+$img_info=mysql_query("SELECT upload_datetime,uploaded_by,org_photo from organization WHERE org_code=$org_code");
+$row = mysql_fetch_array($img_info);
+$uploaded_by=$row['uploaded_by'];
+$upload_datetime=$row['upload_datetime'];
+$org_photo=$row['org_photo'];
+
 
 ?>
 <!DOCTYPE html>
@@ -113,6 +119,26 @@ $upload_type = mysql_real_escape_string($_GET['upload']);
                                             </td>
                                             <td> Upload the organization photo by form here. If any photo is uploaded previously, then it will be replaced by new new uploaded image.</td>
                                         </tr>
+										<tr>
+                                            <td>
+										    <div class="span5" style="width:300px;">
+											<?php
+											//$username=
+											$image_src = "uploads/" .$org_photo;
+
+											if (file_exists($image_src)) {
+												echo "<img src=\"$image_src\" class=\"img-polaroid\" />";
+												echo "<b>File Name:</b> $org_photo";
+												echo "<br /><b>Uploaded on:</b> $upload_datetime ";
+												echo "<br /><b>Uploaded by:</b> $uploaded_by";
+											} else {
+												//echo "<img data-src=\"holder.js/480x360\"  class=\"img-polaroid\" />";
+											}
+											?>
+											</div>
+                                            </td>
+                                              </tr> 
+										      
                                         <!--<tr>
                                             <td>
                                                 <a href="upload.php?org_code=<?php echo $org_code; ?>&upload=file" class="btn btn-large btn-info">
