@@ -1824,6 +1824,10 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
     $updated_datetime = date("Y-m-d H:i:s");
     $updated_by = $_SESSION['username'];
     $active = 1;
+    
+    if (isUserExists($username)){
+        return FALSE;
+    }
 
     if ($username == "" || $email == "" || $password == "" || $user_type == "" || $mobile_number == "") {
         return FALSE;
@@ -1858,7 +1862,7 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
                     )";
 
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:addNewUser:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
-    echo "<pre>$sql</pre>";
+//    echo "<pre>$sql</pre>";
     return TRUE;
 }
 
@@ -2525,5 +2529,126 @@ function getMonthNameFromMonthNumber($number) {
     }
 }
 
+/**
+ * Get the total number of unions form the District and Upazila code
+ * 
+ * @param type $upazila_code
+ * @param type $district_code
+ * @return boolean|INT Total number of unions
+ */
+function getUnionCountFromUpaCodeAndDisCode($upazila_code, $district_code){
+    if ((!$upazila_code > 0) || (!$district_code > 0)) {
+        return FALSE;
+    }
+    
+    $sql = "SELECT
+                    count(*) AS count
+            FROM
+                    `admin_union`
+            WHERE
+                    union_upazila_bbs_code = $upazila_code
+            AND union_district_bbs_code = $district_code;";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
 
+    if (mysql_num_rows($result) > 0) {
+        return $data['count'];
+    } else {
+        return "0";
+    }
+}
+
+/**
+ * Get the total number of Community Clinic (CC) form the District and Upazila code
+ * 
+ * @param type $upazila_code
+ * @param type $district_code
+ * @return boolean|INT Total number of Community Clinic (CC)
+ */
+function getCommunityClinicCountFromUpaCodeAndDisCode($upazila_code, $district_code){
+    if ((!$upazila_code > 0) || (!$district_code > 0)) {
+        return FALSE;
+    }
+    
+    $sql = "SELECT
+                    count(*) AS count
+            FROM
+                    `organization`
+            WHERE
+                    district_code = $district_code
+            AND upazila_thana_code = $upazila_code
+            AND org_type_code = 1039;";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+
+    if (mysql_num_rows($result) > 0) {
+        return $data['count'];
+    } else {
+        return "0";
+    }
+}
+
+/**
+ * Get the total number of Union Sub Centre (UHC) form the District and Upazila code
+ * 
+ * @param type $upazila_code
+ * @param type $district_code
+ * @return boolean|INT Total number of Union Sub Centre (UHC)
+ */
+function getUnionSubCentreCountFromUpaCodeAndDisCode($upazila_code, $district_code){
+    if ((!$upazila_code > 0) || (!$district_code > 0)) {
+        return FALSE;
+    }
+    
+    $sql = "SELECT
+                    count(*) AS count
+            FROM
+                    `organization`
+            WHERE
+                    district_code = $district_code
+            AND upazila_thana_code = $upazila_code
+            AND org_type_code = 1038;";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+
+    if (mysql_num_rows($result) > 0) {
+        return $data['count'];
+    } else {
+        return "0";
+    }
+}
+
+/**
+ * Get the total number of Union Health & Family Welfare Center (UH&FWC) form the District and Upazila code
+ * 
+ * @param type $upazila_code
+ * @param type $district_code
+ * @return boolean|INT Total number of Union Sub Centre (UHC)
+ */
+function getUnionHealthFamilyWelfareCountFromUpaCodeAndDisCode($upazila_code, $district_code){
+    if ((!$upazila_code > 0) || (!$district_code > 0)) {
+        return FALSE;
+    }
+    
+    $sql = "SELECT
+                    count(*) AS count
+            FROM
+                    `organization`
+            WHERE
+                    district_code = $district_code
+            AND upazila_thana_code = $upazila_code
+            AND org_type_code = 1037;";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+
+    if (mysql_num_rows($result) > 0) {
+        return $data['count'];
+    } else {
+        return "0";
+    }
+}
 ?>

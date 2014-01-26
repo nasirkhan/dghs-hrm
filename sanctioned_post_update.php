@@ -5,7 +5,7 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
-require_once './include/check_org_code.php';
+//require_once './include/check_org_code.php';
 
 // admin check
 //if ($_SESSION['user_type'] != "admin") {

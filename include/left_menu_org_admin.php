@@ -2,10 +2,13 @@
 <div id="orgMenu" class="leftMenuContainer">
     <!--    <h4>ORGANIZATION MENU</h4>-->
 
-
     <ul id="leftMenuAdmin">
-        <li><h5 class="pull-left"><i class="icon-hospital"></i> <a href="home.php?org_code=<?= $org_code ?>"><?= $org_name ?></a>
-                <a href="org.php"><span class="btn btn-success btn-mini pull-right">Change</span></a>
+        <li>
+            <h5 class="pull-left">
+                <i class="icon-hospital"></i> <a href="home.php?org_code=<?= $org_code ?>"><?= $org_name ?></a>
+                <?php if (hasPermission('mod_admin', 'view', getLoggedUserName())): ?>
+                    <a href="org.php"><span class="btn btn-success btn-mini pull-right">Change</span></a>
+                <?php endif; ?> 
             </h5>
 
             <div class="clearfix"></div>
@@ -35,6 +38,7 @@
         <!--<li><a href="employee.php.php?org_code=<?= $org_code ?>">Org admin users</a></li>-->
 
         <li><a href="<?= $attendanceMonitorUrl ?>?org_code[]=<?= $org_code ?>&submit=Filter" target="_blank">Attendance</a></li>
+        <li><a href="monthly_update.php?org_code=<?= $org_code ?>">Monthly Update</a></li>
     </ul>
 
 </div>

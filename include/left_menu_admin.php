@@ -3,7 +3,8 @@
     <ul id="leftMenuAdmin" class="">
 <!--        <li class="nav-header"><i class="icon-search"></i>ADMIN MENU</li>-->
 
-        <li><h5><i class="icon-desktop"></i> <a href="admin_home.php">Admin Dashboard</a></h5>
+        <li>
+            <h5><i class="icon-desktop"></i><a href="admin_home.php">Admin Dashboard</a></h5>
             <blockquote>
                 <small>You are now logged in as Super Admin of the system.
                     <?php if (!orgSelected()) { ?>
@@ -16,6 +17,7 @@
         <ul>
             <li><a href="search.php?type=org"><i class="icon-search"></i> Search</a></li>
             <li><a href="org_add.php"><i class="icon-plus"></i> Add</a></li>
+            <li><a href="delete.php"><i class="icon-trash"></i> Delete</a></li>
             <li><a href="admin_edit_org.php"><i class="icon-check"></i> Organizations Awaiting Approval</a></li>
             <!--<li><a href="">All Employee</a></li>-->
         </ul>
