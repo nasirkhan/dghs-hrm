@@ -1,5 +1,5 @@
 <?php ?>
-require_once 'configuration.php';
+
 <div id="adminMenu" class="leftMenuContainer">
     <ul id="leftMenuAdmin" class="">
 <!--        <li class="nav-header"><i class="icon-search"></i>ADMIN MENU</li>-->
@@ -23,6 +23,7 @@ require_once 'configuration.php';
                 <!-- The Organizations waiting for approval count will be shown here -->
                 <a href="admin_edit_org.php">
                  <?php
+                require_once 'configuration.php';
                 $sql = "SELECT * FROM `organization_requested` WHERE active LIKE 1;";
                 $new_org_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
                 $new_org_result_count = mysql_num_rows($new_org_result);
