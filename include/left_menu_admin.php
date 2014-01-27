@@ -20,6 +20,7 @@ require_once 'configuration.php';
             <li><a href="org_add.php"><i class="icon-plus"></i> Add</a></li>
             <li><a href="delete.php"><i class="icon-trash"></i> Delete</a></li>
             <li>
+                <!-- The Organizations waiting for approval count will be shown here -->
                 <a href="admin_edit_org.php">
                  <?php
                 $sql = "SELECT * FROM `organization_requested` WHERE active LIKE 1;";
