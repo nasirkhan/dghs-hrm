@@ -1,5 +1,5 @@
-<?php ?>
-
+<?php require_once 'configuration.php';?>
+ 
 <div id="adminMenu" class="leftMenuContainer">
     <ul id="leftMenuAdmin" class="">
 <!--        <li class="nav-header"><i class="icon-search"></i>ADMIN MENU</li>-->
