@@ -1393,8 +1393,8 @@ function getOrgInfoFromOrgCode($org_code) {
             AND
                 division_code = " . $data['division_code'] . "
             AND
-                (org_type_code = 1038 OR org_type_code = 1039) 
-            ORDER BY org_type_code";
+                (org_type_code = 1038 OR org_type_code = 1062 OR org_type_code = 1039) 
+            ORDER BY org_type_name desc";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgInfoFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
 
 //    echo "$sql";
