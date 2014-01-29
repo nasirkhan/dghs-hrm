@@ -175,7 +175,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                         <div class="row">
                             <div class="">
                                 <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                    <p class="lead">Summary Report WHO Health Professional Group (All Organization)</p>
+                                    <p class="lead">Summary Report on WHO Professional Group</p>
                                     <div class="control-group">
                                         <select id="org_agency" name="org_agency">
                                             <option value="0">Select Agency</option>
