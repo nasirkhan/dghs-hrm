@@ -32,7 +32,7 @@ if ($org_type_code == 1029 || $org_type_code == 1051) {
 
 $username = $_SESSION['username'];
 //get coordinates
-$sql = "SELECT latitude, longitude, district_code, upazila_thana_code FROM organization WHERE  org_code = $org_code LIMIT 1";
+$sql = "SELECT latitude, longitude, district_code, upazila_thana_code,uploaded_by, upload_datetime, org_photo FROM organization WHERE org_code = $org_code LIMIT 1";
 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 $data = mysql_fetch_assoc($result);
 
@@ -43,6 +43,11 @@ $map_popup = $org_name;
 
 $upazila_code = $data['upazila_thana_code'];
 $district_code = $data['district_code'];
+
+$uploaded_by=$data['uploaded_by'];
+$upload_datetime=$data['upload_datetime'];
+$org_photo=$data['org_photo'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -94,12 +99,14 @@ $district_code = $data['district_code'];
                         <div class="row">
                             <div class="span5">
                                 <?php
-                                $image_src = "uploads/" . $username . ".jpg";
-
+                                $image_src = "uploads/" . $org_photo;
+                                
                                 if (file_exists($image_src)) {
                                     echo "<img src=\"$image_src\" class=\"img-polaroid\" />";
+									echo "<a href=\"upload.php?org_code=$org_code\">Update Photo</a>";
                                 } else {
                                     echo "<img data-src=\"holder.js/480x360\"  class=\"img-polaroid\" />";
+									echo "<a href=\"upload.php?org_code=$org_code\">Upload Photo</a>";
                                 }
                                 ?>
                             </div>
@@ -149,7 +156,7 @@ $district_code = $data['district_code'];
                                 <td><?php echo getCommunityClinicCountFromUpaCodeAndDisCode($upazila_code, $district_code); ?></td>
                             </tr>
                             <tr>
-                                <td><strong>Total Number of USC</strong></td>
+                                <td><strong>Total Number of UHC</strong></td>
                                 <td><?php echo getUnionSubCentreCountFromUpaCodeAndDisCode($upazila_code, $district_code); ?></td>
                             </tr>
                             <tr>
