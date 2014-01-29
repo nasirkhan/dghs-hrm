@@ -1,12 +1,11 @@
 <?php
+
 /**
  * Different variables that are globally accessed.
  */
-
-$attendanceMonitorUrl='http://app.dghs.gov.bd/attendance-dashboard/attendance.php';
+$attendanceMonitorUrl = 'http://app.dghs.gov.bd/attendance-dashboard/attendance.php';
 
 $urlAddOrganizationRequest = "http://app.dghs.gov.bd/orgregistry";
-
 
 /**
  * Get the organization type Name form the Organization code
@@ -1594,7 +1593,6 @@ function getUserInfoFromOrgCode($org_code) {
     return $data;
 }
 
-
 /**
  * handle user login
  * @param ARRAY $_POST
@@ -1605,7 +1603,7 @@ function login($POSTDATA) {
     $form_uname = mysql_real_escape_string(stripslashes(trim($POSTDATA['email'])));
     $form_passwd = mysql_real_escape_string(stripslashes(trim($POSTDATA['password'])));
     $form_passwd = md5($form_passwd);
-    
+
     $sql = "SELECT user_id, username, user_type, user_type_code, organization_id, org_code FROM user WHERE username LIKE \"$form_uname\" AND password LIKE \"$form_passwd\"";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -1614,7 +1612,7 @@ function login($POSTDATA) {
 //    set session variables
     if (mysql_num_rows($result) >= 1) {
         if (setUserSession($data['username'])) {
-            if (isValidOrgCode($data['org_code'])){
+            if (isValidOrgCode($data['org_code'])) {
                 setOrgSession($data['org_code']);
             }
             return 1;
@@ -1660,7 +1658,7 @@ function setUserSession($username) {
 function setOrgSession($org_code) {
 
     //global $_SESSION;
-    if(isValidOrgCode($org_code)) {
+    if (isValidOrgCode($org_code)) {
         if ($org = getOrganization($org_code)) {
 //        $_SESSION['user_id'] = $user['user_id'];
 //        $_SESSION['username'] = $user['username'];
@@ -1679,6 +1677,7 @@ function setOrgSession($org_code) {
     }
     return FALSE;
 }
+
 /**
  * Sets session values for a successful login
  * @param  $org_code
@@ -1699,7 +1698,6 @@ function getOrganization($org_code) {
 function getUserFromUsername($username) {
     return getRowVal('user', 'username', $username);
 }
-
 
 function getLoggedUserName() {
     return $_SESSION['username'];
@@ -1824,18 +1822,18 @@ function addNewUser($username, $email, $password, $user_type, $org_code, $mobile
     $updated_datetime = date("Y-m-d H:i:s");
     $updated_by = $_SESSION['username'];
     $active = 1;
-    
-    if (isUserExists($username)){
+
+    if (isUserExists($username)) {
         return FALSE;
     }
 
     if ($username == "" || $email == "" || $password == "" || $user_type == "" || $mobile_number == "") {
         return FALSE;
     }
-    if ($user_type == "user" && $org_code == ""){
+    if ($user_type == "user" && $org_code == "") {
         return FALSE;
     }
-    if ($user_type == "admin"){
+    if ($user_type == "admin") {
         $org_code = "";
     }
 
@@ -2228,7 +2226,7 @@ function insertLog($log_module, $log_event, $log_affected_table_name, $log_affec
  * @return string|boolean
  * @author Nasir Khan <nasir8891@gmail.com>
  */
-function getOrgFucntionNameFromCode($org_function_code){
+function getOrgFucntionNameFromCode($org_function_code) {
     if (!$org_function_code > 0) {
         return FALSE;
     }
@@ -2245,7 +2243,6 @@ function getOrgFucntionNameFromCode($org_function_code){
     }
 }
 
-
 /**
  * Get the names of organization function from org_function_code
  *
@@ -2254,7 +2251,7 @@ function getOrgFucntionNameFromCode($org_function_code){
  *
  * @author Nasir Khan <nasir8891@gmail.com>
  */
-function getOrgFucntionNameStringFromCode($org_function_code){
+function getOrgFucntionNameStringFromCode($org_function_code) {
     if ($org_function_code == "") {
         return FALSE;
     }
@@ -2265,14 +2262,14 @@ function getOrgFucntionNameStringFromCode($org_function_code){
     $count = count($code_array);
 
     $return_string = "";
-    for ($i=0; $i < $count; $i++){
+    for ($i = 0; $i < $count; $i++) {
         $return_string .= getOrgFucntionNameFromCode($code_array[$i]) . ",<br>";
     }
 
     return $return_string;
 }
 
-function getHealthCareLevelNameFromCode($org_healthcare_level_code){
+function getHealthCareLevelNameFromCode($org_healthcare_level_code) {
     $org_healthcare_level_code = (int) trim($org_healthcare_level_code);
 
     if (!$org_healthcare_level_code > 0) {
@@ -2291,10 +2288,9 @@ function getHealthCareLevelNameFromCode($org_healthcare_level_code){
     }
 }
 
-function orgSelected(){
+function orgSelected() {
     return (isValidOrgCode($_SESSION['org_code']));
 }
-
 
 function requestNewOrganization($data) {
     //@TODO: verify the required fields
@@ -2318,15 +2314,15 @@ function requestNewOrganization($data) {
     $org_contact_number = mysql_real_escape_string(trim($data['org_contact_number']));
     $latitude = mysql_real_escape_string(trim(trim($data['latitude'])));
     $longitude = mysql_real_escape_string(trim(trim($data['longitude'])));
-    
+
     $last_org_code = (int) getLastOrgIdFromOrganizationTable();
-    $new_org_code = $last_org_code + 1;        
-    
-    if($_SESSION['user_type'] == "admin") {
+    $new_org_code = $last_org_code + 1;
+
+    if ($_SESSION['user_type'] == "admin") {
         $request_status = "Approved";
         $approved_rejected_by = $_SESSION['username'];
-        
-        
+
+
         /**
          * insert into request table
          */
@@ -2379,11 +2375,10 @@ function requestNewOrganization($data) {
                     )";
 
         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-        
+
         /**
          * insert into organization table
          */
-
         // UPDATE organizaion table
         $sql = "INSERT INTO `organization` (
                 `org_name`,
@@ -2434,10 +2429,10 @@ function requestNewOrganization($data) {
         $r = mysql_query($sql) or die(mysql_error() . "<p>Code:insertNewOrganization:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
         return $new_org_code;
-    }  else {
+    } else {
         $request_status = "Pending";
         $approved_rejected_by = "";
-        
+
         $sql = "INSERT INTO `organization_requested` (
                     `org_name`,
                     `org_type_code`,
@@ -2487,12 +2482,11 @@ function requestNewOrganization($data) {
                     )";
 
         $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> insertNewOrganization:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-    }       
-    
+    }
+
     return TRUE;
 //            header("location:org_add.php?type=org&insert_success=true");
 }
-
 
 /**
  * Get the Month Name From the Month Number
@@ -2511,7 +2505,7 @@ function getMonthNameFromMonthNumber($number) {
         case 4:
             return "April";
         case 5:
-            return "May"; 
+            return "May";
         case 6:
             return "June";
         case 7:
@@ -2523,9 +2517,9 @@ function getMonthNameFromMonthNumber($number) {
         case 10:
             return "October";
         case 11:
-            return "November";    
+            return "November";
         case 12:
-            return "December";    
+            return "December";
     }
 }
 
@@ -2536,11 +2530,11 @@ function getMonthNameFromMonthNumber($number) {
  * @param type $district_code
  * @return boolean|INT Total number of unions
  */
-function getUnionCountFromUpaCodeAndDisCode($upazila_code, $district_code){
+function getUnionCountFromUpaCodeAndDisCode($upazila_code, $district_code) {
     if ((!$upazila_code > 0) || (!$district_code > 0)) {
         return FALSE;
     }
-    
+
     $sql = "SELECT
                     count(*) AS count
             FROM
@@ -2549,7 +2543,7 @@ function getUnionCountFromUpaCodeAndDisCode($upazila_code, $district_code){
                     union_upazila_bbs_code = $upazila_code
             AND union_district_bbs_code = $district_code;";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
 
     if (mysql_num_rows($result) > 0) {
@@ -2566,11 +2560,11 @@ function getUnionCountFromUpaCodeAndDisCode($upazila_code, $district_code){
  * @param type $district_code
  * @return boolean|INT Total number of Community Clinic (CC)
  */
-function getCommunityClinicCountFromUpaCodeAndDisCode($upazila_code, $district_code){
+function getCommunityClinicCountFromUpaCodeAndDisCode($upazila_code, $district_code) {
     if ((!$upazila_code > 0) || (!$district_code > 0)) {
         return FALSE;
     }
-    
+
     $sql = "SELECT
                     count(*) AS count
             FROM
@@ -2580,7 +2574,7 @@ function getCommunityClinicCountFromUpaCodeAndDisCode($upazila_code, $district_c
             AND upazila_thana_code = $upazila_code
             AND org_type_code = 1039;";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
 
     if (mysql_num_rows($result) > 0) {
@@ -2597,11 +2591,11 @@ function getCommunityClinicCountFromUpaCodeAndDisCode($upazila_code, $district_c
  * @param type $district_code
  * @return boolean|INT Total number of Union Sub Centre (UHC)
  */
-function getUnionSubCentreCountFromUpaCodeAndDisCode($upazila_code, $district_code){
+function getUnionSubCentreCountFromUpaCodeAndDisCode($upazila_code, $district_code) {
     if ((!$upazila_code > 0) || (!$district_code > 0)) {
         return FALSE;
     }
-    
+
     $sql = "SELECT
                     count(*) AS count
             FROM
@@ -2611,7 +2605,7 @@ function getUnionSubCentreCountFromUpaCodeAndDisCode($upazila_code, $district_co
             AND upazila_thana_code = $upazila_code
             AND org_type_code = 1038;";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
 
     if (mysql_num_rows($result) > 0) {
@@ -2628,11 +2622,11 @@ function getUnionSubCentreCountFromUpaCodeAndDisCode($upazila_code, $district_co
  * @param type $district_code
  * @return boolean|INT Total number of Union Sub Centre (UHC)
  */
-function getUnionHealthFamilyWelfareCountFromUpaCodeAndDisCode($upazila_code, $district_code){
+function getUnionHealthFamilyWelfareCountFromUpaCodeAndDisCode($upazila_code, $district_code) {
     if ((!$upazila_code > 0) || (!$district_code > 0)) {
         return FALSE;
     }
-    
+
     $sql = "SELECT
                     count(*) AS count
             FROM
@@ -2642,7 +2636,7 @@ function getUnionHealthFamilyWelfareCountFromUpaCodeAndDisCode($upazila_code, $d
             AND upazila_thana_code = $upazila_code
             AND org_type_code = 1037;";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
 
     if (mysql_num_rows($result) > 0) {
@@ -2650,5 +2644,66 @@ function getUnionHealthFamilyWelfareCountFromUpaCodeAndDisCode($upazila_code, $d
     } else {
         return "0";
     }
+}
+
+/**
+ * Get the total number of WHO health professionals form designation code
+ * 
+ * @param STRING $desognation_query_string
+ * @param INT $desognation_code
+ * @return boolean|INT existing_total_count
+ */
+function getExistingWhoProfessionalFromDesignationStringAndDesignationCode($desognation_query_string, $desognation_code) {
+    if ($desognation_query_string == ""){
+        return FALSE;
+    }
+    if (!$desognation_code > 0){
+        return FALSE;
+    }
+    $sql = "SELECT
+                    designation,
+                    designation_code,
+                    COUNT(*) AS existing_total_count
+            FROM
+                    total_manpower_imported_sanctioned_post_copy
+            WHERE
+                    ($desognation_query_string)
+            AND designation_code = " . $desognation_code . "
+            AND staff_id_2 > 0";
+    $r = mysql_query($sql) or die(mysql_error() . "<br /><br />getExistingWhoProfessionalFromDesignationStringAndDesignationCode:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $a = mysql_fetch_assoc($r);
+    return $a['existing_total_count'];
+}
+
+/**
+ * Get the total number of Male WHO health professionals form designation code
+ * 
+ * @param STRING $desognation_query_string
+ * @param INT $desognation_code
+ * @return boolean|INT existing_male_count
+ */
+function getExistingMaleWhoProfessionalFromDesignationStringAndDesignationCode($desognation_query_string, $desognation_code) {
+    if ($desognation_query_string == ""){
+        return FALSE;
+    }
+    if (!$desognation_code > 0){
+        return FALSE;
+    }
+    $sql = "SELECT
+                    total_manpower_imported_sanctioned_post_copy.designation,
+                    total_manpower_imported_sanctioned_post_copy.designation_code,
+                    COUNT(*) AS existing_male_count
+            FROM
+                    total_manpower_imported_sanctioned_post_copy
+            LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.staff_id = total_manpower_imported_sanctioned_post_copy.staff_id_2
+            WHERE
+                    ($desognation_query_string) 
+            AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $desognation_code . "
+            AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
+            AND old_tbl_staff_organization.sex=1
+            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
+    $r = mysql_query($sql) or die(mysql_error() . "<br /><br />getExistingWhoProfessionalFromDesignationStringAndDesignationCode:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $a = mysql_fetch_assoc($r);
+    return $a['existing_male_count'];
 }
 ?>

@@ -261,6 +261,8 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                     <input name="form_submit" value="1" type="hidden" />
                                     <div class="control-group">
                                         <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
+                                        
+                                        <a id="btn_show_org_list" class="btn btn-warning" href="report_manpower_with_who_category.php">Reset</a>
 
                                         <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                     </div>  
@@ -320,40 +322,12 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
 
                                                 while ($row = mysql_fetch_assoc($designation_result)) :
                                                     $row_serial++;
-                                                    $sql = "SELECT
-                                                        designation,
-                                                        designation_code,
-                                                        COUNT(*) AS existing_total_count
-                                                FROM
-                                                        total_manpower_imported_sanctioned_post_copy
-                                                WHERE
-                                                        ($desognation_query_string)
-                                                AND designation_code = " . $row['designation_code'] . "
-                                                AND staff_id_2 > 0
-                                                ";
-//                                                echo "$sql";
-//                                                die();
-                                                    $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                                    $a = mysql_fetch_assoc($r);
-                                                    $existing_total_count = $a['existing_total_count'];
-
-                                                    $sql = "SELECT
-                                                        total_manpower_imported_sanctioned_post_copy.designation,
-                                                        total_manpower_imported_sanctioned_post_copy.designation_code,
-                                                        COUNT(*) AS existing_male_count
-                                                FROM
-                                                        total_manpower_imported_sanctioned_post_copy
-                                                LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.staff_id = total_manpower_imported_sanctioned_post_copy.staff_id_2
-                                                WHERE
-                                                        ($desognation_query_string) 
-                                                AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row['designation_code'] . "
-                                                AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
-                                                AND old_tbl_staff_organization.sex=1
-                                                AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
-                                                    $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:4</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                                    $a = mysql_fetch_assoc($r);
-                                                    $existing_male_count = $a['existing_male_count'];
-
+                                                    
+                                                    // total existing number of staff
+                                                    $existing_total_count = getExistingWhoProfessionalFromDesignationStringAndDesignationCode($desognation_query_string, $row['designation_code']);
+                                                    // total existing number of staff (Male)
+                                                    $existing_male_count = getExistingMaleWhoProfessionalFromDesignationStringAndDesignationCode($desognation_query_string, $row['designation_code']);
+                                                    // total existing number of staff (Female)
                                                     $existing_female_count = $existing_total_count - $existing_male_count;
                                                     $total_sanctioned_post_count_sum += $row['sp_count'];
                                                     $total_sanctioned_post_existing_sum += $existing_total_count;
