@@ -1386,14 +1386,14 @@ function getOrgInfoFromOrgCode($org_code) {
             FROM
                     organization
             WHERE
-                upazila_thana_name LIKE \"" . $data['upazila_thana_name'] . "\"
+                ( upazila_thana_code = " . $data['upazila_thana_code'] . ")
             AND
                 district_code = " . $data['district_code'] . "
             AND
                 division_code = " . $data['division_code'] . "
             AND
                 (org_type_code = 1038 OR org_type_code = 1062 OR org_type_code = 1039)  
-            ORDER BY org_type_name desc";
+            ORDER BY org_type_name desc, org_name asc";
     $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getOrgInfoFromOrgCode:1</p><p>Query:</b></p>___<p>$sql</p>");
 
 //    echo "$sql";
