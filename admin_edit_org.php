@@ -398,7 +398,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                         <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
                                                         <td><?php echo $data['division_name']; ?></td>
                                                         <td><?php echo $data['district_name']; ?></td>
-                                                        <td><?php echo $data['upazila_thana_name']; ?></td>
+                                                        <td><?php echo getUpazilaNamefromBBSCode($data['upazila_thana_code'], $data['district_code']); ?></td>
                                                         <td><?php echo $data['updated_datetime']; ?></td>
                                                         <td>
                                                             <a class="btn  btn-info" href="admin_edit_org.php?id=<?php echo $data['id']; ?>">View / Edit</a>
