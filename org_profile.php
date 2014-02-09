@@ -238,7 +238,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr  class="success">
                                             <td width="50%" colspan="2"><strong>Regional location of the organization</strong></td>
-                                            <!--<td><?php // echo $data['org_code'];       ?></td>-->
+                                            <!--<td><?php // echo $data['org_code'];        ?></td>-->
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Division Name</strong></td>
@@ -297,49 +297,49 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                             </div>
                             <div class="tab-pane" id="ownership-info">
                                 <table class="table table-striped table-hover">
-                                    
+
                                     <tr>
                                         <td width="50%"><strong>Ownership</strong></td>
                                         <?php if ($isAdmin): ?>
-                                        <td width="50%"><a href="#" class="" id="ownership_code" ><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></a></td>
+                                            <td width="50%"><a href="#" class="" id="ownership_code" ><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></a></td>
                                         <?php else: ?>
-                                        <td width="50%"><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
+                                            <td width="50%"><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
                                         <?php endif; ?>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Organization Type</strong></td>                                        
                                         <?php if ($isAdmin): ?>
-                                        <td width="50%"><a href="#" class="" id="org_type_code" ><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></a></td>
+                                            <td width="50%"><a href="#" class="" id="org_type_code" ><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></a></td>
                                         <?php else: ?>
-                                        <td width="50%"><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></td>
+                                            <td width="50%"><?php echo getOrgTypeNameFormOrgTypeCode($data['org_type_code']); ?></td>
                                         <?php endif; ?>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Organization Function</strong></td>
                                         <?php if ($isAdmin): ?>
-                                        <td width="50%"><a href="#" class="" id="org_function_code" ></a></td>
+                                            <td width="50%"><a href="#" class="" id="org_function_code" ></a></td>
                                         <script>
                                             var org_function_value = "<?php echo $data['org_function_code']; ?>";
                                         </script>
-                                        <?php else: ?>
+                                    <?php else: ?>
                                         <td width="50%"><?php echo getOrgFucntionNameStringFromCode($data['org_function_code']); ?></td>
-                                        <?php endif; ?>
-                                        
+                                    <?php endif; ?>
+
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Organization Level</strong></td>
                                         <?php if ($isAdmin): ?>
-                                        <td width="50%"><a href="#" class="" id="org_level_code" ><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></a></td>
+                                            <td width="50%"><a href="#" class="" id="org_level_code" ><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></a></td>
                                         <?php else: ?>
-                                        <td width="50%"><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></td>
+                                            <td width="50%"><?php echo getOrgLevelNamefromCode($data['org_level_code']); ?></td>
                                         <?php endif; ?>
                                     </tr>
                                     <tr>
                                         <td width="50%"><strong>Health Care Level</strong></td>
                                         <?php if ($isAdmin): ?>
-                                        <td width="50%"><a href="#" class="" id="org_healthcare_level_code" ><?php echo getHealthCareLevelNameFromCode($data['org_healthcare_level_code']); ?></a></td>
+                                            <td width="50%"><a href="#" class="" id="org_healthcare_level_code" ><?php echo getHealthCareLevelNameFromCode($data['org_healthcare_level_code']); ?></a></td>
                                         <?php else: ?>
-                                        <td width="50%"><?php echo getHealthCareLevelNameFromCode($data['org_healthcare_level_code']); ?></td>
+                                            <td width="50%"><?php echo getHealthCareLevelNameFromCode($data['org_healthcare_level_code']); ?></td>
                                         <?php endif; ?>
                                     </tr>
                                     <tr>
@@ -356,7 +356,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     <!--
                                     <tr>
                                         <td width="60%"><strong>Special service / status of the hospital / clinic</strong></td>
-                                        <td><a href="#" class="text-input" id="land_mutation_number" ><?php // echo $data['org_code'];       ?></a></td>
+                                        <td><a href="#" class="text-input" id="land_mutation_number" ><?php // echo $data['org_code'];        ?></a></td>
                                     </tr>
                                     -->
 
@@ -451,11 +451,11 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     <!--
                                     <tr>
                                         <td><strong>Website2</strong></td>
-                                        <td><?php // echo $data['org_code'];       ?></td>
+                                        <td><?php // echo $data['org_code'];        ?></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Website3</strong></td>
-                                        <td><?php // echo $data['district_code'];       ?></td>
+                                        <td><?php // echo $data['district_code'];        ?></td>
                                     </tr>
                                     -->
                                     <tr>
@@ -697,7 +697,98 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
             $("#district_name").change(function() {
                 selected_div_name = $("#division_name").text();
             });
+            //agency_code
+            $(function() {
+                $('#agency_code').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_agency_code.php'
+                });
+            });
+            $(function() {
+                $('#org_type_code').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_org_type_name.php'
+                });
+            });
+//org_location_type
+            $(function() {
+                $('#org_location_type').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_org_location_type.php'
+                });
+            });
+//division_name
+            $(function() {
+                $('#division_code').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_org_division_name.php'
+                });
+            });
+//district_name
+            $(function() {
+                $('#district_code').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_org_district_name.php',
+                    params: function(params) {
+                        params.div_name = selected_div_name;
+                        return params;
+                    }
+                });
+            });
+//upazila_thana_name
+            $(function() {
+                $('#upazila_thana_code').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_org_upazila_thana_name.php',
+                    params: function(params) {
+                        params.div_name = selected_div_name;
+                        return params;
+                    }
+                });
+            });
+            $(function() {
+                $('#ownership_code').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_org_ownership.php'
+                });
+            });
 
+            //org_function_code
+            $(function() {
+                $('#org_function_code').editable({
+                    type: 'checklist',
+                    value: org_function_value,
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_org_function_code.php',
+                    params: function(params) {
+                        params.post_type = 'checklist';
+                        return params;
+                    }
+                });
+            });
+            $(function() {
+                $('#org_level_code').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_org_level_code.php'
+                });
+            });
         </script>
         <script src="assets/js/common.js"></script>
     </body>
