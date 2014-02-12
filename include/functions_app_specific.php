@@ -2358,9 +2358,9 @@ function requestNewOrganization($data) {
                     '$division_code',
                     \"" . $division_name . "\",
                     '$district_code',
-                    \"" . getDistrictNameFromCode($district_code) . "\",    
+                    \"" . mysql_real_escape_string(getDistrictNameFromCode($district_code)) . "\",    
                     '$upazila_code',
-                    \"" . getUpazilaNamefromCode($upazila_code, $district_code) . "\" ,   
+                    \"" . mysql_real_escape_string(getUpazilaNamefromCode($upazila_code, $district_code)) . "\" ,   
                     '$new_ownarship_info',
                     '$new_org_email',
                     '$new_functions_code',
@@ -2413,9 +2413,9 @@ function requestNewOrganization($data) {
                 '$division_code',
                 '$division_name',
                 '$district_code',
-                '$district_name',
+                '" . mysql_real_escape_string($district_name) . "',
                 '$upazila_code',
-                '$upazila_name',
+                '" . mysql_real_escape_string($upazila_name) . "',
                 '$new_ownarship_info',
                 '$new_org_email',
                 '$org_contact_number',
@@ -2426,7 +2426,7 @@ function requestNewOrganization($data) {
                 '$longitude'
                 )";
 
-        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:insertNewOrganization:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:insertNewOrganization:2<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
         return $new_org_code;
     } else {
