@@ -156,7 +156,7 @@ $org_photo=$data['org_photo'];
                                 <td><?php echo getCommunityClinicCountFromUpaCodeAndDisCode($upazila_code, $district_code); ?></td>
                             </tr>
                             <tr>
-                                <td><strong>Total Number of UHC</strong></td>
+                                <td><strong>Total Number of USC</strong></td>
                                 <td><?php echo getUnionSubCentreCountFromUpaCodeAndDisCode($upazila_code, $district_code); ?></td>
                             </tr>
                             <tr>
