@@ -29,7 +29,7 @@ $start_time = microtime(true);
                     </ul>
                 </div>
                 <?php if (hasPermission('mod_top_nav_search', 'view', getLoggedUserName())): ?>
-                    <div class="nav-collapse collapse pull-right">
+                    <div class=" pull-right">
 
                         <form class="navbar-form pull-left" action="include/header/header_search_area.php" method="post">
                             <input name="code" type="text" placeholder="Code" class="span2">
