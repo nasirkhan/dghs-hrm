@@ -3,15 +3,14 @@
 
 require_once '../configuration.php';
 
-$div_name = mysql_real_escape_string($_GET['div_name']);
-
-$sql = "SELECT
-admin_division.division_bbs_code
-FROM
-admin_division
-";
-$result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_district_name:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-$division_bbs_code = mysql_fetch_assoc($division_bbs_code);
+//$div_name = mysql_real_escape_string($_GET['div_name']);
+//
+//$sql = "SELECT
+//admin_division.division_bbs_code
+//FROM
+//admin_division";
+//$result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_district_name:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+//$division_bbs_code = mysql_fetch_assoc($division_bbs_code);
 
 
 $sql = "SELECT

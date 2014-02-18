@@ -1,4 +1,3 @@
-<?php ?>
 <div id="adminMenu" class="leftMenuContainer">
     <ul id="leftMenuAdmin" class="">
 <!--        <li class="nav-header"><i class="icon-search"></i>ADMIN MENU</li>-->
@@ -18,7 +17,23 @@
             <li><a href="search.php?type=org"><i class="icon-search"></i> Search</a></li>
             <li><a href="org_add.php"><i class="icon-plus"></i> Add</a></li>
             <li><a href="delete.php"><i class="icon-trash"></i> Delete</a></li>
-            <li><a href="admin_edit_org.php"><i class="icon-check"></i> Organizations Awaiting Approval</a></li>
+            <li>
+                <!-- The Organizations waiting for approval count will be shown here -->
+                <a href="admin_edit_org.php">
+                 <?php
+                require_once 'configuration.php';
+                $sql = "SELECT * FROM `organization_requested` WHERE active LIKE 1;";
+                $new_org_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                $new_org_result_count = mysql_num_rows($new_org_result);
+                ?>
+                <i class="icon-check"></i>
+                Org Awaiting Approval
+                <?php if ($new_org_result_count > 0): ?>
+                    <span class="badge badge-warning"><?php echo "$new_org_result_count"; ?></span>
+                <?php endif; ?>
+               <!-- <a href="admin_edit_org.php"><i class="icon-check"></i> Organizations Awaiting Approval</a>-->
+                </a>
+            </li>
             <!--<li><a href="">All Employee</a></li>-->
         </ul>
         <li><a href="<?= $attendanceMonitorUrl ?>" target="_blank"><i class="icon-check-sign"></i> Attendance</a></li>

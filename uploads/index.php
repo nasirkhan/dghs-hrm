@@ -26,6 +26,8 @@ $Ext = strrchr($name,".");
 $Ext =strtolower($Ext);
 
 $name = $_SESSION['username'];
+$uploaded_by = $_SESSION['username'];
+$upload_datetime=date('Y-m-d h:i:s');
 $org_code = $_SESSION['org_code'];
 
 $oldName=$name."$Ext";
@@ -36,7 +38,7 @@ if(!$exists) {
 // do your processing
 $name = $name."$Ext";
 $sql="UPDATE organization 
-SET org_photo='$name'
+SET org_photo='$name',uploaded_by='$uploaded_by',upload_datetime='$upload_datetime'
 where org_code='$org_code'";
 $result = mysql_query($sql);
 }
@@ -45,7 +47,7 @@ else
 unlink("$oldName");
 $name = $name."$Ext";
 $sql="UPDATE organization 
-SET org_photo='$name'
+SET org_photo='$name',uploaded_by='$uploaded_by',upload_datetime='$upload_datetime'
 where org_code='$org_code'";
 $result = mysql_query($sql);
 }

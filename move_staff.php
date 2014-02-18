@@ -444,7 +444,7 @@ if ($staff_id > 0) {
                                                     org_code = $org_code
                                                     AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                     GROUP BY
-                                                    total_manpower_imported_sanctioned_post_copy.sanctioned_post_group_code
+                                                    total_manpower_imported_sanctioned_post_copy.designation
                                                     ";
                                                 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
