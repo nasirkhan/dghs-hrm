@@ -12,6 +12,8 @@ if ($_SESSION['logged'] != true) {
 //    header("location:home.php?org_code=$org_code");
 //}
 
+$org_name = $_SESSION['org_name'];
+
 $step = 0;
 if (isset($_REQUEST['step'])) {
     $step = (int) mysql_real_escape_string(trim($_REQUEST['step']));
@@ -121,9 +123,9 @@ if (isset($_POST['action'])) {
                         `sanctioned_post_designation`
                 WHERE
                         designation_code = $designation_code";
-        $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:dessignation_data:1</p><p>Query:</b></p>___<p>$sql</p>");
+        $result_des = mysql_query($sql) or die(mysql_error() . "<p><b>Code:dessignation_data:1</p><p>Query:</b></p>___<p>$sql</p>");
 
-        $data = mysql_fetch_assoc($result);
+        $data = mysql_fetch_assoc($result_des);
 
         if ($sp_number > 0){
             $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
@@ -150,8 +152,8 @@ if (isset($_POST['action'])) {
                         \"" . $data['designation'] . "\",
                         \"" . $type_of_post . "\",
                         \"" . $data['sanctioned_post'] . "\",
-                        \"" . $data['sanctioned_post_group_code'] . "\",
-                        \"" . $data['pay_scale'] . "\",
+                        \"" . $data['designation_group_code'] . "\",
+                        \"" . $data['payscale'] . "\",
                         \"" . $data['class'] . "\",
                         \"" . $first_level_code . "\",
                         \"" . getFirstLevelNameFromCode($first_level_code) . "\",
