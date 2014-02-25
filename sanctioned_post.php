@@ -111,6 +111,7 @@ $sql = "SELECT
                 total_manpower_imported_sanctioned_post_copy.org_code = $org_code
                 AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
         GROUP BY
+                total_manpower_imported_sanctioned_post_copy.type_of_post,
                 total_manpower_imported_sanctioned_post_copy.designation
         ORDER BY
                 sanctioned_post_designation.ranking";
