@@ -99,15 +99,22 @@ $org_photo=$data['org_photo'];
                         <div class="row">
                             <div class="span5">
                                 <?php
-                                $image_src = "uploads/" . $org_photo;
                                 
-                                if (file_exists($image_src)) {
+                              if($org_photo){  
+                              $image_src = "uploads/" . $org_photo;
+                              }else $image_src = '';
+                              
+                                if(file_exists($image_src)){
                                     echo "<img src=\"$image_src\" class=\"img-polaroid\" />";
 									echo "<a href=\"upload.php?org_code=$org_code\">Update Photo</a>";
-                                } else {
+                                }elseif($image_src == 'uploads/'){
+                                    echo "<img data-src=\"holder.js/480x360\"  class=\"img-polaroid\" />";
+									echo "<a href=\"upload.php?org_code=$org_code\">Upload Photo</a>";
+                                }else{
                                     echo "<img data-src=\"holder.js/480x360\"  class=\"img-polaroid\" />";
 									echo "<a href=\"upload.php?org_code=$org_code\">Upload Photo</a>";
                                 }
+                                
                                 ?>
                             </div>
                             <div class="span4">
