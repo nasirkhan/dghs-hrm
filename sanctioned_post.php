@@ -100,8 +100,8 @@ $sql = "SELECT
                 total_manpower_imported_sanctioned_post_copy.discipline,
                 total_manpower_imported_sanctioned_post_copy.type_of_post,
                 sanctioned_post_designation.ranking,
-                sanctioned_post_designation.class,
-                sanctioned_post_designation.payscale,
+                total_manpower_imported_sanctioned_post_copy.class,
+                total_manpower_imported_sanctioned_post_copy.pay_scale,
                 sanctioned_post_designation.designation_code,
                 COUNT(*) AS sp_count
         FROM
