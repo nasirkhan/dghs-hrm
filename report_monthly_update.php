@@ -216,6 +216,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['org_agency_code'] == $_REQUEST['org_agency'])
+       												 echo "<option value=\"" . $rows['org_agency_code'] . "\" selected='selected'>" . $rows['org_agency_name'] . "</option>";
+											    else
                                                 echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
                                             }
                                             ?>
@@ -232,6 +235,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['division_bbs_code'] == $_REQUEST['admin_division'])
+       												 echo "<option value=\"" . $rows['division_bbs_code'] . "\" selected='selected'>" . $rows['division_name'] . "</option>";
+											    else
                                                 echo "<option value=\"" . $rows['division_bbs_code'] . "\">" . $rows['division_name'] . "</option>";
                                             }
                                             ?>
@@ -260,6 +266,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if($rows['org_type_code'] == $_REQUEST['org_type'])
+												echo "<option value=\"" . $rows['org_type_code'] . "\" selected='selected'>" . $rows['org_type_name'] . "</option>";
+												else
                                                 echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
                                             }
                                             ?>

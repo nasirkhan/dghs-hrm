@@ -107,9 +107,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             FROM
                     organization
             LEFT JOIN total_manpower_imported_sanctioned_post_copy ON organization.org_code = total_manpower_imported_sanctioned_post_copy.org_code $query_string";
-    echo "<pre>";
-    print_r($sql);
-    echo "</pre>";
+   // echo "<pre>";
+   // print_r($sql);
+   // echo "</pre>";
     $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $total_sanctioned_post_count_sum = mysql_num_rows($org_list_result);
@@ -178,6 +178,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['org_agency_code'] == $_REQUEST['org_agency'])
+       												 echo "<option value=\"" . $rows['org_agency_code'] . "\" selected='selected'>" . $rows['org_agency_name'] . "</option>";
+											    else
                                                 echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
                                             }
                                             ?>
@@ -194,7 +197,10 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
-                                                echo "<option value=\"" . $rows['division_bbs_code'] . "\">" . $rows['division_name'] . "</option>";
+												if ($rows['division_bbs_code'] == $_REQUEST['admin_division'])
+       												 echo "<option value=\"" . $rows['division_bbs_code'] . "\" selected='selected'>" . $rows['division_name'] . "</option>";
+											    else
+                                                     echo "<option value=\"" . $rows['division_bbs_code'] . "\">" . $rows['division_name'] . "</option>";
                                             }
                                             ?>
                                         </select>
@@ -222,6 +228,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>bangladesh_professional_category:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['bangladesh_professional_category_code'] == $_REQUEST['staff_category'])
+       												 echo "<option value=\"" . $rows['bangladesh_professional_category_code'] . "\" selected='selected'>" . $rows['bangladesh_professional_category_name'] . "</option>";
+											    else
                                                 echo "<option value=\"" . $rows['bangladesh_professional_category_code'] . "\">" . $rows['bangladesh_professional_category_name'] . "</option>";
                                             }
                                             ?>
