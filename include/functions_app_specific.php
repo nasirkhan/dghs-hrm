@@ -2616,6 +2616,37 @@ function getUnionSubCentreCountFromUpaCodeAndDisCode($upazila_code, $district_co
 }
 
 /**
+ * Get the total number of Union Health Centre (UHC) form the District and Upazila code
+ * 
+ * @param type $upazila_code
+ * @param type $district_code
+ * @return boolean|INT Total number of Union Health Centre (UHC)
+ */
+function getUnionHealthCentreCountFromUpaCodeAndDisCode($upazila_code, $district_code) {
+    if ((!$upazila_code > 0) || (!$district_code > 0)) {
+        return FALSE;
+    }
+
+    $sql = "SELECT
+                    count(*) AS count
+            FROM
+                    `organization`
+            WHERE
+                    district_code = $district_code
+            AND upazila_thana_code = $upazila_code
+            AND org_type_code = 1062;";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    $data = mysql_fetch_assoc($result);
+
+    if (mysql_num_rows($result) > 0) {
+        return $data['count'];
+    } else {
+        return "0";
+    }
+}
+
+/**
  * Get the total number of Union Health & Family Welfare Center (UH&FWC) form the District and Upazila code
  * 
  * @param type $upazila_code
