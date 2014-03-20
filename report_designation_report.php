@@ -204,12 +204,59 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             }
                                             ?>
                                         </select>
-                                        <select id="admin_district" name="admin_district">
-                                            <option value="0">Select District</option>                                        
+                                       <select id="admin_district" name="admin_district">
+                                         <option value="0">Select District</option>
+										<?php 
+										    
+											$sql = "SELECT
+												admin_district.district_bbs_code,
+												admin_district.district_name
+											FROM
+												admin_district
+											WHERE
+											   admin_district.division_bbs_code = $div_id
+											ORDER BY
+												admin_district.district_name";
+									  $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_district_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+										  while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['district_bbs_code'] == $_REQUEST['admin_district'])
+       												 echo "<option value=\"" . $rows['district_bbs_code'] . "\" selected='selected'>" . $rows['district_name'] . "</option>";
+											    else
+                                                     echo "<option value=\"" . $rows['district_bbs_code'] . "\">" . $rows['district_name'] . "</option>";
+                                            }
+											
+										?>
                                         </select>
-                                        <select id="admin_upazila" name="admin_upazila">
-                                            <option value="0">Select Upazila</option>                                        
+                                        
+<!--                                        <select id="admin_district" name="admin_district">
+                                            <option value="0">Select District</option>                             
+                                        </select>-->
+                                        
+                                        
+                                       <select id="admin_upazila" name="admin_upazila">
+                                         <option value="0">Select Upazila</option>
+										<?php 
+										    
+											$sql = "SELECT
+												  upazila_bbs_code,
+												  upazila_name
+											  FROM
+												  `admin_upazila`
+											  WHERE
+												  upazila_district_code = $dis_id
+											  ORDER BY
+												  upazila_name";
+									  $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_dupazila_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+										  while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['upazila_bbs_code'] == $_REQUEST['admin_upazila'])
+       												 echo "<option value=\"" . $rows['upazila_bbs_code'] . "\" selected='selected'>" . $rows['upazila_name'] . "</option>";
+											    else
+                                                     echo "<option value=\"" . $rows['upazila_bbs_code'] . "\">" . $rows['upazila_name'] . "</option>";
+                                            }
+											
+										?>
                                         </select>
+
                                     </div>
 
                                     
