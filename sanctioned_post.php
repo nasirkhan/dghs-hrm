@@ -231,7 +231,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                                 <td>
                                                     <div class="row-fluid">
                                                         <div class="span4">
-                                                            <?php $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation'])); ?>                    
+                                                            <?php $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation'])) . $sp_data['type_of_post']; ?>                    
                                                             <button id="sp-btn-<?php echo $designation_div_id; ?>" class="btn btn-link" onclick="showSanctionedPostDetails('<?php echo $sp_data['id']; ?>', '<?php echo $designation_div_id; ?>')">
                                                                 <?php echo $sp_data['designation']; ?>
                                                             </button>
@@ -265,7 +265,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                                             <?php endif; ?>
                                                         </div>
                                                         <div class="span2">                                                            
-                                                            <button type="submit" onclick="showDesignationList('<?php echo $sp_data['designation']; ?>', '<?php echo $designation_div_id; ?>');" value="<?php echo $sp_data['designation']; ?>" class="btn btn-info btn-small" >
+                                                            <button type="submit" onclick="showDesignationList('<?php echo $sp_data['designation']; ?>', '<?php echo $designation_div_id; ?>', '<?php echo $sp_data['type_of_post']; ?>');" value="<?php echo $sp_data['designation']; ?>" class="btn btn-info btn-small" >
                                                                 <i class="icon-list-ul"></i> View Staff List
                                                             </button>
                                                         </div>
@@ -350,18 +350,19 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
             }
 
             // show exployee/sanctioned post list
-            function showDesignationList(designation, designation_div){
+            function showDesignationList(designation, designation_div, type_of_post){
                 var designation_div_id = "#" + designation_div;
                 var designation_div_loading = "#loading-" + designation_div;
                 var designation_div_list = "#list-" + designation_div;                
                 var org_code = <?php echo $org_code; ?>;
+                
                 
                 $(designation_div_id).collapse('toggle');
                 
                 $.ajax({
                     type: "POST",
                     url: "result.php",
-                    data: {designation: designation, org_code:org_code},
+                    data: {designation: designation, org_code:org_code, type_of_post:type_of_post},
                     dataType: 'json',
                     success: function(data) {
                         $(designation_div_loading).hide();
