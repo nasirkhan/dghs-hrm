@@ -48,11 +48,15 @@ $org_name = getOrgNameFormOrgCode($org_code);
 
 
 if (isset($_GET['q'])) {
+
     $q = mysql_real_escape_string(trim($_GET['q']));
 
     $data = getStaffDetails($q);
 }
 
+
+$show_selected_transfers = FALSE;
+$staff_show = FALSE;
 if (isset($_GET['staff_select'])) {
     $show_selected_transfers = TRUE;
 
@@ -345,57 +349,75 @@ if (isset($_GET['staff_select'])) {
                                         </table>
                                     </form>
                                 </div>
-                            <?php 
-                            elseif($show_selected_transfers): 
+                            <?php elseif ($show_selected_transfers):
                                 $sql = "SELECT * FROM `transfer_queue` WHERE username LIKE \"$user_name\" and `status` LIKE \"pending\"";
                                 $listed_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-                                
                                 ?>
-                            <table class="table">
-                                <thead>
+                                <table class="table">
+                                    <thead>
                                     <td>#</td>
                                     <td>Current Information</td>
                                     <td>Transfer Information</td>
-                                    <!--                                    
-                                    <tr>
-                                        <td>#</td>
-                                        <td>Name</td>
-                                        <td>Staff ID</td>
-                                        <td>PDS Code</td>
-                                        <td>Designation</td>
-                                        <td>Organization</td>
-                                        <td>Working Organization</td>
-                                        <td>Posting Status</td>
-                                        <td>Designation</td>
-                                        <td>Organization</td>
-                                        <td>Working Organization</td>
-                                        <td>Posting Status</td>
-                                    </tr>-->
-                                </thead>
-                                <tbody>
-                                    <?php while($row = mysql_fetch_assoc($listed_result)): ?>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>
-                                            <?php echo getStaffNameFromId($row['staff_id']); ?>,
-                                            <?php echo $row['staff_id']; ?>,
-                                            <?php echo $row['staff_id']; ?>,
-                                            <?php echo getDesignationNameformCode($row['designation_code']); ?>,
-                                            <?php echo getOrgNameFormOrgCode($row['org_code']); ?>,
-                                            <?php echo getOrgNameFormOrgCode($row['working_org_code']); ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $row['to_posted_as']; ?>,
-                                            <?php echo getDesignationNameformCode($row['to_designation_code']); ?>,
-                                            <?php echo getOrgNameFormOrgCode($row['to_org_code']); ?>,
-                                            <?php echo getOrgNameFormOrgCode($row['to_working_org_code']); ?>,
-                                            <?php echo $row['to_posted_as']; ?>
-                                        </td>
-                                    </tr>
-                                    <?php endwhile; ?>
-                                </tbody>
-                            </table>
-                            <?php else: ?>
+                                    </thead>
+                                    <tbody>
+                                        <?php while ($row = mysql_fetch_assoc($listed_result)): ?>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <?php echo getStaffNameFromId($row['staff_id']); ?>,
+                                                    <?php echo $row['staff_id']; ?>,
+                                                    <?php echo $row['staff_id']; ?>,
+                                                    <?php echo getDesignationNameformCode($row['designation_code']); ?>,
+                                                    <?php echo getOrgNameFormOrgCode($row['org_code']); ?>,
+                                                    <?php echo getOrgNameFormOrgCode($row['working_org_code']); ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row['to_posted_as']; ?>,
+                                                    <?php echo getDesignationNameformCode($row['to_designation_code']); ?>,
+                                                    <?php echo getOrgNameFormOrgCode($row['to_org_code']); ?>,
+                                                    <?php echo getOrgNameFormOrgCode($row['to_working_org_code']); ?>,
+                                                    <?php echo $row['to_posted_as']; ?>
+                                                </td>
+                                            </tr>
+                                        <?php endwhile; ?>
+                                    </tbody>
+                                </table>
+                                <div class="row-fluid">
+                                    <div class="span12">
+                                        <form class="form-horizontal">
+                                            <div class="control-group">
+                                                <label class="control-label" for="memo_no">Memo No</label>
+                                                <div class="controls">
+                                                    <input type="text" id="memo_no" placeholder="Memo No">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="memo_date">Memo Date</label>
+                                                <div class="controls">
+                                                    <input type="password" id="memo_date" placeholder="Memo Date">
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <label class="control-label" for="comment">Comment</label>
+                                                <div class="controls">
+                                                    <textarea type="password" id="comment"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <div class="controls">                                            
+                                                    <button type="submit" class="btn btn-success">Post and Print</button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <a class="btn btn-default" href="transfer.php">Search another staff</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php elseif ($data): ?>
                                 <div class="span12">
                                     <div class="alert alert-warning">
                                         No result found, please search again. 
@@ -403,43 +425,7 @@ if (isset($_GET['staff_select'])) {
                                 </div>
                                 <?php echo $staff_id; ?>
                             <?php endif; ?>
-                        </div>
-                        
-                        <div class="row-fluid">
-                            <div class="span12">
-                                <form class="form-horizontal">
-                                    <div class="control-group">
-                                        <label class="control-label" for="memo_no">Memo No</label>
-                                        <div class="controls">
-                                            <input type="text" id="memo_no" placeholder="Memo No">
-                                        </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <label class="control-label" for="memo_date">Memo Date</label>
-                                        <div class="controls">
-                                            <input type="password" id="memo_date" placeholder="Memo Date">
-                                        </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <label class="control-label" for="comment">Comment</label>
-                                        <div class="controls">
-                                            <textarea type="password" id="comment"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="control-group">
-                                        <div class="controls">                                            
-                                            <button type="submit" class="btn btn-success">Post and Print</button>
-                                        </div>
-                                    </div>
-                                </form>
-                                
-                            </div>
-                        </div>
-                        <div class="row-fluid">
-                            <div class="span12">
-                                <a class="btn btn-default" href="transfer.php">Search another staff</a>
-                            </div>
-                        </div>
+                        </div>                                                
                     </section>
 
                 </div>
