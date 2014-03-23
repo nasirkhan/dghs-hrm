@@ -16,7 +16,7 @@
         <ul>
             <li><a href="search.php?type=org"><i class="icon-search"></i> Search</a></li>
             <li><a href="org_add.php"><i class="icon-plus"></i> Add</a></li>
-            <li><a href="delete.php"><i class="icon-trash"></i> Delete</a></li>
+            <li><a href="delete.php"><i class="icon-trash"></i> Delete</a></li>            
             <li>
                 <!-- The Organizations waiting for approval count will be shown here -->
                 <a href="admin_edit_org.php">
@@ -37,6 +37,7 @@
             <!--<li><a href="">All Employee</a></li>-->
         </ul>
         <li><a href="<?= $attendanceMonitorUrl ?>" target="_blank"><i class="icon-check-sign"></i> Attendance</a></li>
+        <li><a href="transfer.php"><i class="icon-random"></i> Transfer</a></li>
         <li><a href="report_index.php"><i class="icon-list"></i> Reports</a></li>
         <li><a href="user_add.php"><i class="icon-user"></i> Add User</a></li>
 
