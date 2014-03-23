@@ -2737,4 +2737,39 @@ function getExistingMaleWhoProfessionalFromDesignationStringAndDesignationCode($
     $a = mysql_fetch_assoc($r);
     return $a['existing_male_count'];
 }
+
+/**
+ * Get Staff info from Staff ID/PDS Code/ Mobile no
+ * 
+ * @param type $key
+ * @return type
+ */
+function getStaffDetails($key) {
+    if ((!$key > 0) || $key == ""){
+        return;
+    }
+    $sql = "SELECT
+                    old_tbl_staff_organization.staff_id,
+                    old_tbl_staff_organization.staff_pds_code,
+                    old_tbl_staff_organization.staff_name,
+                    old_tbl_staff_organization.posting_status,
+                    old_tbl_staff_organization.designation_id,
+                    sanctioned_post_designation.designation,
+                    old_tbl_staff_organization.contact_no,
+                    old_tbl_staff_organization.org_code,
+                    organization.org_name
+            FROM
+                    `old_tbl_staff_organization`
+            LEFT JOIN organization ON old_tbl_staff_organization.org_code = organization.org_code
+            LEFT JOIN sanctioned_post_designation ON sanctioned_post_designation.designation_code = old_tbl_staff_organization.designation_id
+            WHERE
+                    (old_tbl_staff_organization.staff_id = '$key')
+            OR (old_tbl_staff_organization.staff_pds_code = '$key')
+            OR (old_tbl_staff_organization.contact_no LIKE '$key')";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data;
+}
 ?>
