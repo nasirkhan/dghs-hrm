@@ -58,10 +58,10 @@ require_once './include/sanctioned_post/report/report.php';
 for($i = 0; $i < $fieldsToShowCount; $i ++) {
 	?>
 	             
-				<label><input type='checkbox' name="<?php echo $fields[$i];?>" value="y" /> <?php echo $fields[$i];?></label>
+				<label><input type='checkbox' name="<?php echo $fields[$i];?>" value="y" <?php if($_POST[$fields[$i]]){ ?> checked='checked' <?php } ?> /> <?php echo $fields[$i];?></label>
 				
 				<?php
-
+                
 }
 ?>
 </div>
