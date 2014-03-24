@@ -21,8 +21,8 @@
         <li><a href="org_profile.php?org_code=<?= $org_code ?>">Profile</a></li>
         <li><a href="sanctioned_post.php?org_code=<?= $org_code ?>">Sanctioned Post</a></li>
         <ul>
-            <li><a href="sanctioned_post_sorted.php?org_code=<?= $org_code ?>">Search</a></li>
-            <li><a href="sanctioned_post_report.php?org_code=<?= $org_code ?>">Report</a></li>
+            <!--<li><a href="sanctioned_post_sorted.php?org_code=<?= $org_code ?>">Search</a></li>-->
+            <!--<li><a href="sanctioned_post_report.php?org_code=<?= $org_code ?>">Report</a></li>-->
             <!--
             <li><a href="sanctioned_post_update.php?org_code=<?= $org_code ?>">Add</a></li>
             <li><a href="sanctioned_post.php?org_code=<?= $org_code ?>">Report</a></li>
