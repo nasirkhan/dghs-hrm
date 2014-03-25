@@ -1135,8 +1135,10 @@ function getDesignationInfoFromCode($des_code) {
  * @return STRIGN
  */
 function getDeptNameFromId($dept_id) {
-    if (!$dept_id > 0)
-        return 0;
+    if (!$dept_id > 0){
+       return 0; 
+    }
+        
     $sql = "SELECT
                 very_old_departments.dept_id,
                 very_old_departments.department_id,
@@ -1158,6 +1160,9 @@ function getDeptNameFromId($dept_id) {
  * @return STRING
  */
 function getStaffNameFromId($staff_id) {
+    if (!$staff_id > 0){
+       return 0; 
+    }
     $sql = "SELECT
                 old_tbl_staff_organization.staff_name
             FROM
@@ -1193,10 +1198,13 @@ function getOrgCodeFromStaffId($staff_id) {
 
 /**
  * Get all staff info from staff id
- * @param INT $staff_id
+ * @param INT $staff_id Staff ID
  * @return ARRAY
  */
 function getStaffInfoFromStaffId($staff_id) {
+    if(!$staff_id > 0){
+        return FALSE;
+    }
     $sql = "SELECT
                 *
             FROM
@@ -2772,4 +2780,70 @@ function getStaffDetails($key) {
 
     return $data;
 }
+
+/**
+ * 
+ * @param type $org_code | logged int users organizaion code
+ * @param type $org_type | Options : to_org_code / to_working_org_code / form_org_code / form_working_org_code
+ * @param type $status | 
+ * @param type $return_type|  Options are: list / count
+ * @return boolean
+ */
+function showTransferList($org_code, $org_type, $status, $return_type){
+    if ((!$org_code > 0) || $status == "" || $org_type == ""){
+        return FALSE;
+    }
+    
+    if ($status == "order"){
+        $status = mysql_real_escape_string(trim($status));
+        $org_code = mysql_real_escape_string(trim($org_code));
+        $org_type = mysql_real_escape_string(trim($org_type));    
+        
+        $sql = "SELECT * FROM `transfer_queue` WHERE $org_type = $org_code AND `status` LIKE '$status'";
+        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferList:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+        
+        $data = mysql_fetch_assoc($result);    
+        $count = mysql_num_rows($result);
+    }
+    
+    if ($status == "release"){
+        $status = mysql_real_escape_string(trim($status));
+        $org_code = mysql_real_escape_string(trim($org_code));
+        $org_type = mysql_real_escape_string(trim($org_type));    
+        
+        $sql = "SELECT * FROM `transfer_queue` WHERE $org_type = $org_code AND `status` LIKE '$status'";
+        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferList:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+        
+        $data = mysql_fetch_assoc($result);    
+        $count = mysql_num_rows($result);
+    }
+    
+    if ($return_type == "list"){
+        if ($count > 0){
+            return $data;
+        } else {
+            return FALSE;
+        }
+        
+    }
+    else if ($return_type == "count"){
+        return $count;
+    }
+}
+
+function getSanctionedPostInfoFromStaffId($staff_id) {
+    $staff_id = (int) mysql_real_escape_string(trim($staff_id));
+
+    if (!$staff_id > 0) {
+        return FALSE;
+    }
+
+    $sql = "SELECT * FROM `total_manpower_imported_sanctioned_post_copy` WHERE staff_id_2 = $staff_id AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getSanctionedPostInfoFromStaffId:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data;
+}
+
 ?>
