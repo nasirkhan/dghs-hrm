@@ -52,6 +52,7 @@ if (isset($_GET['q'])) {
     $q = mysql_real_escape_string(trim($_GET['q']));
 
     $data = getStaffDetails($q);
+    
 }
 
 
@@ -59,7 +60,7 @@ $show_selected_transfers = FALSE;
 $staff_show = FALSE;
 
 
-if ($_GET['action'] == ""){
+if ($_GET['action'] == "") {
     $action = "add";
 } else {
     $action = $_GET['action'];
@@ -74,16 +75,16 @@ if (isset($_GET['staff_select'])) {
     $from_working_org_code = mysql_real_escape_string(trim($_REQUEST['org_code']));
     $from_designation = mysql_real_escape_string(trim($_REQUEST['org_code']));
     $to_posted_as = mysql_real_escape_string(trim($_REQUEST['org_code']));
-    
+
     $to_org_code = mysql_real_escape_string(trim($_REQUEST['org_list']));
     $to_designation = mysql_real_escape_string(trim($_REQUEST['sanctioned_post']));
     $to_working_org_code = mysql_real_escape_string(trim($_REQUEST['working_org_list']));
     $to_working_designation = mysql_real_escape_string(trim($_REQUEST['working_sanctioned_post']));
-    
+
     $to_posted_as = mysql_real_escape_string(trim($_REQUEST['org_code']));
 
 
-    if ($action == "add"){
+    if ($action == "add") {
         $sql = "SELECT
                         *
                 FROM
@@ -92,7 +93,7 @@ if (isset($_GET['staff_select'])) {
                         staff_id = $staff_id
                 AND active LIKE '1'";
         $r = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:2<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-        if (!mysql_num_rows($r) > 0){
+        if (!mysql_num_rows($r) > 0) {
             $sql = "INSERT INTO `transfer_queue` SET 
                     `order_creater_by` = '$user_name', 
                     `staff_id` = $staff_id,
@@ -105,15 +106,12 @@ if (isset($_GET['staff_select'])) {
                     `to_posted_as` = '',
                     `updated_by` = '$user_name'";
             $r = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-            
+
             header("location:transfer.php?staff_show=true");
         } else {
             $duplicate_transfer = true;
         }
-        
-        
-        
-    } else if ($action == 'edit'){
+    } else if ($action == 'edit') {
         $sql = "UPDATE `transfer_queue` SET 
                     `order_creater_by` = '$user_name', 
                     `from_org_code` = '$org_code',
@@ -124,16 +122,43 @@ if (isset($_GET['staff_select'])) {
                     `to_working_designation_code` = '$to_designation',
                     `to_posted_as` = '',
                     `updated_by` = '$user_name' WHERE (`staff_id`='$staff_id') ";
+        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        header("location:transfer.php?staff_show=true");
     }
     
+    else if ($action == 'delete' && $_GET['delete']== "confirm") {
+        $staff_id = mysql_real_escape_string(trim($_REQUEST['staff_id']));
+        $sql = "UPDATE `transfer_queue` SET 
+                    `status` = 'cancel', 
+                    `order_canceled_by` = '$user_name',
+                    `updated_by` = '$user_name' WHERE (`staff_id`='$staff_id') ";
+        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:3<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        header("location:transfer.php?staff_show=true");
+    }
 }
 if (isset($_GET['staff_show'])) {
     $show_selected_transfers = TRUE;
 }
 
+/**
+ * 
+ * Post and print
+ */
+function showPrintPreviewData($username) {
+    $sql = "SELECT * FROM `transfer_queue` WHERE order_creater_by LIKE \"$username\" and `status` LIKE \"pending\"";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showPrintPreviewData:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+    
+    $data = mysql_fetch_assoc($result);
+    
+    return $data;
+}
 
-
-
+if ($_GET['order_status'] == "create" || $_GET['order_status'] == "preview") {
+    $show_print_preview = TRUE;
+    $print_preview_data = showPrintPreviewData($user_name);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -183,13 +208,13 @@ if (isset($_GET['staff_show'])) {
                             Search by Staff ID/PDS Code/ Mobile no
                             <form class="form-search" action="transfer.php" method="get">
                                 <input type="text" name="q" placeholder="Staff ID/PDS Code/ Mobile no">
-                                <button type="submit" class="btn">Search Staff</button>
+                                <button type="submit" class="btn btn-success">Search Staff</button>
                             </form>
                             <a href="transfer.php?staff_show=true" class="btn btn-default">Show selected staff</a>                            
                         </div>
 
                         <div class="row-fluid">
-                            <?php if ($data['staff_id'] > 0): ?>
+                            <?php if ($data['staff_id'] > 0 && $action != "delete"): ?>
 
                                 <div class="span6">
                                     <p class="text-left">Current Information</p>
@@ -392,15 +417,15 @@ if (isset($_GET['staff_show'])) {
                                         </table>
                                     </form>
                                 </div>
-                            <?php elseif ($show_selected_transfers):
+                            <?php elseif ($show_selected_transfers && $action != "delete"):
                                 $sql = "SELECT * FROM `transfer_queue` WHERE order_creater_by LIKE \"$user_name\" and `status` LIKE \"pending\"";
                                 $listed_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
                                 ?>
-                            <?php if ($duplicate_transfer): ?>
-                            <div class="alert alert-warning">
-                                A transfer order is pending for <em><strong><?php echo getStaffNameFromId($_GET['staff_id']); ?></strong></em>. So your request was not added. 
-                            </div>
-                            <?php endif; ?>
+                                <?php if ($duplicate_transfer): ?>
+                                    <div class="alert alert-warning">
+                                        A transfer order is pending for <em><strong><?php echo getStaffNameFromId($_GET['staff_id']); ?></strong></em>. So your request was not added. 
+                                    </div>
+                                <?php endif; ?>
                                 <table class="table table-bordered">
                                     <thead>
                                     <td>#</td>
@@ -428,7 +453,7 @@ if (isset($_GET['staff_show'])) {
                                                     <?php echo $row['to_posted_as']; ?>
                                                 </td>
                                                 <td>
-                                                    <a href="transfer.php?q=<?php echo $row['staff_id']; ?>&action=update">Edit</a>/ <a href="transfer.php?q=<?php echo $row['staff_id']; ?>&action=delete">Delete</a>
+                                                    <a href="transfer.php?q=<?php echo $row['staff_id']; ?>&action=update">Edit</a>/ <a href="transfer.php?staff_id=<?php echo $row['staff_id']; ?>&staff_select=true&action=delete">Delete</a>
                                                 </td>
                                             </tr>
                                         <?php endwhile; ?>
@@ -440,37 +465,70 @@ if (isset($_GET['staff_show'])) {
                                             <div class="control-group">
                                                 <label class="control-label" for="memo_no">Memo No</label>
                                                 <div class="controls">
-                                                    <input type="text" id="memo_no" placeholder="Memo No">
+                                                    <input type="text" id="memo_no" name="memo_no" placeholder="Memo No">
                                                 </div>
                                             </div>
                                             <div class="control-group">
                                                 <label class="control-label" for="memo_date">Memo Date</label>
                                                 <div class="controls">
-                                                    <input type="password" id="memo_date" placeholder="Memo Date">
+                                                    <input type="text" id="memo_date" name="memo_date" placeholder="Memo Date">
                                                 </div>
                                             </div>
                                             <div class="control-group">
                                                 <label class="control-label" for="comment">Comment</label>
                                                 <div class="controls">
-                                                    <textarea type="password" id="comment"></textarea>
+                                                    <textarea id="comment" name="comment"></textarea>
                                                 </div>
                                             </div>
+                                            <input type="hidden" name="order_status" value="create" />
                                             <div class="control-group">
                                                 <div class="controls">                                            
                                                     <button type="submit" class="btn btn-success">Post and Print</button>
                                                 </div>
                                             </div>
                                         </form>
-                                        
-                                        <!--
-                                        <div class="row-fluid">
-                                            <div class="span12">
-                                                <a class="btn btn-default" href="transfer.php">Search another staff</a>
-                                            </div>
-                                        </div>
-                                        -->
                                     </div>
                                 </div>
+                                </div>
+                            <?php elseif ($action == "delete"):
+                                $sql = "SELECT * FROM `transfer_queue` WHERE `staff_id` = $staff_id and `status` LIKE \"pending\"";
+                                $listed_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+                                ?>
+                                <div class="alert alert-warnign">You are going to remove the previously selected transfer request.</div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <td>#</td>
+                                    <td>Current Information</td>
+                                    <td>Transfer Information</td>
+                                    <td>Action</td>
+                                    </thead>
+                                    <tbody>
+                                        <?php while ($row = mysql_fetch_assoc($listed_result)): ?>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <?php echo getStaffNameFromId($row['staff_id']); ?>,
+                                                    <?php echo $row['staff_id']; ?>,
+                                                    <?php echo $row['staff_id']; ?>,
+                                                    <?php echo getDesignationNameformCode($row['designation_code']); ?>,
+                                                    <?php echo getOrgNameFormOrgCode($row['org_code']); ?>,
+                                                    <?php echo getOrgNameFormOrgCode($row['working_org_code']); ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row['to_posted_as']; ?>,
+                                                    <?php echo getDesignationNameformCode($row['to_designation_code']); ?>,
+                                                    <?php echo getOrgNameFormOrgCode($row['to_org_code']); ?>,
+                                                    <?php echo getOrgNameFormOrgCode($row['to_working_org_code']); ?>,
+                                                    <?php echo $row['to_posted_as']; ?>
+                                                </td>
+                                                <td>
+                                                    <a href="transfer.php?staff_id=<?php echo $row['staff_id']; ?>&staff_select=true&action=delete&delete=confirm" class="btn btn-danger btn-small" >Confirm Delete</a>
+                                                </td>
+                                            </tr>
+                                        <?php endwhile; ?>
+                                    </tbody>
+                                </table> <!-- /delete block -->
+                                
                             <?php elseif ($data): ?>
                                 <div class="span12">
                                     <div class="alert alert-warning">
