@@ -26,7 +26,7 @@ if ($post_type == "checklist"){
 }
 
 if ($p_org_code == $org_code){
-    $sql = "UPDATE `dghs_hrm_main_live`.`old_tbl_staff_organization` 
+    $sql = "UPDATE `dghs_hrm_main`.`old_tbl_staff_organization` 
             SET 
                 `$name` = \"$value\",
                 `last_update` = \"". date("Y-m-d H:i:s") . "\",
