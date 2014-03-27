@@ -2789,44 +2789,50 @@ function getStaffDetails($key) {
  * @param type $return_type|  Options are: list / count
  * @return boolean
  */
-function showTransferList($org_code, $org_type, $status, $return_type){
-    if ((!$org_code > 0) || $status == "" || $org_type == ""){
+function showTransferList($org_code, $org_type, $status, $return_type) {
+    if ((!$org_code > 0) || $status == "" || $org_type == "") {
         return FALSE;
     }
-    
-    if ($status == "order"){
+
+    if ($status == "order") {
         $status = mysql_real_escape_string(trim($status));
         $org_code = mysql_real_escape_string(trim($org_code));
-        $org_type = mysql_real_escape_string(trim($org_type));    
-        
+        $org_type = mysql_real_escape_string(trim($org_type));
+
         $sql = "SELECT * FROM `transfer_queue` WHERE $org_type = $org_code AND `status` LIKE '$status'";
         $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferList:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-        
-        $data = mysql_fetch_assoc($result);    
+
+        $data = mysql_fetch_assoc($result);
         $count = mysql_num_rows($result);
-    }
-    
-    if ($status == "release"){
+    } else if ($status == "release") {
         $status = mysql_real_escape_string(trim($status));
         $org_code = mysql_real_escape_string(trim($org_code));
-        $org_type = mysql_real_escape_string(trim($org_type));    
-        
+        $org_type = mysql_real_escape_string(trim($org_type));
+
         $sql = "SELECT * FROM `transfer_queue` WHERE $org_type = $org_code AND `status` LIKE '$status'";
         $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferList:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-        
-        $data = mysql_fetch_assoc($result);    
+
+        $data = mysql_fetch_assoc($result);
+        $count = mysql_num_rows($result);
+    } else if ($status == "join") {
+        $status = mysql_real_escape_string(trim($status));
+        $org_code = mysql_real_escape_string(trim($org_code));
+        $org_type = mysql_real_escape_string(trim($org_type));
+
+        $sql = "SELECT * FROM `transfer_queue` WHERE $org_type = $org_code AND (`status` LIKE 'release' OR `status` LIKE 'order') ";
+        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferList:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        $data = mysql_fetch_assoc($result);
         $count = mysql_num_rows($result);
     }
-    
-    if ($return_type == "list"){
-        if ($count > 0){
+
+    if ($return_type == "list") {
+        if ($count > 0) {
             return $data;
         } else {
             return FALSE;
         }
-        
-    }
-    else if ($return_type == "count"){
+    } else if ($return_type == "count") {
         return $count;
     }
 }

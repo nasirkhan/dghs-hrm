@@ -13,27 +13,15 @@ $user_name = $_SESSION['username'];
 $pk = mysql_real_escape_string($_POST['pk']);
 $name = mysql_real_escape_string($_POST['name']);
 $value = mysql_real_escape_string($_POST['value']);
-$p_org_code = mysql_real_escape_string($_POST['org_code']);
 
-$post_type = mysql_real_escape_string($_POST['post_type']);
-if ($post_type == "checklist"){
-//    $value = "[";
-    for ($i = 0; $i < count($_POST['value'])-1; $i++) {
-        $value .= $_POST['value'][$i] . ",";
-    }
-//    $value .= $_POST['value'][$i] . "]";
-    $value .= $_POST['value'][$i];
-}
-
-if ($p_org_code == $org_code){
-    $sql = "UPDATE `dghs_hrm_main`.`old_tbl_staff_organization` 
+if ($pk > 0 ){
+    $sql = "UPDATE `transfer_queue` 
             SET 
                 `$name` = \"$value\",
-                `last_update` = \"". date("Y-m-d H:i:s") . "\",
                 `updated_by` = \"$user_name\"   
             WHERE 
-                `old_tbl_staff_organization`.`staff_id` = $pk;";
-    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>post_employee:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                `id` = $pk;";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>post_transfer_staff:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     echo "Successfully Updated.";
 } else {
@@ -45,4 +33,5 @@ if ($p_org_code == $org_code){
     header('HTTP 400 Bad Request', true, 400);
     echo "This field is required!";
 }
+
 ?>
