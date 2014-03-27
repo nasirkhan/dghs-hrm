@@ -14,8 +14,8 @@ $user_name = $_SESSION['username'];
 $echoAdminInfo = "";
 
 // assign values admin users
-if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
-    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
+if ($_SESSION['user_type'] == "admin" && $_REQUEST['org_code'] != "") {
+    $org_code = (int) mysql_real_escape_string($_REQUEST['org_code']);
     $org_name = getOrgNameFormOrgCode($org_code);
     $org_type_name = getOrgTypeNameFormOrgCode($org_code);
 }
@@ -30,13 +30,13 @@ if ($_SESSION['user_type'] == "admin") {
  * Like the UHC users can edit the USC and USC(New) and CC organizations
  */
 if ($org_type_code == 1029 || $org_type_code == 1051) {
-    $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
+    $org_code = (int) mysql_real_escape_string(trim($_REQUEST['org_code']));
 
     $org_info = getOrgDisCodeAndUpaCodeFromOrgCode($org_code);
     $parent_org_info = getOrgDisCodeAndUpaCodeFromOrgCode($_SESSION['org_code']);
 
     if (($org_info['district_code'] == $parent_org_info['district_code']) && ($org_info['upazila_thana_code'] == $parent_org_info['upazila_thana_code'])) {
-        $org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
+        $org_code = (int) mysql_real_escape_string(trim($_REQUEST['org_code']));
         $org_name = getOrgNameFormOrgCode($org_code);
         $org_type_name = getOrgTypeNameFormOrgCode($org_code);
         $echoAdminInfo = " | " . $parent_org_info['upazila_thana_name'];
@@ -47,9 +47,9 @@ $org_name = getOrgNameFormOrgCode($org_code);
 
 
 
-if (isset($_GET['q'])) {
+if (isset($_REQUEST['q'])) {
 
-    $q = mysql_real_escape_string(trim($_GET['q']));
+    $q = mysql_real_escape_string(trim($_REQUEST['q']));
 
     $data = getStaffDetails($q);
     
@@ -60,14 +60,14 @@ $show_selected_transfers = FALSE;
 $staff_show = FALSE;
 
 
-if ($_GET['action'] == "") {
+if ($_REQUEST['action'] == "") {
     $action = "add";
 } else {
-    $action = $_GET['action'];
+    $action = $_REQUEST['action'];
 }
 
 
-if (isset($_GET['staff_select'])) {
+if (isset($_REQUEST['staff_select'])) {
     $show_selected_transfers = TRUE;
 
     $staff_id = mysql_real_escape_string(trim($_REQUEST['staff_id']));
@@ -127,7 +127,7 @@ if (isset($_GET['staff_select'])) {
         header("location:transfer.php?staff_show=true");
     }
     
-    else if ($action == 'delete' && $_GET['delete']== "confirm") {
+    else if ($action == 'delete' && $_REQUEST['delete']== "confirm") {
         $staff_id = mysql_real_escape_string(trim($_REQUEST['staff_id']));
         $sql = "UPDATE `transfer_queue` SET 
                     `status` = 'cancel', 
@@ -138,7 +138,7 @@ if (isset($_GET['staff_select'])) {
         header("location:transfer.php?staff_show=true");
     }
 }
-if (isset($_GET['staff_show'])) {
+if (isset($_REQUEST['staff_show'])) {
     $show_selected_transfers = TRUE;
 }
 
@@ -155,7 +155,7 @@ function showPrintPreviewData($username) {
     return $data;
 }
 
-if ($_GET['order_status'] == "create" || $_GET['order_status'] == "preview") {
+if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "preview") {
     $show_print_preview = TRUE;
     $print_preview_data = showPrintPreviewData($user_name);
 }
@@ -418,12 +418,12 @@ if ($_GET['order_status'] == "create" || $_GET['order_status'] == "preview") {
                                     </form>
                                 </div>
                             <?php elseif ($show_selected_transfers && $action != "delete"):
-                                $sql = "SELECT * FROM `transfer_queue` WHERE order_creater_by LIKE \"$user_name\" and `status` LIKE \"pending\"";
+                                $sql = "SELECT * FROM `transfer_queue` WHERE order_creater_by LIKE \"$user_name\" and `status` LIKE \"pending\" ORDER BY `serial`";
                                 $listed_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
                                 ?>
                                 <?php if ($duplicate_transfer): ?>
                                     <div class="alert alert-warning">
-                                        A transfer order is pending for <em><strong><?php echo getStaffNameFromId($_GET['staff_id']); ?></strong></em>. So your request was not added. 
+                                        A transfer order is pending for <em><strong><?php echo getStaffNameFromId($_REQUEST['staff_id']); ?></strong></em>. So your request was not added. 
                                     </div>
                                 <?php endif; ?>
                                 <table class="table table-bordered">
@@ -436,7 +436,17 @@ if ($_GET['order_status'] == "create" || $_GET['order_status'] == "preview") {
                                     <tbody>
                                         <?php while ($row = mysql_fetch_assoc($listed_result)): ?>
                                             <tr>
-                                                <td>1</td>
+                                                <td>
+                                                    <a href="#" class="serial" id="serial" ><?php echo $row['serial']; ?></a>
+                                                    <script>
+                                                        $(document).ready(function() {
+                                                            $('.serial').editable({
+                                                                url: 'post/post_transfer_staff.php',
+                                                                pk: '<?php echo $row['id']; ?>'
+                                                            });
+                                                        });
+                                                    </script>
+                                                </td>
                                                 <td>
                                                     <?php echo getStaffNameFromId($row['staff_id']); ?>,
                                                     <?php echo $row['staff_id']; ?>,
@@ -453,7 +463,10 @@ if ($_GET['order_status'] == "create" || $_GET['order_status'] == "preview") {
                                                     <?php echo $row['to_posted_as']; ?>
                                                 </td>
                                                 <td>
-                                                    <a href="transfer.php?q=<?php echo $row['staff_id']; ?>&action=update">Edit</a>/ <a href="transfer.php?staff_id=<?php echo $row['staff_id']; ?>&staff_select=true&action=delete">Delete</a>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-info btn-small" href="transfer.php?q=<?php echo $row['staff_id']; ?>&action=update">Edit</a>
+                                                        <a class="btn btn-danger btn-small" href="transfer.php?staff_id=<?php echo $row['staff_id']; ?>&staff_select=true&action=delete">Delete</a>
+                                                    </div>                                                    
                                                 </td>
                                             </tr>
                                         <?php endwhile; ?>
@@ -551,6 +564,19 @@ if ($_GET['order_status'] == "create" || $_GET['order_status'] == "preview") {
         ================================================== -->
         <?php include_once 'include/footer/footer.inc.php'; ?>
         <script>
+//            $.fn.editable.defaults.mode = 'inline';
+            
+//            $('#serial').editable({
+//                type: 'text',
+//                url: 'post/post_transfer_staff.php',
+//                pk: <?php echo $staff_id; ?>,
+//                params: function(params) {
+//                  params.org_code = <?php echo $org_code; ?>;
+//                  return params;
+//                }
+//
+//              });
+              
             // load district
             $('#admin_division').change(function() {
                 $("#loading_content").show();
