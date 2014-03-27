@@ -129,8 +129,8 @@ if ($staff_id > 0) {
                     Join list
                     -->
                     <?php 
-                    $data = showTransferList($org_code, 'to_working_org_code', 'order', 'list');
-                    $data_count = showTransferList($org_code, 'to_working_org_code', 'order', 'count');
+                    $data = showTransferList($org_code, 'to_working_org_code', 'join', 'list');
+                    $data_count = showTransferList($org_code, 'to_working_org_code', 'join', 'count');
 
                     if ($data_count > 0):
                     ?>
@@ -161,7 +161,15 @@ if ($staff_id > 0) {
                                 <td><?php echo $sanctioned_post_info['designation'];?></td>
                                 <td><?php echo $sanctioned_post_info['class'];?></td>
                                 <td><?php echo $sanctioned_post_info['pay_scale'];?></td>
-                                <td><a href="transfer_staff.php?staff_id=<?php echo $data['staff_id']; ?>&action=release" class="btn btn-warning btn-small" >Release</td>
+                                <td>
+                                    <?php if ($data['status'] == "release"): ?>
+                                        <a href="transfer_staff.php?staff_id=<?php echo $data['staff_id']; ?>&action=join" class="btn btn-info btn-small" >
+                                    <?php else: ?>
+                                        <a href="" class="btn btn-info btn-small disabled" >
+                                    <?php endif; ?>    
+                                        Join
+                                    </a>
+                                </td>
                             </tr>
                             <?php endfor; ?>
                         </tbody>
