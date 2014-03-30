@@ -333,7 +333,21 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
                                                 </tr>
                                                 <tr>
                                                     <td>Posted As</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <?php 
+                                                        $sql = "SELECT
+                                                                staff_job_posting.job_posting_id,
+                                                                staff_job_posting.job_posting_name
+                                                                FROM
+                                                                staff_job_posting";
+                                                        $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getJobPostingNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        ?>
+                                                        <select id="staff_job_posting_id" name="staff_job_posting_id" >
+                                                        <?php while ($data = mysql_fetch_assoc($r)): ?>
+                                                          <option value="<?php echo $data['job_posting_id']; ?>"><?php echo $data['job_posting_name']; ?></option>
+                                                        <?php endwhile; ?>
+                                                      </select>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Select Agency</td>
@@ -406,10 +420,6 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Posted As</td>
-                                                    <td></td>
-                                                </tr>
-                                                <tr>
                                                     <td></td>
                                                     <td><button type="submit" class="btn btn-success">Select Staff</button></td>
                                                 </tr>
@@ -459,8 +469,7 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
                                                     <?php echo $row['to_posted_as']; ?>,
                                                     <?php echo getDesignationNameformCode($row['to_designation_code']); ?>,
                                                     <?php echo getOrgNameFormOrgCode($row['to_org_code']); ?>,
-                                                    <?php echo getOrgNameFormOrgCode($row['to_working_org_code']); ?>,
-                                                    <?php echo $row['to_posted_as']; ?>
+                                                    <?php echo getOrgNameFormOrgCode($row['to_working_org_code']); ?>
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
