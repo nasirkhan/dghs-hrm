@@ -2852,4 +2852,45 @@ function getSanctionedPostInfoFromStaffId($staff_id) {
     return $data;
 }
 
+/**
+ * Get the toral release count for a specif organization
+ * 
+ * @param type $org_code
+ * @return boolean | Order count with style
+ */
+function showToralReleaseCountFromOrgCode($org_code){
+    $sql = "SELECT * FROM `transfer_queue` WHERE from_working_org_code = $org_code AND `status` LIKE 'order'";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getToralReleaseCountFromOrgCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    $count = mysql_num_rows($result);
+    
+    if ($count){
+        $return_string = "<span class=\"label label-important\">$count</span>";
+        return $return_string;
+    } else {
+        return FALSE;
+    }
+    
+}
+
+/**
+ * Get the toral join count for a specif organization
+ * 
+ * @param type $org_code
+ * @return boolean | Order count with style
+ */
+function showToralJoinCountFromOrgCode($org_code){
+    $sql = "SELECT * FROM `transfer_queue` WHERE to_working_org_code = $org_code AND `status` LIKE 'release'";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showToralJoinCountFromOrgCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    $count = mysql_num_rows($result);
+    
+    if ($count){
+        $return_string = "<span class=\"label label-success\">$count</span>";
+        return $return_string;
+    } else {
+        return FALSE;
+    }
+    
+}
 ?>

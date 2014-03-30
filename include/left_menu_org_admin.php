@@ -36,7 +36,7 @@
             <li><a href="match_employee.php?org_code=<?= $org_code ?>">Match Employee</a></li>
             <li><a href="employee_report.php?org_code=<?= $org_code ?>">Report</a></li>
         </ul>
-        <li><a href="transfer_staff.php?org_code=<?= $org_code ?>">Transfer</a></li>
+        <li><a href="transfer_staff.php?org_code=<?= $org_code ?>">Transfer <?php echo showToralReleaseCountFromOrgCode($org_code); ?>/<?php echo showToralJoinCountFromOrgCode($org_code); ?></a></li>
         <!--<li><a href="employee.php.php?org_code=<?= $org_code ?>">Org admin users</a></li>-->
 
         <li><a href="<?= $attendanceMonitorUrl ?>?org_code[]=<?= $org_code ?>&submit=Filter" target="_blank">Attendance</a></li>
