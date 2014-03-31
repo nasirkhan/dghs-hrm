@@ -21,6 +21,9 @@ if (isset($_REQUEST['step'])) {
     $org_code = (int) mysql_real_escape_string($_GET['org_code']);
 
     $designation_code = (int) mysql_real_escape_string($_GET['designation_code']);
+    
+    $type_of_post = (int) mysql_real_escape_string($_GET['type_of_post']);
+    
     $designation_name = getDesignationNameformCode($designation_code);
 }
 
@@ -288,7 +291,7 @@ if (isset($_POST['action'])) {
                                                         `total_manpower_imported_sanctioned_post_copy`
                                                 LEFT JOIN `sanctioned_post_designation` ON total_manpower_imported_sanctioned_post_copy.designation_code = sanctioned_post_designation.designation_code
                                                 WHERE
-                                                        total_manpower_imported_sanctioned_post_copy.org_code = $org_code
+                                                        total_manpower_imported_sanctioned_post_copy.org_code = $org_code                                                            
                                                         AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                 GROUP BY
                                                         total_manpower_imported_sanctioned_post_copy.designation
@@ -376,6 +379,7 @@ if (isset($_POST['action'])) {
                                         WHERE
                                                 org_code = '$org_code'
                                         AND designation_code = '$designation_code'
+                                        AND type_of_post = $type_of_post    
                                         AND active LIKE 1";
                                     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>designation_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                     while ($data = mysql_fetch_assoc($result)):

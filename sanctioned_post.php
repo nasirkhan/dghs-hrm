@@ -251,6 +251,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                                             <form class="form-inline form-clear pull-right" action="sanctioned_post_update.php" method="get">
                                                                 <input name="org_code" value="<?php echo $org_code; ?>" type="hidden" />
                                                                 <input name="designation_code" value="<?php echo $sp_data['designation_code']; ?>" type="hidden" />
+                                                                <input name="type_of_post" value="<?php echo $sp_data['type_of_post']; ?>" type="hidden" />
                                                                 <input name="action" value="delete" type="hidden" />
                                                                 <input type="hidden" id="step" name="step" value="2">
                                                                 <button type="submit" class="btn btn-small btn-danger"><i class="icon-minus"></i></button>
