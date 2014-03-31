@@ -243,7 +243,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                                             <?php echo $sp_data['class']; ?>
                                                         </div>
                                                         <div class="span1">
-                                                            <?php echo $sp_data['payscale']; ?>
+                                                            <?php echo $sp_data['pay_scale']; ?>
                                                         </div>
                                                         <div class="span2">
                                                             <?php echo $sp_data['sp_count']; ?>
