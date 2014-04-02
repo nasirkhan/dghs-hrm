@@ -438,10 +438,10 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
                                 <?php endif; ?>
                                 <table class="table table-bordered">
                                     <thead>
-                                    <td>#</td>
-                                    <td>Current Information</td>
-                                    <td>Transfer Information</td>
-                                    <td>Action</td>
+                                    <td><strong>#</strong></td>
+                                    <td><strong>Current Information</strong></td>
+                                    <td><strong>Transfer Information</strong></td>
+                                    <td><strong>Action</strong></td>
                                     </thead>
                                     <tbody>
                                         <?php while ($row = mysql_fetch_assoc($listed_result)): ?>
@@ -483,7 +483,7 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
                                 </table>
                                 <div class="row-fluid">
                                     <div class="span12">
-                                        <form class="form-horizontal">
+                                        <form class="form-horizontal" method="post" action="transfer_update.php">
                                             <div class="control-group">
                                                 <label class="control-label" for="memo_no">Memo No</label>
                                                 <div class="controls">
@@ -503,6 +503,7 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
                                                 </div>
                                             </div>
                                             <input type="hidden" name="order_status" value="create" />
+                                            <input type="hidden" name="order_type" value="order" />
                                             <div class="control-group">
                                                 <div class="controls">                                            
                                                     <button type="submit" class="btn btn-success">Post and Print</button>
