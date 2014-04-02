@@ -80,6 +80,10 @@ if (isset($_POST['order_type'])){
                         <pre>
                             <?php 
                                 print_r($_POST);
+                                while($data = mysql_fetch_assoc($listed_result)){
+                                    print_r($data);
+                                }
+                                
                             ?>
                         </pre>
                         
