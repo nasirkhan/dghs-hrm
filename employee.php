@@ -348,52 +348,62 @@ if (isset($_POST['search'])) {
                     </tr>
                     -->
                      <tr>
-                      <td width="50%"><strong>IST Year</strong></td>
-                      <td><?php echo $data['ist_year']; ?></td>
-                    </tr>
-                     <tr>
-                      <td width="50%"><strong>IST Appointment Date</strong></td>
-                      <td><?php echo $data['ist_appoinment_date']; ?></td>
-                    </tr>
-                     <tr>
-                      <td width="50%"><strong>IST GO</strong></td>
+                      <td width="50%"><strong>IST (In Service Training) GO </strong></td>
                       <td><?php echo $data['ist_go']; ?></td>
                     </tr>
-                    <tr>
+                    
+                      <tr>
                       <td width="50%"><strong>IST SL No.</strong></td>
                       <td><?php echo $data['ist_sl_no']; ?></td>
                     </tr>
+                    
                       <tr>
-                      <td width="50%"><strong>BCS/PSC Batch No.</strong></td>
+                      <td width="50%"><strong>IST Appointment Date</strong></td>
+                      <td><?php echo $data['ist_appoinment_date']; ?></td>
+                    </tr>
+                    
+                    <tr>
+                      <td width="50%"><strong>IST Year</strong></td>
+                      <td><?php echo $data['ist_year']; ?></td>
+                    </tr>
+                   
+                      <tr>
+                      <td width="50%"><strong>BCS Batch No.</strong></td>
                       <td><?php echo $data['bcs_batch_no']; ?></td>
                     </tr>
+                    
+                    <tr>
+                      <td width="50%"><strong>BCS/PSC Regularization GO</strong></td>
+                      <td><?php echo $data['bcs_psc_regularization_go']; ?></td>
+                    </tr>
+                    
+                    
+                     <tr>
+                      <td width="50%"><strong>BCS/PSC Regularization SL No.</strong></td>
+                      <td><?php echo $data['bcs_psc_regularization_sl_no']; ?></td>
+                    </tr>
+                    
                       <tr>
                       <td width="50%"><strong>BCS/PSC Regularization Date </strong></td>
                       <td><?php echo $data['bcs_psc_regularization_date']; ?></td>
                     </tr>
                     
-                         <tr>
-                      <td width="50%"><strong>BCS/PSC Regularization GO</strong></td>
-                      <td><?php echo $data['bcs_psc_regularization_go']; ?></td>
-                    </tr>
-                    
-                         <tr>
-                      <td width="50%"><strong>BCS/PSC Regularization SL No.</strong></td>
-                      <td><?php echo $data['bcs_psc_regularization_sl_no']; ?></td>
-                    </tr>
-                      
-                    <tr>
-                      <td width="50%"><strong>Service Confirmation Date</strong></td>
-                      <td><?php echo $data['service_confirmation_date']; ?></td>
-                    </tr>
-                     <tr>
+                      <tr>
                       <td width="50%"><strong>Service Confirmation GO </strong></td>
                       <td><?php echo $data['service_confirmation_go']; ?></td>
                     </tr>
+                      
                      <tr>
                       <td width="50%"><strong>Service Confirmation  SL No.</strong></td>
                       <td><?php echo $data['service_confirmation_sl_no']; ?></td>
                     </tr>
+                    
+                    <tr>
+                      <td width="50%"><strong>Service Confirmation Date</strong></td>
+                      <td><?php echo $data['service_confirmation_date']; ?></td>
+                    </tr>
+                    
+                    
                     <tr>
                       <td width="50%"><strong>Date Of Joining to Govt. Health Service</strong></td>
                       <td><?php echo $data['date_of_joining_to_govt_health_service']; ?></td>
@@ -600,15 +610,6 @@ if (isset($_POST['search'])) {
                       <td width="50%"><strong>Current Basic Pay (Tk.):</strong></td>
                       <td><a href="#" class="text-input" data-type="text" id="current_basic_pay_taka" name="current_basic_pay_taka"><?php echo $data['current_basic_pay_taka']; ?></a></td>
                     </tr>
-                    
-                     <tr>
-                      <td width="50%"><strong>IST Year</strong></td>
-                      <td><a href="#" class="text-input" data-type="text" id="ist_year" name="ist_year"><?php echo $data['ist_year']; ?></a></td>
-                    </tr>
-                     <tr>
-                      <td width="50%"><strong>IST Appointment Date</strong></td>
-                      <td><a href="#" class="date-input" id="ist_appoinment_date" ><?php echo $data['ist_appoinment_date']; ?></a></td>
-                    </tr>
                      <tr>
                       <td width="50%"><strong>IST GO</strong></td>
                       <td><a href="#" class="text-input" data-type="text" id="ist_go" name="ist_go"><?php echo $data['ist_go']; ?></a></td>
@@ -617,30 +618,37 @@ if (isset($_POST['search'])) {
                       <td width="50%"><strong>IST SL No.</strong></td>
                       <td><a href="#" class="text-input" data-type="text" id="ist_sl_no" name="ist_sl_no"><?php echo $data['ist_sl_no']; ?></a></td>
                     </tr>
+                    <tr>
+                      <td width="50%"><strong>IST Appointment Date</strong></td>
+                      <td><a href="#" class="date-input" id="ist_appoinment_date" ><?php echo $data['ist_appoinment_date']; ?></a></td>
+                    </tr>
+                     <tr>
+                      <td width="50%"><strong>IST Year</strong></td>
+                      <td><a href="#" class="text-input" data-type="text" id="ist_year" name="ist_year"><?php echo $data['ist_year']; ?></a></td>
+                    </tr>
+                     
                       <tr>
-                      <td width="50%"><strong>BCS/PSC Batch No.</strong></td>
+                      <td width="50%"><strong>BCS Batch No.</strong></td>
                       <td><a href="#" class="text-input" data-type="text" id="bcs_batch_no" name="bcs_batch_no"><?php echo $data['bcs_batch_no']; ?></a></td>
                     </tr>
-                      <tr>
-                      <td width="50%"><strong>BCS/PSC Regularization Date </strong></td>
-                      <td><a href="#" class="date-input" id="bcs_psc_regularization_date" ><?php echo $data['bcs_psc_regularization_date']; ?></a></td>
-                    </tr>
                     
-                         <tr>
+                        <tr>
                       <td width="50%"><strong>BCS/PSC Regularization GO</strong></td>
                       <td><a href="#" class="text-input" data-type="text" id="bcs_psc_regularization_go" name="bcs_psc_regularization_go"><?php echo $data['bcs_psc_regularization_go']; ?></a></td>
                     </tr>
+                    
                     
                     <tr>
                       <td width="50%"><strong>BCS/PSC Regularization SL No.</strong></td>
                       <td><a href="#" class="text-input" data-type="text" id="bcs_psc_regularization_sl_no" name="bcs_psc_regularization_sl_no"><?php echo $data['bcs_psc_regularization_sl_no']; ?></a></td>
                     </tr>
-                      
-                    <tr>
-                      <td width="50%"><strong>Service Confirmation Date</strong></td>
-                      <td><a href="#" class="date-input" id="service_confirmation_date" ><?php echo $data['service_confirmation_date']; ?></a></td>
+                    
+                      <tr>
+                      <td width="50%"><strong>BCS/PSC Regularization Date </strong></td>
+                      <td><a href="#" class="date-input" id="bcs_psc_regularization_date" ><?php echo $data['bcs_psc_regularization_date']; ?></a></td>
                     </tr>
-                     <tr>
+                    
+                        <tr>
                       <td width="50%"><strong>Service Confirmation GO </strong></td>
                       <td><a href="#" class="text-input" data-type="text" id="service_confirmation_go" name="service_confirmation_go"><?php echo $data['service_confirmation_go']; ?></a></td>
                     </tr>
@@ -648,6 +656,13 @@ if (isset($_POST['search'])) {
                       <td width="50%"><strong>Service Confirmation  SL No.</strong></td>
                       <td><a href="#" class="text-input" data-type="text" id="service_confirmation_sl_no" name="service_confirmation_sl_no"><?php echo $data['service_confirmation_sl_no']; ?></a></td>
                     </tr>
+                    
+                      
+                    <tr>
+                      <td width="50%"><strong>Service Confirmation Date</strong></td>
+                      <td><a href="#" class="date-input" id="service_confirmation_date" ><?php echo $data['service_confirmation_date']; ?></a></td>
+                    </tr>
+                  
                     
                     <tr>
                       <td width="50%"><strong>Date Of Joining to Govt. Health Service</strong></td>
@@ -1093,37 +1108,32 @@ if (isset($_POST['search'])) {
                           <td width="50%"><strong>Current Basic Pay (Tk.):</strong></td>
                           <td> <input type="text" id="current_basic_pay_tk" name="current_basic_pay_tk" placeholder="" number ></td>
                         </tr>
+                         
+                         <tr>
+                          <td width="50%"><strong>IST (In Service Training) GO No.:</strong></td>
+                          <td> <input type="text" id="ist_go" name="ist_go" placeholder="" ></td>
+                        </tr>
                           
+                         <tr>
+                          <td width="50%"><strong>IST SL No.:</strong></td>
+                          <td> <input type="text" id="ist_sl_no" name="ist_sl_no" placeholder="" ></td>
+                         </tr>
+                         
+                        <tr>
+                          <td width="50%"><strong>IST Appointment Date:</strong></td>
+                          <td> <input type="text" id="ist_appoinment_date" name="ist_appoinment_date" placeholder="yyyy-mm-dd" class='date-data'></td>
+                        </tr>
+                         
                         <tr>
                           <td width="50%"><strong>IST Year:</strong></td>
                           <td> <input type="text" id="ist_year" name="ist_year" placeholder="yyyy" number ></td>
                         </tr>
                         
-                         <tr>
-                          <td width="50%"><strong>IST Appointment Date:</strong></td>
-                          <td> <input type="text" id="ist_appoinment_date" name="ist_appoinment_date" placeholder="yyyy-mm-dd" class='date-data'></td>
-                        </tr>
-                        
-                        <tr>
-                          <td width="50%"><strong>IST GO No.:</strong></td>
-                          <td> <input type="text" id="ist_go" name="ist_go" placeholder="" ></td>
-                        </tr>
-                        
-                         <tr>
-                          <td width="50%"><strong>IST SL No.:</strong></td>
-                          <td> <input type="text" id="ist_sl_no" name="ist_sl_no" placeholder="" ></td>
-                         </tr>
-                        
                           <tr>
-                          <td width="50%"><strong>BCS/PSC Batch No.:</strong></td>
+                          <td width="50%"><strong>BCS Batch No.:</strong></td>
                           <td> <input type="text" id="bcs_batch_no" name="bcs_batch_no" placeholder="" ></td>
                          </tr>
                         
-                          <tr>
-                          <td width="50%"><strong>BCS/PSC Regularization Date:</strong></td>
-                          <td> <input type="text" id="bcs_psc_regularization_date" name="bcs_psc_regularization_date"  placeholder="yyyy-mm-dd" class='date-data' ></td>
-                         </tr>
-                         
                           <tr>
                           <td width="50%"><strong>BCS/PSC Regularization GO:</strong></td>
                           <td> <input type="text" id="bcs_psc_regularization_go" name="bcs_psc_regularization_go" placeholder="" ></td>
@@ -1132,10 +1142,12 @@ if (isset($_POST['search'])) {
                           <td width="50%"><strong>BCS/PSC Regularization SL No.:</strong></td>
                           <td> <input type="text" id="bcs_psc_regularization_sl_no" name="bcs_psc_regularization_sl_no" placeholder="" ></td>
                          </tr>
-                           <tr>
-                          <td width="50%"><strong>Service Confirmation Date:</strong></td>
-                          <td> <input type="text" id="service_confirmation_date" name="service_confirmation_date"  placeholder="yyyy-mm-dd" class='date-data' ></td>
+                         
+                          <tr>
+                          <td width="50%"><strong>BCS/PSC Regularization Date:</strong></td>
+                          <td> <input type="text" id="bcs_psc_regularization_date" name="bcs_psc_regularization_date"  placeholder="yyyy-mm-dd" class='date-data' ></td>
                          </tr>
+                         
                          
                            <tr>
                           <td width="50%"><strong>Service Confirmation GO:</strong></td>
@@ -1146,6 +1158,13 @@ if (isset($_POST['search'])) {
                           <td width="50%"><strong>Service Confirmation SL No.:</strong></td>
                           <td> <input type="text" id="service_confirmation_sl_no" name="service_confirmation_sl_no" placeholder="" ></td>
                          </tr>
+                         
+                           <tr>
+                          <td width="50%"><strong>Service Confirmation Date:</strong></td>
+                          <td> <input type="text" id="service_confirmation_date" name="service_confirmation_date"  placeholder="yyyy-mm-dd" class='date-data' ></td>
+                         </tr>
+                         
+                         
                         <tr>
                           <td width="50%"><strong>Date Of Joining to Govt. Health Service</strong></td>
                           <td> <input type="text" id="date_of_joining_to_govt_service" name="date_of_joining_to_govt_service" placeholder="yyyy-mm-dd" class='date-data'></td>
