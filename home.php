@@ -95,6 +95,24 @@ $org_photo=$data['org_photo'];
                     <!-- info area
                     ================================================== -->
                     <section id="organization-profile">
+                        <!--
+                        the "$release_count", "$join_count" values are assigned on left_menu_org_admin.php page.
+                        -->
+                        <?php if ($release_count || $join_count): ?>
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <div class="alert alert-warning">
+                                    <?php if ($release_count): ?>
+                                    <p>Total <?php echo ($release_count); ?> release order waiting for approval.</p>
+                                    <?php endif; ?>
+                                    
+                                    <?php if ($join_count): ?>
+                                    <p>Total <?php echo ($join_count); ?> join order waiting for approval.</p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
 
                         <div class="row">
                             <div class="span5">
