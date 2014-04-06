@@ -300,7 +300,7 @@ if (isset($_POST['search'])) {
                     </tr>
                     <tr>
                       <td width="50%"><strong>Designation</strong></td>
-                      <td><?php echo getDesignationNameFormSanctionedPostId($data['sanctioned_post_id']); ?></td>
+                      <td><?php echo getDesignationNameFormSanctionedPostId($data['sp_id_2']); ?></td>
                     </tr>
                     <tr>
                       <td width="50%"><strong>Post Type</strong></td>
@@ -383,13 +383,13 @@ if (isset($_POST['search'])) {
                     <tr>
                       <td width="50%"><strong>Sanctioned Post ID</strong></td>
                       <?php
-                      if ($data['sanctioned_post_id'] > 0) {
-                        echo "<td>" . $data['sanctioned_post_id'] . "</td>";
-                      } else if ($data['sanctioned_post_id'] == 0) {
+                      if ($data['sp_id_2'] > 0) {
+                        echo "<td>" . $data['sp_id_2'] . "</td>";
+                      } else if ($data['sp_id_2'] == 0) {
                         echo "<td>OSD</td>";
                       }
                       ?>
-                      <td><?php echo $data['sanctioned_post_id']; ?></td>
+                      <td><?php echo $data['sp_id_2']; ?></td>
                     </tr>
 
                     <tr>
@@ -504,7 +504,7 @@ if (isset($_POST['search'])) {
                     </tr>
                     <tr>
                       <td width="50%"><strong>Designation</strong></td>
-                      <td><?php echo getDesignationNameFormSanctionedPostId($data['sanctioned_post_id']); ?></td>
+                      <td><?php echo getDesignationNameFormSanctionedPostId($data['sp_id_2']); ?></td>
                     </tr>
                     <tr>
                       <td width="50%"><strong>Post Type</strong></td>
@@ -583,7 +583,7 @@ if (isset($_POST['search'])) {
                     -->
                     <tr>
                       <td width="50%"><strong>Sanctioned Post ID</strong></td>
-                      <td><?php echo $data['sanctioned_post_id']; ?></td>
+                      <td><?php echo $data['sp_id_2']; ?></td>
                     </tr>
 
                     <tr>
