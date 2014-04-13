@@ -34,6 +34,8 @@ if ($add_new_type == "org") {
 
 $insert_success = mysql_real_escape_string($_GET['insert_success']);
 
+
+
 if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
 
 
@@ -52,6 +54,7 @@ if (isset($_POST['new_post_type']) && $_POST['new_post_type'] == "org") {
 //            print_r($_POST);
 //        }
 //    }
+
 //    if ($error) {
 //        header("location:add_new.php?type=org");
 //    } else {

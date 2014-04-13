@@ -5,12 +5,14 @@ if ($_SESSION['logged'] != true) {
     header("location:login.php");
 }
 
-require_once './include/check_org_code.php';
+//require_once './include/check_org_code.php';
 
 // admin check
 //if ($_SESSION['user_type'] != "admin") {
 //    header("location:home.php?org_code=$org_code");
 //}
+
+$org_name = $_SESSION['org_name'];
 
 $step = 0;
 if (isset($_REQUEST['step'])) {
@@ -19,6 +21,9 @@ if (isset($_REQUEST['step'])) {
     $org_code = (int) mysql_real_escape_string($_GET['org_code']);
 
     $designation_code = (int) mysql_real_escape_string($_GET['designation_code']);
+    
+    $type_of_post = (int) mysql_real_escape_string($_GET['type_of_post']);
+    
     $designation_name = getDesignationNameformCode($designation_code);
 }
 
@@ -121,9 +126,9 @@ if (isset($_POST['action'])) {
                         `sanctioned_post_designation`
                 WHERE
                         designation_code = $designation_code";
-        $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:dessignation_data:1</p><p>Query:</b></p>___<p>$sql</p>");
+        $result_des = mysql_query($sql) or die(mysql_error() . "<p><b>Code:dessignation_data:1</p><p>Query:</b></p>___<p>$sql</p>");
 
-        $data = mysql_fetch_assoc($result);
+        $data = mysql_fetch_assoc($result_des);
 
         if ($sp_number > 0){
             $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
@@ -150,8 +155,8 @@ if (isset($_POST['action'])) {
                         \"" . $data['designation'] . "\",
                         \"" . $type_of_post . "\",
                         \"" . $data['sanctioned_post'] . "\",
-                        \"" . $data['sanctioned_post_group_code'] . "\",
-                        \"" . $data['pay_scale'] . "\",
+                        \"" . $data['designation_group_code'] . "\",
+                        \"" . $data['payscale'] . "\",
                         \"" . $data['class'] . "\",
                         \"" . $first_level_code . "\",
                         \"" . getFirstLevelNameFromCode($first_level_code) . "\",
@@ -286,7 +291,7 @@ if (isset($_POST['action'])) {
                                                         `total_manpower_imported_sanctioned_post_copy`
                                                 LEFT JOIN `sanctioned_post_designation` ON total_manpower_imported_sanctioned_post_copy.designation_code = sanctioned_post_designation.designation_code
                                                 WHERE
-                                                        total_manpower_imported_sanctioned_post_copy.org_code = $org_code
+                                                        total_manpower_imported_sanctioned_post_copy.org_code = $org_code                                                            
                                                         AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                 GROUP BY
                                                         total_manpower_imported_sanctioned_post_copy.designation
@@ -374,6 +379,7 @@ if (isset($_POST['action'])) {
                                         WHERE
                                                 org_code = '$org_code'
                                         AND designation_code = '$designation_code'
+                                        AND type_of_post = $type_of_post    
                                         AND active LIKE 1";
                                     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>designation_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                     while ($data = mysql_fetch_assoc($result)):

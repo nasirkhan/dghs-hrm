@@ -21,9 +21,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $isAdmin = TRUE;
 }
 
-$div_id = (int) mysql_real_escape_string(trim($_REQUEST['admin_division']));
-$dis_id = (int) mysql_real_escape_string(trim($_REQUEST['admin_district']));
-$upa_id = (int) mysql_real_escape_string(trim($_REQUEST['admin_upazila']));
+$div_code = (int) mysql_real_escape_string(trim($_REQUEST['admin_division']));
+$dis_code = (int) mysql_real_escape_string(trim($_REQUEST['admin_district']));
+$upa_code = (int) mysql_real_escape_string(trim($_REQUEST['admin_upazila']));
 $agency_code = (int) mysql_real_escape_string(trim($_REQUEST['org_agency']));
 $type_code = (int) mysql_real_escape_string(trim($_REQUEST['org_type']));
 $form_submit = (int) mysql_real_escape_string(trim($_REQUEST['form_submit']));
@@ -42,32 +42,33 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
      * query builder to get the organizatino list
      */
     $query_string = "";
-    if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
+    if ($div_code > 0 || $dis_code > 0 || $upa_code > 0 || $agency_code > 0 || $type_code > 0) {
         $query_string .= " WHERE ";
 
         if ($agency_code > 0) {
             $query_string .= "organization.agency_code = $agency_code";
         }
-        if ($upa_id > 0) {
+        if ($upa_code > 0) {
             if ($agency_code > 0) {
                 $query_string .= " AND ";
             }
-            $query_string .= "organization.upazila_id = $upa_id";
+            $query_string .= "organization.upazila_thana_code = $upa_code";
         }
-        if ($dis_id > 0) {
-            if ($upa_id > 0 || $agency_code > 0) {
+        if ($dis_code > 0) {
+            if ($upa_code > 0 || $agency_code > 0) {
                 $query_string .= " AND ";
             }
-            $query_string .= "organization.district_id = $dis_id";
+            $query_string .= "organization.district_code = $dis_code";
         }
-        if ($div_id > 0) {
-            if ($dis_id > 0 || $upa_id > 0 || $agency_code > 0) {
+        if ($div_code > 0) {
+            if ($dis_code > 0 || $upa_code > 0 || $agency_code > 0) {
                 $query_string .= " AND ";
             }
-            $query_string .= "organization.division_id = $div_id";
+            $query_string .= "organization.division_code = $div_code";
         }
+        $query_string_without_type = $query_string;
         if ($type_code > 0) {
-            if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0) {
+            if ($div_code > 0 || $dis_code > 0 || $upa_code > 0 || $agency_code > 0) {
                 $query_string .= " AND ";
             }
             $query_string .= "organization.org_type_code = $type_code";
@@ -88,15 +89,18 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                     organization.district_name,
                     organization.upazila_thana_name,
                     organization.mobile_number1,
-                    organization.email_address1
+                    organization.email_address1,
+                    organization.monthly_update,
+                    organization.monthly_update_datetime
             FROM
                     organization
             $query_string";
-            if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
+            if ($div_code > 0 || $dis_code > 0 || $upa_code > 0 || $agency_code > 0 || $type_code > 0) {
                 $sql .= " AND monthly_update = $current_month AND active LIKE 1 ";
             } else {
                 $sql .= "WHERE monthly_update = $current_month AND active LIKE 1 ";
             }
+//            echo "<pre>$sql</pre>";
             $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
             $result_count = mysql_num_rows($org_list_result);
         } else {
@@ -108,20 +112,23 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                     organization.district_name,
                     organization.upazila_thana_name,
                     organization.mobile_number1,
-                    organization.email_address1
+                    organization.email_address1,
+                    organization.monthly_update,
+                    organization.monthly_update_datetime
             FROM
                     organization
             $query_string";
-            if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
+            if ($div_code > 0 || $dis_code > 0 || $upa_code > 0 || $agency_code > 0 || $type_code > 0) {
                 $sql .= " AND monthly_update != $current_month  AND active LIKE 1 ";
             } else {
                 $sql .= "WHERE monthly_update != $current_month  AND active LIKE 1 ";
             }
-            $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+            $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
             $result_count = mysql_num_rows($org_list_result);
+//            echo "<pre>$sql</pre>";
         }
     } else {
-        if ($div_id > 0 || $dis_id > 0 || $upa_id > 0 || $agency_code > 0 || $type_code > 0) {
+        if ($div_code > 0 || $dis_code > 0 || $upa_code > 0 || $agency_code > 0 || $type_code > 0) {
             $query_string .= " AND org_type_code > 0 ";
         } else {
             $query_string .= "WHERE organization.org_type_code > 0 ";
@@ -137,15 +144,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             GROUP BY
                     organization.org_type_code";
         $sql .= " ORDER BY org_type_name";
-        $org_type_summary_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-        $result_count = mysql_num_rows($org_type_summary_result);
-    }
-
-
-//    echo "$sql";
-
-
-    
+        $org_type_summary_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+        $result_count = mysql_num_rows($org_type_summary_result);   
+    } 
 
     $count_total_org = 0;
     $count_total_org_updated = 0;
@@ -215,6 +216,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['org_agency_code'] == $_REQUEST['org_agency'])
+       												 echo "<option value=\"" . $rows['org_agency_code'] . "\" selected='selected'>" . $rows['org_agency_name'] . "</option>";
+											    else
                                                 echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
                                             }
                                             ?>
@@ -222,25 +226,81 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                     </div>
                                     <div class="control-group">
                                         <select id="admin_division" name="admin_division">
-                                            <option value="0">Select Division</option>
+                                            <option value="0">__ Select Division __</option>
                                             <?php
                                             /**
                                              * @todo change old_visision_id to division_bbs_code
                                              */
-                                            $sql = "SELECT admin_division.division_name, admin_division.old_division_id FROM admin_division";
+                                            $sql = "SELECT admin_division.division_name, admin_division.division_bbs_code FROM admin_division";
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
-                                                echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
+												if ($rows['division_bbs_code'] == $_REQUEST['admin_division'])
+       												 echo "<option value=\"" . $rows['division_bbs_code'] . "\" selected='selected'>" . $rows['division_name'] . "</option>";
+											    else
+                                                echo "<option value=\"" . $rows['division_bbs_code'] . "\">" . $rows['division_name'] . "</option>";
                                             }
                                             ?>
                                         </select>
-                                        <select id="admin_district" name="admin_district">
-                                            <option value="0">Select District</option>                                        
-                                        </select>
-                                        <select id="admin_upazila" name="admin_upazila">
+                                        <?php 
+										if($_REQUEST['admin_district']) {
+											$sql = "SELECT
+												district_bbs_code,
+												old_district_id,
+												district_name
+											FROM
+												`admin_district`";
+									  $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_district_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");                             
+									      
+										  echo "<select id=\"admin_district\" name=\"admin_district\">";
+										 while ($rows = mysql_fetch_assoc($result)) {
+										  echo "<option value=\"" . $rows['old_district_id'] . "\" selected='selected'>" . $rows['district_name'] . "</option>"; 
+										  }
+										  echo "</select>";										    
+										}
+										else{
+											echo "<select id=\"admin_district\" name=\"admin_district\">";
+                                            echo "<option value=\"0\">Select District</option>";                             
+                                        echo "</select>";
+										}
+										 
+										?>
+<!--                                        <select id="admin_district" name="admin_district">
+                                            <option value="0">Select District</option>                             
+                                        </select>-->
+                                        
+                                        
+                                        <?php 
+										if($_REQUEST['admin_upazila']) {
+											$sql = "SELECT
+												upazila_bbs_code,
+												upazila_name
+											FROM
+												`admin_upazila`
+											WHERE
+												admin_upazila.upazila_bbs_code = $upa_code
+											AND upazila_active LIKE 1
+											ORDER BY
+												upazila_name";
+									  $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_district_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+										  echo "<select id=\"admin_upazila\" name=\"admin_upazila\">";
+										  while ($rows = mysql_fetch_assoc($result)) {
+										  echo "<option value=\"" . $rows['upazila_bbs_code'] . "\" selected='selected'>" . $rows['upazila_name'] . "</option>"; 
+										  }
+										  echo "</select>";										    
+										}
+										else{
+											echo "<select id=\"admin_upazila\" name=\"admin_upazila\">";
+                                            echo "<option value=\"0\">Select Upazilla</option>";                             
+                                        echo "</select>";
+										}
+										 
+										?>
+                                        
+                                        <!--<select id="admin_upazila" name="admin_upazila">
                                             <option value="0">Select Upazila</option>                                        
-                                        </select>
+                                        </select>-->
+
                                     </div>
 
 
@@ -259,6 +319,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if($rows['org_type_code'] == $_REQUEST['org_type'])
+												echo "<option value=\"" . $rows['org_type_code'] . "\" selected='selected'>" . $rows['org_type_name'] . "</option>";
+												else
                                                 echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
                                             }
                                             ?>
@@ -270,7 +333,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                     <input name="form_submit" value="1" type="hidden" />
                                     <div class="control-group">
                                         <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
-
+                                        <a href="report_monthly_update.php" class="btn btn-default" > Reset</a>
                                         <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                     </div>  
                                 </form>
@@ -284,14 +347,14 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                         Selected Parameters are:<br>
                                         <?php
                                         $echo_string = "";
-                                        if ($div_id > 0) {
-                                            $echo_string .= " Division: <strong>" . getDivisionNamefromCode(getDivisionCodeFormId($div_id)) . "</strong><br>";
+                                        if ($div_code > 0) {
+                                            $echo_string .= " Division: <strong>" . getDivisionNamefromCode($div_code) . "</strong><br>";
                                         }
-                                        if ($dis_id > 0) {
-                                            $echo_string .= " District: <strong>" . getDistrictNamefromCode(getDistrictCodeFormId($dis_id)) . "</strong><br>";
+                                        if ($dis_code > 0) {
+                                            $echo_string .= " District: <strong>" . getDistrictNamefromCode($dis_code) . "</strong><br>";
                                         }
-                                        if ($upa_id > 0) {
-                                            $echo_string .= " Upazila: <strong>" . getUpazilaNamefromBBSCode(getUpazilaCodeFormId($upa_id), getDistrictCodeFormId($dis_id)) . "</strong><br>";
+                                        if ($upa_code > 0) {
+                                            $echo_string .= " Upazila: <strong>" . getUpazilaNamefromBBSCode($upa_code, $dis_code) . "</strong><br>";
                                         }
                                         if ($agency_code > 0) {
                                             $echo_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong><br>";
@@ -299,7 +362,11 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                         if ($type_code > 0) {
                                             $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
                                         }
-
+                                        if ($status == "updated"){
+                                            $echo_string .= " Status: <strong><span class=\"label label-success\">Updated</span></strong><br>";
+                                        } else if ($status == "not_updated"){
+                                            $echo_string .= " Status: <strong><span class=\"label label-important\">Not Updated</span></strong><br>";
+                                        }
                                         echo "$echo_string";
                                         ?>
                                     </div>
@@ -308,14 +375,14 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                         Selected Parameters are:<br>
                                         <?php
                                         $echo_string = "";
-                                        if ($div_id > 0) {
-                                            $echo_string .= " Division: <strong>" . getDivisionNamefromCode(getDivisionCodeFormId($div_id)) . "</strong><br>";
+                                        if ($div_code > 0) {
+                                            $echo_string .= " Division: <strong>" . getDivisionNamefromCode($div_code) . "</strong><br>";
                                         }
-                                        if ($dis_id > 0) {
-                                            $echo_string .= " District: <strong>" . getDistrictNamefromCode(getDistrictCodeFormId($dis_id)) . "</strong><br>";
+                                        if ($dis_code > 0) {
+                                            $echo_string .= " District: <strong>" . getDistrictNamefromCode($dis_code) . "</strong><br>";
                                         }
-                                        if ($upa_id > 0) {
-                                            $echo_string .= " Upazila: <strong>" . getUpazilaNamefromBBSCode(getUpazilaCodeFormId($upa_id), getDistrictCodeFormId($dis_id)) . "</strong><br>";
+                                        if ($upa_code > 0) {
+                                            $echo_string .= " Upazila: <strong>" . getUpazilaNamefromBBSCode($upa_code, $dis_code) . "</strong><br>";
                                         }
                                         if ($agency_code > 0) {
                                             $echo_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong><br>";
@@ -323,7 +390,11 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                         if ($type_code > 0) {
                                             $echo_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong><br>";
                                         }
-
+                                        if ($status == "updated"){
+                                            $echo_string .= " Status: <strong><span class=\"label label-success\">Updated</span></strong><br>";
+                                        } else if ($status == "not_updated"){
+                                            $echo_string .= " Status: <strong><span class=\"label label-important\">Not Updated</span></strong><br>";
+                                        }
                                         echo "$echo_string";
                                         ?>
                                     </div>
@@ -339,22 +410,34 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                     <td><strong>Upazila</strong></td>
                                                     <td><strong>Email</strong></td>
                                                     <td><strong>Contact</strong></td>
+                                                    <td><strong>Last Updated</strong></td>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php
+                                                <?php                                                
                                                 $j = 0;
                                                 while ($row = mysql_fetch_assoc($org_list_result)):
                                                     $j++;
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $j; ?></td>
-                                                        <td><?php echo $row['org_name'] . "(" . $row['org_code'] . ")"; ?></td>
+                                                        <td><a href="org_profile.php?org_code=<?php echo $row['org_code']; ?>" target="_blank"><?php echo $row['org_name'] . " (" . $row['org_code'] . ")"; ?></a></td>
                                                         <td><?php echo $row['division_name']; ?></td>
                                                         <td><?php echo $row['district_name']; ?></td>
                                                         <td><?php echo $row['upazila_thana_name']; ?></td>
                                                         <td><?php echo $row['email_address1']; ?></td>
                                                         <td><?php echo $row['mobile_number1']; ?></td>
+                                                        <td>
+                                                            <?php
+                                                            $dd = explode(" ", $row['monthly_update_datetime']);
+                                                            if ($row['monthly_update'] > 0){
+                                                                echo getMonthNameFromMonthNumber($row['monthly_update']) . "(" . $dd[0] . ")"; 
+                                                            }
+                                                            else{
+                                                                echo getMonthNameFromMonthNumber($row['monthly_update']); 
+                                                            }
+                                                            ?>
+                                                        </td>
                                                     </tr>
                                                 <?php endwhile; ?>
                                             </tbody>
@@ -376,32 +459,51 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                         <td><?php echo $row['org_type_name']; ?></td>
                                                         <td><?php echo $row['total_count']; ?></td>
                                                         <?php
+                                                        if (strlen($query_string_without_type) == 7){
+                                                            $query_string_with_type = $query_string_without_type;
+                                                            $query_string_with_type .= " organization.org_type_code= " . $row['org_type_code'];
+                                                            $query_string_with_type .= " AND organization.monthly_update = $current_month ";
+                                                        }
+                                                        else if (strlen($query_string_without_type) < 7){
+                                                            $query_string_with_type = $query_string_without_type;
+                                                            $query_string_with_type .= " WHERE organization.org_type_code= " . $row['org_type_code'];
+                                                            $query_string_with_type .= " AND organization.monthly_update = $current_month ";
+                                                        }
+                                                        else{
+                                                            
+                                                            $query_string_with_type = $query_string_without_type;
+                                                            $query_string_with_type .= " AND organization.org_type_code= " . $row['org_type_code'];
+                                                            $query_string_with_type .= " AND organization.monthly_update = $current_month ";
+                                                        }
+                                                        
                                                         $sql = "SELECT
-                                                                    org_type_name,
-                                                                    org_type_code
+                                                                    organization.org_type_name,
+                                                                    organization.org_type_code,
+                                                                    COUNT(*) AS total_count
                                                             FROM
                                                                     organization
-                                                            WHERE
-                                                                    org_type_code = " . $row['org_type_code'] . "
-                                                            AND monthly_update = $current_month";
-                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                                        $total_updated = mysql_num_rows($result);
+                                                            $query_string_with_type
+                                                            GROUP BY
+                                                                    organization.org_type_code";
+                                                        $sql .= " ORDER BY org_type_name";
+                                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_type_summary:4</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                        $total_updated_data = mysql_fetch_assoc($result);
+                                                        $total_updated = $total_updated_data['total_count'];
                                                         $total_not_updated = $row['total_count'] - $total_updated;
-
                                                         $count_total_org += $row['total_count'];
-                                                        $count_total_org_updated += $total_updated;
+                                                        $count_total_org_updated += $total_updated; 
                                                         ?>
                                                         <td>
                                                             <?php if ($total_updated > 0): ?>
-                                                            <a href="report_monthly_update.php?org_agency=<?php echo $agency_code; ?>&admin_division=<?php echo $div_id; ?>&admin_district=<?php echo $dis_id; ?>&admin_upazila=<?php echo $upa_id; ?>&org_type=<?php echo $row['org_type_code']; ?>&form_submit=1&view=org_list&status=updated"><?php echo $total_updated; ?></a>
+                                                            <a href="report_monthly_update.php?org_agency=<?php echo $agency_code; ?>&admin_division=<?php echo $div_code; ?>&admin_district=<?php echo $dis_code; ?>&admin_upazila=<?php echo $upa_code; ?>&org_type=<?php echo $row['org_type_code']; ?>&form_submit=1&view=org_list&status=updated"><?php echo $total_updated; ?></a>
                                                             <?php else: ?>
-                                                                <?php echo $total_updated; ?>
+                                                                <?php echo 0; ?>
                                                             <?php endif; ?>
                                                             
                                                         </td>
                                                         <td>
                                                             <?php if ($total_not_updated > 0): ?>
-                                                            <a href="report_monthly_update.php?org_agency=<?php echo $agency_code; ?>&admin_division=<?php echo $div_id; ?>&admin_district=<?php echo $dis_id; ?>&admin_upazila=<?php echo $upa_id; ?>&org_type=<?php echo $row['org_type_code']; ?>&form_submit=1&view=org_list&status=not_updated"><?php echo $total_not_updated; ?></a>
+                                                            <a href="report_monthly_update.php?org_agency=<?php echo $agency_code; ?>&admin_division=<?php echo $div_code; ?>&admin_district=<?php echo $dis_code; ?>&admin_upazila=<?php echo $upa_code; ?>&org_type=<?php echo $row['org_type_code']; ?>&form_submit=1&view=org_list&status=not_updated"><?php echo $total_not_updated; ?></a>
                                                             <?php else: ?>
                                                                 <?php echo $total_not_updated; ?>
                                                             <?php endif; ?>
@@ -443,11 +545,11 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             // load division
             $('#admin_division').change(function() {
                 $("#loading_content").show();
-                var div_id = $('#admin_division').val();
+                var div_code = $('#admin_division').val();
                 $.ajax({
                     type: "POST",
-                    url: 'get/get_district_list.php',
-                    data: {div_id: div_id},
+                    url: 'get/get_districts.php',
+                    data: {div_code: div_code},
                     dataType: 'json',
                     success: function(data)
                     {
@@ -464,12 +566,12 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
 
             // load district 
             $('#admin_district').change(function() {
-                var dis_id = $('#admin_district').val();
+                var dis_code = $('#admin_district').val();
                 $("#loading_content").show();
                 $.ajax({
                     type: "POST",
-                    url: 'get/get_upazila_list.php',
-                    data: {dis_id: dis_id},
+                    url: 'get/get_upazilas.php',
+                    data: {dis_code: dis_code},
                     dataType: 'json',
                     success: function(data)
                     {

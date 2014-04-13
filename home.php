@@ -30,9 +30,9 @@ if ($org_type_code == 1029 || $org_type_code == 1051) {
 }
 
 
-$username = getUserNameFromOrgCode($org_code);
+$username = $_SESSION['username'];
 //get coordinates
-$sql = "SELECT latitude, longitude FROM organization WHERE  org_code = $org_code LIMIT 1";
+$sql = "SELECT latitude, longitude, district_code, upazila_thana_code,uploaded_by, upload_datetime, org_photo FROM organization WHERE org_code = $org_code LIMIT 1";
 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 $data = mysql_fetch_assoc($result);
 
@@ -40,6 +40,13 @@ $latitude = $data['latitude'];
 $longitude = $data['longitude'];
 $coordinate = $longitude . "," . $latitude;
 $map_popup = $org_name;
+
+$upazila_code = $data['upazila_thana_code'];
+$district_code = $data['district_code'];
+
+$uploaded_by = $data['uploaded_by'];
+$upload_datetime = $data['upload_datetime'];
+$org_photo = $data['org_photo'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -87,16 +94,48 @@ $map_popup = $org_name;
                     <!-- info area
                     ================================================== -->
                     <section id="organization-profile">
+                        <!--
+                        the "$release_count", "$join_count" values are assigned on left_menu_org_admin.php page.
+                        -->
+                        <?php if ($release_count || $join_count): ?>
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <?php if ($release_count): ?>
+                                        <div class="alert alert-warning">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <p>Total <?php echo ($release_count); ?> release order waiting for approval.</p>
+                                        </div>
+
+                                    <?php endif; ?>
+
+                                    <?php if ($join_count): ?>
+                                        <div class="alert alert-success">
+                                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                            <p>Total <?php echo ($join_count); ?> join order waiting for approval.</p>
+                                        </div>
+
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
 
                         <div class="row">
                             <div class="span5">
                                 <?php
-                                $image_src = "uploads/" . $username . ".jpg";
+                                if ($org_photo) {
+                                    $image_src = "uploads/" . $org_photo;
+                                } else
+                                    $image_src = '';
 
                                 if (file_exists($image_src)) {
                                     echo "<img src=\"$image_src\" class=\"img-polaroid\" />";
+                                    echo "<a href=\"upload.php?org_code=$org_code\">Update Photo</a>";
+                                } elseif ($image_src == 'uploads/') {
+                                    echo "<img data-src=\"holder.js/480x360\"  class=\"img-polaroid\" />";
+                                    echo "<a href=\"upload.php?org_code=$org_code\">Upload Photo</a>";
                                 } else {
                                     echo "<img data-src=\"holder.js/480x360\"  class=\"img-polaroid\" />";
+                                    echo "<a href=\"upload.php?org_code=$org_code\">Upload Photo</a>";
                                 }
                                 ?>
                             </div>
@@ -108,18 +147,18 @@ $map_popup = $org_name;
                     </section>
                     <section id="home-basic-info">
                         <div class="row">
-                            <div class="lead span9">
+                            <div class="span9">
                                 <table class="table table-striped table-hover">
                                     <tr>
-                                        <td>Organization Name</td>
+                                        <td><strong>Organization Name</strong></td>
                                         <td><?php echo "$org_name"; ?></td>
                                     </tr>
                                     <tr>
-                                        <td>Organization Code</td>
+                                        <td><strong>Organization Code</strong></td>
                                         <td><?php echo "$org_code"; ?></td>
                                     </tr>
                                     <tr>
-                                        <td>Organization Type</td>
+                                        <td><strong>Organization Type</strong></td>
                                         <td><?php echo "$org_type_name"; ?></td>
                                     </tr>
                                 </table>
@@ -133,6 +172,33 @@ $map_popup = $org_name;
 
                         $row_count = count($org_info);
                         ?>
+                        <div class="row-fluid">
+                            <div class="span5">
+                                <h4>Upazila Summary Info</h4>
+                                <table class="table table-striped table-hover table-bordered">                            
+                                    <tr>
+                                        <td><strong>Total Number of Unions</strong></td>
+                                        <td><?php echo getUnionCountFromUpaCodeAndDisCode($upazila_code, $district_code); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Total Number of CC</strong></td>
+                                        <td><?php echo getCommunityClinicCountFromUpaCodeAndDisCode($upazila_code, $district_code); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Total Number of USC</strong></td>
+                                        <td><?php echo getUnionSubCentreCountFromUpaCodeAndDisCode($upazila_code, $district_code); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Total Number of Union Health Center</strong></td>
+                                        <td><?php echo getUnionHealthCentreCountFromUpaCodeAndDisCode($upazila_code, $district_code); ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Total Number of UH&FWC</strong></td>
+                                        <td><?php echo getUnionHealthFamilyWelfareCountFromUpaCodeAndDisCode($upazila_code, $district_code); ?></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
                         <h4>List of Union Sub Center and Community Clinic</h4>
                         <table class="table table-striped table-bordered">
                             <thead>
@@ -160,7 +226,7 @@ $map_popup = $org_name;
         </div>
         <!-- Footer
         ================================================== -->
-        <?php //include_once 'include/footer/footer.inc.php'; ?>
+        <?php //include_once 'include/footer/footer.inc.php';   ?>
         <?php include_once 'include/footer/footer.inc.php'; ?>
         <!-- Map
         ================================================== -->
@@ -171,7 +237,7 @@ $map_popup = $org_name;
 
             L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {
                 maxZoom: 18,
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery Â© <a href="http://cloudmade.com">CloudMade</a>'
             }).addTo(map);
 
 

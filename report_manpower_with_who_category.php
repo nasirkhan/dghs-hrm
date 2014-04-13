@@ -175,7 +175,7 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                         <div class="row">
                             <div class="">
                                 <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                    <p class="lead">Summary Report WHO Health Professional Group (All Organization)</p>
+                                    <p class="lead">Summary Report on WHO Professional Group</p>
                                     <div class="control-group">
                                         <select id="org_agency" name="org_agency">
                                             <option value="0">Select Agency</option>
@@ -190,6 +190,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['org_agency_code'] == $_REQUEST['org_agency'])
+       												 echo "<option value=\"" . $rows['org_agency_code'] . "\" selected='selected'>" . $rows['org_agency_name'] . "</option>";
+											    else
                                                 echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
                                             }
                                             ?>
@@ -206,16 +209,67 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['old_division_id'] == $_REQUEST['admin_division'])
+       												 echo "<option value=\"" . $rows['old_division_id'] . "\" selected='selected'>" . $rows['division_name'] . "</option>";
+											    else
                                                 echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
                                             }
                                             ?>
                                         </select>
                                         <select id="admin_district" name="admin_district">
-                                            <option value="0">Select District</option>                                        
+                                         <option value="0">Select District</option>
+										<?php 
+										    
+											$sql = "SELECT 
+												  admin_district.district_bbs_code,
+												  admin_district.old_district_id,
+												  admin_district.district_name
+											  FROM
+												  admin_district
+											  WHERE
+												  admin_district.division_id =$div_id
+											  ORDER BY
+												  admin_district.district_name";
+									  $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_district_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+										  while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['old_district_id'] == $_REQUEST['admin_district'])
+       												 echo "<option value=\"" . $rows['old_district_id'] . "\" selected='selected'>" . $rows['district_name'] . "</option>";
+											    else
+                                                     echo "<option value=\"" . $rows['old_district_id'] . "\">" . $rows['district_name'] . "</option>";
+                                            }
+											
+										?>
                                         </select>
-                                        <select id="admin_upazila" name="admin_upazila">
-                                            <option value="0">Select Upazila</option>                                        
+                                        
+<!--                                        <select id="admin_district" name="admin_district">
+                                            <option value="0">Select District</option>                             
+                                        </select>-->
+                                        
+                                        
+                                       <select id="admin_upazila" name="admin_upazila">
+                                         <option value="0">Select Upazila</option>
+										<?php 
+										    
+											$sql = "SELECT
+													admin_upazila.upazila_name,
+													admin_upazila.old_upazila_id
+												FROM
+													admin_upazila
+												WHERE
+													admin_upazila.old_district_id = $dis_id
+												ORDER BY
+													admin_upazila.upazila_name";
+									  $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_dupazila_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+										  while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['old_upazila_id'] == $_REQUEST['admin_upazila'])
+       												 echo "<option value=\"" . $rows['old_upazila_id'] . "\" selected='selected'>" . $rows['upazila_name'] . "</option>";
+											    else
+                                                     echo "<option value=\"" . $rows['old_upazila_id'] . "\">" . $rows['upazila_name'] . "</option>";
+                                            }
+											
+										?>
                                         </select>
+
                                     </div>
 
 
@@ -234,6 +288,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if($rows['org_type_code'] == $_REQUEST['org_type'])
+												echo "<option value=\"" . $rows['org_type_code'] . "\" selected='selected'>" . $rows['org_type_name'] . "</option>";
+												else
                                                 echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
                                             }
                                             ?>
@@ -252,6 +309,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>who_health_professional_group_code:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if($rows['who_health_professional_group_code'] == $_REQUEST['who_professional'])
+												echo "<option value=\"" . $rows['who_health_professional_group_code'] . "\" selected='selected'>" . $rows['who_health_professional_group_name'] . "</option>";
+												else
                                                 echo "<option value=\"" . $rows['who_health_professional_group_code'] . "\">" . $rows['who_health_professional_group_name'] . "</option>";
                                             }
                                             ?>
@@ -261,6 +321,8 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                     <input name="form_submit" value="1" type="hidden" />
                                     <div class="control-group">
                                         <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
+                                        
+                                        <a id="btn_show_org_list" class="btn btn-warning" href="report_manpower_with_who_category.php">Reset</a>
 
                                         <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                     </div>  
@@ -320,40 +382,12 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
 
                                                 while ($row = mysql_fetch_assoc($designation_result)) :
                                                     $row_serial++;
-                                                    $sql = "SELECT
-                                                        designation,
-                                                        designation_code,
-                                                        COUNT(*) AS existing_total_count
-                                                FROM
-                                                        total_manpower_imported_sanctioned_post_copy
-                                                WHERE
-                                                        ($desognation_query_string)
-                                                AND designation_code = " . $row['designation_code'] . "
-                                                AND staff_id_2 > 0
-                                                ";
-//                                                echo "$sql";
-//                                                die();
-                                                    $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                                    $a = mysql_fetch_assoc($r);
-                                                    $existing_total_count = $a['existing_total_count'];
-
-                                                    $sql = "SELECT
-                                                        total_manpower_imported_sanctioned_post_copy.designation,
-                                                        total_manpower_imported_sanctioned_post_copy.designation_code,
-                                                        COUNT(*) AS existing_male_count
-                                                FROM
-                                                        total_manpower_imported_sanctioned_post_copy
-                                                LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.staff_id = total_manpower_imported_sanctioned_post_copy.staff_id_2
-                                                WHERE
-                                                        ($desognation_query_string) 
-                                                AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row['designation_code'] . "
-                                                AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
-                                                AND old_tbl_staff_organization.sex=1
-                                                AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
-                                                    $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:4</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                                    $a = mysql_fetch_assoc($r);
-                                                    $existing_male_count = $a['existing_male_count'];
-
+                                                    
+                                                    // total existing number of staff
+                                                    $existing_total_count = getExistingWhoProfessionalFromDesignationStringAndDesignationCode($desognation_query_string, $row['designation_code']);
+                                                    // total existing number of staff (Male)
+                                                    $existing_male_count = getExistingMaleWhoProfessionalFromDesignationStringAndDesignationCode($desognation_query_string, $row['designation_code']);
+                                                    // total existing number of staff (Female)
                                                     $existing_female_count = $existing_total_count - $existing_male_count;
                                                     $total_sanctioned_post_count_sum += $row['sp_count'];
                                                     $total_sanctioned_post_existing_sum += $existing_total_count;

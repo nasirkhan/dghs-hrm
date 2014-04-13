@@ -51,17 +51,33 @@ $action = mysql_real_escape_string($_POST['action']);
 if (isset($_POST['id']) && isset($_POST['action'])) {
     if ($action == "approve") {
         // UPDATE organization_requested
-        updateOrgRequest($id, $user_name);
+        updateOrgRequest($id);
 
         // GET organizaion data
         $data = getOrgInfoFromOrganizationRequestTable($id);
         
         // Insect new organization
         $new_org_code = insertNewOrganization($data);
+        $new_org_name = getOrgNameFormOrgCode($new_org_code);
         
-        // Add Sanctioned Post
-        addCommunityClinicSanctionedPost($new_org_code);
+        if ($data['org_type_code'] == 1039){
+            // Add Sanctioned Post
+            addCommunityClinicSanctionedPost($new_org_code);
 
+            // Add new user 
+            $new_user_name = $data['email_address1'];
+            $new_user_email = $data['email_address1'];
+            $new_user_pass = "dghs123";
+            $new_user_type = "user";
+            $new_user_org_code = $new_org_code;
+            $new_user_mobile = $data['mobile_number1'];
+            if (addNewUser($new_user_name, $new_user_email, $new_user_pass, $new_user_type, $new_user_org_code, $new_user_mobile)){
+                $action_text = "User Created!";
+            } else {
+                $action_text = "No user created!";
+            }
+        }
+        
         /**
          * Email content
          *
@@ -206,9 +222,16 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                         <h3>Admin Dashboard</h3>
                         <?php if ($action == "approve"): ?>
                             <div class="alert">
+                                <p class="lead">                                    
+                                    <a href="admin_edit_org.php" class="btn btn-info pull-right">Go back to the approval queue.</a>
+                                </p>
                                 <p class="lead">
                                     <strong><?php echo "$new_org_name"; ?></strong> has been approved and you can view the
                                     profile from the following URL <em><a href="org_profile.php?org_code=<?php echo "$new_org_code"; ?>">org_profile.php?org_code=<?php echo "$new_org_code"; ?></a></em>
+                                </p>
+                                <p class="lead">
+                                    
+                                    <?php echo $action_text; ?>
                                 </p>
                             </div>
                         <?php endif; ?>
@@ -375,7 +398,7 @@ if (isset($_POST['id']) && isset($_POST['action'])) {
                                                         <td><?php echo getOrgOwnarshioNameFromCode($data['ownership_code']); ?></td>
                                                         <td><?php echo $data['division_name']; ?></td>
                                                         <td><?php echo $data['district_name']; ?></td>
-                                                        <td><?php echo $data['upazila_thana_name']; ?></td>
+                                                        <td><?php echo getUpazilaNamefromBBSCode($data['upazila_thana_code'], $data['district_code']); ?></td>
                                                         <td><?php echo $data['updated_datetime']; ?></td>
                                                         <td>
                                                             <a class="btn  btn-info" href="admin_edit_org.php?id=<?php echo $data['id']; ?>">View / Edit</a>

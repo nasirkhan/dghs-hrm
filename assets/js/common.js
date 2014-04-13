@@ -18,63 +18,14 @@ var org_code;
 //Basic Informatoin 
 //
 
-//agency_code
-$(function() {
-    $('#agency_code').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_agency_code.php'
-    });
-});
 
-//org_location_type
-$(function() {
-    $('#org_location_type').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_org_location_type.php'
-    });
-});
 
-//division_name
-$(function() {
-    $('#division_code').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_org_division_name.php'
-    });
-});
 
-//upazila_thana_name
-$(function() {
-    $('#upazila_thana_code').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_org_upazila_thana_name.php',
-        params: function(params) {
-            params.div_name = selected_div_name;
-            return params;
-        }
-    });
-});
 
-//district_name
-$(function() {
-    $('#district_code').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_org_district_name.php',
-        params: function(params) {
-            params.div_name = selected_div_name;
-            return params;
-        }
-    });
-});
+
+
+
+
 
 
 //
@@ -242,57 +193,10 @@ $(function() {
         url: 'post/post_org_profile.php'
     });
 });
-$(function() {
-    $('#org_type_code').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_org_type_name.php'
-    });
-});
-// agency code
-$(function() {
-    $('#agency_code').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_agency_code.php'
-    });
-});
 
 
-//$(function() {
-//    $('#org_function_code').editable({
-//        type: 'select',
-//        pk: org_code,
-//        url: 'post/post_org_profile.php',
-//        source: 'get/get_org_function_code.php'
-//    });
-//});
 
-//org_function_code
-$(function() {
-    $('#org_function_code').editable({
-        type: 'checklist',
-        value: org_function_value,
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_org_function_code.php',
-        params: function(params) {
-            params.post_type = 'checklist';
-            return params;
-        }
-    });
-});
 
-$(function() {
-    $('#org_level_code').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_org_level_code.php'
-    });
-});
 
 $(function() {
     $('#division_name').editable({
@@ -313,14 +217,7 @@ $(function() {
 });
 
 
-$(function() {
-    $('#ownership_code').editable({
-        type: 'select',
-        pk: org_code,
-        url: 'post/post_org_profile.php',
-        source: 'get/get_org_ownership.php'
-    });
-});
+
 
 $(function() {
     $('#org_healthcare_level_code').editable({

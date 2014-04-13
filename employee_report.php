@@ -140,8 +140,8 @@ require_once './include/check_org_code.php';
                                     <tr>
                                         <td><?php echo $row['designation']; ?></td>
                                         <td><?php echo getTypeOfPostNameFromCode($row['type_of_post']); ?></td>
+                                        <td><?php echo $row['pay_scale']; ?></td>
                                         <td><?php echo $row['class']; ?></td>
-                                        <td><?php echo $row['designation']; ?></td>
                                         <td><?php echo $row['sp_count']; ?></td>
                                         <td><?php echo $existing_total_count; ?></td>
                                         <td><?php echo $existing_male_count; ?></td>

@@ -113,16 +113,17 @@ if ($_SESSION['user_type'] != "admin") {
                             <a href="delete.php" class="btn btn-danger btn-large">
                                 <i class="icon-trash pull-left icon-3x"></i> Delete
                             </a>
-
+                            <!--
                             <a href="sanctioned_post_update.php" class="btn btn-large">
-                                <i class="icon-group pull-left icon-3x"></i> Update sanctioned Post
+                                <i class="icon-group pull-left icon-3x"></i> Manage Sanctioned Post
                             </a>
+                            -->
 
                             <a href="admin_edit_org.php" class="btn btn-large">
                                 <?php
+                                require_once 'configuration.php';
                                 $sql = "SELECT * FROM `organization_requested` WHERE active LIKE 1;";
                                 $new_org_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
                                 $new_org_result_count = mysql_num_rows($new_org_result);
                                 ?>
                                 <i class="icon-hospital pull-left icon-3x"></i>
