@@ -163,7 +163,7 @@ if ($staff_id > 0) {
                                 <td><?php echo $sanctioned_post_info['pay_scale'];?></td>
                                 <td>
                                     <?php if ($data['status'] == "release"): ?>
-                                        <a href="transfer_staff.php?staff_id=<?php echo $data['staff_id']; ?>&action=join" class="btn btn-info btn-small" >
+                                        <a href="transfer_update.php?staff_id=<?php echo $data['staff_id']; ?>&order_type=join" class="btn btn-info btn-small" >
                                     <?php else: ?>
                                         <a href="" class="btn btn-info btn-small disabled" >
                                     <?php endif; ?>    
