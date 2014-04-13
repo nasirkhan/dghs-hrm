@@ -2857,7 +2857,7 @@ function showTransferStaffList($org_code, $org_type, $status, $return_type) {
 
         $sql = "SELECT * FROM `transfer_staff` WHERE $org_type = $org_code AND `status` LIKE '$status'";
         $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferStaffList:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-        echo "<pre>$sql</pre>";
+
         $data = mysql_fetch_assoc($result);
         $count = mysql_num_rows($result);
     } else if ($status == "release") {

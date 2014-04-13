@@ -86,7 +86,30 @@ if (isset($_REQUEST['order_type'])) {
         
 //        $data = mysql_fetch_assoc($staff_result);
 //        print_r($sql);
-    } 
+    } else if ($order_type == "release_submit"){
+        $transfer_id = mysql_real_escape_string(trim($_REQUEST['transfer_id']));
+        
+        $sql = "UPDATE `transfer_staff` SET `release_approved_by`='$user_name', `status`='release', `updated_by`='$user_name' WHERE (`id`='$transfer_id')";
+        $staff_result = mysql_query($sql) or die(mysql_error() . "<p>Code:5<br /><br /><b>Query:</b><br />___<br />$sql</p>");        
+        
+        header('location:transfer_staff.php');
+    } else if ($order_type == "join"){
+        $staff_id = mysql_real_escape_string(trim($_REQUEST['staff_id']));
+        
+        $sql = "SELECT * FROM `transfer_staff` WHERE staff_id = '$staff_id' AND `status` LIKE 'release' AND active LIKE '1'";
+        $staff_result = mysql_query($sql) or die(mysql_error() . "<p>Code:4<br /><br /><b>Query:</b><br />___<br />$sql</p>");        
+        
+//        $data = mysql_fetch_assoc($staff_result);
+//        print_r($sql);
+    } else if ($order_type == "join_submit"){
+        $transfer_id = mysql_real_escape_string(trim($_REQUEST['transfer_id']));
+        
+        $sql = "UPDATE `transfer_staff` SET `release_approved_by`='$user_name', `status`='join', `updated_by`='$user_name' WHERE (`id`='$transfer_id')";
+        $staff_result = mysql_query($sql) or die(mysql_error() . "<p>Code:5<br /><br /><b>Query:</b><br />___<br />$sql</p>");        
+        
+        header('location:transfer_staff.php');
+    }
+    
     
 } else {
     header('location:transfer.php');
@@ -145,7 +168,7 @@ if (isset($_REQUEST['order_type'])) {
                             $transfer_memo_date = mysql_real_escape_string(trim($_POST['memo_date']));
                             $transfer_top_intro = "BCS info.....alskdasd asdada asdajdlas alaks caslnasslaj as'las .";
                             $transfer_comment = mysql_real_escape_string(trim($_POST['comment']));
-                            $transfer_signed_by = "Name :lasdj <br> Phone: 123456789 <br> email: abc@def.gh"
+                            $transfer_signed_by = "Name :lasdj <br> Phone: 123456789 <br> email: abc@def.gh";
                             ?>
 
                             <div class="row-fluid">
@@ -231,8 +254,8 @@ if (isset($_REQUEST['order_type'])) {
                             $transfer_memo_date = $data['memo_date']; 
                             $transfer_top_intro = "BCS info.....alskdasd asdada asdajdlas alaks caslnasslaj as'las .";
                             $transfer_comment = $data['comment'];
-                            $transfer_signed_by_1 = "Name : <br> Phone:  <br> email: ";
-                            $transfer_signed_by_2 = "Name : <br> Phone:  <br> email: ";
+                            $transfer_signed_by_1 = "Name : <br> Designation: <br> Phone:  <br> Email: ";
+                            $transfer_signed_by_2 = "Name : <br> Designation: <br> Phone:  <br> Email: ";
                                     
                             ?>
 
@@ -246,12 +269,12 @@ if (isset($_REQUEST['order_type'])) {
                             <div class="row-fluid">
                                 <div class="span6">
                                     <p class="text-left">
-                                        <?php echo $transfer_memo_no; ?>
+                                        Memo no:<?php echo $transfer_memo_no; ?>
                                     </p>
                                 </div>
                                 <div class="span6">
                                     <p class="text-right">
-                                        <?php echo $transfer_memo_date; ?>
+                                        Memo date:<?php echo $transfer_memo_date; ?>
                                     </p>
                                 </div>
                             </div>
@@ -277,15 +300,15 @@ if (isset($_REQUEST['order_type'])) {
                                                 <td><?php echo $transfer_id; ?></td>
                                                 <td>
                                                     <?php echo $data['staff_id']; ?>,
-                                                    <?php echo $data['designation_code']; ?>,
-                                                    <?php echo $data['org_code']; ?>,
+                                                    <?php echo getDesignationNameformCode($data['present_designation_id']); ?>,
+                                                    <?php echo getOrgNameFormOrgCode($data['present_org_code']); ?>,
                                                 </td>
                                                 <td>
-                                                    <?php echo $data['to_designation_code']; ?>,
-                                                    <?php echo $data['to_org_code']; ?>,
+                                                    <?php echo getDesignationNameformCode($data['move_to_designation_id']); ?>,
+                                                    <?php echo getOrgNameFormOrgCode($data['move_to_org_code']); ?>,
                                                     <?php
-                                                    if ($data['to_org_code'] != $data['to_working_org_code']) {
-                                                        echo getOrgNameFormOrgCode($data['to_working_org_code']);
+                                                    if ($data['move_to_working_org_code'] != $data['move_to_org_code']) {
+                                                        echo getOrgNameFormOrgCode($data['move_to_working_org_code']);
                                                     }
                                                     ?>
                                                 </td>                                                
@@ -304,7 +327,108 @@ if (isset($_REQUEST['order_type'])) {
                             <div class="row-fluid">
                                 <div class="span12">
                                     <p class="text-right">
-                                        <?php echo $transfer_signed_by; ?>
+                                        <?php echo $transfer_signed_by_1; ?>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <p class="text-right">
+                                        <?php echo $transfer_signed_by_2; ?>
+                                    </p>
+                                </div>
+                            </div>                        
+                        
+                        <?php elseif ($_REQUEST['order_type'] == "join"):
+                            $data = mysql_fetch_assoc($staff_result);
+                            
+                            $transfer_id = $data['id'];
+                            $transfer_top_header = "Bnagladesh Govt.";
+                            $transfer_memo_no = $data['memo_no'];
+                            $transfer_memo_date = $data['memo_date']; 
+                            $transfer_top_intro = "BCS info.....alskdasd asdada asdajdlas alaks caslnasslaj as'las .";
+                            $transfer_comment = $data['comment'];
+                            $transfer_signed_by_1 = "Name : <br> Designation: <br> Phone:  <br> Email: ";
+                            $transfer_signed_by_2 = "Name : <br> Designation: <br> Phone:  <br> Email: ";
+                                    
+                            ?>
+
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <p class="text-center">
+                                        <?php echo $transfer_top_header; ?>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span6">
+                                    <p class="text-left">
+                                        Memo no:<?php echo $transfer_memo_no; ?>
+                                    </p>
+                                </div>
+                                <div class="span6">
+                                    <p class="text-right">
+                                        Memo Date:<?php echo $transfer_memo_date; ?>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <p class="text-center">
+                                        <?php echo $transfer_top_intro; ?>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <table class="table table-bordered table-hover table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Present Info</th>
+                                                <th>Transfer info</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><?php echo $transfer_id; ?></td>
+                                                <td>
+                                                    <?php echo $data['staff_id']; ?>,
+                                                    <?php echo getDesignationNameformCode($data['present_designation_id']); ?>,
+                                                    <?php echo getOrgNameFormOrgCode($data['present_org_code']); ?>,
+                                                </td>
+                                                <td>
+                                                    <?php echo getDesignationNameformCode($data['move_to_designation_id']); ?>,
+                                                    <?php echo getOrgNameFormOrgCode($data['move_to_org_code']); ?>,
+                                                    <?php
+                                                    if ($data['move_to_working_org_code'] != $data['move_to_org_code']) {
+                                                        echo getOrgNameFormOrgCode($data['move_to_working_org_code']);
+                                                    }
+                                                    ?>
+                                                </td>                                                
+                                            </tr>                                      
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <p class="text-left">
+                                        <?php echo $transfer_comment; ?>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <p class="text-right">
+                                        <?php echo $transfer_signed_by_1; ?>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <p class="text-right">
+                                        <?php echo $transfer_signed_by_2; ?>
                                     </p>
                                 </div>
                             </div>
@@ -312,11 +436,9 @@ if (isset($_REQUEST['order_type'])) {
                         
                         <div class="hidden-print">
                             <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
-                                <input type="hidden" name="order_memo_no" value="<?php echo "$transfer_memo_no"; ?>" />
-                                <input type="hidden" name="order_memo_date" value="<?php echo "$transfer_memo_date"; ?>" />
-                                <input type="hidden" name="order_comment" value="<?php echo "$transfer_comment"; ?>" />
-                                <input type="hidden" name="order_type" value="order_submit" />
-                                <button type="submit" class="btn btn-success">Confirm Submission</button>
+                                <input type="hidden" name="transfer_id" value="<?php echo $data['id']; ?>" />
+                                <input type="hidden" name="order_type" value="join_submit" />
+                                <button type="submit" class="btn btn-success">Confirm Join</button>
                             </form>
                         </div>
                     </section>
