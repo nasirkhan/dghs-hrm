@@ -85,8 +85,8 @@ if ($staff_id > 0) {
                     Release list
                     -->
                     <?php 
-                    $data = showTransferList($org_code, 'from_working_org_code', 'order', 'list');
-                    $data_count = showTransferList($org_code, 'from_working_org_code', 'order', 'count');
+                    $data = showTransferStaffList($org_code, 'present_org_code', 'order', 'list');
+                    $data_count = showTransferStaffList($org_code, 'present_org_code', 'order', 'count');
                     
                     if ($data_count > 0):
                     ?>
@@ -129,8 +129,8 @@ if ($staff_id > 0) {
                     Join list
                     -->
                     <?php 
-                    $data = showTransferList($org_code, 'to_working_org_code', 'join', 'list');
-                    $data_count = showTransferList($org_code, 'to_working_org_code', 'join', 'count');
+                    $data = showTransferStaffList($org_code, 'move_to_org_code', 'join', 'list');
+                    $data_count = showTransferStaffList($org_code, 'move_to_org_code', 'join', 'count');
 
                     if ($data_count > 0):
                     ?>

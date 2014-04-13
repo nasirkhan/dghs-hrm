@@ -2837,6 +2837,62 @@ function showTransferList($org_code, $org_type, $status, $return_type) {
     }
 }
 
+/**
+ * 
+ * @param type $org_code | logged int users organizaion code
+ * @param type $org_type | Options : to_org_code / to_working_org_code / form_org_code / form_working_org_code
+ * @param type $status | 
+ * @param type $return_type|  Options are: list / count
+ * @return boolean
+ */
+function showTransferStaffList($org_code, $org_type, $status, $return_type) {
+    if ((!$org_code > 0) || $status == "" || $org_type == "") {
+        return FALSE;
+    }
+
+    if ($status == "order") {
+        $status = mysql_real_escape_string(trim($status));
+        $org_code = mysql_real_escape_string(trim($org_code));
+        $org_type = mysql_real_escape_string(trim($org_type));
+
+        $sql = "SELECT * FROM `transfer_staff` WHERE $org_type = $org_code AND `status` LIKE '$status'";
+        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferStaffList:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+        echo "<pre>$sql</pre>";
+        $data = mysql_fetch_assoc($result);
+        $count = mysql_num_rows($result);
+    } else if ($status == "release") {
+        $status = mysql_real_escape_string(trim($status));
+        $org_code = mysql_real_escape_string(trim($org_code));
+        $org_type = mysql_real_escape_string(trim($org_type));
+
+        $sql = "SELECT * FROM `transfer_staff` WHERE $org_type = $org_code AND `status` LIKE '$status'";
+        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferStaffList2<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        $data = mysql_fetch_assoc($result);
+        $count = mysql_num_rows($result);
+    } else if ($status == "join") {
+        $status = mysql_real_escape_string(trim($status));
+        $org_code = mysql_real_escape_string(trim($org_code));
+        $org_type = mysql_real_escape_string(trim($org_type));
+
+        $sql = "SELECT * FROM `transfer_staff` WHERE $org_type = $org_code AND (`status` LIKE 'release' OR `status` LIKE 'order') ";
+        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferStaffList3<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        $data = mysql_fetch_assoc($result);
+        $count = mysql_num_rows($result);
+    }
+
+    if ($return_type == "list") {
+        if ($count > 0) {
+            return $data;
+        } else {
+            return FALSE;
+        }
+    } else if ($return_type == "count") {
+        return $count;
+    }
+}
+
 function getSanctionedPostInfoFromStaffId($staff_id) {
     $staff_id = (int) mysql_real_escape_string(trim($staff_id));
 
