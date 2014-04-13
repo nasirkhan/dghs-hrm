@@ -117,7 +117,7 @@ if ($staff_id > 0) {
                                 <td><?php echo $sanctioned_post_info['designation'];?></td>
                                 <td><?php echo $sanctioned_post_info['class'];?></td>
                                 <td><?php echo $sanctioned_post_info['pay_scale'];?></td>
-                                <td><a href="transfer_staff.php?staff_id=<?php echo $data['staff_id']; ?>&action=release" class="btn btn-warning btn-small" >Release</td>
+                                <td><a href="transfer_update.php?staff_id=<?php echo $data['staff_id']; ?>&order_type=release" class="btn btn-warning btn-small" >Release</td>
                             </tr>
                             <?php endfor; ?>
                         </tbody>
