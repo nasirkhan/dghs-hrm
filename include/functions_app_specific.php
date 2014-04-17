@@ -567,6 +567,30 @@ function getDesignationNameformCode($designation_code) {
 }
 
 /**
+ * Get Designation Group Name form Code
+ * 
+ * @param type $code
+ * @return boolean|designation_group_name
+ */
+function getDesignationGroupNameformCode($code) {
+    if (!$code > 0) {
+        return FALSE;
+    }
+    $sql = "SELECT
+                    sanctioned_post_designation_group.designation_group_name
+            FROM
+                    `sanctioned_post_designation_group`
+            WHERE
+                    sanctioned_post_designation_group.designation_group_code = '$code'$code
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationGroupNameformCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['designation_group_name'];
+}
+
+/**
  *  get organization administration information
  */
 function getDivisionNamefromCode($division_code) {
