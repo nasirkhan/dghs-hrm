@@ -115,6 +115,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <tr>                                        
                                         <td><a href="report_monthly_update.php">Monthly Update Summary</a></td>
                                     </tr>
+                                    <tr>                                        
+                                        <td><a href="http://test.dghs.gov.bd/hrm-dev/report_staff_list_by_permanenet_address.php">Staff District (permanent address) wise list</a></td>
+                                    </tr>
                                     <?php endif; ?>
                                 </tbody>
                                 
