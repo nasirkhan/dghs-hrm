@@ -652,7 +652,7 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
             $("#loading_content").show();
             $.ajax({
                 type: "POST",
-                url: 'get/get_designations.php',
+                url: 'get/get_designations_vacant.php',
                 data: {organization_code: organization_code},
                 dataType: 'json',
                 success: function(data)
