@@ -567,6 +567,30 @@ function getDesignationNameformCode($designation_code) {
 }
 
 /**
+ * Get Designation Group Name form Code
+ * 
+ * @param type $code
+ * @return boolean|designation_group_name
+ */
+function getDesignationGroupNameformCode($code) {
+    if (!$code > 0) {
+        return FALSE;
+    }
+    $sql = "SELECT
+                    sanctioned_post_designation_group.designation_group_name
+            FROM
+                    `sanctioned_post_designation_group`
+            WHERE
+                    sanctioned_post_designation_group.designation_group_code = '$code'$code
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationGroupNameformCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['designation_group_name'];
+}
+
+/**
  *  get organization administration information
  */
 function getDivisionNamefromCode($division_code) {
@@ -2915,7 +2939,7 @@ function getSanctionedPostInfoFromStaffId($staff_id) {
  * @return boolean | Order count with style
  */
 function showToralReleaseCountFromOrgCode($org_code){
-    $sql = "SELECT * FROM `transfer_queue` WHERE from_working_org_code = $org_code AND `status` LIKE 'order'";
+    $sql = "SELECT * FROM `transfer_staff` WHERE present_org_code = $org_code AND `status` LIKE 'order'";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getToralReleaseCountFromOrgCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
     $count = mysql_num_rows($result);
@@ -2936,7 +2960,7 @@ function showToralReleaseCountFromOrgCode($org_code){
  * @return boolean | Order count with style
  */
 function showToralJoinCountFromOrgCode($org_code){
-    $sql = "SELECT * FROM `transfer_queue` WHERE to_working_org_code = $org_code AND `status` LIKE 'release'";
+    $sql = "SELECT * FROM `transfer_staff` WHERE move_to_org_code = $org_code AND `status` LIKE 'release'";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showToralJoinCountFromOrgCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
     $count = mysql_num_rows($result);

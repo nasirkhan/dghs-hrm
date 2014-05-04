@@ -384,16 +384,15 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                 while ($row = mysql_fetch_assoc($designation_result)) :
                                                     $row_serial++;
                                                     $sql = "SELECT
-                                                        designation,
-                                                        designation_code,
-                                                        COUNT(*) AS existing_total_count
-                                                FROM
-                                                        total_manpower_imported_sanctioned_post_copy
-                                                WHERE
-                                                        ($desognation_query_string)
-                                                AND designation_code = " . $row['designation_code'] . "
-                                                AND staff_id_2 > 0
-                                                ";
+                                                                    designation,
+                                                                    designation_code,
+                                                                    COUNT(*) AS existing_total_count
+                                                            FROM
+                                                                    total_manpower_imported_sanctioned_post_copy
+                                                            WHERE
+                                                                    ($desognation_query_string)
+                                                            AND designation_code = " . $row['designation_code'] . "
+                                                            AND staff_id_2 > 0";
 //                                                echo "$sql";
 //                                                die();
                                                     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -401,18 +400,18 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                     $existing_total_count = $a['existing_total_count'];
 
                                                     $sql = "SELECT
-                                                        total_manpower_imported_sanctioned_post_copy.designation,
-                                                        total_manpower_imported_sanctioned_post_copy.designation_code,
-                                                        COUNT(*) AS existing_male_count
-                                                FROM
-                                                        total_manpower_imported_sanctioned_post_copy
-                                                LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.staff_id = total_manpower_imported_sanctioned_post_copy.staff_id_2
-                                                WHERE
-                                                        ($desognation_query_string) 
-                                                AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row['designation_code'] . "
-                                                AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
-                                                AND old_tbl_staff_organization.sex=1
-                                                AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
+                                                                    total_manpower_imported_sanctioned_post_copy.designation,
+                                                                    total_manpower_imported_sanctioned_post_copy.designation_code,
+                                                                    COUNT(*) AS existing_male_count
+                                                            FROM
+                                                                    total_manpower_imported_sanctioned_post_copy
+                                                            LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.staff_id = total_manpower_imported_sanctioned_post_copy.staff_id_2
+                                                            WHERE
+                                                                    ($desognation_query_string) 
+                                                            AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row['designation_code'] . "
+                                                            AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
+                                                            AND old_tbl_staff_organization.sex=1
+                                                            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
                                                     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:4</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                                     $a = mysql_fetch_assoc($r);
                                                     $existing_male_count = $a['existing_male_count'];

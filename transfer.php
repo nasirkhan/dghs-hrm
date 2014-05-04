@@ -52,7 +52,6 @@ if (isset($_REQUEST['q'])) {
     $q = mysql_real_escape_string(trim($_REQUEST['q']));
 
     $data = getStaffDetails($q);
-    
 }
 
 
@@ -125,9 +124,7 @@ if (isset($_REQUEST['staff_select'])) {
         $r = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
         header("location:transfer.php?staff_show=true");
-    }
-    
-    else if ($action == 'delete' && $_REQUEST['delete']== "confirm") {
+    } else if ($action == 'delete' && $_REQUEST['delete'] == "confirm") {
         $staff_id = mysql_real_escape_string(trim($_REQUEST['staff_id']));
         $sql = "UPDATE `transfer_queue` SET 
                     `status` = 'cancel', 
@@ -149,9 +146,9 @@ if (isset($_REQUEST['staff_show'])) {
 function showPrintPreviewData($username) {
     $sql = "SELECT * FROM `transfer_queue` WHERE order_creater_by LIKE \"$username\" and `status` LIKE \"pending\"";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showPrintPreviewData:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-    
+
     $data = mysql_fetch_assoc($result);
-    
+
     return $data;
 }
 
@@ -217,7 +214,7 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
                             <?php if ($data['staff_id'] > 0 && $action != "delete"): ?>
 
                                 <div class="span6">
-                                    <p class="text-left">Current Information</p>
+                                    <p class="text-left"><strong>Current Information</strong></p>
                                     <table class="table table-bordered">
                                         <tbody>
                                             <tr>
@@ -242,7 +239,7 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
                                             </tr>
                                             <tr>
                                                 <td>Place of Posting</td>
-                                                <td><?php echo $data['org_name']; ?></td>
+                                                <td><?php echo $data['org_name']; ?><?php // echo "(OrgCode:" . $data['org_code'] . ")"; ?></td>
                                             </tr>
                                             <tr>
                                                 <td>Mobile Number</td>
@@ -252,7 +249,7 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
                                     </table>
                                 </div>      
                                 <div class="span6">
-                                    <p class="text-left">Transfer Information</p>
+                                    <p class="text-left"><strong>Transfer Information</strong></p>
                                     <form method="post" action="">
                                         <table class="table table-bordered">
                                             <tbody>
@@ -268,12 +265,12 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
                                                             <option value="0">Select Agency</option>
                                                             <?php
                                                             $sql = "SELECT
-                                                        org_agency_code.org_agency_code,
-                                                        org_agency_code.org_agency_name
-                                                    FROM
-                                                        org_agency_code
-                                                    ORDER BY
-                                                        org_agency_code.org_agency_code";
+                                                                        org_agency_code.org_agency_code,
+                                                                        org_agency_code.org_agency_name
+                                                                    FROM
+                                                                        org_agency_code
+                                                                    ORDER BY
+                                                                        org_agency_code.org_agency_code";
                                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                                             while ($rows = mysql_fetch_assoc($result)) {
@@ -334,19 +331,19 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
                                                 <tr>
                                                     <td>Posted As</td>
                                                     <td>
-                                                        <?php 
+                                                        <?php
                                                         $sql = "SELECT
-                                                                staff_job_posting.job_posting_id,
-                                                                staff_job_posting.job_posting_name
+                                                                    staff_job_posting.job_posting_id,
+                                                                    staff_job_posting.job_posting_name
                                                                 FROM
-                                                                staff_job_posting";
+                                                                    staff_job_posting";
                                                         $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getJobPostingNameFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                                         ?>
                                                         <select id="staff_job_posting_id" name="staff_job_posting_id" >
-                                                        <?php while ($data = mysql_fetch_assoc($r)): ?>
-                                                          <option value="<?php echo $data['job_posting_id']; ?>"><?php echo $data['job_posting_name']; ?></option>
-                                                        <?php endwhile; ?>
-                                                      </select>
+                                                            <?php while ($data = mysql_fetch_assoc($r)): ?>
+                                                                <option value="<?php echo $data['job_posting_id']; ?>"><?php echo $data['job_posting_name']; ?></option>
+                                                            <?php endwhile; ?>
+                                                        </select>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -512,272 +509,260 @@ if ($_REQUEST['order_status'] == "create" || $_REQUEST['order_status'] == "previ
                                         </form>
                                     </div>
                                 </div>
-                                </div>
-                            <?php elseif ($action == "delete"):
-                                $sql = "SELECT * FROM `transfer_queue` WHERE `staff_id` = $staff_id and `status` LIKE \"pending\"";
-                                $listed_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
-                                ?>
-                                <div class="alert alert-warnign">You are going to remove the previously selected transfer request.</div>
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <td>#</td>
-                                    <td>Current Information</td>
-                                    <td>Transfer Information</td>
-                                    <td>Action</td>
-                                    </thead>
-                                    <tbody>
-                                        <?php while ($row = mysql_fetch_assoc($listed_result)): ?>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>
-                                                    <?php echo getStaffNameFromId($row['staff_id']); ?>,
-                                                    <?php echo $row['staff_id']; ?>,
-                                                    <?php echo $row['staff_id']; ?>,
-                                                    <?php echo getDesignationNameformCode($row['designation_code']); ?>,
-                                                    <?php echo getOrgNameFormOrgCode($row['org_code']); ?>,
-                                                    <?php echo getOrgNameFormOrgCode($row['working_org_code']); ?>
-                                                </td>
-                                                <td>
-                                                    <?php echo $row['to_posted_as']; ?>,
-                                                    <?php echo getDesignationNameformCode($row['to_designation_code']); ?>,
-                                                    <?php echo getOrgNameFormOrgCode($row['to_org_code']); ?>,
-                                                    <?php echo getOrgNameFormOrgCode($row['to_working_org_code']); ?>,
-                                                    <?php echo $row['to_posted_as']; ?>
-                                                </td>
-                                                <td>
-                                                    <a href="transfer.php?staff_id=<?php echo $row['staff_id']; ?>&staff_select=true&action=delete&delete=confirm" class="btn btn-danger btn-small" >Confirm Delete</a>
-                                                </td>
-                                            </tr>
-                                        <?php endwhile; ?>
-                                    </tbody>
-                                </table> <!-- /delete block -->
-                                
-                            <?php elseif ($data): ?>
-                                <div class="span12">
-                                    <div class="alert alert-warning">
-                                        No result found, please search again. 
-                                    </div>
-                                </div>
-                                <?php echo $staff_id; ?>
-                            <?php endif; ?>
-                        </div>                                                
-                    </section>
+                            </div>
+                            <?php
+                        elseif ($action == "delete"):
+                            $sql = "SELECT * FROM `transfer_queue` WHERE `staff_id` = $staff_id and `status` LIKE \"pending\"";
+                            $listed_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+                            ?>
+                            <div class="alert alert-warnign">You are going to remove the previously selected transfer request.</div>
+                            <table class="table table-bordered">
+                                <thead>
+                                <td>#</td>
+                                <td><strong>Current Information</strong></td>
+                                <td><strong>Transfer Information</strong></td>
+                                <td>Action</td>
+                                </thead>
+                                <tbody>
+                                    <?php while ($row = mysql_fetch_assoc($listed_result)): ?>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>
+                                                <?php echo getStaffNameFromId($row['staff_id']); ?>,
+                                                <?php echo $row['staff_id']; ?>,
+                                                <?php echo $row['staff_id']; ?>,
+                                                <?php echo getDesignationNameformCode($row['designation_code']); ?>,
+                                                <?php echo getOrgNameFormOrgCode($row['org_code']); ?>,
+                                                <?php echo getOrgNameFormOrgCode($row['working_org_code']); ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row['to_posted_as']; ?>,
+                                                <?php echo getDesignationNameformCode($row['to_designation_code']); ?>,
+                                                <?php echo getOrgNameFormOrgCode($row['to_org_code']); ?>,
+                                                <?php echo getOrgNameFormOrgCode($row['to_working_org_code']); ?>,
+                                                <?php echo $row['to_posted_as']; ?>
+                                            </td>
+                                            <td>
+                                                <a href="transfer.php?staff_id=<?php echo $row['staff_id']; ?>&staff_select=true&action=delete&delete=confirm" class="btn btn-danger btn-small" >Confirm Delete</a>
+                                            </td>
+                                        </tr>
+                                    <?php endwhile; ?>
+                                </tbody>
+                            </table> <!-- /delete block -->
 
-                </div>
+                        <?php elseif ($data): ?>
+                            <div class="span12">
+                                <div class="alert alert-warning">
+                                    No result found, please search again. 
+                                </div>
+                            </div>
+                            <?php echo $staff_id; ?>
+                        <?php endif; ?>
+                </div>                                                
+                </section>
+
             </div>
-
         </div>
 
+    </div>
 
 
-        <!-- Footer
-        ================================================== -->
-        <?php include_once 'include/footer/footer.inc.php'; ?>
-        <script>
-//            $.fn.editable.defaults.mode = 'inline';
-            
-//            $('#serial').editable({
-//                type: 'text',
-//                url: 'post/post_transfer_staff.php',
-//                pk: <?php echo $staff_id; ?>,
-//                params: function(params) {
-//                  params.org_code = <?php echo $org_code; ?>;
-//                  return params;
-//                }
-//
-//              });
-              
-            // load district
-            $('#admin_division').change(function() {
-                $("#loading_content").show();
-                var div_code = $('#admin_division').val();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_districts.php',
-                    data: {div_code: div_code},
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var admin_district = document.getElementById('admin_district');
-                        admin_district.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            var d = data[i];
-                            admin_district.options.add(new Option(d.text, d.value));
-                        }
+
+    <!-- Footer
+    ================================================== -->
+    <?php include_once 'include/footer/footer.inc.php'; ?>
+    <script>
+        // load district
+        $('#admin_division').change(function() {
+            $("#loading_content").show();
+            var div_code = $('#admin_division').val();
+            $.ajax({
+                type: "POST",
+                url: 'get/get_districts.php',
+                data: {div_code: div_code},
+                dataType: 'json',
+                success: function(data)
+                {
+                    $("#loading_content").hide();
+                    var admin_district = document.getElementById('admin_district');
+                    admin_district.options.length = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        var d = data[i];
+                        admin_district.options.add(new Option(d.text, d.value));
                     }
-                });
+                }
             });
+        });
 
-            // load upazila
-            $('#admin_district').change(function() {
-                var dis_code = $('#admin_district').val();
-                $("#loading_content").show();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_upazilas.php',
-                    data: {dis_code: dis_code},
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var admin_upazila = document.getElementById('admin_upazila');
-                        admin_upazila.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            var d = data[i];
-                            admin_upazila.options.add(new Option(d.text, d.value));
-                        }
+        // load upazila
+        $('#admin_district').change(function() {
+            var dis_code = $('#admin_district').val();
+            $("#loading_content").show();
+            $.ajax({
+                type: "POST",
+                url: 'get/get_upazilas.php',
+                data: {dis_code: dis_code},
+                dataType: 'json',
+                success: function(data)
+                {
+                    $("#loading_content").hide();
+                    var admin_upazila = document.getElementById('admin_upazila');
+                    admin_upazila.options.length = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        var d = data[i];
+                        admin_upazila.options.add(new Option(d.text, d.value));
                     }
-                });
+                }
             });
+        });
 
-            // load organization
-            $('#admin_upazila').change(function() {
-                $("#loading_content").show();
-                var div_code = $('#admin_division').val();
-                var dis_code = $('#admin_district').val();
-                var upa_code = $('#admin_upazila').val();
-                var agency_code = $('#org_agency').val();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_organizations.php',
-                    data: {
-                        div_code: div_code,
-                        dis_code: dis_code,
-                        upa_code: upa_code,
-                        agency_code: agency_code
-                    },
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var org_list = document.getElementById('org_list');
-                        org_list.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            var d = data[i];
-                            org_list.options.add(new Option(d.text, d.value));
-                        }
+        // load organization
+        $('#admin_upazila').change(function() {
+            $("#loading_content").show();
+            var div_code = $('#admin_division').val();
+            var dis_code = $('#admin_district').val();
+            var upa_code = $('#admin_upazila').val();
+            var agency_code = $('#org_agency').val();
+            $.ajax({
+                type: "POST",
+                url: 'get/get_organizations.php',
+                data: {
+                    div_code: div_code,
+                    dis_code: dis_code,
+                    upa_code: upa_code,
+                    agency_code: agency_code
+                },
+                dataType: 'json',
+                success: function(data)
+                {
+                    $("#loading_content").hide();
+                    var org_list = document.getElementById('org_list');
+                    org_list.options.length = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        var d = data[i];
+                        org_list.options.add(new Option(d.text, d.value));
                     }
-                });
+                }
             });
+        });
 
-            // load designation
-            $('#org_list').change(function() {
-                var organization_code = $('#org_list').val();
-                $("#loading_content").show();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_designations.php',
-                    data: {organization_code: organization_code},
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var sanctioned_post = document.getElementById('sanctioned_post');
-                        sanctioned_post.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            var d = data[i];
-                            sanctioned_post.options.add(new Option(d.text, d.value));
-                        }
+        // load designation
+        $('#org_list').change(function() {
+            var organization_code = $('#org_list').val();
+            $("#loading_content").show();
+            $.ajax({
+                type: "POST",
+                url: 'get/get_designations_vacant.php',
+                data: {organization_code: organization_code},
+                dataType: 'json',
+                success: function(data)
+                {
+                    $("#loading_content").hide();
+                    var sanctioned_post = document.getElementById('sanctioned_post');
+                    sanctioned_post.options.length = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        var d = data[i];
+                        sanctioned_post.options.add(new Option(d.text, d.value));
                     }
-                });
+                }
             });
+        });
 
-            // load district
-            $('#working_admin_division').change(function() {
-                $("#loading_content").show();
-                var div_code = $('#working_admin_division').val();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_districts.php',
-                    data: {div_code: div_code},
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var admin_district = document.getElementById('working_admin_district');
-                        admin_district.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            var d = data[i];
-                            admin_district.options.add(new Option(d.text, d.value));
-                        }
+        // load district
+        $('#working_admin_division').change(function() {
+            $("#loading_content").show();
+            var div_code = $('#working_admin_division').val();
+            $.ajax({
+                type: "POST",
+                url: 'get/get_districts.php',
+                data: {div_code: div_code},
+                dataType: 'json',
+                success: function(data)
+                {
+                    $("#loading_content").hide();
+                    var admin_district = document.getElementById('working_admin_district');
+                    admin_district.options.length = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        var d = data[i];
+                        admin_district.options.add(new Option(d.text, d.value));
                     }
-                });
+                }
             });
+        });
 
-            // load upazila
-            $('#working_admin_district').change(function() {
-                var dis_code = $('#working_admin_district').val();
-                $("#loading_content").show();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_upazilas.php',
-                    data: {dis_code: dis_code},
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var admin_upazila = document.getElementById('working_admin_upazila');
-                        admin_upazila.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            var d = data[i];
-                            admin_upazila.options.add(new Option(d.text, d.value));
-                        }
+        // load upazila
+        $('#working_admin_district').change(function() {
+            var dis_code = $('#working_admin_district').val();
+            $("#loading_content").show();
+            $.ajax({
+                type: "POST",
+                url: 'get/get_upazilas.php',
+                data: {dis_code: dis_code},
+                dataType: 'json',
+                success: function(data)
+                {
+                    $("#loading_content").hide();
+                    var admin_upazila = document.getElementById('working_admin_upazila');
+                    admin_upazila.options.length = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        var d = data[i];
+                        admin_upazila.options.add(new Option(d.text, d.value));
                     }
-                });
+                }
             });
+        });
 
-            // load organization
-            $('#working_admin_upazila').change(function() {
-                $("#loading_content").show();
-                var div_code = $('#working_admin_division').val();
-                var dis_code = $('#working_admin_district').val();
-                var upa_code = $('#working_admin_upazila').val();
-                var agency_code = $('#working_org_agency').val();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_organizations.php',
-                    data: {
-                        div_code: div_code,
-                        dis_code: dis_code,
-                        upa_code: upa_code,
-                        agency_code: agency_code
-                    },
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var org_list = document.getElementById('working_org_list');
-                        org_list.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            var d = data[i];
-                            org_list.options.add(new Option(d.text, d.value));
-                        }
+        // load organization
+        $('#working_admin_upazila').change(function() {
+            $("#loading_content").show();
+            var div_code = $('#working_admin_division').val();
+            var dis_code = $('#working_admin_district').val();
+            var upa_code = $('#working_admin_upazila').val();
+            var agency_code = $('#working_org_agency').val();
+            $.ajax({
+                type: "POST",
+                url: 'get/get_organizations.php',
+                data: {
+                    div_code: div_code,
+                    dis_code: dis_code,
+                    upa_code: upa_code,
+                    agency_code: agency_code
+                },
+                dataType: 'json',
+                success: function(data)
+                {
+                    $("#loading_content").hide();
+                    var org_list = document.getElementById('working_org_list');
+                    org_list.options.length = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        var d = data[i];
+                        org_list.options.add(new Option(d.text, d.value));
                     }
-                });
+                }
             });
+        });
 
-            // load designation
-            $('#working_org_list').change(function() {
-                var organization_code = $('#working_org_list').val();
-                $("#loading_content").show();
-                $.ajax({
-                    type: "POST",
-                    url: 'get/get_designations.php',
-                    data: {organization_code: organization_code},
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var sanctioned_post = document.getElementById('working_sanctioned_post');
-                        sanctioned_post.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
-                            var d = data[i];
-                            sanctioned_post.options.add(new Option(d.text, d.value));
-                        }
+        // load designation
+        $('#working_org_list').change(function() {
+            var organization_code = $('#working_org_list').val();
+            $("#loading_content").show();
+            $.ajax({
+                type: "POST",
+                url: 'get/get_designations.php',
+                data: {organization_code: organization_code},
+                dataType: 'json',
+                success: function(data)
+                {
+                    $("#loading_content").hide();
+                    var sanctioned_post = document.getElementById('working_sanctioned_post');
+                    sanctioned_post.options.length = 0;
+                    for (var i = 0; i < data.length; i++) {
+                        var d = data[i];
+                        sanctioned_post.options.add(new Option(d.text, d.value));
                     }
-                });
+                }
             });
-        </script>
-    </body>
+        });
+    </script>
+</body>
 </html>
