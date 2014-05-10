@@ -33,13 +33,14 @@ $discipline = mysql_real_escape_string(trim($_GET['discipline']));
 
 $query_string = "";
 $error_message = "";
-if (isset($_GET['discipline']) && $_GET['discipline'] != "0") {
-    $query_string .= " total_manpower_imported_sanctioned_post_copy.discipline LIKE '$discipline' ";
-} elseif ($_GET['discipline'] != "0") {
-    $query_string .= "";
+if ($designation_group_code > 0){
+    $query_string .= " sanctioned_post_designation.designation_group_code = $designation_group_code ";
 } else {
     $error_message .= "<br>No 'Discipline' selected.";
 }
+if (isset($_GET['discipline']) && $_GET['discipline'] != "0") {
+    $query_string .= " AND total_manpower_imported_sanctioned_post_copy.discipline LIKE '$discipline' ";
+} 
 if ($org_type > 0) {
     $query_string .= " AND organization.org_type_code = $org_type ";
 }
@@ -49,15 +50,13 @@ if ($admin_district > 0) {
 if ($admin_division > 0) {
     $query_string .= " AND organization.division_code = $admin_division ";
 }
-if ($designation_group_code > 0){
-    $query_string .= " AND sanctioned_post_designation.designation_group_code = $designation_group_code ";
-}
+
 
 if (isset($_GET['discipline'])) {
     $showInfo = TRUE;
 }
 
-if ($error_message == "" && isset($_GET['discipline'])) {
+if ($error_message == "" && $designation_group_code > 0) {
     $sql = "SELECT
                     old_tbl_staff_organization.staff_id,
                     old_tbl_staff_organization.staff_name,
@@ -79,7 +78,8 @@ if ($error_message == "" && isset($_GET['discipline'])) {
             LEFT JOIN staff_job_posting ON staff_job_posting.job_posting_id = old_tbl_staff_organization.job_posting_id
             WHERE
                     $query_string
-                AND old_tbl_staff_organization.active LIKE '1'";
+                AND old_tbl_staff_organization.active LIKE '1'
+                AND old_tbl_staff_organization.sp_id_2 > 0";
 //    echo "<pre>$sql</pre>"; die();
     $result_data = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_designation_group_with_descipline:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -255,10 +255,13 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                                         <div class="alert alert-info">
                                             Selected values are:
                                             <?php
-                                            echo "<br>Discipline: <strong>" . $discipline . "</strong>";
                                             if ($designation_group_code > 0) {
-                                                echo " & Designation Group:<strong> $designation_group_name" . "</strong>";
+                                                echo "<br> Designation Group:<strong> $designation_group_name" . "</strong>";
                                             }
+                                            if ($discipline != '0') {
+                                                echo " & Discipline: <strong>" . $discipline . "</strong>";
+                                            }                                            
+                                            
                                             if ($admin_division > 0) {
                                                 echo " & Division: <strong>" . getDivisionNamefromCode($admin_division) . "</strong>";
                                             }
@@ -306,7 +309,7 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                                                         <td><?php echo $data['job_posting_name']; ?></td>
                                                         <td><?php echo $data['org_name']; ?></td>
                                                         <td><?php echo $data['contact_no']; ?></td>
-                                                        <td><?php echo $discipline; ?></td>
+                                                        <td><?php echo $data['discipline']; ?></td>
                                                     </tr>
                                                     <?php
                                                     $row_count++;

@@ -80,7 +80,8 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                     $query_string
                     AND old_tbl_staff_organization.active LIKE '1'
             GROUP BY
-                    total_manpower_imported_sanctioned_post_copy.designation";
+                    total_manpower_imported_sanctioned_post_copy.designation
+                    AND old_tbl_staff_organization.sp_id_2 > 0";
     
 //    echo "<pre>$sql</pre>"; die();
     $result_data = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_designation_group_with_descipline:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
