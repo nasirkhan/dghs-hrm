@@ -69,7 +69,8 @@ if ($error_message == "" && $designation_group_code > 0) {
                     organization.org_name,
                     sanctioned_post_designation.designation_group_code,
                     staff_job_posting.job_posting_name,
-                    total_manpower_imported_sanctioned_post_copy.designation
+                    total_manpower_imported_sanctioned_post_copy.designation,
+                    total_manpower_imported_sanctioned_post_copy.discipline
             FROM
                     old_tbl_staff_organization
             LEFT JOIN total_manpower_imported_sanctioned_post_copy ON total_manpower_imported_sanctioned_post_copy.staff_id_2 = old_tbl_staff_organization.staff_id
