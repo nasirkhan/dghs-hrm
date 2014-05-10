@@ -280,13 +280,13 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $row_count; ?></td>
-                                                        <td><?php echo $data['staff_name']; ?> (<?php echo $data['staff_id']; ?>)</td>
+                                                        <td><?php echo $data['staff_name']; ?> <!-- (<?php echo $data['staff_id']; ?>) --> </td>
                                                         <td><?php echo $data['staff_pds_code']; ?></td>
                                                         <td><?php echo $data['birth_date']; ?></td>
                                                         <td><?php echo $data['type_of_post_name']; ?></td>
                                                         <td><?php echo $data['org_name']; ?></td>
                                                         <td><?php echo $data['contact_no']; ?></td>
-                                                        <td><?php echo $data['designation']; ?></td>
+                                                        <td><?php echo $data['discipline']; ?></td>
                                                     </tr>
                                                     <?php
                                                     $row_count++;
