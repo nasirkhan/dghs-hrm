@@ -214,7 +214,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                             ?>
                                             <tr>
                                                 <td><?php echo $row_count; ?></td>
-                                                <td><?php echo $row['designation']; ?> (Code:<?php echo $row['designation_code']; ?>)</td>
+                                                <td><?php echo $row['designation']; ?> (Designation Code:<?php echo $row['designation_code']; ?>)</td>
                                                 <td><?php echo $row['type_of_post_name']; ?></td>
                                                 <td><?php echo $row['class']; ?></td>
                                                 <td><?php echo $row['payscale']; ?></td>
