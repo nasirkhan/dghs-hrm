@@ -28,7 +28,6 @@ $admin_division = (int) mysql_real_escape_string(trim($_GET['admin_division']));
 $admin_district = (int) mysql_real_escape_string(trim($_GET['admin_district']));
 $org_type = (int) mysql_real_escape_string(trim($_GET['org_type']));
 $designation_group_code = (int) mysql_real_escape_string(trim($_GET['designation_group_code']));
-$designation_group_name = getDesignationGroupNameformCode($designation_group_code);
 $discipline = mysql_real_escape_string(trim($_GET['discipline']));
 
 $query_string = "";
@@ -49,9 +48,6 @@ if ($admin_district > 0) {
 if ($admin_division > 0) {
     $query_string .= " AND organization.division_code = $admin_division ";
 }
-if ($designation_group_code > 0){
-    $query_string .= " AND sanctioned_post_designation.designation_group_code = $designation_group_code ";
-}
 
 if (isset($_GET['discipline'])) {
     $showInfo = TRUE;
@@ -69,7 +65,11 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                     organization.org_name,
                     sanctioned_post_designation.designation_group_code,
                     sanctioned_post_type_of_post.type_of_post_name,
-                    total_manpower_imported_sanctioned_post_copy.designation
+                    total_manpower_imported_sanctioned_post_copy.designation,
+                    total_manpower_imported_sanctioned_post_copy.discipline,
+                    count(*) AS total_count,
+            organization.division_code,
+            organization.district_code
             FROM
                     old_tbl_staff_organization
             LEFT JOIN total_manpower_imported_sanctioned_post_copy ON total_manpower_imported_sanctioned_post_copy.staff_id_2 = old_tbl_staff_organization.staff_id
@@ -78,7 +78,10 @@ if ($error_message == "" && isset($_GET['discipline'])) {
             LEFT JOIN sanctioned_post_type_of_post ON old_tbl_staff_organization.staff_posting = sanctioned_post_type_of_post.type_of_post_code
             WHERE
                     $query_string
-                AND old_tbl_staff_organization.active LIKE '1'";
+                    AND old_tbl_staff_organization.active LIKE '1'
+            GROUP BY
+                    total_manpower_imported_sanctioned_post_copy.designation";
+    
 //    echo "<pre>$sql</pre>"; die();
     $result_data = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_designation_group_with_descipline:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -139,7 +142,7 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                             <div class="row-fluid">
                                 <div class="span12">
                                     <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                        <h3>Staff list by designation group report with discipline</h3>
+                                        <h3>Staff list by discipline report with designation group</h3>
                                         <div class="control-group">
                                             <select id="admin_division" name="admin_division">
                                                 <option value="0">__ Select Division __</option>
@@ -204,26 +207,6 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                                             </select>
                                         </div>
                                         <div class="control-group">
-                                            <select id="designation_group_code" name="designation_group_code">
-                                                <option value="0">__ Select Designation Group __</option>
-                                                <?php
-                                                $sql = "SELECT
-                                                                sanctioned_post_designation_group.designation_group_name,
-                                                                sanctioned_post_designation_group.designation_group_code
-                                                        FROM
-                                                                `sanctioned_post_designation_group`
-                                                        WHERE
-                                                                active LIKE 1";
-                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                                while ($rows = mysql_fetch_assoc($result)) {
-                                                    if ($rows['designation_group_code'] == $_REQUEST['designation_group_code'])
-                                                        echo "<option value=\"" . $rows['designation_group_code'] . "\" selected='selected'>" . $rows['designation_group_name'] . "</option>";
-                                                    else
-                                                        echo "<option value=\"" . $rows['designation_group_code'] . "\">" . $rows['designation_group_name'] . "</option>";
-                                                }
-                                                ?>
-                                            </select>
                                             <select id="discipline" name="discipline">
                                                 <option value="0">__ Select Discipline __</option>
                                                 <?php
@@ -241,7 +224,7 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                                         </div>
                                         <div class="control-group">
                                             <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
-                                            <a href="report_staff_list_by_designation_group_with_descipline.php" class="btn btn-default" > Reset</a>
+                                            <a href="report_staff_list_by_descipline_with_designation_group.php" class="btn btn-default" > Reset</a>
                                             <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                         </div>
                                     </form> <!-- /form -->
@@ -255,9 +238,6 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                                             Selected values are:
                                             <?php
                                             echo "<br>Discipline: <strong>" . $discipline . "</strong>";
-                                            if ($designation_group_code > 0) {
-                                                echo " & Designation Group:<strong> $designation_group_name" . "</strong>";
-                                            }
                                             if ($admin_division > 0) {
                                                 echo " & Division: <strong>" . getDivisionNamefromCode($admin_division) . "</strong>";
                                             }
@@ -289,7 +269,7 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                                                     <td><strong>Posting Status</strong></td>
                                                     <td><strong>Place of Posting</strong></td>
                                                     <td><strong>Mobile No.</strong></td>
-                                                    <td><strong>Discipline</strong></td>
+                                                    <td><strong>Designation</strong></td>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -305,7 +285,7 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                                                         <td><?php echo $data['type_of_post_name']; ?></td>
                                                         <td><?php echo $data['org_name']; ?></td>
                                                         <td><?php echo $data['contact_no']; ?></td>
-                                                        <td><?php echo $data['discipline']; ?></td>
+                                                        <td><?php echo $data['designation']; ?></td>
                                                     </tr>
                                                     <?php
                                                     $row_count++;

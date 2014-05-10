@@ -138,7 +138,7 @@ require_once './include/check_org_code.php';
                                             $total_existing_female_sum += $existing_female_count;
                                         ?>
                                     <tr>
-                                        <td><?php echo $row['designation']; ?></td>
+                                        <td><?php echo $row['designation'] . "|" . $row['designation_code'] ; ?></td>
                                         <td><?php echo getTypeOfPostNameFromCode($row['type_of_post']); ?></td>
                                         <td><?php echo $row['pay_scale']; ?></td>
                                         <td><?php echo $row['class']; ?></td>
