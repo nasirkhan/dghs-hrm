@@ -130,6 +130,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <tr>                                        
                                         <td><a href="report_staff_list_by_descipline_with_designation_group.php">Staff list report by discipline with designation group </a></td>
                                     </tr>
+                                    <tr>                                        
+                                        <td><a href="report_designation_summary.php">Designation Summary Report </a></td>
+                                    </tr>
                                     <?php endif; ?>
                                 </tbody>
                                 
