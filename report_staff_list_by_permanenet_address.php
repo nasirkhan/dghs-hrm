@@ -122,7 +122,23 @@ if (isset($_GET['staff_district'])) {
                             <div class="row-fluid">
                                 <div class="span12">
                                     <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                        <p>Show 'Staff list' based on their permanent address.</p>
+                                        <h3>Show 'Staff list' based on their permanent address</h3>
+                                        <div class="control-group">
+                                            <select id="staff_district" name="staff_district">
+                                                <option value="0"> Select Staff Home District </option>
+                                                <?php
+                                                $sql = "SELECT district_bbs_code, district_name FROM `admin_district`";
+                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                while ($rows = mysql_fetch_assoc($result)) {
+                                                    if ($rows['district_bbs_code'] == $_REQUEST['staff_district'])
+                                                        echo "<option value=\"" . $rows['district_bbs_code'] . "\" selected='selected'>" . $rows['district_name'] . "</option>";
+                                                    else
+                                                        echo "<option value=\"" . $rows['district_bbs_code'] . "\">" . $rows['district_name'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
                                         <div class="control-group">
                                             <select id="admin_division" name="admin_division">
                                                 <option value="0">__ Select Division __</option>
@@ -185,22 +201,7 @@ if (isset($_GET['staff_district'])) {
                                                 ?>
                                             </select>
                                         </div>
-                                        <div class="control-group">
-                                            <select id="staff_district" name="staff_district">
-                                                <option value="0">__ Select Staff District __</option>
-                                                <?php
-                                                $sql = "SELECT district_bbs_code, district_name FROM `admin_district`";
-                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                                while ($rows = mysql_fetch_assoc($result)) {
-                                                    if ($rows['district_bbs_code'] == $_REQUEST['staff_district'])
-                                                        echo "<option value=\"" . $rows['district_bbs_code'] . "\" selected='selected'>" . $rows['district_name'] . "</option>";
-                                                    else
-                                                        echo "<option value=\"" . $rows['district_bbs_code'] . "\">" . $rows['district_name'] . "</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
+                                        
                                         <div class="control-group">
                                             <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
                                             <a href="report_staff_list_by_permanenet_address.php" class="btn btn-default" > Reset</a>
