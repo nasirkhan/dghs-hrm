@@ -56,7 +56,8 @@ if ($error_message == "") {
             LEFT JOIN organization ON old_tbl_staff_organization.org_code = organization.org_code
             WHERE                    
                 $query_string
-            AND old_tbl_staff_organization.active LIKE '1'";
+            AND old_tbl_staff_organization.active LIKE '1'
+            AND old_tbl_staff_organization.sp_id_2 > 0";
     $result_data = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_permanenet_address:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data_count = mysql_num_rows($result_data);
