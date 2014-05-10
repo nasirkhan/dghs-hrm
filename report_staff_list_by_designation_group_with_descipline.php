@@ -65,17 +65,18 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                     old_tbl_staff_organization.birth_date,
                     old_tbl_staff_organization.posting_status,
                     old_tbl_staff_organization.staff_posting,
+                    old_tbl_staff_organization.job_posting_id,
                     old_tbl_staff_organization.contact_no,
                     organization.org_name,
                     sanctioned_post_designation.designation_group_code,
-                    sanctioned_post_type_of_post.type_of_post_name,
+                    staff_job_posting.job_posting_name,
                     total_manpower_imported_sanctioned_post_copy.designation
             FROM
                     old_tbl_staff_organization
             LEFT JOIN total_manpower_imported_sanctioned_post_copy ON total_manpower_imported_sanctioned_post_copy.staff_id_2 = old_tbl_staff_organization.staff_id
             LEFT JOIN organization ON old_tbl_staff_organization.org_code = organization.org_code
             LEFT JOIN sanctioned_post_designation ON old_tbl_staff_organization.designation_id = sanctioned_post_designation.designation_code
-            LEFT JOIN sanctioned_post_type_of_post ON old_tbl_staff_organization.staff_posting = sanctioned_post_type_of_post.type_of_post_code
+            LEFT JOIN staff_job_posting ON staff_job_posting.job_posting_id = old_tbl_staff_organization.job_posting_id
             WHERE
                     $query_string
                 AND old_tbl_staff_organization.active LIKE '1'";
@@ -299,13 +300,13 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $row_count; ?></td>
-                                                        <td><?php echo $data['staff_name']; ?> (<?php echo $data['staff_id']; ?>)</td>
+                                                        <td><?php echo $data['staff_name']; ?> <!-- (<?php echo $data['staff_id']; ?>) --> </td>
                                                         <td><?php echo $data['staff_pds_code']; ?></td>
                                                         <td><?php echo $data['birth_date']; ?></td>
-                                                        <td><?php echo $data['type_of_post_name']; ?></td>
+                                                        <td><?php echo $data['job_posting_name']; ?></td>
                                                         <td><?php echo $data['org_name']; ?></td>
                                                         <td><?php echo $data['contact_no']; ?></td>
-                                                        <td><?php echo $data['discipline']; ?></td>
+                                                        <td><?php echo $discipline; ?></td>
                                                     </tr>
                                                     <?php
                                                     $row_count++;
