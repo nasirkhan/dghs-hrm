@@ -43,7 +43,7 @@ if ($admin_upazila > 0) {
 }
 
 
-if ($error_message == "") {
+if ($error_message == "" && isset($_REQUEST['admin_division'])) {
     $sql = "SELECT
                     total_manpower_imported_sanctioned_post_copy.designation,
                     total_manpower_imported_sanctioned_post_copy.designation_code,
@@ -311,6 +311,9 @@ if ($error_message == "") {
                                             // total filled up post for a specific designation
                                             $total_filled_up_data = mysql_fetch_assoc($result_filledup);
                                             $total_filled_up = $total_filled_up_data['total_count'];
+                                            if (!$total_filled_up > 0){
+                                                $total_filled_up = 0; 
+                                            }
                                             
                                             
                                             // total filled up post for a specific designation
