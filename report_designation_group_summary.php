@@ -123,7 +123,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                 <div class="span9">
                     <!-- info area
                     ================================================== -->
-                    <?php if (hasPermission('report_designation_summary', 'view', getLoggedUserName())) : ?>
+                    <?php if (hasPermission('report_designation_group_summary', 'view', getLoggedUserName())) : ?>
                         <section id="report">
                             <div class="row-fluid">
                                 <div class="span12">

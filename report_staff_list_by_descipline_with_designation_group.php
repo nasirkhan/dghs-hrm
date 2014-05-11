@@ -138,7 +138,7 @@ if ($error_message == "" && isset($_GET['discipline'])) {
                 <div class="span9">
                     <!-- info area
                     ================================================== -->
-                    <?php if (hasPermission('report_staff_list_by_designation_group_with_descipline', 'view', getLoggedUserName())) : ?>
+                    <?php if (hasPermission('report_staff_list_by_descipline_with_designation_group', 'view', getLoggedUserName())) : ?>
                         <section id="report">
                             <div class="row-fluid">
                                 <div class="span12">

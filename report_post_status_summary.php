@@ -68,7 +68,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                     <!-- info area
                     ================================================== -->
                     <section id="report">
-
+                        <?php if (hasPermission('report_post_status_summary', 'view', getLoggedUserName())) : ?>
                         <div class="row">
                             <table class="table table-bordered table-hover">
                                 <thead>
@@ -229,7 +229,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                 </tbody>
                             </table>
                         </div>
-
+                    <?php else: ?>
+                        <h3> You Do not have the permission to view this report. </h3>
+                    <?php endif; ?>
                     </section>
 
                 </div>

@@ -131,7 +131,7 @@ if (isset($_GET['designation_group_code'])) {
                             <div class="row-fluid">
                                 <div class="span12">
                                     <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                        <p>Staff list by designation group report without discipline</p>
+                                        <h3>Staff list by designation group report without discipline</h3>
                                         <div class="control-group">
                                             <select id="admin_division" name="admin_division">
                                                 <option value="0">__ Select Division __</option>
@@ -299,6 +299,8 @@ if (isset($_GET['designation_group_code'])) {
                                 </div> <!-- /span12 -->
                             </div> <!-- /row result display div-->
                         </section> <!-- /report-->
+                    <?php else: ?>
+                        <h3> You Do not have the permission to view this report. </h3>
                     <?php endif; ?>
                 </div>
             </div>
