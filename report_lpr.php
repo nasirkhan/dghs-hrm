@@ -43,41 +43,48 @@ if ($admin_upazila > 0) {
 }
 
 
-if ($error_message == "" && isset($_REQUEST['admin_division'])) {
+if ($error_message == "" && isset($_REQUEST['show_report'])) {
     $sql = "SELECT
-                    total_manpower_imported_sanctioned_post_copy.designation,
-                    total_manpower_imported_sanctioned_post_copy.designation_code,
-                    sanctioned_post_type_of_post.type_of_post_name,
-                    sanctioned_post_type_of_post.type_of_post_code,
-                    sanctioned_post_designation.class,
-                    sanctioned_post_designation.payscale,
-                    sanctioned_post_designation.ranking,
-                    count(*) AS total_count
+                    MONTHNAME(
+                            STR_TO_DATE(
+                                    EXTRACT(
+                                            MONTH
+                                            FROM
+                                                    old_tbl_staff_organization.retirement_date
+                                    ),
+                                    '%m'
+                            )
+                    ) AS MONTH,
+                    old_tbl_staff_organization.staff_name AS NAME,
+                    sanctioned_post_designation.designation AS Designation,
+                    organization.org_name AS 'Place of Posting',
+                    staff_job_posting.job_posting_name AS 'Posting Status',
+                    old_tbl_staff_organization.birth_date AS 'Date Of Birth',
+                    old_tbl_staff_organization.retirement_date AS 'Retirement Date',
+                    old_tbl_staff_organization.staff_pds_code AS CODE,
+                    old_tbl_staff_organization.contact_no AS Mobile
             FROM
-                    `total_manpower_imported_sanctioned_post_copy`
-            LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.sp_id_2 = total_manpower_imported_sanctioned_post_copy.id
-            LEFT JOIN sanctioned_post_type_of_post ON total_manpower_imported_sanctioned_post_copy.type_of_post = sanctioned_post_type_of_post.type_of_post_code
-            LEFT JOIN sanctioned_post_designation ON sanctioned_post_designation.designation_code = total_manpower_imported_sanctioned_post_copy.designation_code
-            LEFT JOIN organization on organization.org_code = total_manpower_imported_sanctioned_post_copy.org_code
+                    old_tbl_staff_organization
+            LEFT JOIN sanctioned_post_designation ON old_tbl_staff_organization.designation_id = sanctioned_post_designation.designation_code
+            LEFT JOIN organization ON organization.org_code = old_tbl_staff_organization.org_code
+            LEFT JOIN staff_job_posting ON staff_job_posting.job_posting_id = old_tbl_staff_organization.job_posting_id
             WHERE
-                    total_manpower_imported_sanctioned_post_copy.active LIKE 1
-                    $query_string
-            GROUP BY
-                    total_manpower_imported_sanctioned_post_copy.type_of_post,
-                    total_manpower_imported_sanctioned_post_copy.designation
+                 retirement_date BETWEEN '2014-01-01' AND '2014-12-31'
+                 $query_string
             ORDER BY
-                    sanctioned_post_designation.ranking";
-//    echo "<pre>$sql</pre>"; die();
-    $result_all = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_designation_group_with_descipline:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-    $data_count = mysql_num_rows($result_all);
+                    retirement_date";
+    $result_data = mysql_query($sql) or die(mysql_error() . "<p>Query___</p><p>$sql</p><p>___</p>");
+    
+    $data_count = mysql_num_rows($result_data);
     
     if ($data_count > 0) {
         $showReport = TRUE;
         $showInfo = TRUE;
     }
 }
-
+if (isset($_REQUEST['show_report'])){
+    $showInfo = TRUE;
+}
 
 ?>
 <!DOCTYPE html>
@@ -198,6 +205,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                             ?>                                            
                                         </div>                                        
                                         <div class="control-group">
+                                            <input name="show_report" type="hidden" value="true" />
                                             <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
                                             <a href="report_lpr.php" class="btn btn-default" > Reset</a>
                                             <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
@@ -232,6 +240,47 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                         <div class="alert alert-info">
                                             Total <?php echo $data_count; ?> result(s) found. 
                                         </div>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <table class="table table-bordered table-hover table-responsive">
+                                                <thead>
+                                                    <tr>
+                                                        <td><strong>#</strong></td>
+                                                        <td><strong>Month</strong></td>
+                                                        <td><strong>Name</strong></td>
+                                                        <td><strong>Code</strong></td>
+                                                        <td><strong>Designation</strong></td>
+                                                        <td><strong>Place of Posting</strong></td>
+                                                        <td><strong>Posting Status</strong></td>
+                                                        <td><strong>Date of Birth</strong></td>
+                                                        <td><strong>Retirement Date</strong></td>
+                                                        <td><strong>Mobile Number</strong></td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    $row_count = 0;
+                                                    
+                                                    while($data = mysql_fetch_assoc($result_data)):
+                                                        $row_count++;
+                                                    ?>
+                                                    <tr>
+                                                        <td><?php echo $row_count; ?></td>
+                                                        <td><?php echo $data['MONTH']; ?></td>
+                                                        <td><?php echo $data['NAME']; ?></td>
+                                                        <td><?php echo $data['CODE']; ?></td>
+                                                        <td><?php echo $data['Designation']; ?></td>
+                                                        <td><?php echo $data['Place of Posting']; ?></td>
+                                                        <td><?php echo $data['Posting Status']; ?></td>
+                                                        <td><?php echo $data['Date Of Birth']; ?></td>
+                                                        <td><?php echo $data['Retirement Date']; ?></td>
+                                                        <td><?php echo $data['Mobile']; ?></td>
+                                                    </tr>
+                                                    <?php endwhile; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                     <?php else: ?>
                                         <?php if ($showInfo): ?>
                                             <div class="alert alert-warning">
