@@ -356,7 +356,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                             ?>
                                             <tr>
                                                 <td><?php echo $row_count; ?></td>
-                                                <td><?php echo $row['designation']; ?> (Designation Code:<?php echo $row['designation_code']; ?>)</td>
+                                                <td><?php echo $row['designation']; ?><!-- (Designation Code:<?php echo $row['designation_code']; ?>) --></td>
                                                 <td><?php echo $row['type_of_post_name']; ?></td>
                                                 <td><?php echo $row['class']; ?></td>
                                                 <td><?php echo $row['payscale']; ?></td>

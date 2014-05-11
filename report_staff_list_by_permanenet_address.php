@@ -54,6 +54,7 @@ if ($error_message == "") {
             FROM
                     old_tbl_staff_organization
             LEFT JOIN organization ON old_tbl_staff_organization.org_code = organization.org_code
+            LEFT JOIN staff_job_posting ON staff_job_posting.job_posting_id = old_tbl_staff_organization.job_posting_id
             WHERE                    
                 $query_string
             AND old_tbl_staff_organization.active LIKE '1'
@@ -200,8 +201,7 @@ if (isset($_GET['staff_district'])) {
                                                 }
                                                 ?>
                                             </select>
-                                        </div>
-                                        
+                                        </div>                                        
                                         <div class="control-group">
                                             <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
                                             <a href="report_staff_list_by_permanenet_address.php" class="btn btn-default" > Reset</a>
@@ -245,7 +245,7 @@ if (isset($_GET['staff_district'])) {
                                             <thead>
                                                 <tr>
                                                     <td><strong>#</strong></td>
-                                                    <td><strong>Name (ID)</strong></td>
+                                                    <td><strong>Name</strong></td>
                                                     <td><strong>Code</strong></td>
                                                     <td><strong>Date of Birth</strong></td>
                                                     <td><strong>Designation</strong></td>
@@ -265,7 +265,7 @@ if (isset($_GET['staff_district'])) {
                                                         <td><?php echo $data['staff_pds_code']; ?></td>
                                                         <td><?php echo $data['birth_date']; ?></td>
                                                         <td><?php echo getDesignationNameformCode($data['designation_id']); ?></td>
-                                                        <td><?php echo $data['staff_posting']; ?></td>
+                                                        <td><?php echo $data['job_posting_name']; ?></td>
                                                         <td><?php echo $data['org_name']; ?></td>
                                                         <td><?php echo $data['contact_no']; ?></td>
                                                     </tr>
