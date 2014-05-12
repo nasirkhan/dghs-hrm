@@ -69,21 +69,25 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                             <i class="icon-cog icon-spin icon-large"></i> <strong>Generating report...</strong>
                         </div>
                         <div class="row">
+                            <h3>Organization HRM Summary</h3>
                             <?php
                             $sql = "SELECT
-                                            id,
-                                            designation,
-                                            designation_code,
+                                            total_manpower_imported_sanctioned_post_copy.id,
+                                            total_manpower_imported_sanctioned_post_copy.designation,
+                                            total_manpower_imported_sanctioned_post_copy.designation_code,
+                                            total_manpower_imported_sanctioned_post_copy.type_of_post,
                                             COUNT(*) AS sp_count 
                                     FROM
                                             total_manpower_imported_sanctioned_post_copy
+                                            LEFT JOIN `sanctioned_post_designation` ON total_manpower_imported_sanctioned_post_copy.designation_code = sanctioned_post_designation.designation_code
                                     WHERE
-                                            org_code = $org_code
+                                            total_manpower_imported_sanctioned_post_copy.org_code = $org_code
                                             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1    
                                     GROUP BY 
-                                            designation
+                                            total_manpower_imported_sanctioned_post_copy.type_of_post,
+                                            total_manpower_imported_sanctioned_post_copy.designation
                                     ORDER BY
-                                            designation";
+                                            sanctioned_post_designation.ranking";
                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                             $total_sanctioned_post = mysql_num_rows($result);
                             
@@ -93,10 +97,11 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                             $total_existing_male_sum = 0;
                             $total_existing_female_sum = 0;
                             ?>
-                            <table class="table table-striped">
+                            <table class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Designation</th>
+                                        <th>Type of Post</th>
                                         <th>Total Sanctioned Post(s)</th>
                                         <th>Filled up Post(s)</th>
                                         <th>Total Male</th>
@@ -116,6 +121,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                 WHERE
                                                         org_code = $org_code
                                                 AND designation_code = " . $row['designation_code'] . "
+                                                AND type_of_post = " . $row['type_of_post'] . "     
                                                 AND staff_id_2 > 0
                                                 AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
                                                     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -147,6 +153,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                         ?>
                                     <tr>
                                         <td><?php echo $row['designation']; ?></td>
+                                        <td><?php echo getTypeOfPostNameFromCode($row['type_of_post']); ?></td>
                                         <td><?php echo $row['sp_count']; ?></td>
                                         <td><?php echo $existing_total_count; ?></td>
                                         <td><?php echo $existing_male_count; ?></td>
@@ -155,7 +162,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     </tr>
                                     <?php endwhile; ?>
                                     <tr class="info">
-                                        <td><strong>Summary</strong></td>
+                                        <td colspan="2"><strong>Summary</strong></td>
                                         <td><strong><?php echo $total_sanctioned_post_count_sum; ?></strong></td>
                                         <td><strong><?php echo $total_sanctioned_post_existing_sum; ?></strong></td>
                                         <td><strong><?php echo $total_existing_male_sum; ?></strong></td>
