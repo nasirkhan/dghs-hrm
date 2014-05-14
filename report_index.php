@@ -79,15 +79,19 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     </tr>
                                     <?php endif; ?>
                                     <?php if (hasPermission('mod_report_all_report_link', 'view', getLoggedUserName())) : ?>
+                                    <!--
                                     <tr>                                        
                                         <td><a href="report_manpower.php">Summary Report Includes All Organization</a></td>
                                     </tr>
+                                    -->
                                     <tr>                                        
                                         <td><a href="report_org_list.php">Organization List</a></td>
                                     </tr>
+                                    <!--
                                     <tr>                                        
                                         <td><a href="report_designation_report.php">Designation Report</a></td>
                                     </tr>
+                                    -->
                                     <tr>                                        
                                         <td><a href="report_manpower_with_who_category.php">Summary Report WHO Health Professional Group (All Organization)</a></td>
                                     </tr>
