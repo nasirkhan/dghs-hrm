@@ -89,6 +89,11 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
         include_once 'include/header/header_css_js.inc.php';
         include_once 'include/header/header_ga.inc.php';
         ?>
+        <script type="text/javascript" charset="utf-8">
+                $(document).ready(function() {
+                        $('#report_table').dataTable();
+                } );
+        </script>
     </head>
 
     <body>
@@ -235,7 +240,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                             Total <?php echo $data_count; ?> result(s) found. 
                                         </div>
                                         -->
-                                        <table class="table table-bordered table-hover">
+                                        <table id="report_table" class="table table-bordered table-hover table-striped">
                                             <thead>
                                                 <tr>
                                                     <th><strong>#</strong></th>
