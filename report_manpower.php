@@ -218,23 +218,23 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                         </select>
                                         <select id="admin_district" name="admin_district">
                                          <option value="0">Select District</option>
-										<?php 
-										    
-											$sql = "SELECT 
-												  admin_district.district_bbs_code,
-												  admin_district.old_district_id,
-												  admin_district.district_name
-											  FROM
-												  admin_district
-											  WHERE
-												  admin_district.division_id =$div_id
-											  ORDER BY
-												  admin_district.district_name";
-									  $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_district_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-										  while ($rows = mysql_fetch_assoc($result)) {
-												if ($rows['old_district_id'] == $_REQUEST['admin_district'])
-       												 echo "<option value=\"" . $rows['old_district_id'] . "\" selected='selected'>" . $rows['district_name'] . "</option>";
-											    else
+                                            <?php 
+
+                                                    $sql = "SELECT 
+                                                              admin_district.district_bbs_code,
+                                                              admin_district.old_district_id,
+                                                              admin_district.district_name
+                                                      FROM
+                                                              admin_district
+                                                      WHERE
+                                                              admin_district.division_id =$div_id
+                                                      ORDER BY
+                                                              admin_district.district_name";
+                                      $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_district_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                              while ($rows = mysql_fetch_assoc($result)) {
+                                                            if ($rows['old_district_id'] == $_REQUEST['admin_district'])
+                                                             echo "<option value=\"" . $rows['old_district_id'] . "\" selected='selected'>" . $rows['district_name'] . "</option>";
+                                                        else
                                                      echo "<option value=\"" . $rows['old_district_id'] . "\">" . $rows['district_name'] . "</option>";
                                             }
 											
@@ -411,7 +411,8 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                             AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row['designation_code'] . "
                                                             AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
                                                             AND old_tbl_staff_organization.sex=1
-                                                            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
+                                                            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
+                                                            AND old_tbl_staff_organization.active LIKE '1'";
                                                     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:4</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                                     $a = mysql_fetch_assoc($r);
                                                     $existing_male_count = $a['existing_male_count'];
