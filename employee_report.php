@@ -57,22 +57,23 @@ require_once './include/check_org_code.php';
                         <div class="row">
                             <?php
                             $sql = "SELECT
-                                            id,
-                                            designation,
-                                            designation_code,
-                                            type_of_post,
-                                            pay_scale,
-                                            class,
-                                            COUNT(*) AS sp_count 
+                                            total_manpower_imported_sanctioned_post_copy.id,
+                                            total_manpower_imported_sanctioned_post_copy.designation,
+                                            total_manpower_imported_sanctioned_post_copy.designation_code,
+                                            total_manpower_imported_sanctioned_post_copy.type_of_post,
+                                            total_manpower_imported_sanctioned_post_copy.pay_scale,
+                                            total_manpower_imported_sanctioned_post_copy.class,
+                                            COUNT(*) AS sp_count
                                     FROM
                                             total_manpower_imported_sanctioned_post_copy
+                                    LEFT JOIN sanctioned_post_designation ON sanctioned_post_designation.designation_code = total_manpower_imported_sanctioned_post_copy.designation_code
                                     WHERE
-                                            org_code = $org_code
-                                            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1    
-                                    GROUP BY 
-                                            designation
+                                            total_manpower_imported_sanctioned_post_copy.org_code = $org_code
+                                    AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
+                                    GROUP BY
+                                            total_manpower_imported_sanctioned_post_copy.designation
                                     ORDER BY
-                                            designation";
+                                            sanctioned_post_designation.ranking";
                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                             $total_sanctioned_post = mysql_num_rows($result);
                             
@@ -138,7 +139,7 @@ require_once './include/check_org_code.php';
                                             $total_existing_female_sum += $existing_female_count;
                                         ?>
                                     <tr>
-                                        <td><?php echo $row['designation'] . "|" . $row['designation_code'] ; ?></td>
+                                        <td><?php echo $row['designation'] ; ?></td>
                                         <td><?php echo getTypeOfPostNameFromCode($row['type_of_post']); ?></td>
                                         <td><?php echo $row['pay_scale']; ?></td>
                                         <td><?php echo $row['class']; ?></td>
