@@ -37,6 +37,9 @@ $start_time = microtime(true);
                                 <option value="org_code"> Org Code </option>
                                 <option value="staff_id"> Staff Id </option>
                                 <option value="staff_mobile"> Staff Mobile Number </option>
+                                <option value="staff_pds"> Staff PDS Code </option>
+                                <option value="staff_name"> Staff Name </option>
+                                <option value="staff_father_name"> Staff Father's Name </option>
                             </select>
                             <button class="btn btn-primary" type="submit">Go</button>
                         </form>

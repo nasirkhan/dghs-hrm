@@ -1839,6 +1839,27 @@ function isValidStaffMobile($mobile_number) {
 }
 
 /**
+ * Check if the Staff Id is valid or not
+ * @param type $staff_id
+ * @return string|boolean
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function isValidStaffPDS($code) {
+    if ($code == "") {
+        return FALSE;
+    }
+    $sql = "SELECT staff_id FROM `old_tbl_staff_organization` WHERE staff_pds_code LIKE \"$code\" AND active LIKE '1' LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidStaffPDS:1</p><p>Query:</b></p>___<p>$sql</p>");
+
+    if (mysql_num_rows($result) == 1) {
+        $a = mysql_fetch_assoc($result);
+        return $a['staff_id'];
+    } else {
+        return FALSE;
+    }
+}
+
+/**
  * Check if an username exists or not
  * @param type $staff_id
  * @return string|boolean
