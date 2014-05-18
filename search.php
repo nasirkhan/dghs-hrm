@@ -52,8 +52,13 @@ if ($org_type_code == 1029 || $org_type_code == 1051) {
 $seach_type = mysql_real_escape_string($_GET['type']);
 
 
-if ($seach_type == "staff") {
-    header("location:search.php");
+if ($seach_type == "staff_name") {
+    $name = mysql_real_escape_string(trim($_GET['name']));
+//    header("location:search.php");
+}
+if ($seach_type == "staff_father_name") {
+    $name = mysql_real_escape_string(trim($_GET['name']));
+//    header("location:search.php");
 }
 ?>
 <!DOCTYPE html>
@@ -277,8 +282,42 @@ if ($seach_type == "staff") {
                             </div>
                         <?php endif; ?>
 
-                        <!-- search staff -->
-                        <?php if ($seach_type == "staff"): ?>
+                        <!-- search staff by name -->
+                        <?php 
+                        if ($seach_type == "staff_name"): 
+                            $sql = "SELECT staff_id, staff_name, father_name, org_code FROM `old_tbl_staff_organization` WHERE staff_name LIKE \"%$name%\" AND active LIKE '1'";
+                            $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:search staff by name:1</p><p>Query:</b></p>___<p>$sql</p>");                            
+                            $result_count = mysql_num_rows($result);
+                            ?>
+                        <p class="alert alert-info">
+                            Search result for : <em><?php echo $name; ?></em><br />
+                            Total result found: <?php echo $result_count; ?>
+                        </p>
+                            <?php if($result_count): ?>
+                                <table class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th><strong>#</strong></th>
+                                            <th><strong>Name</strong></th>
+                                            <th><strong>Father's Name</strong></th>
+                                            <th><strong>Organization</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php 
+                                        $row_count = 0;
+                                        while($data = mysql_fetch_assoc($result)): 
+                                            $row_count++; ?>
+                                            <tr>
+                                                <td><?php echo $row_count; ?></td>
+                                                <td><?php echo $data['staff_name']; ?></td>
+                                                <td><?php echo $data['father_name']; ?></td>
+                                                <td><?php echo getOrgNameFormOrgCode($data['org_code']); ?></td>
+                                            </tr>
+                                        <?php endwhile; ?>
+                                    </tbody>
+                                </table>
+                            <?php endif; ?>
                             <!--                            
                             <h3>Search Staff</h3>
                             <div id="staff_user_main" class="row-fluid">
@@ -325,6 +364,44 @@ if ($seach_type == "staff") {
                             </div>
                             -->
                         <?php endif; ?>
+                            
+                        <!-- search staff by Father's name -->
+                        <?php 
+                        if ($seach_type == "staff_father_name"): 
+                            $sql = "SELECT staff_id, staff_name, org_code, father_name FROM `old_tbl_staff_organization` WHERE father_name LIKE \"%$name%\" AND active LIKE '1'";
+                            $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:search staff by father_name:1</p><p>Query:</b></p>___<p>$sql</p>");                            
+                            $result_count = mysql_num_rows($result);
+                            ?>
+                        <p class="alert alert-info">
+                            Search result for : <em><?php echo $name; ?></em><br />
+                            Total result found: <?php echo $result_count; ?>
+                        </p>
+                            <?php if($result_count): ?>
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th><strong>#</strong></th>
+                                        <th><strong>Name</strong></th>
+                                        <th><strong>Father's Name</strong></th>
+                                        <th><strong>Organization</strong></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+                                    $row_count = 0;
+                                    while($data = mysql_fetch_assoc($result)): 
+                                        $row_count++; ?>
+                                        <tr>
+                                            <td><?php echo $row_count; ?></td>
+                                            <td><?php echo $data['staff_name']; ?></td>
+                                            <td><?php echo $data['father_name']; ?></td>
+                                            <td><?php echo getOrgNameFormOrgCode($data['org_code']); ?></td>
+                                        </tr>
+                                    <?php endwhile; ?>
+                                </tbody>
+                            </table>
+                            <?php endif; ?>
+                        <?php endif; ?>    
 
                     </section>
 
