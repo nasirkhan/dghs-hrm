@@ -20,6 +20,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $echoAdminInfo = " | Administrator";
     $isAdmin = TRUE;
 }
+if ($org_code){
+    $show_result = TRUE;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,6 +73,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                         </div>
                         <div class="row">
                             <h3>Organization HRM Summary</h3>
+                            <?php if ($show_result): ?>
                             <?php
                             $sql = "SELECT
                                             total_manpower_imported_sanctioned_post_copy.id,
@@ -172,7 +176,12 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                         <td><strong><?php echo $total_sanctioned_post_count_sum-$total_sanctioned_post_existing_sum; ?></string></td>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table> <!-- end report table -->
+                            <?php else: ?>
+                            <div class="alert alert-Warnign">
+                                <h4>Repost Can not be displayed, no <em>Organization Code</em> found.</h4>
+                            </div>
+                            <?php endif; ?>
                         </div>
 
                     </section>
