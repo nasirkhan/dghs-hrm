@@ -230,6 +230,7 @@ if (isset($_GET['designation_group_code'])) {
                                 <div class="row-fluid">
                                     <div class="span12">
                                         <div class="alert alert-info">
+                                            <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary btn-small pull-right">
                                             Selected values are:
                                             <?php
                                             if ($designation_group_code > 0) {
@@ -244,7 +245,7 @@ if (isset($_GET['designation_group_code'])) {
                                             if ($org_type > 0) {
                                                 echo " & Organization Type: <strong>" . getOrgTypeNameFormOrgTypeCode($org_type) . "</strong>";
                                             }
-                                            ?>
+                                            ?>                                            
                                         </div>
                                     </div>
                                 </div>
@@ -255,9 +256,9 @@ if (isset($_GET['designation_group_code'])) {
                                         <div class="alert alert-info">
                                             Total <?php echo $data_count; ?> result(s) found. 
                                         </div>
- <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary">
-                            <br/>
-                            <table class="table table-bordered table-hover" id="testTable">
+
+                                        <br/>
+                                        <table class="table table-bordered table-hover" id="testTable">
                                             <thead>
                                                 <tr>
                                                     <td><strong>#</strong></td>
@@ -276,7 +277,7 @@ if (isset($_GET['designation_group_code'])) {
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $row_count; ?></td>
-                                                        <td><?php echo $data['staff_name']; ?> <!-- (<?php echo $data['staff_id']; ?>) --> </td>
+                                                        <td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>" target="_blank"><?php echo $data['staff_name']; ?></a></td>
                                                         <td><?php echo $data['staff_pds_code']; ?></td>
                                                         <td><?php echo $data['birth_date']; ?></td>
                                                         <td><?php echo $data['type_of_post_name']; ?></td>
