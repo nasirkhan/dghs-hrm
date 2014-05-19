@@ -237,12 +237,11 @@ if (isset($_REQUEST['show_report'])){
                                 <div class="span12">
                                     <?php if ($showReport): ?>
                                         <div class="alert alert-info">
-                                            Total <?php echo $data_count; ?> result(s) found. 
+                                            <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary pull-right btn-small">
+                                            <em>Total <strong><?php echo $data_count; ?></strong> result(s) found. </em>                                            
                                         </div>
                                     <div class="row-fluid">
                                         <div class="span12">
-                                            <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary">
-                                            <br/>
                                             <table class="table table-bordered table-hover table-responsive" id="testTable">
                                                 <thead>
                                                     <tr>
