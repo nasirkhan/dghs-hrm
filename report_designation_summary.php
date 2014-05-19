@@ -216,6 +216,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                 <div class="row-fluid">
                                     <div class="span12">
                                         <div class="alert alert-info">
+                                            <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary btn-small pull-right">
                                             Selected values are:
                                             <?php
                                             if ($admin_division > 0) {
@@ -235,13 +236,6 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                             <div class="row-fluid">
                                 <div class="span12">
                                     <?php if ($showReport): ?>
-                                        <!--
-                                        <div class="alert alert-info">
-                                            Total <?php echo $data_count; ?> result(s) found. 
-                                        </div>
-                                        -->
-                                        <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary">
-                                        <br/>
                                         <table id="report_table" class="table table-bordered table-hover table-striped">
                                             <thead>
                                                 <tr>
