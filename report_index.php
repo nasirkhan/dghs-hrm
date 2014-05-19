@@ -93,7 +93,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     </tr>
                                     -->
                                     <tr>                                        
-                                        <td><a href="report_manpower_with_who_category.php">Summary Report WHO Health Professional Group (All Organization)</a></td>
+                                        <td><a href="report_designation_with_who_category.php">Summary Report WHO Health Professional Group (All Organization)</a></td>
                                     </tr>
                                     <tr>                                        
                                         <td><a href="report_monthly_update.php">Monthly Update Summary</a></td>
