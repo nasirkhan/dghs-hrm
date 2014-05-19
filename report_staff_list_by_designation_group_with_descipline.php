@@ -36,7 +36,7 @@ $error_message = "";
 if ($designation_group_code > 0){
     $query_string .= " sanctioned_post_designation.designation_group_code = $designation_group_code ";
 } else {
-    $error_message .= "<br>No 'Discipline' selected.";
+    $error_message .= "<br>No 'Designation Group' selected.";
 }
 if (isset($_GET['discipline']) && $_GET['discipline'] != "0") {
     $query_string .= " AND total_manpower_imported_sanctioned_post_copy.discipline LIKE '$discipline' ";
@@ -254,6 +254,7 @@ if ($error_message == "" && $designation_group_code > 0) {
                                 <div class="row-fluid">
                                     <div class="span12">
                                         <div class="alert alert-info">
+                                            <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary btn-small pull-right">
                                             Selected values are:
                                             <?php
                                             if ($designation_group_code > 0) {
@@ -283,9 +284,7 @@ if ($error_message == "" && $designation_group_code > 0) {
                                         <div class="alert alert-info">
                                             Total <?php echo $data_count; ?> result(s) found. 
                                         </div>
- <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary">
-                            <br/>
-                            <table class="table table-bordered table-hover" id="testTable">
+                                        <table class="table table-bordered table-hover" id="testTable">
                                             <thead>
                                                 <tr>
                                                     <td><strong>#</strong></td>
@@ -305,7 +304,7 @@ if ($error_message == "" && $designation_group_code > 0) {
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $row_count; ?></td>
-                                                        <td><?php echo $data['staff_name']; ?> <!-- (<?php echo $data['staff_id']; ?>) --> </td>
+                                                        <td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>" target="_blank"><?php echo $data['staff_name']; ?></a></td>
                                                         <td><?php echo $data['staff_pds_code']; ?></td>
                                                         <td><?php echo $data['birth_date']; ?></td>
                                                         <td><?php echo $data['job_posting_name']; ?></td>
