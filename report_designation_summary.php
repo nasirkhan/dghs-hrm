@@ -241,7 +241,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                         </div>
                                         -->
                                         <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary">
-                            <br/>
+                                        <br/>
                                         <table id="report_table" class="table table-bordered table-hover table-striped">
                                             <thead>
                                                 <tr>
@@ -282,6 +282,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                             WHERE
                                                                     total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                             AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row_designation['designation_code'] . "
+                                                            AND total_manpower_imported_sanctioned_post_copy.type_of_post = " . $row_designation['type_of_post_code'] . "
                                                             GROUP BY
                                                                     total_manpower_imported_sanctioned_post_copy.type_of_post,
                                                                     total_manpower_imported_sanctioned_post_copy.designation_code
@@ -303,6 +304,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                                 WHERE
                                                                         total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                                 AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row_designation['designation_code'] . "
+                                                                AND total_manpower_imported_sanctioned_post_copy.type_of_post = " . $row_designation['type_of_post_code'] . "
                                                                 AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
                                                                 $query_string
                                                                 GROUP BY
@@ -343,6 +345,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                                 WHERE
                                                                         total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                                 AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row_designation['designation_code'] . "
+                                                                AND total_manpower_imported_sanctioned_post_copy.type_of_post = " . $row_designation['type_of_post_code'] . "
                                                                 AND old_tbl_staff_organization.sex = 1
                                                                 $query_string
                                                                 GROUP BY
