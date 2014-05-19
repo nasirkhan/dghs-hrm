@@ -292,7 +292,7 @@ if ($form_submit == 1 && isset($_GET['form_submit'])) {
                                     <tbody>
                                         <?php while ($data = mysql_fetch_assoc($org_list_result)): ?>
                                             <tr>
-                                                <td><?php echo $data['org_name']; ?></td>
+                                                <td><a href="org_profile.php?org_code=<?php echo $data['org_code']; ?>" target="_blank"><?php echo $data['org_name']; ?></a></td>
                                                 <td><?php echo $data['org_code']; ?></td>
                                             </tr>
                                         <?php endwhile; ?>
