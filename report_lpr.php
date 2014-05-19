@@ -305,7 +305,8 @@ if (isset($_REQUEST['show_report'])){
         ================================================== -->
         <?php include_once 'include/footer/footer.inc.php'; ?>
 
-        <script type="text/javascript">             // load division
+        <script type="text/javascript">             
+            // load division
             $('#admin_division').change(function() {
                 $("#loading_content").show();
                 var div_code = $('#admin_division').val();
@@ -327,7 +328,7 @@ if (isset($_REQUEST['show_report'])){
                 });
             });
 
-// load district 
+            // load district 
             $('#admin_district').change(function() {
                 var dis_code = $('#admin_district').val();
                 $("#loading_content").show();
