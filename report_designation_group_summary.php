@@ -278,7 +278,8 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                 WHERE
                                                         total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                 AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row_designation['designation_code'] . "
-                                                GROUP BY
+                                                AND total_manpower_imported_sanctioned_post_copy.type_of_post = " . $row_designation['type_of_post_code'] . "
+                                                    GROUP BY
                                                         total_manpower_imported_sanctioned_post_copy.type_of_post,
                                                         sanctioned_post_designation.designation_group_code
                                                 ORDER BY
@@ -300,6 +301,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                     WHERE
                                                             total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                     AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row_designation['designation_code'] . "
+                                                    AND total_manpower_imported_sanctioned_post_copy.type_of_post = " . $row_designation['type_of_post_code'] . "
                                                     AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
                                                     $query_string
                                                     GROUP BY
@@ -308,7 +310,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                             $result_filledup = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             // total post
-                                            if ($row_designation['total_count']){
+                                            if ($row_designation['total_count'] > 0){
                                                 $total_post = $row_designation['total_count'];
                                             } else{
                                                 $total_post = 0;
@@ -316,7 +318,12 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                             
                                             // total filled up post for a specific designation
                                             $total_filled_up_data = mysql_fetch_assoc($result_filledup);
-                                            $total_filled_up = $total_filled_up_data['total_count'];
+                                            // total filled up post
+                                            if ($total_filled_up_data['total_count'] > 0){
+                                                $total_filled_up = $total_filled_up_data['total_count'];
+                                            } else{
+                                                $total_filled_up = 0;
+                                            }
                                             
                                             
                                             // total filled up post for a specific designation
@@ -338,6 +345,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                     WHERE
                                                             total_manpower_imported_sanctioned_post_copy.active LIKE 1
                                                     AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row_designation['designation_code'] . "
+                                                    AND total_manpower_imported_sanctioned_post_copy.type_of_post = " . $row_designation['type_of_post_code'] . "
                                                     AND old_tbl_staff_organization.sex = 1
                                                     $query_string
                                                     GROUP BY
@@ -348,7 +356,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                             // total male filled up post for a specific designation
                                             $total_male_filled_up_data = mysql_fetch_assoc($result_male_filledup);
                                             
-                                            if ($total_male_filled_up_data['total_count']){
+                                            if ($total_male_filled_up_data['total_count'] > 0){
                                                 $total_male_filled_up = $total_male_filled_up_data['total_count'];
                                             } else{
                                                 $total_male_filled_up = 0;
