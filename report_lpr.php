@@ -27,6 +27,14 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 $admin_division = (int) mysql_real_escape_string(trim($_GET['admin_division']));
 $admin_district = (int) mysql_real_escape_string(trim($_GET['admin_district']));
 $admin_upazila = (int) mysql_real_escape_string(trim($_GET['admin_upazila']));
+$date_start = mysql_real_escape_string(trim($_GET['date_start']));
+if ($date_start == ""){
+    $date_start = date('Y'). "-01-01";
+}
+$date_end = mysql_real_escape_string(trim($_GET['date_end']));
+if ($date_end == ""){
+    $date_end = date('Y'). "-12-30";
+}
 
 $query_string = "";
 $error_message = "";
@@ -69,10 +77,11 @@ if ($error_message == "" && isset($_REQUEST['show_report'])) {
             LEFT JOIN organization ON organization.org_code = old_tbl_staff_organization.org_code
             LEFT JOIN staff_job_posting ON staff_job_posting.job_posting_id = old_tbl_staff_organization.job_posting_id
             WHERE
-                 retirement_date BETWEEN '2014-01-01' AND '2014-12-31'
+                 retirement_date BETWEEN '$date_start' AND '$date_end'
                  $query_string
             ORDER BY
                     retirement_date";
+//    echo "<pre>$sql</pre>"; die();
     $result_data = mysql_query($sql) or die(mysql_error() . "<p>Query___</p><p>$sql</p><p>___</p>");
     
     $data_count = mysql_num_rows($result_data);
@@ -202,7 +211,14 @@ if (isset($_REQUEST['show_report'])){
                                                 echo "</select>";
                                             }
                                             ?>                                            
-                                        </div>                                        
+                                        </div> 
+                                        <div id="date-range" class="control-group">
+                                            <div class="input-daterange" id="datepicker">
+                                                <input type="text" class="input-small" name="date_start" placeholder="2014-01-30" />
+                                                <span class="add-on">to</span>
+                                                <input type="text" class="input-small" name="date_end" placeholder="2014-12-30" />
+                                            </div>
+                                        </div>
                                         <div class="control-group">
                                             <input name="show_report" type="hidden" value="true" />
                                             <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
@@ -228,6 +244,7 @@ if (isset($_REQUEST['show_report'])){
                                             if ($admin_upazila > 0) {
                                                 echo " & Upazila: <strong>" . getUpazilaNamefromBBSCode($admin_upazila, $admin_district) . "</strong>";
                                             }
+                                            echo "<br /> Start Date: $date_start & End Date: $date_end";
                                             ?>
                                         </div>
                                     </div>
@@ -346,6 +363,10 @@ if (isset($_REQUEST['show_report'])){
                         }
                     }
                 });
+            });
+            $('#date-range .input-daterange').datepicker({
+                format: "yyyy-mm-dd",
+                todayBtn: "linked"
             });
         </script>
 
