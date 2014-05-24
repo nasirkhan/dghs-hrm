@@ -11,7 +11,7 @@ $crudFrameworkRelativePath = "scripts/crud_framework"; // no need to change
  * Module config [Please update this accordingly]
  */
 $moduleName = "mod_system_configuration"; // the module this page belongs to, aslo this name should be in permissions table
-$moduleTitle = "Designation"; // user friendly name
+$moduleTitle = "Sanctioned Post Second Level"; // user friendly name
 $cssPrefix = ""; //css prefix that is added before some identifiers - optional
 /**
  * checks whether current viewer has permission to access/view this page // no need to change
@@ -27,7 +27,7 @@ $loggedInUserKeyValue = $_SESSION['user_id']; // this variable store the primary
 /**
  * Database/table config
  */
-$dbTableName = 'sanctioned_post_first_level'; // update this: database table to operate
+$dbTableName = 'sanctioned_post_second_level'; // update this: database table to operate
 $dbTablePrimaryKeyFieldName = 'id'; // update this: primary key field name
 $dbTablePrimaryKeyFieldVal = mysql_real_escape_string(trim($_REQUEST["$dbTablePrimaryKeyFieldName"])); // primary key field value that is passed as parameter or form post
 /**
@@ -42,18 +42,55 @@ $updatedDateTimeFieldVal = getDateTime();
  * Form handling config
  */
 $param = mysql_real_escape_string(trim($_REQUEST['param'])); // gets the actio param
+$msg = mysql_real_escape_string(trim($_REQUEST['msg'])); // gets the actio param
 $exception_field = array('submit', 'param', 'reset'); // array to store field names that needs to skipped in constructed query
-$requiredFieldNames = array('first_level_name', 'first_level_code'); // array for required fields
+$requiredFieldNames = array('second_level_name', 'second_level_code'); // array for required fields
 
 /* * ********************************************************************************************************************************************
  * Delete
  */
-
-if ($param == "delete") {
+if ($msg == "success"){
+    array_push($alert, "The selected row deleted successfully.");
+} else if ($param == "delete") {           
 
     function noConflictOnDelete($dbTableName, $dbTablePrimaryKeyFieldName, $dbTablePrimaryKeyFieldVal) {
-        // This function needs to be custom written to check whether this delete will have negative impact.
-        return false;
+        $deleteIdData = getRowVal($dbTableName, $dbTablePrimaryKeyFieldName, $dbTablePrimaryKeyFieldVal);
+        
+        if ($deleteIdData){
+            /**
+             * check data conflict with the other tables. 
+             * ****************************************************************
+             */
+            
+            $sql = "SELECT
+                            id
+                    FROM
+                            `total_manpower_imported_sanctioned_post_copy`
+                    WHERE
+                            second_level_id = \"" . $deleteIdData['second_level_code'] . "\"";
+            $result_conflicts = mysql_query($sql) or die(mysql_error() . "<p>Code:noConflictOnDelete:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+            $result_conflict_count = mysql_num_rows($result_conflicts);
+
+            
+            
+            if (!$result_conflict_count){
+                return TRUE;
+            } else {
+                $alert_message = "This row with <em>$dbTablePrimaryKeyFieldName = $dbTablePrimaryKeyFieldVal</em> "
+                        . "can not be deleted because it is "
+                        . "linked with the following table:<br />"
+                        . "<em>total_manpower_imported_sanctioned_post_copy</em>";
+                array_push($alert, $alert_message);
+                return false;
+            }
+            /**
+             * end conflict check
+             * ****************************************************************
+             */
+        } else {
+            array_push($alert, "No data found.");
+        }
     }
 
     if (noConflictOnDelete($dbTableName, $dbTablePrimaryKeyFieldName, $dbTablePrimaryKeyFieldVal)) {
@@ -156,7 +193,7 @@ $dataRows = getRows($dbTableName, $condition);
                 <div class="span9">
                     <!-- Form Start here
                     ================================================== -->
-
+                                        
                     <h4 class="<?= $cssPrefix ?>formTitle"><?= ucfirst($param) . " " . $moduleTitle ?></h4>
                     <div class="<?= $cssPrefix ?>toAlertMsg"><?php printAlert($valid, $alert); ?></div>
                     <div class="<?= $cssPrefix ?>addButton"><a href="<?php echo $_SERVER['PHP_SELF']; ?>">[+] Add</a></div>
@@ -167,15 +204,15 @@ $dataRows = getRows($dbTableName, $condition);
                             ?>
                             <form class="form-horizontal" action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
                                 <div class="control-group">
-                                    <label class="control-label" for="first_level_code">first_level_code</label>
+                                    <label class="control-label" for="second_level_code">second_level_code</label>
                                     <div class="controls">
-                                        <input id="first_level_code" name="first_level_code" type="text" value="<?= addEditInputField('first_level_code') ?>" class="validate[requried]"/>
+                                        <input id="first_level_code" name="second_level_code" type="text" value="<?= addEditInputField('second_level_code') ?>" class="validate[requried]"/>
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label" for="first_level_name">first_level_name</label>
+                                    <label class="control-label" for="second_level_name">second_level_name</label>
                                     <div class="controls">
-                                        <input id="first_level_name" name="first_level_name" type="text" value="<?= addEditInputField('first_level_name') ?>" class="validate[requried]"/>
+                                        <input id="first_level_name" name="second_level_name" type="text" value="<?= addEditInputField('second_level_name') ?>" class="validate[requried]"/>
                                     </div>
                                 </div>
                                 <div class="control-group">
