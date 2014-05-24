@@ -11,7 +11,7 @@ $crudFrameworkRelativePath = "scripts/crud_framework"; // no need to change
  * Module config [Please update this accordingly]
  */
 $moduleName = "mod_system_configuration"; // the module this page belongs to, aslo this name should be in permissions table
-$moduleTitle = "Designation"; // user friendly name
+$moduleTitle = "sanctioned_post_bangladesh_professional_category"; // user friendly name
 $cssPrefix = ""; //css prefix that is added before some identifiers - optional
 /**
  * checks whether current viewer has permission to access/view this page // no need to change
@@ -27,7 +27,7 @@ $loggedInUserKeyValue = $_SESSION['user_id']; // this variable store the primary
 /**
  * Database/table config
  */
-$dbTableName = 'sanctioned_post_designation'; // update this: database table to operate
+$dbTableName = 'sanctioned_post_bangladesh_professional_category '; // update this: database table to operate
 $dbTablePrimaryKeyFieldName = 'id'; // update this: primary key field name
 $dbTablePrimaryKeyFieldVal = mysql_real_escape_string(trim($_REQUEST["$dbTablePrimaryKeyFieldName"])); // primary key field value that is passed as parameter or form post
 /**
@@ -43,7 +43,7 @@ $updatedDateTimeFieldVal = getDateTime();
  */
 $param = mysql_real_escape_string(trim($_REQUEST['param'])); // gets the actio param
 $exception_field = array('submit', 'param', 'reset'); // array to store field names that needs to skipped in constructed query
-$requiredFieldNames = array('designation'); // array for required fields
+$requiredFieldNames = array('bangladesh_professional_category_code', 'bangladesh_professional_category_name'); // array for required fields
 
 /* * ********************************************************************************************************************************************
  * Delete
@@ -58,6 +58,9 @@ if ($param == "delete") {
 
   if (noConflictOnDelete($dbTableName, $dbTablePrimaryKeyFieldName, $dbTablePrimaryKeyFieldVal)) {
     require_once "$crudFrameworkRelativePath/cf_delete.php";
+  } else {
+    $valid = false;
+    array_push($alert, "Cannot be deleted since conflicts found");
   }
 }
 /* * *****************************************
@@ -129,7 +132,7 @@ $dataRows = getRows($dbTableName, $condition);
     </style>
   </head>
   <body data-spy="scroll" data-target=".bs-docs-sidebar">
-    <?php //require_once "$crudFrameworkRelativePath/cf_jquery_modal_popup.php";  ?>
+    <?php //require_once "$crudFrameworkRelativePath/cf_jquery_modal_popup.php";   ?>
 
     <!-- Top navigation bar
     ================================================== -->
@@ -166,7 +169,12 @@ $dataRows = getRows($dbTableName, $condition);
             if (hasPermission($moduleName, $param, getLoggedUserName())) {
               ?>
               <form class="cmxform" id="commentForm"  action="<?= $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-                <input id="cdesignation" name="designation" type="text" value="<?= addEditInputField('designation') ?>" class="validate[requried]"/>
+                bangladesh_professional_category_code
+                <div class="clear"></div>
+                <input id="cdbangladesh_professional_category_code" name="bangladesh_professional_category_code" type="text" value="<?= addEditInputField('bangladesh_professional_category_code') ?>" class="validate[requried]"/>
+                <div class="clear"></div>
+                bangladesh_professional_category_name<br/>
+                <input id="cdbangladesh_professional_category_name" name="bangladesh_professional_category_name" type="text" value="<?= addEditInputField('bangladesh_professional_category_name') ?>" class="validate[requried]"/>
 
                 <!-- Default input items -->
                 <div class="clear"></div>
@@ -181,23 +189,26 @@ $dataRows = getRows($dbTableName, $condition);
             ?>
 
           </div>
+
+          id
+          bangladesh_professional_category_code
+          bangladesh_professional_category_name
+          updated_datetime
+          updated_by
+          active
+
+
           <div id="<?= $cssPrefix ?>tabularData">
             <!--<h2>List of Departments</h2>-->
             <table id="datatable" width="100%">
               <thead>
                 <tr>
                   <th>id</th>
-                  <th><!--designation_code-->code</th>
-                  <th>designation</th>
-                  <th>payscale</th>
-                  <th>class</th>
-                  <th>DGC<!--designation_group_code--></th>
-                  <th>GC</th>
-                  <th>ranking</th>
-                  <th>bpcc<!--bangladesh_professional_category_code--></th>
-                  <th>wogc<!--who_occupation_group_codebook--></th>
-                  <th>updated by</th>
-                  <th>updated on</th>
+                  <th>bangladesh_professional_category_code</th>
+                  <th>bangladesh_professional_category_name</th>
+                  <th>updated_datetime</th>
+                  <th>updated_by</th>
+                  <th>active</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -208,17 +219,11 @@ $dataRows = getRows($dbTableName, $condition);
                   ?>
                   <tr id="<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>">
                     <td><a href="<?= $_SERVER['PHP_SELF'] ?>?param=edit&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>"><?= $dataRow[$dbTablePrimaryKeyFieldName] ?></td>
-                    <td><?= $dataRow['designation_code'] ?></td>
-                    <td><?= $dataRow['designation'] ?></td>
-                    <td><?= $dataRow['payscale'] ?></td>
-                    <td><?= $dataRow['class'] ?></td>
-                    <td><?= $dataRow['designation_group_code'] ?></td>
-                    <td><?= $dataRow['group_code'] ?></td>
-                    <td><?= $dataRow['ranking'] ?></td>
                     <td><?= $dataRow['bangladesh_professional_category_code'] ?></td>
-                    <td><?= $dataRow['who_occupation_group_codebook'] ?></td>
-                    <td><?= $dataRow['updated_by'] ?></td>
+                    <td><?= $dataRow['bangladesh_professional_category_name'] ?></td>
                     <td><?= $dataRow['updated_datetime'] ?></td>
+                    <td><?= $dataRow['updated_by'] ?></td>
+                    <td><?= $dataRow['active'] ?></td>
                     <td>
                       <?php if (hasPermission($moduleName, 'manage', getLoggedUserName())) { ?>
                         <a class='cf_delete' id='<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>"' href='<?= $_SERVER['PHP_SELF'] ?>?param=delete&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>'>Delete</a>
