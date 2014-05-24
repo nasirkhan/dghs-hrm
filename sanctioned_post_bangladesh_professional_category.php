@@ -11,7 +11,7 @@ $crudFrameworkRelativePath = "scripts/crud_framework"; // no need to change
  * Module config [Please update this accordingly]
  */
 $moduleName = "mod_system_configuration"; // the module this page belongs to, aslo this name should be in permissions table
-$moduleTitle = "sanctioned_post_bangladesh_professional_category"; // user friendly name
+$moduleTitle = "Sanctioned Post Professional Category"; // user friendly name
 $cssPrefix = ""; //css prefix that is added before some identifiers - optional
 /**
  * checks whether current viewer has permission to access/view this page // no need to change
