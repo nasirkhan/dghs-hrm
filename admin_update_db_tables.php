@@ -94,46 +94,24 @@ if ($_SESSION['user_type'] != "admin") {
                     <!-- admin home
                     ================================================== -->
                     <section id="admin_home_main">
-                        <h3>Admin Dashboard</h3>
-
+                        <h3>Update Database Tables</h3>
+                        
                         <div class="row-fluid">
-
-                            <a href="search.php" class="btn btn-large btn-warning">
-                                <i class="icon-search pull-left icon-3x"></i> Search
-                            </a>
-
-                            <a href="add_new.php" class="btn btn-large btn-info">
-                                <i class="icon-plus pull-left icon-3x"></i> Add New
-                            </a>
-
-                            <a href="transfer.php" class="btn btn-large">
-                                <i class="icon-exchange pull-left icon-3x"></i> Transfer
-                            </a>
-
-                            <a href="delete.php" class="btn btn-danger btn-large">
-                                <i class="icon-trash pull-left icon-3x"></i> Delete
-                            </a>
-                            <!--
-                            <a href="sanctioned_post_update.php" class="btn btn-large">
-                                <i class="icon-group pull-left icon-3x"></i> Manage Sanctioned Post
-                            </a>
-                            -->
-
-                            <a href="admin_edit_org.php" class="btn btn-large">
-                                <?php
-                                require_once 'configuration.php';
-                                $sql = "SELECT * FROM `organization_requested` WHERE active LIKE 1;";
-                                $new_org_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:sql:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
-                                $new_org_result_count = mysql_num_rows($new_org_result);
-                                ?>
-                                <i class="icon-hospital pull-left icon-3x"></i>
-                                Org Approval Queue
-                                <?php if ($new_org_result_count > 0): ?>
-                                    <br />
-                                    <span class="badge badge-warning">Total <?php echo "$new_org_result_count"; ?> pending</span>
-                                <?php endif; ?>
-
-                            </a>
+                            
+                            <?php if (hasPermission('mod_system_configuration', 'view', getLoggedUserName())): ?>
+                            
+                            <table class="table table-hover table-striped table-bordered">
+                                <tr>
+                                    <td><a href="admin_designations.php"> Designations</a></td>
+                                </tr>
+                            </table>
+                            <?php else: ?>
+                            
+                            <p class="lead alert alert-Warnign">
+                                You do not have the permission to view this content. 
+                            </p>
+                            
+                            <?php endif; ?>
 
                         </div>
 
