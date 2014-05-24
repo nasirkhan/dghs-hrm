@@ -102,7 +102,14 @@ if ($_SESSION['user_type'] != "admin") {
                             
                             <table class="table table-hover table-striped table-bordered">
                                 <tr>
-                                    <td><a href="admin_designations.php"> Designations</a></td>
+                                    <td>
+                                        <a href="admin_designations.php"> Designations</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="admin_sanctioned_post_first_level.php">First Level Names</a>
+                                    </td>
                                 </tr>
                             </table>
                             <?php else: ?>

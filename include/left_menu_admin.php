@@ -40,11 +40,11 @@
     <li><a href="transfer.php"><i class="icon-random"></i> Transfer</a></li>        
     <li><a href="user_add.php"><i class="icon-user"></i> Add User</a></li>
 
-    <li><a href="admin_db_tables.php"><i class="icon-gears"></i> Configuration</a></li>
+    <li><a href="admin_update_db_tables.php"><i class="icon-gears"></i> Configuration</a></li>
     <ul>
         <li><a href="admin_designations.php">Designations</a></li>
-        <li><a href="#">Type of Post</a></li>
         <li><a href="admin_sanctioned_post_first_level.php">First Level Names</a></li>
+        <li><a href="#">Type of Post</a></li>        
         <li><a href="#">Second Level Name</a></li>
     </ul>
 
