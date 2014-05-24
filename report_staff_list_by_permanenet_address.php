@@ -54,9 +54,11 @@ if ($error_message == "") {
             FROM
                     old_tbl_staff_organization
             LEFT JOIN organization ON old_tbl_staff_organization.org_code = organization.org_code
+            LEFT JOIN staff_job_posting ON staff_job_posting.job_posting_id = old_tbl_staff_organization.job_posting_id
             WHERE                    
                 $query_string
-            AND old_tbl_staff_organization.active LIKE '1'";
+            AND old_tbl_staff_organization.active LIKE '1'
+            AND old_tbl_staff_organization.sp_id_2 > 0";
     $result_data = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_permanenet_address:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data_count = mysql_num_rows($result_data);
@@ -121,7 +123,23 @@ if (isset($_GET['staff_district'])) {
                             <div class="row-fluid">
                                 <div class="span12">
                                     <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                        <p>Show 'Staff list' based on their permanent address.</p>
+                                        <h3>Show 'Staff list' based on their permanent address</h3>
+                                        <div class="control-group">
+                                            <select id="staff_district" name="staff_district">
+                                                <option value="0"> Select Staff Home District </option>
+                                                <?php
+                                                $sql = "SELECT district_bbs_code, district_name FROM `admin_district`";
+                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                while ($rows = mysql_fetch_assoc($result)) {
+                                                    if ($rows['district_bbs_code'] == $_REQUEST['staff_district'])
+                                                        echo "<option value=\"" . $rows['district_bbs_code'] . "\" selected='selected'>" . $rows['district_name'] . "</option>";
+                                                    else
+                                                        echo "<option value=\"" . $rows['district_bbs_code'] . "\">" . $rows['district_name'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
                                         <div class="control-group">
                                             <select id="admin_division" name="admin_division">
                                                 <option value="0">__ Select Division __</option>
@@ -183,23 +201,7 @@ if (isset($_GET['staff_district'])) {
                                                 }
                                                 ?>
                                             </select>
-                                        </div>
-                                        <div class="control-group">
-                                            <select id="staff_district" name="staff_district">
-                                                <option value="0">__ Select Staff District __</option>
-                                                <?php
-                                                $sql = "SELECT district_bbs_code, district_name FROM `admin_district`";
-                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-                                                while ($rows = mysql_fetch_assoc($result)) {
-                                                    if ($rows['district_bbs_code'] == $_REQUEST['staff_district'])
-                                                        echo "<option value=\"" . $rows['district_bbs_code'] . "\" selected='selected'>" . $rows['district_name'] . "</option>";
-                                                    else
-                                                        echo "<option value=\"" . $rows['district_bbs_code'] . "\">" . $rows['district_name'] . "</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
+                                        </div>                                        
                                         <div class="control-group">
                                             <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
                                             <a href="report_staff_list_by_permanenet_address.php" class="btn btn-default" > Reset</a>
@@ -243,7 +245,7 @@ if (isset($_GET['staff_district'])) {
                                             <thead>
                                                 <tr>
                                                     <td><strong>#</strong></td>
-                                                    <td><strong>Name (ID)</strong></td>
+                                                    <td><strong>Name</strong></td>
                                                     <td><strong>Code</strong></td>
                                                     <td><strong>Date of Birth</strong></td>
                                                     <td><strong>Designation</strong></td>
@@ -259,11 +261,11 @@ if (isset($_GET['staff_district'])) {
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $row_count; ?></td>
-                                                        <td><?php echo $data['staff_name']; ?> (<?php echo $data['staff_id']; ?>)</td>
+                                                        <td><?php echo $data['staff_name']; ?> <!-- (<?php echo $data['staff_id']; ?>) --> </td>
                                                         <td><?php echo $data['staff_pds_code']; ?></td>
                                                         <td><?php echo $data['birth_date']; ?></td>
                                                         <td><?php echo getDesignationNameformCode($data['designation_id']); ?></td>
-                                                        <td><?php echo $data['staff_posting']; ?></td>
+                                                        <td><?php echo $data['job_posting_name']; ?></td>
                                                         <td><?php echo $data['org_name']; ?></td>
                                                         <td><?php echo $data['contact_no']; ?></td>
                                                     </tr>
@@ -339,6 +341,18 @@ if (isset($_GET['staff_district'])) {
             });
         </script>
 
-
+               <script type="text/javascript">
+		var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+		</script>
     </body>
 </html>

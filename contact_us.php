@@ -1,6 +1,17 @@
 
 <?php
+session_start();
 $app_name = "Ministry of Health and Family Welfare";
+
+$username = "";
+$orgcode = "";
+$orgname = "";
+if ($_SESSION['logged'] == true && $_SESSION['user_type'] != "admin"){
+    $username = $_SESSION['username'];
+    $orgcode = $_SESSION['org_code'];
+    $orgname = $_SESSION['org_name']; 
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -16,12 +27,6 @@ $app_name = "Ministry of Health and Family Welfare";
     </head>
 
     <body>
-        <?php
-        session_start();
-        $username = $_SESSION['username'];
-        $orgcode = $_SESSION['org_code'];
-        $orgname = $_SESSION['org_name'];
-        ?>
         <div class="container">
 
             <div class="row-fluid">
@@ -35,16 +40,16 @@ $app_name = "Ministry of Health and Family Welfare";
                         <input type="hidden" id="emailcc" name="emailcc" class="input-block-level"  value="moly@mis.dghs.gov.bd">
 
                         <label>From Email  <font color="red"> * </font></label>
-                        <input type="text" id="email" name="email"  class="input-block-level"  value="<? echo $username; ?>">
+                        <input type="text" id="email" name="email"  class="input-block-level"  value="<?php echo $username; ?>">
 
                         <label>Name <font color="red"> * </font> </label>
                         <input type="text" id="name" name="name"  class="input-block-level" placeholder="Name" required>
 
                         <label>Organization Name (Optional) </label>
-                        <input type="text" id="orgname" name="orgname" class="input-block-level" value="<? echo $orgname; ?>">
+                        <input type="text" id="orgname" name="orgname" class="input-block-level" value="<?php echo $orgname; ?>">
 
                         <label>Organization Code </label>
-                        <input type="text" id="orgcode" name="orgcode"  class="input-block-level"  value="<? echo $orgcode; ?>">
+                        <input type="text" id="orgcode" name="orgcode"  class="input-block-level"  value="<?php echo $orgcode; ?>">
 
                         <label>Reason <font color="red"> * </font> </label>
                         <select id="reason" name="reason" class="input-block-level" required>
@@ -68,7 +73,7 @@ $app_name = "Ministry of Health and Family Welfare";
                         <img src="assets/img/contact_us.png">
                     </fieldset>
                     <?php
-                    session_start();
+//                    session_start();
 //error_reporting(E_ALL);
 //ini_set('display_errors','On');
                     if ($_POST["email"] <> '') {

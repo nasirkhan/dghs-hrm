@@ -28,16 +28,19 @@ $admin_division = (int) mysql_real_escape_string(trim($_GET['admin_division']));
 $admin_district = (int) mysql_real_escape_string(trim($_GET['admin_district']));
 $org_type = (int) mysql_real_escape_string(trim($_GET['org_type']));
 $designation_group_code = (int) mysql_real_escape_string(trim($_GET['designation_group_code']));
-$designation_group_name = getDesignationGroupNameformCode($staff_district_code);
+$designation_group_name = getDesignationGroupNameformCode($designation_group_code);
 $discipline = mysql_real_escape_string(trim($_GET['discipline']));
 
 $query_string = "";
 $error_message = "";
-if (isset($_GET['discipline'])) {
-    $query_string .= " total_manpower_imported_sanctioned_post_copy.designation LIKE '$discipline' ";
+if ($designation_group_code > 0){
+    $query_string .= " sanctioned_post_designation.designation_group_code = $designation_group_code ";
 } else {
-    $error_message .= "<br>No 'Discipline' selected.";
+    $error_message .= "<br>No 'Designation Group' selected.";
 }
+if (isset($_GET['discipline']) && $_GET['discipline'] != "0") {
+    $query_string .= " AND total_manpower_imported_sanctioned_post_copy.discipline LIKE '$discipline' ";
+} 
 if ($org_type > 0) {
     $query_string .= " AND organization.org_type_code = $org_type ";
 }
@@ -47,15 +50,13 @@ if ($admin_district > 0) {
 if ($admin_division > 0) {
     $query_string .= " AND organization.division_code = $admin_division ";
 }
-if ($designation_group_code > 0){
-    $query_string .= " AND sanctioned_post_designation.designation_group_code = $designation_group_code ";
-}
+
 
 if (isset($_GET['discipline'])) {
     $showInfo = TRUE;
 }
 
-if ($error_message == "") {
+if ($error_message == "" && $designation_group_code > 0) {
     $sql = "SELECT
                     old_tbl_staff_organization.staff_id,
                     old_tbl_staff_organization.staff_name,
@@ -63,24 +64,28 @@ if ($error_message == "") {
                     old_tbl_staff_organization.birth_date,
                     old_tbl_staff_organization.posting_status,
                     old_tbl_staff_organization.staff_posting,
+                    old_tbl_staff_organization.job_posting_id,
                     old_tbl_staff_organization.contact_no,
                     organization.org_name,
                     sanctioned_post_designation.designation_group_code,
-                    sanctioned_post_type_of_post.type_of_post_name,
-                    total_manpower_imported_sanctioned_post_copy.designation
+                    staff_job_posting.job_posting_name,
+                    total_manpower_imported_sanctioned_post_copy.designation,
+                    total_manpower_imported_sanctioned_post_copy.discipline
             FROM
                     old_tbl_staff_organization
             LEFT JOIN total_manpower_imported_sanctioned_post_copy ON total_manpower_imported_sanctioned_post_copy.staff_id_2 = old_tbl_staff_organization.staff_id
             LEFT JOIN organization ON old_tbl_staff_organization.org_code = organization.org_code
             LEFT JOIN sanctioned_post_designation ON old_tbl_staff_organization.designation_id = sanctioned_post_designation.designation_code
-            LEFT JOIN sanctioned_post_type_of_post ON old_tbl_staff_organization.staff_posting = sanctioned_post_type_of_post.type_of_post_code
+            LEFT JOIN staff_job_posting ON staff_job_posting.job_posting_id = old_tbl_staff_organization.job_posting_id
             WHERE
                     $query_string
-                AND old_tbl_staff_organization.active LIKE '1'";
-    $result_data = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_permanenet_address:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                AND old_tbl_staff_organization.active LIKE '1'
+                AND old_tbl_staff_organization.sp_id_2 > 0";
+//    echo "<pre>$sql</pre>"; die();
+    $result_data = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_designation_group_with_descipline:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data_count = mysql_num_rows($result_data);
-//    echo "<pre>$sql</pre>";
+    
     if ($data_count > 0) {
         $showReport = TRUE;
     }
@@ -136,7 +141,7 @@ if ($error_message == "") {
                             <div class="row-fluid">
                                 <div class="span12">
                                     <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                        <p>Staff list by designation group report with discipline</p>
+                                        <h3>Staff list by designation group report with discipline</h3>
                                         <div class="control-group">
                                             <select id="admin_division" name="admin_division">
                                                 <option value="0">__ Select Division __</option>
@@ -238,7 +243,7 @@ if ($error_message == "") {
                                         </div>
                                         <div class="control-group">
                                             <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
-                                            <a href="report_staff_list_by_designation_group_without_descipline.php" class="btn btn-default" > Reset</a>
+                                            <a href="report_staff_list_by_designation_group_with_descipline.php" class="btn btn-default" > Reset</a>
                                             <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                         </div>
                                     </form> <!-- /form -->
@@ -249,11 +254,16 @@ if ($error_message == "") {
                                 <div class="row-fluid">
                                     <div class="span12">
                                         <div class="alert alert-info">
+                                            <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary btn-small pull-right">
                                             Selected values are:
                                             <?php
                                             if ($designation_group_code > 0) {
-                                                echo "<br>Designation Group:<strong> $designation_group_name" . "</strong>";
+                                                echo "<br> Designation Group:<strong> $designation_group_name" . "</strong>";
                                             }
+                                            if ($discipline != '0') {
+                                                echo " & Discipline: <strong>" . $discipline . "</strong>";
+                                            }                                            
+                                            
                                             if ($admin_division > 0) {
                                                 echo " & Division: <strong>" . getDivisionNamefromCode($admin_division) . "</strong>";
                                             }
@@ -262,9 +272,6 @@ if ($error_message == "") {
                                             }
                                             if ($org_type > 0) {
                                                 echo " & Organization Type: <strong>" . getOrgTypeNameFormOrgTypeCode($org_type) . "</strong>";
-                                            }
-                                            if ($discipline != 0) {
-                                                echo " & Discipline: <strong>" . $discipline . "</strong>";
                                             }
                                             ?>
                                         </div>
@@ -277,8 +284,7 @@ if ($error_message == "") {
                                         <div class="alert alert-info">
                                             Total <?php echo $data_count; ?> result(s) found. 
                                         </div>
-
-                                        <table class="table table-bordered table-hover">
+                                        <table class="table table-bordered table-hover" id="testTable">
                                             <thead>
                                                 <tr>
                                                     <td><strong>#</strong></td>
@@ -298,10 +304,10 @@ if ($error_message == "") {
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $row_count; ?></td>
-                                                        <td><?php echo $data['staff_name']; ?> (<?php echo $data['staff_id']; ?>)</td>
+                                                        <td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>" target="_blank"><?php echo $data['staff_name']; ?></a></td>
                                                         <td><?php echo $data['staff_pds_code']; ?></td>
                                                         <td><?php echo $data['birth_date']; ?></td>
-                                                        <td><?php echo $data['type_of_post_name']; ?></td>
+                                                        <td><?php echo $data['job_posting_name']; ?></td>
                                                         <td><?php echo $data['org_name']; ?></td>
                                                         <td><?php echo $data['contact_no']; ?></td>
                                                         <td><?php echo $data['discipline']; ?></td>
@@ -323,7 +329,9 @@ if ($error_message == "") {
                                 </div> <!-- /span12 -->
                             </div> <!-- /row result display div-->
                         </section> <!-- /report-->
-                    <?php endif; ?>
+                    <?php else: ?>
+                        <h3> You Do not have the permission to view this report. </h3>
+                    <?php endif; ?>    
                 </div>
             </div>
 
@@ -378,6 +386,18 @@ if ($error_message == "") {
             });
         </script>
 
-
+               <script type="text/javascript">
+		var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+		</script>
     </body>
 </html>

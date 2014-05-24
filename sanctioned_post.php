@@ -175,11 +175,11 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                             <td><span class="label label-info"><?php echo $total_post; ?></span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Total Filled up Sanctioned Post :</strong></td>
+                                            <td><strong>Total Filled up Post :</strong></td>
                                             <td><span class="label label-info"><?php echo $total_filled_up; ?></span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Total Vacant Post  Sanctioned Post :</strong></td>
+                                            <td><strong>Total Vacant Post  :</strong></td>
                                             <td><span class="label label-info"><?php echo $total_vacant_post; ?></span></td>
                                         </tr>
                                     </tbody>

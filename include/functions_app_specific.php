@@ -581,7 +581,7 @@ function getDesignationGroupNameformCode($code) {
             FROM
                     `sanctioned_post_designation_group`
             WHERE
-                    sanctioned_post_designation_group.designation_group_code = '$code'$code
+                    sanctioned_post_designation_group.designation_group_code = '$code'
             AND active LIKE 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationGroupNameformCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -646,6 +646,31 @@ function getUpazilaNamefromBBSCode($upa_bbs_code, $dis_bbs_code) {
     $data = mysql_fetch_assoc($result);
 
     return $data['upazila_name'];
+}
+
+function getUnionNameFromBBSCode($union_code, $upazila_code, $district_code){
+    if (empty($union_code) || empty($upazila_code) || empty($district_code)) {
+        return FALSE;
+    }
+    
+    $sql = "SELECT
+                    union_name
+            FROM
+                    `admin_union`
+            WHERE
+                    union_code = '$union_code'
+            AND upazila_code = '$upazila_code'
+            AND district_code = '$district_code'
+            LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>getUnionNameFromBBSCode:1</p><p>$sql</p>");
+    
+    if (mysql_num_rows($result)){
+        $data = mysql_fetch_assoc($result);
+
+        return $data['union_name'];
+    } else{
+        return FALSE;
+    }
 }
 
 function getUnionNamefromCode($bbs_code) {
@@ -1814,6 +1839,27 @@ function isValidStaffMobile($mobile_number) {
 }
 
 /**
+ * Check if the Staff Id is valid or not
+ * @param type $staff_id
+ * @return string|boolean
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function isValidStaffPDS($code) {
+    if ($code == "") {
+        return FALSE;
+    }
+    $sql = "SELECT staff_id FROM `old_tbl_staff_organization` WHERE staff_pds_code LIKE \"$code\" AND active LIKE '1' LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidStaffPDS:1</p><p>Query:</b></p>___<p>$sql</p>");
+
+    if (mysql_num_rows($result) == 1) {
+        $a = mysql_fetch_assoc($result);
+        return $a['staff_id'];
+    } else {
+        return FALSE;
+    }
+}
+
+/**
  * Check if an username exists or not
  * @param type $staff_id
  * @return string|boolean
@@ -1977,6 +2023,9 @@ function insertNewOrganization($data) {
     $district_name = $data['district_name'];
     $upazila_code = $data['upazila_thana_code'];
     $upazila_name = $data['upazila_thana_name'];
+    $unioin_code = $data['unioin_code'];
+    $unioin_name = $data['unioin_name'];
+    $ward_code = $data['ward_code'];
     $new_ownarship_info = $data['ownership_code'];
     $new_org_email = $data['email_address1'];
     $new_functions_code = $data['org_function_code'];
@@ -2002,6 +2051,8 @@ function insertNewOrganization($data) {
             `district_name`,
             `upazila_thana_code`,
             `upazila_thana_name`,
+            `union_code`,
+            `union_name`,
             `ownership_code`,
             `email_address1`,
             `mobile_number1`,
@@ -2024,6 +2075,8 @@ function insertNewOrganization($data) {
             '$district_name',
             '$upazila_code',
             '$upazila_name',
+            '$union_code',
+            '$union_name',
             '$new_ownarship_info',
             '$new_org_email',
             '$new_org_mobile',

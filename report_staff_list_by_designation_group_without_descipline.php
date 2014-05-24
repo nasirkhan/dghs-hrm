@@ -67,7 +67,8 @@ if ($error_message == "") {
                 LEFT JOIN sanctioned_post_type_of_post ON old_tbl_staff_organization.staff_posting = sanctioned_post_type_of_post.type_of_post_code
             WHERE
                     $query_string
-                AND old_tbl_staff_organization.active LIKE '1'";
+                AND old_tbl_staff_organization.active LIKE '1'
+                AND old_tbl_staff_organization.sp_id_2 > 0";
     $result_data = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_permanenet_address:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data_count = mysql_num_rows($result_data);
@@ -130,7 +131,7 @@ if (isset($_GET['designation_group_code'])) {
                             <div class="row-fluid">
                                 <div class="span12">
                                     <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                        <p>Staff list by designation group report without discipline</p>
+                                        <h3>Staff list by designation group report without discipline</h3>
                                         <div class="control-group">
                                             <select id="admin_division" name="admin_division">
                                                 <option value="0">__ Select Division __</option>
@@ -229,6 +230,7 @@ if (isset($_GET['designation_group_code'])) {
                                 <div class="row-fluid">
                                     <div class="span12">
                                         <div class="alert alert-info">
+                                            <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary btn-small pull-right">
                                             Selected values are:
                                             <?php
                                             if ($designation_group_code > 0) {
@@ -243,7 +245,7 @@ if (isset($_GET['designation_group_code'])) {
                                             if ($org_type > 0) {
                                                 echo " & Organization Type: <strong>" . getOrgTypeNameFormOrgTypeCode($org_type) . "</strong>";
                                             }
-                                            ?>
+                                            ?>                                            
                                         </div>
                                     </div>
                                 </div>
@@ -255,7 +257,8 @@ if (isset($_GET['designation_group_code'])) {
                                             Total <?php echo $data_count; ?> result(s) found. 
                                         </div>
 
-                                        <table class="table table-bordered table-hover">
+                                        <br/>
+                                        <table class="table table-bordered table-hover" id="testTable">
                                             <thead>
                                                 <tr>
                                                     <td><strong>#</strong></td>
@@ -274,7 +277,7 @@ if (isset($_GET['designation_group_code'])) {
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $row_count; ?></td>
-                                                        <td><?php echo $data['staff_name']; ?> (<?php echo $data['staff_id']; ?>)</td>
+                                                        <td><a href="employee.php?staff_id=<?php echo $data['staff_id']; ?>" target="_blank"><?php echo $data['staff_name']; ?></a></td>
                                                         <td><?php echo $data['staff_pds_code']; ?></td>
                                                         <td><?php echo $data['birth_date']; ?></td>
                                                         <td><?php echo $data['type_of_post_name']; ?></td>
@@ -298,6 +301,8 @@ if (isset($_GET['designation_group_code'])) {
                                 </div> <!-- /span12 -->
                             </div> <!-- /row result display div-->
                         </section> <!-- /report-->
+                    <?php else: ?>
+                        <h3> You Do not have the permission to view this report. </h3>
                     <?php endif; ?>
                 </div>
             </div>
@@ -352,7 +357,19 @@ if (isset($_GET['designation_group_code'])) {
                 });
             });
         </script>
-
+               <script type="text/javascript">
+		var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+		</script>
 
     </body>
 </html>

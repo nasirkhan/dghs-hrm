@@ -23,28 +23,6 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $isAdmin = TRUE;
 }
 
-$sql = "SELECT
-                total_manpower_imported_sanctioned_post_copy.designation,
-                total_manpower_imported_sanctioned_post_copy.designation_code,
-                sanctioned_post_type_of_post.type_of_post_name,
-                sanctioned_post_type_of_post.type_of_post_code,
-                sanctioned_post_designation.class,
-                sanctioned_post_designation.payscale,
-                sanctioned_post_designation.ranking,
-                count(*) AS total_count
-        FROM
-                `total_manpower_imported_sanctioned_post_copy`
-        LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.sp_id_2 = total_manpower_imported_sanctioned_post_copy.id
-        LEFT JOIN sanctioned_post_type_of_post ON total_manpower_imported_sanctioned_post_copy.type_of_post = sanctioned_post_type_of_post.type_of_post_code
-        LEFT JOIN sanctioned_post_designation ON sanctioned_post_designation.designation_code = total_manpower_imported_sanctioned_post_copy.designation_code
-        WHERE
-                total_manpower_imported_sanctioned_post_copy.active LIKE 1
-        GROUP BY
-                total_manpower_imported_sanctioned_post_copy.type_of_post,
-                total_manpower_imported_sanctioned_post_copy.designation
-        ORDER BY
-                sanctioned_post_designation.ranking";
-$result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -90,9 +68,11 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_p
                     <!-- info area
                     ================================================== -->
                     <section id="report">
-
+                        <?php if (hasPermission('report_post_status_summary', 'view', getLoggedUserName())) : ?>
                         <div class="row">
-                            <table class="table table-bordered table-hover">
+                            <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary">
+                            <br/>
+                            <table class="table table-bordered table-hover" id="testTable">
                                 <thead>
                                     <tr>
                                         <th><strong>#</strong></th>
@@ -100,31 +80,160 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_p
                                         <th><strong>Type of post</strong></th>
                                         <th><strong>Class</strong></th>
                                         <th><strong>Payscale</strong></th>
-                                        <th><strong>Total</strong></th>
+                                        <th><strong>Total Post</strong></th>
+                                        <th><strong>Total Filled up Post</strong></th>
+                                        <th><strong>Total Vacant Post</strong></th>
+                                        <th><strong>Total Male</strong></th>
+                                        <th><strong>Total Female</strong></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $sql = "SELECT sanctioned_post_designation.designation_code FROM `sanctioned_post_designation` ORDER BY ranking";
-                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                    $sql = "SELECT
+                                                    total_manpower_imported_sanctioned_post_copy.designation,
+                                                    total_manpower_imported_sanctioned_post_copy.designation_code,
+                                                    sanctioned_post_type_of_post.type_of_post_name,
+                                                    sanctioned_post_type_of_post.type_of_post_code,
+                                                    sanctioned_post_designation.class,
+                                                    sanctioned_post_designation.payscale,
+                                                    sanctioned_post_designation.ranking,
+                                                    count(*) AS total_count
+                                            FROM
+                                                    `total_manpower_imported_sanctioned_post_copy`
+                                            LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.sp_id_2 = total_manpower_imported_sanctioned_post_copy.id
+                                            LEFT JOIN sanctioned_post_type_of_post ON total_manpower_imported_sanctioned_post_copy.type_of_post = sanctioned_post_type_of_post.type_of_post_code
+                                            LEFT JOIN sanctioned_post_designation ON sanctioned_post_designation.designation_code = total_manpower_imported_sanctioned_post_copy.designation_code
+                                            WHERE
+                                                    total_manpower_imported_sanctioned_post_copy.active LIKE 1
+                                            GROUP BY
+                                                    total_manpower_imported_sanctioned_post_copy.type_of_post,
+                                                    total_manpower_imported_sanctioned_post_copy.designation
+                                            ORDER BY
+                                                    sanctioned_post_designation.ranking";
+                                    $result_all = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+//                                    $sql = "SELECT sanctioned_post_designation.designation_code FROM `sanctioned_post_designation` ORDER BY ranking";
+//                                    $result_designation = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                     
                                     $row_count = 0;
-                                    while ($row = mysql_fetch_assoc($result)):
-                                        $row_count++;
-                                        ?>
-                                        <tr>
-                                            <td><?php echo $row_count; ?></td>
-                                            <td><?php echo $row['designation']; ?></td>
-                                            <td><?php echo $row['type_of_post_name']; ?></td>
-                                            <td><?php echo $row['class']; ?></td>
-                                            <td><?php echo $row['payscale']; ?></td>
-                                            <td><?php echo $row['total_count']; ?></td>
-                                        </tr>
+                                    while ($row_designation = mysql_fetch_assoc($result_all)):
+                                        if (!$row_designation['designation_code'] > 0){
+                                            continue;
+                                        }
+                                        
+                                        $sql = "SELECT
+                                                        total_manpower_imported_sanctioned_post_copy.designation,
+                                                        total_manpower_imported_sanctioned_post_copy.designation_code,
+                                                        sanctioned_post_type_of_post.type_of_post_name,
+                                                        sanctioned_post_type_of_post.type_of_post_code,
+                                                        sanctioned_post_designation.class,
+                                                        sanctioned_post_designation.payscale,
+                                                        sanctioned_post_designation.ranking,
+                                                        count(*) AS total_count
+                                                FROM
+                                                        `total_manpower_imported_sanctioned_post_copy`
+                                                LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.sp_id_2 = total_manpower_imported_sanctioned_post_copy.id
+                                                LEFT JOIN sanctioned_post_type_of_post ON total_manpower_imported_sanctioned_post_copy.type_of_post = sanctioned_post_type_of_post.type_of_post_code
+                                                LEFT JOIN sanctioned_post_designation ON sanctioned_post_designation.designation_code = total_manpower_imported_sanctioned_post_copy.designation_code
+                                                WHERE
+                                                        total_manpower_imported_sanctioned_post_copy.active LIKE 1
+                                                AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row_designation['designation_code'] . "
+                                                GROUP BY
+                                                        total_manpower_imported_sanctioned_post_copy.type_of_post,
+                                                        total_manpower_imported_sanctioned_post_copy.designation_code
+                                                ORDER BY
+                                                        sanctioned_post_designation.ranking";
+                                        $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                        
+                                        while ($row = mysql_fetch_assoc($result)):
+                                            /**
+                                             * count total filledup post
+                                             */
+                                            $sql = "SELECT
+                                                            total_manpower_imported_sanctioned_post_copy.designation,
+                                                            total_manpower_imported_sanctioned_post_copy.designation_code,
+                                                            count(*) AS total_count
+                                                    FROM
+                                                            `total_manpower_imported_sanctioned_post_copy`
+                                                    WHERE
+                                                            total_manpower_imported_sanctioned_post_copy.active LIKE 1
+                                                    AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row_designation['designation_code'] . "
+                                                    AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
+                                                    GROUP BY
+                                                            total_manpower_imported_sanctioned_post_copy.type_of_post,
+                                                            total_manpower_imported_sanctioned_post_copy.designation_code";
+                                            $result_filledup = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                            // total post
+                                            if ($row_designation['total_count']){
+                                                $total_post = $row_designation['total_count'];
+                                            } else{
+                                                $total_post = 0;
+                                            }
+                                            
+                                            // total filled up post for a specific designation
+                                            $total_filled_up_data = mysql_fetch_assoc($result_filledup);
+                                            $total_filled_up = $total_filled_up_data['total_count'];
+                                            
+                                            
+                                            // total filled up post for a specific designation
+                                            $total_vacant_post = $total_post - $total_filled_up;
+                                            
+                                            
+                                            /**
+                                             * total filledup post Male
+                                             */
+                                            $sql = "SELECT
+                                                            total_manpower_imported_sanctioned_post_copy.designation,
+                                                            total_manpower_imported_sanctioned_post_copy.designation_code,
+                                                            count(*) AS total_count
+                                                    FROM
+                                                            `total_manpower_imported_sanctioned_post_copy`
+                                                    LEFT JOIN old_tbl_staff_organization ON total_manpower_imported_sanctioned_post_copy.id = old_tbl_staff_organization.sp_id_2
+                                                    WHERE
+                                                            total_manpower_imported_sanctioned_post_copy.active LIKE 1
+                                                    AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row_designation['designation_code'] . "
+                                                    AND old_tbl_staff_organization.sex = 1
+                                                    GROUP BY
+                                                            total_manpower_imported_sanctioned_post_copy.type_of_post,
+                                                            total_manpower_imported_sanctioned_post_copy.designation_code";
+                                            $result_male_filledup = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                            // total male filled up post for a specific designation
+                                            $total_male_filled_up_data = mysql_fetch_assoc($result_male_filledup);
+                                            
+                                            if ($total_male_filled_up_data['total_count']){
+                                                $total_male_filled_up = $total_male_filled_up_data['total_count'];
+                                            } else{
+                                                $total_male_filled_up = 0;
+                                            }
+                                            
+                                            
+                                            // total female filled up
+                                            $total_female_filled_up = $total_filled_up - $total_male_filled_up;
+
+                                            $row_count++;
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $row_count; ?></td>
+                                                <td><?php echo $row['designation']; ?> (Designation Code:<?php echo $row['designation_code']; ?>)</td>
+                                                <td><?php echo $row['type_of_post_name']; ?></td>
+                                                <td><?php echo $row['class']; ?></td>
+                                                <td><?php echo $row['payscale']; ?></td>
+                                                <td><?php echo $total_post; ?></td>
+                                                <td><?php echo $total_filled_up; ?></td>
+                                                <td><?php echo $total_vacant_post; ?></td>
+                                                <td><?php echo $total_male_filled_up; ?></td>
+                                                <td><?php echo $total_female_filled_up; ?></td>
+                                            </tr>
+                                        <?php endwhile; ?>
                                     <?php endwhile; ?>
                                 </tbody>
                             </table>
                         </div>
-
+                    <?php else: ?>
+                        <h3> You Do not have the permission to view this report. </h3>
+                    <?php endif; ?>
                     </section>
 
                 </div>
@@ -185,5 +294,18 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_p
 
             $("#generate_report").hide();
         </script>
+               <script type="text/javascript">
+		var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+		</script>
     </body>
 </html>

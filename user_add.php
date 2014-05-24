@@ -52,7 +52,14 @@ if (isset($_POST['new_user_type']) && $_POST['new_post_type'] == "user") {
         $new_user_org_code = mysql_real_escape_string($_POST['org_list']);
         $new_user_type = "user";
     }
-
+    
+    /**
+     * Report viewer user 
+     */
+    if ($_POST['new_user_type'] == "report_viewer"){
+        $new_user_org_code = '';
+        $new_user_type = "report_viewer";
+    }
 
 
     if ($new_user_pass != $new_user_pass2) {
@@ -175,7 +182,8 @@ if (isset($_POST['new_user_type']) && $_POST['new_post_type'] == "user") {
                                     <select id="new_user_type" name="new_user_type"  required="">
                                         <option value="0">Select User Type</option>
                                         <option value="user">Organization User</option>
-                                        <option value="admin">Super Admin</option>                                        
+                                        <option value="admin">Super Admin</option>
+                                        <option value="report_viewer">Report Viewer</option>
                                     </select>
                                 </div>
                             </div>
