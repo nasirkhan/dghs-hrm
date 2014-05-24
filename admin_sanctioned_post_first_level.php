@@ -186,7 +186,7 @@ $dataRows = getRows($dbTableName, $condition);
                                         <input name="submit" type="submit" class="btn btn-success" value="Save" />
                                     </div>
                                 </div>
-                            </form>
+                            </form><!--end add/edit form-->
                             
                         <?php }
                         ?>
