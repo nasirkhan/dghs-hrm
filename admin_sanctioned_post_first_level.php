@@ -27,7 +27,7 @@ $loggedInUserKeyValue = $_SESSION['user_id']; // this variable store the primary
 /**
  * Database/table config
  */
-$dbTableName = 'sanctioned_post_designation'; // update this: database table to operate
+$dbTableName = 'sanctioned_post_first_level'; // update this: database table to operate
 $dbTablePrimaryKeyFieldName = 'id'; // update this: primary key field name
 $dbTablePrimaryKeyFieldVal = mysql_real_escape_string(trim($_REQUEST["$dbTablePrimaryKeyFieldName"])); // primary key field value that is passed as parameter or form post
 /**
@@ -43,7 +43,7 @@ $updatedDateTimeFieldVal = getDateTime();
  */
 $param = mysql_real_escape_string(trim($_REQUEST['param'])); // gets the actio param
 $exception_field = array('submit', 'param', 'reset'); // array to store field names that needs to skipped in constructed query
-$requiredFieldNames = array('designation'); // array for required fields
+$requiredFieldNames = array('first_level_name', 'first_level_code'); // array for required fields
 
 /* * ********************************************************************************************************************************************
  * Delete
@@ -128,7 +128,7 @@ $dataRows = getRows($dbTableName, $condition);
 
         </style>
     </head>
-    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+    <body >
         <?php //require_once "$crudFrameworkRelativePath/cf_jquery_modal_popup.php";  ?>
 
         <!-- Top navigation bar
@@ -165,39 +165,57 @@ $dataRows = getRows($dbTableName, $condition);
                         <?php
                         if (hasPermission($moduleName, $param, getLoggedUserName())) {
                             ?>
-                            <form class="cmxform" id="commentForm"  action="<?= $_SERVER['PHP_SELF'] ?>" method="post" enctype="multipart/form-data">
-                                <input id="cdesignation" name="designation" type="text" value="<?= addEditInputField('designation') ?>" class="validate[requried]"/>
-
-                                <!-- Default input items -->
-                                <div class="clear"></div>
-                                <input name="submit" type="submit" class="btn" value="Save" />
-
-                                <?php if (strlen($dbTablePrimaryKeyFieldVal)) { ?>
-                                    <input type="hidden" name="<?= $dbTablePrimaryKeyFieldName ?>" value="<?php echo $dbTablePrimaryKeyFieldVal; ?>" />
-                                <?php } ?>
-                                <!-- =================== -->
+                            <form class="form-horizontal" action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+                                <div class="control-group">
+                                    <label class="control-label" for="first_level_code">first_level_code</label>
+                                    <div class="controls">
+                                        <input id="first_level_code" name="first_level_code" type="text" value="<?= addEditInputField('first_level_code') ?>" class="validate[requried]"/>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label" for="first_level_name">first_level_name</label>
+                                    <div class="controls">
+                                        <input id="first_level_name" name="first_level_name" type="text" value="<?= addEditInputField('first_level_name') ?>" class="validate[requried]"/>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <?php if (strlen($dbTablePrimaryKeyFieldVal)) { ?>
+                                            <input type="hidden" name="<?= $dbTablePrimaryKeyFieldName ?>" value="<?php echo $dbTablePrimaryKeyFieldVal; ?>" />
+                                        <?php } ?>
+                                        <input name="submit" type="submit" class="btn btn-success" value="Save" />
+                                    </div>
+                                </div>
                             </form>
+                            
                         <?php }
                         ?>
 
                     </div>
                     <div id="<?= $cssPrefix ?>tabularData">
-                        <!--<h2>List of Departments</h2>-->
-                        <table id="datatable" width="100%">
+                        <!--<h2>List of data</h2>-->
+                        <table id="datatable" width="100%" class="table table-bordered table-hover table-striped">
                             <thead>
                                 <tr>
-                                    <th>id</th>
-                                    <th><!--designation_code-->code</th>
-                                    <th>designation</th>
-                                    <th>payscale</th>
-                                    <th>class</th>
-                                    <th>DGC<!--designation_group_code--></th>
-                                    <th>GC</th>
-                                    <th>ranking</th>
-                                    <th>bpcc<!--bangladesh_professional_category_code--></th>
-                                    <th>wogc<!--who_occupation_group_codebook--></th>
-                                    <th>updated by</th>
-                                    <th>updated on</th>
+                                    <?php
+                                    $sql = "SELECT
+                                                    `COLUMN_NAME` as table_column
+                                            FROM
+                                                    `INFORMATION_SCHEMA`.`COLUMNS`
+                                            WHERE
+                                                    `TABLE_SCHEMA` = '$dbname'
+                                            AND `TABLE_NAME` = '$dbTableName';";
+                                    $result_table_columns = mysql_query($sql) or die(mysql_error() . "<p>Code:getTableColumnNames:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+                                    
+                                    $table_columns = array (); 
+                                    while ($table_column = mysql_fetch_assoc($result_table_columns)):                                        
+                                        $table_columns [] = $table_column['table_column'];
+                                    endwhile;
+                                    
+                                    foreach ($table_columns as $i => $value):
+                                        ?>
+                                        <th><?php echo $value; ?></th>
+                                    <?php endforeach; ?>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -208,17 +226,14 @@ $dataRows = getRows($dbTableName, $condition);
                                     ?>
                                     <tr id="<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>">
                                         <td><a href="<?= $_SERVER['PHP_SELF'] ?>?param=edit&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>"><?= $dataRow[$dbTablePrimaryKeyFieldName] ?></td>
-                                        <td><?= $dataRow['designation_code'] ?></td>
-                                        <td><?= $dataRow['designation'] ?></td>
-                                        <td><?= $dataRow['payscale'] ?></td>
-                                        <td><?= $dataRow['class'] ?></td>
-                                        <td><?= $dataRow['designation_group_code'] ?></td>
-                                        <td><?= $dataRow['group_code'] ?></td>
-                                        <td><?= $dataRow['ranking'] ?></td>
-                                        <td><?= $dataRow['bangladesh_professional_category_code'] ?></td>
-                                        <td><?= $dataRow['who_occupation_group_codebook'] ?></td>
-                                        <td><?= $dataRow['updated_by'] ?></td>
-                                        <td><?= $dataRow['updated_datetime'] ?></td>
+                                        <?php
+                                        foreach ($table_columns as $i => $value){
+                                            if ($value == $dbTablePrimaryKeyFieldName) {
+                                                continue;
+                                            }
+                                            echo "<td>" . $dataRow[$value] . "</td>";
+                                        }
+                                        ?>
                                         <td>
                                             <?php if (hasPermission($moduleName, 'manage', getLoggedUserName())) { ?>
                                                 <a class='cf_delete' id='<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>"' href='<?= $_SERVER['PHP_SELF'] ?>?param=delete&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>'>Delete</a>
