@@ -212,10 +212,17 @@ $dataRows = getRows($dbTableName, $condition);
                                         $table_columns [] = $table_column['table_column'];
                                     endwhile;
                                     
-                                    foreach ($table_columns as $i => $value):
-                                        ?>
-                                        <th><?php echo $value; ?></th>
-                                    <?php endforeach; ?>
+                                    /**
+                                    * list of column names which will not be displayed in the table
+                                    */
+                                    $hideOnView = [];
+                                    foreach ($table_columns as $i => $value){
+                                        if (in_array($value, $hideOnView)) {
+                                            continue;
+                                        }
+                                        echo "<th>" . $value . "</th>";
+                                    }
+                                    ?>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -227,8 +234,13 @@ $dataRows = getRows($dbTableName, $condition);
                                     <tr id="<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>">
                                         <td><a href="<?= $_SERVER['PHP_SELF'] ?>?param=edit&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>"><?= $dataRow[$dbTablePrimaryKeyFieldName] ?></td>
                                         <?php
+                                        /**
+                                         * list of column names which will not be displayed in the table
+                                         */
+                                        $hideOnView = ['id'];
+                                        
                                         foreach ($table_columns as $i => $value){
-                                            if ($value == $dbTablePrimaryKeyFieldName) {
+                                            if (in_array($value, $hideOnView)) {
                                                 continue;
                                             }
                                             echo "<td>" . $dataRow[$value] . "</td>";
