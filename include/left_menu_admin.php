@@ -44,6 +44,7 @@
     <ul>
         <li><a href="admin_designations.php">Designations</a></li>
         <li><a href="admin_sanctioned_post_first_level.php">First Level Names</a></li>
+        <li><a href="admin_sanctioned_post_second_level.php">Second Level Names</a></li>
         <li><a href="#">Type of Post</a></li>        
         <li><a href="#">Second Level Name</a></li>
     </ul>

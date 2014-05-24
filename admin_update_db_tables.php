@@ -111,6 +111,11 @@ if ($_SESSION['user_type'] != "admin") {
                                         <a href="admin_sanctioned_post_first_level.php">First Level Names</a>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        <a href="admin_sanctioned_post_second_level.php">Second Level Names</a>
+                                    </td>
+                                </tr>
                             </table>
                             <?php else: ?>
                             
