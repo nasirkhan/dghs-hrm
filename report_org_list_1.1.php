@@ -126,6 +126,8 @@ if ($form_submit == 1 && isset($_GET['form_submit'])) {
       label, input, button, select, textarea {font-size: 12px;}
       #datatable_filter .datatable_filter{width: 60%;}
       .table tr, .table tr td{padding: 3px; margin: 0px;}
+      .table th, .table td{line-height: 16px;}
+      .blockquote{margin-left: 5px; }
     </style>
   </head>
 
