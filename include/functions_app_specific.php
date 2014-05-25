@@ -2992,6 +2992,9 @@ function getSanctionedPostInfoFromStaffId($staff_id) {
  * @return boolean | Order count with style
  */
 function showToralReleaseCountFromOrgCode($org_code){
+    if (!$org_code > 0){
+        return FALSE;
+    }
     $sql = "SELECT * FROM `transfer_staff` WHERE present_org_code = $org_code AND `status` LIKE 'order'";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getToralReleaseCountFromOrgCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
@@ -3013,6 +3016,9 @@ function showToralReleaseCountFromOrgCode($org_code){
  * @return boolean | Order count with style
  */
 function showToralJoinCountFromOrgCode($org_code){
+    if (!$org_code > 0){
+        return FALSE;
+    }
     $sql = "SELECT * FROM `transfer_staff` WHERE move_to_org_code = $org_code AND `status` LIKE 'release'";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showToralJoinCountFromOrgCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
