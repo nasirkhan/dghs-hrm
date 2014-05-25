@@ -1,0 +1,76 @@
+.ui-multiselectdd {
+	padding: 2px 0 2px 4px; text-align: left
+}
+
+.ui-multiselectdd span.ui-icon {
+	float: right
+}
+
+.ui-multiselectdd-single .ui-multiselectdd-checkboxes input {
+	position: absolute !important; top: auto !important; left: -9999px;
+}
+
+.ui-multiselectdd-single .ui-multiselectdd-checkboxes label {
+	padding: 5px !important
+}
+
+.ui-multiselectdd-header {
+	margin-bottom: 3px; padding: 3px 0 3px 4px
+}
+
+.ui-multiselectdd-header ul {
+	font-size: 0.9em
+}
+
+.ui-multiselectdd-header ul li {
+	float: left; padding: 0 10px 0 0
+}
+
+.ui-multiselectdd-header a {
+	text-decoration: none
+}
+
+.ui-multiselectdd-header a:hover {
+	text-decoration: underline
+}
+
+.ui-multiselectdd-header span.ui-icon {
+	float: left
+}
+
+.ui-multiselectdd-header li.ui-multiselectdd-close {
+	float: right; text-align: right; padding-right: 0
+}
+
+.ui-multiselectdd-menu {
+	display: none; padding: 3px; position: absolute; z-index: 10000
+}
+
+.ui-multiselectdd-checkboxes {
+	position: relative /* fixes bug in IE6/7 */; overflow-y: scroll
+}
+
+.ui-multiselectdd-checkboxes label {
+	cursor: default; display: block; border: 1px solid transparent; padding: 3px 1px
+}
+
+.ui-multiselectdd-checkboxes label input {
+	position: relative; top: -1px
+}
+
+.ui-multiselectdd-checkboxes li {
+	clear: both; font-size: 0.9em; padding-right: 3px
+}
+
+.ui-multiselectdd-checkboxes li.ui-multiselectdd-optgroup-label {
+	text-align: center; font-weight: bold; border-bottom: 1px solid
+}
+
+.ui-multiselectdd-checkboxes li.ui-multiselectdd-optgroup-label a {
+	display: block; padding: 3px; margin: 1px 0; text-decoration: none
+}
+
+/* remove label borders in IE6 because IE6 does not support transparency */
+* html .ui-multiselectdd-checkboxes label {
+	border: none
+}

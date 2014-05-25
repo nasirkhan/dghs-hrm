@@ -4,110 +4,160 @@ require_once 'configuration.php';
 if ($_SESSION['logged'] != true) {
   header("location:login.php");
 }
+$DBvalidation = TRUE;
 
-// assign values from session array
-$org_code = $_SESSION['org_code'];
-$org_name = $_SESSION['org_name'];
-$org_type_name = $_SESSION['org_type_name'];
+if (isset($_REQUEST['submit'])) {
 
-$echoAdminInfo = "";
+  $parameterized_query = " WHERE 1 ";
+  //$selection_string = "";
 
-// assign values admin users
-if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
-  $org_code = (int) mysql_real_escape_string($_GET['org_code']);
-  $org_name = getOrgNameFormOrgCode($org_code);
-  $org_type_name = getOrgTypeNameFormOrgCode($org_code);
-  $echoAdminInfo = " | Administrator";
-  $isAdmin = TRUE;
-}
+  $singleSelectItems = array('division_code', 'district_code', 'upazila_id');
 
-/* * *
- *
- * POST
- */
-//print_r($_REQUEST);
-$div_code = (int) mysql_real_escape_string(trim($_REQUEST['admin_division']));
-$admin_district = $dis_code = (int) mysql_real_escape_string(trim($_REQUEST['admin_district']));
-$upa_code = (int) mysql_real_escape_string(trim($_REQUEST['admin_upazila']));
-$agency_code = (int) mysql_real_escape_string(trim($_REQUEST['org_agency']));
-$type_code = (int) mysql_real_escape_string(trim($_REQUEST['org_type']));
-$form_submit = (int) mysql_real_escape_string(trim($_REQUEST['form_submit']));
+  foreach ($singleSelectItems as $singleSelectItem) {
+    if (strlen($_REQUEST[$singleSelectItem]) && $_REQUEST[$singleSelectItem] > 0) {
+      $parameterized_query.=" AND $singleSelectItem = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
+      //$selection_string .= " Division: <strong>" . getDivisionNamefromCode($div_code) . "</strong> ";
+    }
+  }
 
-$selection_string = "";
-if ($div_code > 0) {
-  $selection_string .= " Division: <strong>" . getDivisionNamefromCode($div_code) . "</strong> ";
-}
-if ($dis_code > 0) {
-  $selection_string .= " District: <strong>" . getDistrictNamefromCode($dis_code) . "</strong> ";
-}
-if ($upa_code > 0) {
-  $selection_string .= " Upazila: <strong>" . getUpazilaNamefromBBSCode($upa_code, $dis_code) . "</strong>";
-}
-if ($agency_code > 0) {
-  $selection_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong>";
-}
-if ($type_code > 0) {
-  $selection_string .= " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($type_code) . "</strong>";
-}
+  $multiSelectItems = array('agency_code', 'org_type_code');
+  $csvs = array();
+  foreach ($multiSelectItems as $multiSelectItem) {
+    if (count($_REQUEST[$multiSelectItem])) {
+      $csvs[$multiSelectItem] = "'" . implode("','", $_REQUEST[$multiSelectItem]) . "'";
+      $parameterized_query.=" AND $multiSelectItem in (" . $csvs[$multiSelectItem] . ")  ";
+      //$selection_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong>";
+    }
+  }
 
 
-if ($form_submit == 1 && isset($_GET['form_submit'])) {
+  $parameterized_query .= " ORDER BY org_name ";
 
+  $sql = "SELECT * FROM organization $parameterized_query";
+  $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+  $count = mysql_num_rows($result);
+
+  $fieldNames = getTableFieldNames('organization');
+  $fieldNameAlias = array();
+  // easy create $fieldNameAlias by printing
   /*
+    foreach ($fieldNames as $fieldName) {
+    echo '$fieldNameAlias[\'' . $fieldName . '\'] =\'' . $fieldName . '\'' . ";<br/>";
+    }
    *
-   * query builder to get the organizatino list
    */
-  $query_string = "";
-  if ($div_code > 0 || $dis_code > 0 || $upa_code > 0 || $agency_code > 0 || $type_code > 0) {
-    $query_string .= " WHERE ";
 
-    if ($agency_code > 0) {
-      $query_string .= "organization.agency_code = $agency_code";
-    }
-    if ($upa_code > 0) {
-      if ($agency_code > 0) {
-        $query_string .= " AND ";
-      }
-      $query_string .= "organization.upazila_thana_code = $upa_code";
-    }
-    if ($dis_code > 0) {
-      if ($upa_code > 0 || $agency_code > 0) {
-        $query_string .= " AND ";
-      }
-      $query_string .= "organization.district_code = $dis_code";
-    }
-    if ($div_code > 0) {
-      if ($dis_code > 0 || $upa_code > 0 || $agency_code > 0) {
-        $query_string .= " AND ";
-      }
-      $query_string .= "organization.division_code = $div_code";
-    }
-    if ($type_code > 0) {
-      if ($div_code > 0 || $dis_code > 0 || $upa_code > 0 || $agency_code > 0) {
-        $query_string .= " AND ";
-      }
-      $query_string .= "organization.org_type_code = $type_code";
-    }
-  }
-
-  $query_string .= " ORDER BY org_name";
-
-  $sql = "SELECT * FROM organization $query_string";
-  $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-
-  $org_list_result_count = mysql_num_rows($org_list_result);
-
-  if ($org_list_result_count) {
-    $show_result = TRUE;
-  }
-//echo "<pre>$sql</pre>";
+  $fieldNameAlias['id'] = 'id';
+  $fieldNameAlias['org_name'] = 'org_name';
+  $fieldNameAlias['org_code'] = 'org_code';
+  $fieldNameAlias['org_type_code'] = 'org_type_code';
+  $fieldNameAlias['org_type_name'] = 'org_type_name';
+  $fieldNameAlias['agency_code'] = 'agency_code';
+  $fieldNameAlias['agency_name'] = 'agency_name';
+  $fieldNameAlias['org_function_code'] = 'org_function_code';
+  $fieldNameAlias['org_level_code'] = 'org_level_code';
+  $fieldNameAlias['org_level_name'] = 'org_level_name';
+  $fieldNameAlias['org_healthcare_level_code'] = 'org_healthcare_level_code';
+  $fieldNameAlias['special_service_code'] = 'special_service_code';
+  $fieldNameAlias['year_established'] = 'year_established';
+  $fieldNameAlias['org_location_type'] = 'org_location_type';
+  $fieldNameAlias['division_code'] = 'division_code';
+  $fieldNameAlias['division_name'] = 'division_name';
+  $fieldNameAlias['division_id'] = 'division_id';
+  $fieldNameAlias['district_code'] = 'district_code';
+  $fieldNameAlias['district_name'] = 'district_name';
+  $fieldNameAlias['district_id'] = 'district_id';
+  $fieldNameAlias['upazila_thana_code'] = 'upazila_thana_code';
+  $fieldNameAlias['upazila_thana_name'] = 'upazila_thana_name';
+  $fieldNameAlias['upazila_id'] = 'upazila_id';
+  $fieldNameAlias['union_code'] = 'union_code';
+  $fieldNameAlias['union_name'] = 'union_name';
+  $fieldNameAlias['union_id'] = 'union_id';
+  $fieldNameAlias['ward_code'] = 'ward_code';
+  $fieldNameAlias['village_code'] = 'village_code';
+  $fieldNameAlias['house_number'] = 'house_number';
+  $fieldNameAlias['latitude'] = 'latitude';
+  $fieldNameAlias['longitude'] = 'longitude';
+  $fieldNameAlias['org_photo'] = 'org_photo';
+  $fieldNameAlias['financial_revenue_code'] = 'financial_revenue_code';
+  $fieldNameAlias['ownership_code'] = 'ownership_code';
+  $fieldNameAlias['mailing_address'] = 'mailing_address';
+  $fieldNameAlias['land_phone1'] = 'land_phone1';
+  $fieldNameAlias['land_phone2'] = 'land_phone2';
+  $fieldNameAlias['land_phone3'] = 'land_phone3';
+  $fieldNameAlias['mobile_number1'] = 'mobile_number1';
+  $fieldNameAlias['mobile_number2'] = 'mobile_number2';
+  $fieldNameAlias['mobile_number3'] = 'mobile_number3';
+  $fieldNameAlias['email_address1'] = 'email_address1';
+  $fieldNameAlias['email_address2'] = 'email_address2';
+  $fieldNameAlias['email_address3'] = 'email_address3';
+  $fieldNameAlias['fax_number1'] = 'fax_number1';
+  $fieldNameAlias['fax_number2'] = 'fax_number2';
+  $fieldNameAlias['fax_number3'] = 'fax_number3';
+  $fieldNameAlias['website_address'] = 'website_address';
+  $fieldNameAlias['facebook_page'] = 'facebook_page';
+  $fieldNameAlias['google_plus_page'] = 'google_plus_page';
+  $fieldNameAlias['twitter_page'] = 'twitter_page';
+  $fieldNameAlias['youtube_page'] = 'youtube_page';
+  $fieldNameAlias['source_of_electricity_main_code'] = 'source_of_electricity_main_code';
+  $fieldNameAlias['source_of_electricity_alternate_code'] = 'source_of_electricity_alternate_code';
+  $fieldNameAlias['source_of_water_supply_main_code'] = 'source_of_water_supply_main_code';
+  $fieldNameAlias['source_of_water_supply_alternate_code'] = 'source_of_water_supply_alternate_code';
+  $fieldNameAlias['toilet_type_code'] = 'toilet_type_code';
+  $fieldNameAlias['toilet_adequacy_code'] = 'toilet_adequacy_code';
+  $fieldNameAlias['fuel_source_code'] = 'fuel_source_code';
+  $fieldNameAlias['laundry_code'] = 'laundry_code';
+  $fieldNameAlias['autoclave_code'] = 'autoclave_code';
+  $fieldNameAlias['waste_disposal_code'] = 'waste_disposal_code';
+  $fieldNameAlias['sanctioned_office_equipment'] = 'sanctioned_office_equipment';
+  $fieldNameAlias['sanctioned_vehicles'] = 'sanctioned_vehicles';
+  $fieldNameAlias['sanctioned_bed_number'] = 'sanctioned_bed_number';
+  $fieldNameAlias['other_miscellaneous_issues'] = 'other_miscellaneous_issues';
+  $fieldNameAlias['permission_approval_license_info_code'] = 'permission_approval_license_info_code';
+  $fieldNameAlias['permission_approval_license_info_date'] = 'permission_approval_license_info_date';
+  $fieldNameAlias['permission_approval_license_type'] = 'permission_approval_license_type';
+  $fieldNameAlias['permission_approval_license_aithority'] = 'permission_approval_license_aithority';
+  $fieldNameAlias['permission_approval_license_number'] = 'permission_approval_license_number';
+  $fieldNameAlias['permission_approval_license_next_renewal_date'] = 'permission_approval_license_next_renewal_date';
+  $fieldNameAlias['permission_approval_license_conditions'] = 'permission_approval_license_conditions';
+  $fieldNameAlias['land_info_code'] = 'land_info_code';
+  $fieldNameAlias['land_size'] = 'land_size';
+  $fieldNameAlias['land_mouza_name'] = 'land_mouza_name';
+  $fieldNameAlias['land_mouza_geo_code'] = 'land_mouza_geo_code';
+  $fieldNameAlias['land_jl_number'] = 'land_jl_number';
+  $fieldNameAlias['land_functional_code'] = 'land_functional_code';
+  $fieldNameAlias['land_rs_dag_number'] = 'land_rs_dag_number';
+  $fieldNameAlias['land_ss_dag_number'] = 'land_ss_dag_number';
+  $fieldNameAlias['land_kharian_number'] = 'land_kharian_number';
+  $fieldNameAlias['land_other_info'] = 'land_other_info';
+  $fieldNameAlias['land_mutation_number'] = 'land_mutation_number';
+  $fieldNameAlias['additional_chcp_name'] = 'additional_chcp_name';
+  $fieldNameAlias['additional_chcp_contact'] = 'additional_chcp_contact';
+  $fieldNameAlias['additional_community_group_info'] = 'additional_community_group_info';
+  $fieldNameAlias['additional_chairnam_name'] = 'additional_chairnam_name';
+  $fieldNameAlias['additional_chairman_contact'] = 'additional_chairman_contact';
+  $fieldNameAlias['additional_chairman_community_support_info'] = 'additional_chairman_community_support_info';
+  $fieldNameAlias['additional_csg_1_name'] = 'additional_csg_1_name';
+  $fieldNameAlias['additional_csg_1_contact'] = 'additional_csg_1_contact';
+  $fieldNameAlias['additional_csg_2_name'] = 'additional_csg_2_name';
+  $fieldNameAlias['additional_csg_2_contact'] = 'additional_csg_2_contact';
+  $fieldNameAlias['org_functions'] = 'org_functions';
+  $fieldNameAlias['uploaded_file'] = 'uploaded_file';
+  $fieldNameAlias['updated_by'] = 'updated_by';
+  $fieldNameAlias['active'] = 'active';
+  $fieldNameAlias['updated_datetime'] = 'updated_datetime';
+  $fieldNameAlias['organization_id'] = 'organization_id';
+  $fieldNameAlias['monthly_update'] = 'monthly_update';
+  $fieldNameAlias['monthly_update_datetime'] = 'monthly_update_datetime';
+  $fieldNameAlias['upload_datetime'] = 'upload_datetime';
+  $fieldNameAlias['uploaded_by'] = 'uploaded_by';
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title><?php echo $org_name . " | " . $app_name; ?></title>
+    <title>Report</title>
     <?php
     include_once 'include/header/header_css_js.inc.php';
     include_once 'include/header/header_ga.inc.php';
@@ -128,6 +178,8 @@ if ($form_submit == 1 && isset($_GET['form_submit'])) {
       .table tr, .table tr td{padding: 3px; margin: 0px;}
       .table th, .table td{line-height: 16px;}
       .blockquote{margin-left: 5px; }
+      * {font-family: "Segoe UI"; font-size: 9px; }
+      .bgRed{background-color: red; color: white;}
     </style>
   </head>
 
@@ -135,84 +187,118 @@ if ($form_submit == 1 && isset($_GET['form_submit'])) {
     <?php include_once 'include/header/header_top_menu.inc.php'; ?>
     <div class="container">
       <div class="">
-        <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" style="padding: 0px; margin: 0px;">
-          <h3>Organization List</h3>
+        <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" style="padding: 0px; margin: 0px;">
+          <h4 style="text-transform: uppercase">Organization List</h4>
           <table>
             <tr>
-              <td><b>Division</b></td>
-              <td><b>District</b></td>
-              <td><b>Upazila</b></td>
-              <td><b>Agency</b></td>
-              <td><b>Org Type</b></td>
-            </tr>
-            <tr>
-              <td><?php createSelectOptions('admin_division', 'division_bbs_code', 'division_name', $customQuery, $_REQUEST['admin_division'], "admin_division", " id='admin_division' ", $optionIdField) ?></td>
-              <td><?php
-                if ($_REQUEST['admin_district']) {
-                  createSelectOptions('admin_district', 'district_bbs_code', 'district_name', $customQuery, $_REQUEST['admin_district'], "admin_district", " id='admin_district' ", $optionIdField);
+              <td>
+                <table>
+                  <tr>
+                    <td><b>Division</b></td>
+                    <td><?php createSelectOptions('admin_division', 'division_bbs_code', 'division_name', $customQuery, $_REQUEST['division_code'], "division_code", " id='admin_division'  class='pull-left' ", $optionIdField) ?></td>
+                  </tr>
+                  <tr>
+                    <td><b>District</b></td>
+                    <td><?php createSelectOptions('admin_district', 'district_bbs_code', 'district_name', " WHERE division_bbs_code='" . $_REQUEST['division_code'] . "'", $_REQUEST['district_code'], "district_code", " id='admin_district' class='pull-left' ", $optionIdField); ?></td>
+                  </tr>
+                  <tr>
+                    <td><b>Upazila</b></td>
+                    <td><?php createSelectOptions('admin_upazila', 'id', 'upazila_name', " WHERE upazila_district_code='" . $_REQUEST['district_code'] . "'", $_REQUEST['upazila_id'], "upazila_id", " id='admin_upazila'  class='pull-left' ", $optionIdField); ?></td>
+                  </tr>
+                </table>
+              </td>
+              <td>
+                <b>Agency</b><br/>
+                <?php createMultiSelectOptions('org_agency_code', 'org_agency_code', 'org_agency_name', $customQuery, $csvs['agency_code'], "agency_code[]", " id='agency_code' ", " class='' "); ?></td>
+              <td>
+                <b>Org Type</b><br/>
+                <?php createMultiSelectOptions('org_type', 'org_type_code', 'org_type_name', $customQuery, $csvs['org_type_code'], "org_type_code[]", " id='type_code' ", " class='' "); ?>
+              </td>
+              <td>
+                <b>Select columns</b><br/>
+                <?php
+                $showFields = getTableFieldNames('organization');
+                $showFieldsCsv = implode(',', $showFields);
+                if (count($_REQUEST['table_fields'])) {
+                  $showFields = $_REQUEST['table_fields'];
                 } else {
-                  echo "<select id=\"admin_district\" name=\"admin_district\">";
-                  echo "<option value=\"0\">Select District</option>";
-                  echo "</select>";
+                  $showFields = array("id", "org_name", "org_type_name", "agency_name", "org_function_code", "org_level_name",);
                 }
-                ?></td>
-              <td><?php
-                if ($_REQUEST['admin_upazila']) {
-                  createSelectOptions('admin_upazila', 'upazila_bbs_code', 'upazila_name', $customQuery, $_REQUEST['admin_upazila'], "admin_upazila", " id='admin_upazila' ", $optionIdField);
-                } else {
-                  echo "<select id=\"admin_upazila\" name=\"admin_upazila\">";
-                  echo "<option value=\"0\">Select Upazila</option>";
-                  echo "</select>";
-                }
-                ?></td>
-              <td><?php createSelectOptions('org_agency_code', 'org_agency_code', 'org_agency_name', $customQuery, $_REQUEST['org_agency'], "org_agency", " id='org_agency' ", $optionIdField); ?></td>
-              <td><?php createSelectOptions('org_type', 'org_type_code', 'org_type_name', $customQuery, $_REQUEST['org_type'], "org_type", " id='org_type' ", $optionIdField); ?></td>
+                $showFieldsCsv = implode(',', $showFields);
+                createMultiSelectOptions("INFORMATION_SCHEMA.COLUMNS", "COLUMN_NAME", "COLUMN_NAME", "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $showFieldsCsv, "table_fields[]", " class='' ")
+                ?>
+              </td>
             </tr>
           </table>
-          <input name="form_submit" value="1" type="hidden" />
+
           <div class="control-group">
             <div class="btn-group">
-              <button id="btn_show_org_list" type="submit" class="btn btn-success">Show Report</button>
-              <a href="report_org_list.php" class="btn">Reset</a>
-              <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
+              <button name="submit" type="submit" class="btn btn-success" style="text-transform: uppercase">Generate Report</button>
+              <a href="<?php echo $_SERVER['PHP_SELF'] ?>" class="btn" style="text-transform: uppercase">Reset</a>
+              <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;text-transform: uppercase"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
             </div>
           </div>
         </form>
       </div>
-      <?php if ($_REQUEST['form_submit']) { ?>
+      <?php
+      echo "<pre>$sql</pre>";
+      if (isset($_REQUEST['submit'])) {
+        ?>
         <blockquote class="pull-left"><?php echo "$selection_string"; ?></blockquote>
         <blockquote class="pull-left">
-          Total <strong><em><?php echo mysql_num_rows($org_list_result); ?></em></strong> organization found.<br />
+          Total <strong><em><?= $count ?></em></strong> organization found.<br />
         </blockquote>
 
-        <?php
-        $datatable = "";
-        if (mysql_num_rows($org_list_result) < 5000) {
-          $datatable = "datatable";
-        } else {
-          echo "<blockquote class='pull-left'>Advanced search and sorting is disable due to large number of data.</blockquote>";
-        }
-        $fieldNames = getTableFieldNames('organization');
-        ?>
 
-        <table class="table table-striped table-bordered" id="<?= $datatable ?>">
+        <table class="table table-condensed table-bordered">
           <thead>
             <tr>
-              <?php foreach ($fieldNames as $fieldName) { ?>
-                <td><strong><?php echo $fieldName['COLUMN_NAME']; ?></strong></td>
-              <?php } ?>
+              <?php
+              foreach ($fieldNames as $fieldName) {
+                if (in_array($fieldName, $showFields)) {
+                  ?>
+                  <td id="<?= $fieldName ?>"><strong><a href="#" title="<?= $fieldName ?>">
+                        <?php
+                        if (strlen($fieldNameAlias[$fieldName])) {
+                          echo str_replace('_', ' ', $fieldNameAlias[$fieldName]);
+                        } else {
+                          echo str_replace('_', ' ', $fieldName);
+                        }
+                        ?>
+                      </a>
+                    </strong>
+                  </td>
+                  <?php
+                }
+              }
+              ?>
             </tr>
           </thead>
           <tbody>
-            <?php while ($data = mysql_fetch_assoc($org_list_result)): ?>
+            <?php while ($data = mysql_fetch_assoc($result)) { ?>
               <tr>
-    <!--                <td><a href="org_profile.php?org_code=<?php echo $data['org_code']; ?>" target="_blank"><?php echo $data['org_name']; ?></a></td>
-                <td><?php echo $data['org_code']; ?></td>-->
-                <?php foreach ($fieldNames as $fieldName) { ?>
-                  <td><?php echo $data[$fieldName['COLUMN_NAME']]; ?></td>
-                <?php } ?>
+                <?php
+                $totalFields = count($fieldNames);
+                $filledFields = 0;
+                foreach ($fieldNames as $fieldName) {
+                  if (in_array($fieldName, $showFields)) {
+                    if ($DBvalidation == TRUE) {
+                      $tdClass = "";
+                      if (!strlen($data[$fieldName])) {
+                        $filledFields++;
+                        $tdClass = "bgRed";
+                      } else {
+
+                      }
+                    }
+                    ?>
+                    <td class="<?= $tdClass ?>"><?php echo $data[$fieldName]; ?></td>
+                    <?php
+                  }
+                }
+                ?>
               </tr>
-            <?php endwhile; ?>
+            <?php } ?>
           </tbody>
         </table>
       <?php } ?>
@@ -244,7 +330,6 @@ if ($form_submit == 1 && isset($_GET['form_submit'])) {
           }
         });
       });
-
       // load district
       $('#admin_district').change(function() {
         var dis_code = $('#admin_district').val();
@@ -252,7 +337,7 @@ if ($form_submit == 1 && isset($_GET['form_submit'])) {
         $.ajax({
           type: "POST",
           url: 'get/get_upazilas.php',
-          data: {dis_code: dis_code},
+          data: {dis_code: dis_code, key: 'id'},
           dataType: 'json',
           success: function(data)
           {
@@ -267,38 +352,38 @@ if ($form_submit == 1 && isset($_GET['form_submit'])) {
         });
       });
     </script>
-    <script type="text/javascript">
-      var tableToExcel = (function() {
-        var uri = 'data:application/vnd.ms-excel;base64,'
-                , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
-                , base64 = function(s) {
-                  return window.btoa(unescape(encodeURIComponent(s)))
-                }
-        , format = function(s, c) {
-          return s.replace(/{(\w+)}/g, function(m, p) {
-            return c[p];
-          })
-        }
-        return function(table, name) {
-          if (!table.nodeType)
-            table = document.getElementById(table)
-          var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
-          window.location.href = uri + base64(format(template, ctx))
-        }
-      })()
+              <script type="text/javascript">
+    var tableToExcel = (function() {
+            var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+                      , base64 = function(s){
+        return window.btoa(unescape(encodeURIComponent(s)))
+      }
+, format = function(s, c) {
+return s.replace(/{(\w+)}/g, function(m, p) {
+  return c[p];
+})
+}
+return function(table, name) {
+if (!table.nodeType)
+  table = document.getElementById(table)
+var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+window.location.href = uri + base64(format(template, ctx))
+}
+})()
     </script>
 
     <script type="text/javascript">
-      $('table#datatable').dataTable({
-        //"bJQueryUI": true,
-        "bPaginate": false,
-        "sPaginationType": "full_numbers",
-        "aaSorting": [[0, "desc"]],
-        "iDisplayLength": 25,
-        "bStateSave": true,
-        "bInfo": true,
-        "bProcessing": true
-      });
+                                        $('table#datatable').dataTable({
+//"bJQueryUI": true,
+                                "bPaginate": false,
+                                        "sPaginationType": "full_numbers",
+                                        "aaSorting": [[0, "desc"]],
+                                        "iDisplayLength": 25,
+                                        "bStateSave": true,
+                                        "bInfo": true,
+                                        "bProcessing": true
+                                });
     </script>
   </body>
 </html>
@@ -315,7 +400,12 @@ function getTableFieldNames($tableName) {
   $r = mysql_query($sql) or die(mysql_error() . "<b>Query:</b><br>$sql<br>");
   if (mysql_num_rows($r)) {
     $a = mysql_fetch_rowsarr($r);
-    return $a;
+    $fieldNames = array();
+    $i = 0;
+    foreach ($a as $fieldName) {
+      $fieldNames[$i++] = $fieldName['COLUMN_NAME'];
+    }
+    return $fieldNames;
   } else {
     return false;
   }

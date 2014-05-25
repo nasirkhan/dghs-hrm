@@ -18,7 +18,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_dist
 
 $data = array();
 $data[] = array(
-    'text' => "__ Select District __",
+    'text' => "> Select District",
     'value' => 0
 );
 while ($row = mysql_fetch_array($result)) {

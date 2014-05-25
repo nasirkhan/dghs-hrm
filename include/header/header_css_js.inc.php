@@ -71,17 +71,17 @@
 <script src="library/bootstrap-multiselect-bootstrap-2-3/js/bootstrap-multiselect.js"></script>
 
 <!--Datatable-->
- <link href="assets/datatable/css/demo_table_jui.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="assets/datatable/css/demo_table_jui.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="assets/datatable/css/demo_table.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="assets/datatable/css/jquery.dataTables.css" media="screen" rel="stylesheet" type="text/css" />
 <script src="assets/datatable/js/jquery.dataTables.js" type="text/javascript"></script>
 
-        
-  <!--Datatable Tool -->
-  <link href="assets/datatable/TableTools/media/css/TableTools.css" rel="stylesheet" type="text/css" />
-  <script src="assets/datatable/TableTools/media/js/TableTools.js" type="text/javascript"></script>
-  <script type="text/javascript" src="assets/datatable/TableTools/media/ZeroClipboard/ZeroClipboard.js"></script>
-  <link href="//cdn.datatables.net/plug-ins/505bef35b56/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+
+<!--Datatable Tool -->
+<link href="assets/datatable/TableTools/media/css/TableTools.css" rel="stylesheet" type="text/css" />
+<script src="assets/datatable/TableTools/media/js/TableTools.js" type="text/javascript"></script>
+<script type="text/javascript" src="assets/datatable/TableTools/media/ZeroClipboard/ZeroClipboard.js"></script>
+<link href="//cdn.datatables.net/plug-ins/505bef35b56/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
 <!--==Common JS==-->
 <script src="assets/js/common.js"></script>
 <link href="assets/css/style.css" rel="stylesheet"/>
