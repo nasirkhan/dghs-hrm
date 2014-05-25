@@ -364,10 +364,6 @@ if (isset($_REQUEST['show_report'])){
                     }
                 });
             });
-            $('#date-range .input-daterange').datepicker({
-                format: "yyyy-mm-dd",
-                todayBtn: "linked"
-            });
         </script>
 
         <script type="text/javascript">
