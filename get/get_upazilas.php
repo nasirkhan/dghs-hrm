@@ -3,9 +3,13 @@
 require_once '../configuration.php';
 
 $dis_code = mysql_real_escape_string($_POST['dis_code']);
+$primaryKeyField = mysql_real_escape_string($_POST['key']);
+if (!strlen($primaryKeyField)) {
+  $primaryKeyField = 'upazila_bbs_code';
+}
 
 $sql = "SELECT
-            upazila_bbs_code,
+            $primaryKeyField,
             upazila_name
         FROM
             `admin_upazila`
@@ -18,14 +22,14 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_upaz
 
 $data = array();
 $data[] = array(
-    'text' => "__ Select Upazila __",
+    'text' => "> Select Upazila",
     'value' => 0
 );
 while ($row = mysql_fetch_array($result)) {
-    $data[] = array(
-        'text' => $row['upazila_name'],
-        'value' => $row['upazila_bbs_code']
-    );
+  $data[] = array(
+      'text' => $row['upazila_name'],
+      'value' => $row[$primaryKeyField]
+  );
 }
 $json_data = json_encode($data);
 
