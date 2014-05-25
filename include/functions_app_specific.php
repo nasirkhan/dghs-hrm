@@ -677,7 +677,7 @@ function getUnionNamefromCode($bbs_code) {
     if (empty($bbs_code)) {
         return "";
     }
-    $sql = "SELECT union_name  FROM `admin_union` WHERE `union_bbs_code` = $bbs_code LIMIT 1";
+    $sql = "SELECT union_name  FROM `admin_union` WHERE `union_code` = $bbs_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getUnionNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
@@ -2625,8 +2625,8 @@ function getUnionCountFromUpaCodeAndDisCode($upazila_code, $district_code) {
             FROM
                     `admin_union`
             WHERE
-                    union_upazila_bbs_code = $upazila_code
-            AND union_district_bbs_code = $district_code;";
+                    upazila_code = $upazila_code
+            AND district_code = $district_code;";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
     $data = mysql_fetch_assoc($result);
