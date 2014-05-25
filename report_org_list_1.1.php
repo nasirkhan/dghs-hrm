@@ -4,8 +4,17 @@ require_once 'configuration.php';
 if ($_SESSION['logged'] != true) {
   header("location:login.php");
 }
-$DBvalidation = TRUE;
+
+$DBvalidation = FALSE;
+if ($_REQUEST['highlight_empty_cell'] == 'true') {
+  $DBvalidation = TRUE;
+}
+
 $replaceUnderScoreWithSpace = FALSE;
+if ($_REQUEST['tableheader_without_underscore'] == 'true') {
+  $replaceUnderScoreWithSpace = TRUE;
+}
+
 
 if (isset($_REQUEST['submit'])) {
 
@@ -28,6 +37,14 @@ if (isset($_REQUEST['submit'])) {
       $csvs[$multiSelectItem] = "'" . implode("','", $_REQUEST[$multiSelectItem]) . "'";
       $parameterized_query.=" AND $multiSelectItem in (" . $csvs[$multiSelectItem] . ")  ";
       //$selection_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong>";
+    }
+  }
+
+  if (strlen($_REQUEST['search_field']) && strlen($_REQUEST['search_criteria']) && strlen($_REQUEST['search_value'])) {
+    if ($_REQUEST['search_criteria'] == "=") {
+      $parameterized_query.=" AND " . $_REQUEST['search_field'] . " " . $_REQUEST['search_criteria'] . " '" . $_REQUEST['search_value'] . "'  ";
+    } else if ($_REQUEST['search_criteria'] == "LIKE") {
+      $parameterized_query.=" AND " . $_REQUEST['search_field'] . " " . $_REQUEST['search_criteria'] . " '%" . $_REQUEST['search_value'] . "%'  ";
     }
   }
 
@@ -168,7 +185,7 @@ if (isset($_REQUEST['submit'])) {
         font-size: 12px;
         width: 150px;
       }
-      select{width: 150px; line-height: 25px; height: 25px; margin: 0px; padding: 3px;}
+      select,input{width: 150px; line-height: 25px; height: 25px; margin: 0px; padding: 3px;}
       .form-horizontal .control-group{margin-bottom: 5px;}
       .btn{font-weight: bold}
       table.dataTable tbody th, table.dataTable tbody td {
@@ -180,7 +197,7 @@ if (isset($_REQUEST['submit'])) {
       .table th, .table td{line-height: 16px;}
       .blockquote{margin-left: 5px; }
       * {font-family: "Segoe UI"; font-size: 9px; }
-      .bgRed{background-color: "#FFCCCC"; color: black;}
+      .bgRed{background-color: #FFCCCC; color: black;}
     </style>
   </head>
 
@@ -188,9 +205,9 @@ if (isset($_REQUEST['submit'])) {
     <?php include_once 'include/header/header_top_menu.inc.php'; ?>
     <div class="container">
       <div class="">
-        <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" style="padding: 0px; margin: 0px;">
+        <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" style="padding: 0px; margin: 0px;">
           <h4 style="text-transform: uppercase">Organization List</h4>
-          <table>
+          <table id="">
             <tr>
               <td>
                 <table>
@@ -220,33 +237,82 @@ if (isset($_REQUEST['submit'])) {
                 <?php
                 $showFields = getTableFieldNames('organization');
                 $showFieldsCsv = implode(',', $showFields);
-                if (count($_REQUEST['table_fields'])) {
-                  $showFields = $_REQUEST['table_fields'];
+                if (count($_REQUEST['f'])) {
+                  $showFields = $_REQUEST['f'];
                 } else {
                   $showFields = array("id", "org_name", "org_code", "org_type_name", "org_type_code", "agency_name", "org_function_code", "org_level_name", "org_division_name", "org_district_name", "upazila_thana_name", "union_name",);
                 }
                 $showFieldsCsv = implode(',', $showFields);
-                createMultiSelectOptions("INFORMATION_SCHEMA.COLUMNS", "COLUMN_NAME", "COLUMN_NAME", "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $showFieldsCsv, "table_fields[]", " class='' ")
+                createMultiSelectOptions("INFORMATION_SCHEMA.COLUMNS", "COLUMN_NAME", "COLUMN_NAME", "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $showFieldsCsv, "f[]", " class='' ")
                 ?>
               </td>
               <td>
                 <b>Org Level</b><br/>
                 <?php createMultiSelectOptions('org_level', 'org_level_code', 'org_level_name', $customQuery, $csvs['org_level_code'], "org_level_code[]", " id='org_level_code' ", " class='' "); ?>
               </td>
+              <td>
+                <table>
+                  <tr>
+                    <td><b>Field</b></td>
+                    <td><?php createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $_REQUEST['search_field'], "search_field", " id='search_field'  class='pull-left' ", $optionIdField) ?></td>
+                  </tr>
+                  <tr>
+                    <td><b>Criteria</b></td>
+                    <td><?php
+                      $listArray = array('=', 'LIKE');
+                      createSelectOptionsFrmArray($listArray, $_REQUEST['search_criteria'], 'search_criteria', $params = "");
+                      ?></td>
+                  </tr>
+                  <tr>
+                    <td><b>Value</b></td>
+                    <td><input class='' name="search_value" value="<?php echo addEditInputField('search_value'); ?>" /></td>
+                  </tr>
+                </table>
+              </td>
             </tr>
           </table>
-
-          <div class="control-group">
-            <div class="btn-group">
-              <button name="submit" type="submit" class="btn btn-success" style="text-transform: uppercase">Generate Report</button>
-              <a href="<?php echo $_SERVER['PHP_SELF'] ?>" class="btn" style="text-transform: uppercase">Reset</a>
-              <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;text-transform: uppercase"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
-            </div>
-          </div>
+          <table>
+            <tr>
+              <td>
+                <div class="btn-group">
+                  <button name="submit" type="submit" class="btn btn-success" style="text-transform: uppercase">Generate Report</button>
+                  <a href="<?php echo $_SERVER['PHP_SELF'] ?>" class="btn" style="text-transform: uppercase">Reset</a>
+                  <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;text-transform: uppercase"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
+                </div>
+              </td>
+              <td>
+                <?php
+                $checked = "";
+                if ($_REQUEST['show_sql'] == 'true') {
+                  $checked = " checked='checked' ";
+                }
+                ?>
+                <input type="checkbox" name="show_sql" value="true" <?= $checked ?>/> Show SQL query
+              </td>
+              <td>
+                <?php
+                $checked = "";
+                if ($_REQUEST['highlight_empty_cell'] == 'true') {
+                  $checked = " checked='checked' ";
+                }
+                ?>
+                <input type="checkbox" name="highlight_empty_cell" value="true" <?= $checked ?>/>Highlight empty cell
+              </td>
+              <td>
+                <?php
+                $checked = "";
+                if ($_REQUEST['tableheader_without_underscore'] == 'true') {
+                  $checked = " checked='checked' ";
+                }
+                ?>
+                <input type="checkbox" name="tableheader_without_underscore" value="true" <?= $checked ?>/>Remove '_' from table header
+              </td>
+            </tr>
+          </table>
         </form>
       </div>
       <?php
-      if (strlen($sql)) {
+      if (strlen($sql) && $_REQUEST['show_sql'] == 'true') {
         echo "<pre>$sql</pre>";
       }
       if (isset($_REQUEST['submit'])) {
