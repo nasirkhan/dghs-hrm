@@ -85,7 +85,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     </tr>
                                     -->
                                     <tr>                                        
-                                        <td><a href="report_org_list.php">Organization List</a></td>
+                                        <td><a href="report_org_list_1.1.php.php">Organization List</a></td>
                                     </tr>
                                     <!--
                                     <tr>                                        
