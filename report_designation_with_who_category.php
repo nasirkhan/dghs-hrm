@@ -99,11 +99,6 @@ if ($error_message == "" && isset($_REQUEST['form_submit'])) {
         include_once 'include/header/header_css_js.inc.php';
         include_once 'include/header/header_ga.inc.php';
         ?>
-        <script type="text/javascript" charset="utf-8">
-                $(document).ready(function() {
-                        $('#report_table').dataTable();
-                } );
-        </script>
     </head>
 
     <body>
@@ -396,8 +391,8 @@ if ($error_message == "" && isset($_REQUEST['form_submit'])) {
                                                     ?>
                                                     <tr>
                                                         <td><?php echo $row_count; ?></td>
-                                                        <td><?php echo $row_designation['designation']; ?> (<?php echo $row_designation['designation_code']; ?>)</td>
-                                                        <td><?php echo $row_designation['type_of_post_name'] . "" . $row_designation['type_of_post_code']; ?></td>
+                                                        <td><?php echo $row_designation['designation']; ?><!-- (<?php echo $row_designation['designation_code']; ?>)--></td>
+                                                        <td><?php echo $row_designation['type_of_post_name']; ?></td>
                                                         <td><?php echo $row_designation['class']; ?></td>
                                                         <td><?php echo $row_designation['payscale']; ?></td>
                                                         <td><?php echo $total_post; ?></td>
