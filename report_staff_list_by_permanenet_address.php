@@ -230,6 +230,7 @@ if (isset($_GET['staff_district'])) {
                                                 echo " & Organization Type: <strong>" . getOrgTypeNameFormOrgTypeCode($org_type) . "</strong>";
                                             }
                                             ?>
+                                            <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary btn-small pull-right">
                                         </div>
                                     </div>
                                 </div>
@@ -241,7 +242,7 @@ if (isset($_GET['staff_district'])) {
                                             Total <?php echo $data_count; ?> result(s) found. 
                                         </div>
 
-                                        <table class="table table-bordered table-hover">
+                                        <table id="testTable" class="table table-bordered table-hover">
                                             <thead>
                                                 <tr>
                                                     <td><strong>#</strong></td>
