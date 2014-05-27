@@ -30,7 +30,7 @@ if (isset($_REQUEST['submit'])) {
     }
   }
 
-  $multiSelectItems = array('agency_code', 'org_type_code', 'org_level_code');
+  $multiSelectItems = array('agency_code', 'org_type_code', 'org_level_code', 'org_healthcare_level_code', 'org_location_type', 'ownership_code', 'source_of_electricity_main_code', 'source_of_electricity_alternate_code', 'source_of_water_supply_main_code', 'source_of_water_supply_alternate_code');
   $csvs = array();
   foreach ($multiSelectItems as $multiSelectItem) {
     if (count($_REQUEST[$multiSelectItem])) {
@@ -239,7 +239,29 @@ if (isset($_REQUEST['submit'])) {
               <td style="vertical-align: top">
                 <b>Org Type</b><br/>
                 <?php createMultiSelectOptions('org_type', 'org_type_code', 'org_type_name', $customQuery, $csvs['org_type_code'], "org_type_code[]", " id='type_code'  class='multiselect'"); ?>
+                <br/><b>Healthcare Level</b><br/>
+                <?php createMultiSelectOptions('org_healthcare_levels', 'healthcare_code', 'healthcare_name', $customQuery, $csvs['org_healthcare_level_code'], "org_healthcare_level_code[]", " id='org_healthcare_level_code'  class='multiselect'"); ?>
               </td>
+              <td style="vertical-align: top">
+                <b>Location Type</b><br/>
+                <?php createMultiSelectOptions('org_location_type', 'org_location_type_code', 'org_location_type_name', $customQuery, $csvs['org_location_type'], "org_location_type[]", " id='org_location_type'  class='multiselect'"); ?>
+                <br/><b>Ownership</b><br/>
+                <?php createMultiSelectOptions('org_ownership_authority', 'org_ownership_authority_code', 'org_ownership_authority_name', $customQuery, $csvs['ownership_code'], "ownership_code[]", " id='ownership_code'  class='multiselect'"); ?>
+              </td>
+
+              <td style="vertical-align: top">
+                <b>Main Electricity</b><br/>
+                <?php createMultiSelectOptions('org_source_of_electricity_main', 'electricity_source_code', 'electricity_source_name', $customQuery, $csvs['source_of_electricity_main_code'], "source_of_electricity_main_code[]", " id='source_of_electricity_main_code'  class='multiselect'"); ?>
+                <br/><b>Alternate Electricity</b><br/>
+                <?php createMultiSelectOptions('org_source_of_electricity_alternate', 'electricity_source_code', 'electricity_source_name', $customQuery, $csvs['source_of_electricity_alternate_code'], "source_of_electricity_alternate_code[]", " id='source_of_electricity_alternate_code'  class='multiselect'"); ?>
+              </td>
+              <td style="vertical-align: top">
+                <b>Main water supply</b><br/>
+                <?php createMultiSelectOptions('org_source_of_water_supply_main', 'water_supply_source_code', 'water_supply_source_name', $customQuery, $csvs['source_of_water_supply_main_code'], "source_of_water_supply_main_code[]", " id='source_of_water_supply_main_code'  class='multiselect'"); ?>
+                <br/><b>Alternate water supply</b><br/>
+                <?php createMultiSelectOptions('org_source_of_water_supply_alternate', 'water_supply_source_code', 'water_supply_source_name', $customQuery, $csvs['source_of_water_supply_alternate_code'], "source_of_water_supply_alternate_code[]", " id='source_of_water_supply_alternate_code'  class='multiselect'"); ?>
+              </td>
+
               <td style="vertical-align: top">
                 <b>View Columns</b><br/>
                 <?php
