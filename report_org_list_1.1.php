@@ -212,7 +212,7 @@ if (isset($_REQUEST['submit'])) {
           <h4 style="text-transform: uppercase">Report : Organization List</h4>
           <table id="">
             <tr>
-              <td>
+              <td style="vertical-align: top">
                 <table>
                   <tr>
                     <td><b>Division</b></td>
@@ -228,15 +228,15 @@ if (isset($_REQUEST['submit'])) {
                   </tr>
                 </table>
               </td>
-              <td>
+              <td style="vertical-align: top">
                 <b>Agency</b><br/>
                 <?php //createMultiSelectOptions($dbtableName, $dbtableIdField, $dbtableValueField, $customQuery, $selectedIdCsv, $name, $params); ?>
                 <?php createMultiSelectOptions('org_agency_code', 'org_agency_code', 'org_agency_name', $customQuery, $csvs['agency_code'], "agency_code[]", " id='agency_code'  class='multiselect' "); ?></td>
-              <td>
+              <td style="vertical-align: top">
                 <b>Org Type</b><br/>
                 <?php createMultiSelectOptions('org_type', 'org_type_code', 'org_type_name', $customQuery, $csvs['org_type_code'], "org_type_code[]", " id='type_code'  class='multiselect'"); ?>
               </td>
-              <td>
+              <td style="vertical-align: top">
                 <b>View Columns</b><br/>
                 <?php
                 $showFields = getTableFieldNames('organization');
@@ -251,7 +251,7 @@ if (isset($_REQUEST['submit'])) {
                 createMultiSelectOptions("INFORMATION_SCHEMA.COLUMNS", "COLUMN_NAME", "COLUMN_NAME", "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $showFieldsCsv, "f[]", " class='multiselect' ")
                 ?>
               </td>
-              <td>
+              <td style="vertical-align: top">
                 <b>Org Level</b><br/>
                 <?php createMultiSelectOptions('org_level', 'org_level_code', 'org_level_name', $customQuery, $csvs['org_level_code'], "org_level_code[]", " id='org_level_code' class='multiselect' "); ?>
               </td>
@@ -436,43 +436,43 @@ if (isset($_REQUEST['submit'])) {
           }
         });
       });</script>
-    <script type="text/javascript">
-      var tableToExcel = (function() {
-        var uri = 'data:application/vnd.ms-excel;base64,'
-                , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
-                , base64 = function(s) {
-                  return window.btoa(unescape(encodeURIComponent(s)))
-                }
-        , format = function(s, c) {
-          return s.replace(/{(\w+)}/g, function(m, p) {
-            return c[p];
-          })
-        }
-        return function(table, name) {
-          if (!table.nodeType)
-            table = document.getElementById(table)
-          var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
-          window.location.href = uri + base64(format(template, ctx))
-        }
-      })()
+              <script type="text/javascript">
+    var tableToExcel = (function() {
+            var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+                      , base64 = function(s){
+        return window.btoa(unescape(encodeURIComponent(s)))
+      }
+, format = function(s, c) {
+return s.replace(/{(\w+)}/g, function(m, p) {
+  return c[p];
+})
+}
+return function(table, name) {
+if (!table.nodeType)
+  table = document.getElementById(table)
+var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+window.location.href = uri + base64(format(template, ctx))
+}
+})()
     </script>
 
     <script type="text/javascript">
-      $('table#datatable').dataTable({
-        //"bJQueryUI": true,
-        "bPaginate": false,
-        "sPaginationType": "full_numbers",
-        "aaSorting": [[0, "desc"]],
-        "iDisplayLength": 25,
-        "bStateSave": true,
-        "bInfo": true,
-        "bProcessing": true
-      });</script>
+                                        $('table#datatable').dataTable({
+                                //"bJQueryUI": true,
+                                "bPaginate": false,
+                                        "sPaginationType": "full_numbers",
+                                        "aaSorting": [[0, "desc"]],
+                                        "iDisplayLength": 25,
+                                        "bStateSave": true,
+                                        "bInfo": true,
+                                        "bProcessing": true
+                                });</script>
     <script type="text/javascript">
-      $('.multiselect').multiselect({
-        includeSelectAllOption: true,
-        maxHeight: 200,
-      });</script>
+                              $('.multiselect').multiselect({
+                      includeSelectAllOption: true,
+                              maxHeight: 200,
+                      });</script>
   </body>
 </html>
 
