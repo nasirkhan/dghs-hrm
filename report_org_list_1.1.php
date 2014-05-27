@@ -212,7 +212,8 @@ if (isset($_REQUEST['submit'])) {
           <h4 style="text-transform: uppercase">Report : Organization List</h4>
           <table id="">
             <tr>
-              <td>
+              <td style="vertical-align: top">
+                <b>Select Administrative Unit</b><br/>
                 <table>
                   <tr>
                     <td><b>Division</b></td>
@@ -228,15 +229,18 @@ if (isset($_REQUEST['submit'])) {
                   </tr>
                 </table>
               </td>
-              <td>
+              <td style="vertical-align: top">
                 <b>Agency</b><br/>
                 <?php //createMultiSelectOptions($dbtableName, $dbtableIdField, $dbtableValueField, $customQuery, $selectedIdCsv, $name, $params); ?>
-                <?php createMultiSelectOptions('org_agency_code', 'org_agency_code', 'org_agency_name', $customQuery, $csvs['agency_code'], "agency_code[]", " id='agency_code'  class='multiselect' "); ?></td>
-              <td>
+                <?php createMultiSelectOptions('org_agency_code', 'org_agency_code', 'org_agency_name', $customQuery, $csvs['agency_code'], "agency_code[]", " id='agency_code'  class='multiselect' "); ?><br/>
+                <b>Org Level</b><br/>
+                <?php createMultiSelectOptions('org_level', 'org_level_code', 'org_level_name', $customQuery, $csvs['org_level_code'], "org_level_code[]", " id='org_level_code' class='multiselect' "); ?>
+              </td>
+              <td style="vertical-align: top">
                 <b>Org Type</b><br/>
                 <?php createMultiSelectOptions('org_type', 'org_type_code', 'org_type_name', $customQuery, $csvs['org_type_code'], "org_type_code[]", " id='type_code'  class='multiselect'"); ?>
               </td>
-              <td>
+              <td style="vertical-align: top">
                 <b>View Columns</b><br/>
                 <?php
                 $showFields = getTableFieldNames('organization');
@@ -251,11 +255,11 @@ if (isset($_REQUEST['submit'])) {
                 createMultiSelectOptions("INFORMATION_SCHEMA.COLUMNS", "COLUMN_NAME", "COLUMN_NAME", "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $showFieldsCsv, "f[]", " class='multiselect' ")
                 ?>
               </td>
-              <td>
-                <b>Org Level</b><br/>
-                <?php createMultiSelectOptions('org_level', 'org_level_code', 'org_level_name', $customQuery, $csvs['org_level_code'], "org_level_code[]", " id='org_level_code' class='multiselect' "); ?>
+              <td style="vertical-align: top">
+
               </td>
               <td>
+                <b>Field query</b><br/>
                 <table>
                   <tr>
                     <td><b>Field</b></td>
@@ -270,7 +274,7 @@ if (isset($_REQUEST['submit'])) {
                   </tr>
                   <tr>
                     <td><b>Value</b></td>
-                    <td><input class='' name="search_value" value="<?php echo addEditInputField('search_value'); ?>" /></td>
+                    <td><input class='' name="search_value" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;" value="<?php echo addEditInputField('search_value'); ?>" /></td>
                   </tr>
                 </table>
               </td>
