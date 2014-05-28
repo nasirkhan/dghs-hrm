@@ -3,7 +3,7 @@
 require_once '../../configuration.php';
 
 //  Limit the maximum execution time
-//set_time_limit(120);
+set_time_limit(1800);
 
 /** ----------------------------------------------------------------------------
  *  
@@ -24,7 +24,7 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
     $value_field_name = 'org_type_name';
     $code = $org_data[$code_field_name];    
     $value = mysql_real_escape_string(trim(getOrgTypeNameFormOrgTypeCode($code)));
-    $show_query = TRUE;
+    $show_query = FALSE;
     update_org_data($code_field_name, $code, $value_field_name, $value, $show_query);
     
     // update agency_name
@@ -32,7 +32,7 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
     $value_field_name = 'agency_name';
     $code = $org_data[$code_field_name];    
     $value = mysql_real_escape_string(trim(getAgencyNameFromAgencyCode($code)));
-    $show_query = TRUE;
+    $show_query = FALSE;
     update_org_data($code_field_name, $code, $value_field_name, $value, $show_query);
     
     
@@ -41,7 +41,7 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
     $value_field_name = 'org_function_name';
     $code = $org_data[$code_field_name];    
     $value = mysql_real_escape_string(trim(getOrgFucntionNameFromCode($code)));
-    $show_query = TRUE;
+    $show_query = FALSE;
     update_org_data($code_field_name, $code, $value_field_name, $value, $show_query);
     
     // update org_level_name
@@ -49,7 +49,7 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
     $value_field_name = 'org_level_name';
     $code = $org_data[$code_field_name];    
     $value = mysql_real_escape_string(trim(getOrgLevelNamefromCode($code)));
-    $show_query = TRUE;
+    $show_query = FALSE;
     update_org_data($code_field_name, $code, $value_field_name, $value, $show_query);
     
     // update org_location_type_name    
@@ -57,7 +57,7 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
     $value_field_name = 'org_location_type_name';
     $code = $org_data[$code_field_name];    
     $value = mysql_real_escape_string(trim(getOrgLocationTypeFromCode($code)));
-    $show_query = TRUE;
+    $show_query = FALSE;
     update_org_data($code_field_name, $code, $value_field_name, $value, $show_query);
     
     // update division_name    
@@ -65,7 +65,7 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
     $value_field_name = 'division_name';
     $code = $org_data[$code_field_name];    
     $value = mysql_real_escape_string(trim(getDivisionNamefromCode($code)));
-    $show_query = TRUE;
+    $show_query = FALSE;
     update_org_data($code_field_name, $code, $value_field_name, $value, $show_query);
     
     // update district_name    
@@ -73,7 +73,7 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
     $value_field_name = 'district_name';
     $code = $org_data[$code_field_name];    
     $value = mysql_real_escape_string(trim(getDistrictNamefromCode($code)));
-    $show_query = TRUE;
+    $show_query = FALSE;
     update_org_data($code_field_name, $code, $value_field_name, $value, $show_query);
         
     // update upazila_thana_name    
@@ -81,7 +81,7 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
     $value_field_name = 'upazila_thana_name';
     $code = $org_data[$code_field_name];    
     $value = mysql_real_escape_string(trim(getUpazilaNamefromBBSCode($code, $org_data['district_code'])));
-    $show_query = TRUE;
+    $show_query = FALSE;
     update_org_data($code_field_name, $code, $value_field_name, $value, $show_query);
         
     // update union_name    
@@ -89,7 +89,7 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
     $value_field_name = 'union_name';
     $code = $org_data[$code_field_name];    
     $value = mysql_real_escape_string(trim(getUnionNameFromBBSCode($code, $org_data['upazila_thana_code'], $org_data['district_code'])));
-    $show_query = TRUE;
+    $show_query = FALSE;
     update_org_data($code_field_name, $code, $value_field_name, $value, $show_query);
         
     // update ownership_authority_name    
@@ -97,13 +97,11 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
     $value_field_name = 'ownership_authority_name';
     $code = $org_data[$code_field_name];    
     $value = mysql_real_escape_string(trim(getOrgOwnarshioNameFromCode($code)));
-    $show_query = TRUE;
+    $show_query = FALSE;
     update_org_data($code_field_name, $code, $value_field_name, $value, $show_query);
     
 //    echo "<br />--- ";
 }
-
-
 
 /** * ***************************************************************************
  *  
