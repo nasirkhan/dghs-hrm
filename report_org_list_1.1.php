@@ -354,7 +354,7 @@ if (isset($_REQUEST['submit'])) {
         </blockquote>
 
 
-        <table class="table table-condensed table-bordered">
+        <table class="table table-condensed table-bordered" id="datatable">
           <thead>
             <tr>
               <?php
@@ -492,7 +492,11 @@ if (isset($_REQUEST['submit'])) {
         "iDisplayLength": 25,
         "bStateSave": true,
         "bInfo": true,
-        "bProcessing": true
+        "bProcessing": true,
+		"dom": 'T<"clear">lfrtip',
+        	"tableTools": {
+           	"sSwfPath": "assets/datatable/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        	}
       });</script>
     <script type="text/javascript">
       $('.multiselect').multiselect({
