@@ -242,7 +242,8 @@ function update_sp_data ($code_field_name, $code, $value_field_name, $value, $sh
 
 function getFirstLevelInfoFromId($code) {
     if (!$code > 0) {
-        return "";
+        $data = ['first_level_code' => '0', 'first_level_name' => '0'];
+        return $data;
     }
 
     $sql = "SELECT
@@ -250,9 +251,8 @@ function getFirstLevelInfoFromId($code) {
             FROM
                     sanctioned_post_first_level
             WHERE
-                    id = '$code'
-            AND active LIKE 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getFirstLevelNameFromCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+                    id = '$code'";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getFirstLevelInfoFromId:1</p><p>Query:</b></p>___<p>$sql</p>");
 
     $data = mysql_fetch_assoc($result);
 
@@ -261,7 +261,8 @@ function getFirstLevelInfoFromId($code) {
 
 function getSecondtLevelInfoFromId($code) {
     if (!$code > 0) {
-        return "";
+        $data = ['second_level_code' => '0', 'second_level_name' => '0'];
+        return $data;
     }
 
     $sql = "SELECT
@@ -269,9 +270,8 @@ function getSecondtLevelInfoFromId($code) {
             FROM
                     `sanctioned_post_second_level`
             WHERE
-                    id = '$code'
-            AND active LIKE 1";
-    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getFirstLevelNameFromCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+                    id = '$code'";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getSecondtLevelInfoFromId:1</p><p>Query:</b></p>___<p>$sql</p>");
 
     $data = mysql_fetch_assoc($result);
 
