@@ -19,7 +19,7 @@ require_once '../../include/functions_generic.php';
 
 
 //  Limit the maximum execution time
-set_time_limit(1800);
+set_time_limit(123456);
 
 /** ----------------------------------------------------------------------------
  *  
@@ -29,7 +29,7 @@ set_time_limit(1800);
  */
 echo "<pre>";
 
-$sql = "SELECT * FROM `total_manpower_imported_sanctioned_post_copy` ORDER BY org_code limit 10";
+$sql = "SELECT * FROM `total_manpower_imported_sanctioned_post_copy` ORDER BY org_code limit 5";
 $sp_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getAllSanctionedPost:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
 $row_count = 0; 
@@ -151,21 +151,43 @@ while ($sp_data = mysql_fetch_assoc($sp_result)){
     $show_query = TRUE;
     update_sp_data($code_field_name, $code, $value_field_name, $value, $show_query);
     
+    // get first level info
+    $first_level_info = getFirstLevelInfoFromId($sp_data['first_level_id']);
     
     // update first_level_name
-    $code_field_name = 'first_level_code';
+    $code_field_name = 'first_level_id';
     $value_field_name = 'first_level_name';
     $code = $sp_data[$code_field_name];    
-    $value = mysql_real_escape_string(trim(getFirstLevelNameFromCode($code)));
+    $value = mysql_real_escape_string(trim($first_level_info[$value_field_name]));
     $show_query = TRUE;
     update_sp_data($code_field_name, $code, $value_field_name, $value, $show_query);
     
     
+    // update first_level_code
+    $code_field_name = 'first_level_id';
+    $value_field_name = 'first_level_code';
+    $code = $sp_data[$code_field_name];    
+    $value = mysql_real_escape_string(trim($first_level_info[$value_field_name]));
+    $show_query = TRUE;
+    update_sp_data($code_field_name, $code, $value_field_name, $value, $show_query);
+    
+    // get second level info
+    $second_level_info = getSecondtLevelInfoFromId($sp_data['second_level_id']);
+    
     // update second_level_name
-    $code_field_name = 'second_level_code';
+    $code_field_name = 'second_level_id';
     $value_field_name = 'second_level_name';
     $code = $sp_data[$code_field_name];    
-    $value = mysql_real_escape_string(trim(getSecondtLevelNameFromCode($code)));
+    $value = mysql_real_escape_string(trim($second_level_info[$value_field_name]));
+    $show_query = TRUE;
+    update_sp_data($code_field_name, $code, $value_field_name, $value, $show_query);
+    
+    
+    // update second_level_code
+    $code_field_name = 'second_level_id';
+    $value_field_name = 'second_level_code';
+    $code = $sp_data[$code_field_name];    
+    $value = mysql_real_escape_string(trim($second_level_info[$value_field_name]));
     $show_query = TRUE;
     update_sp_data($code_field_name, $code, $value_field_name, $value, $show_query);
     
@@ -216,4 +238,42 @@ function update_sp_data ($code_field_name, $code, $value_field_name, $value, $sh
     if ($show_query) {
         echo "<br />$value_field_name | $sql";
     }
+}
+
+function getFirstLevelInfoFromId($code) {
+    if (!$code > 0) {
+        return "";
+    }
+
+    $sql = "SELECT
+                    *
+            FROM
+                    sanctioned_post_first_level
+            WHERE
+                    id = '$code'
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getFirstLevelNameFromCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data;
+}
+
+function getSecondtLevelInfoFromId($code) {
+    if (!$code > 0) {
+        return "";
+    }
+
+    $sql = "SELECT
+                    *
+            FROM
+                    `sanctioned_post_second_level`
+            WHERE
+                    id = '$code'
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:getFirstLevelNameFromCode:1</p><p>Query:</b></p>___<p>$sql</p>");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data;
 }
