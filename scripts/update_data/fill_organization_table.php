@@ -13,7 +13,7 @@ set_time_limit(1800);
  */
 echo "<pre>";
 
-$sql = "SELECT * FROM `organization` WHERE active LIKE 1 limit 10";
+$sql = "SELECT * FROM `organization`";
 $org_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getAllOrg:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
 while ($org_data = mysql_fetch_assoc($org_result)) {
