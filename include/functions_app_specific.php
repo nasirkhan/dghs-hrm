@@ -617,6 +617,10 @@ function getDistrictNamefromCode($bbs_code) {
     return $data['district_name'];
 }
 
+/**
+ * 
+ * Do not use this function !!!
+ */
 function getUpazilaNamefromCode($bbs_code) {
     if (empty($bbs_code)) {
         return "";
@@ -629,9 +633,17 @@ function getUpazilaNamefromCode($bbs_code) {
     return $data['upazila_name'];
 }
 
+/**
+ * Get Upazila Name form Upazila BBS Code and related District BBS code
+ * 
+ * @param type $upa_bbs_code Upazila BBS Code
+ * @param type $dis_bbs_code District BBS Code
+ * @return string Upazila Name
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
 function getUpazilaNamefromBBSCode($upa_bbs_code, $dis_bbs_code) {
     if (empty($upa_bbs_code) || empty($dis_bbs_code)) {
-        return "";
+        return FALSE;
     }
     $sql = "SELECT
                     admin_upazila.upazila_name
@@ -648,6 +660,15 @@ function getUpazilaNamefromBBSCode($upa_bbs_code, $dis_bbs_code) {
     return $data['upazila_name'];
 }
 
+/**
+ * Get Upazila Name form Upazila BBS Code and related District BBS code
+ * 
+ * @param INT $union_code Union BBS Code
+ * @param INT $upa_bbs_code Upazila BBS Code
+ * @param INT $dis_bbs_code District BBS Code
+ * @return string Union Name
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
 function getUnionNameFromBBSCode($union_code, $upazila_code, $district_code){
     if (empty($union_code) || empty($upazila_code) || empty($district_code)) {
         return FALSE;
