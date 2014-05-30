@@ -288,7 +288,7 @@ if ($error_message == "" && isset($_REQUEST['form_submit'])) {
                                 <div class="span12">
                                     <?php if ($showReport): ?>                                        
                                         <br/>
-                                        <table id="report_table" class="table table-bordered table-hover table-striped">
+                                        <table id="testTable" class="table table-bordered table-hover table-striped">
                                             <thead>
                                                 <tr>
                                                     <th><strong>#</strong></th>
