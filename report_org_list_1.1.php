@@ -447,7 +447,7 @@ if (isset($_REQUEST['submit'])) {
               foreach ($fieldNames as $fieldName) {
                 if (in_array($fieldName, $showFields)) {
                   ?>
-                  <td id="<?= $fieldName ?>"><strong><a href="#" title="<?= $fieldName ?>">
+                  <td id="<?php //echo  $fieldName;   ?>"><strong><a href="#" title="<?php echo $fieldName; ?>">
                         <?php
                         if (strlen($fieldNameAlias[$fieldName])) {
                           if ($replaceUnderScoreWithSpace) {
