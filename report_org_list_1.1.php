@@ -52,8 +52,16 @@ if (isset($_REQUEST['submit'])) {
     $parameterized_query.= " AND " . mysql_real_escape_string($_REQUEST['SQLSelect']);
   }
 
+  $order_by = "org_name";
+  $order_sort = "ASC";
 
-  $parameterized_query .= " ORDER BY org_name ";
+  if (strlen(trim($_REQUEST['order_by'])) && strlen(trim($_REQUEST['order_sort']))) {
+    $order_by = trim($_REQUEST['order_by']);
+    $order_sort = trim($_REQUEST['order_sort']);
+  }
+
+  $parameterized_query .= " ORDER BY $order_by $order_sort ";
+
 
   $sql = "SELECT * FROM organization $parameterized_query";
   $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -253,6 +261,13 @@ if (isset($_REQUEST['submit'])) {
                     <td><?php createSelectOptions('admin_upazila', 'id', 'upazila_name', " WHERE upazila_district_code='" . $_REQUEST['district_code'] . "'", $_REQUEST['upazila_id'], "upazila_id", " id='admin_upazila'  class='pull-left' ", $optionIdField); ?></td>
                   </tr>
                 </table>
+                <?php
+                $checked = "";
+                if ($_REQUEST['noDatatable'] == 'true') {
+                  $checked = " checked='checked' ";
+                }
+                ?>
+                <input type="checkbox" name="noDatatable" value="true" <?= $checked ?>/> Optimize loading
               </td>
               <td style="vertical-align: top">
                 <b>Agency</b><br/>
@@ -273,7 +288,7 @@ if (isset($_REQUEST['submit'])) {
                 <br/><b>Ownership</b><br/>
                 <?php createMultiSelectOptions('org_ownership_authority', 'org_ownership_authority_code', 'org_ownership_authority_name', $customQuery, $csvs['ownership_code'], "ownership_code[]", " id='ownership_code'  class='multiselect'"); ?>
                 <br/><b>Waste disposal</b><br/>
-                <?php createMultiSelectOptions('org_waste_disposal_system', 'waste_disposal_system_code', 'waste_disposal_system_code', $customQuery, $csvs['waste_disposal_code'], "waste_disposal_code[]", " id='waste_disposal_code'  class='multiselect'"); ?>
+                <?php createMultiSelectOptions('org_waste_disposal_system', 'waste_disposal_system_code', 'waste_disposal_system_name', $customQuery, $csvs['waste_disposal_code'], "waste_disposal_code[]", " id='waste_disposal_code'  class='multiselect'"); ?>
               </td>
 
               <td style="vertical-align: top">
@@ -328,7 +343,8 @@ if (isset($_REQUEST['submit'])) {
                     <td><?php
                       $listArray = array('=', 'LIKE', '>', ">=", "<", "<=");
                       createSelectOptionsFrmArray($listArray, $_REQUEST['search_criteria'], 'search_criteria', $params = "");
-                      ?></td>
+                      ?>
+                    </td>
                   </tr>
                   <tr>
                     <td><b>Value</b></td>
@@ -339,6 +355,15 @@ if (isset($_REQUEST['submit'])) {
               <td style="vertical-align:top">
                 <b>Additional SQL select criteria</b>
                 <textarea name="SQLSelect"><?php echo addEditInputField('SQLSelect'); ?></textarea>
+                <br/>
+                <b>Order by</b><br/>
+                <?php
+                createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $_REQUEST['order_by'], "order_by", " id='order_by'  class='pull-left' ", $optionIdField);
+
+                $listArray = array('ASC', 'DESC');
+                createSelectOptionsFrmArray($listArray, $_REQUEST['order_sort'], 'order_sort', $params = "");
+                ?>
+
               </td>
             </tr>
           </table>
@@ -393,8 +418,14 @@ if (isset($_REQUEST['submit'])) {
           Total <strong><em><?= $count ?></em></strong> organization found.<br />
         </blockquote>
 
-
-        <table class="table table-condensed table-bordered" id="datatable">
+        <?php
+        if ($_REQUEST['noDatatable'] == 'true') {
+          $param = "";
+        } else {
+          $param = " id='datatable' ";
+        }
+        ?>
+        <table class="table table-condensed table-bordered" <?= $param ?>>
           <thead>
             <tr>
               <?php
