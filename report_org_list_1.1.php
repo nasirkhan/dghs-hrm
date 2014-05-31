@@ -48,6 +48,10 @@ if (isset($_REQUEST['submit'])) {
     }
   }
 
+  if (strlen($_REQUEST['SQLSelect'])) {
+    $parameterized_query.= " AND " . mysql_real_escape_string($_REQUEST['SQLSelect']);
+  }
+
 
   $parameterized_query .= " ORDER BY org_name ";
 
@@ -200,6 +204,7 @@ if (isset($_REQUEST['submit'])) {
       .bgRed{background-color: #FFCCCC; color: black;}
       button.multiselect{font: 11px; font-weight: normal; font-family: 'Segoe UI'}
       .btn-group > .btn, .btn-group > .dropdown-menu, .btn-group > .popover{font-size: 11px;}
+      div.filter{border: 1px dotted #CCCCCC; float: left; padding: 3px;}
     </style>
 
 
@@ -209,9 +214,26 @@ if (isset($_REQUEST['submit'])) {
   <body>
     <?php include_once 'include/header/header_top_menu.inc.php'; ?>
     <div class="container">
-      <div class="">
-        <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" style="padding: 0px; margin: 0px;">
-          <h4 style="text-transform: uppercase">Report : Organization List</h4>
+      <h4 style="text-transform: uppercase">Report : Organization List</h4>
+      <div id="showHide" style="cursor: pointer">
+        <span id="showHideBtn" >[ - ] Hide Filters</span>
+        <script type="text/javascript">
+          $('#showHide').click(function() {
+            //alert('test');
+            $('#filter').toggle(function() {
+              var text = "Show";
+              if ($('div#filter').is(":visible")) {
+                text = "[ - ] Hide Filters";
+              } else {
+                text = "[+]Show Filters";
+              }
+              $('span#showHideBtn').html(text);
+            });
+
+          });</script>
+
+      </div>
+      <div class="filter" id="filter">        <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" style="padding: 0px; margin: 0px;">
           <table id="">
             <tr>
               <td style="vertical-align: top">
@@ -233,7 +255,7 @@ if (isset($_REQUEST['submit'])) {
               </td>
               <td style="vertical-align: top">
                 <b>Agency</b><br/>
-                <?php //createMultiSelectOptions($dbtableName, $dbtableIdField, $dbtableValueField, $customQuery, $selectedIdCsv, $name, $params); ?>
+                <?php //createMultiSelectOptions($dbtableName, $dbtableIdField, $dbtableValueField, $customQuery, $selectedIdCsv, $name, $params);    ?>
                 <?php createMultiSelectOptions('org_agency_code', 'org_agency_code', 'org_agency_name', $customQuery, $csvs['agency_code'], "agency_code[]", " id='agency_code'  class='multiselect' "); ?><br/>
                 <b>Org Level</b><br/>
                 <?php createMultiSelectOptions('org_level', 'org_level_code', 'org_level_name', $customQuery, $csvs['org_level_code'], "org_level_code[]", " id='org_level_code' class='multiselect' "); ?>
@@ -262,9 +284,10 @@ if (isset($_REQUEST['submit'])) {
                 <?php createMultiSelectOptions('org_toilet_type', 'toilet_type_code', 'toilet_type_name', $customQuery, $csvs['toilet_type_code'], "toilet_type_code[]", " id='toilet_type_code'  class='multiselect'"); ?>
               </td>
               <td style="vertical-align: top">
-                <b>Main water supply</b><br/>
+                <b>Main water</b><br/>
                 <?php createMultiSelectOptions('org_source_of_water_supply_main', 'water_supply_source_code', 'water_supply_source_name', $customQuery, $csvs['source_of_water_supply_main_code'], "source_of_water_supply_main_code[]", " id='source_of_water_supply_main_code'  class='multiselect'"); ?>
-                <br/><b>Alternate water supply</b><br/>
+                <br/>
+                <b>Alternate water</b><br/>
                 <?php createMultiSelectOptions('org_source_of_water_supply_alternate', 'water_supply_source_code', 'water_supply_source_name', $customQuery, $csvs['source_of_water_supply_alternate_code'], "source_of_water_supply_alternate_code[]", " id='source_of_water_supply_alternate_code'  class='multiselect'"); ?>
                 <br/><b>Toilet Adequacy</b><br/>
                 <?php createMultiSelectOptions('org_toilet_adequacy', 'toilet_adequacy_code', 'toilet_adequacy_name', $customQuery, $csvs['source_of_water_supply_alternate_code'], "source_of_water_supply_alternate_code[]", " id='source_of_water_supply_alternate_code'  class='multiselect'"); ?>
@@ -296,7 +319,7 @@ if (isset($_REQUEST['submit'])) {
                 <br/><b><i class="icon-list-ul"></i> Field query</b><br/>
                 <table>
                   <tr>
-                    <td><b>Field name</b></td>
+                    <td><b>Field</b></td>
                     <td><?php createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $_REQUEST['search_field'], "search_field", " id='search_field'  class='pull-left' ", $optionIdField) ?></td>
                   </tr>
                   <tr>
@@ -311,6 +334,10 @@ if (isset($_REQUEST['submit'])) {
                     <td><input class='' name="search_value" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;" value="<?php echo addEditInputField('search_value'); ?>" /></td>
                   </tr>
                 </table>
+              </td>
+              <td style="vertical-align:top">
+                <b>Additional SQL select criteria</b>
+                <textarea name="SQLSelect"><?php echo addEditInputField('SQLSelect'); ?></textarea>
               </td>
             </tr>
           </table>
@@ -474,11 +501,11 @@ if (isset($_REQUEST['submit'])) {
           }
         });
       });</script>
-              <script type="text/javascript">
-              var tableToExcel = (function() {
-                      var uri = 'data:application/vnd.ms-excel;base64,'
-              , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
-                                , base64 = function(s){
+    <script type="text/javascript">
+      var tableToExcel = (function() {
+        var uri = 'data:application/vnd.ms-excel;base64,'
+                , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+                , base64 = function(s) {
                   return window.btoa(unescape(encodeURIComponent(s)))
                 }
         , format = function(s, c) {
@@ -496,25 +523,25 @@ if (isset($_REQUEST['submit'])) {
     </script>
 
     <script type="text/javascript">
-                                        $('table#datatable').dataTable({
-                                //"bJQueryUI": true,
-                                "bPaginate": false,
-                                        "sPaginationType": "full_numbers",
-                                        "aaSorting": [[0, "desc"]],
-                                        "iDisplayLength": 25,
-                                        "bStateSave": true,
-                                        "bInfo": true,
-                                        "bProcessing": true,
-                                        "dom": 'T<"clear">lfrtip',
-                                        "tableTools": {
-                                        "sSwfPath": "assets/datatable/TableTools/media/swf/copy_csv_xls_pdf.swf"
-                                        }
-                                });</script>
+      $('table#datatable').dataTable({
+        //"bJQueryUI": true,
+        "bPaginate": false,
+        "sPaginationType": "full_numbers",
+        "aaSorting": [[0, "desc"]],
+        "iDisplayLength": 25,
+        "bStateSave": true,
+        "bInfo": true,
+        "bProcessing": true,
+        "dom": 'T<"clear">lfrtip',
+        "tableTools": {
+          "sSwfPath": "assets/datatable/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        }
+      });</script>
     <script type="text/javascript">
-                              $('.multiselect').multiselect({
-                      includeSelectAllOption: true,
-                              maxHeight: 200,
-                      });</script>
+      $('.multiselect').multiselect({
+        includeSelectAllOption: true,
+        maxHeight: 200,
+      });</script>
   </body>
   >>>>>>> refs/remotes/origin/development
 </html>
