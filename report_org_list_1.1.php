@@ -52,6 +52,19 @@ if (isset($_REQUEST['submit'])) {
     $parameterized_query.= " AND " . mysql_real_escape_string($_REQUEST['SQLSelect']);
   }
 
+  /*
+   *    SQL GROUP BY
+   */
+  $countField = "";
+  if (strlen(trim($_REQUEST['SQLGroup']))) {
+    $group_by = trim($_REQUEST['SQLGroup']);
+    $parameterized_query .= " GROUP BY $group_by ";
+    $countField = ",COUNT(*) as total";
+  }
+  /*   * *********** */
+  /*
+   *    SQL ORDER BY
+   */
   $order_by = "org_name";
   $order_sort = "ASC";
 
@@ -61,9 +74,9 @@ if (isset($_REQUEST['submit'])) {
   }
 
   $parameterized_query .= " ORDER BY $order_by $order_sort ";
+  /*   * *********** */
 
-
-  $sql = "SELECT * FROM organization $parameterized_query";
+  $sql = "SELECT * $countField FROM organization $parameterized_query";
   $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
   $count = mysql_num_rows($result);
 
@@ -271,7 +284,7 @@ if (isset($_REQUEST['submit'])) {
               </td>
               <td style="vertical-align: top">
                 <b>Agency</b><br/>
-                <?php //createMultiSelectOptions($dbtableName, $dbtableIdField, $dbtableValueField, $customQuery, $selectedIdCsv, $name, $params);    ?>
+                <?php //createMultiSelectOptions($dbtableName, $dbtableIdField, $dbtableValueField, $customQuery, $selectedIdCsv, $name, $params);      ?>
                 <?php createMultiSelectOptions('org_agency_code', 'org_agency_code', 'org_agency_name', $customQuery, $csvs['agency_code'], "agency_code[]", " id='agency_code'  class='multiselect' "); ?><br/>
                 <b>Org Level</b><br/>
                 <?php createMultiSelectOptions('org_level', 'org_level_code', 'org_level_name', $customQuery, $csvs['org_level_code'], "org_level_code[]", " id='org_level_code' class='multiselect' "); ?>
@@ -354,7 +367,9 @@ if (isset($_REQUEST['submit'])) {
               </td>
               <td style="vertical-align:top">
                 <b>Additional SQL select criteria</b>
-                <textarea name="SQLSelect"><?php echo addEditInputField('SQLSelect'); ?></textarea>
+                <textarea name="SQLSelect" style="height: 48px; font-family: ""><?php echo addEditInputField('SQLSelect'); ?></textarea>
+                <b>Group by</b>
+                <textarea name="SQLGroup" style="height: 48px; font-family: ""><?php echo addEditInputField('SQLGroup'); ?></textarea>
                 <br/>
                 <b>Order by</b><br/>
                 <?php
@@ -453,7 +468,11 @@ if (isset($_REQUEST['submit'])) {
                   <?php
                 }
               }
+              if (strlen($countField)) {
+                echo "<td>Total</td>";
+              }
               ?>
+
             </tr>
           </thead>
           <tbody>
@@ -478,7 +497,11 @@ if (isset($_REQUEST['submit'])) {
                     <?php
                   }
                 }
+                if (strlen($countField)) {
+                  echo "<td>" . $data['total'] . "</td>";
+                }
                 ?>
+
               </tr>
             <?php } ?>
           </tbody>
@@ -533,11 +556,11 @@ if (isset($_REQUEST['submit'])) {
           }
         });
       });</script>
-              <script type="text/javascript">
-              var tableToExcel = (function() {
-                      var uri = 'data:application/vnd.ms-excel;base64,'
-              , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
-                                , base64 = function(s){
+    <script type="text/javascript">
+      var tableToExcel = (function() {
+        var uri = 'data:application/vnd.ms-excel;base64,'
+                , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+                , base64 = function(s) {
                   return window.btoa(unescape(encodeURIComponent(s)))
                 }
         , format = function(s, c) {
@@ -555,25 +578,25 @@ if (isset($_REQUEST['submit'])) {
     </script>
 
     <script type="text/javascript">
-                                        $('table#datatable').dataTable({
-                                //"bJQueryUI": true,
-                                "bPaginate": false,
-                                        "sPaginationType": "full_numbers",
-                                        "aaSorting": [[0, "desc"]],
-                                        "iDisplayLength": 25,
-                                        "bStateSave": true,
-                                        "bInfo": true,
-                                        "bProcessing": true,
-                                        "dom": 'T<"clear">lfrtip',
-                                        "tableTools": {
-                                        "sSwfPath": "assets/datatable/TableTools/media/swf/copy_csv_xls_pdf.swf"
-                                        }
-                                });</script>
+      $('table#datatable').dataTable({
+        //"bJQueryUI": true,
+        "bPaginate": false,
+        "sPaginationType": "full_numbers",
+        "aaSorting": [[0, "desc"]],
+        "iDisplayLength": 25,
+        "bStateSave": true,
+        "bInfo": true,
+        "bProcessing": true,
+        "dom": 'T<"clear">lfrtip',
+        "tableTools": {
+          "sSwfPath": "assets/datatable/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        }
+      });</script>
     <script type="text/javascript">
-                              $('.multiselect').multiselect({
-                      includeSelectAllOption: true,
-                              maxHeight: 200,
-                      });</script>
+      $('.multiselect').multiselect({
+        includeSelectAllOption: true,
+        maxHeight: 200,
+      });</script>
   </body>
 </html>
 
