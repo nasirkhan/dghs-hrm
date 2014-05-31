@@ -2,33 +2,33 @@
 require_once 'configuration.php';
 
 if ($_SESSION['logged'] != true) {
-  header("location:login.php");
+    header("location:login.php");
 }
 
 $DBvalidation = FALSE;
 if ($_REQUEST['highlight_empty_cell'] == 'true') {
-  $DBvalidation = TRUE;
+    $DBvalidation = TRUE;
 }
 
 $replaceUnderScoreWithSpace = FALSE;
 if ($_REQUEST['tableheader_without_underscore'] == 'true') {
-  $replaceUnderScoreWithSpace = TRUE;
+    $replaceUnderScoreWithSpace = TRUE;
 }
 
 
 if (isset($_REQUEST['submit'])) {
 
-  $parameterized_query = " WHERE 1 ";
-  //$selection_string = "";
+    $parameterized_query = " WHERE 1 ";
+    //$selection_string = "";
 
-  $singleSelectItems = array('division_code', 'district_code', 'upazila_id');
+    $singleSelectItems = array('division_code', 'district_code', 'upazila_id');
 
-  foreach ($singleSelectItems as $singleSelectItem) {
-    if (strlen($_REQUEST[$singleSelectItem]) && $_REQUEST[$singleSelectItem] > 0) {
-      $parameterized_query.=" AND $singleSelectItem = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
-      //$selection_string .= " Division: <strong>" . getDivisionNamefromCode($div_code) . "</strong> ";
+    foreach ($singleSelectItems as $singleSelectItem) {
+        if (strlen($_REQUEST[$singleSelectItem]) && $_REQUEST[$singleSelectItem] > 0) {
+            $parameterized_query.=" AND $singleSelectItem = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
+            //$selection_string .= " Division: <strong>" . getDivisionNamefromCode($div_code) . "</strong> ";
+        }
     }
-  }
 
   $multiSelectItems = array('agency_code', 'org_type_code', 'org_level_code', 'org_healthcare_level_code', 'org_location_type', 'ownership_code', 'source_of_electricity_main_code', 'source_of_electricity_alternate_code', 'source_of_water_supply_main_code', 'source_of_water_supply_alternate_code');
   $csvs = array();
@@ -38,137 +38,137 @@ if (isset($_REQUEST['submit'])) {
       $parameterized_query.=" AND $multiSelectItem in (" . $csvs[$multiSelectItem] . ")  ";
       //$selection_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong>";
     }
-  }
-
-  if (strlen($_REQUEST['search_field']) && strlen($_REQUEST['search_criteria']) && strlen($_REQUEST['search_value'])) {
-    if ($_REQUEST['search_criteria'] == "=") {
-      $parameterized_query.=" AND " . $_REQUEST['search_field'] . " " . $_REQUEST['search_criteria'] . " '" . $_REQUEST['search_value'] . "'  ";
-    } else if ($_REQUEST['search_criteria'] == "LIKE") {
-      $parameterized_query.=" AND " . $_REQUEST['search_field'] . " " . $_REQUEST['search_criteria'] . " '%" . $_REQUEST['search_value'] . "%'  ";
     }
-  }
 
-
-  $parameterized_query .= " ORDER BY org_name ";
-
-  $sql = "SELECT * FROM organization $parameterized_query";
-  $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
-  $count = mysql_num_rows($result);
-
-  $fieldNames = getTableFieldNames('organization');
-  $fieldNameAlias = array();
-  // easy create $fieldNameAlias by printing
-  /*
-    foreach ($fieldNames as $fieldName) {
-    echo '$fieldNameAlias[\'' . $fieldName . '\'] =\'' . $fieldName . '\'' . ";<br/>";
+    if (strlen($_REQUEST['search_field']) && strlen($_REQUEST['search_criteria']) && strlen($_REQUEST['search_value'])) {
+        if ($_REQUEST['search_criteria'] == "=") {
+            $parameterized_query.=" AND " . $_REQUEST['search_field'] . " " . $_REQUEST['search_criteria'] . " '" . $_REQUEST['search_value'] . "'  ";
+        } else if ($_REQUEST['search_criteria'] == "LIKE") {
+            $parameterized_query.=" AND " . $_REQUEST['search_field'] . " " . $_REQUEST['search_criteria'] . " '%" . $_REQUEST['search_value'] . "%'  ";
+        }
     }
-   *
-   */
 
-  $fieldNameAlias['id'] = 'id';
-  $fieldNameAlias['org_name'] = 'org_name';
-  $fieldNameAlias['org_code'] = 'org_code';
-  $fieldNameAlias['org_type_code'] = 'org_type_code';
-  $fieldNameAlias['org_type_name'] = 'org_type_name';
-  $fieldNameAlias['agency_code'] = 'agency_code';
-  $fieldNameAlias['agency_name'] = 'agency_name';
-  $fieldNameAlias['org_function_code'] = 'org_function_code';
-  $fieldNameAlias['org_level_code'] = 'org_level_code';
-  $fieldNameAlias['org_level_name'] = 'org_level_name';
-  $fieldNameAlias['org_healthcare_level_code'] = 'org_healthcare_level_code';
-  $fieldNameAlias['special_service_code'] = 'special_service_code';
-  $fieldNameAlias['year_established'] = 'year_established';
-  $fieldNameAlias['org_location_type'] = 'org_location_type';
-  $fieldNameAlias['division_code'] = 'division_code';
-  $fieldNameAlias['division_name'] = 'division_name';
-  $fieldNameAlias['division_id'] = 'division_id';
-  $fieldNameAlias['district_code'] = 'district_code';
-  $fieldNameAlias['district_name'] = 'district_name';
-  $fieldNameAlias['district_id'] = 'district_id';
-  $fieldNameAlias['upazila_thana_code'] = 'upazila_thana_code';
-  $fieldNameAlias['upazila_thana_name'] = 'upazila_thana_name';
-  $fieldNameAlias['upazila_id'] = 'upazila_id';
-  $fieldNameAlias['union_code'] = 'union_code';
-  $fieldNameAlias['union_name'] = 'union_name';
-  $fieldNameAlias['union_id'] = 'union_id';
-  $fieldNameAlias['ward_code'] = 'ward_code';
-  $fieldNameAlias['village_code'] = 'village_code';
-  $fieldNameAlias['house_number'] = 'house_number';
-  $fieldNameAlias['latitude'] = 'latitude';
-  $fieldNameAlias['longitude'] = 'longitude';
-  $fieldNameAlias['org_photo'] = 'org_photo';
-  $fieldNameAlias['financial_revenue_code'] = 'financial_revenue_code';
-  $fieldNameAlias['ownership_code'] = 'ownership_code';
-  $fieldNameAlias['mailing_address'] = 'mailing_address';
-  $fieldNameAlias['land_phone1'] = 'land_phone1';
-  $fieldNameAlias['land_phone2'] = 'land_phone2';
-  $fieldNameAlias['land_phone3'] = 'land_phone3';
-  $fieldNameAlias['mobile_number1'] = 'mobile_number1';
-  $fieldNameAlias['mobile_number2'] = 'mobile_number2';
-  $fieldNameAlias['mobile_number3'] = 'mobile_number3';
-  $fieldNameAlias['email_address1'] = 'email_address1';
-  $fieldNameAlias['email_address2'] = 'email_address2';
-  $fieldNameAlias['email_address3'] = 'email_address3';
-  $fieldNameAlias['fax_number1'] = 'fax_number1';
-  $fieldNameAlias['fax_number2'] = 'fax_number2';
-  $fieldNameAlias['fax_number3'] = 'fax_number3';
-  $fieldNameAlias['website_address'] = 'website_address';
-  $fieldNameAlias['facebook_page'] = 'facebook_page';
-  $fieldNameAlias['google_plus_page'] = 'google_plus_page';
-  $fieldNameAlias['twitter_page'] = 'twitter_page';
-  $fieldNameAlias['youtube_page'] = 'youtube_page';
-  $fieldNameAlias['source_of_electricity_main_code'] = 'source_of_electricity_main_code';
-  $fieldNameAlias['source_of_electricity_alternate_code'] = 'source_of_electricity_alternate_code';
-  $fieldNameAlias['source_of_water_supply_main_code'] = 'source_of_water_supply_main_code';
-  $fieldNameAlias['source_of_water_supply_alternate_code'] = 'source_of_water_supply_alternate_code';
-  $fieldNameAlias['toilet_type_code'] = 'toilet_type_code';
-  $fieldNameAlias['toilet_adequacy_code'] = 'toilet_adequacy_code';
-  $fieldNameAlias['fuel_source_code'] = 'fuel_source_code';
-  $fieldNameAlias['laundry_code'] = 'laundry_code';
-  $fieldNameAlias['autoclave_code'] = 'autoclave_code';
-  $fieldNameAlias['waste_disposal_code'] = 'waste_disposal_code';
-  $fieldNameAlias['sanctioned_office_equipment'] = 'sanctioned_office_equipment';
-  $fieldNameAlias['sanctioned_vehicles'] = 'sanctioned_vehicles';
-  $fieldNameAlias['sanctioned_bed_number'] = 'sanctioned_bed_number';
-  $fieldNameAlias['other_miscellaneous_issues'] = 'other_miscellaneous_issues';
-  $fieldNameAlias['permission_approval_license_info_code'] = 'permission_approval_license_info_code';
-  $fieldNameAlias['permission_approval_license_info_date'] = 'permission_approval_license_info_date';
-  $fieldNameAlias['permission_approval_license_type'] = 'permission_approval_license_type';
-  $fieldNameAlias['permission_approval_license_aithority'] = 'permission_approval_license_aithority';
-  $fieldNameAlias['permission_approval_license_number'] = 'permission_approval_license_number';
-  $fieldNameAlias['permission_approval_license_next_renewal_date'] = 'permission_approval_license_next_renewal_date';
-  $fieldNameAlias['permission_approval_license_conditions'] = 'permission_approval_license_conditions';
-  $fieldNameAlias['land_info_code'] = 'land_info_code';
-  $fieldNameAlias['land_size'] = 'land_size';
-  $fieldNameAlias['land_mouza_name'] = 'land_mouza_name';
-  $fieldNameAlias['land_mouza_geo_code'] = 'land_mouza_geo_code';
-  $fieldNameAlias['land_jl_number'] = 'land_jl_number';
-  $fieldNameAlias['land_functional_code'] = 'land_functional_code';
-  $fieldNameAlias['land_rs_dag_number'] = 'land_rs_dag_number';
-  $fieldNameAlias['land_ss_dag_number'] = 'land_ss_dag_number';
-  $fieldNameAlias['land_kharian_number'] = 'land_kharian_number';
-  $fieldNameAlias['land_other_info'] = 'land_other_info';
-  $fieldNameAlias['land_mutation_number'] = 'land_mutation_number';
-  $fieldNameAlias['additional_chcp_name'] = 'additional_chcp_name';
-  $fieldNameAlias['additional_chcp_contact'] = 'additional_chcp_contact';
-  $fieldNameAlias['additional_community_group_info'] = 'additional_community_group_info';
-  $fieldNameAlias['additional_chairnam_name'] = 'additional_chairnam_name';
-  $fieldNameAlias['additional_chairman_contact'] = 'additional_chairman_contact';
-  $fieldNameAlias['additional_chairman_community_support_info'] = 'additional_chairman_community_support_info';
-  $fieldNameAlias['additional_csg_1_name'] = 'additional_csg_1_name';
-  $fieldNameAlias['additional_csg_1_contact'] = 'additional_csg_1_contact';
-  $fieldNameAlias['additional_csg_2_name'] = 'additional_csg_2_name';
-  $fieldNameAlias['additional_csg_2_contact'] = 'additional_csg_2_contact';
-  $fieldNameAlias['org_functions'] = 'org_functions';
-  $fieldNameAlias['uploaded_file'] = 'uploaded_file';
-  $fieldNameAlias['updated_by'] = 'updated_by';
-  $fieldNameAlias['active'] = 'active';
-  $fieldNameAlias['updated_datetime'] = 'updated_datetime';
-  $fieldNameAlias['organization_id'] = 'organization_id';
-  $fieldNameAlias['monthly_update'] = 'monthly_update';
-  $fieldNameAlias['monthly_update_datetime'] = 'monthly_update_datetime';
-  $fieldNameAlias['upload_datetime'] = 'upload_datetime';
-  $fieldNameAlias['uploaded_by'] = 'uploaded_by';
+
+    $parameterized_query .= " ORDER BY org_name ";
+
+    $sql = "SELECT * FROM organization $parameterized_query";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+    $count = mysql_num_rows($result);
+
+    $fieldNames = getTableFieldNames('organization');
+    $fieldNameAlias = array();
+    // easy create $fieldNameAlias by printing
+    /*
+      foreach ($fieldNames as $fieldName) {
+      echo '$fieldNameAlias[\'' . $fieldName . '\'] =\'' . $fieldName . '\'' . ";<br/>";
+      }
+     *
+     */
+
+    $fieldNameAlias['id'] = 'id';
+    $fieldNameAlias['org_name'] = 'org_name';
+    $fieldNameAlias['org_code'] = 'org_code';
+    $fieldNameAlias['org_type_code'] = 'org_type_code';
+    $fieldNameAlias['org_type_name'] = 'org_type_name';
+    $fieldNameAlias['agency_code'] = 'agency_code';
+    $fieldNameAlias['agency_name'] = 'agency_name';
+    $fieldNameAlias['org_function_code'] = 'org_function_code';
+    $fieldNameAlias['org_level_code'] = 'org_level_code';
+    $fieldNameAlias['org_level_name'] = 'org_level_name';
+    $fieldNameAlias['org_healthcare_level_code'] = 'org_healthcare_level_code';
+    $fieldNameAlias['special_service_code'] = 'special_service_code';
+    $fieldNameAlias['year_established'] = 'year_established';
+    $fieldNameAlias['org_location_type'] = 'org_location_type';
+    $fieldNameAlias['division_code'] = 'division_code';
+    $fieldNameAlias['division_name'] = 'division_name';
+    $fieldNameAlias['division_id'] = 'division_id';
+    $fieldNameAlias['district_code'] = 'district_code';
+    $fieldNameAlias['district_name'] = 'district_name';
+    $fieldNameAlias['district_id'] = 'district_id';
+    $fieldNameAlias['upazila_thana_code'] = 'upazila_thana_code';
+    $fieldNameAlias['upazila_thana_name'] = 'upazila_thana_name';
+    $fieldNameAlias['upazila_id'] = 'upazila_id';
+    $fieldNameAlias['union_code'] = 'union_code';
+    $fieldNameAlias['union_name'] = 'union_name';
+    $fieldNameAlias['union_id'] = 'union_id';
+    $fieldNameAlias['ward_code'] = 'ward_code';
+    $fieldNameAlias['village_code'] = 'village_code';
+    $fieldNameAlias['house_number'] = 'house_number';
+    $fieldNameAlias['latitude'] = 'latitude';
+    $fieldNameAlias['longitude'] = 'longitude';
+    $fieldNameAlias['org_photo'] = 'org_photo';
+    $fieldNameAlias['financial_revenue_code'] = 'financial_revenue_code';
+    $fieldNameAlias['ownership_code'] = 'ownership_code';
+    $fieldNameAlias['mailing_address'] = 'mailing_address';
+    $fieldNameAlias['land_phone1'] = 'land_phone1';
+    $fieldNameAlias['land_phone2'] = 'land_phone2';
+    $fieldNameAlias['land_phone3'] = 'land_phone3';
+    $fieldNameAlias['mobile_number1'] = 'mobile_number1';
+    $fieldNameAlias['mobile_number2'] = 'mobile_number2';
+    $fieldNameAlias['mobile_number3'] = 'mobile_number3';
+    $fieldNameAlias['email_address1'] = 'email_address1';
+    $fieldNameAlias['email_address2'] = 'email_address2';
+    $fieldNameAlias['email_address3'] = 'email_address3';
+    $fieldNameAlias['fax_number1'] = 'fax_number1';
+    $fieldNameAlias['fax_number2'] = 'fax_number2';
+    $fieldNameAlias['fax_number3'] = 'fax_number3';
+    $fieldNameAlias['website_address'] = 'website_address';
+    $fieldNameAlias['facebook_page'] = 'facebook_page';
+    $fieldNameAlias['google_plus_page'] = 'google_plus_page';
+    $fieldNameAlias['twitter_page'] = 'twitter_page';
+    $fieldNameAlias['youtube_page'] = 'youtube_page';
+    $fieldNameAlias['source_of_electricity_main_code'] = 'source_of_electricity_main_code';
+    $fieldNameAlias['source_of_electricity_alternate_code'] = 'source_of_electricity_alternate_code';
+    $fieldNameAlias['source_of_water_supply_main_code'] = 'source_of_water_supply_main_code';
+    $fieldNameAlias['source_of_water_supply_alternate_code'] = 'source_of_water_supply_alternate_code';
+    $fieldNameAlias['toilet_type_code'] = 'toilet_type_code';
+    $fieldNameAlias['toilet_adequacy_code'] = 'toilet_adequacy_code';
+    $fieldNameAlias['fuel_source_code'] = 'fuel_source_code';
+    $fieldNameAlias['laundry_code'] = 'laundry_code';
+    $fieldNameAlias['autoclave_code'] = 'autoclave_code';
+    $fieldNameAlias['waste_disposal_code'] = 'waste_disposal_code';
+    $fieldNameAlias['sanctioned_office_equipment'] = 'sanctioned_office_equipment';
+    $fieldNameAlias['sanctioned_vehicles'] = 'sanctioned_vehicles';
+    $fieldNameAlias['sanctioned_bed_number'] = 'sanctioned_bed_number';
+    $fieldNameAlias['other_miscellaneous_issues'] = 'other_miscellaneous_issues';
+    $fieldNameAlias['permission_approval_license_info_code'] = 'permission_approval_license_info_code';
+    $fieldNameAlias['permission_approval_license_info_date'] = 'permission_approval_license_info_date';
+    $fieldNameAlias['permission_approval_license_type'] = 'permission_approval_license_type';
+    $fieldNameAlias['permission_approval_license_aithority'] = 'permission_approval_license_aithority';
+    $fieldNameAlias['permission_approval_license_number'] = 'permission_approval_license_number';
+    $fieldNameAlias['permission_approval_license_next_renewal_date'] = 'permission_approval_license_next_renewal_date';
+    $fieldNameAlias['permission_approval_license_conditions'] = 'permission_approval_license_conditions';
+    $fieldNameAlias['land_info_code'] = 'land_info_code';
+    $fieldNameAlias['land_size'] = 'land_size';
+    $fieldNameAlias['land_mouza_name'] = 'land_mouza_name';
+    $fieldNameAlias['land_mouza_geo_code'] = 'land_mouza_geo_code';
+    $fieldNameAlias['land_jl_number'] = 'land_jl_number';
+    $fieldNameAlias['land_functional_code'] = 'land_functional_code';
+    $fieldNameAlias['land_rs_dag_number'] = 'land_rs_dag_number';
+    $fieldNameAlias['land_ss_dag_number'] = 'land_ss_dag_number';
+    $fieldNameAlias['land_kharian_number'] = 'land_kharian_number';
+    $fieldNameAlias['land_other_info'] = 'land_other_info';
+    $fieldNameAlias['land_mutation_number'] = 'land_mutation_number';
+    $fieldNameAlias['additional_chcp_name'] = 'additional_chcp_name';
+    $fieldNameAlias['additional_chcp_contact'] = 'additional_chcp_contact';
+    $fieldNameAlias['additional_community_group_info'] = 'additional_community_group_info';
+    $fieldNameAlias['additional_chairnam_name'] = 'additional_chairnam_name';
+    $fieldNameAlias['additional_chairman_contact'] = 'additional_chairman_contact';
+    $fieldNameAlias['additional_chairman_community_support_info'] = 'additional_chairman_community_support_info';
+    $fieldNameAlias['additional_csg_1_name'] = 'additional_csg_1_name';
+    $fieldNameAlias['additional_csg_1_contact'] = 'additional_csg_1_contact';
+    $fieldNameAlias['additional_csg_2_name'] = 'additional_csg_2_name';
+    $fieldNameAlias['additional_csg_2_contact'] = 'additional_csg_2_contact';
+    $fieldNameAlias['org_functions'] = 'org_functions';
+    $fieldNameAlias['uploaded_file'] = 'uploaded_file';
+    $fieldNameAlias['updated_by'] = 'updated_by';
+    $fieldNameAlias['active'] = 'active';
+    $fieldNameAlias['updated_datetime'] = 'updated_datetime';
+    $fieldNameAlias['organization_id'] = 'organization_id';
+    $fieldNameAlias['monthly_update'] = 'monthly_update';
+    $fieldNameAlias['monthly_update_datetime'] = 'monthly_update_datetime';
+    $fieldNameAlias['upload_datetime'] = 'upload_datetime';
+    $fieldNameAlias['uploaded_by'] = 'uploaded_by';
 }
 ?>
 <!DOCTYPE html>
@@ -486,24 +486,17 @@ if (isset($_REQUEST['submit'])) {
     <script type="text/javascript">
       $('table#datatable').dataTable({
         //"bJQueryUI": true,
-//        "bPaginate": false,
-//        "sPaginationType": "full_numbers",
-//        "aaSorting": [[0, "desc"]],
-//        "iDisplayLength": 25,
-//        "bStateSave": true,
-//        "bInfo": true,
-//        "bProcessing": true,
-//        "dom": 'T<"clear">lfrtip',
-//        "tableTools": {
-//          "sSwfPath": "assets/datatable/TableTools/media/swf/copy_csv_xls_pdf.swf"
-//        }
-        "pagingType": "full_numbers",
-        "aLengthMenu": [[10, 50, 100, -1], [10, 50, 100, "All"]],
-        "iDisplayLength": 100,
-        "dom": 'T<"clear">lfrtip',
-        "tableTools": {
-          "sSwfPath": "assets/datatable/TableTools/media/swf/copy_csv_xls_pdf.swf"
-        }
+        "bPaginate": false,
+        "sPaginationType": "full_numbers",
+        "aaSorting": [[0, "desc"]],
+        "iDisplayLength": 25,
+        "bStateSave": true,
+        "bInfo": true,
+        "bProcessing": true,
+		"dom": 'T<"clear">lfrtip',
+        	"tableTools": {
+           	"sSwfPath": "assets/datatable/TableTools/media/swf/copy_csv_xls_pdf.swf"
+        	}
       });</script>
     <script type="text/javascript">
       $('.multiselect').multiselect({
@@ -518,21 +511,21 @@ if (isset($_REQUEST['submit'])) {
 
 function getTableFieldNames($tableName) {
 
-  global $dbname;
+    global $dbname;
 
-  $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = '$tableName'";
-  //echo $sql;
-  $r = mysql_query($sql) or die(mysql_error() . "<b>Query:</b><br>$sql<br>");
-  if (mysql_num_rows($r)) {
-    $a = mysql_fetch_rowsarr($r);
-    $fieldNames = array();
-    $i = 0;
-    foreach ($a as $fieldName) {
-      $fieldNames[$i++] = $fieldName['COLUMN_NAME'];
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = '$tableName'";
+    //echo $sql;
+    $r = mysql_query($sql) or die(mysql_error() . "<b>Query:</b><br>$sql<br>");
+    if (mysql_num_rows($r)) {
+        $a = mysql_fetch_rowsarr($r);
+        $fieldNames = array();
+        $i = 0;
+        foreach ($a as $fieldName) {
+            $fieldNames[$i++] = $fieldName['COLUMN_NAME'];
+        }
+        return $fieldNames;
+    } else {
+        return false;
     }
-    return $fieldNames;
-  } else {
-    return false;
-  }
 }
 ?>
