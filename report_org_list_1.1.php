@@ -48,8 +48,8 @@ if (isset($_REQUEST['submit'])) {
     }
   }
 
-  if (strlen($_REQUEST['SQLSelect'])) {
-    $parameterized_query.= " AND " . mysql_real_escape_string($_REQUEST['SQLSelect']);
+  if (strlen(trim($_REQUEST['SQLSelect']))) {
+    $parameterized_query.= " AND " . trim(($_REQUEST['SQLSelect']));
   }
 
   /*
@@ -424,7 +424,7 @@ if (isset($_REQUEST['submit'])) {
       </div>
       <?php
       if (strlen($sql) && $_REQUEST['show_sql'] == 'true') {
-        echo "<pre>$sql</pre>";
+        echo "<pre class='pull-left'>$sql</pre>";
       }
       if (isset($_REQUEST['submit'])) {
         ?>
