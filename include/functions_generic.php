@@ -648,4 +648,31 @@ function userTypesPermittedForAction($module_system_name, $action) {
   return trim($a['p_user_type_names'], ', ');
 }
 
+/**
+ * returns an array with field names of a table
+ *
+ * @global type $dbname
+ * @param type $tableName
+ * @return boolean
+ */
+function getTableFieldNames($tableName) {
+
+  global $dbname;
+
+  $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = '$tableName'";
+//echo $sql;
+  $r = mysql_query($sql) or die(mysql_error() . "<b>Query:</b><br>$sql<br>");
+  if (mysql_num_rows($r)) {
+    $a = mysql_fetch_rowsarr($r);
+    $fieldNames = array();
+    $i = 0;
+    foreach ($a as $fieldName) {
+      $fieldNames[$i++] = $fieldName['COLUMN_NAME'];
+    }
+    return $fieldNames;
+  } else {
+    return false;
+  }
+}
+
 ?>
