@@ -20,6 +20,8 @@ require_once '../../include/functions_generic.php';
 //  Limit the maximum execution time
 set_time_limit(18000);
 
+
+$start_time = microtime(true);
 /** ----------------------------------------------------------------------------
  *  
  * Function Call
@@ -191,6 +193,22 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
         echo "<br />| $sql";
     }
 }
+
+/**
+ * 
+ * 
+ * END
+ */
+$time_end = microtime(true);
+
+//dividing with 60 will give the execution time in minutes other wise seconds
+$execution_time = ($time_end - $start_time);
+//$execution_time = ($time_end - $start_time);
+//execution time of the script
+echo "<br /><br /><br /> "
+        . "------------------------------------------"
+        . "<br /><b>Total Execution Time: $execution_time Second(s)</b>";
+
 //
 //
 //$sql = "SELECT * FROM `organization`";
