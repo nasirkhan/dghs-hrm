@@ -60,11 +60,11 @@ if (isset($_POST['email']) && isset($_POST['password']) && $_POST['login_key'] =
                 <button name="submit" class="btn btn-large btn-success" type="submit" value="submit">Sign in <i class="icon-signin"></i></button>
 
                 <div class="loginAdditionalLinks" style="float: right; width: 200px;">
-                    <div class="contact"><i class="icon-edit"></i> <a href="contact_us.php">Contact us for any assistance.</a></div>
-                    <div class="contact"><i class="icon-edit"></i> <a href="<?php echo "$urlAddOrganizationRequest"; ?>">Add your organization</a></div>
+                    <div class="contact"><i class="icon-edit"></i> <a href="contact_us.php" target="_blank">Contact us for any assistance.</a></div>
+                    <div class="contact"><i class="icon-edit"></i> <a href="<?php echo "$urlAddOrganizationRequest"; ?>" target="_blank">Add your organization</a></div>
                 </div>
                 <ul class="nav nav-pills">
-                    <li class="tab-content-item"><a href="reset_password.php"><i class="icon-edit"></i> Reset Password</a></li>
+                    <li class="tab-content-item"><a href="reset_password.php" target="_blank"><i class="icon-edit"></i> Reset Password</a></li>
                 </ul>
             </form>
         </div> <!-- /container -->
