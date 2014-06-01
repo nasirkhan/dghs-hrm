@@ -78,7 +78,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
     }
 }
 
-$page_title = "Designation Summary Wise Summary Report";
+$page_title = "Designation Group Wise Summary Report";
 ?>
 <!DOCTYPE html>
 <html lang="en">
