@@ -70,6 +70,12 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                         
                         <div class="row-fluid">
                             
+                            <ul>
+                                <li>
+                                    <a href="report_designation_wise_summary.php">Designation Wise Summary Report </a>
+                                </li>
+                            </ul>
+                            
                             <table class="table table-striped table-bordered">
                                 
                                 <tbody>
