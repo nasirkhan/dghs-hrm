@@ -247,7 +247,7 @@ while ($sp_data = mysql_fetch_assoc($sp_result)) {
     $sql = "UPDATE `total_manpower_imported_sanctioned_post_copy` SET "
             . " $query_string "
             . "WHERE (`id`=\"" . $sp_data['id'] . "\",)";
-//    $result = mysql_query($sql) or die(mysql_error() . "<p>update_$value_field_name:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+    $result = mysql_query($sql) or die(mysql_error() . "<p>update_$value_field_name:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
     if ($show_query) {
         echo "\n\r | $sql";
@@ -295,8 +295,7 @@ $time_end = microtime(true);
 
 //dividing with 60 will give the execution time in minutes other wise seconds
 $execution_time = ($time_end - $start_time);
-//$execution_time = ($time_end - $start_time);
 //execution time of the script
-echo "<br /><br /><br /> "
+echo "\n\n\n\r "
         . "------------------------------------------"
-        . "<br /><b>Total Execution Time: $execution_time Second(s)</b>";
+        . "\n\r\"Total Execution Time: $execution_time Second(s)\"";

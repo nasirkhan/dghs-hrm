@@ -38,7 +38,7 @@ $code = 'org_type_code';
 $value = 'org_type_name';
 $table = 'org_type';
 $sql = "SELECT $code, $value FROM `$table`";
-$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1\n\n<b>Query:</b>\n___\n$sql</p>");
 
 $org_type = array();
 
@@ -53,7 +53,7 @@ $code = 'org_agency_code';
 $value = 'org_agency_name';
 $table = 'org_agency_code';
 $sql = "SELECT $code, $value FROM `$table`";
-$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1\n\n<b>Query:</b>\n___\n$sql</p>");
 
 $org_agency = array();
 
@@ -68,7 +68,7 @@ $code = 'org_organizational_functions_code';
 $value = 'org_organizational_functions_name';
 $table = 'org_organizational_functions';
 $sql = "SELECT $code, $value FROM `$table`";
-$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1\n\n<b>Query:</b>\n___\n$sql</p>");
 
 $org_organizational_functions = array();
 
@@ -83,7 +83,7 @@ $code = 'org_level_code';
 $value = 'org_level_name';
 $table = 'org_level';
 $sql = "SELECT $code, $value FROM `$table`";
-$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1\n\n<b>Query:</b>\n___\n$sql</p>");
 
 $org_level = array();
 
@@ -98,7 +98,7 @@ $code = 'org_location_type_code';
 $value = 'org_location_type_name';
 $table = 'org_location_type';
 $sql = "SELECT $code, $value FROM `$table`";
-$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1\n\n<b>Query:</b>\n___\n$sql</p>");
 
 $org_location_type = array();
 
@@ -114,7 +114,7 @@ $code = 'division_bbs_code';
 $value = 'division_name';
 $table = 'admin_division';
 $sql = "SELECT $code, $value FROM `$table`";
-$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1\n\n<b>Query:</b>\n___\n$sql</p>");
 
 $admin_division = array();
 
@@ -131,7 +131,7 @@ $code = 'district_bbs_code';
 $value = 'district_name';
 $table = 'admin_district';
 $sql = "SELECT $code, $value FROM `$table`";
-$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1\n\n<b>Query:</b>\n___\n$sql</p>");
 
 $admin_district = array();
 
@@ -147,7 +147,7 @@ $code = 'org_ownership_authority_code';
 $value = 'org_ownership_authority_name';
 $table = 'org_ownership_authority';
 $sql = "SELECT $code, $value FROM `$table`";
-$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1\n\n<b>Query:</b>\n___\n$sql</p>");
 
 $org_ownership_authority = array();
 
@@ -164,8 +164,8 @@ $show_query = TRUE;
  * 
  * update query 
  */
-$sql = "SELECT * FROM `organization` limit 50";
-$org_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getAllOrg:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+$sql = "SELECT * FROM `organization`";
+$org_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getAllOrg:1\n\n<b>Query:</b>\n___\n$sql</p>");
 
 $row_count = 0;
 while ($org_data = mysql_fetch_assoc($org_result)) {
@@ -173,7 +173,7 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
     
     $row_count++;
 
-    echo "<br /><br />------------------<br />$row_count | " . $org_data['org_code'] . " | " . $org_data['org_name'] . "<br />--- ";
+    echo "\n\n------------------\n$row_count | " . $org_data['org_code'] . " | " . $org_data['org_name'] . "\n--- ";
 
     $sql = "UPDATE `organization` SET "
             . "`org_type_name`=\"" . $org_type[$org_data['org_type_code']] . "\","
@@ -187,10 +187,10 @@ while ($org_data = mysql_fetch_assoc($org_result)) {
             . "`union_name`=\"" . mysql_real_escape_string(trim(getUnionNameFromBBSCode($org_data['union_code'], $org_data['upazila_thana_code'], $org_data['district_code']))) . "\","
             . "`ownership_authority_name`=\"" . $org_ownership_authority[$org_data['ownership_code']] . "\" "
             . "WHERE (`org_code`='$org_code')";
-    $result = mysql_query($sql) or die(mysql_error() . "<p>update_$value_field_name:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+    $result = mysql_query($sql) or die(mysql_error() . "<p>update_$value_field_name:1\n\n<b>Query:</b>\n___\n$sql</p>");
 
     if ($show_query) {
-        echo "<br />| $sql";
+        echo "\n| $sql";
     }
 }
 
@@ -203,22 +203,21 @@ $time_end = microtime(true);
 
 //dividing with 60 will give the execution time in minutes other wise seconds
 $execution_time = ($time_end - $start_time);
-//$execution_time = ($time_end - $start_time);
 //execution time of the script
-echo "<br /><br /><br /> "
+echo "\n\n\n\r "
         . "------------------------------------------"
-        . "<br /><b>Total Execution Time: $execution_time Second(s)</b>";
+        . "\n\r\"Total Execution Time: $execution_time Second(s)\"";
 
 //
 //
 //$sql = "SELECT * FROM `organization`";
-//$org_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getAllOrg:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+//$org_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getAllOrg:1\n\n<b>Query:</b>\n___\n$sql</p>");
 //
 //$row_count = 0; 
 //while ($org_data = mysql_fetch_assoc($org_result)) {
 //    $row_count++;
 //    
-//    echo "<br /><br />------------------<br />$row_count | " . $org_data['org_code'] . " | " . $org_data['org_name'] . "<br />--- ";
+//    echo "\n\n------------------\n$row_count | " . $org_data['org_code'] . " | " . $org_data['org_name'] . "\n--- ";
 //    // update org_type_name  
 //    $code_field_name = 'org_type_code';
 //    $value_field_name = 'org_type_name';
@@ -300,7 +299,7 @@ echo "<br /><br /><br /> "
 //    $show_query = TRUE;
 //    update_org_data($code_field_name, $code, $value_field_name, $value, $show_query);
 //    
-////    echo "<br />--- ";
+////    echo "\n--- ";
 //}
 //
 ///** * ***************************************************************************
@@ -321,9 +320,9 @@ echo "<br /><br /><br /> "
 //function update_org_data($code_field_name, $code, $value_field_name, $value, $show_query = false) {
 //
 //    $sql = "UPDATE `organization` SET `$value_field_name`=\"$value\" WHERE (`$code_field_name`='$code')";
-//    $result = mysql_query($sql) or die(mysql_error() . "<p>update_$value_field_name:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+//    $result = mysql_query($sql) or die(mysql_error() . "<p>update_$value_field_name:1\n\n<b>Query:</b>\n___\n$sql</p>");
 //
 //    if ($show_query) {
-//        echo "<br />$value_field_name | $sql";
+//        echo "\n$value_field_name | $sql";
 //    }
 //}
