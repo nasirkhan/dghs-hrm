@@ -78,6 +78,8 @@ if ($error_message == "" && isset($_REQUEST['show_report'])) {
             LEFT JOIN staff_job_posting ON staff_job_posting.job_posting_id = old_tbl_staff_organization.job_posting_id
             WHERE
                  retirement_date BETWEEN '$date_start' AND '$date_end'
+                 AND sp_id_2 > 0
+                 AND old_tbl_staff_organization.designation_id > 0
                  $query_string
             ORDER BY
                     retirement_date";
