@@ -107,9 +107,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             FROM
                     organization
             LEFT JOIN total_manpower_imported_sanctioned_post_copy ON organization.org_code = total_manpower_imported_sanctioned_post_copy.org_code $query_string";
-    echo "<pre>";
-    print_r($sql);
-    echo "</pre>";
+   // echo "<pre>";
+   // print_r($sql);
+   // echo "</pre>";
     $org_list_result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $total_sanctioned_post_count_sum = mysql_num_rows($org_list_result);
@@ -178,6 +178,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['org_agency_code'] == $_REQUEST['org_agency'])
+       												 echo "<option value=\"" . $rows['org_agency_code'] . "\" selected='selected'>" . $rows['org_agency_name'] . "</option>";
+											    else
                                                 echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
                                             }
                                             ?>
@@ -194,16 +197,66 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
-                                                echo "<option value=\"" . $rows['division_bbs_code'] . "\">" . $rows['division_name'] . "</option>";
+												if ($rows['division_bbs_code'] == $_REQUEST['admin_division'])
+       												 echo "<option value=\"" . $rows['division_bbs_code'] . "\" selected='selected'>" . $rows['division_name'] . "</option>";
+											    else
+                                                     echo "<option value=\"" . $rows['division_bbs_code'] . "\">" . $rows['division_name'] . "</option>";
                                             }
                                             ?>
                                         </select>
-                                        <select id="admin_district" name="admin_district">
-                                            <option value="0">Select District</option>                                        
+                                       <select id="admin_district" name="admin_district">
+                                         <option value="0">Select District</option>
+										<?php 
+										    
+											$sql = "SELECT
+												admin_district.district_bbs_code,
+												admin_district.district_name
+											FROM
+												admin_district
+											WHERE
+											   admin_district.division_bbs_code = $div_id
+											ORDER BY
+												admin_district.district_name";
+									  $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_district_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+										  while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['district_bbs_code'] == $_REQUEST['admin_district'])
+       												 echo "<option value=\"" . $rows['district_bbs_code'] . "\" selected='selected'>" . $rows['district_name'] . "</option>";
+											    else
+                                                     echo "<option value=\"" . $rows['district_bbs_code'] . "\">" . $rows['district_name'] . "</option>";
+                                            }
+											
+										?>
                                         </select>
-                                        <select id="admin_upazila" name="admin_upazila">
-                                            <option value="0">Select Upazila</option>                                        
+                                        
+<!--                                        <select id="admin_district" name="admin_district">
+                                            <option value="0">Select District</option>                             
+                                        </select>-->
+                                        
+                                        
+                                       <select id="admin_upazila" name="admin_upazila">
+                                         <option value="0">Select Upazila</option>
+										<?php 
+										    
+											$sql = "SELECT
+												  upazila_bbs_code,
+												  upazila_name
+											  FROM
+												  `admin_upazila`
+											  WHERE
+												  upazila_district_code = $dis_id
+											  ORDER BY
+												  upazila_name";
+									  $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_dupazila_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+										  while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['upazila_bbs_code'] == $_REQUEST['admin_upazila'])
+       												 echo "<option value=\"" . $rows['upazila_bbs_code'] . "\" selected='selected'>" . $rows['upazila_name'] . "</option>";
+											    else
+                                                     echo "<option value=\"" . $rows['upazila_bbs_code'] . "\">" . $rows['upazila_name'] . "</option>";
+                                            }
+											
+										?>
                                         </select>
+
                                     </div>
 
                                     
@@ -222,6 +275,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>bangladesh_professional_category:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['bangladesh_professional_category_code'] == $_REQUEST['staff_category'])
+       												 echo "<option value=\"" . $rows['bangladesh_professional_category_code'] . "\" selected='selected'>" . $rows['bangladesh_professional_category_name'] . "</option>";
+											    else
                                                 echo "<option value=\"" . $rows['bangladesh_professional_category_code'] . "\">" . $rows['bangladesh_professional_category_name'] . "</option>";
                                             }
                                             ?>
@@ -270,7 +326,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                         echo "$echo_string";
                                         ?>
                                     </div>
-                                    <table class="table table-striped table-bordered">
+                                    <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary">
+                            <br/>
+                            <table class="table table-striped table-bordered" id="testTable">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -450,5 +508,18 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
             });
             $("#generate_report").hide();
         </script>
+        <script type="text/javascript">
+		var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+	</script>
     </body>
 </html>

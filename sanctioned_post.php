@@ -100,8 +100,8 @@ $sql = "SELECT
                 total_manpower_imported_sanctioned_post_copy.discipline,
                 total_manpower_imported_sanctioned_post_copy.type_of_post,
                 sanctioned_post_designation.ranking,
-                sanctioned_post_designation.class,
-                sanctioned_post_designation.payscale,
+                total_manpower_imported_sanctioned_post_copy.class,
+                total_manpower_imported_sanctioned_post_copy.pay_scale,
                 sanctioned_post_designation.designation_code,
                 COUNT(*) AS sp_count
         FROM
@@ -111,6 +111,7 @@ $sql = "SELECT
                 total_manpower_imported_sanctioned_post_copy.org_code = $org_code
                 AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
         GROUP BY
+                total_manpower_imported_sanctioned_post_copy.type_of_post,
                 total_manpower_imported_sanctioned_post_copy.designation
         ORDER BY
                 sanctioned_post_designation.ranking";
@@ -174,11 +175,11 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                             <td><span class="label label-info"><?php echo $total_post; ?></span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Total Filled up Sanctioned Post :</strong></td>
+                                            <td><strong>Total Filled up Post :</strong></td>
                                             <td><span class="label label-info"><?php echo $total_filled_up; ?></span></td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Total Vacant Post  Sanctioned Post :</strong></td>
+                                            <td><strong>Total Vacant Post  :</strong></td>
                                             <td><span class="label label-info"><?php echo $total_vacant_post; ?></span></td>
                                         </tr>
                                     </tbody>
@@ -230,7 +231,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                                 <td>
                                                     <div class="row-fluid">
                                                         <div class="span4">
-                                                            <?php $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation'])); ?>                    
+                                                            <?php $designation_div_id = preg_replace("/[^a-zA-Z0-9]+/", "", strtolower($sp_data['designation'])) . $sp_data['type_of_post']; ?>                    
                                                             <button id="sp-btn-<?php echo $designation_div_id; ?>" class="btn btn-link" onclick="showSanctionedPostDetails('<?php echo $sp_data['id']; ?>', '<?php echo $designation_div_id; ?>')">
                                                                 <?php echo $sp_data['designation']; ?>
                                                             </button>
@@ -242,7 +243,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                                             <?php echo $sp_data['class']; ?>
                                                         </div>
                                                         <div class="span1">
-                                                            <?php echo $sp_data['payscale']; ?>
+                                                            <?php echo $sp_data['pay_scale']; ?>
                                                         </div>
                                                         <div class="span2">
                                                             <?php echo $sp_data['sp_count']; ?>
@@ -250,6 +251,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                                             <form class="form-inline form-clear pull-right" action="sanctioned_post_update.php" method="get">
                                                                 <input name="org_code" value="<?php echo $org_code; ?>" type="hidden" />
                                                                 <input name="designation_code" value="<?php echo $sp_data['designation_code']; ?>" type="hidden" />
+                                                                <input name="type_of_post" value="<?php echo $sp_data['type_of_post']; ?>" type="hidden" />
                                                                 <input name="action" value="delete" type="hidden" />
                                                                 <input type="hidden" id="step" name="step" value="2">
                                                                 <button type="submit" class="btn btn-small btn-danger"><i class="icon-minus"></i></button>
@@ -264,7 +266,7 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                                                             <?php endif; ?>
                                                         </div>
                                                         <div class="span2">                                                            
-                                                            <button type="submit" onclick="showDesignationList('<?php echo $sp_data['designation']; ?>', '<?php echo $designation_div_id; ?>');" value="<?php echo $sp_data['designation']; ?>" class="btn btn-info btn-small" >
+                                                            <button type="submit" onclick="showDesignationList('<?php echo $sp_data['designation']; ?>', '<?php echo $designation_div_id; ?>', '<?php echo $sp_data['type_of_post']; ?>');" value="<?php echo $sp_data['designation']; ?>" class="btn btn-info btn-small" >
                                                                 <i class="icon-list-ul"></i> View Staff List
                                                             </button>
                                                         </div>
@@ -349,18 +351,19 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
             }
 
             // show exployee/sanctioned post list
-            function showDesignationList(designation, designation_div){
+            function showDesignationList(designation, designation_div, type_of_post){
                 var designation_div_id = "#" + designation_div;
                 var designation_div_loading = "#loading-" + designation_div;
                 var designation_div_list = "#list-" + designation_div;                
                 var org_code = <?php echo $org_code; ?>;
+                
                 
                 $(designation_div_id).collapse('toggle');
                 
                 $.ajax({
                     type: "POST",
                     url: "result.php",
-                    data: {designation: designation, org_code:org_code},
+                    data: {designation: designation, org_code:org_code, type_of_post:type_of_post},
                     dataType: 'json',
                     success: function(data) {
                         $(designation_div_loading).hide();

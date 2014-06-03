@@ -20,6 +20,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
     $echoAdminInfo = " | Administrator";
     $isAdmin = TRUE;
 }
+if ($org_code){
+    $show_result = TRUE;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,21 +72,26 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                             <i class="icon-cog icon-spin icon-large"></i> <strong>Generating report...</strong>
                         </div>
                         <div class="row">
+                            <h3>Organization HRM Summary</h3>
+                            <?php if ($show_result): ?>
                             <?php
                             $sql = "SELECT
-                                            id,
-                                            designation,
-                                            designation_code,
+                                            total_manpower_imported_sanctioned_post_copy.id,
+                                            total_manpower_imported_sanctioned_post_copy.designation,
+                                            total_manpower_imported_sanctioned_post_copy.designation_code,
+                                            total_manpower_imported_sanctioned_post_copy.type_of_post,
                                             COUNT(*) AS sp_count 
                                     FROM
                                             total_manpower_imported_sanctioned_post_copy
+                                            LEFT JOIN `sanctioned_post_designation` ON total_manpower_imported_sanctioned_post_copy.designation_code = sanctioned_post_designation.designation_code
                                     WHERE
-                                            org_code = $org_code
+                                            total_manpower_imported_sanctioned_post_copy.org_code = $org_code
                                             AND total_manpower_imported_sanctioned_post_copy.active LIKE 1    
                                     GROUP BY 
-                                            designation
+                                            total_manpower_imported_sanctioned_post_copy.type_of_post,
+                                            total_manpower_imported_sanctioned_post_copy.designation
                                     ORDER BY
-                                            designation";
+                                            sanctioned_post_designation.ranking";
                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                             $total_sanctioned_post = mysql_num_rows($result);
                             
@@ -93,10 +101,13 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                             $total_existing_male_sum = 0;
                             $total_existing_female_sum = 0;
                             ?>
-                            <table class="table table-striped">
+                             <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary">
+                            <br/>
+                            <table class="table table-striped table-bordered" id="testTable">
                                 <thead>
                                     <tr>
                                         <th>Designation</th>
+                                        <th>Type of Post</th>
                                         <th>Total Sanctioned Post(s)</th>
                                         <th>Filled up Post(s)</th>
                                         <th>Total Male</th>
@@ -116,6 +127,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                                 WHERE
                                                         org_code = $org_code
                                                 AND designation_code = " . $row['designation_code'] . "
+                                                AND type_of_post = " . $row['type_of_post'] . "     
                                                 AND staff_id_2 > 0
                                                 AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
                                                     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -147,6 +159,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                         ?>
                                     <tr>
                                         <td><?php echo $row['designation']; ?></td>
+                                        <td><?php echo getTypeOfPostNameFromCode($row['type_of_post']); ?></td>
                                         <td><?php echo $row['sp_count']; ?></td>
                                         <td><?php echo $existing_total_count; ?></td>
                                         <td><?php echo $existing_male_count; ?></td>
@@ -155,7 +168,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     </tr>
                                     <?php endwhile; ?>
                                     <tr class="info">
-                                        <td><strong>Summary</strong></td>
+                                        <td colspan="2"><strong>Summary</strong></td>
                                         <td><strong><?php echo $total_sanctioned_post_count_sum; ?></strong></td>
                                         <td><strong><?php echo $total_sanctioned_post_existing_sum; ?></strong></td>
                                         <td><strong><?php echo $total_existing_male_sum; ?></strong></td>
@@ -163,7 +176,12 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                         <td><strong><?php echo $total_sanctioned_post_count_sum-$total_sanctioned_post_existing_sum; ?></string></td>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table> <!-- end report table -->
+                            <?php else: ?>
+                            <div class="alert alert-Warnign">
+                                <h4>Repost Can not be displayed, no <em>Organization Code</em> found.</h4>
+                            </div>
+                            <?php endif; ?>
                         </div>
 
                     </section>
@@ -180,6 +198,18 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
         <script>
             $("#generate_report").hide();
         </script>
-
+        <script type="text/javascript">
+		var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+	</script>
     </body>
 </html>

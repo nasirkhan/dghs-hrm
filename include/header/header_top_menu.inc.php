@@ -29,7 +29,7 @@ $start_time = microtime(true);
                     </ul>
                 </div>
                 <?php if (hasPermission('mod_top_nav_search', 'view', getLoggedUserName())): ?>
-                    <div class="nav-collapse collapse pull-right">
+                    <div class=" pull-right">
 
                         <form class="navbar-form pull-left" action="include/header/header_search_area.php" method="post">
                             <input name="code" type="text" placeholder="Code" class="span2">
@@ -37,6 +37,9 @@ $start_time = microtime(true);
                                 <option value="org_code"> Org Code </option>
                                 <option value="staff_id"> Staff Id </option>
                                 <option value="staff_mobile"> Staff Mobile Number </option>
+                                <option value="staff_pds"> Staff PDS Code </option>
+                                <option value="staff_name"> Staff Name </option>
+                                <option value="staff_father_name"> Staff Father's Name </option>
                             </select>
                             <button class="btn btn-primary" type="submit">Go</button>
                         </form>

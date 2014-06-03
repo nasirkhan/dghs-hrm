@@ -6,15 +6,15 @@ if ($_SESSION['logged'] != true) { // checks whether you are already logged in
 /**
  * crudFrame work relative location from this
  */
-$crudFrameworkRelativePath = "scripts/crud_framework";
+$crudFrameworkRelativePath = "scripts/crud_framework"; // no need to change
 /**
- * Module config
+ * Module config [Please update this accordingly]
  */
-$moduleName = "mod_system_configuration"; // the module this page belongs to
+$moduleName = "mod_system_configuration"; // the module this page belongs to, aslo this name should be in permissions table
 $moduleTitle = "Designation"; // user friendly name
-$cssPrefix = ""; //css prefix that is added before some identifiers
+$cssPrefix = ""; //css prefix that is added before some identifiers - optional
 /**
- * checks whether current viewer has permission to access/view this page
+ * checks whether current viewer has permission to access/view this page // no need to change
  */
 require_once "$crudFrameworkRelativePath/cf_check_view_permission.php";
 /*
@@ -27,8 +27,8 @@ $loggedInUserKeyValue = $_SESSION['user_id']; // this variable store the primary
 /**
  * Database/table config
  */
-$dbTableName = 'sanctioned_post_designation'; // database table to operate
-$dbTablePrimaryKeyFieldName = 'id'; // primary key field name
+$dbTableName = 'sanctioned_post_designation'; // update this: database table to operate
+$dbTablePrimaryKeyFieldName = 'id'; // update this: primary key field name
 $dbTablePrimaryKeyFieldVal = mysql_real_escape_string(trim($_REQUEST["$dbTablePrimaryKeyFieldName"])); // primary key field value that is passed as parameter or form post
 /**
  * Database/table config for user/datetime record of this operation
@@ -48,8 +48,17 @@ $requiredFieldNames = array('designation'); // array for required fields
 /* * ********************************************************************************************************************************************
  * Delete
  */
-if ($param == 'delete') {
-    require_once "$crudFrameworkRelativePath/cf_delete.php";
+
+if ($param == "delete") {
+
+    function noConflictOnDelete($dbTableName, $dbTablePrimaryKeyFieldName, $dbTablePrimaryKeyFieldVal) {
+        // This function needs to be custom written to check whether this delete will have negative impact.
+        return false;
+    }
+
+    if (noConflictOnDelete($dbTableName, $dbTablePrimaryKeyFieldName, $dbTablePrimaryKeyFieldVal)) {
+        require_once "$crudFrameworkRelativePath/cf_delete.php";
+    }
 }
 /* * *****************************************
  * Add/Edit
@@ -120,7 +129,7 @@ $dataRows = getRows($dbTableName, $condition);
         </style>
     </head>
     <body data-spy="scroll" data-target=".bs-docs-sidebar">
-        <?php //require_once "$crudFrameworkRelativePath/cf_jquery_modal_popup.php"; ?>
+        <?php //require_once "$crudFrameworkRelativePath/cf_jquery_modal_popup.php";  ?>
 
         <!-- Top navigation bar
         ================================================== -->
@@ -160,8 +169,9 @@ $dataRows = getRows($dbTableName, $condition);
                                 <input id="cdesignation" name="designation" type="text" value="<?= addEditInputField('designation') ?>" class="validate[requried]"/>
 
                                 <!-- Default input items -->
+                                <div class="clear"></div>
                                 <input name="submit" type="submit" class="btn" value="Save" />
-                                <input name="reset" type="reset" class="btn" value="Reset" />
+
                                 <?php if (strlen($dbTablePrimaryKeyFieldVal)) { ?>
                                     <input type="hidden" name="<?= $dbTablePrimaryKeyFieldName ?>" value="<?php echo $dbTablePrimaryKeyFieldVal; ?>" />
                                 <?php } ?>
@@ -197,7 +207,7 @@ $dataRows = getRows($dbTableName, $condition);
                                 foreach ($dataRows as $dataRow) {
                                     ?>
                                     <tr id="<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>">
-                                        <td><a href="<?= $_SERVER['PHP_SELF'] ?>?param=edit&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow['id'] ?>"><?= $dataRow['id'] ?></td>
+                                        <td><a href="<?= $_SERVER['PHP_SELF'] ?>?param=edit&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>"><?= $dataRow[$dbTablePrimaryKeyFieldName] ?></td>
                                         <td><?= $dataRow['designation_code'] ?></td>
                                         <td><?= $dataRow['designation'] ?></td>
                                         <td><?= $dataRow['payscale'] ?></td>
@@ -211,7 +221,7 @@ $dataRows = getRows($dbTableName, $condition);
                                         <td><?= $dataRow['updated_datetime'] ?></td>
                                         <td>
                                             <?php if (hasPermission($moduleName, 'manage', getLoggedUserName())) { ?>
-                                                <a class='cf_delete' id='<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>"' href='#'>Delete</a>
+                                                <a class='cf_delete' id='<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>"' href='<?= $_SERVER['PHP_SELF'] ?>?param=delete&<?= $dbTablePrimaryKeyFieldName ?>=<?= $dataRow[$dbTablePrimaryKeyFieldName] ?>'>Delete</a>
                                                 <?php
                                             }
                                             ?>

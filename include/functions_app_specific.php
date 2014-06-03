@@ -567,6 +567,30 @@ function getDesignationNameformCode($designation_code) {
 }
 
 /**
+ * Get Designation Group Name form Code
+ * 
+ * @param type $code
+ * @return boolean|designation_group_name
+ */
+function getDesignationGroupNameformCode($code) {
+    if (!$code > 0) {
+        return FALSE;
+    }
+    $sql = "SELECT
+                    sanctioned_post_designation_group.designation_group_name
+            FROM
+                    `sanctioned_post_designation_group`
+            WHERE
+                    sanctioned_post_designation_group.designation_group_code = '$code'
+            AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getDesignationGroupNameformCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data['designation_group_name'];
+}
+
+/**
  *  get organization administration information
  */
 function getDivisionNamefromCode($division_code) {
@@ -593,6 +617,10 @@ function getDistrictNamefromCode($bbs_code) {
     return $data['district_name'];
 }
 
+/**
+ * 
+ * Do not use this function !!!
+ */
 function getUpazilaNamefromCode($bbs_code) {
     if (empty($bbs_code)) {
         return "";
@@ -605,9 +633,17 @@ function getUpazilaNamefromCode($bbs_code) {
     return $data['upazila_name'];
 }
 
+/**
+ * Get Upazila Name form Upazila BBS Code and related District BBS code
+ * 
+ * @param type $upa_bbs_code Upazila BBS Code
+ * @param type $dis_bbs_code District BBS Code
+ * @return string Upazila Name
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
 function getUpazilaNamefromBBSCode($upa_bbs_code, $dis_bbs_code) {
     if (empty($upa_bbs_code) || empty($dis_bbs_code)) {
-        return "";
+        return FALSE;
     }
     $sql = "SELECT
                     admin_upazila.upazila_name
@@ -624,11 +660,45 @@ function getUpazilaNamefromBBSCode($upa_bbs_code, $dis_bbs_code) {
     return $data['upazila_name'];
 }
 
+/**
+ * Get Upazila Name form Upazila BBS Code and related District BBS code
+ * 
+ * @param INT $union_code Union BBS Code
+ * @param INT $upa_bbs_code Upazila BBS Code
+ * @param INT $dis_bbs_code District BBS Code
+ * @return string Union Name
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function getUnionNameFromBBSCode($union_code, $upazila_code, $district_code){
+    if (empty($union_code) || empty($upazila_code) || empty($district_code)) {
+        return FALSE;
+    }
+    
+    $sql = "SELECT
+                    union_name
+            FROM
+                    `admin_union`
+            WHERE
+                    union_code = '$union_code'
+            AND upazila_code = '$upazila_code'
+            AND district_code = '$district_code'
+            LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>getUnionNameFromBBSCode:1</p><p>$sql</p>");
+    
+    if (mysql_num_rows($result)){
+        $data = mysql_fetch_assoc($result);
+
+        return $data['union_name'];
+    } else{
+        return FALSE;
+    }
+}
+
 function getUnionNamefromCode($bbs_code) {
     if (empty($bbs_code)) {
         return "";
     }
-    $sql = "SELECT union_name  FROM `admin_union` WHERE `union_bbs_code` = $bbs_code LIMIT 1";
+    $sql = "SELECT union_name  FROM `admin_union` WHERE `union_code` = $bbs_code LIMIT 1";
     $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getUnionNamefromCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data = mysql_fetch_assoc($result);
@@ -1135,8 +1205,10 @@ function getDesignationInfoFromCode($des_code) {
  * @return STRIGN
  */
 function getDeptNameFromId($dept_id) {
-    if (!$dept_id > 0)
-        return 0;
+    if (!$dept_id > 0){
+       return 0; 
+    }
+        
     $sql = "SELECT
                 very_old_departments.dept_id,
                 very_old_departments.department_id,
@@ -1158,6 +1230,9 @@ function getDeptNameFromId($dept_id) {
  * @return STRING
  */
 function getStaffNameFromId($staff_id) {
+    if (!$staff_id > 0){
+       return 0; 
+    }
     $sql = "SELECT
                 old_tbl_staff_organization.staff_name
             FROM
@@ -1193,10 +1268,13 @@ function getOrgCodeFromStaffId($staff_id) {
 
 /**
  * Get all staff info from staff id
- * @param INT $staff_id
+ * @param INT $staff_id Staff ID
  * @return ARRAY
  */
 function getStaffInfoFromStaffId($staff_id) {
+    if(!$staff_id > 0){
+        return FALSE;
+    }
     $sql = "SELECT
                 *
             FROM
@@ -1782,6 +1860,27 @@ function isValidStaffMobile($mobile_number) {
 }
 
 /**
+ * Check if the Staff Id is valid or not
+ * @param type $staff_id
+ * @return string|boolean
+ * @author Nasir Khan <nasir8891@gmail.com>
+ */
+function isValidStaffPDS($code) {
+    if ($code == "") {
+        return FALSE;
+    }
+    $sql = "SELECT staff_id FROM `old_tbl_staff_organization` WHERE staff_pds_code LIKE \"$code\" AND active LIKE '1' LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:isValidStaffPDS:1</p><p>Query:</b></p>___<p>$sql</p>");
+
+    if (mysql_num_rows($result) == 1) {
+        $a = mysql_fetch_assoc($result);
+        return $a['staff_id'];
+    } else {
+        return FALSE;
+    }
+}
+
+/**
  * Check if an username exists or not
  * @param type $staff_id
  * @return string|boolean
@@ -1945,6 +2044,9 @@ function insertNewOrganization($data) {
     $district_name = $data['district_name'];
     $upazila_code = $data['upazila_thana_code'];
     $upazila_name = $data['upazila_thana_name'];
+    $unioin_code = $data['unioin_code'];
+    $unioin_name = $data['unioin_name'];
+    $ward_code = $data['ward_code'];
     $new_ownarship_info = $data['ownership_code'];
     $new_org_email = $data['email_address1'];
     $new_functions_code = $data['org_function_code'];
@@ -1970,6 +2072,8 @@ function insertNewOrganization($data) {
             `district_name`,
             `upazila_thana_code`,
             `upazila_thana_name`,
+            `union_code`,
+            `union_name`,
             `ownership_code`,
             `email_address1`,
             `mobile_number1`,
@@ -1992,6 +2096,8 @@ function insertNewOrganization($data) {
             '$district_name',
             '$upazila_code',
             '$upazila_name',
+            '$union_code',
+            '$union_name',
             '$new_ownarship_info',
             '$new_org_email',
             '$new_org_mobile',
@@ -2540,8 +2646,8 @@ function getUnionCountFromUpaCodeAndDisCode($upazila_code, $district_code) {
             FROM
                     `admin_union`
             WHERE
-                    union_upazila_bbs_code = $upazila_code
-            AND union_district_bbs_code = $district_code;";
+                    upazila_code = $upazila_code
+            AND district_code = $district_code;";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
     $data = mysql_fetch_assoc($result);
@@ -2604,6 +2710,37 @@ function getUnionSubCentreCountFromUpaCodeAndDisCode($upazila_code, $district_co
                     district_code = $district_code
             AND upazila_thana_code = $upazila_code
             AND org_type_code = 1038;";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    $data = mysql_fetch_assoc($result);
+
+    if (mysql_num_rows($result) > 0) {
+        return $data['count'];
+    } else {
+        return "0";
+    }
+}
+
+/**
+ * Get the total number of Union Health Centre (UHC) form the District and Upazila code
+ * 
+ * @param type $upazila_code
+ * @param type $district_code
+ * @return boolean|INT Total number of Union Health Centre (UHC)
+ */
+function getUnionHealthCentreCountFromUpaCodeAndDisCode($upazila_code, $district_code) {
+    if ((!$upazila_code > 0) || (!$district_code > 0)) {
+        return FALSE;
+    }
+
+    $sql = "SELECT
+                    count(*) AS count
+            FROM
+                    `organization`
+            WHERE
+                    district_code = $district_code
+            AND upazila_thana_code = $upazila_code
+            AND org_type_code = 1062;";
     $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getUnionCountFromUpaCodeAndDisCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
     $data = mysql_fetch_assoc($result);
@@ -2705,5 +2842,215 @@ function getExistingMaleWhoProfessionalFromDesignationStringAndDesignationCode($
     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />getExistingWhoProfessionalFromDesignationStringAndDesignationCode:1<br /><br /><b>Query:</b><br />___<br />$sql<br />");
     $a = mysql_fetch_assoc($r);
     return $a['existing_male_count'];
+}
+
+/**
+ * Get Staff info from Staff ID/PDS Code/ Mobile no
+ * 
+ * @param type $key
+ * @return type
+ */
+function getStaffDetails($key) {
+    if ((!$key > 0) || $key == ""){
+        return;
+    }
+    $sql = "SELECT
+                    old_tbl_staff_organization.staff_id,
+                    old_tbl_staff_organization.staff_pds_code,
+                    old_tbl_staff_organization.staff_name,
+                    old_tbl_staff_organization.posting_status,
+                    old_tbl_staff_organization.designation_id,
+                    sanctioned_post_designation.designation,
+                    old_tbl_staff_organization.contact_no,
+                    old_tbl_staff_organization.org_code,
+                    organization.org_name
+            FROM
+                    `old_tbl_staff_organization`
+            LEFT JOIN organization ON old_tbl_staff_organization.org_code = organization.org_code
+            LEFT JOIN sanctioned_post_designation ON sanctioned_post_designation.designation_code = old_tbl_staff_organization.designation_id
+            WHERE
+                    (old_tbl_staff_organization.staff_id = '$key')
+            OR (old_tbl_staff_organization.staff_pds_code = '$key')
+            OR (old_tbl_staff_organization.contact_no LIKE '$key')";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getStaffDetails:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data;
+}
+
+/**
+ * 
+ * @param type $org_code | logged int users organizaion code
+ * @param type $org_type | Options : to_org_code / to_working_org_code / form_org_code / form_working_org_code
+ * @param type $status | 
+ * @param type $return_type|  Options are: list / count
+ * @return boolean
+ */
+function showTransferList($org_code, $org_type, $status, $return_type) {
+    if ((!$org_code > 0) || $status == "" || $org_type == "") {
+        return FALSE;
+    }
+
+    if ($status == "order") {
+        $status = mysql_real_escape_string(trim($status));
+        $org_code = mysql_real_escape_string(trim($org_code));
+        $org_type = mysql_real_escape_string(trim($org_type));
+
+        $sql = "SELECT * FROM `transfer_queue` WHERE $org_type = $org_code AND `status` LIKE '$status'";
+        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferList:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        $data = mysql_fetch_assoc($result);
+        $count = mysql_num_rows($result);
+    } else if ($status == "release") {
+        $status = mysql_real_escape_string(trim($status));
+        $org_code = mysql_real_escape_string(trim($org_code));
+        $org_type = mysql_real_escape_string(trim($org_type));
+
+        $sql = "SELECT * FROM `transfer_queue` WHERE $org_type = $org_code AND `status` LIKE '$status'";
+        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferList:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        $data = mysql_fetch_assoc($result);
+        $count = mysql_num_rows($result);
+    } else if ($status == "join") {
+        $status = mysql_real_escape_string(trim($status));
+        $org_code = mysql_real_escape_string(trim($org_code));
+        $org_type = mysql_real_escape_string(trim($org_type));
+
+        $sql = "SELECT * FROM `transfer_queue` WHERE $org_type = $org_code AND (`status` LIKE 'release' OR `status` LIKE 'order') ";
+        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferList:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        $data = mysql_fetch_assoc($result);
+        $count = mysql_num_rows($result);
+    }
+
+    if ($return_type == "list") {
+        if ($count > 0) {
+            return $data;
+        } else {
+            return FALSE;
+        }
+    } else if ($return_type == "count") {
+        return $count;
+    }
+}
+
+/**
+ * 
+ * @param type $org_code | logged int users organizaion code
+ * @param type $org_type | Options : to_org_code / to_working_org_code / form_org_code / form_working_org_code
+ * @param type $status | 
+ * @param type $return_type|  Options are: list / count
+ * @return boolean
+ */
+function showTransferStaffList($org_code, $org_type, $status, $return_type) {
+    if ((!$org_code > 0) || $status == "" || $org_type == "") {
+        return FALSE;
+    }
+
+    if ($status == "order") {
+        $status = mysql_real_escape_string(trim($status));
+        $org_code = mysql_real_escape_string(trim($org_code));
+        $org_type = mysql_real_escape_string(trim($org_type));
+
+        $sql = "SELECT * FROM `transfer_staff` WHERE $org_type = $org_code AND `status` LIKE '$status'";
+        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferStaffList:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        $data = mysql_fetch_assoc($result);
+        $count = mysql_num_rows($result);
+    } else if ($status == "release") {
+        $status = mysql_real_escape_string(trim($status));
+        $org_code = mysql_real_escape_string(trim($org_code));
+        $org_type = mysql_real_escape_string(trim($org_type));
+
+        $sql = "SELECT * FROM `transfer_staff` WHERE $org_type = $org_code AND `status` LIKE '$status'";
+        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferStaffList2<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        $data = mysql_fetch_assoc($result);
+        $count = mysql_num_rows($result);
+    } else if ($status == "join") {
+        $status = mysql_real_escape_string(trim($status));
+        $org_code = mysql_real_escape_string(trim($org_code));
+        $org_type = mysql_real_escape_string(trim($org_type));
+
+        $sql = "SELECT * FROM `transfer_staff` WHERE $org_type = $org_code AND (`status` LIKE 'release' OR `status` LIKE 'order') ";
+        $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showTransferStaffList3<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+        $data = mysql_fetch_assoc($result);
+        $count = mysql_num_rows($result);
+    }
+
+    if ($return_type == "list") {
+        if ($count > 0) {
+            return $data;
+        } else {
+            return FALSE;
+        }
+    } else if ($return_type == "count") {
+        return $count;
+    }
+}
+
+function getSanctionedPostInfoFromStaffId($staff_id) {
+    $staff_id = (int) mysql_real_escape_string(trim($staff_id));
+
+    if (!$staff_id > 0) {
+        return FALSE;
+    }
+
+    $sql = "SELECT * FROM `total_manpower_imported_sanctioned_post_copy` WHERE staff_id_2 = $staff_id AND active LIKE 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getSanctionedPostInfoFromStaffId:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    $data = mysql_fetch_assoc($result);
+
+    return $data;
+}
+
+/**
+ * Get the toral release count for a specif organization
+ * 
+ * @param type $org_code
+ * @return boolean | Order count with style
+ */
+function showToralReleaseCountFromOrgCode($org_code){
+    if (!$org_code > 0){
+        return FALSE;
+    }
+    $sql = "SELECT * FROM `transfer_staff` WHERE present_org_code = $org_code AND `status` LIKE 'order'";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:getToralReleaseCountFromOrgCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    $count = mysql_num_rows($result);
+    
+    if ($count){
+        $return_string = "<span class=\"label label-important\">$count</span>";
+        return $return_string;
+    } else {
+        return FALSE;
+    }
+    
+}
+
+/**
+ * Get the toral join count for a specif organization
+ * 
+ * @param type $org_code
+ * @return boolean | Order count with style
+ */
+function showToralJoinCountFromOrgCode($org_code){
+    if (!$org_code > 0){
+        return FALSE;
+    }
+    $sql = "SELECT * FROM `transfer_staff` WHERE move_to_org_code = $org_code AND `status` LIKE 'release'";
+    $result = mysql_query($sql) or die(mysql_error() . "<p>Code:showToralJoinCountFromOrgCode:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+    $count = mysql_num_rows($result);
+    
+    if ($count){
+        $return_string = "<span class=\"label label-success\">$count</span>";
+        return $return_string;
+    } else {
+        return FALSE;
+    }
+    
 }
 ?>

@@ -7,20 +7,20 @@
  * @return type
  */
 function createMySqlInsertString($request, $exception_field) {
-    $str_k = "";
-    $str_v = "";
-    foreach ($request as $k => $v) {
-        if (!in_array($k, $exception_field)) {
-            if (!empty($k)) {
-                $str_k.="$k,";
-                $str_v.="'" . mysql_real_escape_string(trim($v)) . "',";
-            }
-        }
+  $str_k = "";
+  $str_v = "";
+  foreach ($request as $k => $v) {
+    if (!in_array($k, $exception_field)) {
+      if (!empty($k)) {
+        $str_k.="$k,";
+        $str_v.="'" . mysql_real_escape_string(trim($v)) . "',";
+      }
     }
-    $str = array();
-    $str['k'] = trim($str_k, ',');
-    $str['v'] = trim($str_v, ',');
-    return $str;
+  }
+  $str = array();
+  $str['k'] = trim($str_k, ',');
+  $str['v'] = trim($str_v, ',');
+  return $str;
 }
 
 /**
@@ -30,21 +30,18 @@ function createMySqlInsertString($request, $exception_field) {
  * @return type
  */
 function getEnumColumnValues($table_name, $column_name) {
-    $table_name = "old_tbl_staff_organization";
-    $column_name = "govt_quarter";
+  $table_name = "old_tbl_staff_organization";
+  $column_name = "govt_quarter";
 //    echo "<select name=\"$column_name\">";
-    $result = mysql_query("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table_name' AND COLUMN_NAME = '$column_name'") or die(mysql_error());
+  $result = mysql_query("SELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '$table_name' AND COLUMN_NAME = '$column_name'") or die(mysql_error());
 
-    $row = mysql_fetch_array($result);
-    $enumList = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
+  $row = mysql_fetch_array($result);
+  $enumList = explode(",", str_replace("'", "", substr($row['COLUMN_TYPE'], 5, (strlen($row['COLUMN_TYPE']) - 6))));
 
-    foreach ($enumList as $value)
+  foreach ($enumList as $value)
 //        echo "<option value=\"$value\">$value</option>";
-
     return $enumList;
 }
-
-
 
 /*
  * 	fetch multiple rows of data and return in a single array
@@ -245,6 +242,10 @@ function createSelectOptions($dbtableName, $dbtableIdField, $dbtableValueField, 
       echo " >" . $b[$dbtableValueField] . "</option>";
     }
     echo "</select>";
+  } else {
+    echo "<select name='$name' $params>";
+    echo "<option value=''>select</option>";
+    echo "</select>";
   }
 }
 
@@ -312,7 +313,6 @@ function makeRandomKey($length = 20) {
     $key .= $charset[(mt_rand(0, (strlen($charset) - 1)))];
   return time() . "_" . $key;
 }
-
 
 function createMySqlUpdateString($request, $exception_field) {
   $str_k = "";
@@ -633,7 +633,6 @@ function hasPermission($module_system_name, $action, $username) {
   }
 }
 
-
 /** Returns the user_type that has permission for certain action.
  *
  * This function need the permission table
@@ -648,4 +647,32 @@ function userTypesPermittedForAction($module_system_name, $action) {
   $a = mysql_fetch_assoc($r);
   return trim($a['p_user_type_names'], ', ');
 }
+
+/**
+ * returns an array with field names of a table
+ *
+ * @global type $dbname
+ * @param type $tableName
+ * @return boolean
+ */
+function getTableFieldNames($tableName) {
+
+  global $dbname;
+
+  $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = '$tableName'";
+//echo $sql;
+  $r = mysql_query($sql) or die(mysql_error() . "<b>Query:</b><br>$sql<br>");
+  if (mysql_num_rows($r)) {
+    $a = mysql_fetch_rowsarr($r);
+    $fieldNames = array();
+    $i = 0;
+    foreach ($a as $fieldName) {
+      $fieldNames[$i++] = $fieldName['COLUMN_NAME'];
+    }
+    return $fieldNames;
+  } else {
+    return false;
+  }
+}
+
 ?>

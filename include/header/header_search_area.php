@@ -43,6 +43,33 @@ if (hasPermission('mod_admin', 'view', getLoggedUserName())) {
                 header("location:../../index.php");
             }
         }
+        /**
+         * Search By Staff PDS Code
+         */
+        if ($search_type == "staff_pds") {
+            $ivValidPDS = isValidStaffPDS($code);
+            if ($ivValidPDS) {
+                header("location:../../employee.php?staff_id=$ivValidPDS");
+            } else {
+                header("location:../../index.php");
+            }
+        }
+        /**
+         * Search By Staff name
+         */
+        else if ($search_type == "staff_name") {
+            $staff_name = $code;
+            $url = "../../search.php?type=staff_name&name=$staff_name";
+            header("location:$url");
+        }
+        /**
+         * Search By Staff father's name
+         */
+        else if ($search_type == "staff_father_name") {
+            $staff_name = $code;
+            $url = "../../search.php?type=staff_father_name&name=$staff_name";
+            header("location:$url");
+        }
     }
 } else {
     header("location:index.php");

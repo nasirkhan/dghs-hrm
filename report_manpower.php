@@ -190,6 +190,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_agency:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['org_agency_code'] == $_REQUEST['org_agency'])
+       												 echo "<option value=\"" . $rows['org_agency_code'] . "\" selected='selected'>" . $rows['org_agency_name'] . "</option>";
+											    else
                                                 echo "<option value=\"" . $rows['org_agency_code'] . "\">" . $rows['org_agency_name'] . "</option>";
                                             }
                                             ?>
@@ -206,16 +209,70 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['old_division_id'] == $_REQUEST['admin_division'])
+       												 echo "<option value=\"" . $rows['old_division_id'] . "\" selected='selected'>" . $rows['division_name'] . "</option>";
+											    else
                                                 echo "<option value=\"" . $rows['old_division_id'] . "\">" . $rows['division_name'] . "</option>";
                                             }
                                             ?>
                                         </select>
                                         <select id="admin_district" name="admin_district">
-                                            <option value="0">Select District</option>                                        
+                                         <option value="0">Select District</option>
+                                            <?php 
+
+                                                    $sql = "SELECT 
+                                                              admin_district.district_bbs_code,
+                                                              admin_district.old_district_id,
+                                                              admin_district.district_name
+                                                      FROM
+                                                              admin_district
+                                                      WHERE
+                                                              admin_district.division_id =$div_id
+                                                      ORDER BY
+                                                              admin_district.district_name";
+                                      $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_district_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                              while ($rows = mysql_fetch_assoc($result)) {
+                                                            if ($rows['old_district_id'] == $_REQUEST['admin_district'])
+                                                             echo "<option value=\"" . $rows['old_district_id'] . "\" selected='selected'>" . $rows['district_name'] . "</option>";
+                                                        else
+                                                     echo "<option value=\"" . $rows['old_district_id'] . "\">" . $rows['district_name'] . "</option>";
+                                            }
+											
+										?>
                                         </select>
+<!--                                        <select id="admin_district" name="admin_district">
+                                            <option value="0">Select District</option>                             
+                                        </select>-->
+                                        
+                                        
                                         <select id="admin_upazila" name="admin_upazila">
-                                            <option value="0">Select Upazila</option>                                        
+                                         <option value="0">Select Upazila</option>
+										<?php 
+										    
+											$sql = "SELECT
+													admin_upazila.upazila_name,
+													admin_upazila.old_upazila_id
+												FROM
+													admin_upazila
+												WHERE
+													admin_upazila.old_district_id = $dis_id
+												ORDER BY
+													admin_upazila.upazila_name";
+									  $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_dupazila_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+										  while ($rows = mysql_fetch_assoc($result)) {
+												if ($rows['old_upazila_id'] == $_REQUEST['admin_upazila'])
+       												 echo "<option value=\"" . $rows['old_upazila_id'] . "\" selected='selected'>" . $rows['upazila_name'] . "</option>";
+											    else
+                                                     echo "<option value=\"" . $rows['old_upazila_id'] . "\">" . $rows['upazila_name'] . "</option>";
+                                            }
+											
+										?>
                                         </select>
+                                        
+                                        <!--<select id="admin_upazila" name="admin_upazila">
+                                            <option value="0">Select Upazila</option>                                        
+                                        </select>-->
+
                                     </div>
 
 
@@ -234,6 +291,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if($rows['org_type_code'] == $_REQUEST['org_type'])
+												echo "<option value=\"" . $rows['org_type_code'] . "\" selected='selected'>" . $rows['org_type_name'] . "</option>";
+												else
                                                 echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
                                             }
                                             ?>
@@ -252,6 +312,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                             $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>bangladesh_professional_category:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                             while ($rows = mysql_fetch_assoc($result)) {
+												if($rows['bangladesh_professional_category_code'] == $_REQUEST['staff_category'])
+												echo "<option value=\"" . $rows['who_health_professional_group_code'] . "\" selected='selected'>" . $rows['bangladesh_professional_category_name'] . "</option>";
+												else
                                                 echo "<option value=\"" . $rows['bangladesh_professional_category_code'] . "\">" . $rows['bangladesh_professional_category_name'] . "</option>";
                                             }
                                             ?>
@@ -297,8 +360,9 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                         echo "$echo_string";
                                         ?>
                                     </div>
-
-                                    <table class="table table-striped table-bordered">
+                    <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary">
+                                        <br/>
+                                        <table class="table table-striped table-bordered" id="testTable">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -321,16 +385,15 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                 while ($row = mysql_fetch_assoc($designation_result)) :
                                                     $row_serial++;
                                                     $sql = "SELECT
-                                                        designation,
-                                                        designation_code,
-                                                        COUNT(*) AS existing_total_count
-                                                FROM
-                                                        total_manpower_imported_sanctioned_post_copy
-                                                WHERE
-                                                        ($desognation_query_string)
-                                                AND designation_code = " . $row['designation_code'] . "
-                                                AND staff_id_2 > 0
-                                                ";
+                                                                    designation,
+                                                                    designation_code,
+                                                                    COUNT(*) AS existing_total_count
+                                                            FROM
+                                                                    total_manpower_imported_sanctioned_post_copy
+                                                            WHERE
+                                                                    ($desognation_query_string)
+                                                            AND designation_code = " . $row['designation_code'] . "
+                                                            AND staff_id_2 > 0";
 //                                                echo "$sql";
 //                                                die();
                                                     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:3</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
@@ -338,18 +401,19 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
                                                     $existing_total_count = $a['existing_total_count'];
 
                                                     $sql = "SELECT
-                                                        total_manpower_imported_sanctioned_post_copy.designation,
-                                                        total_manpower_imported_sanctioned_post_copy.designation_code,
-                                                        COUNT(*) AS existing_male_count
-                                                FROM
-                                                        total_manpower_imported_sanctioned_post_copy
-                                                LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.staff_id = total_manpower_imported_sanctioned_post_copy.staff_id_2
-                                                WHERE
-                                                        ($desognation_query_string) 
-                                                AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row['designation_code'] . "
-                                                AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
-                                                AND old_tbl_staff_organization.sex=1
-                                                AND total_manpower_imported_sanctioned_post_copy.active LIKE 1";
+                                                                    total_manpower_imported_sanctioned_post_copy.designation,
+                                                                    total_manpower_imported_sanctioned_post_copy.designation_code,
+                                                                    COUNT(*) AS existing_male_count
+                                                            FROM
+                                                                    total_manpower_imported_sanctioned_post_copy
+                                                            LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.staff_id = total_manpower_imported_sanctioned_post_copy.staff_id_2
+                                                            WHERE
+                                                                    ($desognation_query_string) 
+                                                            AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row['designation_code'] . "
+                                                            AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
+                                                            AND old_tbl_staff_organization.sex=1
+                                                            AND total_manpower_imported_sanctioned_post_copy.active LIKE 1
+                                                            AND old_tbl_staff_organization.active LIKE '1'";
                                                     $r = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:4</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
                                                     $a = mysql_fetch_assoc($r);
                                                     $existing_male_count = $a['existing_male_count'];
@@ -458,5 +522,18 @@ if ($form_submit == 1 && isset($_REQUEST['form_submit'])) {
 
             $("#generate_report").hide();
         </script>
+                <script type="text/javascript">
+		var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+		</script>
     </body>
 </html>

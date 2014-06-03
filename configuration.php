@@ -20,6 +20,9 @@ $dbuser = 'root';
 $dbpass = '';
 
 mysql_select_db($dbname, mysql_connect($dbhost, $dbuser, $dbpass)) or die(mysql_error());
+mysql_query("SET CHARACTER SET utf8");
+mysql_query("SET SESSION collation_connection ='utf8_general_ci'");
+
 
 $hrm_root_dir = "http://peugeot.websitewelcome.com/~hrmdghsm/hrm";
 require_once 'include/config_variables.php';
