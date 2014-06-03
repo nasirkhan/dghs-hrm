@@ -3,6 +3,8 @@ require_once 'configuration.php';
 if ($_SESSION['logged'] != true) {
   header("location:login.php");
 }
+
+$t = $_REQUEST['t']; // $t = report type 'staff','post'
 /**
  * Config
  */
@@ -15,22 +17,41 @@ $sanctionedpostsBaseTable['tableNameAlias'] = "p";
 /**
  * Default fields to show
  */
-$showFields = array("staff_name", "staff_id", "father_name", "contact_no", "org_name", "org_type_name", "division_name", "district_name", "upazila_thana_name", "designation", "group", "class", "first_level_name", "second_level_name");
+if ($t == 'staff') {
+  $showFields = array("staff_name", "staff_id", "father_name", "contact_no", "org_name", "org_type_name", "division_name", "district_name", "upazila_thana_name", "designation", "group", "class", "first_level_name", "second_level_name");
 
-/**
- * Tables and Joins
- */
-$tableName = $staffsBaseTable['tableName'] . " AS " . $staffsBaseTable['tableNameAlias'] . "
+  /**
+   * Tables and Joins
+   */
+  $tableName = $staffsBaseTable['tableName'] . " AS " . $staffsBaseTable['tableNameAlias'] . "
 LEFT JOIN " . $organizationsBaseTable['tableName'] . " AS " . $organizationsBaseTable['tableNameAlias'] . " ON " . $staffsBaseTable['tableNameAlias'] . ".org_code = " . $organizationsBaseTable['tableNameAlias'] . ".org_code
 LEFT JOIN " . $sanctionedpostsBaseTable['tableName'] . " AS " . $sanctionedpostsBaseTable['tableNameAlias'] . " ON " . $staffsBaseTable['tableNameAlias'] . ".staff_id = " . $sanctionedpostsBaseTable['tableNameAlias'] . ".staff_id_2
 ";
 
+  /*
+   *    SQL ORDER BY
+   */
+  $order_by = "s.staff_name";
+  $order_sort = "ASC";
+} else if ($t == 'post') {
+  $showFields = array("designation", "group", "class", "first_level_name", "second_level_name", "staff_name", "staff_id", "father_name", "contact_no", "org_name", "org_type_name", "division_name", "district_name", "upazila_thana_name");
 
-/*
- *    SQL ORDER BY
- */
-$order_by = "s.staff_name";
-$order_sort = "ASC";
+  /**
+   * Tables and Joins
+   */
+  $tableName = $sanctionedpostsBaseTable['tableName'] . " AS " . $sanctionedpostsBaseTable['tableNameAlias'] . "
+LEFT JOIN " . $staffsBaseTable['tableName'] . " AS " . $staffsBaseTable['tableNameAlias'] . " ON " . $sanctionedpostsBaseTable['tableNameAlias'] . ".staff_id_2 = " . $staffsBaseTable['tableNameAlias'] . ".staff_id
+  LEFT JOIN " . $organizationsBaseTable['tableName'] . " AS " . $organizationsBaseTable['tableNameAlias'] . " ON " . $staffsBaseTable['tableNameAlias'] . ".org_code = " . $organizationsBaseTable['tableNameAlias'] . ".org_code
+";
+
+  /*
+   *    SQL ORDER BY
+   */
+  $order_by = "p.designation ";
+  $order_sort = "ASC";
+}
+
+
 
 
 /**
@@ -445,6 +466,7 @@ if (isset($_REQUEST['submit'])) {
                   }
                   ?>
                   <input type="checkbox" name="HideFilter" value="true" <?= $checked ?>/>Hide filters
+                  <input type="hidden" name="t" value="<?= $_REQUEST['t'] ?>" />
                 </td>
               </tr>
             </table>
