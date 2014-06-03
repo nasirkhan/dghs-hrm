@@ -46,6 +46,35 @@ while ($data = mysql_fetch_assoc($r)) {
     $designation [mysql_real_escape_string(trim($data[$code]))] = mysql_real_escape_string(trim($data[$value]));
 }
 
+/**
+ * sanctioned_post_designation_group_code array
+ */
+$code = 'designation_code';
+$value = 'designation_group_code';
+$table = 'sanctioned_post_designation';
+$sql = "SELECT $code, $value FROM `$table`";
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+$designation_group_code = array();
+
+while ($data = mysql_fetch_assoc($r)) {
+    $designation_group_code [mysql_real_escape_string(trim($data[$code]))] = mysql_real_escape_string(trim($data[$value]));
+}
+
+/**
+ * sanctioned_post_designation_group_code array
+ */
+$code = 'designation_code';
+$value = 'designation_group_name';
+$table = 'sanctioned_post_designation';
+$sql = "SELECT $code, $value FROM `$table`";
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+$designation_group_name = array();
+
+while ($data = mysql_fetch_assoc($r)) {
+    $designation_group_name [mysql_real_escape_string(trim($data[$code]))] = mysql_real_escape_string(trim($data[$value]));
+}
 
 /**
  * bangladesh_professional_category_name array
@@ -221,6 +250,8 @@ while ($sp_data = mysql_fetch_assoc($sp_result)) {
 
 
     $query_string .= "`designation`=\"" . $designation[$sp_data['designation_code']] . "\",";
+    $query_string .= "`designation_group_code`=\"" . $designation_group_code[$sp_data['designation_code']] . "\",";
+    $query_string .= "`designation_group_name`=\"" . $designation_group_name[$sp_data['designation_code']] . "\",";
     $query_string .= "`bangladesh_professional_category_name`=\"" . $bangladesh_professional_category_name[$sp_data['bangladesh_professional_category_code']] . "\",";
     $query_string .= "`who_occupation_group_name`=\"" . $who_occupation_group_name[$sp_data['who_occupation_group_code']] . "\",";
     $query_string .= "`first_level_name`=\"" . $first_level_name[$sp_data['first_level_id']] . "\",";
@@ -246,7 +277,7 @@ while ($sp_data = mysql_fetch_assoc($sp_result)) {
     . "\n--- ";
     $sql = "UPDATE `total_manpower_imported_sanctioned_post_copy` SET "
             . " $query_string "
-            . "WHERE (`id`=\"" . $sp_data['id'] . "\",)";
+            . "WHERE (`id`=\"" . $sp_data['id'] . "\")";
     $result = mysql_query($sql) or die(mysql_error() . "<p>update_$value_field_name:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
     if ($show_query) {
