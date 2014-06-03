@@ -285,6 +285,29 @@ function createMultiSelectOptions($dbtableName, $dbtableIdField, $dbtableValueFi
   }
 }
 
+function createMultiSelectOptionsDistinct($dbtableName, $dbtableIdField, $dbtableValueField, $customQuery, $selectedIdCsv, $name, $params) {
+  $sql = "SELECT DISTINCT($dbtableIdField),$dbtableValueField FROM $dbtableName
+	$customQuery
+	ORDER BY $dbtableValueField ASC";
+  //echo $sql;
+  $r = mysql_query($sql) or die(mysql_error());
+
+  $selectedIdCsvArray = explode(',', trim(str_replace("'", "", $selectedIdCsv), ", "));
+  //myprint_r($selectedIdCsvArray);
+  if (mysql_num_rows($r)) {
+    $a = mysql_fetch_rowsarr($r);
+    echo "<select name='$name' multiple='multiple' $params>";
+    foreach ($a as $b) {
+      echo "<option value='" . $b[$dbtableIdField] . "' ";
+      if (in_array($b[$dbtableIdField], $selectedIdCsvArray)) {
+        echo " selected='selected' ";
+      }
+      echo " >" . $b[$dbtableValueField] . "</option>";
+    }
+    echo "</select>";
+  }
+}
+
 function myprint_r($my_array) {
   if (is_array($my_array)) {
     echo "<table border=1 cellspacing=0 cellpadding=3 width=100%>";
