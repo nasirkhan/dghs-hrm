@@ -77,6 +77,21 @@ while ($data = mysql_fetch_assoc($r)) {
 }
 
 /**
+ * type_of_post array
+ */
+$code = 'type_of_post_code';
+$value = 'type_of_post_name';
+$table = 'sanctioned_post_type_of_post';
+$sql = "SELECT $code, $value FROM `$table`";
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+$type_of_post = array();
+
+while ($data = mysql_fetch_assoc($r)) {
+    $type_of_post [mysql_real_escape_string(trim($data[$code]))] = mysql_real_escape_string(trim($data[$value]));
+}
+
+/**
  * bangladesh_professional_category_name array
  */
 $code = 'bangladesh_professional_category_code';
@@ -258,6 +273,7 @@ while ($sp_data = mysql_fetch_assoc($sp_result)) {
     $query_string .= "`first_level_code`=\"" . $first_level_code[$sp_data['first_level_id']] . "\",";
     $query_string .= "`second_level_name`=\"" . $second_level_name[$sp_data['second_level_id']] . "\",";
     $query_string .= "`second_level_code`=\"" . $second_level_code[$sp_data['second_level_id']] . "\" ";
+    $query_string .= "`type_of_post_name`=\"" . $second_level_code[$sp_data['type_of_post']] . "\" ";
 
     /**
      * ------------------------------------------------------
