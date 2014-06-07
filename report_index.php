@@ -72,16 +72,16 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                             Designation wise report
                             <ul>
                                 <li>
-                                    ok<a href="report_designation_wise_summary.php">Designation Wise Summary Report </a>
+                                    <a href="report_designation_wise_summary.php">Designation Wise Summary Report </a>
                                 </li>
                                 <li>
-                                    ok<a href="report_designation_group_wise_summary.php">Designation Group Wise Summary Report </a>
+                                    <a href="report_designation_group_wise_summary.php">Designation Group Wise Summary Report </a>
                                 </li>
                                 <li>
-                                    ok<a href="report_institute_wise_designation_summary.php">Institute Wise Designation Summary Report </a>
+                                    <a href="report_institute_wise_designation_summary.php">Institute Wise Designation Summary Report </a>
                                 </li>
                                 <li>
-                                    ok<a href="report_type_of_post_and_institute_wise_designation.php">Type of post and Institute wise designation</a>
+                                    <a href="report_type_of_post_and_institute_wise_designation.php">Type of post and Institute wise designation</a>
                                 </li>
                             </ul>
                             Personnel wise reportable
@@ -93,13 +93,13 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <a href="report_designation_group_wise_summary.php">Designation group wise report with discipline</a>
                                 </li>
                                 <li>
-                                    ok<a href="report_designation_wise.php">Designation wise report </a>
+                                    <a href="report_designation_wise.php">Designation wise report </a>
                                 </li>
                                 <li>
-                                    ok<a href="report_lpr.php">LPR information</a>
+                                    <a href="report_lpr.php">LPR information</a>
                                 </li>
                                 <li>
-                                    ok<a href="report_staff_list_by_permanenet_address.php">District (permanent address) wise list</a>
+                                    <a href="report_staff_list_by_permanenet_address.php">District (permanent address) wise list</a>
                                 </li>
                                 <li>
                                     <a href="report_posting_status_wise_list.php">Posting Status wise list</a>
