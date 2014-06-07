@@ -110,7 +110,7 @@ $tableFieldMap['govt_quarter'] = $staffsBaseTable['tableNameAlias'] . ".govt_qua
   'first_level_code', 'second_level_code'
  */
 $tableFieldMap['designation'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".designation";
-$tableFieldMap['designation_group_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".designation_group_code";
+$tableFieldMap['group_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".group_code";
 $tableFieldMap['designation_group_name'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".designation_group_name";
 $tableFieldMap['bangladesh_professional_category_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".bangladesh_professional_category_code";
 $tableFieldMap['who_occupation_group_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".who_occupation_group_code";
@@ -541,11 +541,11 @@ if (isset($_REQUEST['submit'])) {
                   }
                   ?>
 
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_group'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_group" value="1" checked="checked" type="checkbox"/>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_group_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_group_code" value="1" checked="checked" type="checkbox"/>
                     <b>Designation Group</b><br/>
                     <?php
-                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'designation_group_name', 'designation_group_name', $customQuery, $csvs['designation_group_name'], "designation_group_name[]", " id='designation_group_name'  class='multiselect'");
+                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'group_code', 'designation_group_name', $customQuery, $csvs['group_code'], "group_code[]", " id='group_code'  class='multiselect'");
                     echo "<br/>";
                   }
                   ?>
