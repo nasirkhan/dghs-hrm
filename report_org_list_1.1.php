@@ -9,6 +9,12 @@ if ($_SESSION['logged'] != true) {
 $rTitle = "Organizations"; // report title
 
 $tableName = "organization";
+
+/**
+ * Selection criteria to get all columns for related tables
+ */
+$allColSelection = " WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization' ";
+
 $singleSelectItems = array('division_code', 'district_code', 'upazila_id'); // put the input field names for single selection dropdowns. Input filed name must be same as table filed name
 $multiSelectItems = array('agency_code', 'org_type_code', 'org_level_code', 'org_healthcare_level_code', 'org_location_type', 'ownership_code', 'source_of_electricity_main_code', 'source_of_electricity_alternate_code', 'source_of_water_supply_main_code', 'source_of_water_supply_alternate_code', 'toilet_type_code', 'toilet_adequacy_code', 'fuel_source_code', 'laundry_code', 'autoclave_code'); // put the input field names for multiple selection dropdowns. Input filed name must be same as table filed name
 // checks for value inconsistency
@@ -227,7 +233,7 @@ if (isset($_REQUEST['submit'])) {
                   }
                   ?>
                   <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_org_level_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <br/><input name="f_org_level_code" value="1" checked="checked" type="checkbox"/> <b>Org Level</b>
+                    <input name="f_org_level_code" value="1" checked="checked" type="checkbox"/> <b>Org Level</b>
                     <?php
                     createMultiSelectOptions('org_level', 'org_level_code', 'org_level_name', $customQuery, $csvs['org_level_code'], "org_level_code[]", " id='org_level_code' class='multiselect' ");
                     echo "<br/>";
@@ -354,92 +360,8 @@ if (isset($_REQUEST['submit'])) {
                   }
                   ?>
                 </td>
-
-                <td style="vertical-align:top;">
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_columns'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_columns" value="1" checked="checked" type="checkbox"/>
-                    <b>View Columns</b><br/>
-                    <?php
-                    createMultiSelectOptions("INFORMATION_SCHEMA.COLUMNS", "COLUMN_NAME", "COLUMN_NAME", "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $showFieldsCsv, "f[]", " class='multiselect' ");
-                    echo "<br/>";
-                  }
-                  ?>
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_field_query'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_field_query" value="1" checked="checked" type="checkbox"/>
-                    <b><i class="icon-list-ul"></i> Field query</b><br/>
-                    <table>
-                      <tr>
-                        <td><b>Field</b></td>
-                        <td><?php createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $_REQUEST['search_field'], "search_field", " id='search_field'  class='pull-left' ", $optionIdField) ?></td>
-                      </tr>
-                      <tr>
-                        <td><b>Criteria</b></td>
-                        <td><?php
-                          $listArray = array('=', 'LIKE', '>', ">=", "<", "<=");
-                          createSelectOptionsFrmArray($listArray, $_REQUEST['search_criteria'], 'search_criteria', $params = "");
-                          ?>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td><b>Value</b></td>
-                        <td><input class='' name="search_value" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;" value="<?php echo addEditInputField('search_value'); ?>" /></td>
-                      </tr>
-                    </table>
-                  <?php } ?>
-
-                </td>
                 <td style="vertical-align:top">
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_SQLSelect'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_SQLSelect" value="1" checked="checked" type="checkbox"/>
-                    <b>Additional SQL select criteria</b>
-                    <br/><input name="SQLSelect" value="<?php echo addEditInputField('SQLSelect'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
-                    <br/>
-                  <?php } ?>
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_SQLGroup'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_SQLGroup" value="1" checked="checked" type="checkbox"/>
-                    <b>Group by</b> (csv)
-                    <br/><input name="SQLGroup" value="<?php echo addEditInputField('SQLGroup'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
-                    <br/>
-                  <?php } ?>
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_ColOrder'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_ColOrder" value="1" checked="checked" type="checkbox"/>
-                    <b>Column Sequence</b> (csv)
-                    <br/><input name="ColOrder" value="<?php echo addEditInputField('ColOrder'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
-                    <br/>
-                  <?php } ?>
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_ColAlias'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_ColAlias" value="1" checked="checked" type="checkbox"/>
-                    <b>Column Alias</b> (csv)
-                    <br/><input name="ColAlias" value="<?php echo addEditInputField('ColAlias'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
-                    <br/>
-                  <?php } ?>
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_order_sort'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_order_sort" value="1" checked="checked" type="checkbox"/>
-                    <b>Order by</b>
-                    <?php
-                    createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $_REQUEST['order_by'], "order_by", " id='order_by'  class='pull-left' ", $optionIdField);
-
-                    $listArray = array('ASC', 'DESC');
-                    createSelectOptionsFrmArray($listArray, $_REQUEST['order_sort'], 'order_sort', $params = "");
-                    echo "<br/>";
-                  }
-                  ?>
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_orderbyfull'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_orderbyfull" value="1" checked="checked" type="checkbox"/>
-                    <b>Order by </b> <small>(fieldName ASC, fielName2 DESC ...)</small>
-                    <br/><input name="orderbyfull" value="<?php echo addEditInputField('orderbyfull'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
-                    <br/>
-                  <?php } ?>
-
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_rTitle'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_rTitle" value="1" checked="checked" type="checkbox"/>
-                    <b>Report title</b>
-                    <br/><input name="rTitle" value="<?php echo addEditInputField('rTitle'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
-                    <br/>
-                  <?php } ?>
-
+                  <?php include_once './include/report/inc.mysql_fields.php'; ?>
                 </td>
               </tr>
             </table>
