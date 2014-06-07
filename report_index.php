@@ -69,7 +69,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                         <h3>List of report pages</h3>
                         
                         <div class="row-fluid">
-                            
+                            Designation wise report
                             <ul>
                                 <li>
                                     <a href="report_designation_wise_summary.php">Designation Wise Summary Report </a>
@@ -80,8 +80,28 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                 <li>
                                     <a href="report_institute_wise_designation_summary.php">Institute Wise Designation Summary Report </a>
                                 </li>
+<!--                                <li>
+                                    <a href="report_institute_wise_designation_summary.php">Type of post and Institute wise designation</a>
+                                </li>-->
                             </ul>
-                            
+                            Personnel wise reportable
+                            <ul>
+                                <li>
+                                    <a href="report_staff_list_by_designation_group_with_descipline.php">Discipline wise report with Designation group</a>
+                                </li>
+                                <li>
+                                    <a href="report_designation_group_wise_summary.php">Designation group wise report with discipline</a>
+                                </li>
+                                <li>
+                                    <a href="report_designation_wise.php">Designation wise report </a>
+                                </li>
+                                <li>
+                                    <a href="report_lpr.php">LPR information</a>
+                                </li>
+                                <li>
+                                    <a href="report_staff_list_by_permanenet_address.php">District (permanent address) wise list</a>
+                                </li>
+                            </ul>
                             <table class="table table-striped table-bordered">
                                 
                                 <tbody>
