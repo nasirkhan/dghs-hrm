@@ -37,29 +37,26 @@ if ($designation_code > 0) {
 
 if ($error_message == "" && isset($_REQUEST['designation_code'])) {
     $sql = "SELECT
-                old_tbl_staff_organization.staff_id,
-                old_tbl_staff_organization.sp_id_2,
-                old_tbl_staff_organization.org_code,
-                old_tbl_staff_organization.org_name,
-                old_tbl_staff_organization.staff_posting,
-                old_tbl_staff_organization.staff_posting_name,
-                old_tbl_staff_organization.posting_status,
-                old_tbl_staff_organization.posting_status_name,
-                old_tbl_staff_organization.staff_pds_code,
-                old_tbl_staff_organization.staff_name,
-                old_tbl_staff_organization.birth_date,
-                old_tbl_staff_organization.contact_no,
-                old_tbl_staff_organization.post_type_id,
-                old_tbl_staff_organization.post_type_name,
-                old_tbl_staff_organization.job_posting_id,
-                old_tbl_staff_organization.job_posting_name,
-                total_manpower_imported_sanctioned_post_copy.designation_code
+                    total_manpower_imported_sanctioned_post_copy.designation_code,
+                    total_manpower_imported_sanctioned_post_copy.designation,
+                    total_manpower_imported_sanctioned_post_copy.pay_scale,
+                    total_manpower_imported_sanctioned_post_copy.class,
+                    total_manpower_imported_sanctioned_post_copy.org_code,
+                    Count(*) AS total_count,
+                    total_manpower_imported_sanctioned_post_copy.type_of_post_name,
+                    total_manpower_imported_sanctioned_post_copy.type_of_post
             FROM
-                    `old_tbl_staff_organization`
-            LEFT JOIN total_manpower_imported_sanctioned_post_copy ON old_tbl_staff_organization.sp_id_2 = total_manpower_imported_sanctioned_post_copy.id
+                    total_manpower_imported_sanctioned_post_copy
             WHERE
                     total_manpower_imported_sanctioned_post_copy.active LIKE '1'
-                    $query_string";
+                    $query_string
+            AND total_manpower_imported_sanctioned_post_copy.designation != ''
+            GROUP BY
+                    total_manpower_imported_sanctioned_post_copy.type_of_post,
+                    total_manpower_imported_sanctioned_post_copy.designation,
+                    total_manpower_imported_sanctioned_post_copy.org_code
+            ORDER BY
+                    designation";
 
     $result_all = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_designation_group_with_descipline:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
@@ -121,7 +118,7 @@ if ($error_message == "" && isset($_REQUEST['designation_code'])) {
                             <div class="row-fluid">
                                 <div class="span12">
                                     <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                        <h3>Designation Wise Report</h3>
+                                        <h3>Type of post and Institute wise designation</h3>
                                         
                                         <div class="control-group">
                                             
@@ -177,13 +174,12 @@ if ($error_message == "" && isset($_REQUEST['designation_code'])) {
                                             <thead>
                                                 <tr>
                                                     <th><strong>#</strong></th>
-                                                    <th><strong>Staff Id</strong></th>
-                                                    <th><strong>PDS Code</strong></th>
-                                                    <th><strong>Name</strong></th>
-                                                    <th><strong>Date of birth</strong></th>
-                                                    <th><strong>Posting Status</strong></th>
-                                                    <th><strong>Place of posting</strong></th>
-                                                    <th><strong>Mobile No.</strong></th>
+                                                    <th><strong>Designation</strong></th>
+                                                    <th><strong>Type of post</strong></th>
+                                                    <th><strong>Payscale</strong></th>
+                                                    <th><strong>Class</strong></th>
+                                                    <th><strong>Total Post</strong></th>
+                                                    <th><strong>Institution Name</strong></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -194,13 +190,12 @@ if ($error_message == "" && isset($_REQUEST['designation_code'])) {
                                                 ?>
                                                 <tr>
                                                     <td><?= $row_count ?></td>
-                                                    <td><?= $data['staff_id']; ?></td>
-                                                    <td><?= $data['staff_pds_code']; ?></td>
-                                                    <td><a href="employee.php?staff_id=<?= $data['staff_id']; ?>" target="_blank"><?= $data['staff_name']; ?></a></td>
-                                                    <td><?= $data['birth_date']; ?></td>
-                                                    <td><?= $data['job_posting_name']; ?></td>
+                                                    <td><?= $data['designation']; ?></td>
+                                                    <td><?= $data['type_of_post_name']; ?></td>
+                                                    <td><?= $data['pay_scale']; ?></td>
+                                                    <td><?= $data['class']; ?></td>
+                                                    <td><?= $data['total_count']; ?></td>
                                                     <td><?= getOrgNameFormOrgCode($data['org_code']); ?></td>
-                                                    <td><?= $data['contact_no']; ?></td>
                                                 </tr>
                                                 
                                                 <?php endwhile; ?>
