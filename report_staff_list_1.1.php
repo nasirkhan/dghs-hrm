@@ -6,9 +6,92 @@ if ($_SESSION['logged'] != true) {
 /**
  * Config
  */
-$tableName = "organization";
+$staffsBaseTable['tableName'] = "old_tbl_staff_organization";
+$staffsBaseTable['tableNameAlias'] = "s";
+$organizationsBaseTable['tableName'] = "organization";
+$organizationsBaseTable['tableNameAlias'] = "o";
+$sanctionedpostsBaseTable['tableName'] = "total_manpower_imported_sanctioned_post_copy";
+$sanctionedpostsBaseTable['tableNameAlias'] = "p";
+/**
+ * Default fields to show
+ */
+$showFields = array("staff_name", "staff_id", "father_name", "contact_no", "org_name", "org_type_name", "division_name", "district_name", "upazila_thana_name", "designation", "group", "class", "first_level_name", "second_level_name");
+
+/**
+ * Tables and Joins
+ */
+$tableName = $staffsBaseTable['tableName'] . " AS " . $staffsBaseTable['tableNameAlias'] . "
+LEFT JOIN " . $organizationsBaseTable['tableName'] . " AS " . $organizationsBaseTable['tableNameAlias'] . " ON " . $staffsBaseTable['tableNameAlias'] . ".org_code = " . $organizationsBaseTable['tableNameAlias'] . ".org_code
+LEFT JOIN " . $sanctionedpostsBaseTable['tableName'] . " AS " . $sanctionedpostsBaseTable['tableNameAlias'] . " ON " . $staffsBaseTable['tableNameAlias'] . ".staff_id = " . $sanctionedpostsBaseTable['tableNameAlias'] . ".staff_id_2
+";
+
+
+/*
+ *    SQL ORDER BY
+ */
+$order_by = "s.staff_name";
+$order_sort = "ASC";
+
+
+/**
+ * select item definitions
+ */
 $singleSelectItems = array('division_code', 'district_code', 'upazila_id'); // put the input field names for single selection dropdowns. Input filed name must be same as table filed name
-$multiSelectItems = array('agency_code', 'org_type_code', 'org_level_code', 'org_healthcare_level_code', 'org_location_type', 'ownership_code', 'source_of_electricity_main_code', 'source_of_electricity_alternate_code', 'source_of_water_supply_main_code', 'source_of_water_supply_alternate_code', 'toilet_type_code', 'toilet_adequacy_code', 'fuel_source_code', 'laundry_code', 'autoclave_code'); // put the input field names for multiple selection dropdowns. Input filed name must be same as table filed name
+$multiSelectItems = array('agency_code', 'org_type_code', 'org_level_code', 'org_healthcare_level_code', 'org_location_type', 'ownership_code', 'posting_status',
+    'tribal_id', 'post_type_id', 'job_posting_id', 'working_status_id', 'draw_salary_id', 'sex', 'marital_status', 'religion',
+    'professional_discipline_of_current_designation', 'type_of_educational_qualification', 'govt_quarter',
+    'designation', 'designation_group_code', 'bangladesh_professional_category_code', 'who_occupation_group_code', 'who_isco_occupation_name_code', 'pay_scale', 'class', 'type_of_code',
+    'first_level_code', 'second_level_code'); // put the input field names for multiple selection dropdowns. Input filed name must be same as table filed name
+
+$tableFieldMap = array();
+/*
+ * From organization base table
+ */
+$tableFieldMap['division_code'] = $organizationsBaseTable['tableNameAlias'] . ".division_code";
+$tableFieldMap['district_code'] = $organizationsBaseTable['tableNameAlias'] . ".district_code";
+$tableFieldMap['upazila_id'] = $organizationsBaseTable['tableNameAlias'] . ".upazila_id";
+$tableFieldMap['agency_code'] = $organizationsBaseTable['tableNameAlias'] . ".agency_code";
+$tableFieldMap['org_type_code'] = $organizationsBaseTable['tableNameAlias'] . ".org_type_code";
+$tableFieldMap['org_level_code'] = $organizationsBaseTable['tableNameAlias'] . ".org_level_code";
+$tableFieldMap['org_healthcare_level_code'] = $organizationsBaseTable['tableNameAlias'] . ".org_healthcare_level_code";
+$tableFieldMap['org_location_type'] = $organizationsBaseTable['tableNameAlias'] . ".org_location_type";
+$tableFieldMap['ownership_code'] = $organizationsBaseTable['tableNameAlias'] . ".ownership_code";
+/*
+ * From staff base table
+ */
+$tableFieldMap['department_id'] = $staffsBaseTable['tableNameAlias'] . ".division_code";
+$tableFieldMap['staff_posting'] = $staffsBaseTable['tableNameAlias'] . ".staff_posting";
+$tableFieldMap['staff_job_class'] = $staffsBaseTable['tableNameAlias'] . ".staff_job_class";
+$tableFieldMap['staff_professional_category'] = $staffsBaseTable['tableNameAlias'] . ".staff_professional_category";
+$tableFieldMap['posting_status'] = $staffsBaseTable['tableNameAlias'] . ".posting_status";
+$tableFieldMap['tribal_id'] = $staffsBaseTable['tableNameAlias'] . ".tribal_id";
+$tableFieldMap['post_type_id'] = $staffsBaseTable['tableNameAlias'] . ".post_type_id";
+$tableFieldMap['job_posting_id'] = $staffsBaseTable['tableNameAlias'] . ".job_posting_id";
+$tableFieldMap['working_status_id'] = $staffsBaseTable['tableNameAlias'] . ".working_status_id";
+$tableFieldMap['draw_salary_id'] = $staffsBaseTable['tableNameAlias'] . ".draw_salary_id";
+$tableFieldMap['sex'] = $staffsBaseTable['tableNameAlias'] . ".sex";
+$tableFieldMap['marital_status'] = $staffsBaseTable['tableNameAlias'] . ".marital_status";
+$tableFieldMap['religion'] = $staffsBaseTable['tableNameAlias'] . ".religion";
+$tableFieldMap['professional_discipline_of_current_designation'] = $staffsBaseTable['tableNameAlias'] . ".professional_discipline_of_current_designation";
+$tableFieldMap['type_of_educational_qualification'] = $staffsBaseTable['tableNameAlias'] . ".type_of_educational_qualification";
+$tableFieldMap['govt_quarter'] = $staffsBaseTable['tableNameAlias'] . ".govt_quarter";
+/*
+ * From post base table
+ * 'designation', 'designation_group_code', 'bangladesh_professional_category_code', 'who_occupation_group_code', 'pay_scale', 'class', 'type_of_code',
+  'first_level_code', 'second_level_code'
+ */
+$tableFieldMap['designation'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".designation";
+$tableFieldMap['designation_group_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".designation_group_code";
+$tableFieldMap['bangladesh_professional_category_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".bangladesh_professional_category_code";
+$tableFieldMap['who_occupation_group_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".who_occupation_group_code";
+$tableFieldMap['who_isco_occupation_name_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".who_isco_occupation_name_code";
+$tableFieldMap['pay_scale'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".pay_scale";
+$tableFieldMap['class'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".class";
+$tableFieldMap['type_of_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".type_of_code";
+$tableFieldMap['first_level_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".first_level_code";
+$tableFieldMap['second_level_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".second_level_code";
+
+
 // checks for value inconsistency
 $DBvalidation = FALSE;
 if ($_REQUEST['highlight_empty_cell'] == 'true') { // checks for empty cells
@@ -30,7 +113,7 @@ if (isset($_REQUEST['submit'])) {
 
   foreach ($singleSelectItems as $singleSelectItem) {
     if (strlen($_REQUEST[$singleSelectItem]) && $_REQUEST[$singleSelectItem] > 0) {
-      $parameterized_query.=" AND $singleSelectItem = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
+      $parameterized_query.=" AND $tableFieldMap[$singleSelectItem] = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
     }
   }
 
@@ -38,7 +121,7 @@ if (isset($_REQUEST['submit'])) {
   foreach ($multiSelectItems as $multiSelectItem) {
     if (count($_REQUEST[$multiSelectItem])) {
       $csvs[$multiSelectItem] = "'" . implode("','", $_REQUEST[$multiSelectItem]) . "'";
-      $parameterized_query.=" AND $multiSelectItem in (" . $csvs[$multiSelectItem] . ")  ";
+      $parameterized_query.=" AND $tableFieldMap[$multiSelectItem] in (" . $csvs[$multiSelectItem] . ")  ";
       //$selection_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong>";
     }
   }
@@ -64,22 +147,17 @@ if (isset($_REQUEST['submit'])) {
     $parameterized_query .= " GROUP BY $group_by ";
     $countField = ",COUNT(*) as total";
   }
-  /*   * *********** */
-  /*
-   *    SQL ORDER BY
-   */
-  $order_by = "org_name";
-  $order_sort = "ASC";
+
 
   /**
    * Show fields
    */
-  $TableFields = getTableFieldNames('organization');
+  $TableFields = getTableFieldNamesFrmMultipleTables(array($staffsBaseTable['tableName'], $organizationsBaseTable['tableName'], $sanctionedpostsBaseTable['tableName']));
+
+  //myprint_r($TableFields);
 
   if (count($_REQUEST['f'])) {
     $showFields = $_REQUEST['f'];
-  } else {
-    $showFields = array("id", "org_name", "org_code", "org_type_name", "org_type_code", "agency_name", "org_function_code", "org_level_name", "upazila_thana_name", "union_name",);
   }
   $showFieldsCsv = implode(',', $showFields);
 
@@ -105,6 +183,7 @@ if (isset($_REQUEST['submit'])) {
 
 
   $sql = "SELECT * $countField FROM $tableName $parameterized_query";
+
   $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
   $count = mysql_num_rows($result);
 
@@ -136,7 +215,7 @@ if (isset($_REQUEST['submit'])) {
   <body>
     <?php include_once 'include/header/header_top_menu.inc.php'; ?>
     <div class="container">
-      <h4 style="text-transform: uppercase">Report : Organization</h4>
+      <h4 style="text-transform: uppercase">Report : Staff</h4>
       <?php if ($_REQUEST['HideFilter'] != 'true') { ?>
 
         <div id="showHide" style="cursor: pointer">
@@ -189,63 +268,107 @@ if (isset($_REQUEST['submit'])) {
                 </td>
                 <td style="vertical-align: top">
                   <b>Agency</b><br/>
-                  <?php //createMultiSelectOptions($dbtableName, $dbtableIdField, $dbtableValueField, $customQuery, $selectedIdCsv, $name, $params);           ?>
+                  <?php //createMultiSelectOptions($dbtableName, $dbtableIdField, $dbtableValueField, $customQuery, $selectedIdCsv, $name, $params);            ?>
                   <?php createMultiSelectOptions('org_agency_code', 'org_agency_code', 'org_agency_name', $customQuery, $csvs['agency_code'], "agency_code[]", " id='agency_code'  class='multiselect' "); ?><br/>
                   <b>Org Level</b><br/>
-                  <?php createMultiSelectOptions('org_level', 'org_level_code', 'org_level_name', $customQuery, $csvs['org_level_code'], "org_level_code[]", " id='org_level_code' class='multiselect' "); ?>
-                </td>
-                <td style="vertical-align: top">
+                  <?php createMultiSelectOptions('org_level', 'org_level_code', 'org_level_name', $customQuery, $csvs['org_level_code'], "org_level_code[]", " id='org_level_code' class='multiselect' "); ?><br/>
                   <b>Org Type</b><br/>
                   <?php createMultiSelectOptions('org_type', 'org_type_code', 'org_type_name', $customQuery, $csvs['org_type_code'], "org_type_code[]", " id='type_code'  class='multiselect'"); ?>
-                  <br/><b>Healthcare Level</b><br/>
-                  <?php createMultiSelectOptions('org_healthcare_levels', 'healthcare_code', 'healthcare_name', $customQuery, $csvs['org_healthcare_level_code'], "org_healthcare_level_code[]", " id='org_healthcare_level_code'  class='multiselect'"); ?>
+
                 </td>
                 <td style="vertical-align: top">
+                  <b>Healthcare Level</b><br/>
+                  <?php createMultiSelectOptions('org_healthcare_levels', 'healthcare_code', 'healthcare_name', $customQuery, $csvs['org_healthcare_level_code'], "org_healthcare_level_code[]", " id='org_healthcare_level_code'  class='multiselect'"); ?><br/>
+
                   <b>Location Type</b><br/>
                   <?php createMultiSelectOptions('org_location_type', 'org_location_type_code', 'org_location_type_name', $customQuery, $csvs['org_location_type'], "org_location_type[]", " id='org_location_type'  class='multiselect'"); ?>
                   <br/><b>Ownership</b><br/>
                   <?php createMultiSelectOptions('org_ownership_authority', 'org_ownership_authority_code', 'org_ownership_authority_name', $customQuery, $csvs['ownership_code'], "ownership_code[]", " id='ownership_code'  class='multiselect'"); ?>
-                  <br/><b>Waste disposal</b><br/>
-                  <?php createMultiSelectOptions('org_waste_disposal_system', 'waste_disposal_system_code', 'waste_disposal_system_name', $customQuery, $csvs['waste_disposal_code'], "waste_disposal_code[]", " id='waste_disposal_code'  class='multiselect'"); ?>
                 </td>
 
                 <td style="vertical-align: top">
-                  <b>Main Electricity</b><br/>
-                  <?php createMultiSelectOptions('org_source_of_electricity_main', 'electricity_source_code', 'electricity_source_name', $customQuery, $csvs['source_of_electricity_main_code'], "source_of_electricity_main_code[]", " id='source_of_electricity_main_code'  class='multiselect'"); ?>
-                  <br/><b>Alternate Electricity</b><br/>
-                  <?php createMultiSelectOptions('org_source_of_electricity_alternate', 'electricity_source_code', 'electricity_source_name', $customQuery, $csvs['source_of_electricity_alternate_code'], "source_of_electricity_alternate_code[]", " id='source_of_electricity_alternate_code'  class='multiselect'"); ?>
-                  <br/><b>Toilet type</b><br/>
-                  <?php createMultiSelectOptions('org_toilet_type', 'toilet_type_code', 'toilet_type_name', $customQuery, $csvs['toilet_type_code'], "toilet_type_code[]", " id='toilet_type_code'  class='multiselect'"); ?>
-                </td>
-                <td style="vertical-align: top">
-                  <b>Main water</b><br/>
-                  <?php createMultiSelectOptions('org_source_of_water_supply_main', 'water_supply_source_code', 'water_supply_source_name', $customQuery, $csvs['source_of_water_supply_main_code'], "source_of_water_supply_main_code[]", " id='source_of_water_supply_main_code'  class='multiselect'"); ?>
-                  <br/>
-                  <b>Alternate water</b><br/>
-                  <?php createMultiSelectOptions('org_source_of_water_supply_alternate', 'water_supply_source_code', 'water_supply_source_name', $customQuery, $csvs['source_of_water_supply_alternate_code'], "source_of_water_supply_alternate_code[]", " id='source_of_water_supply_alternate_code'  class='multiselect'"); ?>
-                  <br/><b>Toilet Adequacy</b><br/>
-                  <?php createMultiSelectOptions('org_toilet_adequacy', 'toilet_adequacy_code', 'toilet_adequacy_name', $customQuery, $csvs['source_of_water_supply_alternate_code'], "source_of_water_supply_alternate_code[]", " id='source_of_water_supply_alternate_code'  class='multiselect'"); ?>
+                  <b>Department</b><br/>
+                  <?php createMultiSelectOptions('very_old_departments', 'department_id', 'name', $customQuery, $csvs['department_id'], "department_id[]", " id='department_id'  class='multiselect'"); ?><br/>
+
+                  <b>Posting type</b><br/>
+                  <?php createMultiSelectOptions('staff_posting_type', 'staff_posting_type_id', 'staff_posting_type_name', $customQuery, $csvs['staff_posting'], "staff_posting[]", " id='staff_posting'  class='multiselect'"); ?><br/>
+                  <b>Posting Status</b><br/>
+                  <?php createMultiSelectOptions('staff_job_posting', 'job_posting_id', 'job_posting_name', $customQuery, $csvs['posting_status'], "posting_status[]", " id='posting_status'  class='multiselect'"); ?>
+                  <br/><b>Job Class</b><br/>
+                  <?php createMultiSelectOptions('staff_job_class', 'job_class_id', 'job_class_name', $customQuery, $csvs['staff_job_class'], "staff_job_class[]", " id='staff_job_class'  class='multiselect'"); ?>
+                  <br/><b>Professional category</b><br/>
+                  <?php createMultiSelectOptions('staff_professional_category_type', 'professional_type_id', 'professional_type_name', $customQuery, $csvs['staff_professional_category'], "staff_professional_category[]", " id='staff_professional_category'  class='multiselect'"); ?>
                 </td>
 
                 <td style="vertical-align: top">
-                  <b>Fuel Source</b><br/>
-                  <?php createMultiSelectOptions('org_fuel_source', 'fuel_source_code', 'fuel_source_name', $customQuery, $csvs['fuel_source_code'], "fuel_source_code[]", " id='fuel_source_code'  class='multiselect'"); ?>
-                  <br/><b>Laundry code</b><br/>
-                  <?php createMultiSelectOptions('org_laundry_system', 'laundry_system_code', 'laundry_system_name', $customQuery, $csvs['laundry_code'], "laundry_code[]", " id='laundry_code'  class='multiselect'"); ?>
-                  <br/><b>Autoclave</b><br/>
-                  <?php createMultiSelectOptions('org_autoclave_system', 'autoclave_system_code', 'autoclave_system_name', $customQuery, $csvs['autoclave_code'], "autoclave_code[]", " id='autoclave_code'  class='multiselect'"); ?>
+                  <b>Tribal</b><br/>
+                  <?php createMultiSelectOptions('staff_tribal', 'tribal_id', 'tribal_value', $customQuery, $csvs['tribal_id'], "tribal_id[]", " id='tribal_id'  class='multiselect'"); ?><br/>
+
+                  <b>Working status</b><br/>
+                  <?php createMultiSelectOptions('staff_working_status', 'working_status_id', 'working_status_name', $customQuery, $csvs['working_status_id'], "working_status_id[]", " id='working_status_id'  class='multiselect'"); ?><br/>
+                  <b>Salary place</b><br/>
+                  <?php createMultiSelectOptions('staff_draw_salaray_place', 'draw_salary_id', 'draw_salaray_place', $customQuery, $csvs['draw_salary_id'], "draw_salary_id[]", " id='draw_salary_id'  class='multiselect'"); ?><br/>
+                  <b>Sex</b><br/>
+                  <?php createMultiSelectOptions('staff_sex', 'sex_type_id', 'sex_name', $customQuery, $csvs['sex'], "sex[]", " id='sex'  class='multiselect'"); ?><br/>
+                  <b>Marital status</b><br/>
+                  <?php createMultiSelectOptions('staff_marital_status', 'marital_status_id', 'marital_status', $customQuery, $csvs['marital_status'], "marital_status[]", " id='marital_status'  class='multiselect'"); ?><br/>
+                  <b>Religious group</b><br/>
+                  <?php createMultiSelectOptions('staff_religious_group', 'religious_group_id', 'religious_group_name', $customQuery, $csvs['religion'], "religion[]", " id='religion'  class='multiselect'"); ?><br/>
+
                 </td>
+                <td style="vertical-align: top">
+                  <b>Prof Discipline</b><br/>
+                  <?php createMultiSelectOptions('staff_profesional_discipline', 'discipline_id', 'discipline_name', $customQuery, $csvs['professional_discipline_of_current_designation'], "professional_discipline_of_current_designation[]", " id='professional_discipline_of_current_designation'  class='multiselect'"); ?><br/>
+                  <b>Edu qualification</b><br/>
+                  <?php createMultiSelectOptions('staff_educational_qualification', 'educational_qualifiaction_Id', 'educational_qualification', $customQuery, $csvs['type_of_educational_qualification'], "type_of_educational_qualification[]", " id='type_of_educational_qualification'  class='multiselect'"); ?><br/>
+                  <b>Govt. Quarter</b><br/>
+                  <?php createMultiSelectOptions('staff_govt_quater', 'govt_quater_id', 'govt_quater', $customQuery, $csvs['govt_quarter'], "govt_quarter[]", " id='govt_quarter'  class='multiselect'"); ?><br/>
+                </td>
+
+                <td style="vertical-align: top">
+
+                  <b>Designation</b><br/>
+                  <?php createMultiSelectOptionsDistinct('sanctioned_post_designation', 'designation', 'designation', $customQuery, $csvs['designation'], "designation[]", " id='designation'  class='multiselect'"); ?><br/>
+                  <b>BD Prof Cat</b><br/>
+                  <?php createMultiSelectOptions('sanctioned_post_bangladesh_professional_category', 'bangladesh_professional_category_code', 'bangladesh_professional_category_name', $customQuery, $csvs['bangladesh_professional_category_code'], "bangladesh_professional_category_code[]", " id='bangladesh_professional_category_code'  class='multiselect'"); ?><br/>
+                  <b>WHO group</b><br/>
+                  <?php createMultiSelectOptions('sanctioned_post_who_health_professional_group', 'who_health_professional_group_code', 'who_health_professional_group_name', $customQuery, $csvs['who_occupation_group_code'], "who_occupation_group_code[]", " id='who_occupation_group_code'  class='multiselect'"); ?><br/>
+                  <b>WHO ISCO</b><br/>
+                  <?php createMultiSelectOptions('sanctioned_post_who_isco_occopation_name', 'who_isco_occopation_group_code', 'who_isco_occopation_group_name', $customQuery, $csvs['who_isco_occupation_name_code'], "who_isco_occupation_name_code[]", " id='who_isco_occupation_name_code'  class='multiselect'"); ?><br/>
+                  <b>Pay scale</b><br/>
+                  <?php createMultiSelectOptionsDistinct('sanctioned_post_designation', 'payscale', 'payscale', $customQuery, $csvs['pay_scale'], "pay_scale[]", " id='pay_scale'  class='multiselect'"); ?><br/>
+                  <b>Class</b><br/>
+                  <?php createMultiSelectOptionsDistinct('sanctioned_post_designation', 'class', 'class', $customQuery, $csvs['class'], "class[]", " id='class'  class='multiselect'"); ?><br/>
+                  <b>Type</b><br/>
+                  <?php createMultiSelectOptions('sanctioned_post_type_of_post', 'type_of_post_code', 'type_of_post_name', $customQuery, $csvs['type_of_code'], "type_of_code[]", " id='type_of_code'  class='multiselect'"); ?><br/>
+                  <b>First Level</b><br/>
+                  <?php createMultiSelectOptions('sanctioned_post_first_level', 'first_level_code', 'first_level_name', $customQuery, $csvs['first_level_code'], "first_level_code[]", " id='first_level_code'  class='multiselect'"); ?><br/>
+                  <b>Second Level</b><br/>
+                  <?php createMultiSelectOptions('sanctioned_post_second_level', 'second_level_code', 'second_level_name', $customQuery, $csvs['second_level_code'], "second_level_code[]", " id='second_level_code'  class='multiselect'"); ?><br/>
+
+
+
+
+
+
+
+                </td>
+
+
+
+
+
 
                 <td style="vertical-align:top;">
                   <b>View Columns</b><br/>
                   <?php
-                  createMultiSelectOptions("INFORMATION_SCHEMA.COLUMNS", "COLUMN_NAME", "COLUMN_NAME", "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $showFieldsCsv, "f[]", " class='multiselect' ");
+                  createMultiSelectOptions("INFORMATION_SCHEMA.COLUMNS", "COLUMN_NAME", "COLUMN_NAME", "WHERE TABLE_SCHEMA = '$dbname' AND ( TABLE_NAME = '" . $staffsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $organizationsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $sanctionedpostsBaseTable['tableName'] . "')", $showFieldsCsv, "f[]", " class='multiselect' ");
                   ?>
                   <br/><b><i class="icon-list-ul"></i> Field query</b><br/>
                   <table>
                     <tr>
                       <td><b>Field</b></td>
-                      <td><?php createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $_REQUEST['search_field'], "search_field", " id='search_field'  class='pull-left' ", $optionIdField) ?></td>
+                      <td><?php createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND ( TABLE_NAME = '" . $staffsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $organizationsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $sanctionedpostsBaseTable['tableName'] . "')", $_REQUEST['search_field'], "search_field", " id='search_field'  class='pull-left' ", $optionIdField) ?></td>
                     </tr>
                     <tr>
                       <td><b>Criteria</b></td>
@@ -262,17 +385,17 @@ if (isset($_REQUEST['submit'])) {
                   </table>
                 </td>
                 <td style="vertical-align:top">
-                  <b>Additional SQL select criteria</b>
-                  <input name="SQLSelect" value="<?php echo addEditInputField('SQLSelect'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
+                  <b>Additional SQL select criteria</b><br/>
+                  <input name="SQLSelect" value="<?php echo addEditInputField('SQLSelect'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/><br/>
                   <b>Group by</b> (csv)<br/>
-                  <input name="SQLGroup" value="<?php echo addEditInputField('SQLGroup'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
+                  <input name="SQLGroup" value="<?php echo addEditInputField('SQLGroup'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/><br/>
                   <b>Column order</b> (csv)<br/>
-                  <input name="ColOrder" value="<?php echo addEditInputField('ColOrder'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
+                  <input name="ColOrder" value="<?php echo $showFieldsCsv; ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
                   <br/>
                   <b>Order by</b><br/>
                   <?php
-                  createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $_REQUEST['order_by'], "order_by", " id='order_by'  class='pull-left' ", $optionIdField);
-
+                  createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND ( TABLE_NAME = '" . $staffsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $organizationsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $sanctionedpostsBaseTable['tableName'] . "')", $_REQUEST['order_by'], "order_by", " id='order_by'  class='pull-left' ", $optionIdField);
+                  echo "<br/>";
                   $listArray = array('ASC', 'DESC');
                   createSelectOptionsFrmArray($listArray, $_REQUEST['order_sort'], 'order_sort', $params = "");
                   ?>
@@ -350,6 +473,7 @@ if (isset($_REQUEST['submit'])) {
           <thead>
             <tr>
               <?php
+              //myprint_r($showFields);
               foreach ($showFields as $fieldName) {
                 if (in_array($fieldName, $TableFields)) {
                   ?>
@@ -547,5 +671,27 @@ function assignAliasForDbFieldNames() {
   $fieldNameAlias['monthly_update_datetime'] = 'monthly_update_datetime';
   $fieldNameAlias['upload_datetime'] = 'upload_datetime';
   $fieldNameAlias['uploaded_by'] = 'uploaded_by';
+}
+
+function getTableFieldNamesFrmMultipleTables($tableNames) {
+
+  global $dbname;
+  $fieldNames = array();
+
+  $i = 0;
+  foreach ($tableNames as $tableName) {
+    $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = '$tableName'";
+    //echo $sql;
+    $r = mysql_query($sql) or die(mysql_error() . "<b>Query:</b><br>$sql<br>");
+    if (mysql_num_rows($r)) {
+      $a = mysql_fetch_rowsarr($r);
+
+      foreach ($a as $fieldName) {
+        $fieldNames[$i++] = $fieldName['COLUMN_NAME'];
+      }
+    }
+  }
+
+  return $fieldNames;
 }
 ?>
