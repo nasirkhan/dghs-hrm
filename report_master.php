@@ -544,7 +544,7 @@ if (isset($_REQUEST['submit'])) {
                     <input name="f_group_code" value="1" checked="checked" type="checkbox"/>
                     <b>Designation Group</b><br/>
                     <?php
-                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'group_code', 'group_code', $customQuery, $csvs['group'], "group_code[]", " id='group_code'  class='multiselect'");
+                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'group_code', 'designation_group_name', $customQuery, $csvs['group'], "group_code[]", " id='group_code'  class='multiselect'");
                     echo "<br/>";
                   }
                   ?>
