@@ -227,8 +227,6 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                 ?>
                                             </select>
 
-
-
                                         </div>
                                         <div class="control-group">
                                             <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
