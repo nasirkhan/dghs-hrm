@@ -27,6 +27,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 $admin_division = (int) mysql_real_escape_string(trim($_GET['admin_division']));
 $admin_district = (int) mysql_real_escape_string(trim($_GET['admin_district']));
 $admin_upazila = (int) mysql_real_escape_string(trim($_GET['admin_upazila']));
+$org_type = (int) mysql_real_escape_string(trim($_GET['org_type']));
 
 $query_string = "";
 $error_message = "";
@@ -40,6 +41,9 @@ if ($admin_district > 0) {
 }
 if ($admin_upazila > 0) {
     $query_string .= " AND organization.upazila_thana_code = $admin_upazila ";
+}
+if ($org_type > 0) {
+    $query_string .= " AND organization.org_type_code = $org_type ";
 }
 
 
@@ -91,11 +95,6 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
         include_once 'include/header/header_css_js.inc.php';
         include_once 'include/header/header_ga.inc.php';
         ?>
-        <script type="text/javascript" charset="utf-8">
-                $(document).ready(function() {
-                        $('#report_table').dataTable();
-                } );
-        </script>
     </head>
 
     <body>
@@ -204,7 +203,33 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                             }
                                             ?>                                            
                                         </div>
-                                        
+                                        <div class="control-group">
+
+                                            <select id="org_type" name="org_type">
+                                                <option value="0">Select Org Type</option>
+                                                <?php
+                                                $sql = "SELECT
+                                                                org_type.org_type_code,
+                                                                org_type.org_type_name
+                                                            FROM
+                                                                org_type
+                                                            ORDER BY
+                                                                org_type.org_type_name ASC";
+                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                while ($rows = mysql_fetch_assoc($result)) {
+                                                    if($rows['org_type_code'] == $_REQUEST['org_type']){
+                                                        echo "<option value=\"" . $rows['org_type_code'] . "\" selected='selected'>" . $rows['org_type_name'] . "</option>";
+                                                    } else{
+                                                        echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
+                                                    }                                                    
+                                                }
+                                                ?>
+                                            </select>
+
+
+
+                                        </div>
                                         <div class="control-group">
                                             <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
                                             <a href="report_designation_summary.php" class="btn btn-default" > Reset</a>
@@ -218,7 +243,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                 <div class="row-fluid">
                                     <div class="span12">
                                         <div class="alert alert-info">
-                                            <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary btn-small pull-right">
+                                            <input type="button" onclick="tableToExcel('reportTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary btn-small pull-right">
                                             Selected values are:
                                             <?php
                                             if ($admin_division > 0) {
@@ -238,7 +263,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                             <div class="row-fluid">
                                 <div class="span12">
                                     <?php if ($showReport): ?>
-                                        <table class="table table-bordered table-hover table-striped">
+                                    <table id="reportTable" class="table table-bordered table-hover table-striped">
                                             <thead>
                                                 <tr>
                                                     <th><strong>#</strong></th>
