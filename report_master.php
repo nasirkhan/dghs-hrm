@@ -240,6 +240,7 @@ if (isset($_REQUEST['submit'])) {
   $fieldNameAlias = array();
   assignAliasForDbFieldNames();
   $sexCountArray = getSexGroupedCount();
+  $filledPostCountArray = getFilledPostCount();
 
   //echo "<pre>" . count($sexCountArray) . "</pre>";
   //myprint_r($sexCountArray);
@@ -814,7 +815,9 @@ if (isset($_REQUEST['submit'])) {
               }
               if ($sexCountArray) {
                 echo "<th><b>Male</b></th>";
-                echo "<th><b>Feale</b></th>";
+                echo "<th><b>Female</b></th>";
+                echo "<th><b>Filled up</b></th>";
+                echo "<th><b>Vacant</b></th>";
               }
               ?>
 
@@ -867,8 +870,13 @@ if (isset($_REQUEST['submit'])) {
                   if (strlen($sexCountArray[$stringTok . "Female|"])) {
                     $femaleCount = $sexCountArray[$stringTok . "Female|"];
                   }
+                  $filledupTotal = $maleCount + $femaleCount;
+                  $vacantTotal = $data['total'] - $filledupTotal;
+
                   echo "<td>$maleCount</td>";
                   echo "<td>$femaleCount</td>";
+                  echo "<td>$filledupTotal</td>";
+                  echo "<td>$vacantTotal</td>";
                 }
                 ?>
 
@@ -1038,6 +1046,41 @@ function getSexGroupedCount($additionalWheres = " AND s.sex_name in('Male','Fema
   if (strlen(trim($group_by))) {
 
     $sql = "SELECT $group_by,s.sex_name, count(*) as total FROM $tableName $SQLWhereStatement $additionalWheres GROUP BY $group_by,s.sex_name $orderByParam";
+    //echo "<pre>$sql</pre>"; //debug
+
+    $r = mysql_query($sql) or die(mysql_error());
+    if (mysql_num_rows($r)) {
+      $a = mysql_fetch_rowsarr($r);
+      $countStore = array();
+
+      $group_by_array = explode(',', $group_by);
+
+      foreach ($a as $row) {
+        $numberOfCol = count($group_by_array);
+        $str = "";
+        for ($i = 0; $i <= $numberOfCol; $i++) {
+          $str.=$row[$i] . "|";
+        }
+        $countStore[$str] = $row[$i];
+      }
+      if (count($countStore)) {
+        return $countStore;
+      }
+    }
+  }
+  return FALSE;
+  //myprint_r($countStore);
+}
+
+function getFilledPostCount($additionalWheres = " AND p.staff_id_2>0 ") {
+  global $tableName;
+  global $SQLWhereStatement;
+  global $group_by;
+  global $orderByParam;
+
+  if (strlen(trim($group_by))) {
+
+    $sql = "SELECT $group_by, count(*) as total FROM $tableName $SQLWhereStatement $additionalWheres GROUP BY $group_by,s.sex_name $orderByParam";
     //echo "<pre>$sql</pre>"; //debug
 
     $r = mysql_query($sql) or die(mysql_error());
