@@ -250,6 +250,8 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                             }
                                             if ($admin_upazila > 0) {
                                                 echo " & Upazila: <strong>" . getUpazilaNamefromBBSCode($admin_upazila, $admin_district) . "</strong>";
+                                            }if ($org_type_name > 0) {
+                                                echo " Org Type: <strong>" . $org_type_name . "</strong>";
                                             }
                                             ?>
                                         </div>
