@@ -69,7 +69,7 @@ $singleSelectItems = array('division_code', 'district_code', 'upazila_id'); // p
 $multiSelectItems = array('agency_code', 'org_type_code', 'org_level_code', 'org_healthcare_level_code', 'org_location_type', 'ownership_code', 'posting_status',
     'tribal_id', 'post_type_id', 'job_posting_id', 'working_status_id', 'draw_salary_id', 'sex', 'marital_status', 'religion',
     'professional_discipline_of_current_designation', 'type_of_educational_qualification', 'govt_quarter',
-    'designation', 'group', 'bangladesh_professional_category_code', 'who_occupation_group_code', 'who_isco_occupation_name_code', 'pay_scale', 'class', 'type_of_code',
+    'designation', 'group_code', 'bangladesh_professional_category_code', 'who_occupation_group_code', 'who_isco_occupation_name_code', 'pay_scale', 'class', 'type_of_code',
     'first_level_code', 'second_level_code'); // put the input field names for multiple selection dropdowns. Input filed name must be same as table filed name
 
 $tableFieldMap = array();
@@ -110,7 +110,7 @@ $tableFieldMap['govt_quarter'] = $staffsBaseTable['tableNameAlias'] . ".govt_qua
   'first_level_code', 'second_level_code'
  */
 $tableFieldMap['designation'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".designation";
-$tableFieldMap['designation_group_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".designation_group_code";
+$tableFieldMap['group_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".group_code";
 $tableFieldMap['bangladesh_professional_category_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".bangladesh_professional_category_code";
 $tableFieldMap['who_occupation_group_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".who_occupation_group_code";
 $tableFieldMap['who_isco_occupation_name_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".who_isco_occupation_name_code";
@@ -146,7 +146,7 @@ if (isset($_REQUEST['submit'])) {
 
   foreach ($singleSelectItems as $singleSelectItem) {
     if (strlen($_REQUEST[$singleSelectItem]) && $_REQUEST[$singleSelectItem] > 0) {
-      $parameterized_query.=" AND '$tableFieldMap[$singleSelectItem]' = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
+      $parameterized_query.=" AND $tableFieldMap[$singleSelectItem] = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
     }
   }
 
@@ -154,7 +154,7 @@ if (isset($_REQUEST['submit'])) {
   foreach ($multiSelectItems as $multiSelectItem) {
     if (count($_REQUEST[$multiSelectItem])) {
       $csvs[$multiSelectItem] = "'" . implode("','", $_REQUEST[$multiSelectItem]) . "'";
-      $parameterized_query.=" AND '$tableFieldMap[$multiSelectItem]' in (" . $csvs[$multiSelectItem] . ")  ";
+      $parameterized_query.=" AND $tableFieldMap[$multiSelectItem] in (" . $csvs[$multiSelectItem] . ")  ";
       //$selection_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong>";
     }
   }
@@ -540,11 +540,11 @@ if (isset($_REQUEST['submit'])) {
                   }
                   ?>
 
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_group'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_group" value="1" checked="checked" type="checkbox"/>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_group_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_group_code" value="1" checked="checked" type="checkbox"/>
                     <b>Designation Group</b><br/>
                     <?php
-                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'designation_group_name', 'designation_group_name', $customQuery, $csvs['group'], "group[]", " id='group'  class='multiselect'");
+                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'group_code', 'designation_group_name', $customQuery, $csvs['group'], "group_code[]", " id='group_code'  class='multiselect'");
                     echo "<br/>";
                   }
                   ?>
