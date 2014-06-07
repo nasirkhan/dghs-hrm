@@ -3,11 +3,12 @@ require_once 'configuration.php';
 if ($_SESSION['logged'] != true) {
   header("location:login.php");
 }
-
 $t = $_REQUEST['t']; // $t = report type 'staff','post'
 /**
  * Config
  */
+$rTitle = $_REQUEST['t']; // report title
+
 $staffsBaseTable['tableName'] = "old_tbl_staff_organization";
 $staffsBaseTable['tableNameAlias'] = "s";
 $organizationsBaseTable['tableName'] = "organization";
@@ -33,7 +34,9 @@ LEFT JOIN " . $sanctionedpostsBaseTable['tableName'] . " AS " . $sanctionedposts
    */
   $order_by = "s.staff_name";
   $order_sort = "ASC";
-} else if ($t == 'post') {
+} else {
+  $t = "post";
+  $rTitle = "post";
   $showFields = array("designation", "group", "class", "first_level_name", "second_level_name", "staff_name", "staff_id", "father_name", "contact_no", "org_name", "org_type_name", "division_name", "district_name", "upazila_thana_name");
 
   /**
@@ -128,6 +131,10 @@ if ($_REQUEST['tableheader_without_underscore'] == 'true') {
 // forms submission
 if (isset($_REQUEST['submit'])) {
 
+  if (strlen(trim($_REQUEST['rTitle']))) {
+    $rTitle = trim($_REQUEST['rTitle']);
+  }
+
   $parameterized_query = " WHERE 1 "; // default parameter query
   //$selection_string = "";
 
@@ -196,9 +203,16 @@ if (isset($_REQUEST['submit'])) {
   if (strlen(trim($_REQUEST['order_by'])) && strlen(trim($_REQUEST['order_sort']))) {
     $order_by = trim($_REQUEST['order_by']);
     $order_sort = trim($_REQUEST['order_sort']);
+
+    $orderByParam = " ORDER BY $order_by $order_sort ";
   }
 
-  $parameterized_query .= " ORDER BY $order_by $order_sort ";
+  if (strlen(trim($_REQUEST['orderbyfull']))) {
+    $orderByParam = " ORDER BY " . trim($_REQUEST['orderbyfull']);
+  }
+
+
+  $parameterized_query .= $orderByParam;
   /*   * *********** */
 
 
@@ -236,7 +250,7 @@ if (isset($_REQUEST['submit'])) {
   <body>
     <?php include_once 'include/header/header_top_menu.inc.php'; ?>
     <div class="container">
-      <h4 style="text-transform: uppercase">Report : Staff</h4>
+      <h4 style="text-transform: uppercase">Report : <?php echo $rTitle; ?></h4>
       <?php if ($_REQUEST['HideFilter'] != 'true') { ?>
 
         <div id="showHide" style="cursor: pointer">
@@ -265,19 +279,25 @@ if (isset($_REQUEST['submit'])) {
                 <td style = "vertical-align: top">
                   <b>Select Administrative Unit</b><br/>
                   <table>
-                    <tr>
-                      <td><b>Division</b></td>
-                      <td><?php createSelectOptions('admin_division', 'division_bbs_code', 'division_name', $customQuery, $_REQUEST['division_code'], "division_code", " id='admin_division'  class='pull-left' ", $optionIdField)
-        ?></td>
-                    </tr>
-                    <tr>
-                      <td><b>District</b></td>
-                      <td><?php createSelectOptions('admin_district', 'district_bbs_code', 'district_name', " WHERE division_bbs_code='" . $_REQUEST['division_code'] . "'", $_REQUEST['district_code'], "district_code", " id='admin_district' class='pull-left' ", $optionIdField); ?></td>
-                    </tr>
-                    <tr>
-                      <td><b>Upazila</b></td>
-                      <td><?php createSelectOptions('admin_upazila', 'id', 'upazila_name', " WHERE upazila_district_code='" . $_REQUEST['district_code'] . "'", $_REQUEST['upazila_id'], "upazila_id", " id='admin_upazila'  class='pull-left' ", $optionIdField); ?></td>
-                    </tr>
+                    <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_division_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                      <tr>
+                        <td style="width: 170px;"><input name="f_division_code" value="1" checked="checked" type="checkbox"/> <b>Division</b></td>
+                        <td><?php createSelectOptions('admin_division', 'division_bbs_code', 'division_name', $customQuery, $_REQUEST['division_code'], "division_code", " id='admin_division'  class='pull-left' style='width:80px'", $optionIdField)
+                      ?></td>
+                      </tr>
+                    <?php } ?>
+                    <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_district_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                      <tr>
+                        <td><input name="f_district_code" value="1" checked="checked" type="checkbox" /> <b>District</b></td>
+                        <td><?php createSelectOptions('admin_district', 'district_bbs_code', 'district_name', " WHERE division_bbs_code='" . $_REQUEST['division_code'] . "'", $_REQUEST['district_code'], "district_code", " id='admin_district' class='pull-left' style='width:80px' ", $optionIdField); ?></td>
+                      </tr>
+                    <?php } ?>
+                    <?php if ((isset($_REQUEST['submit']) && $_REQUEST['admin_upazila'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                      <tr>
+                        <td><input name="admin_upazila" value="1" checked="checked" type="checkbox"/> <b>Upazila</b></td>
+                        <td><?php createSelectOptions('admin_upazila', 'id', 'upazila_name', " WHERE upazila_district_code='" . $_REQUEST['district_code'] . "'", $_REQUEST['upazila_id'], "upazila_id", " id='admin_upazila'  class='pull-left' style='width:80px;' ", $optionIdField); ?></td>
+                      </tr>
+                    <?php } ?>
                   </table>
                   <?php
                   $checked = "";
@@ -288,138 +308,378 @@ if (isset($_REQUEST['submit'])) {
                   <input type="checkbox" name="noDatatable" value="true" <?= $checked ?>/> Optimize loading
                 </td>
                 <td style="vertical-align: top">
-                  <b>Agency</b><br/>
-                  <?php //createMultiSelectOptions($dbtableName, $dbtableIdField, $dbtableValueField, $customQuery, $selectedIdCsv, $name, $params);            ?>
-                  <?php createMultiSelectOptions('org_agency_code', 'org_agency_code', 'org_agency_name', $customQuery, $csvs['agency_code'], "agency_code[]", " id='agency_code'  class='multiselect' "); ?><br/>
-                  <b>Org Level</b><br/>
-                  <?php createMultiSelectOptions('org_level', 'org_level_code', 'org_level_name', $customQuery, $csvs['org_level_code'], "org_level_code[]", " id='org_level_code' class='multiselect' "); ?><br/>
-                  <b>Org Type</b><br/>
-                  <?php createMultiSelectOptions('org_type', 'org_type_code', 'org_type_name', $customQuery, $csvs['org_type_code'], "org_type_code[]", " id='type_code'  class='multiselect'"); ?>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_agency_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_agency_code" value="1" checked="checked" type="checkbox"/> <b>Agency</b><br/>
+
+                    <?php
+                    createMultiSelectOptions('org_agency_code', 'org_agency_code', 'org_agency_name', $customQuery, $csvs['agency_code'], "agency_code[]", " id='agency_code'  class='multiselect' ");
+                    echo "<br/>";
+                  }
+                  ?>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_org_level_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_org_level_code" value="1" checked="checked" type="checkbox"/> <b>Org Level</b>
+                    <?php
+                    createMultiSelectOptions('org_level', 'org_level_code', 'org_level_name', $customQuery, $csvs['org_level_code'], "org_level_code[]", " id='org_level_code' class='multiselect' ");
+                    echo "<br/>";
+                  }
+                  ?>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_org_type_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_org_type_code" value="1" checked="checked" type="checkbox"/> <b>Org Type</b><br/>
+                    <?php
+                    createMultiSelectOptions('org_type', 'org_type_code', 'org_type_name', $customQuery, $csvs['org_type_code'], "org_type_code[]", " id='type_code'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
 
                 </td>
                 <td style="vertical-align: top">
-                  <b>Healthcare Level</b><br/>
-                  <?php createMultiSelectOptions('org_healthcare_levels', 'healthcare_code', 'healthcare_name', $customQuery, $csvs['org_healthcare_level_code'], "org_healthcare_level_code[]", " id='org_healthcare_level_code'  class='multiselect'"); ?><br/>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_org_healthcare_level_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_org_healthcare_level_code" value="1" checked="checked" type="checkbox"/> <b>Healthcare Level</b><br/>
+                    <?php
+                    createMultiSelectOptions('org_healthcare_levels', 'healthcare_code', 'healthcare_name', $customQuery, $csvs['org_healthcare_level_code'], "org_healthcare_level_code[]", " id='org_healthcare_level_code'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
 
-                  <b>Location Type</b><br/>
-                  <?php createMultiSelectOptions('org_location_type', 'org_location_type_code', 'org_location_type_name', $customQuery, $csvs['org_location_type'], "org_location_type[]", " id='org_location_type'  class='multiselect'"); ?>
-                  <br/><b>Ownership</b><br/>
-                  <?php createMultiSelectOptions('org_ownership_authority', 'org_ownership_authority_code', 'org_ownership_authority_name', $customQuery, $csvs['ownership_code'], "ownership_code[]", " id='ownership_code'  class='multiselect'"); ?>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_org_location_type'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_org_location_type" value="1" checked="checked" type="checkbox"/>
+                    <b>Location Type</b><br/>
+                    <?php
+                    createMultiSelectOptions('org_location_type', 'org_location_type_code', 'org_location_type_name', $customQuery, $csvs['org_location_type'], "org_location_type[]", " id='org_location_type'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?><?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_ownership_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_ownership_code" value="1" checked="checked" type="checkbox"/>
+                    <b>Ownership</b><br/>
+                    <?php
+                    createMultiSelectOptions('org_ownership_authority', 'org_ownership_authority_code', 'org_ownership_authority_name', $customQuery, $csvs['ownership_code'], "ownership_code[]", " id='ownership_code'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
                 </td>
 
                 <td style="vertical-align: top">
-                  <b>Department</b><br/>
-                  <?php createMultiSelectOptions('very_old_departments', 'department_id', 'name', $customQuery, $csvs['department_id'], "department_id[]", " id='department_id'  class='multiselect'"); ?><br/>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_department_id'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_department_id" value="1" checked="checked" type="checkbox"/>
+                    <b>Department</b><br/>
+                    <?php
+                    createMultiSelectOptions('very_old_departments', 'department_id', 'name', $customQuery, $csvs['department_id'], "department_id[]", " id='department_id'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
 
-                  <b>Posting type</b><br/>
-                  <?php createMultiSelectOptions('staff_posting_type', 'staff_posting_type_id', 'staff_posting_type_name', $customQuery, $csvs['staff_posting'], "staff_posting[]", " id='staff_posting'  class='multiselect'"); ?><br/>
-                  <b>Posting Status</b><br/>
-                  <?php createMultiSelectOptions('staff_job_posting', 'job_posting_id', 'job_posting_name', $customQuery, $csvs['posting_status'], "posting_status[]", " id='posting_status'  class='multiselect'"); ?>
-                  <br/><b>Job Class</b><br/>
-                  <?php createMultiSelectOptions('staff_job_class', 'job_class_id', 'job_class_name', $customQuery, $csvs['staff_job_class'], "staff_job_class[]", " id='staff_job_class'  class='multiselect'"); ?>
-                  <br/><b>Professional category</b><br/>
-                  <?php createMultiSelectOptions('staff_professional_category_type', 'professional_type_id', 'professional_type_name', $customQuery, $csvs['staff_professional_category'], "staff_professional_category[]", " id='staff_professional_category'  class='multiselect'"); ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_staff_posting'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_staff_posting" value="1" checked="checked" type="checkbox"/>
+                    <b>Posting type</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_posting_type', 'staff_posting_type_id', 'staff_posting_type_name', $customQuery, $csvs['staff_posting'], "staff_posting[]", " id='staff_posting'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_posting_status'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_posting_status" value="1" checked="checked" type="checkbox"/>
+                    <b>Posting Status</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_job_posting', 'job_posting_id', 'job_posting_name', $customQuery, $csvs['posting_status'], "posting_status[]", " id='posting_status'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_staff_job_class'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_staff_job_class" value="1" checked="checked" type="checkbox"/>
+                    <br/><b>Job Class</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_job_class', 'job_class_id', 'job_class_name', $customQuery, $csvs['staff_job_class'], "staff_job_class[]", " id='staff_job_class'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_staff_professional_category'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_staff_professional_category" value="1" checked="checked" type="checkbox"/>
+                    <br/><b>Professional category</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_professional_category_type', 'professional_type_id', 'professional_type_name', $customQuery, $csvs['staff_professional_category'], "staff_professional_category[]", " id='staff_professional_category'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
                 </td>
 
                 <td style="vertical-align: top">
-                  <b>Tribal</b><br/>
-                  <?php createMultiSelectOptions('staff_tribal', 'tribal_id', 'tribal_value', $customQuery, $csvs['tribal_id'], "tribal_id[]", " id='tribal_id'  class='multiselect'"); ?><br/>
 
-                  <b>Working status</b><br/>
-                  <?php createMultiSelectOptions('staff_working_status', 'working_status_id', 'working_status_name', $customQuery, $csvs['working_status_id'], "working_status_id[]", " id='working_status_id'  class='multiselect'"); ?><br/>
-                  <b>Salary place</b><br/>
-                  <?php createMultiSelectOptions('staff_draw_salaray_place', 'draw_salary_id', 'draw_salaray_place', $customQuery, $csvs['draw_salary_id'], "draw_salary_id[]", " id='draw_salary_id'  class='multiselect'"); ?><br/>
-                  <b>Sex</b><br/>
-                  <?php createMultiSelectOptions('staff_sex', 'sex_type_id', 'sex_name', $customQuery, $csvs['sex'], "sex[]", " id='sex'  class='multiselect'"); ?><br/>
-                  <b>Marital status</b><br/>
-                  <?php createMultiSelectOptions('staff_marital_status', 'marital_status_id', 'marital_status', $customQuery, $csvs['marital_status'], "marital_status[]", " id='marital_status'  class='multiselect'"); ?><br/>
-                  <b>Religious group</b><br/>
-                  <?php createMultiSelectOptions('staff_religious_group', 'religious_group_id', 'religious_group_name', $customQuery, $csvs['religion'], "religion[]", " id='religion'  class='multiselect'"); ?><br/>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_tribal_id'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_tribal_id" value="1" checked="checked" type="checkbox"/>
+                    <b>Tribal</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_tribal', 'tribal_id', 'tribal_value', $customQuery, $csvs['tribal_id'], "tribal_id[]", " id='tribal_id'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_working_status_id'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_working_status_id" value="1" checked="checked" type="checkbox"/>
+                    <b>Working status</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_working_status', 'working_status_id', 'working_status_name', $customQuery, $csvs['working_status_id'], "working_status_id[]", " id='working_status_id'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_draw_salary_id'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_draw_salary_id" value="1" checked="checked" type="checkbox"/>
+                    <b>Salary place</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_draw_salaray_place', 'draw_salary_id', 'draw_salaray_place', $customQuery, $csvs['draw_salary_id'], "draw_salary_id[]", " id='draw_salary_id'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_sex'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_sex" value="1" checked="checked" type="checkbox"/>
+                    <b>Sex</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_sex', 'sex_type_id', 'sex_name', $customQuery, $csvs['sex'], "sex[]", " id='sex'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_marital_status'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_marital_status" value="1" checked="checked" type="checkbox"/>
+                    <b>Marital status</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_marital_status', 'marital_status_id', 'marital_status', $customQuery, $csvs['marital_status'], "marital_status[]", " id='marital_status'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_religion'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_religion" value="1" checked="checked" type="checkbox"/>
+                    <b>Religious group</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_religious_group', 'religious_group_id', 'religious_group_name', $customQuery, $csvs['religion'], "religion[]", " id='religion'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
 
                 </td>
                 <td style="vertical-align: top">
-                  <b>Prof Discipline</b><br/>
-                  <?php createMultiSelectOptions('staff_profesional_discipline', 'discipline_id', 'discipline_name', $customQuery, $csvs['professional_discipline_of_current_designation'], "professional_discipline_of_current_designation[]", " id='professional_discipline_of_current_designation'  class='multiselect'"); ?><br/>
-                  <b>Edu qualification</b><br/>
-                  <?php createMultiSelectOptions('staff_educational_qualification', 'educational_qualifiaction_Id', 'educational_qualification', $customQuery, $csvs['type_of_educational_qualification'], "type_of_educational_qualification[]", " id='type_of_educational_qualification'  class='multiselect'"); ?><br/>
-                  <b>Govt. Quarter</b><br/>
-                  <?php createMultiSelectOptions('staff_govt_quater', 'govt_quater_id', 'govt_quater', $customQuery, $csvs['govt_quarter'], "govt_quarter[]", " id='govt_quarter'  class='multiselect'"); ?><br/>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_professional_discipline_of_current_designation'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_professional_discipline_of_current_designation" value="1" checked="checked" type="checkbox"/>
+                    <b>Prof Discipline</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_profesional_discipline', 'discipline_id', 'discipline_name', $customQuery, $csvs['professional_discipline_of_current_designation'], "professional_discipline_of_current_designation[]", " id='professional_discipline_of_current_designation'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_type_of_educational_qualification'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_type_of_educational_qualification" value="1" checked="checked" type="checkbox"/>
+                    <b>Edu qualification</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_educational_qualification', 'educational_qualifiaction_Id', 'educational_qualification', $customQuery, $csvs['type_of_educational_qualification'], "type_of_educational_qualification[]", " id='type_of_educational_qualification'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_govt_quarter'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_govt_quarter" value="1" checked="checked" type="checkbox"/>
+                    <b>Govt. Quarter</b><br/>
+                    <?php
+                    createMultiSelectOptions('staff_govt_quater', 'govt_quater_id', 'govt_quater', $customQuery, $csvs['govt_quarter'], "govt_quarter[]", " id='govt_quarter'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+
                 </td>
 
                 <td style="vertical-align: top">
 
-                  <b>Designation</b><br/>
-                  <?php createMultiSelectOptionsDistinct('sanctioned_post_designation', 'designation', 'designation', $customQuery, $csvs['designation'], "designation[]", " id='designation'  class='multiselect'"); ?><br/>
-                  <b>BD Prof Cat</b><br/>
-                  <?php createMultiSelectOptions('sanctioned_post_bangladesh_professional_category', 'bangladesh_professional_category_code', 'bangladesh_professional_category_name', $customQuery, $csvs['bangladesh_professional_category_code'], "bangladesh_professional_category_code[]", " id='bangladesh_professional_category_code'  class='multiselect'"); ?><br/>
-                  <b>WHO group</b><br/>
-                  <?php createMultiSelectOptions('sanctioned_post_who_health_professional_group', 'who_health_professional_group_code', 'who_health_professional_group_name', $customQuery, $csvs['who_occupation_group_code'], "who_occupation_group_code[]", " id='who_occupation_group_code'  class='multiselect'"); ?><br/>
-                  <b>WHO ISCO</b><br/>
-                  <?php createMultiSelectOptions('sanctioned_post_who_isco_occopation_name', 'who_isco_occopation_group_code', 'who_isco_occopation_group_name', $customQuery, $csvs['who_isco_occupation_name_code'], "who_isco_occupation_name_code[]", " id='who_isco_occupation_name_code'  class='multiselect'"); ?><br/>
-                  <b>Pay scale</b><br/>
-                  <?php createMultiSelectOptionsDistinct('sanctioned_post_designation', 'payscale', 'payscale', $customQuery, $csvs['pay_scale'], "pay_scale[]", " id='pay_scale'  class='multiselect'"); ?><br/>
-                  <b>Class</b><br/>
-                  <?php createMultiSelectOptionsDistinct('sanctioned_post_designation', 'class', 'class', $customQuery, $csvs['class'], "class[]", " id='class'  class='multiselect'"); ?><br/>
-                  <b>Type</b><br/>
-                  <?php createMultiSelectOptions('sanctioned_post_type_of_post', 'type_of_post_code', 'type_of_post_name', $customQuery, $csvs['type_of_code'], "type_of_code[]", " id='type_of_code'  class='multiselect'"); ?><br/>
-                  <b>First Level</b><br/>
-                  <?php createMultiSelectOptions('sanctioned_post_first_level', 'first_level_code', 'first_level_name', $customQuery, $csvs['first_level_code'], "first_level_code[]", " id='first_level_code'  class='multiselect'"); ?><br/>
-                  <b>Second Level</b><br/>
-                  <?php createMultiSelectOptions('sanctioned_post_second_level', 'second_level_code', 'second_level_name', $customQuery, $csvs['second_level_code'], "second_level_code[]", " id='second_level_code'  class='multiselect'"); ?><br/>
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_designation'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_designation" value="1" checked="checked" type="checkbox"/>
+                    <b>Designation</b><br/>
+                    <?php
+                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'designation', 'designation', $customQuery, $csvs['designation'], "designation[]", " id='designation'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
 
 
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_bangladesh_professional_category_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_bangladesh_professional_category_code" value="1" checked="checked" type="checkbox"/>
+                    <b>BD Prof Cat</b><br/>
+                    <?php
+                    createMultiSelectOptions('sanctioned_post_bangladesh_professional_category', 'bangladesh_professional_category_code', 'bangladesh_professional_category_name', $customQuery, $csvs['bangladesh_professional_category_code'], "bangladesh_professional_category_code[]", " id='bangladesh_professional_category_code'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
 
 
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_who_occupation_group_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_who_occupation_group_code" value="1" checked="checked" type="checkbox"/>
+                    <b>WHO group</b><br/>
+                    <?php
+                    createMultiSelectOptions('sanctioned_post_who_health_professional_group', 'who_health_professional_group_code', 'who_health_professional_group_name', $customQuery, $csvs['who_occupation_group_code'], "who_occupation_group_code[]", " id='who_occupation_group_code'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
 
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_who_isco_occopation_group_name'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_who_isco_occopation_group_name" value="1" checked="checked" type="checkbox"/>
+                    <b>WHO ISCO</b><br/>
+                    <?php
+                    createMultiSelectOptions('sanctioned_post_who_isco_occopation_name', 'who_isco_occopation_group_code', 'who_isco_occopation_group_name', $customQuery, $csvs['who_isco_occupation_name_code'], "who_isco_occupation_name_code[]", " id='who_isco_occupation_name_code'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_pay_scale'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_pay_scale" value="1" checked="checked" type="checkbox"/>
+                    <b>Pay scale</b><br/>
+                    <?php
+                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'payscale', 'payscale', $customQuery, $csvs['pay_scale'], "pay_scale[]", " id='pay_scale'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_class'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_class" value="1" checked="checked" type="checkbox"/>
+                    <b>Class</b><br/>
+                    <?php
+                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'class', 'class', $customQuery, $csvs['class'], "class[]", " id='class'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_type_of_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_type_of_code" value="1" checked="checked" type="checkbox"/>
+                    <b>Type</b><br/>
+                    <?php
+                    createMultiSelectOptions('sanctioned_post_type_of_post', 'type_of_post_code', 'type_of_post_name', $customQuery, $csvs['type_of_code'], "type_of_code[]", " id='type_of_code'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_first_level_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_first_level_code" value="1" checked="checked" type="checkbox"/>
+                    <b>First Level</b><br/>
+                    <?php
+                    createMultiSelectOptions('sanctioned_post_first_level', 'first_level_code', 'first_level_name', $customQuery, $csvs['first_level_code'], "first_level_code[]", " id='first_level_code'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_second_level_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_second_level_code" value="1" checked="checked" type="checkbox"/>
+                    <b>Second Level</b><br/>
+                    <?php
+                    createMultiSelectOptions('sanctioned_post_second_level', 'second_level_code', 'second_level_name', $customQuery, $csvs['second_level_code'], "second_level_code[]", " id='second_level_code'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
 
 
                 </td>
-
-
-
-
 
 
                 <td style="vertical-align:top;">
-                  <b>View Columns</b><br/>
-                  <?php
-                  createMultiSelectOptions("INFORMATION_SCHEMA.COLUMNS", "COLUMN_NAME", "COLUMN_NAME", "WHERE TABLE_SCHEMA = '$dbname' AND ( TABLE_NAME = '" . $staffsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $organizationsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $sanctionedpostsBaseTable['tableName'] . "')", $showFieldsCsv, "f[]", " class='multiselect' ");
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_columns'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_columns" value="1" checked="checked" type="checkbox"/>
+                    <b>View Columns</b><br/>
+                    <?php
+                    createMultiSelectOptions("INFORMATION_SCHEMA.COLUMNS", "COLUMN_NAME", "COLUMN_NAME", "WHERE TABLE_SCHEMA = '$dbname' AND ( TABLE_NAME = '" . $staffsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $organizationsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $sanctionedpostsBaseTable['tableName'] . "')", $showFieldsCsv, "f[]", " class='multiselect' ");
+                    echo "<br/>";
+                  }
                   ?>
-                  <br/><b><i class="icon-list-ul"></i> Field query</b><br/>
-                  <table>
-                    <tr>
-                      <td><b>Field</b></td>
-                      <td><?php createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND ( TABLE_NAME = '" . $staffsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $organizationsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $sanctionedpostsBaseTable['tableName'] . "')", $_REQUEST['search_field'], "search_field", " id='search_field'  class='pull-left' ", $optionIdField) ?></td>
-                    </tr>
-                    <tr>
-                      <td><b>Criteria</b></td>
-                      <td><?php
-                        $listArray = array('=', 'LIKE', '>', ">=", "<", "<=");
-                        createSelectOptionsFrmArray($listArray, $_REQUEST['search_criteria'], 'search_criteria', $params = "");
-                        ?>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><b>Value</b></td>
-                      <td><input class='' name="search_value" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;" value="<?php echo addEditInputField('search_value'); ?>" /></td>
-                    </tr>
-                  </table>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_field_query'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_field_query" value="1" checked="checked" type="checkbox"/>
+                    <b><i class="icon-list-ul"></i> Field query</b><br/>
+                    <table>
+                      <tr>
+                        <td><b>Field</b></td>
+                        <td><?php createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND ( TABLE_NAME = '" . $staffsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $organizationsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $sanctionedpostsBaseTable['tableName'] . "')", $_REQUEST['search_field'], "search_field", " id='search_field'  class='pull-left' ", $optionIdField) ?></td>
+                      </tr>
+                      <tr>
+                        <td><b>Criteria</b></td>
+                        <td><?php
+                          $listArray = array('=', 'LIKE', '>', ">=", "<", "<=");
+                          createSelectOptionsFrmArray($listArray, $_REQUEST['search_criteria'], 'search_criteria', $params = "");
+                          ?>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><b>Value</b></td>
+                        <td><input class='' name="search_value" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;" value="<?php echo addEditInputField('search_value'); ?>" /></td>
+                      </tr>
+                    </table>
+                  <?php } ?>
                 </td>
                 <td style="vertical-align:top">
-                  <b>Additional SQL select criteria</b><br/>
-                  <input name="SQLSelect" value="<?php echo addEditInputField('SQLSelect'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/><br/>
-                  <b>Group by</b> (csv)<br/>
-                  <input name="SQLGroup" value="<?php echo addEditInputField('SQLGroup'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/><br/>
-                  <b>Column order</b> (csv)<br/>
-                  <input name="ColOrder" value="<?php echo $showFieldsCsv; ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
-                  <br/>
-                  <b>Order by</b><br/>
-                  <?php
-                  createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND ( TABLE_NAME = '" . $staffsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $organizationsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $sanctionedpostsBaseTable['tableName'] . "')", $_REQUEST['order_by'], "order_by", " id='order_by'  class='pull-left' ", $optionIdField);
-                  echo "<br/>";
-                  $listArray = array('ASC', 'DESC');
-                  createSelectOptionsFrmArray($listArray, $_REQUEST['order_sort'], 'order_sort', $params = "");
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_SQLSelect'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_SQLSelect" value="1" checked="checked" type="checkbox"/>
+                    <b>Additional SQL select criteria</b><br/>
+                    <input name="SQLSelect" value="<?php echo addEditInputField('SQLSelect'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/><br/>
+                  <?php } ?>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_SQLGroup'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_SQLGroup" value="1" checked="checked" type="checkbox"/>
+                    <b>Group by</b> (csv)
+                    <br/><input name="SQLGroup" value="<?php echo addEditInputField('SQLGroup'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
+                    <br/>
+                  <?php } ?>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_ColOrder'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_ColOrder" value="1" checked="checked" type="checkbox"/>
+                    <b>Column order</b> (csv)
+                    <br/><input name="ColOrder" value="<?php echo addEditInputField('ColOrder'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
+                    <br/>
+                  <?php } ?>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_order_sort'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_order_sort" value="1" checked="checked" type="checkbox"/>
+                    <b>Order by</b><br/>
+                    <?php
+                    createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND ( TABLE_NAME = '" . $staffsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $organizationsBaseTable['tableName'] . "' OR TABLE_NAME = '" . $sanctionedpostsBaseTable['tableName'] . "')", $_REQUEST['order_by'], "order_by", " id='order_by'  class='pull-left' ", $optionIdField);
+                    echo "<br/>";
+                    $listArray = array('ASC', 'DESC');
+                    createSelectOptionsFrmArray($listArray, $_REQUEST['order_sort'], 'order_sort', $params = "");
+                    echo "<br>";
+                  }
                   ?>
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_orderbyfull'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_orderbyfull" value="1" checked="checked" type="checkbox"/>
+                    <b>Order by </b> <small>(fieldName ASC, fielName2 DESC ...)</small>
+                    <br/><input name="orderbyfull" value="<?php echo addEditInputField('orderbyfull'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
+                    <br/>
+                  <?php } ?>
+
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_rTitle'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_rTitle" value="1" checked="checked" type="checkbox"/>
+                    <b>Report title</b>
+                    <br/><input name="rTitle" value="<?php echo addEditInputField('rTitle'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
+                    <br/>
+                  <?php } ?>
 
                 </td>
               </tr>
