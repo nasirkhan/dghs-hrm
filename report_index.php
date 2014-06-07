@@ -69,7 +69,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                         <h3>List of report pages</h3>
                         
                         <div class="row-fluid">
-                            
+                            Designation wise report
                             <ul>
                                 <li>
                                     <a href="report_designation_wise_summary.php">Designation Wise Summary Report </a>
@@ -77,9 +77,35 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                 <li>
                                     <a href="report_designation_group_wise_summary.php">Designation Group Wise Summary Report </a>
                                 </li>
+                                <li>
+                                    <a href="report_institute_wise_designation_summary.php">Institute Wise Designation Summary Report </a>
+                                </li>
+                                <li>
+                                    <a href="report_type_of_post_and_institute_wise_designation.php">Type of post and Institute wise designation</a>
+                                </li>
                             </ul>
-                            
-                            <table class="table table-striped table-bordered">
+                            Personnel wise reportable
+                            <ul>
+                                <li>
+                                    <a href="report_staff_list_by_designation_group_with_descipline.php">Discipline wise report with Designation group</a>
+                                </li>
+                                <li>
+                                    <a href="report_designation_group_wise_summary.php">Designation group wise report with discipline</a>
+                                </li>
+                                <li>
+                                    <a href="report_designation_wise.php">Designation wise report </a>
+                                </li>
+                                <li>
+                                    <a href="report_lpr.php">LPR information</a>
+                                </li>
+                                <li>
+                                    <a href="report_staff_list_by_permanenet_address.php">District (permanent address) wise list</a>
+                                </li>
+                                <li>
+                                    <a href="report_posting_status_wise_list.php">Posting Status wise list</a>
+                                </li>
+                            </ul>
+<!--                            <table class="table table-striped table-bordered">
                                 
                                 <tbody>
                                     <?php if (hasPermission('mod_report_summary_report_link', 'view', getLoggedUserName())) : ?>
@@ -88,19 +114,19 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     </tr>
                                     <?php endif; ?>
                                     <?php if (hasPermission('mod_report_all_report_link', 'view', getLoggedUserName())) : ?>
-                                    <!--
+                                    
                                     <tr>                                        
                                         <td><a href="report_manpower.php">Summary Report Includes All Organization</a></td>
                                     </tr>
-                                    -->
+                                    
                                     <tr>                                        
                                         <td><a href="report_org_list_1.1.php">Organization List</a></td>
                                     </tr>
-                                    <!--
+                                    
                                     <tr>                                        
                                         <td><a href="report_designation_report.php">Designation Report</a></td>
                                     </tr>
-                                    -->
+                                    
                                     <tr>                                        
                                         <td><a href="report_designation_with_who_category.php">Summary Report WHO Health Professional Group (All Organization)</a></td>
                                     </tr>
@@ -116,11 +142,11 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <tr>                                        
                                         <td><a href="report_staff_list_by_designation_group_with_descipline.php">Staff list by designation group report with discipline</a></td>
                                     </tr>
-                                    <!--
+                                    
                                     <tr>                                        
                                         <td><a href="report_post_status_summary.php">Post Status Summary Report</a></td>
                                     </tr>
-                                    -->
+                                    
                                     <tr>                                        
                                         <td><a href="report_staff_list_by_descipline_with_designation_group.php">Staff list report by discipline with designation group </a></td>
                                     </tr>
@@ -134,7 +160,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                         <td><a href="report_lpr.php">LPR Report </a></td>
                                     </tr>
                                     <?php endif; ?>
-                                </tbody>
+                                </tbody>-->
                                 
                             </table>
                             
