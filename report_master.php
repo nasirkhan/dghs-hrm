@@ -64,7 +64,7 @@ $singleSelectItems = array('division_code', 'district_code', 'upazila_id'); // p
 $multiSelectItems = array('agency_code', 'org_type_code', 'org_level_code', 'org_healthcare_level_code', 'org_location_type', 'ownership_code', 'posting_status',
     'tribal_id', 'post_type_id', 'job_posting_id', 'working_status_id', 'draw_salary_id', 'sex', 'marital_status', 'religion',
     'professional_discipline_of_current_designation', 'type_of_educational_qualification', 'govt_quarter',
-    'designation', 'designation_group_code', 'bangladesh_professional_category_code', 'who_occupation_group_code', 'who_isco_occupation_name_code', 'pay_scale', 'class', 'type_of_code',
+    'designation', 'group', 'bangladesh_professional_category_code', 'who_occupation_group_code', 'who_isco_occupation_name_code', 'pay_scale', 'class', 'type_of_code',
     'first_level_code', 'second_level_code'); // put the input field names for multiple selection dropdowns. Input filed name must be same as table filed name
 
 $tableFieldMap = array();
@@ -141,7 +141,7 @@ if (isset($_REQUEST['submit'])) {
 
   foreach ($singleSelectItems as $singleSelectItem) {
     if (strlen($_REQUEST[$singleSelectItem]) && $_REQUEST[$singleSelectItem] > 0) {
-      $parameterized_query.=" AND $tableFieldMap[$singleSelectItem] = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
+      $parameterized_query.=" AND '$tableFieldMap[$singleSelectItem]' = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
     }
   }
 
@@ -149,7 +149,7 @@ if (isset($_REQUEST['submit'])) {
   foreach ($multiSelectItems as $multiSelectItem) {
     if (count($_REQUEST[$multiSelectItem])) {
       $csvs[$multiSelectItem] = "'" . implode("','", $_REQUEST[$multiSelectItem]) . "'";
-      $parameterized_query.=" AND $tableFieldMap[$multiSelectItem] in (" . $csvs[$multiSelectItem] . ")  ";
+      $parameterized_query.=" AND '$tableFieldMap[$multiSelectItem]' in (" . $csvs[$multiSelectItem] . ")  ";
       //$selection_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong>";
     }
   }
@@ -535,6 +535,15 @@ if (isset($_REQUEST['submit'])) {
                     <b>Designation</b><br/>
                     <?php
                     createMultiSelectOptionsDistinct('sanctioned_post_designation', 'designation', 'designation', $customQuery, $csvs['designation'], "designation[]", " id='designation'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_group'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_designation" value="1" checked="checked" type="checkbox"/>
+                    <b>Designation Group</b><br/>
+                    <?php
+                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'designation_group_name', 'designation_group_name', $customQuery, $csvs['group'], "group[]", " id='group'  class='multiselect'");
                     echo "<br/>";
                   }
                   ?>
