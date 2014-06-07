@@ -199,6 +199,17 @@ if (isset($_REQUEST['submit'])) {
     $showFieldsCsv = str_replace(" ", '', trim($_REQUEST['ColOrder'], " ,"));
     $showFields = explode(',', $showFieldsCsv);
   }
+  if (strlen(trim($_REQUEST['ColAlias']))) {
+
+    $colAliasCsv = trim($_REQUEST['ColAlias']);
+    $colAlias = explode(',', $colAliasCsv);
+    if (count($showFields) != count($colAlias)) {
+      echo "Column Alias must have same number of column";
+      exit();
+    }
+  }
+
+
 
   if (strlen(trim($_REQUEST['order_by'])) && strlen(trim($_REQUEST['order_sort']))) {
     $order_by = trim($_REQUEST['order_by']);
@@ -390,7 +401,7 @@ if (isset($_REQUEST['submit'])) {
 
                   <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_staff_job_class'] == '1') || !isset($_REQUEST['submit'])) { ?>
                     <input name="f_staff_job_class" value="1" checked="checked" type="checkbox"/>
-                    <br/><b>Job Class</b><br/>
+                    <b>Job Class</b><br/>
                     <?php
                     createMultiSelectOptions('staff_job_class', 'job_class_id', 'job_class_name', $customQuery, $csvs['staff_job_class'], "staff_job_class[]", " id='staff_job_class'  class='multiselect'");
                     echo "<br/>";
@@ -400,7 +411,7 @@ if (isset($_REQUEST['submit'])) {
 
                   <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_staff_professional_category'] == '1') || !isset($_REQUEST['submit'])) { ?>
                     <input name="f_staff_professional_category" value="1" checked="checked" type="checkbox"/>
-                    <br/><b>Professional category</b><br/>
+                    <b>Professional category</b><br/>
                     <?php
                     createMultiSelectOptions('staff_professional_category_type', 'professional_type_id', 'professional_type_name', $customQuery, $csvs['staff_professional_category'], "staff_professional_category[]", " id='staff_professional_category'  class='multiselect'");
                     echo "<br/>";
@@ -650,8 +661,14 @@ if (isset($_REQUEST['submit'])) {
                   <?php } ?>
                   <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_ColOrder'] == '1') || !isset($_REQUEST['submit'])) { ?>
                     <input name="f_ColOrder" value="1" checked="checked" type="checkbox"/>
-                    <b>Column order</b> (csv)
+                    <b>Column Sequence</b> (csv)
                     <br/><input name="ColOrder" value="<?php echo addEditInputField('ColOrder'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
+                    <br/>
+                  <?php } ?>
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_ColAlias'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_ColAlias" value="1" checked="checked" type="checkbox"/>
+                    <b>Column Alias</b> (csv)
+                    <br/><input name="ColAlias" value="<?php echo addEditInputField('ColAlias'); ?>" style="border: 1px solid #CCCCCC; height: 15px; width: 142px;"/>
                     <br/>
                   <?php } ?>
                   <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_order_sort'] == '1') || !isset($_REQUEST['submit'])) { ?>
@@ -756,6 +773,7 @@ if (isset($_REQUEST['submit'])) {
             <tr>
               <?php
               //myprint_r($showFields);
+              $i = 0;
               foreach ($showFields as $fieldName) {
                 if (in_array($fieldName, $TableFields)) {
                   ?>
@@ -771,6 +789,10 @@ if (isset($_REQUEST['submit'])) {
                           if ($replaceUnderScoreWithSpace) {
                             $fieldName = str_replace('_', ' ', $fieldName);
                           }
+                        }
+                        if (strlen($colAlias[$i])) {
+                          $fieldName = $colAlias[$i];
+                          $i++;
                         }
                         echo $fieldName;
                         ?>
