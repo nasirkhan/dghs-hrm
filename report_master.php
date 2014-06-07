@@ -19,7 +19,7 @@ $sanctionedpostsBaseTable['tableNameAlias'] = "p";
  * Default fields to show
  */
 if ($t == 'staff') {
-  $showFields = array("staff_name", "staff_id", "father_name", "contact_no", "org_name", "org_type_name", "division_name", "district_name", "upazila_thana_name", "designation", "group", "class", "first_level_name", "second_level_name");
+  $showFields = array("staff_name", "staff_id", "father_name", "contact_no", "sex_name", "org_name", "org_type_name", "division_name", "district_name", "upazila_thana_name", "designation", "group", "class", "first_level_name", "second_level_name");
 
   /**
    * Tables and Joins
@@ -37,7 +37,7 @@ LEFT JOIN " . $sanctionedpostsBaseTable['tableName'] . " AS " . $sanctionedposts
 } else {
   $t = "post";
   $rTitle = "post";
-  $showFields = array("designation", "group", "class", "first_level_name", "second_level_name", "staff_name", "staff_id", "father_name", "contact_no", "org_name", "org_type_name", "division_name", "district_name", "upazila_thana_name");
+  $showFields = array("designation", "group", "class", "first_level_name", "second_level_name", "staff_name", "staff_id", "father_name", "contact_no", "sex_name", "org_name", "org_type_name", "division_name", "district_name", "upazila_thana_name");
 
   /**
    * Tables and Joins
@@ -166,6 +166,9 @@ if (isset($_REQUEST['submit'])) {
     $parameterized_query.= " AND " . trim(($_REQUEST['SQLSelect']));
   }
 
+  $SQLWhereStatement = $parameterized_query;
+  //echo "<pre>$SQLWhereStatement</pre>"; //debug
+
   /*
    *    SQL GROUP BY
    */
@@ -236,6 +239,10 @@ if (isset($_REQUEST['submit'])) {
   //
   $fieldNameAlias = array();
   assignAliasForDbFieldNames();
+  $sexCountArray = getSexGroupedCount();
+
+  //echo "<pre>" . count($sexCountArray) . "</pre>";
+  //myprint_r($sexCountArray);
 
   /*
     //easy create $fieldNameAlias by printing
@@ -777,7 +784,7 @@ if (isset($_REQUEST['submit'])) {
               foreach ($showFields as $fieldName) {
                 if (in_array($fieldName, $TableFields)) {
                   ?>
-                  <td id="<?= $fieldName ?>"><strong><a href="#" title="<?= $fieldName ?>">
+                  <th id="<?= $fieldName ?>"><strong><a href="#" title="<?= $fieldName ?>">
                         <?php
                         if (strlen($fieldNameAlias[$fieldName])) {
                           if ($replaceUnderScoreWithSpace) {
@@ -798,12 +805,16 @@ if (isset($_REQUEST['submit'])) {
                         ?>
                       </a>
                     </strong>
-                  </td>
+                  </th>
                   <?php
                 }
               }
               if (strlen($countField)) {
-                echo "<td><b>Total</b></td>";
+                echo "<th><b>Total $t</b></th>";
+              }
+              if ($sexCountArray) {
+                echo "<th><b>Male</b></th>";
+                echo "<th><b>Feale</b></th>";
               }
               ?>
 
@@ -812,6 +823,9 @@ if (isset($_REQUEST['submit'])) {
           <tbody>
             <?php
             $subTotal = 0;
+            //echo "<pre>group_by $group_by </pre>"; //debug
+            $group_by_array = getGroupByArrayWoutPrefix($group_by);
+            //myprint_r($group_by_array); // debug
             while ($data = mysql_fetch_assoc($result)) {
               ?>
               <tr>
@@ -839,6 +853,23 @@ if (isset($_REQUEST['submit'])) {
                   $subTotal+=$data['total'];
                   echo "<td>" . $data['total'] . "</td>";
                 }
+                if ($sexCountArray) {
+                  $stringTok = "";
+                  foreach ($group_by_array as $ga) {
+                    $stringTok .= $data[$ga] . "|";
+                  }
+                  //echo $sexCountArray[]."|".]
+                  $maleCount = 0;
+                  if (strlen($sexCountArray[$stringTok . "Male|"])) {
+                    $maleCount = $sexCountArray[$stringTok . "Male|"];
+                  }
+                  $femaleCount = 0;
+                  if (strlen($sexCountArray[$stringTok . "Female|"])) {
+                    $femaleCount = $sexCountArray[$stringTok . "Female|"];
+                  }
+                  echo "<td>$maleCount</td>";
+                  echo "<td>$femaleCount</td>";
+                }
                 ?>
 
               </tr>
@@ -859,7 +890,6 @@ if (isset($_REQUEST['submit'])) {
         </pre>
       <?php } ?>
     </div>
-
 
     <!-- Footer
     ================================================== -->
@@ -998,4 +1028,64 @@ function getTableFieldNamesFrmMultipleTables($tableNames) {
 
   return $fieldNames;
 }
+
+function getSexGroupedCount($additionalWheres = " AND s.sex_name in('Male','Female')") {
+  global $tableName;
+  global $SQLWhereStatement;
+  global $group_by;
+  global $orderByParam;
+
+  if (strlen(trim($group_by))) {
+
+    $sql = "SELECT $group_by,s.sex_name, count(*) as total FROM $tableName $SQLWhereStatement $additionalWheres GROUP BY $group_by,s.sex_name $orderByParam";
+    //echo "<pre>$sql</pre>"; //debug
+
+    $r = mysql_query($sql) or die(mysql_error());
+    if (mysql_num_rows($r)) {
+      $a = mysql_fetch_rowsarr($r);
+      $countStore = array();
+
+      $group_by_array = explode(',', $group_by);
+
+      foreach ($a as $row) {
+        $numberOfCol = count($group_by_array);
+        $str = "";
+        for ($i = 0; $i <= $numberOfCol; $i++) {
+          $str.=$row[$i] . "|";
+        }
+        $countStore[$str] = $row[$i];
+      }
+      if (count($countStore)) {
+        return $countStore;
+      }
+    }
+  }
+  return FALSE;
+  //myprint_r($countStore);
+}
+
+function getColNameWoutDot($str) {
+  $str = trim($str, ". ");
+  if (strlen($str)) {
+    if (strstr($str, ".")) {
+      $a = array();
+      $a = explode('.', $str);
+      return $a[1];
+    }
+  }
+  return $str;
+}
+
+function getGroupByArrayWoutPrefix($groupbyWithTblPrefix) {
+  if (strlen($groupbyWithTblPrefix)) {
+    $a = explode(',', $groupbyWithTblPrefix);
+    $temp = array();
+    for ($i = 0; $i < count($a); $i++) {
+      $temp[$i] = getColNameWoutDot($a[$i]);
+    }
+    return $temp;
+  }
+}
+
+//myprint_r(explode(",", "abcde,123,"));
 ?>
