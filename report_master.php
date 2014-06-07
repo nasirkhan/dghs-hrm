@@ -69,7 +69,7 @@ $singleSelectItems = array('division_code', 'district_code', 'upazila_id'); // p
 $multiSelectItems = array('agency_code', 'org_type_code', 'org_level_code', 'org_healthcare_level_code', 'org_location_type', 'ownership_code', 'posting_status',
     'tribal_id', 'post_type_id', 'job_posting_id', 'working_status_id', 'draw_salary_id', 'sex', 'marital_status', 'religion',
     'professional_discipline_of_current_designation', 'type_of_educational_qualification', 'govt_quarter',
-    'designation', 'designation_group_code', 'bangladesh_professional_category_code', 'who_occupation_group_code', 'who_isco_occupation_name_code', 'pay_scale', 'class', 'type_of_code',
+    'designation', 'group', 'bangladesh_professional_category_code', 'who_occupation_group_code', 'who_isco_occupation_name_code', 'pay_scale', 'class', 'type_of_code',
     'first_level_code', 'second_level_code'); // put the input field names for multiple selection dropdowns. Input filed name must be same as table filed name
 
 $tableFieldMap = array();
@@ -146,7 +146,7 @@ if (isset($_REQUEST['submit'])) {
 
   foreach ($singleSelectItems as $singleSelectItem) {
     if (strlen($_REQUEST[$singleSelectItem]) && $_REQUEST[$singleSelectItem] > 0) {
-      $parameterized_query.=" AND $tableFieldMap[$singleSelectItem] = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
+      $parameterized_query.=" AND '$tableFieldMap[$singleSelectItem]' = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
     }
   }
 
@@ -154,7 +154,7 @@ if (isset($_REQUEST['submit'])) {
   foreach ($multiSelectItems as $multiSelectItem) {
     if (count($_REQUEST[$multiSelectItem])) {
       $csvs[$multiSelectItem] = "'" . implode("','", $_REQUEST[$multiSelectItem]) . "'";
-      $parameterized_query.=" AND $tableFieldMap[$multiSelectItem] in (" . $csvs[$multiSelectItem] . ")  ";
+      $parameterized_query.=" AND '$tableFieldMap[$multiSelectItem]' in (" . $csvs[$multiSelectItem] . ")  ";
       //$selection_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong>";
     }
   }
@@ -540,6 +540,15 @@ if (isset($_REQUEST['submit'])) {
                   }
                   ?>
 
+                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_group'] == '1') || !isset($_REQUEST['submit'])) { ?>
+                    <input name="f_designation" value="1" checked="checked" type="checkbox"/>
+                    <b>Designation Group</b><br/>
+                    <?php
+                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'designation_group_name', 'designation_group_name', $customQuery, $csvs['group'], "group[]", " id='group'  class='multiselect'");
+                    echo "<br/>";
+                  }
+                  ?>
+
 
                   <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_bangladesh_professional_category_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
                     <input name="f_bangladesh_professional_category_code" value="1" checked="checked" type="checkbox"/>
@@ -636,43 +645,48 @@ if (isset($_REQUEST['submit'])) {
                     <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;text-transform: uppercase"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                   </div>
                 </td>
-                <td>
-                  <?php
-                  $checked = "";
-                  if ($_REQUEST['show_sql'] == 'true') {
-                    $checked = " checked='checked' ";
-                  }
-                  ?>
-                  <input type="checkbox" name="show_sql" value="true" <?= $checked ?>/> Show SQL query
-                </td>
-                <td>
-                  <?php
-                  $checked = "";
-                  if ($_REQUEST['highlight_empty_cell'] == 'true') {
-                    $checked = " checked='checked' ";
-                  }
-                  ?>
-                  <input type="checkbox" name="highlight_empty_cell" value="true" <?= $checked ?>/>Highlight empty cell
-                </td>
-                <td>
-                  <?php
-                  $checked = "";
-                  if ($_REQUEST['tableheader_without_underscore'] == 'true') {
-                    $checked = " checked='checked' ";
-                  }
-                  ?>
-                  <input type="checkbox" name="tableheader_without_underscore" value="true" <?= $checked ?>/>Remove '_' from table header
-                  <?php
-                  $checked = "";
-                  if ($_REQUEST['HideFilter'] == 'true') {
-                    $checked = " checked='checked' ";
-                  }
-                  ?>
-                  <input type="checkbox" name="HideFilter" value="true" <?= $checked ?>/>Hide filters
-                  <input type="hidden" name="t" value="<?= $_REQUEST['t'] ?>" />
-                </td>
-              </tr>
             </table>
+            <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_advancedOptions'] == '1') || !isset($_REQUEST['submit'])) { ?>
+              <input name="f_advancedOptions" value="1" checked="checked" type="checkbox"/> <b>Advanced Options</b> <br/>
+              <table id="advancedOptions">
+                <tr>
+                  <td>
+                    <?php
+                    $checked = "";
+                    if ($_REQUEST['show_sql'] == 'true') {
+                      $checked = " checked='checked' ";
+                    }
+                    ?>
+                    <input type="checkbox" name="show_sql" value="true" <?= $checked ?>/> Show SQL query
+                  </td>
+                  <td>
+                    <?php
+                    $checked = "";
+                    if ($_REQUEST['highlight_empty_cell'] == 'true') {
+                      $checked = " checked='checked' ";
+                    }
+                    ?>
+                    <input type="checkbox" name="highlight_empty_cell" value="true" <?= $checked ?>/>Highlight empty cell
+                  </td>
+                  <td>
+                    <?php
+                    $checked = "";
+                    if ($_REQUEST['tableheader_without_underscore'] == 'true') {
+                      $checked = " checked='checked' ";
+                    }
+                    ?>
+                    <input type="checkbox" name="tableheader_without_underscore" value="true" <?= $checked ?>/>Remove '_' from table header
+                    <?php
+                    $checked = "";
+                    if ($_REQUEST['HideFilter'] == 'true') {
+                      $checked = " checked='checked' ";
+                    }
+                    ?>
+                    <input type="checkbox" name="HideFilter" value="true" <?= $checked ?>/>Hide filters
+                  </td>
+                </tr>
+              </table>
+            <?php } ?>
           </form>
         </div>
         <?php
