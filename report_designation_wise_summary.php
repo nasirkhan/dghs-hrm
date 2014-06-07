@@ -27,6 +27,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 $admin_division = (int) mysql_real_escape_string(trim($_GET['admin_division']));
 $admin_district = (int) mysql_real_escape_string(trim($_GET['admin_district']));
 $admin_upazila = (int) mysql_real_escape_string(trim($_GET['admin_upazila']));
+$org_type = (int) mysql_real_escape_string(trim($_GET['org_type']));
 
 $query_string = "";
 $error_message = "";
@@ -40,6 +41,9 @@ if ($admin_district > 0) {
 }
 if ($admin_upazila > 0) {
     $query_string .= " AND organization.upazila_thana_code = $admin_upazila ";
+}
+if ($org_type > 0) {
+    $query_string .= " AND organization.org_type_code = $org_type ";
 }
 
 
@@ -66,8 +70,10 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                     total_manpower_imported_sanctioned_post_copy.type_of_post,
                     total_manpower_imported_sanctioned_post_copy.designation
             ORDER BY
-                    sanctioned_post_designation.ranking";
-//    echo "<pre>$sql</pre>"; die();
+                    sanctioned_post_designation.payscale,
+                    sanctioned_post_designation.ranking
+                    ";
+
     $result_all = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_designation_group_with_descipline:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data_count = mysql_num_rows($result_all);
@@ -78,13 +84,13 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
     }
 }
 
-$page_title = "Designation Wise Summary Report";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title><?php echo $page_title . " | " . $app_name; ?></title>
+        <title><?php echo $org_name . " | " . $app_name; ?></title>
         <?php
         include_once 'include/header/header_css_js.inc.php';
         include_once 'include/header/header_ga.inc.php';
@@ -128,7 +134,7 @@ $page_title = "Designation Wise Summary Report";
                             <div class="row-fluid">
                                 <div class="span12">
                                     <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                        <h3><?php echo $page_title; ?></h3>
+                                        <h3>Designation Summary Report</h3>
                                         <div class="control-group">
                                             <select id="admin_division" name="admin_division">
                                                 <option value="0">__ Select Division __</option>
@@ -197,7 +203,31 @@ $page_title = "Designation Wise Summary Report";
                                             }
                                             ?>                                            
                                         </div>
-                                        
+                                        <div class="control-group">
+
+                                            <select id="org_type" name="org_type">
+                                                <option value="0">Select Org Type</option>
+                                                <?php
+                                                $sql = "SELECT
+                                                                org_type.org_type_code,
+                                                                org_type.org_type_name
+                                                            FROM
+                                                                org_type
+                                                            ORDER BY
+                                                                org_type.org_type_name ASC";
+                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                while ($rows = mysql_fetch_assoc($result)) {
+                                                    if($rows['org_type_code'] == $_REQUEST['org_type']){
+                                                        echo "<option value=\"" . $rows['org_type_code'] . "\" selected='selected'>" . $rows['org_type_name'] . "</option>";
+                                                    } else{
+                                                        echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
+                                                    }                                                    
+                                                }
+                                                ?>
+                                            </select>
+
+                                        </div>
                                         <div class="control-group">
                                             <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
                                             <a href="report_designation_summary.php" class="btn btn-default" > Reset</a>
@@ -211,7 +241,7 @@ $page_title = "Designation Wise Summary Report";
                                 <div class="row-fluid">
                                     <div class="span12">
                                         <div class="alert alert-info">
-                                            <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary btn-small pull-right">
+                                            <input type="button" onclick="tableToExcel('reportTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary btn-small pull-right">
                                             Selected values are:
                                             <?php
                                             if ($admin_division > 0) {
@@ -231,7 +261,7 @@ $page_title = "Designation Wise Summary Report";
                             <div class="row-fluid">
                                 <div class="span12">
                                     <?php if ($showReport): ?>
-                                        <table id="report_table" class="table table-bordered table-hover table-striped">
+                                    <table id="reportTable" class="table table-bordered table-hover table-striped">
                                             <thead>
                                                 <tr>
                                                     <th><strong>#</strong></th>
@@ -418,7 +448,7 @@ $page_title = "Designation Wise Summary Report";
                 });
             });
 
-// load district 
+            // load district 
             $('#admin_district').change(function() {
                 var dis_code = $('#admin_district').val();
                 $("#loading_content").show();
@@ -441,17 +471,17 @@ $page_title = "Designation Wise Summary Report";
             });
         </script>
         <script type="text/javascript">
-		var tableToExcel = (function() {
-  var uri = 'data:application/vnd.ms-excel;base64,'
-    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
-    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
-    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
-  return function(table, name) {
-    if (!table.nodeType) table = document.getElementById(table)
-    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
-    window.location.href = uri + base64(format(template, ctx))
-  }
-})()
+            var tableToExcel = (function() {
+            var uri = 'data:application/vnd.ms-excel;base64,'
+            , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+            , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+            , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+                return function(table, name) {
+                  if (!table.nodeType) table = document.getElementById(table)
+                  var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+                  window.location.href = uri + base64(format(template, ctx))
+                }
+              })()
 	</script>
 
     </body>
