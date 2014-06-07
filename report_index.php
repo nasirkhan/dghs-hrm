@@ -77,6 +77,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                 <li>
                                     <a href="report_designation_group_wise_summary.php">Designation Group Wise Summary Report </a>
                                 </li>
+                                <li>
+                                    <a href="report_institute_wise_designation_summary.php">Institute Wise Designation Summary Report </a>
+                                </li>
                             </ul>
                             
                             <table class="table table-striped table-bordered">
