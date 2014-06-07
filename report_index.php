@@ -81,7 +81,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     ok<a href="report_institute_wise_designation_summary.php">Institute Wise Designation Summary Report </a>
                                 </li>
                                 <li>
-                                    <a href="report_type_of_post_and_institute_wise_designation.php">Type of post and Institute wise designation</a>
+                                    ok<a href="report_type_of_post_and_institute_wise_designation.php">Type of post and Institute wise designation</a>
                                 </li>
                             </ul>
                             Personnel wise reportable
@@ -99,10 +99,10 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     ok<a href="report_lpr.php">LPR information</a>
                                 </li>
                                 <li>
-                                    <a href="report_staff_list_by_permanenet_address.php">District (permanent address) wise list</a>
+                                    ok<a href="report_staff_list_by_permanenet_address.php">District (permanent address) wise list</a>
                                 </li>
                                 <li>
-                                    <a href="report_staff_list_by_permanenet_address.php">Posting Status wise list</a>
+                                    <a href="report_posting_status_wise_list.php">Posting Status wise list</a>
                                 </li>
                             </ul>
 <!--                            <table class="table table-striped table-bordered">
