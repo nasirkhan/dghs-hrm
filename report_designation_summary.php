@@ -67,7 +67,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                     total_manpower_imported_sanctioned_post_copy.designation
             ORDER BY
                     sanctioned_post_designation.ranking";
-//    echo "<pre>$sql</pre>"; die();
+
     $result_all = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_designation_group_with_descipline:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data_count = mysql_num_rows($result_all);
