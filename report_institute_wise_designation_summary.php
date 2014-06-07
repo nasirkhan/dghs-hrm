@@ -24,30 +24,18 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 /**
  * search result
  */
-$admin_division = (int) mysql_real_escape_string(trim($_GET['admin_division']));
-$admin_district = (int) mysql_real_escape_string(trim($_GET['admin_district']));
-$admin_upazila = (int) mysql_real_escape_string(trim($_GET['admin_upazila']));
-$org_type = (int) mysql_real_escape_string(trim($_GET['org_type']));
+$org_code = (int) mysql_real_escape_string(trim($_GET['org_code']));
 
 $query_string = "";
 $error_message = "";
 
 
-if ($admin_division > 0) {
-    $query_string .= " AND organization.division_code = $admin_division ";
-}
-if ($admin_district > 0) {
-    $query_string .= " AND organization.district_code = $admin_district ";
-}
-if ($admin_upazila > 0) {
-    $query_string .= " AND organization.upazila_thana_code = $admin_upazila ";
-}
-if ($org_type > 0) {
-    $query_string .= " AND organization.org_type_code = $org_type ";
+if ($org_code > 0) {
+    $query_string .= " AND organization.org_code = $org_code ";
 }
 
 
-if ($error_message == "" && isset($_REQUEST['admin_division'])) {
+if ($error_message == "" && isset($_REQUEST['org_code'])) {
     $sql = "SELECT
                     total_manpower_imported_sanctioned_post_copy.designation,
                     total_manpower_imported_sanctioned_post_copy.designation_code,
@@ -134,9 +122,9 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                             <div class="row-fluid">
                                 <div class="span12">
                                     <form class="form-horizontal" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
-                                        <h3>Designation Summary Report</h3>
+                                        <h3>Institute Wise Designation Summary Report</h3>
                                         <div class="control-group">
-                                            <select id="admin_division" name="admin_division">
+                                            <select id="admin_division"  onchange="loadOrgList()">
                                                 <option value="0">__ Select Division __</option>
                                                 <?php
                                                 $sql = "SELECT admin_division.division_name, admin_division.division_bbs_code FROM admin_division";
@@ -160,7 +148,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                             `admin_district`";
                                                 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_district_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                                                echo "<select id=\"admin_district\" name=\"admin_district\">";
+                                                echo "<select id=\"admin_district\"  onchange=\"loadOrgList()\">";
                                                 echo "<option value=\"0\"'> __ Select District __</option>";
                                                 while ($rows = mysql_fetch_assoc($result)) {
                                                     if ($_REQUEST['admin_district'] == $rows['district_bbs_code']) {
@@ -171,7 +159,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                 }
                                                 echo "</select>";
                                             } else {
-                                                echo "<select id=\"admin_district\" name=\"admin_district\">";
+                                                echo "<select id=\"admin_district\" onchange=\"loadOrgList()\">";
                                                 echo "<option value=\"0\">Select District</option>";
                                                 echo "</select>";
                                             }
@@ -186,7 +174,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                     WHERE `upazila_district_code` = $admin_district";
                                                 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_upazila_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                                                echo "<select id=\"admin_district\" name=\"admin_district\">";
+                                                echo "<select id=\"admin_district\" onchange=\"loadOrgList()\">";
                                                 echo "<option value=\"0\"'> __ Select District __</option>";
                                                 while ($rows = mysql_fetch_assoc($result)) {
                                                     if ($_REQUEST['admin_upazila'] == $rows['upazila_bbs_code']) {
@@ -197,15 +185,15 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                 }
                                                 echo "</select>";
                                             } else {
-                                                echo "<select id=\"admin_upazila\" name=\"admin_upazila\">";
+                                                echo "<select id=\"admin_upazila\" onchange=\"loadOrgList()\">";
                                                 echo "<option value=\"0\">Select Upazila</option>";
                                                 echo "</select>";
                                             }
                                             ?>                                            
                                         </div>
                                         <div class="control-group">
-
-                                            <select id="org_type" name="org_type">
+                                            
+                                            <select id="org_type" onchange="loadOrgList()">
                                                 <option value="0">Select Org Type</option>
                                                 <?php
                                                 $sql = "SELECT
@@ -218,19 +206,23 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                                 while ($rows = mysql_fetch_assoc($result)) {
-                                                    if($rows['org_type_code'] == $_REQUEST['org_type']){
+                                                    if ($rows['org_type_code'] == $_REQUEST['org_type']) {
                                                         echo "<option value=\"" . $rows['org_type_code'] . "\" selected='selected'>" . $rows['org_type_name'] . "</option>";
-                                                    } else{
+                                                    } else {
                                                         echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
-                                                    }                                                    
+                                                    }
                                                 }
                                                 ?>
+                                            </select>
+                                            
+                                            <select id="org_code" name="org_code">
+                                                <option value="0">Select Org List</option>                                                
                                             </select>
 
                                         </div>
                                         <div class="control-group">
                                             <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
-                                            <a href="report_designation_summary.php" class="btn btn-default" > Reset</a>
+                                            <a href="report_institute_wise_designation_summary.php" class="btn btn-default" > Reset</a>
                                             <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                                         </div>
                                     </form> <!-- /form -->
@@ -242,18 +234,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                     <div class="span12">
                                         <div class="alert alert-info">
                                             <input type="button" onclick="tableToExcel('reportTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary btn-small pull-right">
-                                            Selected values are:
-                                            <?php
-                                            if ($admin_division > 0) {
-                                                echo " Division: <strong>" . getDivisionNamefromCode($admin_division) . "</strong>";
-                                            }
-                                            if ($admin_district > 0) {
-                                                echo " & District: <strong>" . getDistrictNamefromCode($admin_district) . "</strong>";
-                                            }
-                                            if ($admin_upazila > 0) {
-                                                echo " & Upazila: <strong>" . getUpazilaNamefromBBSCode($admin_upazila, $admin_district) . "</strong>";
-                                            }
-                                            ?>
+                                            Report for : <strong><?php echo $org_name; ?></strong>
                                         </div>
                                     </div>
                                 </div>
@@ -270,10 +251,10 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                     <th><strong>Class</strong></th>
                                                     <th><strong>Payscale</strong></th>
                                                     <th><strong>Total Post</strong></th>
-                                                    <th><strong>Total Filled up Post</strong></th>
-                                                    <th><strong>Total Vacant Post</strong></th>
                                                     <th><strong>Total Male</strong></th>
                                                     <th><strong>Total Female</strong></th>
+                                                    <th><strong>Total Filled up Post</strong></th>
+                                                    <th><strong>Total Vacant Post</strong></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -394,10 +375,10 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                             <td><?php echo $row['class']; ?></td>
                                                             <td><?php echo $row['payscale']; ?></td>
                                                             <td><?php echo $total_post; ?></td>
-                                                            <td><?php echo $total_filled_up; ?></td>
-                                                            <td><?php echo $total_vacant_post; ?></td>
                                                             <td><?php echo $total_male_filled_up; ?></td>
                                                             <td><?php echo $total_female_filled_up; ?></td>
+                                                            <td><?php echo $total_filled_up; ?></td>
+                                                            <td><?php echo $total_vacant_post; ?></td>
                                                         </tr>
                                                     <?php endwhile; ?>
                                                 <?php endwhile; ?>
@@ -469,6 +450,33 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                     }
                 });
             });
+            
+            
+            function loadOrgList(){
+                var div_code = $('#admin_division').val();
+                var dis_code = $('#admin_district').val();
+                var upa_code = $('#admin_upazila').val();
+                var org_type = $('#org_type').val();                
+                
+                $("#loading_content").show();
+                
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_org_list_json.php',
+                    data: {div_code:div_code, dis_code: dis_code, upa_code:upa_code, org_type:org_type},
+                    dataType: 'json',
+                    success: function(data)
+                    {
+                        $("#loading_content").hide();
+                        var org_code = document.getElementById('org_code');
+                        org_code.options.length = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var d = data[i];
+                            org_code.options.add(new Option(d.text, d.value));
+                        }
+                    }
+                });
+            }
         </script>
         <script type="text/javascript">
             var tableToExcel = (function() {
