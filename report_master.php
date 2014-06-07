@@ -110,7 +110,7 @@ $tableFieldMap['govt_quarter'] = $staffsBaseTable['tableNameAlias'] . ".govt_qua
   'first_level_code', 'second_level_code'
  */
 $tableFieldMap['designation'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".designation";
-$tableFieldMap['designation_group_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".designation_group_code";
+$tableFieldMap['group_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".group_code";
 $tableFieldMap['bangladesh_professional_category_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".bangladesh_professional_category_code";
 $tableFieldMap['who_occupation_group_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".who_occupation_group_code";
 $tableFieldMap['who_isco_occupation_name_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".who_isco_occupation_name_code";
@@ -146,7 +146,7 @@ if (isset($_REQUEST['submit'])) {
 
   foreach ($singleSelectItems as $singleSelectItem) {
     if (strlen($_REQUEST[$singleSelectItem]) && $_REQUEST[$singleSelectItem] > 0) {
-      $parameterized_query.=" AND '$tableFieldMap[$singleSelectItem]' = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
+      $parameterized_query.=" AND $tableFieldMap[$singleSelectItem] = '" . mysql_real_escape_string(trim($_REQUEST[$singleSelectItem])) . "' ";
     }
   }
 
@@ -154,7 +154,7 @@ if (isset($_REQUEST['submit'])) {
   foreach ($multiSelectItems as $multiSelectItem) {
     if (count($_REQUEST[$multiSelectItem])) {
       $csvs[$multiSelectItem] = "'" . implode("','", $_REQUEST[$multiSelectItem]) . "'";
-      $parameterized_query.=" AND '$tableFieldMap[$multiSelectItem]' in (" . $csvs[$multiSelectItem] . ")  ";
+      $parameterized_query.=" AND $tableFieldMap[$multiSelectItem] in (" . $csvs[$multiSelectItem] . ")  ";
       //$selection_string .= " Agency: <strong>" . getAgencyNameFromAgencyCode($agency_code) . "</strong>";
     }
   }
