@@ -93,7 +93,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <a href="report_master.php?f_division_code=1&division_code=30&f_district_code=1&district_code=26&admin_upazila=1&upazila_id=2&noDatatable=true&f_org_type_code=1&f_professional_discipline_of_current_designation=1&f_group_code=1&SQLSelect=&SQLGroup=&ColOrder=discipline%2Cdesignation%2Cstaff_id%2Cstaff_name%2Cbirth_date%2Cjob_posting_name%2Corg_name%2Ccontact_no&ColAlias=Discipline%2CDesignation+Group+Name%2CEmployee+No%2CName%2CDate+of+Birth%2CPosting+Status%2CPlace+of+Posting%2CMobile+No&orderbyfull=discipline%2Cdesignation_group_name&rTitle=Designation+group+wise+report+with+discipline&submit=">Designation group wise report with discipline</a>
                                 </li>
                                 <li>
-                                    <a href="report_designation_wise.php">Designation wise report </a>
+                                    <a href="report_master.php?f_division_code=1&division_code=30&f_district_code=1&district_code=26&admin_upazila=1&upazila_id=2&noDatatable=true&f_designation=1&SQLSelect=&SQLGroup=&ColOrder=designation%2Cstaff_id%2Cstaff_pds_code%2Cstaff_name%2Cbirth_date%2Cjob_posting_name%2Corg_name%2Ccontact_no&ColAlias=Designation%2CEmployee+No%2CCode%2CName%2CDate+of+Birth%2CPosting+Status%2CPlace+of+Posting%2CMobile+No&orderbyfull=&rTitle=Designation+wise+report+&submit=">Designation wise report </a>
                                 </li>
                                 <li>
                                     <a href="report_lpr.php">LPR information</a>
