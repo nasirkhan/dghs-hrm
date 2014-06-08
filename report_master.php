@@ -273,7 +273,18 @@ if (isset($_REQUEST['submit'])) {
   </head>
   <body>
     <?php include_once 'include/header/header_top_menu.inc.php'; ?>
+      <br/>
     <div class="container">
+        <div class="btn-group" style="margin-top: px;">
+        <button class="btn btn-primary">Menu</button>
+        <button class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="admin_home.php">Admin Dashboard</a></li>
+            <li><a href="report_index.php">Report Dashboard</a></li>
+        </ul>
+        </div>
       <h4 style="text-transform: uppercase">Report : <?php echo $rTitle; ?></h4>
       <?php if ($_REQUEST['HideFilter'] != 'true') { ?>
 
@@ -295,9 +306,9 @@ if (isset($_REQUEST['submit'])) {
             });</script>
 
         </div>
-
+      
         <div class = "filter" id = "filter">
-          <form class = "form-horizontal" action = "<?php echo $_SERVER['PHP_SELF']; ?>" method = "get" style = "padding: 0px; margin: 0px;">
+          <form class = "form-horizontal" action = "<?php echo $_SERVER['PHP_SELF']; ?>" method = "get" style = "padding: 0px; margin: 0px;"> <input type="hidden" name="t" value="<?= $_REQUEST['t']; ?>"/>
             <table id = "">
               <tr>
                 <td style = "vertical-align: top">
@@ -642,6 +653,9 @@ if (isset($_REQUEST['submit'])) {
                   <div class="btn-group">
                     <button name="submit" type="submit" class="btn btn-success" style="text-transform: uppercase">Generate Report</button>
                     <a href="<?php echo $_SERVER['PHP_SELF'] ?>" class="btn" style="text-transform: uppercase">Reset</a>
+                    <?php if ($_REQUEST['noDatatable'] == 'true') {?>
+                    <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export for Optimized Loading" class="btn btn-primary btn-small pull-right" style="margin-top: -30px; height: 30px;">
+                    <?php } ?>
                     <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;text-transform: uppercase"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                   </div>
                 </td>
@@ -708,7 +722,9 @@ if (isset($_REQUEST['submit'])) {
           $param = " id='datatable' ";
         }
         ?>
-        <table class="table table-condensed table-bordered" <?= $param ?>>
+      
+        <table class="table table-condensed table-bordered" <?= $param ?> id="testTable">
+            
           <thead>
             <tr>
               <?php
@@ -835,6 +851,19 @@ if (isset($_REQUEST['submit'])) {
     ================================================== -->
     <?php include_once 'include/footer/footer.inc.php'; ?>
     <?php include_once 'include/report/report_org_list/report_org_list.js.php'; ?>
+    <script type="text/javascript">
+		var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+	</script>
   </body>
 </html>
 <?php
