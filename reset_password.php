@@ -100,7 +100,7 @@ if ($_POST["submit"]) {
                             <br />Please try again.
                         </div>
 
-                    <?php
+                        <?php
                     endif;
 
                     if ($mail_sent == 1):
@@ -108,7 +108,7 @@ if ($_POST["submit"]) {
                         <div class="alert alert-info">
                             <strong> Mail Sent successfully </strong>
                         </div>
-                    <?php
+                        <?php
                     endif;
 
                     if ($flag == 1):
@@ -118,7 +118,7 @@ if ($_POST["submit"]) {
                             <strong><i class="icon-minus-sign"></i> Warning!<strong> Your username or tokencode is incorrect.</strong>
                         </div>
 
-<?php endif; ?>
+                    <?php endif; ?>
 
                 </form>
             </div> <!-- /container -->
