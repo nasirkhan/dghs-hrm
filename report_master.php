@@ -308,7 +308,7 @@ if (isset($_REQUEST['submit'])) {
         </div>
       
         <div class = "filter" id = "filter">
-          <form class = "form-horizontal" action = "<?php echo $_SERVER['PHP_SELF']; ?>" method = "get" style = "padding: 0px; margin: 0px;">
+          <form class = "form-horizontal" action = "<?php echo $_SERVER['PHP_SELF']; ?>" method = "get" style = "padding: 0px; margin: 0px;"> <input type="hidden" name="t" value="<?= $_REQUEST['t']; ?>"/>
             <table id = "">
               <tr>
                 <td style = "vertical-align: top">
