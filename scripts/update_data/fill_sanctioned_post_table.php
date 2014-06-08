@@ -273,7 +273,7 @@ while ($sp_data = mysql_fetch_assoc($sp_result)) {
     $query_string .= "`first_level_code`=\"" . $first_level_code[$sp_data['first_level_id']] . "\",";
     $query_string .= "`second_level_name`=\"" . $second_level_name[$sp_data['second_level_id']] . "\",";
     $query_string .= "`second_level_code`=\"" . $second_level_code[$sp_data['second_level_id']] . "\" ";
-    $query_string .= "`type_of_post_name`=\"" . $second_level_code[$sp_data['type_of_post']] . "\" ";
+    $query_string .= "`type_of_post_name`=\"" . $type_of_post[$sp_data['type_of_post']] . "\" ";
 
     /**
      * ------------------------------------------------------
