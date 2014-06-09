@@ -27,13 +27,15 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
 $admin_division = (int) mysql_real_escape_string(trim($_GET['admin_division']));
 $admin_district = (int) mysql_real_escape_string(trim($_GET['admin_district']));
 $admin_upazila = (int) mysql_real_escape_string(trim($_GET['admin_upazila']));
+$designation_group = (int) mysql_real_escape_string(trim($_GET['designation_group']));
+$discipline = mysql_real_escape_string(trim($_GET['discipline']));
 $date_start = mysql_real_escape_string(trim($_GET['date_start']));
-if ($date_start == ""){
-    $date_start = date('Y'). "-01-01";
+if ($date_start == "") {
+    $date_start = date('Y') . "-01-01";
 }
 $date_end = mysql_real_escape_string(trim($_GET['date_end']));
-if ($date_end == ""){
-    $date_end = date('Y'). "-12-30";
+if ($date_end == "") {
+    $date_end = date('Y') . "-12-30";
 }
 
 $query_string = "";
@@ -49,6 +51,12 @@ if ($admin_district > 0) {
 if ($admin_upazila > 0) {
     $query_string .= " AND organization.upazila_thana_code = $admin_upazila ";
 }
+if ($designation_group > 0) {
+    $query_string .= " AND sanctioned_post_designation.group_code = $designation_group ";
+}
+if ($discipline != "") {
+    $query_string .= " AND sanctioned_post_designation.designation_discipline LIKE \"$discipline\" ";
+}
 
 
 if ($error_message == "" && isset($_REQUEST['show_report'])) {
@@ -63,6 +71,7 @@ if ($error_message == "" && isset($_REQUEST['show_report'])) {
                                     '%m'
                             )
                     ) AS MONTH,
+                    old_tbl_staff_organization.staff_id,
                     old_tbl_staff_organization.staff_name AS NAME,
                     sanctioned_post_designation.designation AS Designation,
                     organization.org_name AS 'Place of Posting',
@@ -78,23 +87,24 @@ if ($error_message == "" && isset($_REQUEST['show_report'])) {
             LEFT JOIN staff_job_posting ON staff_job_posting.job_posting_id = old_tbl_staff_organization.job_posting_id
             WHERE
                  retirement_date BETWEEN '$date_start' AND '$date_end'
+                 AND sp_id_2 > 0
+                 AND old_tbl_staff_organization.designation_id > 0
                  $query_string
             ORDER BY
                     retirement_date";
 //    echo "<pre>$sql</pre>"; die();
     $result_data = mysql_query($sql) or die(mysql_error() . "<p>Query___</p><p>$sql</p><p>___</p>");
-    
+
     $data_count = mysql_num_rows($result_data);
-    
+
     if ($data_count > 0) {
         $showReport = TRUE;
         $showInfo = TRUE;
     }
 }
-if (isset($_REQUEST['show_report'])){
+if (isset($_REQUEST['show_report'])) {
     $showInfo = TRUE;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -220,6 +230,39 @@ if (isset($_REQUEST['show_report'])){
                                             </div>
                                         </div>
                                         <div class="control-group">
+
+                                            <select id="designation_group" name="designation_group" onchange="loadDiscipline()">
+                                                <option value="0">__ Select Designation Group __</option>
+                                                <?php
+                                                $sql = "SELECT
+                                                                designation_group_name,
+                                                                group_code
+                                                        FROM
+                                                                `sanctioned_post_designation`
+                                                        GROUP BY
+                                                                group_code
+                                                        ORDER BY
+                                                                payscale,
+                                                                ranking";
+                                                $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadDivision:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+                                                while ($rows = mysql_fetch_assoc($result)) {
+                                                    if ($rows['group_code'] == $_REQUEST['designation_group'])
+                                                        echo "<option value=\"" . $rows['group_code'] . "\" selected='selected'>" . $rows['designation_group_name'] . "</option>";
+                                                    else
+                                                        echo "<option value=\"" . $rows['group_code'] . "\">" . $rows['designation_group_name'] . "</option>";
+                                                }
+                                                ?>
+                                            </select>
+
+                                            <select id="discipline" name="discipline" >
+                                                <option value="0">__ Select Discipline __</option>                                                
+                                            </select>
+                                        </div>
+                                        
+
+
+                                        <div class="control-group">
                                             <input name="show_report" type="hidden" value="true" />
                                             <button id="btn_show_org_list" type="submit" class="btn btn-info">Show Report</button>
                                             <a href="report_lpr.php" class="btn btn-default" > Reset</a>
@@ -244,6 +287,9 @@ if (isset($_REQUEST['show_report'])){
                                             if ($admin_upazila > 0) {
                                                 echo " & Upazila: <strong>" . getUpazilaNamefromBBSCode($admin_upazila, $admin_district) . "</strong>";
                                             }
+                                            if ($discipline != "") {
+                                                echo " & Discipline: <strong>" . $discipline . "</strong>";
+                                            }
                                             echo "<br /> Start Date: $date_start & End Date: $date_end";
                                             ?>
                                         </div>
@@ -257,47 +303,47 @@ if (isset($_REQUEST['show_report'])){
                                             <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel" class="btn btn-primary pull-right btn-small">
                                             <em>Total <strong><?php echo $data_count; ?></strong> result(s) found. </em>                                            
                                         </div>
-                                    <div class="row-fluid">
-                                        <div class="span12">
-                                            <table class="table table-bordered table-hover table-responsive" id="testTable">
-                                                <thead>
-                                                    <tr>
-                                                        <td><strong>#</strong></td>
-                                                        <td><strong>Month</strong></td>
-                                                        <td><strong>Name</strong></td>
-                                                        <td><strong>Code</strong></td>
-                                                        <td><strong>Designation</strong></td>
-                                                        <td><strong>Place of Posting</strong></td>
-                                                        <td><strong>Posting Status</strong></td>
-                                                        <td><strong>Date of Birth</strong></td>
-                                                        <td><strong>Retirement Date</strong></td>
-                                                        <td><strong>Mobile Number</strong></td>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php
-                                                    $row_count = 0;
-                                                    
-                                                    while($data = mysql_fetch_assoc($result_data)):
-                                                        $row_count++;
-                                                    ?>
-                                                    <tr>
-                                                        <td><?php echo $row_count; ?></td>
-                                                        <td><?php echo $data['MONTH']; ?></td>
-                                                        <td><?php echo $data['NAME']; ?></td>
-                                                        <td><?php echo $data['CODE']; ?></td>
-                                                        <td><?php echo $data['Designation']; ?></td>
-                                                        <td><?php echo $data['Place of Posting']; ?></td>
-                                                        <td><?php echo $data['Posting Status']; ?></td>
-                                                        <td><?php echo $data['Date Of Birth']; ?></td>
-                                                        <td><?php echo $data['Retirement Date']; ?></td>
-                                                        <td><?php echo $data['Mobile']; ?></td>
-                                                    </tr>
-                                                    <?php endwhile; ?>
-                                                </tbody>
-                                            </table>
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <table class="table table-bordered table-hover table-responsive" id="testTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <td><strong>#</strong></td>
+                                                            <td><strong>Month</strong></td>
+                                                            <td><strong>Name</strong></td>
+                                                            <td><strong>Code</strong></td>
+                                                            <td><strong>Designation</strong></td>
+                                                            <td><strong>Place of Posting</strong></td>
+                                                            <td><strong>Posting Status</strong></td>
+                                                            <td><strong>Date of Birth</strong></td>
+                                                            <td><strong>Retirement Date</strong></td>
+                                                            <td><strong>Mobile Number</strong></td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        $row_count = 0;
+
+                                                        while ($data = mysql_fetch_assoc($result_data)):
+                                                            $row_count++;
+                                                            ?>
+                                                            <tr>
+                                                                <td><?php echo $row_count; ?></td>
+                                                                <td><?php echo $data['MONTH']; ?></td>
+                                                                <td><a href="employee.php?staff_id=<?= $data['staff_id'] ?>"><?php echo $data['NAME']; ?></a></td>
+                                                                <td><?php echo $data['CODE']; ?></td>
+                                                                <td><?php echo $data['Designation']; ?></td>
+                                                                <td><?php echo $data['Place of Posting']; ?></td>
+                                                                <td><?php echo $data['Posting Status']; ?></td>
+                                                                <td><?php echo $data['Date Of Birth']; ?></td>
+                                                                <td><?php echo $data['Retirement Date']; ?></td>
+                                                                <td><?php echo $data['Mobile']; ?></td>
+                                                            </tr>
+                                                        <?php endwhile; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
                                     <?php else: ?>
                                         <?php if ($showInfo): ?>
                                             <div class="alert alert-warning">
@@ -320,7 +366,7 @@ if (isset($_REQUEST['show_report'])){
         ================================================== -->
         <?php include_once 'include/footer/footer.inc.php'; ?>
 
-        <script type="text/javascript">             
+        <script type="text/javascript">
             // load division
             $('#admin_division').change(function() {
                 $("#loading_content").show();
@@ -342,7 +388,6 @@ if (isset($_REQUEST['show_report'])){
                     }
                 });
             });
-
             // load district 
             $('#admin_district').change(function() {
                 var dis_code = $('#admin_district').val();
@@ -364,20 +409,47 @@ if (isset($_REQUEST['show_report'])){
                     }
                 });
             });
+            function loadDiscipline() {
+                var designation_group = $('#designation_group').val();
+                $("#loading_content").show();
+                $.ajax({
+                    type: "POST",
+                    url: 'get/get_discipline_from_gesignation_group.php',
+                    data: {designation_group: designation_group},
+                    dataType: 'json',
+                    success: function(data)
+                    {
+                        $("#loading_content").hide();
+                        var discipline = document.getElementById('discipline');
+                        discipline.options.length = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            var d = data[i];
+                            discipline.options.add(new Option(d.text, d.value));
+                        }
+                    }
+                });
+            }
         </script>
 
         <script type="text/javascript">
             var tableToExcel = (function() {
-            var uri = 'data:application/vnd.ms-excel;base64,'
-                , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
-                , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
-                , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+                var uri = 'data:application/vnd.ms-excel;base64,'
+                        , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+                        , base64 = function(s) {
+                            return window.btoa(unescape(encodeURIComponent(s)))
+                        }
+                , format = function(s, c) {
+                    return s.replace(/{(\w+)}/g, function(m, p) {
+                        return c[p];
+                    })
+                }
                 return function(table, name) {
-                if (!table.nodeType) table = document.getElementById(table)
-                var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
-                window.location.href = uri + base64(format(template, ctx))
-            }
-          })()
-	</script>
+                    if (!table.nodeType)
+                        table = document.getElementById(table)
+                    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+                    window.location.href = uri + base64(format(template, ctx))
+                }
+            })()
+        </script>
     </body>
 </html>

@@ -69,8 +69,43 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                         <h3>List of report pages</h3>
                         
                         <div class="row-fluid">
-                            
-                            <table class="table table-striped table-bordered">
+                            Designation wise report
+                            <ul>
+                                <li>
+                                    <a href="report_designation_wise_summary.php">Designation Wise Summary Report </a>
+                                </li>
+                                <li>
+                                    <a href="report_designation_group_wise_summary.php">Designation Group Wise Summary Report </a>
+                                </li>
+                                <li>
+                                    <a href="report_institute_wise_designation_summary.php">Institute Wise Designation Summary Report </a>
+                                </li>
+                                <li>
+                                    <a href="report_type_of_post_and_institute_wise_designation.php">Type of post and Institute wise designation</a>
+                                </li>
+                            </ul>
+                            Personnel wise reportable
+                            <ul>
+                                <li>
+                                    <a href="report_master.php?f_division_code=1&division_code=30&f_district_code=1&district_code=26&admin_upazila=1&upazila_id=2&noDatatable=true&f_org_type_code=1&f_professional_discipline_of_current_designation=1&f_group_code=1&search_field=&search_criteria=&search_value=&SQLSelect=&SQLGroup=&ColOrder=designation_group_name%2Cdiscipline%2Cstaff_id%2Cstaff_name%2Cbirth_date%2Cjob_posting_name%2Corg_name%2Ccontact_no&ColAlias=Designation+Group+Name%2CDiscipline%2CCode%2CName%2CDate+of+Birth%2CPosting+Status%2CPlace+of+Posting%2CMobile+No&order_by=&order_sort=&orderbyfull=designation_group_name%2Cdiscipline&rTitle=Discipline+wise+report+with+Designation+group&submit=">Discipline wise report with Designation group</a>
+                                </li>
+                                <li>
+                                    <a href="report_master.php?f_division_code=1&division_code=30&f_district_code=1&district_code=26&admin_upazila=1&upazila_id=2&noDatatable=true&f_org_type_code=1&f_professional_discipline_of_current_designation=1&f_group_code=1&SQLSelect=&SQLGroup=&ColOrder=discipline%2Cdesignation%2Cstaff_id%2Cstaff_name%2Cbirth_date%2Cjob_posting_name%2Corg_name%2Ccontact_no&ColAlias=Discipline%2CDesignation+Group+Name%2CEmployee+No%2CName%2CDate+of+Birth%2CPosting+Status%2CPlace+of+Posting%2CMobile+No&orderbyfull=discipline%2Cdesignation_group_name&rTitle=Designation+group+wise+report+with+discipline&submit=">Designation group wise report with discipline</a>
+                                </li>
+                                <li>
+                                    <a href="report_master.php?f_division_code=1&division_code=30&f_district_code=1&district_code=26&admin_upazila=1&upazila_id=2&noDatatable=true&f_designation=1&SQLSelect=&SQLGroup=&ColOrder=designation%2Cstaff_id%2Cstaff_pds_code%2Cstaff_name%2Cbirth_date%2Cjob_posting_name%2Corg_name%2Ccontact_no&ColAlias=Designation%2CEmployee+No%2CCode%2CName%2CDate+of+Birth%2CPosting+Status%2CPlace+of+Posting%2CMobile+No&orderbyfull=&rTitle=Designation+wise+report+&submit=">Designation wise report </a>
+                                </li>
+                                <li>
+                                    <a href="report_lpr.php">LPR information</a>
+                                </li>
+                                <li>
+                                    <a href="report_staff_list_by_permanenet_address.php">District (permanent address) wise list</a>
+                                </li>
+                                <li>
+                                    <a href="report_posting_status_wise_list.php">Posting Status wise list</a>
+                                </li>
+                            </ul>
+<!--                            <table class="table table-striped table-bordered">
                                 
                                 <tbody>
                                     <?php if (hasPermission('mod_report_summary_report_link', 'view', getLoggedUserName())) : ?>
@@ -79,19 +114,19 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     </tr>
                                     <?php endif; ?>
                                     <?php if (hasPermission('mod_report_all_report_link', 'view', getLoggedUserName())) : ?>
-                                    <!--
+                                    
                                     <tr>                                        
                                         <td><a href="report_manpower.php">Summary Report Includes All Organization</a></td>
                                     </tr>
-                                    -->
+                                    
                                     <tr>                                        
                                         <td><a href="report_org_list_1.1.php">Organization List</a></td>
                                     </tr>
-                                    <!--
+                                    
                                     <tr>                                        
                                         <td><a href="report_designation_report.php">Designation Report</a></td>
                                     </tr>
-                                    -->
+                                    
                                     <tr>                                        
                                         <td><a href="report_designation_with_who_category.php">Summary Report WHO Health Professional Group (All Organization)</a></td>
                                     </tr>
@@ -107,11 +142,11 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <tr>                                        
                                         <td><a href="report_staff_list_by_designation_group_with_descipline.php">Staff list by designation group report with discipline</a></td>
                                     </tr>
-                                    <!--
+                                    
                                     <tr>                                        
                                         <td><a href="report_post_status_summary.php">Post Status Summary Report</a></td>
                                     </tr>
-                                    -->
+                                    
                                     <tr>                                        
                                         <td><a href="report_staff_list_by_descipline_with_designation_group.php">Staff list report by discipline with designation group </a></td>
                                     </tr>
@@ -125,7 +160,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                         <td><a href="report_lpr.php">LPR Report </a></td>
                                     </tr>
                                     <?php endif; ?>
-                                </tbody>
+                                </tbody>-->
                                 
                             </table>
                             

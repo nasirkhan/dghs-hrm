@@ -285,6 +285,29 @@ function createMultiSelectOptions($dbtableName, $dbtableIdField, $dbtableValueFi
   }
 }
 
+function createMultiSelectOptionsDistinct($dbtableName, $dbtableIdField, $dbtableValueField, $customQuery, $selectedIdCsv, $name, $params) {
+  $sql = "SELECT DISTINCT($dbtableIdField),$dbtableValueField FROM $dbtableName
+	$customQuery
+	ORDER BY $dbtableValueField ASC";
+  //echo $sql;
+  $r = mysql_query($sql) or die(mysql_error());
+
+  $selectedIdCsvArray = explode(',', trim(str_replace("'", "", $selectedIdCsv), ", "));
+  //myprint_r($selectedIdCsvArray);
+  if (mysql_num_rows($r)) {
+    $a = mysql_fetch_rowsarr($r);
+    echo "<select name='$name' multiple='multiple' $params>";
+    foreach ($a as $b) {
+      echo "<option value='" . $b[$dbtableIdField] . "' ";
+      if (in_array($b[$dbtableIdField], $selectedIdCsvArray)) {
+        echo " selected='selected' ";
+      }
+      echo " >" . $b[$dbtableValueField] . "</option>";
+    }
+    echo "</select>";
+  }
+}
+
 function myprint_r($my_array) {
   if (is_array($my_array)) {
     echo "<table border=1 cellspacing=0 cellpadding=3 width=100%>";
@@ -646,6 +669,33 @@ function userTypesPermittedForAction($module_system_name, $action) {
   $r = mysql_query($sql) or die(mysql_error() . "<b>Query:</b><br>___<br>$sql<br>");
   $a = mysql_fetch_assoc($r);
   return trim($a['p_user_type_names'], ', ');
+}
+
+/**
+ * returns an array with field names of a table
+ *
+ * @global type $dbname
+ * @param type $tableName
+ * @return boolean
+ */
+function getTableFieldNames($tableName) {
+
+  global $dbname;
+
+  $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = '$tableName'";
+//echo $sql;
+  $r = mysql_query($sql) or die(mysql_error() . "<b>Query:</b><br>$sql<br>");
+  if (mysql_num_rows($r)) {
+    $a = mysql_fetch_rowsarr($r);
+    $fieldNames = array();
+    $i = 0;
+    foreach ($a as $fieldName) {
+      $fieldNames[$i++] = $fieldName['COLUMN_NAME'];
+    }
+    return $fieldNames;
+  } else {
+    return false;
+  }
 }
 
 ?>
