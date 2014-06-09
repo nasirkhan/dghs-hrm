@@ -49,7 +49,7 @@ LEFT JOIN " . $sanctionedpostsBaseTable['tableName'] . " AS " . $sanctionedposts
    */
   $tableName = $sanctionedpostsBaseTable['tableName'] . " AS " . $sanctionedpostsBaseTable['tableNameAlias'] . "
 LEFT JOIN " . $staffsBaseTable['tableName'] . " AS " . $staffsBaseTable['tableNameAlias'] . " ON " . $sanctionedpostsBaseTable['tableNameAlias'] . ".staff_id_2 = " . $staffsBaseTable['tableNameAlias'] . ".staff_id
-  LEFT JOIN " . $organizationsBaseTable['tableName'] . " AS " . $organizationsBaseTable['tableNameAlias'] . " ON " . $staffsBaseTable['tableNameAlias'] . ".org_code = " . $organizationsBaseTable['tableNameAlias'] . ".org_code
+  LEFT JOIN " . $organizationsBaseTable['tableName'] . " AS " . $organizationsBaseTable['tableNameAlias'] . " ON " . $sanctionedpostsBaseTable['tableNameAlias'] . ".org_code = " . $organizationsBaseTable['tableNameAlias'] . ".org_code
 ";
 
   /*
