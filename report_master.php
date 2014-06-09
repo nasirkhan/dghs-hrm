@@ -125,23 +125,11 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
   $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>get_org_list:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
   $count = mysql_num_rows($result);
 
-  //
+
   $fieldNameAlias = array();
-  //assignAliasForDbFieldNames();
+
   $sexCountArray = getSexGroupedCount();
   $filledPostCountArray = getFilledPostCount();
-
-  //echo "<pre>" . count($sexCountArray) . "</pre>";
-  //myprint_r($sexCountArray);
-
-  /*
-    //easy create $fieldNameAlias by printing
-    $fieldNames = getTableFieldNames('organization');
-    foreach ($fieldNames as $fieldName) {
-    echo '$fieldNameAlias[\'' . $fieldName . '\'] =\'' . $fieldName . '\'' . ";<br/>";
-    }
-
-   */
 }
 ?>
 <!DOCTYPE html>
@@ -159,16 +147,6 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
     <?php include_once 'include/header/header_top_menu.inc.php'; ?>
     <br/>
     <div class="container">
-      <div class="btn-group" style="margin-top: px;">
-        <button class="btn btn-primary">Menu</button>
-        <button class="btn dropdown-toggle" data-toggle="dropdown">
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li><a href="admin_home.php">Admin Dashboard</a></li>
-          <li><a href="report_index.php">Report Dashboard</a></li>
-        </ul>
-      </div>
       <h4 style="text-transform: uppercase">Report : <?php echo $rTitle; ?></h4>
       <?php if ($_REQUEST['HideFilter'] != 'true') { ?>
 
@@ -177,13 +155,11 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
         </div>
         <div class = "filter" id = "filter">
           <form class = "form-horizontal" action = "<?php echo $_SERVER['PHP_SELF']; ?>" method = "get" style = "padding: 0px; margin: 0px;"> <input type="hidden" name="t" value="<?= $_REQUEST['t']; ?>"/>
-            <table id = "">
+            <table id="filter">
               <tr>
-                <td style = "vertical-align: top">
-                  <?php require_once 'include/report/master/inc.filter.admin.php'; ?>
-
-
+                <td>
                   <?php
+                  require_once './include/report/master/inc.filter.admin.php';
                   $checked = "";
                   if ($_REQUEST['noDatatable'] == 'true') {
                     $checked = " checked='checked' ";
@@ -191,43 +167,20 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
                   ?>
                   <input type="checkbox" name="noDatatable" value="true" <?= $checked ?>/> Optimize loading
                 </td>
-                <td style="vertical-align: top">
-                  <?php require_once 'include/report/master/inc.filter.orgdetails1.php'; ?>
-                </td>
-                <td style="vertical-align: top">
-                  <?php require_once 'include/report/master/inc.filter.orgdetails2.php'; ?>
-
-                </td>
-
-                <td style="vertical-align: top">
-                  <?php require_once 'include/report/master/inc.filter.staffdetails1.php'; ?>
-
-                </td>
-
-                <td style="vertical-align: top">
-                  <?php require_once 'include/report/master/inc.filter.staffdetails2.php'; ?>
-
-
-
-                </td>
-                <td style="vertical-align: top">
-                  <?php require_once 'include/report/master/inc.filter.postdetails1.php'; ?>
-                </td>
-                <td style="vertical-align:top;">
-                  <?php include_once './include/report/master/inc.mysql_fields.php'; ?>
-
-                </td>
+                <td><?php require_once './include/report/master/inc.filter.orgdetails1.php'; ?></td>
+                <td><?php require_once './include/report/master/inc.filter.orgdetails2.php'; ?></td>
+                <td><?php require_once './include/report/master/inc.filter.staffdetails1.php'; ?></td>
+                <td><?php require_once './include/report/master/inc.filter.staffdetails2.php'; ?></td>
+                <td><?php require_once './include/report/master/inc.filter.postdetails1.php'; ?></td>
+                <td><?php include_once './include/report/master/inc.mysql_fields.php'; ?></td>
               </tr>
             </table>
             <table>
               <tr>
                 <td>
                   <div class="btn-group">
-                    <button name="submit" type="submit" class="btn btn-success" style="text-transform: uppercase">Generate Report</button>
+                    <button name="submit" type="submit" class="btn btn-success" style="text-transform: uppercase" value="generate_report">Generate Report</button>
                     <a href="<?php echo $_SERVER['PHP_SELF'] ?>" class="btn" style="text-transform: uppercase">Reset</a>
-                    <?php if ($_REQUEST['noDatatable'] == 'true') { ?>
-                      <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export for Optimized Loading" class="btn btn-primary btn-small pull-right" style="margin-top: -30px; height: 30px;">
-                    <?php } ?>
                     <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;text-transform: uppercase"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                   </div>
                 </td>
@@ -244,10 +197,13 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
       }
       if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
         ?>
-        <blockquote class="pull-left"><?php echo "$selection_string"; ?></blockquote>
-        <blockquote class="pull-left">
+        <blockquote class="pull-left clearfix"><?php echo "$selection_string"; ?></blockquote>
+        <blockquote class="pull-left clearfix">
           Total <strong><em><?= $count ?></em></strong> result(s) found.<br />
         </blockquote>
+        <?php if ($_REQUEST['noDatatable'] == 'true') { ?>
+          <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export CSV" class="btn pull-right" />
+        <?php } ?>
 
         <?php
         if ($_REQUEST['noDatatable'] == 'true') {
