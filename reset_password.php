@@ -77,50 +77,42 @@ if ($_POST["submit"]) {
     <body>
         <div class="container">
             <div class="row-fluid">
-                <?php if (empty($_GET)) { ?>
-                    <form class="form-contact" action="" method="post" name="form1" id="form1">
-                        <fieldset>
-                            <legend><h2>Reset Password Form</h2></legend>
-                            <label>Please Enter your organization email address to reset password.Please check your email and click the link to reset the password. <font color="red"> * </font> </label>
-                            <input type="text" id="email" name="email"  class="input-block-level" placeholder="Your Organization Email Address …" required>
-                            <img src="captcha.php" /><br><br>
-                            <input name="captcha" type="text" class="input-block-level" required placeholder="Captcha code…">
-
-                            <input type="submit" value="Submit" name="submit"  class="btn btn-info btn-large">
-                            <br/><br/>
-                            <img src="assets/img/reset_password.png">
-                        </fieldset>
-                        <?php
-                    }
-                    if ($mail_sent == 2):
-                        ?>
+                <div class="span6 offset3 form-contact">
+                    <h2>Reset Password Form</h2>
+                    <hr>
+                    <?php if ($mail_sent == 2): ?>
                         <div class="alert alert-info">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                             <strong><i class="icon-minus-sign"></i> Warning!</strong><br />Wrong code or wrong email address entered.
                             <br />Please try again.
                         </div>
-
-                    <?php
-                    endif;
-
-                    if ($mail_sent == 1):
-                        ?>
+                    <?php elseif ($mail_sent == 1): ?>
                         <div class="alert alert-info">
                             <strong> Mail Sent successfully </strong>
                         </div>
-                    <?php
-                    endif;
-
-                    if ($flag == 1):
-                        ?>
+                    <?php endif; ?>
+                    <?php if ($flag == 1): ?>
                         <div class="alert alert-block alert-error">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
                             <strong><i class="icon-minus-sign"></i> Warning!<strong> Your username or tokencode is incorrect.</strong>
                         </div>
 
-<?php endif; ?>
+                    <?php endif; ?>
+                    <?php if (empty($_GET)) : ?>
+                        <form action="" method="post" name="form1" id="form1">
+                            <fieldset>                                
+                                <label>Please Enter your organization email address to reset password.Please check your email and click the link to reset the password. <font color="red"> * </font> </label>
+                                <input type="text" id="email" name="email"  class="input-block-level" placeholder="Your Organization Email Address …" required>
+                                <img src="captcha.php" /><br><br>
+                                <input name="captcha" type="text" class="input-block-level" required placeholder="Captcha code…">
 
-                </form>
+                                <input type="submit" value="Submit" name="submit"  class="btn btn-info btn-large">
+                                <br/><br/>
+                                <img src="assets/img/reset_password.png">
+                            </fieldset>
+                        <?php endif; ?>
+                    </form> <!-- end form -->
+                </div>
             </div> <!-- /container -->
         </div>
     </body>
