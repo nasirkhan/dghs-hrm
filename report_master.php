@@ -60,7 +60,7 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
   }
 
   $SQLWhereStatement = $parameterized_query;
-  
+
   /*
    *    SQL GROUP BY
    */
@@ -157,48 +157,32 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
   </head>
   <body>
     <?php include_once 'include/header/header_top_menu.inc.php'; ?>
-      <br/>
+    <br/>
     <div class="container">
-        <div class="btn-group" style="margin-top: px;">
+      <div class="btn-group" style="margin-top: px;">
         <button class="btn btn-primary">Menu</button>
         <button class="btn dropdown-toggle" data-toggle="dropdown">
-        <span class="caret"></span>
+          <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-            <li><a href="admin_home.php">Admin Dashboard</a></li>
-            <li><a href="report_index.php">Report Dashboard</a></li>
+          <li><a href="admin_home.php">Admin Dashboard</a></li>
+          <li><a href="report_index.php">Report Dashboard</a></li>
         </ul>
-        </div>
+      </div>
       <h4 style="text-transform: uppercase">Report : <?php echo $rTitle; ?></h4>
       <?php if ($_REQUEST['HideFilter'] != 'true') { ?>
 
         <div id="showHide" style="cursor: pointer">
           <span id="showHideBtn" >[ - ] Hide Filters</span>
-          <script type="text/javascript">
-            $('#showHide').click(function() {
-              //alert('test');
-              $('#filter').toggle(function() {
-                var text = "Show";
-                if ($('div#filter').is(":visible")) {
-                  text = "[ - ] Hide Filters";
-                } else {
-                  text = "[+]Show Filters";
-                }
-                $('span#showHideBtn').html(text);
-              });
-
-            });</script>
-
         </div>
-      
         <div class = "filter" id = "filter">
           <form class = "form-horizontal" action = "<?php echo $_SERVER['PHP_SELF']; ?>" method = "get" style = "padding: 0px; margin: 0px;"> <input type="hidden" name="t" value="<?= $_REQUEST['t']; ?>"/>
             <table id = "">
               <tr>
                 <td style = "vertical-align: top">
                   <?php require_once 'include/report/master/inc.filter.admin.php'; ?>
-                  
-                  
+
+
                   <?php
                   $checked = "";
                   if ($_REQUEST['noDatatable'] == 'true') {
@@ -208,21 +192,21 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
                   <input type="checkbox" name="noDatatable" value="true" <?= $checked ?>/> Optimize loading
                 </td>
                 <td style="vertical-align: top">
-                  <?php require_once 'include/report/master/inc.filter.orgdetails1.php'; ?>                  
+                  <?php require_once 'include/report/master/inc.filter.orgdetails1.php'; ?>
                 </td>
                 <td style="vertical-align: top">
-                  <?php require_once 'include/report/master/inc.filter.orgdetails2.php'; ?>                  
-                                    
+                  <?php require_once 'include/report/master/inc.filter.orgdetails2.php'; ?>
+
                 </td>
 
                 <td style="vertical-align: top">
-                  <?php require_once 'include/report/master/inc.filter.staffdetails1.php'; ?>                  
-                                    
+                  <?php require_once 'include/report/master/inc.filter.staffdetails1.php'; ?>
+
                 </td>
 
                 <td style="vertical-align: top">
                   <?php require_once 'include/report/master/inc.filter.staffdetails2.php'; ?>
-                  
+
 
 
                 </td>
@@ -231,7 +215,7 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
                 </td>
                 <td style="vertical-align:top;">
                   <?php include_once './include/report/master/inc.mysql_fields.php'; ?>
-                  
+
                 </td>
               </tr>
             </table>
@@ -241,15 +225,15 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
                   <div class="btn-group">
                     <button name="submit" type="submit" class="btn btn-success" style="text-transform: uppercase">Generate Report</button>
                     <a href="<?php echo $_SERVER['PHP_SELF'] ?>" class="btn" style="text-transform: uppercase">Reset</a>
-                    <?php if ($_REQUEST['noDatatable'] == 'true') {?>
-                    <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export for Optimized Loading" class="btn btn-primary btn-small pull-right" style="margin-top: -30px; height: 30px;">
+                    <?php if ($_REQUEST['noDatatable'] == 'true') { ?>
+                      <input type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export for Optimized Loading" class="btn btn-primary btn-small pull-right" style="margin-top: -30px; height: 30px;">
                     <?php } ?>
                     <a id="loading_content" href="#" class="btn btn-info disabled" style="display:none;text-transform: uppercase"><i class="icon-spinner icon-spin icon-large"></i> Loading content...</a>
                   </div>
                 </td>
             </table>
             <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_advancedOptions'] == '1') || !isset($_REQUEST['submit'])) { ?>
-            <?php include_once './include/report/master/inc.filter.advanced.php'; ?>              
+              <?php include_once './include/report/master/inc.filter.advanced.php'; ?>
             <?php } ?>
           </form>
         </div>
@@ -272,9 +256,9 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
           $param = " id='datatable' ";
         }
         ?>
-      
+
         <table class="table table-condensed table-bordered" <?= $param ?> id="testTable">
-            
+
           <thead>
             <tr>
               <?php
@@ -312,10 +296,7 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
                 echo "<th><b>Total $t</b></th>";
               }
               if ($sexCountArray) {
-                echo "<th><b>Male</b></th>";
-                echo "<th><b>Female</b></th>";
-                echo "<th><b>Filled up</b></th>";
-                echo "<th><b>Vacant</b></th>";
+                echo "<th><b>Male</b></th><th><b>Female</b></th><th><b>Filled up</b></th><th><b>Vacant</b></th>";
               }
               ?>
 
@@ -399,11 +380,11 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
 
     <!-- Footer
     ================================================== -->
-    <?php 
-    include_once './include/footer/footer.inc.php';    
-    include_once './include/report/report_org_list/report_org_list.js.php'; 
+    <?php
+    include_once './include/footer/footer.inc.php';
+    include_once './include/report/report_org_list/report_org_list.js.php';
     require_once './include/report/master/inc.js.php';
-    ?>    
-    
+    ?>
+
   </body>
 </html>
