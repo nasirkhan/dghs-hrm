@@ -7,7 +7,7 @@
 $dbhost = 'localhost';
 $dbname = 'dghs_hrm_main';
 $dbuser = 'root';
-$dbpass = '';
+$dbpass = 'root';
 
 mysql_select_db($dbname, mysql_connect($dbhost, $dbuser, $dbpass)) or die(mysql_error());
 mysql_query("SET CHARACTER SET utf8");
@@ -74,6 +74,21 @@ $designation_group_name = array();
 
 while ($data = mysql_fetch_assoc($r)) {
     $designation_group_name [mysql_real_escape_string(trim($data[$code]))] = mysql_real_escape_string(trim($data[$value]));
+}
+
+/**
+ * sanctioned_post_designation_group_code array
+ */
+$code = 'designation_code';
+$value = 'ranking';
+$table = 'sanctioned_post_designation';
+$sql = "SELECT $code, $value FROM `$table`";
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+$designation_ranking = array();
+
+while ($data = mysql_fetch_assoc($r)) {
+    $designation_ranking [mysql_real_escape_string(trim($data[$code]))] = mysql_real_escape_string(trim($data[$value]));
 }
 
 /**
@@ -185,7 +200,7 @@ $second_level_code['0'] = "0";
 
 
 
-$sql = "SELECT * FROM `total_manpower_imported_sanctioned_post_copy` ORDER BY org_code limit 5";
+$sql = "SELECT * FROM `total_manpower_imported_sanctioned_post_copy` ORDER BY id limit 500";
 $sp_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getAllSanctionedPost:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
 $row_count = 0;
@@ -272,8 +287,9 @@ while ($sp_data = mysql_fetch_assoc($sp_result)) {
     $query_string .= "`first_level_name`=\"" . $first_level_name[$sp_data['first_level_id']] . "\",";
     $query_string .= "`first_level_code`=\"" . $first_level_code[$sp_data['first_level_id']] . "\",";
     $query_string .= "`second_level_name`=\"" . $second_level_name[$sp_data['second_level_id']] . "\",";
-    $query_string .= "`second_level_code`=\"" . $second_level_code[$sp_data['second_level_id']] . "\" ";
-    $query_string .= "`type_of_post_name`=\"" . $second_level_code[$sp_data['type_of_post']] . "\" ";
+    $query_string .= "`second_level_code`=\"" . $second_level_code[$sp_data['second_level_id']] . "\", ";
+    $query_string .= "`type_of_post_name`=\"" . $type_of_post[$sp_data['type_of_post']] . "\", ";
+    $query_string .= "`designation_ranking`=\"" . $designation_ranking[$sp_data['designation_code']] . "\" ";
 
     /**
      * ------------------------------------------------------
@@ -325,7 +341,9 @@ function getOrgInfoOfSanctionedPost($org_code) {
                     organization.org_type_code,
                     organization.org_type_name
             FROM
-                    `organization`";
+                    `organization`
+            WHERE 
+                    organization.org_code = $org_code";
     $org_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getOrgLocationInfo:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
     $data = mysql_fetch_assoc($org_result);

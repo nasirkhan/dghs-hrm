@@ -34,57 +34,50 @@ $error_message = "";
 
 
 if ($admin_division > 0) {
-    $query_string .= " AND organization.division_code = $admin_division ";
+    $query_string .= " AND p.division_code = $admin_division ";
 }
 if ($admin_district > 0) {
-    $query_string .= " AND organization.district_code = $admin_district ";
+    $query_string .= " AND p.district_code = $admin_district ";
 }
 if ($admin_upazila > 0) {
-    $query_string .= " AND organization.upazila_thana_code = $admin_upazila ";
+    $query_string .= " AND p.upazila_code = $admin_upazila ";
 }
 if ($org_type > 0) {
-    $query_string .= " AND organization.org_type_code = $org_type ";
+    $query_string .= " AND p.org_type_code = $org_type ";
 }
 
 
 if ($error_message == "" && isset($_REQUEST['admin_division'])) {
     $sql = "SELECT
-                    total_manpower_imported_sanctioned_post_copy.designation,
-                    total_manpower_imported_sanctioned_post_copy.designation_code,
-                    sanctioned_post_type_of_post.type_of_post_name,
-                    sanctioned_post_type_of_post.type_of_post_code,
-                    sanctioned_post_designation.class,
-                    sanctioned_post_designation.payscale,
-                    sanctioned_post_designation.ranking,
+                    p.designation_code,
+                    p.designation,
+                    p.type_of_post,
+                    p.type_of_post_name,
+                    p.class,
+                    p.pay_scale,
+                    p.designation_ranking,
                     count(*) AS total_count
             FROM
-                    `total_manpower_imported_sanctioned_post_copy`
-            LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.sp_id_2 = total_manpower_imported_sanctioned_post_copy.id
-            LEFT JOIN sanctioned_post_type_of_post ON total_manpower_imported_sanctioned_post_copy.type_of_post = sanctioned_post_type_of_post.type_of_post_code
-            LEFT JOIN sanctioned_post_designation ON sanctioned_post_designation.designation_code = total_manpower_imported_sanctioned_post_copy.designation_code
-            LEFT JOIN organization on organization.org_code = total_manpower_imported_sanctioned_post_copy.org_code
+                    `total_manpower_imported_sanctioned_post_copy` AS p
             WHERE
-                    total_manpower_imported_sanctioned_post_copy.active LIKE 1
+                    p.active LIKE '1'
                     $query_string
             GROUP BY
-                    total_manpower_imported_sanctioned_post_copy.type_of_post,
-                    total_manpower_imported_sanctioned_post_copy.designation
+                    p.type_of_post,
+                    p.designation_code
             ORDER BY
-                    sanctioned_post_designation.payscale,
-                    sanctioned_post_designation.ranking
-                    ";
+                    p.pay_scale,
+                    p.designation_ranking";
 
     $result_all = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_staff_list_by_designation_group_with_descipline:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
     $data_count = mysql_num_rows($result_all);
-    
+
     if ($data_count > 0) {
         $showReport = TRUE;
         $showInfo = TRUE;
     }
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -218,11 +211,11 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                 $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>loadorg_type:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
                                                 while ($rows = mysql_fetch_assoc($result)) {
-                                                    if($rows['org_type_code'] == $_REQUEST['org_type']){
+                                                    if ($rows['org_type_code'] == $_REQUEST['org_type']) {
                                                         echo "<option value=\"" . $rows['org_type_code'] . "\" selected='selected'>" . $rows['org_type_name'] . "</option>";
-                                                    } else{
+                                                    } else {
                                                         echo "<option value=\"" . $rows['org_type_code'] . "\">" . $rows['org_type_name'] . "</option>";
-                                                    }                                                    
+                                                    }
                                                 }
                                                 ?>
                                             </select>
@@ -252,8 +245,9 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                             }
                                             if ($admin_upazila > 0) {
                                                 echo " & Upazila: <strong>" . getUpazilaNamefromBBSCode($admin_upazila, $admin_district) . "</strong>";
-                                            }if ($org_type_name > 0) {
-                                                echo " Org Type: <strong>" . $org_type_name . "</strong>";
+                                            }
+                                            if ($org_type > 0) {
+                                                echo " Org Type: <strong>" . getOrgTypeNameFormOrgTypeCode($org_type) . "</strong>";
                                             }
                                             ?>
                                         </div>
@@ -263,7 +257,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                             <div class="row-fluid">
                                 <div class="span12">
                                     <?php if ($showReport): ?>
-                                    <table id="reportTable" class="table table-bordered table-hover table-striped">
+                                        <table id="reportTable" class="table table-bordered table-hover table-striped">
                                             <thead>
                                                 <tr>
                                                     <th><strong>#</strong></th>
@@ -282,126 +276,115 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                 <?php
                                                 $row_count = 0;
                                                 while ($row_designation = mysql_fetch_assoc($result_all)):
-                                                    if (!$row_designation['designation_code'] > 0){
+                                                    if (!$row_designation['designation_code'] > 0) {
                                                         continue;
                                                     }
 
+                                                    /**
+                                                     * count total filledup post
+                                                     */
                                                     $sql = "SELECT
-                                                                    total_manpower_imported_sanctioned_post_copy.designation,
-                                                                    total_manpower_imported_sanctioned_post_copy.designation_code,
-                                                                    sanctioned_post_type_of_post.type_of_post_name,
-                                                                    sanctioned_post_type_of_post.type_of_post_code,
-                                                                    sanctioned_post_designation.class,
-                                                                    sanctioned_post_designation.payscale,
-                                                                    sanctioned_post_designation.ranking,
+                                                                    p.designation_code,
+                                                                    p.designation,
+                                                                    p.type_of_post,
+                                                                    p.type_of_post_name,
+                                                                    p.class,
+                                                                    p.pay_scale,
+                                                                    p.designation_ranking,
                                                                     count(*) AS total_count
                                                             FROM
-                                                                    `total_manpower_imported_sanctioned_post_copy`
-                                                            LEFT JOIN old_tbl_staff_organization ON old_tbl_staff_organization.sp_id_2 = total_manpower_imported_sanctioned_post_copy.id
-                                                            LEFT JOIN sanctioned_post_type_of_post ON total_manpower_imported_sanctioned_post_copy.type_of_post = sanctioned_post_type_of_post.type_of_post_code
-                                                            LEFT JOIN sanctioned_post_designation ON sanctioned_post_designation.designation_code = total_manpower_imported_sanctioned_post_copy.designation_code
+                                                                    `total_manpower_imported_sanctioned_post_copy` AS p
+                                                                LEFT JOIN old_tbl_staff_organization AS s ON p.staff_id_2 = s.staff_id
                                                             WHERE
-                                                                    total_manpower_imported_sanctioned_post_copy.active LIKE 1
-                                                            AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row_designation['designation_code'] . "
-                                                            AND total_manpower_imported_sanctioned_post_copy.type_of_post = " . $row_designation['type_of_post_code'] . "
+                                                                    p.active LIKE '1'
+                                                                    $query_string
+                                                                    AND p.designation_code = '" . $row_designation['designation_code'] . "'
+                                                                    AND p.type_of_post = '" . $row_designation['type_of_post'] . "'                                                            
+                                                                    AND p.staff_id_2 > 0
                                                             GROUP BY
-                                                                    total_manpower_imported_sanctioned_post_copy.type_of_post,
-                                                                    total_manpower_imported_sanctioned_post_copy.designation_code
+                                                                    p.type_of_post,
+                                                                    p.designation_code
                                                             ORDER BY
-                                                                    sanctioned_post_designation.ranking";
-                                                    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                                    p.pay_scale,
+                                                                    p.designation_ranking";
+                                                    $result_filledup = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                                                    while ($row = mysql_fetch_assoc($result)):
-                                                        /**
-                                                         * count total filledup post
-                                                         */
-                                                        $sql = "SELECT
-                                                                        total_manpower_imported_sanctioned_post_copy.designation,
-                                                                        total_manpower_imported_sanctioned_post_copy.designation_code,
-                                                                        count(*) AS total_count
-                                                                FROM
-                                                                        `total_manpower_imported_sanctioned_post_copy`
-                                                                    LEFT JOIN organization ON organization.org_code = total_manpower_imported_sanctioned_post_copy.org_code
-                                                                WHERE
-                                                                        total_manpower_imported_sanctioned_post_copy.active LIKE 1
-                                                                AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row_designation['designation_code'] . "
-                                                                AND total_manpower_imported_sanctioned_post_copy.type_of_post = " . $row_designation['type_of_post_code'] . "
-                                                                AND total_manpower_imported_sanctioned_post_copy.staff_id_2 > 0
-                                                                $query_string
-                                                                GROUP BY
-                                                                        total_manpower_imported_sanctioned_post_copy.type_of_post,
-                                                                        total_manpower_imported_sanctioned_post_copy.designation_code";
-                                                        $result_filledup = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                    // total post
+                                                    if ($row_designation['total_count']) {
+                                                        $total_post = $row_designation['total_count'];
+                                                    } else {
+                                                        $total_post = 0;
+                                                    }
 
-                                                        // total post
-                                                        if ($row_designation['total_count']){
-                                                            $total_post = $row_designation['total_count'];
-                                                        } else{
-                                                            $total_post = 0;
-                                                        }
-
-                                                        // total filled up post for a specific designation
-                                                        $total_filled_up_data = mysql_fetch_assoc($result_filledup);
-                                                        $total_filled_up = $total_filled_up_data['total_count'];
-                                                        if (!$total_filled_up > 0){
-                                                            $total_filled_up = 0; 
-                                                        }
+                                                    // total filled up post for a specific designation
+                                                    $total_filled_up_data = mysql_fetch_assoc($result_filledup);
+                                                    $total_filled_up = $total_filled_up_data['total_count'];
+                                                    if (!$total_filled_up > 0) {
+                                                        $total_filled_up = 0;
+                                                    }
 
 
-                                                        // total filled up post for a specific designation
-                                                        $total_vacant_post = $total_post - $total_filled_up;
+                                                    // total filled up post for a specific designation
+                                                    $total_vacant_post = $total_post - $total_filled_up;
 
 
-                                                        /**
-                                                         * total filledup post Male
-                                                         */
-                                                        $sql = "SELECT
-                                                                        total_manpower_imported_sanctioned_post_copy.designation,
-                                                                        total_manpower_imported_sanctioned_post_copy.designation_code,
-                                                                        count(*) AS total_count
-                                                                FROM
-                                                                        `total_manpower_imported_sanctioned_post_copy`
-                                                                LEFT JOIN old_tbl_staff_organization ON total_manpower_imported_sanctioned_post_copy.id = old_tbl_staff_organization.sp_id_2
-                                                                LEFT JOIN organization ON organization.org_code = total_manpower_imported_sanctioned_post_copy.org_code
-                                                                WHERE
-                                                                        total_manpower_imported_sanctioned_post_copy.active LIKE 1
-                                                                AND total_manpower_imported_sanctioned_post_copy.designation_code = " . $row_designation['designation_code'] . "
-                                                                AND total_manpower_imported_sanctioned_post_copy.type_of_post = " . $row_designation['type_of_post_code'] . "
-                                                                AND old_tbl_staff_organization.sex = 1
-                                                                $query_string
-                                                                GROUP BY
-                                                                        total_manpower_imported_sanctioned_post_copy.type_of_post,
-                                                                        total_manpower_imported_sanctioned_post_copy.designation_code";
-                                                        $result_male_filledup = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+                                                    /**
+                                                     * total filledup post Male
+                                                     */
+                                                    $sql = "SELECT
+                                                                    p.designation_code,
+                                                                    p.designation,
+                                                                    p.type_of_post,
+                                                                    p.type_of_post_name,
+                                                                    p.class,
+                                                                    p.pay_scale,
+                                                                    p.designation_ranking,
+                                                                    count(*) AS total_count
+                                                            FROM
+                                                                    `total_manpower_imported_sanctioned_post_copy` AS p
+                                                                LEFT JOIN old_tbl_staff_organization AS s ON p.staff_id_2 = s.staff_id
+                                                            WHERE
+                                                                    p.active LIKE '1'
+                                                                    $query_string
+                                                                    AND p.designation_code = '" . $row_designation['designation_code'] . "'
+                                                                    AND p.type_of_post = '" . $row_designation['type_of_post'] . "'                                                            
+                                                                    AND p.staff_id_2 > 0
+                                                                    AND s.sex = '1'
+                                                            GROUP BY
+                                                                    p.type_of_post,
+                                                                    p.designation_code
+                                                            ORDER BY
+                                                                    p.pay_scale,
+                                                                    p.designation_ranking";
+                                                    $result_male_filledup = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>report_post_status_summary:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
 
-                                                        // total male filled up post for a specific designation
-                                                        $total_male_filled_up_data = mysql_fetch_assoc($result_male_filledup);
+                                                    // total male filled up post for a specific designation
+                                                    $total_male_filled_up_data = mysql_fetch_assoc($result_male_filledup);
 
-                                                        if ($total_male_filled_up_data['total_count']){
-                                                            $total_male_filled_up = $total_male_filled_up_data['total_count'];
-                                                        } else{
-                                                            $total_male_filled_up = 0;
-                                                        }
+                                                    if ($total_male_filled_up_data['total_count']) {
+                                                        $total_male_filled_up = $total_male_filled_up_data['total_count'];
+                                                    } else {
+                                                        $total_male_filled_up = 0;
+                                                    }
 
 
-                                                        // total female filled up
-                                                        $total_female_filled_up = $total_filled_up - $total_male_filled_up;
+                                                    // total female filled up
+                                                    $total_female_filled_up = $total_filled_up - $total_male_filled_up;
 
-                                                        $row_count++;
-                                                        ?>
-                                                        <tr>
-                                                            <td><?php echo $row_count; ?></td>
-                                                            <td><?php echo $row['designation']; ?><!-- (Designation Code:<?php echo $row['designation_code']; ?>) --></td>
-                                                            <td><?php echo $row['type_of_post_name']; ?></td>
-                                                            <td><?php echo $row['class']; ?></td>
-                                                            <td><?php echo $row['payscale']; ?></td>
-                                                            <td><?php echo $total_post; ?></td>
-                                                            <td><?php echo $total_filled_up; ?></td>
-                                                            <td><?php echo $total_vacant_post; ?></td>
-                                                            <td><?php echo $total_male_filled_up; ?></td>
-                                                            <td><?php echo $total_female_filled_up; ?></td>
-                                                        </tr>
-                                                    <?php endwhile; ?>
+                                                    $row_count++;
+                                                    ?>
+                                                    <tr>
+                                                        <td><?php echo $row_count; ?></td>
+                                                        <td><?php echo $row_designation['designation']; ?><!-- (Designation Code:<?php echo $row['designation_code']; ?>) --></td>
+                                                        <td><?php echo $row_designation['type_of_post_name']; ?></td>
+                                                        <td><?php echo $row_designation['class']; ?></td>
+                                                        <td><?php echo $row_designation['pay_scale']; ?></td>
+                                                        <td><?php echo $total_post; ?></td>
+                                                        <td><?php echo $total_filled_up; ?></td>
+                                                        <td><?php echo $total_vacant_post; ?></td>
+                                                        <td><?php echo $total_male_filled_up; ?></td>
+                                                        <td><?php echo $total_female_filled_up; ?></td>
+                                                    </tr>
                                                 <?php endwhile; ?>
                                             </tbody>
                                         </table>
@@ -429,53 +412,51 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
         <?php include_once 'include/footer/footer.inc.php'; ?>
 
         <script type="text/javascript">             // load division
-            $('#admin_division').change(function() {
-                $("#loading_content").show();
-                var div_code = $('#admin_division').val();
-                $.ajax({
+                    $('#admin_division').change(function() {
+            $("#loading_content").show();
+                    var div_code = $('#admin_division').val();
+                    $.ajax({
                     type: "POST",
-                    url: 'get/get_districts.php',
-                    data: {div_code: div_code},
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var admin_district = document.getElementById('admin_district');
-                        admin_district.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
+                            url: 'get/get_districts.php',
+                            data: {div_code: div_code},
+                            dataType: 'json',
+                            success: function(data)
+                            {
+                            $("#loading_content").hide();
+                                    var admin_district = document.getElementById('admin_district');
+                                    admin_district.options.length = 0;
+                                    for (var i = 0; i < data.length; i++) {
                             var d = data[i];
-                            admin_district.options.add(new Option(d.text, d.value));
-                        }
-                    }
-                });
+                                    admin_district.options.add(new Option(d.text, d.value));
+                            }
+                            }
+                    });
             });
-
-            // load district 
-            $('#admin_district').change(function() {
-                var dis_code = $('#admin_district').val();
-                $("#loading_content").show();
-                $.ajax({
+                    // load district 
+                    $('#admin_district').change(function() {
+            var dis_code = $('#admin_district').val();
+                    $("#loading_content").show();
+                    $.ajax({
                     type: "POST",
-                    url: 'get/get_upazilas.php',
-                    data: {dis_code: dis_code},
-                    dataType: 'json',
-                    success: function(data)
-                    {
-                        $("#loading_content").hide();
-                        var admin_upazila = document.getElementById('admin_upazila');
-                        admin_upazila.options.length = 0;
-                        for (var i = 0; i < data.length; i++) {
+                            url: 'get/get_upazilas.php',
+                            data: {dis_code: dis_code},
+                            dataType: 'json',
+                            success: function(data)
+                            {
+                            $("#loading_content").hide();
+                                    var admin_upazila = document.getElementById('admin_upazila');
+                                    admin_upazila.options.length = 0;
+                                    for (var i = 0; i < data.length; i++) {
                             var d = data[i];
-                            admin_upazila.options.add(new Option(d.text, d.value));
-                        }
-                    }
-                });
-            });
-        </script>
-        <script type="text/javascript">
-            var tableToExcel = (function() {
-            var uri = 'data:application/vnd.ms-excel;base64,'
-            , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+                                    admin_upazila.options.add(new Option(d.text, d.value));
+                            }
+                            }
+                    });
+            });</script>
+                            <script type="text/javascript">
+                            var tableToExcel = (function() {
+                                    var uri = 'data:application/vnd.ms-excel;base64,'
+                            , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
             , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
             , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
                 return function(table, name) {
@@ -484,7 +465,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                   window.location.href = uri + base64(format(template, ctx))
                 }
               })()
-	</script>
+        </script>
 
     </body>
 </html>
