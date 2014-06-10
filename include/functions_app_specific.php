@@ -2128,13 +2128,12 @@ function addCommunityClinicSanctionedPost($org_code) {
     $group = "Community health care provider";
     $designation = "Community health care provider";
     $type_of_post = "3";
-    $sanctioned_post = 1;
     $sanctioned_post_group_code = 11645;
     $pay_scale = "14";
     $class = "Class 3";
     $first_level_id = "1004";
     $first_level_name = "Administration";
-    $designation_code = "designation_code";
+    $designation_code = "11960";
     $second_level_id = "0";
     $second_level_name = "";
     $bangladesh_professional_category_code = "4";
@@ -2146,7 +2145,6 @@ function addCommunityClinicSanctionedPost($org_code) {
                 `group`,
                 `designation`,
                 `type_of_post`,
-                `sanctioned_post`,
                 `sanctioned_post_group_code`,
                 `pay_scale`,
                 `class`,
@@ -2166,7 +2164,6 @@ function addCommunityClinicSanctionedPost($org_code) {
 		'$group',
 		'$designation',
 		'$type_of_post',
-		'1',
 		'$sanctioned_post_group_code',
 		'$pay_scale',
 		'$class',
