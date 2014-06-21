@@ -5,12 +5,12 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.2.*",
-                "cartalyst/sentry": "2.1.*"
+                "cartalyst/sentry": "2.1.*",
+		"way/generators": "2.*"
 	},
-    "require-dev": {
-        "way/generators": "2.*",
-        "barryvdh/laravel-ide-helper": "1.*"
-    },
+        "require-dev": {
+            "barryvdh/laravel-ide-helper": "1.*"
+        },
 	"autoload": {
 		"classmap": [
 			"app/commands",
