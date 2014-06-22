@@ -12,13 +12,12 @@ if ($_SESSION['logged'] != true) {
 //    header("location:home.php?org_code=$org_code");
 //}
 
+$org_code = $_SESSION['org_code'];
 $org_name = $_SESSION['org_name'];
 
 $step = 0;
 if (isset($_REQUEST['step'])) {
     $step = (int) mysql_real_escape_string(trim($_REQUEST['step']));
-
-    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
 
     $designation_code = (int) mysql_real_escape_string($_GET['designation_code']);
     
@@ -33,11 +32,11 @@ if ($step == 0){
 /**
  * update sanctiond post
  */
-$action  = mysql_real_escape_string(trim($_GET['action']));
-if (isset($_POST['action'])) {
-    $sp_id = (int) mysql_real_escape_string(trim($_POST['sp_id']));
-    $org_code = (int) mysql_real_escape_string(trim($_POST['org_code']));
-    $action  = mysql_real_escape_string(trim($_POST['action']));
+echo $action  = mysql_real_escape_string(trim($_REQUEST['action']));
+if (isset($_REQUEST['action'])) {
+    $sp_id = (int) mysql_real_escape_string(trim($_REQUEST['sp_id']));
+    $org_code = (int) mysql_real_escape_string(trim($_REQUEST['org_code']));
+    echo $action  = mysql_real_escape_string(trim($_REQUEST['action']));
 
     if ($action == "add"){
         $sql = "SELECT
@@ -114,11 +113,11 @@ if (isset($_POST['action'])) {
 
     }
     else if ($action == "new_sp"){
-        $sp_number = (int) mysql_real_escape_string(trim($_POST['sp_number']));
-        $designation_code = (int) mysql_real_escape_string(trim($_POST['designation_code']));
-        $type_of_post = (int) mysql_real_escape_string(trim($_POST['type_of_post']));
-        $first_level_code = (int) mysql_real_escape_string(trim($_POST['first_level']));
-        $second_level_code = (int) mysql_real_escape_string(trim($_POST['second_level']));
+        $sp_number = (int) mysql_real_escape_string(trim($_REQUEST['sp_number']));
+        $designation_code = (int) mysql_real_escape_string(trim($_REQUEST['designation_code']));
+        $type_of_post = (int) mysql_real_escape_string(trim($_REQUEST['type_of_post']));
+        $first_level_code = (int) mysql_real_escape_string(trim($_REQUEST['first_level']));
+        $second_level_code = (int) mysql_real_escape_string(trim($_REQUEST['second_level']));
 
         $sql = "SELECT
                         *
@@ -135,7 +134,6 @@ if (isset($_POST['action'])) {
                         `group`,
                         `designation`,
                         `type_of_post`,
-                        `sanctioned_post`,
                         `sanctioned_post_group_code`,
                         `pay_scale`,
                         `class`,
@@ -154,7 +152,6 @@ if (isset($_POST['action'])) {
                         \"" . $data['group'] . "\",
                         \"" . $data['designation'] . "\",
                         \"" . $type_of_post . "\",
-                        \"" . $data['sanctioned_post'] . "\",
                         \"" . $data['designation_group_code'] . "\",
                         \"" . $data['payscale'] . "\",
                         \"" . $data['class'] . "\",
@@ -522,6 +519,7 @@ if (isset($_POST['action'])) {
                                         <div class="controls">
                                             <input type="hidden" id="org_code" name="org_code" value="<?php echo $org_code; ?>">
                                             <input type="hidden" id="action" name="action" value="new_sp">
+                                            <input type="hidden" id="step" name="step" value="3">
                                             <button type="submit" class="btn btn-success">Add new</button>
                                         </div>
                                     </div>
