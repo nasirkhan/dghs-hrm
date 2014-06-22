@@ -15,7 +15,7 @@
         <table>
           <tr>
             <td><b>Field</b></td>
-            <td><?php createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', "WHERE TABLE_SCHEMA = '$dbname' AND TABLE_NAME = 'organization'", $_REQUEST['search_field'], "search_field", " id='search_field'  class='pull-left' ", $optionIdField) ?></td>
+            <td><?php createSelectOptions('INFORMATION_SCHEMA.COLUMNS', 'COLUMN_NAME', 'COLUMN_NAME', $allColSelection, "search_field", " id = 'search_field' class = 'pull-left' ", $optionIdField) ?></td>
           </tr>
           <tr>
             <td><b>Criteria</b></td>
