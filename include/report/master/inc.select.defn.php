@@ -1,10 +1,11 @@
 <?php
+
 /**
  * select item definitions
  */
 $singleSelectItems = array('division_code', 'district_code', 'upazila_id'); // put the input field names for single selection dropdowns. Input filed name must be same as table filed name
-$multiSelectItems = array('agency_code', 'org_type_code', 'org_level_code', 'org_healthcare_level_code', 'org_location_type', 'ownership_code', 'posting_status',
-    'department_id','staff_posting','staff_job_class','staff_professional_category','tribal_id', 'post_type_id', 'job_posting_id', 'working_status_id', 'draw_salary_id', 'sex', 'marital_status', 'religion',
+$multiSelectItems = array('org_code', 'agency_code', 'org_type_code', 'org_level_code', 'org_healthcare_level_code', 'org_location_type', 'ownership_code', 'posting_status',
+    'department_id', 'staff_posting', 'staff_job_class', 'staff_professional_category', 'tribal_id', 'post_type_id', 'job_posting_id', 'working_status_id', 'draw_salary_id', 'sex', 'marital_status', 'religion',
     'professional_discipline_of_current_designation', 'type_of_educational_qualification', 'govt_quarter',
     'designation', 'group_code', 'bangladesh_professional_category_code', 'who_occupation_group_code', 'who_isco_occupation_name_code', 'pay_scale', 'class', 'type_of_code',
     'first_level_code', 'second_level_code'); // put the input field names for multiple selection dropdowns. Input filed name must be same as table filed name
@@ -16,6 +17,7 @@ $tableFieldMap = array();
 $tableFieldMap['division_code'] = $organizationsBaseTable['tableNameAlias'] . ".division_code";
 $tableFieldMap['district_code'] = $organizationsBaseTable['tableNameAlias'] . ".district_code";
 $tableFieldMap['upazila_id'] = $organizationsBaseTable['tableNameAlias'] . ".upazila_id";
+$tableFieldMap['org_code'] = $organizationsBaseTable['tableNameAlias'] . ".org_code";
 $tableFieldMap['agency_code'] = $organizationsBaseTable['tableNameAlias'] . ".agency_code";
 $tableFieldMap['org_type_code'] = $organizationsBaseTable['tableNameAlias'] . ".org_type_code";
 $tableFieldMap['org_level_code'] = $organizationsBaseTable['tableNameAlias'] . ".org_level_code";
@@ -56,5 +58,4 @@ $tableFieldMap['class'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".class"
 $tableFieldMap['type_of_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".type_of_code";
 $tableFieldMap['first_level_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".first_level_code";
 $tableFieldMap['second_level_code'] = $sanctionedpostsBaseTable['tableNameAlias'] . ".second_level_code";
-
 ?>
