@@ -11,6 +11,8 @@
  */
 require_once './config.php';
 $row_count = 0;
+$error_count = 0;
+
 echo '<pre>';
 
 /**
@@ -30,15 +32,25 @@ while ($all_data = mysql_fetch_assoc($all_result)){
     
     $upazila_id = getUpazilaIdFromBBSCode($all_data['upazila_thana_code'], $all_data['district_code']);
     
-    $sql = "UPDATE `organization` SET upazila_id = $upazila_id WHERE id = " . $all_data['id'];
-    $r = mysql_query($sql) or die(mysql_error() . "<p>Code:getAll:3\n\n<b>Query:</b>\n___\n$sql</p>");
-       
-    echo "$row_count | $sql\n";
-    
-    if ($row_count ==3){
-        break;
+    if ($upazila_id > 0){
+        $sql = "UPDATE `organization` SET upazila_id = $upazila_id WHERE id = " . $all_data['id'];
+        $r = mysql_query($sql) or die(mysql_error() . "<p>Code:getAll:3\n\n<b>Query:</b>\n___\n$sql</p>");
+
+//        echo "$row_count | $sql\n";
+    } else {
+        $error_count++;
+        echo "$row_count | ID:" . $all_data['id'] . ", Division Code:" . $all_data['district_code'] . ", Upazila Code:" . $all_data['upazila_thana_code'] . "\n";
     }
+    
+    
+    
+//    if ($row_count ==3){
+//        break;
+//    }
 }
+
+echo "\n\n Total error: $error_count";
+
 
 /**
  * function
