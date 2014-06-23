@@ -72,10 +72,10 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                             Designation wise report
                             <ul>
                                 <li>
-                                    <a href="report_designation_wise_summary.php">Designation Wise Summary Report </a>
+                                    <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_org_type_code=1&f_designation=1&SQLSelect=p.pay_scale!%3D0&SQLGroup=designation%2Cclass%2Cpay_scale&ColOrder=designation%2Ctype_of_post_name%2Cclass%2Cpay_scale&ColAlias=Designation%2CType+of+Post%2CClass%2CPayscale&orderbyfull=designation_ranking%2Cdesignation%2Cpay_scale&rTitle=Designation+Wise+Report&submit=">Designation Wise Summary Report </a>
                                 </li>
                                 <li>
-                                    <a href="report_designation_group_wise_summary.php">Designation Group Wise Summary Report </a>
+                                    <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_org_type_code=1&f_group_code=1&SQLSelect=p.pay_scale!%3D0+AND+p.active+%3D+1+AND+p.designation_group_name!%3D+''&SQLGroup=designation_group_name%2Cpay_scale&ColOrder=designation_group_name%2Ctype_of_post_name%2Cclass%2Cpay_scale&ColAlias=&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Designation+Group+wise+Summary+Report&submit=">Designation Group Wise Summary Report </a>
                                 </li>
                                 <li>
                                     <a href="report_institute_wise_designation_summary.php">Institute Wise Designation Summary Report </a>
@@ -84,7 +84,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <a href="report_type_of_post_and_institute_wise_designation.php">Type of post and Institute wise designation</a>
                                 </li>
                             </ul>
-                            Personnel wise reportable
+                            Personnel wise report
                             <ul>
                                 <li>
                                     <a href="report_master.php?f_division_code=1&division_code=30&f_district_code=1&district_code=26&admin_upazila=1&upazila_id=2&noDatatable=true&f_org_type_code=1&f_professional_discipline_of_current_designation=1&f_group_code=1&search_field=&search_criteria=&search_value=&SQLSelect=&SQLGroup=&ColOrder=designation_group_name%2Cdiscipline%2Cstaff_id%2Cstaff_name%2Cbirth_date%2Cjob_posting_name%2Corg_name%2Ccontact_no&ColAlias=Designation+Group+Name%2CDiscipline%2CCode%2CName%2CDate+of+Birth%2CPosting+Status%2CPlace+of+Posting%2CMobile+No&order_by=&order_sort=&orderbyfull=designation_group_name%2Cdiscipline&rTitle=Discipline+wise+report+with+Designation+group&submit=">Discipline wise report with Designation group</a>
