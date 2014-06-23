@@ -107,6 +107,37 @@ while ($data = mysql_fetch_assoc($r)) {
 }
 
 /**
+ * class array
+ */
+$code = 'designation_code';
+$value = 'class';
+$table = 'sanctioned_post_designation';
+$sql = "SELECT $code, $value FROM `$table`";
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+$class = array();
+
+while ($data = mysql_fetch_assoc($r)) {
+    $class [mysql_real_escape_string(trim($data[$code]))] = mysql_real_escape_string(trim($data[$value]));
+}
+
+/**
+ * payscale array
+ */
+$code = 'designation_code';
+$value = 'payscale';
+$table = 'sanctioned_post_designation';
+$sql = "SELECT $code, $value FROM `$table`";
+$r = mysql_query($sql) or die(mysql_error() . "<p>Code:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
+
+$payscale = array();
+
+while ($data = mysql_fetch_assoc($r)) {
+    $payscale [mysql_real_escape_string(trim($data[$code]))] = mysql_real_escape_string(trim($data[$value]));
+}
+
+
+/**
  * bangladesh_professional_category_name array
  */
 $code = 'bangladesh_professional_category_code';
@@ -289,7 +320,9 @@ while ($sp_data = mysql_fetch_assoc($sp_result)) {
     $query_string .= "`second_level_name`=\"" . $second_level_name[$sp_data['second_level_id']] . "\",";
     $query_string .= "`second_level_code`=\"" . $second_level_code[$sp_data['second_level_id']] . "\", ";
     $query_string .= "`type_of_post_name`=\"" . $type_of_post[$sp_data['type_of_post']] . "\", ";
-    $query_string .= "`designation_ranking`=\"" . $designation_ranking[$sp_data['designation_code']] . "\" ";
+    $query_string .= "`designation_ranking`=\"" . $designation_ranking[$sp_data['designation_code']] . "\", ";
+    $query_string .= "`class`=\"" . $class[$sp_data['designation_code']] . "\",";
+    $query_string .= "`pay_scale`=\"" . $payscale[$sp_data['designation_code']] . "\" ";
 
     /**
      * ------------------------------------------------------
