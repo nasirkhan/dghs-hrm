@@ -285,7 +285,17 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
                       }
                     }
                     ?>
-                    <td class="<?= $tdClass ?>"><?php echo $data[$fieldName]; ?></td>
+                    <td class="<?= $tdClass ?>">
+                      <?php
+                      if ($fieldName == 'staff_name') {
+                        echo "<a target='_blank' href='employee.php?staff_id=" . $data[staff_id] . "'>" . $data[$fieldName] . "</a>";
+                      } else if ($fieldName == 'org_name') {
+                        echo "<a target='_blank' href='org_profile.php?org_code=" . $data[org_code] . "'>" . $data[$fieldName] . "</a>";
+                      } else {
+                        echo $data[$fieldName];
+                      }
+                      ?>
+                    </td>
                     <?php
                   }
                 }
