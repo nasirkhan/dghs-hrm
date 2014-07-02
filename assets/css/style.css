@@ -1388,3 +1388,11 @@ div#headerJumpMenu{width:500px;}
 blockquote{
     margin-bottom: 5px;
 }
+
+/*
+* Select 2
+*/
+.select2{
+    min-width: 150px !important;
+    max-width: 300px !important;
+}
