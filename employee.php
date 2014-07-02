@@ -167,7 +167,6 @@ if (isset($_POST['search'])) {
             </div>
         </header>
 
-
         <div class="container">
 
             <!-- Docs nav

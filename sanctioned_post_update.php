@@ -35,7 +35,7 @@ if ($step == 0){
 if (isset($_REQUEST['action'])) {
     $sp_id = (int) mysql_real_escape_string(trim($_REQUEST['sp_id']));
     $org_code = (int) mysql_real_escape_string(trim($_REQUEST['org_code']));
-    echo $action  = mysql_real_escape_string(trim($_REQUEST['action']));
+    $action  = mysql_real_escape_string(trim($_REQUEST['action']));
 
     if ($action == "add"){
         $sql = "SELECT
