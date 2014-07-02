@@ -264,6 +264,8 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
             //echo "<pre>group_by $group_by </pre>"; //debug
             $group_by_array = getGroupByArrayWoutPrefix($group_by);
             //myprint_r($group_by_array); // debug
+            $maleCountTotal = $femaleCountTotal = $filledupTotal = $vacantTotal = 0;
+
             while ($data = mysql_fetch_assoc($result)) {
               ?>
               <tr>
@@ -296,22 +298,26 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
                   foreach ($group_by_array as $ga) {
                     $stringTok .= $data[$ga] . "|";
                   }
-                  //echo $sexCountArray[]."|".]
+                  //echo $sexCountArray[]."|".] $maleCountTotal = $femaleCountTotal = $filledupTotal = $vacantTotal = 0;
                   $maleCount = 0;
                   if (strlen($sexCountArray[$stringTok . "Male|"])) {
                     $maleCount = $sexCountArray[$stringTok . "Male|"];
+                    $maleCountTotal+=$maleCount;
                   }
                   $femaleCount = 0;
                   if (strlen($sexCountArray[$stringTok . "Female|"])) {
                     $femaleCount = $sexCountArray[$stringTok . "Female|"];
+                    $femaleCountTotal+=$femaleCount;
                   }
-                  $filledupTotal = $maleCount + $femaleCount;
-                  $vacantTotal = $data['total'] - $filledupTotal;
+                  $filledupCount = $maleCount + $femaleCount;
+                  $filledupTotal+=$filledupCount;
+                  $vacantCount = $data['total'] - $filledupCount;
+                  $vacantTotal+=$vacantCount;
 
                   echo "<td>$maleCount</td>";
                   echo "<td>$femaleCount</td>";
-                  echo "<td>$filledupTotal</td>";
-                  echo "<td>$vacantTotal</td>";
+                  echo "<td>$filledupCount</td>";
+                  echo "<td>$vacantCount</td>";
                 }
                 ?>
 
@@ -319,12 +325,22 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
             <?php } ?>
           </tbody>
         </table>
-        <?php
-      }
-      if (strlen($countField)) {
-        echo "<h4 class='pull-right'>SUBTOTAL " . $subTotal . "</h4><br/>";
-      }
+      <?php }
       ?>
+      <table class='table table-condensed table-bordered pull-right span3'>
+        <?php
+        if (strlen($countField)) {
+          echo "<tr><td>Total</td> <td>" . $subTotal . "</td></tr>";
+
+          if ($sexCountArray) {
+            echo "<tr><td>Total male</td> <td>" . $maleCountTotal . "</td></tr>";
+            echo "<tr><td>Total female</td> <td>" . $femaleCountTotal . "</td></tr>";
+            echo "<tr><td>Total filled</td> <td>" . $filledupTotal . "</td></tr>";
+            echo "<tr><td>Total vacant</td> <td>" . $vacantTotal . "</td></tr>";
+          }
+        }
+        ?>
+      </table>
       <?php if (strlen($showFieldsCsv)) { ?>
         <div class="clearfix"></div>
         <h5>TABLE FIELD NAMES</h5>
