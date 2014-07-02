@@ -82,6 +82,13 @@
 <script src="assets/datatable/TableTools/media/js/TableTools.js" type="text/javascript"></script>
 <script type="text/javascript" src="assets/datatable/TableTools/media/ZeroClipboard/ZeroClipboard.js"></script>
 <link href="//cdn.datatables.net/plug-ins/505bef35b56/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+
+
+<!--Select 2--> 
+<link href="library/select2/select2.css" rel="stylesheet" type="text/css" />
+<script src="library/select2/select2.min.js" type="text/javascript"></script>
+
+
 <!--==Common JS==-->
 <script src="assets/js/common.js"></script>
 <link href="assets/css/style.css" rel="stylesheet"/>
