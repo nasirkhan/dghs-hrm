@@ -95,6 +95,10 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
         include_once 'include/header/header_css_js.inc.php';
         include_once 'include/header/header_ga.inc.php';
         ?>
+        
+        <script>
+            $(document).ready(function() { $(".select2").select2(  ); });
+        </script>
     </head>
 
     <body>
@@ -225,7 +229,7 @@ if ($error_message == "" && isset($_REQUEST['admin_division'])) {
                                                 }
                                                 ?>
                                             </select>
-                                            <select id="job_posting" name="job_posting">
+                                            <select id="job_posting" name="job_posting" class="select2" multiple="multiple">
                                                 <option value="0">Select Job Posting</option>
                                                 <?php
                                                 $sql = "SELECT
