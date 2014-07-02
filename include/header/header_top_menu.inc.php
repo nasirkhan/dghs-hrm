@@ -8,7 +8,7 @@ $start_time = microtime(true);
         <!--<a class="brand" href="./index.php"><?php echo $app_name; ?></a>-->
       <ul class="nav">
         <li class="active">
-          <a href="index.php"><i class="icon-home"></i></a>
+          <a href="index.php"><i class="icon-home"></i> Home </a>
         </li>
         <li class="">
           <a href="http://www.dghs.gov.bd" target="_brank">DGHS Website</a>

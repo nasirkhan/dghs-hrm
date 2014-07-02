@@ -17,7 +17,7 @@ $copyright = "DGHS";
 $dbhost = 'localhost';
 $dbname = 'dghs_hrm_main';
 $dbuser = 'root';
-$dbpass = '';
+$dbpass = 'root';
 
 mysql_select_db($dbname, mysql_connect($dbhost, $dbuser, $dbpass)) or die(mysql_error());
 mysql_query("SET CHARACTER SET utf8");
