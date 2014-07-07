@@ -108,6 +108,10 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <a href="report_posting_status_wise_list.php">Posting Status wise list</a>
                                 </li>
                             </ul>
+                            Other Reports
+                            <ul>
+                                <li><a href="report_monthly_update.php">Monthly Update Summary</a></li>
+                            </ul>
 <!--                            <table class="table table-striped table-bordered">
                                 
                                 <tbody>
