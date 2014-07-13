@@ -84,7 +84,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <a href="report_type_of_post_and_institute_wise_designation.php">Type of post and Institute wise designation</a>
                                 </li>
                                 <li>
-                                    <a href="report_master.php?t=post&f_division_code=1&division_code=30&f_district_code=1&district_code=26&admin_upazila=1&upazila_id=2&noDatatable=true&f_org_type_code=1&SQLSelect=&SQLGroup=p.org_name&ColOrder=org_name&ColAlias=Institute+Name&orderbyfull=&rTitle=Institute+Wise+Summary+Report&submit=generate_report">Institute Wise Summary Report</a>
+                                    <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_org_type_code=1&SQLSelect=p.active+%3D+1&SQLGroup=p.org_name&ColOrder=org_name&ColAlias=Institute+Name&orderbyfull=&rTitle=Institute+Wise+Summary+Report&submit=">Institute Wise Summary Report</a>
                                 </li>
                             </ul>
                             Personnel wise report
