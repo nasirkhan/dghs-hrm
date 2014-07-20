@@ -72,10 +72,10 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                             Designation wise report
                             <ul>
                                 <li>
-                                    <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_org_type_code=1&f_designation=1&SQLSelect=p.pay_scale!%3D0+AND+p.active+%3D+1&SQLGroup=class%2Cpay_scale%2Ctype_of_post_name%2Cdesignation&ColOrder=designation%2Ctype_of_post_name%2Cclass%2Cpay_scale&ColAlias=Designation%2CType+of+Post%2CClass%2CPayscale&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Designation+Wise+Report&submit=">Designation Wise Summary Report </a>
+                                    <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_staff_professional_category=1&f_org_type_code=1&f_designation=1&SQLSelect=p.pay_scale!%3D0+AND+p.active+%3D+1&SQLGroup=class%2Cpay_scale%2Ctype_of_post_name%2Cdesignation&ColOrder=designation%2Ctype_of_post_name%2Cclass%2Cpay_scale&ColAlias=Designation%2CType+of+Post%2CClass%2CPayscale&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Designation+Wise+Report&submit=">Designation Wise Summary Report </a>
                                 </li>
                                 <li>
-                                    <a href="report_master.php?t=post&f_division_code=1&division_code=30&f_district_code=1&district_code=26&admin_upazila=1&upazila_id=7&noDatatable=true&f_org_type_code=1&f_group_code=1&SQLSelect=p.pay_scale!%3D0+AND+p.active+%3D+1+AND+p.designation_group_name!%3D+''&SQLGroup=designation_group_name%2Cpay_scale&ColOrder=designation_group_name%2Cclass%2Cpay_scale&ColAlias=&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Designation+Group+wise+Summary+Report&submit=">Designation Group Wise Summary Report </a>
+                                    <a href="report_master.php?t=post&f_division_code=1&division_code=30&f_district_code=1&district_code=26&admin_upazila=1&upazila_id=7&noDatatable=true&f_staff_professional_category=1&f_org_type_code=1&f_group_code=1&SQLSelect=p.pay_scale!%3D0+AND+p.active+%3D+1+AND+p.designation_group_name!%3D+%27%27&SQLGroup=designation_group_name%2Cpay_scale&ColOrder=designation_group_name%2Cclass%2Cpay_scale&ColAlias=&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Designation+Group+wise+Summary+Report&submit=">Designation Group Wise Summary Report </a>
                                 </li>
                                 <li>
                                     <a href="report_institute_wise_designation_summary.php">Institute Wise Designation Summary Report </a>
@@ -84,7 +84,7 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                     <a href="report_type_of_post_and_institute_wise_designation.php">Type of post and Institute wise designation</a>
                                 </li>
                                 <li>
-                                    <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_org_type_code=1&SQLSelect=p.active+%3D+1&SQLGroup=p.org_name&ColOrder=org_name&ColAlias=Institute+Name&orderbyfull=&rTitle=Institute+Wise+Summary+Report&submit=">Institute Wise Summary Report</a>
+                                    <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_staff_professional_category=1&f_org_type_code=1&SQLSelect=p.active+%3D+1&SQLGroup=p.org_name&ColOrder=org_name&ColAlias=Institute+Name&orderbyfull=&rTitle=Institute+Wise+Summary+Report&submit=">Institute Wise Summary Report</a>
                                 </li>
                             </ul>
                             Personnel wise report
