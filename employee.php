@@ -242,8 +242,10 @@ if (isset($_POST['search'])) {
                                             <td width="50%"><strong><a href="#">Code No.(Doctors Only):</a></strong></td>
                                             <td>
                                                 <?php echo $data['staff_pds_code']; ?>,
+                                                <?php if($data['staff_pds_code']) : ?>,
                                                 <a href="view_staff_pds.php?pds_code=<?php echo $data['staff_pds_code']; ?>&type=s">View Short PDS</a>, 
                                                 <a href="view_staff_pds.php?pds_code=<?php echo $data['staff_pds_code']; ?>&type=f">View Full PDS</a>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                         <tr>
@@ -511,9 +513,11 @@ if (isset($_POST['search'])) {
                                         <tr>
                                             <td width="50%"><strong><a href="#">Code No.(Doctors Only):</a></strong></td>
                                             <td>
-                                                <a href="#" class="text-input" data-type="text" id="staff_pds_code"><?php echo $data['staff_pds_code']; ?></a>,
+                                                <a href="#" class="text-input" data-type="text" id="staff_pds_code"><?php echo $data['staff_pds_code']; ?></a>
+                                                <?php if($data['staff_pds_code']) : ?>,
                                                 <a href="view_staff_pds.php?pds_code=<?php echo $data['staff_pds_code']; ?>&type=s">View Short PDS</a>, 
                                                 <a href="view_staff_pds.php?pds_code=<?php echo $data['staff_pds_code']; ?>&type=f">View Full PDS</a>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                         <tr>
