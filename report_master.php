@@ -291,6 +291,14 @@ if (isset($_REQUEST['submit']) && strlen($_REQUEST['submit'])) {
                         echo "<a target='_blank' href='employee.php?staff_id=" . $data[staff_id] . "'>" . $data[$fieldName] . "</a>";
                       } else if ($fieldName == 'org_name') {
                         echo "<a target='_blank' href='org_profile.php?org_code=" . $data[org_code] . "'>" . $data[$fieldName] . "</a>";
+                      } else if ($fieldName == 'staff_pds_code') {
+                        echo $data[$fieldName] . "<br/>";
+                        if (strlen(trim($data[staff_pds_code]))) {
+                          echo "<a target='_blank' href='http://pds.dghs.gov.bd:88/hrmreport.aspx?rType=s&hrid=" . $data[staff_pds_code] . "' title='Short PDS profile' >SP</a> | ";
+                          echo "<a target='_blank' href='http://pds.dghs.gov.bd:88/hrmreport.aspx?rType=f&hrid=" . $data[staff_pds_code] . "' title='Full PDS profile'>FP</a>";
+                        }
+                      } else if ($fieldName == 'birth_date') {
+                        echo date("d-m-Y", strtotime($data[$fieldName]));
                       } else {
                         echo $data[$fieldName];
                       }

@@ -370,9 +370,16 @@ $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>sql:2</b
                             var data_list = "<div class=\"row-fluid\">";
                             var staff_info = "";
                             if (v.staff_id_2 > 0) {
-                                staff_info = " (Staff Name: <a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\" ><i class=\"icon-user\"></i> " + v.staff_name + ", Id: " + v.staff_id_2 + "</a>)";
+                                staff_info = "<a href=\"employee.php?staff_id=" + v.staff_id_2 + "\" target=\"_blank\" ><i class=\"icon-user\"></i> " + v.staff_name + " (Staff Id: " + v.staff_id_2 + "</a>)";
+                                if (v.staff_pds_code > 0){
+                                    staff_info += ", <a href=\"view_staff_pds.php?pds_code=" + v.staff_pds_code + "&type=f\">View Full PDS</a>, <a href=\"view_staff_pds.php?pds_code=" + v.staff_pds_code + "&type=s\">View Short PDS</a>";
+                                }    
+                                
                             }
-                            data_list += "<div class=\"span9\">Sanctioned PostId: " + v.sanctioned_post_id + staff_info + " </div>";
+                            else{
+                                staff_info = "<i class=\"icon-circle-blank\"></i> Empty Post (Sanctioed Post Id: " + v.sanctioned_post_id + ")";
+                            }
+                            data_list += "<div class=\"span9\">" + staff_info + " </div>";
                             if (v.staff_id_2 > 0) {
                                 data_list += "<div class=\"span3\">";
                                 data_list += "<a href=\"#moveOut_" + v.sanctioned_post_id + "\" role=\"button\" data-toggle=\"modal\"  class=\"btn btn-primary btn-mini\" ><i class=\"icon-external-link\"></i> Move Out</a></div>";

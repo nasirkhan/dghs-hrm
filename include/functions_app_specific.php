@@ -1246,6 +1246,28 @@ function getStaffNameFromId($staff_id) {
 }
 
 /**
+ * Get Staff PDF Code From Staff Id
+ * 
+ * @param type $staff_id
+ * @return int PDS Code
+ */
+function getStaffPdsFromId ($staff_id) {
+    if (!$staff_id > 0){
+       return 0; 
+    }
+    $sql = "SELECT
+                old_tbl_staff_organization.staff_pds_code
+            FROM
+                old_tbl_staff_organization
+            WHERE
+                old_tbl_staff_organization.staff_id = $staff_id";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b> getStaffPdsFromId:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $data = mysql_fetch_assoc($result);
+    return $data['staff_pds_code'];
+}
+
+/**
  * Get Org Code From Staff Id
  * @param INT $staff_id
  * @return INT org_code
