@@ -63,7 +63,7 @@ if ($admin_upazila > 0) {
 if ($designation_group > 0) {
     $query_string .= " AND sanctioned_post_designation.group_code = $designation_group ";
 }
-if ($discipline != "") {
+if ($discipline != "0") {
     $query_string .= " AND sanctioned_post_designation.designation_discipline LIKE \"$discipline\" ";
 }
 
@@ -296,7 +296,7 @@ if (isset($_REQUEST['show_report'])) {
                                             if ($admin_upazila > 0) {
                                                 echo " & Upazila: <strong>" . getUpazilaNamefromBBSCode($admin_upazila, $admin_district) . "</strong>";
                                             }
-                                            if ($discipline != "") {
+                                            if ($discipline != "0") {
                                                 echo " & Discipline: <strong>" . $discipline . "</strong>";
                                             }
                                             echo "<br /> Start Date: $date_start & End Date: $date_end";
