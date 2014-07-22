@@ -29,13 +29,22 @@ $admin_district = (int) mysql_real_escape_string(trim($_GET['admin_district']));
 $admin_upazila = (int) mysql_real_escape_string(trim($_GET['admin_upazila']));
 $designation_group = (int) mysql_real_escape_string(trim($_GET['designation_group']));
 $discipline = mysql_real_escape_string(trim($_GET['discipline']));
+
 $date_start = mysql_real_escape_string(trim($_GET['date_start']));
 if ($date_start == "") {
     $date_start = date('Y') . "-01-01";
+} else {
+    $date_parts = explode('-', $date_start);
+    $date_parts = array_reverse($date_parts);
+    $date_start = $date_parts[0] . "-" . $date_parts[1] . "-" . $date_parts[2];
 }
 $date_end = mysql_real_escape_string(trim($_GET['date_end']));
 if ($date_end == "") {
     $date_end = date('Y') . "-12-30";
+} else {
+    $date_parts = explode('-', $date_end);
+    $date_parts = array_reverse($date_parts);
+    $date_end = $date_parts[0] . "-" . $date_parts[1] . "-" . $date_parts[2];
 }
 
 $query_string = "";
@@ -54,7 +63,7 @@ if ($admin_upazila > 0) {
 if ($designation_group > 0) {
     $query_string .= " AND sanctioned_post_designation.group_code = $designation_group ";
 }
-if ($discipline != "") {
+if ($discipline != "0") {
     $query_string .= " AND sanctioned_post_designation.designation_discipline LIKE \"$discipline\" ";
 }
 
@@ -224,9 +233,9 @@ if (isset($_REQUEST['show_report'])) {
                                         </div> 
                                         <div id="date-range" class="control-group">
                                             <div class="input-daterange" id="datepicker">
-                                                <input type="text" class="input-small" name="date_start" placeholder="2014-01-30" />
+                                                <input type="text" class="input-small" name="date_start" placeholder="30-01-2014" />
                                                 <span class="add-on">to</span>
-                                                <input type="text" class="input-small" name="date_end" placeholder="2014-12-30" />
+                                                <input type="text" class="input-small" name="date_end" placeholder="30-12-2014" />
                                             </div>
                                         </div>
                                         <div class="control-group">
@@ -287,7 +296,7 @@ if (isset($_REQUEST['show_report'])) {
                                             if ($admin_upazila > 0) {
                                                 echo " & Upazila: <strong>" . getUpazilaNamefromBBSCode($admin_upazila, $admin_district) . "</strong>";
                                             }
-                                            if ($discipline != "") {
+                                            if ($discipline != "0") {
                                                 echo " & Discipline: <strong>" . $discipline . "</strong>";
                                             }
                                             echo "<br /> Start Date: $date_start & End Date: $date_end";

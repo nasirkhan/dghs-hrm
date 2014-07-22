@@ -31,33 +31,33 @@ require_once 'include/functions_generic.php';
 
 if (getFileName() != 'login.php' && getFileName() != 'reset_password.php') {
 
-    /* temporary code to avoid session issue */
-    /*
+  /* temporary code to avoid session issue */
+  /*
     if ($_REQUEST[passcode] == '12345') {
-        $_SESSION['logged'] = true;
+    $_SESSION['logged'] = true;
     }
-     *
-     */
-    /*     * ************************ */
-    if (!isset($_SESSION['logged']) && $_SESSION['logged'] != true) {
-        session_destroy();
-        session_start();
-        $str_k = "";
-        $exception_field = array('');
-        foreach ($_REQUEST as $k => $v) {
-            if (!in_array($k, $exception_field)) {
-                if (!empty($k)) {
-                    $str_k.="$k=" . $v . '&';
-                }
-            }
+   *
+   */
+  /*   * ************************ */
+  if (!isset($_SESSION['logged']) && $_SESSION['logged'] != true) {
+    session_destroy();
+    session_start();
+    $str_k = "";
+    $exception_field = array('');
+    foreach ($_REQUEST as $k => $v) {
+      if (!in_array($k, $exception_field)) {
+        if (!empty($k)) {
+          $str_k.="$k=" . $v . '&';
         }
-        $str_k = trim($str_k, '&');
-        $_SESSION['redirect_url'] = getFileName() . '?' . $str_k;
-        header("location:login.php"); // redirects to login.php page after storing the initially requested page.
+      }
     }
+    $str_k = trim($str_k, '&');
+    $_SESSION['redirect_url'] = getFileName() . '?' . $str_k;
+    header("location:login.php"); // redirects to login.php page after storing the initially requested page.
+  }
 } else {
-    if (isset($_SESSION['logged']) && $_SESSION['logged'] == true) {
-        header("location:index.php");
-    }
+  if (isset($_SESSION['logged']) && $_SESSION['logged'] == true) {
+    header("location:index.php");
+  }
 }
 ?>
