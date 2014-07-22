@@ -20,6 +20,10 @@ $start_time = microtime(true);
  * 
  * -----------------------------------------------------------------------------
  */
+
+echo "this sync is not required.";
+die();
+
 echo "<pre>";
 
 
