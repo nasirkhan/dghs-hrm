@@ -80,14 +80,18 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                 <li>
                                     <a href="report_institute_wise_designation_summary.php">Institute Wise Designation Summary Report </a>
                                 </li>
-                                <li>
+                                <!--<li>
                                     <a href="report_type_of_post_and_institute_wise_designation.php">Type of post and Institute wise designation</a>
+                                </li>-->
+                                <li>
+                                    <a href="report_master.php?t=&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_staff_professional_category=1&f_designation=1&f_pay_scale=1&f_type_of_code=1&SQLSelect=p.active+%3D+1&SQLGroup=type_of_post%2Cclass%2Cpay_scale%2Cdesignation&ColOrder=designation%2Ctype_of_post_name%2Cclass%2Cpay_scale%2Cp.org_name&ColAlias=Designation%2CType+of+Post%2CClass%2CPay+Scale%2CInstitute+Name&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Type+of+post+and+Institute+wise+designation&submit=">Type of post and Institute wise designation</a>
                                 </li>
+                                
                                 <li>
                                     <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_staff_professional_category=1&f_org_type_code=1&SQLSelect=p.active+%3D+1&SQLGroup=p.org_name&ColOrder=org_name&ColAlias=Institute+Name&orderbyfull=&rTitle=Institute+Wise+Summary+Report&submit=">Institute Wise Summary Report</a>
                                 </li>
                                 <li>
-                                    <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_staff_professional_category=1&f_professional_discipline_of_current_designation=1&f_group_code=1&SQLSelect=p.active+%3D+1+AND+p.designation_group_name!%3D%27%27&SQLGroup=designation_ranking%2Cpay_scale%2Ctype_of_post%2Cclass%2Cdesignation_group_name&ColOrder=designation_group_name%2Cdiscipline%2Ctype_of_post_name%2Cclass%2Cpay_scale%2Cp.org_name&ColAlias=Designation+Group%2CDiscipline%2CType+of+Post%2CClass%2CPay+Scale%2CInstitute+Name&orderbyfull=&rTitle=Institute+Wise+Designation+Group&submit=">Institute Wise Designation Group</a>
+                                    <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_staff_professional_category=1&f_professional_discipline_of_current_designation=1&f_group_code=1&f_pay_scale=1&SQLSelect=p.active+%3D+1+AND+p.designation_group_name!%3D%27%27&SQLGroup=type_of_post%2Cclass%2Cdesignation_group_name&ColOrder=designation_group_name%2Cdiscipline%2Ctype_of_post_name%2Cclass%2Cpay_scale%2Cp.org_name&ColAlias=Designation+Group%2CDiscipline%2CType+of+Post%2CClass%2CPay+Scale%2CInstitute+Name&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Institute+Wise+Designation+Group&submit=">Institute Wise Designation Group</a>
                                 </li>
                             </ul>
                             Personnel wise report
