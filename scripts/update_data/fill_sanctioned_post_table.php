@@ -227,7 +227,7 @@ $second_level_code['0'] = "0";
 
 
 
-$sql = "SELECT * FROM `total_manpower_imported_sanctioned_post_copy` ORDER BY id limit 500";
+$sql = "SELECT * FROM `total_manpower_imported_sanctioned_post_copy` ORDER BY id";
 $sp_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getAllSanctionedPost:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
 $row_count = 0;
