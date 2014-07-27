@@ -1,134 +1,197 @@
+<?php
+require_once 'configuration.php';
+
+if ($_SESSION['logged'] != true) {
+    header("location:login.php");
+}
+
+// assign values from session array
+$org_code = $_SESSION['org_code'];
+$org_name = $_SESSION['org_name'];
+$org_type_name = $_SESSION['org_type_name'];
+
+$echoAdminInfo = "";
+
+// assign values admin users
+if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
+    $org_code = (int) mysql_real_escape_string($_GET['org_code']);
+    $org_name = getOrgNameFormOrgCode($org_code);
+    $org_type_name = getOrgTypeNameFormOrgCode($org_code);
+    $echoAdminInfo = " | Administrator";
+    $isAdmin = TRUE;
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title><?php echo $org_name . " | " . $app_name; ?></title>
+        <?php
+        include_once 'include/header/header_css_js.inc.php';
+        include_once 'include/header/header_ga.inc.php';
+        ?>
+    </head>
+
+    <body data-spy="scroll" data-target=".bs-docs-sidebar">
+
+        <!-- Top navigation bar
+        ================================================== -->
+        <?php include_once 'include/header/header_top_menu.inc.php'; ?>
+
+        <!-- Subhead
+        ================================================== -->
+        <header class="jumbotron subhead" id="overview">
+            <div class="container">
+                <h1><?php echo $org_name . $echoAdminInfo; ?></h1>
+                <p class="lead"><?php echo "$org_type_name"; ?></p>
+            </div>
+        </header>
 
 
+        <div class="container">
 
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_professional_discipline_of_current_designation'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_professional_discipline_of_current_designation" value="1" checked="checked" type="checkbox"/>
-                    <b>Proffesional Discipline</b><br/>
-                    <?php
-                    createMultiSelectOptions('staff_profesional_discipline', 'discipline_id', 'discipline_name', $customQuery, $csvs['professional_discipline_of_current_designation'], "professional_discipline_of_current_designation[]", " id='professional_discipline_of_current_designation'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
+            <!-- Docs nav
+            ================================================== -->
+            <div class="row">
+                <div class="span3 bs-docs-sidebar">
+                    <ul class="nav nav-list bs-docs-sidenav">
+                        <?php
+                        $active_menu = "";
+                        include_once 'include/left_menu.php';
+                        ?>
+                    </ul>
+                </div>
+                <div class="span9">
+                    <!-- info area
+                    ================================================== -->
+                    <section id="report">
+
+                        <h3>List of report pages</h3>
+                        
+                        <div class="row-fluid">
+                            Designation wise report
+                            <ul>
+                                <li>
+                                    <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_staff_professional_category=1&f_org_type_code=1&f_designation=1&SQLSelect=p.pay_scale!%3D0+AND+p.active+%3D+1&SQLGroup=class%2Cpay_scale%2Ctype_of_post_name%2Cdesignation&ColOrder=designation%2Ctype_of_post_name%2Cclass%2Cpay_scale&ColAlias=Designation%2CType+of+Post%2CClass%2CPayscale&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Designation+Wise+Report&submit=">Designation Wise Summary Report </a>
+                                </li>
+                                <li>
+                                    <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=7&noDatatable=true&f_staff_professional_category=1&f_org_type_code=1&f_group_code=1&SQLSelect=p.pay_scale!%3D0+AND+p.active+%3D+1+AND+p.designation_group_name!%3D+%27%27&SQLGroup=designation_group_name%2Cpay_scale&ColOrder=designation_group_name%2Cclass%2Cpay_scale&ColAlias=&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Designation+Group+wise+Summary+Report&submit=">Designation Group Wise Summary Report </a>
+                                </li>
+                                <li>
+                                    <a href="report_institute_wise_designation_summary.php">Institute Wise Designation Summary Report </a>
+                                </li>
+                                <!--<li>
+                                    <a href="report_type_of_post_and_institute_wise_designation.php">Type of post and Institute wise designation</a>
+                                </li>-->
+                                <li>
+                                    <a href="report_master.php?t=&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_staff_professional_category=1&f_designation=1&f_type_of_code=1&SQLSelect=p.active+%3D+1&SQLGroup=type_of_post%2Cclass%2Cpay_scale%2Cdesignation&ColOrder=designation%2Ctype_of_post_name%2Cclass%2Cpay_scale%2Corg_name&ColAlias=Designation%2CType+of+Post%2CClass%2CPay+Scale%2CInstitute+Name&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Type+of+post+and+Institute+wise+designation&submit=">Type of post and Institute wise designation</a>
+                                </li>
+                                
+                                
+                                <li>
+                                    <a href="http://app.dghs.gov.bd/hrm/report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_staff_professional_category=1&f_professional_discipline_of_current_designation=1&f_group_code=1&&f_type_of_code=1&SQLSelect=p.active+%3D+1+AND+p.designation_group_name!%3D%27%27&SQLGroup=type_of_post%2Cclass%2Cdesignation_group_name&ColOrder=designation_group_name%2Cdiscipline%2Ctype_of_post_name%2Cclass%2Cpay_scale%2Corg_name&ColAlias=Designation+Group%2CDiscipline%2CType+of+Post%2CClass%2CPay+Scale%2CInstitute+Name&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Institute+Wise+Designation+Group&submit=">Type of post and Institute Wise Designation Group</a>
+                                </li>
+				<li>
+                                    <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_staff_professional_category=1&f_org_type_code=1&SQLSelect=p.active+%3D+1&SQLGroup=p.org_name&ColOrder=org_name&ColAlias=Institute+Name&orderbyfull=&rTitle=Institute+Wise+Summary+Report&submit=">Institute Wise Summary Report</a>
+                                </li>
+                            </ul>
+                            Personnel wise report
+                            <ul>
+                                <li>
+                                    <a href="report_master.php?t=&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_org_type_code=1&f_professional_discipline_of_current_designation=1&f_group_code=1&SQLSelect=p.pay_scale!%3D0+AND+p.active+%3D+1+AND+s.staff_name!%3D+%27%27&SQLGroup=&ColOrder=designation_group_name%2Cdiscipline%2Cstaff_id%2Cstaff_pds_code%2Cstaff_name%2Cbirth_date%2Cjob_posting_name%2Corg_name%2Ccontact_no&ColAlias=Designation+Group+Name%2CDiscipline%2CStaff+ID%2CPDS+Code+No.%2CName%2CDate+of+Birth%2CPosting+Status%2CPlace+of+Posting%2CMobile+No&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Discipline+wise+report+with+Designation+group&submit=">Discipline wise report with Designation group</a>
+                                </li>
+                                <li>
+                                    <a href="report_master.php?t=&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_org_type_code=1&f_professional_discipline_of_current_designation=1&f_group_code=1&SQLSelect=p.pay_scale!%3D0+AND+p.active+%3D+1+AND+s.staff_name!%3D+%27%27&SQLGroup=&ColOrder=discipline%2Cdesignation%2Cstaff_id%2Cstaff_pds_code%2Cstaff_name%2Cbirth_date%2Cjob_posting_name%2Corg_name%2Ccontact_no&ColAlias=Discipline%2CDesignation+Group+Name%2CEmployee+No%2CPDS+Code+No.%2CName%2CDate+of+Birth%2CPosting+Status%2CPlace+of+Posting%2CMobile+No&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Designation+group+wise+report+with+discipline&submit=">Designation group wise report with discipline</a>
+                                </li>
+                                <li>
+                                    <a href="report_master.php?t=&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=&noDatatable=true&f_designation=1&SQLSelect=p.pay_scale!%3D0+AND+p.active+%3D+1+AND+s.staff_name!%3D+%27%27&SQLGroup=&ColOrder=designation%2Cstaff_id%2Cstaff_pds_code%2Cstaff_name%2Cbirth_date%2Cjob_posting_name%2Corg_name%2Ccontact_no&ColAlias=Designation%2CEmployee+No%2CPDS+Code+No.%2CName%2CDate+of+Birth%2CPosting+Status%2CPlace+of+Posting%2CMobile+No&orderbyfull=&rTitle=Designation+wise+report+&submit=">Designation wise report </a>
+                                </li>
+                                <li>
+                                    <a href="report_lpr.php">LPR information</a>
+                                </li>
+                                <li>
+                                    <a href="report_staff_list_by_permanenet_address.php">District (permanent address) wise list</a>
+                                </li>
+                                <li>
+                                    <a href="report_posting_status_wise_list.php">Posting Status wise list</a>
+                                </li>
+                            </ul>
+                            Other Reports
+                            <ul>
+                                <li><a href="report_monthly_update.php">Monthly Update Summary</a></li>
+                            </ul>
+<!--                            <table class="table table-striped table-bordered">
+                                
+                                <tbody>
+                                    <?php if (hasPermission('mod_report_summary_report_link', 'view', getLoggedUserName())) : ?>
+                                    <tr>
+                                        <td><a href="report_summary.php?org_code=<?php echo $org_code; ?>">Organization Summary Report</a></td>                                        
+                                    </tr>
+                                    <?php endif; ?>
+                                    <?php if (hasPermission('mod_report_all_report_link', 'view', getLoggedUserName())) : ?>
+                                    
+                                    <tr>                                        
+                                        <td><a href="report_manpower.php">Summary Report Includes All Organization</a></td>
+                                    </tr>
+                                    
+                                    <tr>                                        
+                                        <td><a href="report_org_list_1.1.php">Organization List</a></td>
+                                    </tr>
+                                    
+                                    <tr>                                        
+                                        <td><a href="report_designation_report.php">Designation Report</a></td>
+                                    </tr>
+                                    
+                                    <tr>                                        
+                                        <td><a href="report_designation_with_who_category.php">Summary Report WHO Health Professional Group (All Organization)</a></td>
+                                    </tr>
+                                    <tr>                                        
+                                        <td><a href="report_monthly_update.php">Monthly Update Summary</a></td>
+                                    </tr>
+                                    <tr>                                        
+                                        <td><a href="report_staff_list_by_permanenet_address.php">Staff District (permanent address) wise list</a></td>
+                                    </tr>
+                                    <tr>                                        
+                                        <td><a href="report_staff_list_by_designation_group_without_descipline.php">Staff list by designation group report without discipline</a></td>
+                                    </tr>
+                                    <tr>                                        
+                                        <td><a href="report_staff_list_by_designation_group_with_descipline.php">Staff list by designation group report with discipline</a></td>
+                                    </tr>
+                                    
+                                    <tr>                                        
+                                        <td><a href="report_post_status_summary.php">Post Status Summary Report</a></td>
+                                    </tr>
+                                    
+                                    <tr>                                        
+                                        <td><a href="report_staff_list_by_descipline_with_designation_group.php">Staff list report by discipline with designation group </a></td>
+                                    </tr>
+                                    <tr>                                        
+                                        <td><a href="report_designation_summary.php">Designation Summary Report </a></td>
+                                    </tr>
+                                    <tr>                                        
+                                        <td><a href="report_designation_group_summary.php">Designation Group Summary Report </a></td>
+                                    </tr>
+                                    <tr>                                        
+                                        <td><a href="report_lpr.php">LPR Report </a></td>
+                                    </tr>
+                                    <?php endif; ?>
+                                </tbody>-->
+                                
+                            </table>
+                            
+                        </div>
+
+                    </section>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer
+        ================================================== -->
+        <?php include_once 'include/footer/footer.inc.php'; ?>
 
 
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_type_of_educational_qualification'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_type_of_educational_qualification" value="1" checked="checked" type="checkbox"/>
-                    <b>Edu qualification</b><br/>
-                    <?php
-                    createMultiSelectOptions('staff_educational_qualification', 'educational_qualifiaction_Id', 'educational_qualification', $customQuery, $csvs['type_of_educational_qualification'], "type_of_educational_qualification[]", " id='type_of_educational_qualification'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
-
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_govt_quarter'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_govt_quarter" value="1" checked="checked" type="checkbox"/>
-                    <b>Govt. Quarter</b><br/>
-                    <?php
-                    createMultiSelectOptions('staff_govt_quater', 'govt_quater_id', 'govt_quater', $customQuery, $csvs['govt_quarter'], "govt_quarter[]", " id='govt_quarter'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
-                </td>
-
-                <td style="vertical-align: top">
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_designation'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_designation" value="1" checked="checked" type="checkbox"/>
-                    <b>Designation</b><br/>
-                    <?php
-                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'designation', 'designation', $customQuery, $csvs['designation'], "designation[]", " id='designation'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_group_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_group_code" value="1" checked="checked" type="checkbox"/>
-                    <b>Designation Group</b><br/>
-                    <?php
-                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'group_code', 'designation_group_name', $customQuery, $csvs['group'], "group_code[]", " id='group_code'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
-
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_bangladesh_professional_category_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_bangladesh_professional_category_code" value="1" checked="checked" type="checkbox"/>
-                    <b>BD Proffesional Category</b><br/>
-                    <?php
-                    createMultiSelectOptions('sanctioned_post_bangladesh_professional_category', 'bangladesh_professional_category_code', 'bangladesh_professional_category_name', $customQuery, $csvs['bangladesh_professional_category_code'], "bangladesh_professional_category_code[]", " id='bangladesh_professional_category_code'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
-
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_who_occupation_group_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_who_occupation_group_code" value="1" checked="checked" type="checkbox"/>
-                    <b>WHO group</b><br/>
-                    <?php
-                    createMultiSelectOptions('sanctioned_post_who_health_professional_group', 'who_health_professional_group_code', 'who_health_professional_group_name', $customQuery, $csvs['who_occupation_group_code'], "who_occupation_group_code[]", " id='who_occupation_group_code'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
-
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_who_isco_occopation_group_name'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_who_isco_occopation_group_name" value="1" checked="checked" type="checkbox"/>
-                    <b>WHO ISCO</b><br/>
-                    <?php
-                    createMultiSelectOptions('sanctioned_post_who_isco_occopation_name', 'who_isco_occopation_group_code', 'who_isco_occopation_group_name', $customQuery, $csvs['who_isco_occupation_name_code'], "who_isco_occupation_name_code[]", " id='who_isco_occupation_name_code'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
-
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_pay_scale'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_pay_scale" value="1" checked="checked" type="checkbox"/>
-                    <b>Pay scale</b><br/>
-                    <?php
-                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'payscale', 'payscale', $customQuery, $csvs['pay_scale'], "pay_scale[]", " id='pay_scale'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
-
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_class'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_class" value="1" checked="checked" type="checkbox"/>
-                    <b>Class</b><br/>
-                    <?php
-                    createMultiSelectOptionsDistinct('sanctioned_post_designation', 'class', 'class', $customQuery, $csvs['class'], "class[]", " id='class'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
-
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_type_of_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_type_of_code" value="1" checked="checked" type="checkbox"/>
-                    <b>Type of Post</b><br/>
-                    <?php
-                    createMultiSelectOptions('sanctioned_post_type_of_post', 'type_of_post_code', 'type_of_post_name', $customQuery, $csvs['type_of_code'], "type_of_code[]", " id='type_of_code'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
-
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_first_level_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_first_level_code" value="1" checked="checked" type="checkbox"/>
-                    <b>First Level</b><br/>
-                    <?php
-                    createMultiSelectOptions('sanctioned_post_first_level', 'first_level_code', 'first_level_name', $customQuery, $csvs['first_level_code'], "first_level_code[]", " id='first_level_code'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
-
-
-                  <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_second_level_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
-                    <input name="f_second_level_code" value="1" checked="checked" type="checkbox"/>
-                    <b>Second Level</b><br/>
-                    <?php
-                    createMultiSelectOptions('sanctioned_post_second_level', 'second_level_code', 'second_level_name', $customQuery, $csvs['second_level_code'], "second_level_code[]", " id='second_level_code'  class='multiselect'");
-                    echo "<br/>";
-                  }
-                  ?>
-
-
+    </body>
+</html>
