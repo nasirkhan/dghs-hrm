@@ -77,9 +77,9 @@ if ($_SESSION['user_type'] == "admin" && $_GET['org_code'] != "") {
                                 <li>
                                     <a href="report_master.php?t=post&f_division_code=1&division_code=&f_district_code=1&district_code=&admin_upazila=1&upazila_id=7&noDatatable=true&f_staff_professional_category=1&f_org_type_code=1&f_group_code=1&SQLSelect=p.pay_scale!%3D0+AND+p.active+%3D+1+AND+p.designation_group_name!%3D+%27%27&SQLGroup=designation_group_name%2Cpay_scale&ColOrder=designation_group_name%2Cclass%2Cpay_scale&ColAlias=&orderbyfull=pay_scale%2Cdesignation_ranking&rTitle=Designation+Group+wise+Summary+Report&submit=">Designation Group Wise Summary Report </a>
                                 </li>
-                                <li>
+                            <!--    <li>
                                     <a href="report_institute_wise_designation_summary.php">Institute Wise Designation Summary Report </a>
-                                </li>
+                                </li>-->
                                 <!--<li>
                                     <a href="report_type_of_post_and_institute_wise_designation.php">Type of post and Institute wise designation</a>
                                 </li>-->
