@@ -5,6 +5,7 @@ require_once '../configuration.php';
 $dis_id = mysql_real_escape_string($_POST['dis_id']);
 
 $sql = "SELECT
+            id,
             admin_upazila.upazila_name,
             admin_upazila.old_upazila_id
         FROM
@@ -23,7 +24,7 @@ $data[] = array(
 while ($row = mysql_fetch_array($result)) {
     $data[] = array(
         'text' => $row['upazila_name'],
-        'value' => $row['old_upazila_id']
+        'value' => $row['id']
     );
 }
 $json_data = json_encode($data);
