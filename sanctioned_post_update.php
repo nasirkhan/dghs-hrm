@@ -49,13 +49,13 @@ if (isset($_REQUEST['action'])) {
         $data = mysql_fetch_assoc($result);
 
         if ($org_code == $data['org_code']){
-            $sql = "SELECT
+            $org_sql = "SELECT
                             *
-                    FROM
-                            organization
-                    WHERE
-                            org_code = '$org_code'";
-            $org_result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:2</p><p>Query:</b></p>___<p>$sql</p>");
+                        FROM
+                                organization
+                        WHERE
+                                org_code = '$org_code'";
+            $org_result = mysql_query($org_sql) or die(mysql_error() . "<p><b>Code:2</p><p>Query:</b></p>___<p>$org_sql</p>");
             $org_data = mysql_fetch_assoc($org_result);
             
             
@@ -97,7 +97,7 @@ if (isset($_REQUEST['action'])) {
                 \"" . $org_data['org_type_name'] . "\",
                 \"" . $org_data['org_type_code'] . "\",                    
                 \"" . $org_data['org_name'] . "\",
-		\"" . $data['group'] . "\",
+		\"" . $data['sanctioned_post_group_name'] . "\",
 		\"" . $data['designation'] . "\",
 		\"" . $data['type_of_post'] . "\",
 		\"" . $data['sanctioned_post'] . "\",
@@ -203,7 +203,7 @@ if (isset($_REQUEST['action'])) {
                         \"" . $org_data['org_type_name'] . "\",
                         \"" . $org_data['org_type_code'] . "\",                    
                         \"" . $org_data['org_name'] . "\",
-                        \"" . $data['group'] . "\",
+                        \"" . $data['sanctioned_post_group_name'] . "\",
                         \"" . $data['designation'] . "\",
                         \"" . $type_of_post . "\",
                         \"" . $data['designation_group_code'] . "\",
