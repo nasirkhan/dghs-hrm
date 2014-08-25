@@ -4,14 +4,10 @@
  * Database connection configuration
  *
  */
-$dbhost = 'localhost';
-$dbname = 'dghs_hrm_main';
-$dbuser = 'root';
-$dbpass = 'root';
-
-mysql_select_db($dbname, mysql_connect($dbhost, $dbuser, $dbpass)) or die(mysql_error());
-mysql_query("SET CHARACTER SET utf8");
-mysql_query("SET SESSION collation_connection ='utf8_general_ci'");
+/**
+ * config
+ */
+require_once './config.php';
 
 require_once '../../include/config_variables.php';
 require_once '../../include/functions_app_specific.php';
@@ -231,7 +227,7 @@ $second_level_code['0'] = "0";
 
 
 
-$sql = "SELECT * FROM `total_manpower_imported_sanctioned_post_copy` ORDER BY id limit 500";
+$sql = "SELECT * FROM `total_manpower_imported_sanctioned_post_copy` ORDER BY id";
 $sp_result = mysql_query($sql) or die(mysql_error() . "<p>Code:getAllSanctionedPost:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
 
 $row_count = 0;
