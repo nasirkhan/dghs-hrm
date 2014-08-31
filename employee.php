@@ -803,6 +803,12 @@ if (isset($_POST['search'])) {
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td width="50%"><strong>National ID</strong></td>
+                                                    <td>
+                                                        <input type="text" id="staff_national_id" name="staff_national_id" placeholder="">
+                                                    </td>                                                    
+                                                </tr>
+                                                <tr>
                                                     <td width="50%"><strong>Code No.(Doctors Only):</strong></td>
                                                     <td>
                                                         <input type="text" id="staff_pds_code" name="staff_pds_code" placeholder="" >
