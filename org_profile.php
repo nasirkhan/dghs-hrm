@@ -611,7 +611,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     <?php if ($showSanctionedBed): ?>
                                         <tr>
                                             <td width="50%">Approved Bed No</td>
-                                            <td><a href="#" class="text-input" id="sanctioned_bed_number" ><?php echo $data['sanctioned_bed_number']; ?></a></td>
+                                            <td><a href="#" class="text-input" id="approved_bed_number" ><?php echo $data['approved_bed_number']; ?></a></td>
                                         </tr>
 										   <tr>
                                             <td width="50%">Revenue Bed No</td>
