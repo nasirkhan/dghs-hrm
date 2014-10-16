@@ -1170,6 +1170,12 @@ function showSanctionedBed($org_type_code) {
         return FALSE;
     } else if ($org_type_code >= 1060 && $org_type_code <= 1061) {
         return TRUE;
+		}
+	else if ($org_type_code == 1002) {              // added by rajib
+        return TRUE;
+		}
+	else if ($org_type_code == 1005) {        // added by rajib
+        return TRUE;	
     } else if ($org_type_code == 1062) {
         return FALSE;
     }
