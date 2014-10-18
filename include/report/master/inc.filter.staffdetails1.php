@@ -39,7 +39,7 @@
 
                   <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_staff_professional_category'] == '1') || !isset($_REQUEST['submit'])) { ?>
                     <input name="f_staff_professional_category" value="1" checked="checked" type="checkbox"/>
-                    <b>Prof category</b><br/>
+                    <b>Staff Proffesional category</b><br/>
                     <?php
                     createMultiSelectOptions('staff_professional_category_type', 'professional_type_id', 'professional_type_name', $customQuery, $csvs['staff_professional_category'], "staff_professional_category[]", " id='staff_professional_category'  class='multiselect'");
                     echo "<br/>";
