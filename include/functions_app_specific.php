@@ -1176,7 +1176,14 @@ function showSanctionedBed($org_type_code) {
 		}
 	else if ($org_type_code == 1005) {        // added by rajib
         return TRUE;	
-    } else if ($org_type_code == 1062) {
+    } 
+	else if ($org_type_code == 1007) {        // added by rajib
+        return TRUE;	
+    } 
+	else if ($org_type_code == 1009) {        // added by rajib
+        return TRUE;	
+    } 
+	else if ($org_type_code == 1062) {
         return FALSE;
     }
 }
@@ -2532,7 +2539,11 @@ function requestNewOrganization($data) {
                 `org_level_code`,
                 `org_level_name`,
                 `latitude`,
-                `longitude`)
+                `longitude`,
+				'approved_bed_number',
+				'revenue_bed_number',
+				
+				)
             VALUES (
                 \"$new_org_name\",
                 '$new_org_code',
@@ -2554,7 +2565,9 @@ function requestNewOrganization($data) {
                 '$new_org_level_code',
                 '$new_org_level_name',
                 '$latitude',
-                '$longitude'
+                '$longitude',
+				'$approved_bed_number',
+				'$revenue_bed_number',
                 )";
 
         $r = mysql_query($sql) or die(mysql_error() . "<p>Code:insertNewOrganization:2<br /><br /><b>Query:</b><br />___<br />$sql</p>");
