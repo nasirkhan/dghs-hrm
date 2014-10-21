@@ -528,9 +528,15 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                             </div>
                             <div class="tab-pane" id="facility-info">
                                 <table class="table table-striped table-hover">
+								 <tr>
+                                        <td width="50%">Physical Structure</td>
+                                        <td><a href="#" class="" id="physical_structure" ><?php echo getPhysicalStructure($data['physical_structure']); ?></a></td>
+                                    </tr>
+								
                                     <tr class="success">
                                         <td width="50%" colspan="2"><strong>Source of Electricity</strong></td>
                                     </tr>
+									
                                     <tr>
                                         <td width="50%">Main source of electricity</td>
                                         <td><a href="#" class="" id="source_of_electricity_main_code" ><?php echo getElectricityMainSourceNameFromCode($data['source_of_electricity_main_code']); ?></a></td>
@@ -687,9 +693,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                             </div>
 							  <div class="tab-pane" id="others-info">
                                 <table class="table table-striped table-hover">
-                                    <tr class="success">
-                                        <td width="50%" colspan="2"><strong>Other miscellaneous Info</strong></td>
-                                    </tr>
+                                   
                                     <tr>
                                         <td width="50%">Other miscellaneous issues</td>
                                         <td><a href="#"  class="textarea-input" id="other_miscellaneous_issues" ><?php echo $data['other_miscellaneous_issues']; ?></a></td>
@@ -734,6 +738,14 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                     pk: org_code,
                     url: 'post/post_org_profile.php',
                     source: 'get/get_org_type_name.php'
+                });
+            });
+			   $(function() {
+                $('#physical_structure').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_org_physical_structure.php'
                 });
             });
 //org_location_type
