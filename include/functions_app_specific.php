@@ -53,6 +53,22 @@ function getOrgTypeNameFormOrgTypeCode($org_type_code) {
 }
 
 /**
+ * Get the organization group Name form the Organization group Id
+ * @param type $org_group_id
+ * @return string org_type_name
+ */
+function getOrgGroupNameFormOrgGroupCode($org_group_code) {
+    if (!$org_group_code > 0) {
+        return "";
+    }
+    $sql = "SELECT org_group_id, org_group_code, org_group_name FROM org_groups WHERE org_group_code = $org_group_code LIMIT 1";
+    $result = mysql_query($sql) or die(mysql_error() . "<br /><br />Code:<b>getOrgTypeNameFormOrgTypeCode:1</b><br /><br /><b>Query:</b><br />___<br />$sql<br />");
+
+    $org_group_data = mysql_fetch_assoc($result);
+    $org_group_name = $org_type_data['org_group_name'];
+    return $org_group_name;
+}
+/**
  * Get <b>Organizaition Type Code</b> form the <b>Organization Code</b>
  * @param INT $org_code
  * @return INT org_type_code
@@ -2104,7 +2120,10 @@ function insertNewOrganization($data) {
     $new_org_mobile = $data['mobile_number1'];
     $latitude = $data['latitude'];
     $longitude = $data['longitude'];
-
+	$approved_bed_number =  $data['approved_bed_number'];
+	$revenue_bed_number =  $data['revenue_bed_number'];
+	$development_bed_number =  $data['development_bed_number'];
+	
 
     // UPDATE organizaion table
     $sql = "INSERT INTO `organization` (
@@ -2130,7 +2149,11 @@ function insertNewOrganization($data) {
             `org_level_code`,
             `org_level_name`,
             `latitude`,
-            `longitude`)
+            `longitude`,
+			`approved_bed_number`,
+			`revenue_bed_number`,
+			`development_bed_number`
+			)
         VALUES (
             \"$new_org_name\",
             '$new_org_code',
@@ -2154,7 +2177,10 @@ function insertNewOrganization($data) {
             '$new_org_level_code',
             '$new_org_level_name',
             '$latitude',
-            '$longitude'
+            '$longitude',
+			'$approved_bed_number',
+			'$revenue_bed_number',
+			'$development_bed_number'
             )";
 
     $r = mysql_query($sql) or die(mysql_error() . "<p>Code:insertNewOrganization:1<br /><br /><b>Query:</b><br />___<br />$sql</p>");
@@ -2463,10 +2489,15 @@ function requestNewOrganization($data) {
     $new_functions_code = mysql_real_escape_string(trim($data['org_organizational_functions_code']));
     $new_org_level_code = mysql_real_escape_string(trim($data['org_level_code']));
     $new_org_level_name = getOrgLevelNameFromCode($new_org_level_code);
+	
     $org_contact_number = mysql_real_escape_string(trim($data['org_contact_number']));
     $latitude = mysql_real_escape_string(trim(trim($data['latitude'])));
     $longitude = mysql_real_escape_string(trim(trim($data['longitude'])));
-
+    
+	$approved_bed_number =  mysql_real_escape_string(trim(trim($data['approved_bed_number'])));
+	$revenue_bed_number =  mysql_real_escape_string(trim(trim($data['revenue_bed_number'])));
+	$development_bed_number =  mysql_real_escape_string(trim(trim($data['development_bed_number'])));
+	
     $last_org_code = (int) getLastOrgIdFromOrganizationTable();
     $new_org_code = $last_org_code + 1;
 
@@ -2554,9 +2585,9 @@ function requestNewOrganization($data) {
                 `org_level_name`,
                 `latitude`,
                 `longitude`,
-				'approved_bed_number',
-				'revenue_bed_number',
-				
+				`approved_bed_number`,
+				`revenue_bed_number`,
+				`development_bed_number`
 				)
             VALUES (
                 \"$new_org_name\",
@@ -2582,6 +2613,7 @@ function requestNewOrganization($data) {
                 '$longitude',
 				'$approved_bed_number',
 				'$revenue_bed_number',
+				'$development_bed_number'
                 )";
 
         $r = mysql_query($sql) or die(mysql_error() . "<p>Code:insertNewOrganization:2<br /><br /><b>Query:</b><br />___<br />$sql</p>");
