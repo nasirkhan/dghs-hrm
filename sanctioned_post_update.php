@@ -97,7 +97,7 @@ if (isset($_REQUEST['action'])) {
                 \"" . $org_data['org_type_name'] . "\",
                 \"" . $org_data['org_type_code'] . "\",                    
                 \"" . $org_data['org_name'] . "\",
-		\"" . $data['sanctioned_post_group_name'] . "\",
+		\"" . $data['group'] . "\",
 		\"" . $data['designation'] . "\",
 		\"" . $data['type_of_post'] . "\",
 		\"" . $data['sanctioned_post'] . "\",

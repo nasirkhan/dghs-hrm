@@ -110,6 +110,10 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                             <li class="">
                                 <a href="#facility-info" data-toggle="tab"><i class="icon-shield"></i> Facility Info</a>
                             </li>
+							  <li class="">
+                                <a href="#others-info" data-toggle="tab"><i class="icon-book"></i>  Other miscellaneous issues
+                                       </a>
+                            </li>
                         </ul>
 
                         <div class="tab-content">
@@ -524,9 +528,15 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                             </div>
                             <div class="tab-pane" id="facility-info">
                                 <table class="table table-striped table-hover">
+								 <tr>
+                                        <td width="50%">Physical Structure</td>
+                                        <td><a href="#" class="" id="physical_structure" ><?php echo getPhysicalStructure($data['physical_structure']); ?></a></td>
+                                    </tr>
+								
                                     <tr class="success">
                                         <td width="50%" colspan="2"><strong>Source of Electricity</strong></td>
                                     </tr>
+									
                                     <tr>
                                         <td width="50%">Main source of electricity</td>
                                         <td><a href="#" class="" id="source_of_electricity_main_code" ><?php echo getElectricityMainSourceNameFromCode($data['source_of_electricity_main_code']); ?></a></td>
@@ -610,14 +620,22 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     </tr>
                                     <?php if ($showSanctionedBed): ?>
                                         <tr>
-                                            <td width="50%">Sanctioned Bed No</td>
-                                            <td><a href="#" class="text-input" id="sanctioned_bed_number" ><?php echo $data['sanctioned_bed_number']; ?></a></td>
+                                            <td width="50%">Approved Bed No</td>
+                                            <td><a href="#" class="text-input" id="approved_bed_number" ><?php echo $data['approved_bed_number']; ?></a></td>
+                                        </tr>
+										   <tr>
+                                            <td width="50%">Revenue Bed No</td>
+                                            <td><a href="#" class="text-input" id="revenue_bed_number" ><?php echo $data['revenue_bed_number']; ?></a></td>
+                                        </tr>
+										   <tr>
+                                            <td width="50%">Development Bed No</td>
+                                            <td><a href="#" class="text-input" id="development_bed_number" ><?php echo $data['development_bed_number']; ?></a></td>
                                         </tr>
                                     <?php endif; ?>
-                                    <tr>
+                                   <!-- <tr>
                                         <td width="50%">Other miscellaneous issues</td>
-                                        <td><a href="#" class="text-input" id="other_miscellaneous_issues" ><?php echo $data['other_miscellaneous_issues']; ?></a></td>
-                                    </tr>
+                                        <td><a href="#"  class="textarea-input" id="other_miscellaneous_issues" ><?php echo $data['other_miscellaneous_issues']; ?></a></td>
+                                    </tr>-->
                                 </table>
                             </div>
                             <div class="tab-pane" id="land-info">
@@ -673,6 +691,14 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     </tr>
                                 </table>
                             </div>
+							  <div class="tab-pane" id="others-info">
+                                <table class="table table-striped table-hover">
+                                   
+                                    <tr>
+                                        <td width="50%">Other miscellaneous issues</td>
+                                        <td><a href="#"  class="textarea-input" id="other_miscellaneous_issues" ><?php echo $data['other_miscellaneous_issues']; ?></a></td>
+                                     </tr>
+									</table>
                         </div>
 
                     </section>
@@ -712,6 +738,14 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                     pk: org_code,
                     url: 'post/post_org_profile.php',
                     source: 'get/get_org_type_name.php'
+                });
+            });
+			   $(function() {
+                $('#physical_structure').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_org_physical_structure.php'
                 });
             });
 //org_location_type
