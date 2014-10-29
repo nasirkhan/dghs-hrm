@@ -187,8 +187,12 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                             <td><?php echo $data['union_code']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Ward (New Ward Number)</strong></td>
+                                            <td width="50%"><strong>Ward (Old Ward Number)</strong></td>
                                             <td><a href="#" class="text-input" id="ward_code" ><?php echo $data['ward_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Ward (New Ward Number)</strong></td>
+                                            <td><a href="#" class="text-input" id="ward_code_new" ><?php echo $data['ward_code_new']; ?></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Village/Street</strong></td>
@@ -810,7 +814,40 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                     });
                 });
             });
-            
+
+// ward code OLD
+            $(function(){
+                $('#ward_code').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: [
+                        {value: 'Ward no. 1', text: 'Ward no. 1'},
+                        {value: 'Ward no. 2', text: 'Ward no. 2'},
+                        {value: 'Ward no. 3', text: 'Ward no. 3'}
+                    ]
+                });
+            });
+
+// ward code NEW
+            $(function(){
+                $('#ward_code_new').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: [
+                        {value: 'Ward no. 1', text: 'Ward no. 1'},
+                        {value: 'Ward no. 2', text: 'Ward no. 2'},
+                        {value: 'Ward no. 3', text: 'Ward no. 3'},
+                        {value: 'Ward no. 4', text: 'Ward no. 4'},
+                        {value: 'Ward no. 5', text: 'Ward no. 5'},
+                        {value: 'Ward no. 6', text: 'Ward no. 6'},
+                        {value: 'Ward no. 7', text: 'Ward no. 7'},
+                        {value: 'Ward no. 8', text: 'Ward no. 8'},
+                        {value: 'Ward no. 9', text: 'Ward no. 9'}
+                    ]
+                });
+            });
             $(function() {
                 $('#ownership_code').editable({
                     type: 'select',
