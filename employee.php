@@ -237,7 +237,11 @@ if (isset($_POST['search'])) {
                                         <tr>
                                             <td width="50%"><strong>Staff Name (Bangla) </strong></td>
                                             <td><?php echo $data['staff_bangla_name']; ?></td>
-                                        </tr>  
+                                        </tr> 
+                                        <tr>
+                                            <td width="50%"><strong>National ID</strong></td>
+                                            <td><?php echo $data['staff_national_id']; ?></td>
+                                        </tr>
                                         <tr>
                                             <td width="50%"><strong><a href="#">Code No.(Doctors Only):</a></strong></td>
                                             <td>
@@ -505,6 +509,10 @@ if (isset($_POST['search'])) {
                                         <tr>
                                             <td width="50%"><strong>Staff Name (Bangla)</strong></td>
                                             <td><a href="#" class="text-input" data-type="text" id="staff_bangla_name"><?php echo $data['staff_bangla_name']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>National ID</strong></td>
+                                            <td><a href="#" class="text-input" data-type="text" id="staff_national_id"><?php echo $data['staff_national_id']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Organization Name</strong></td>
@@ -793,6 +801,12 @@ if (isset($_POST['search'])) {
                                                     <td>
                                                         <input type="text" id="staff_bangla_name" name="staff_bangla_name" placeholder="">
                                                     </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%"><strong>National ID</strong></td>
+                                                    <td>
+                                                        <input type="text" id="staff_national_id" name="staff_national_id" placeholder="">
+                                                    </td>                                                    
                                                 </tr>
                                                 <tr>
                                                     <td width="50%"><strong>Code No.(Doctors Only):</strong></td>
