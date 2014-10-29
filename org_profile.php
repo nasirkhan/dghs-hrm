@@ -168,7 +168,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Upazila Name</strong></td>
-                                            <td><a href="#" class="" id="upazila_thana_code" ><?php echo getUpazilaNamefromBBSCode($data['upazila_thana_code'], $data['district_code']); ?></a></td>
+                                            <td><a href="#" class="" id="upazila_thana_code" ><?php $upazila_thana_code = getUpazilaNamefromBBSCode($data['upazila_thana_code'], $data['district_code']); if ($upazila_thana_code != "") {echo $upazila_thana_code;} else {echo "Empty";} ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Upazila Code</strong></td>
@@ -176,7 +176,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Union Name</strong></td>
-                                            <td><a href="#" class="" id="union_code" ><?php echo $data['union_name']; ?></a></td>
+                                            <td><a href="#" class="" id="union_code" ><?php $union_code = getUnionNameFromBBSCode($data['union_code'], $data['upazila_thana_code'], $data['district_code']); if ($union_code != "") {echo $union_code;} else {echo "Empty";} ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Union Code</strong></td>
@@ -693,7 +693,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
 
             var org_code = <?php echo $org_code; ?>;
             var selected_div_name = $("#division_name").text();
-
+            
             $("#district_name").change(function() {
                 selected_div_name = $("#division_name").text();
             });
@@ -732,32 +732,51 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                     source: 'get/get_org_division_name.php'
                 });
             });
-//district_name
-            $(function() {
-                $('#district_code').editable({
-                    type: 'select',
-                    pk: org_code,
-                    url: 'post/post_org_profile.php',
-                    source: 'get/get_org_district_name.php',
-                    params: function(params) {
-                        params.div_name = selected_div_name;
-                        return params;
-                    }
+//district_name            
+            $('#district_code').click(function(e) {
+                var selected_div_name = $("#division_code").text();
+                $(function() {                
+                    $('#district_code').editable({
+                        type: 'select',
+                        pk: org_code,
+                        url: 'post/post_org_profile.php',
+                        source: 'get/get_org_district_name.php?div_name=' + selected_div_name,
+                        params: function(params) {
+                            params.div_name = selected_div_name;
+                            return params;
+                        }
+                    });
                 });
             });
-//upazila_thana_name
-            $(function() {
-                $('#upazila_thana_code').editable({
-                    type: 'select',
-                    pk: org_code,
-                    url: 'post/post_org_profile.php',
-                    source: 'get/get_org_upazila_thana_name.php',
-                    params: function(params) {
-                        params.div_name = selected_div_name;
-                        return params;
-                    }
+         
+//upazila_thana_name            
+            $('#upazila_thana_code').click(function(e) {
+                var selected_dis_name = $("#district_code").text();
+                $(function() {                
+                    $('#upazila_thana_code').editable({
+                        type: 'select',
+                        pk: org_code,
+                        url: 'post/post_org_profile.php',
+                        source: 'get/get_org_upazila_thana_name.php?name=' + selected_dis_name
+                    });
                 });
             });
+            
+//union_code_name            
+            $('#union_code').click(function(e) {
+                var dis_name = $("#district_code").text();
+                var upa_name = $("#upazila_thana_code").text();
+
+                $(function() {                
+                    $('#union_code').editable({
+                        type: 'select',
+                        pk: org_code,
+                        url: 'post/post_org_profile.php',
+                        source: 'get/get_org_union_name.php?upa_name=' + upa_name + '&dis_name=' + dis_name
+                    });
+                });
+            });
+            
             $(function() {
                 $('#ownership_code').editable({
                     type: 'select',
