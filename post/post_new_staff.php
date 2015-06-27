@@ -83,6 +83,7 @@ if (isset($_POST['new_staff'])) {
   $date_of_joining_to_govt_service = mysql_real_escape_string(trim($_POST['date_of_joining_to_govt_service']));
   $date_of_joining_to_current_place = mysql_real_escape_string(trim($_POST['date_of_joining_to_current_place']));
   $date_of_joining_to_current_designation = mysql_real_escape_string(trim($_POST['date_of_joining_to_current_designation']));
+  $staff_national_id = mysql_real_escape_string(trim($_POST['staff_national_id']));
 
 
 
@@ -92,6 +93,7 @@ if (isset($_POST['new_staff'])) {
                 `staff_name`, 
                 `staff_bangla_name`,
                 `staff_pds_code`,
+                `staff_national_id`,
                 `sanctioned_post_id`,
                 `sp_id_2`, 
                 `org_code`,                
@@ -143,6 +145,7 @@ if (isset($_POST['new_staff'])) {
             '$staff_name',
             '$staff_bangla_name',
             '$staff_pds_code',   
+            '$staff_national_id',   
             '$sanctioned_post',
             '$sanctioned_post', 
             '" . getOrgCodeFromSanctionedPostId($sanctioned_post) . "',

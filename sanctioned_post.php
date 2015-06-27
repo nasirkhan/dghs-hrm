@@ -46,25 +46,52 @@ if (isset($_POST['action'])) {
         $data = mysql_fetch_assoc($result);
 
         if ($org_code == $data['org_code']) {
+            $org_sql = "SELECT
+                            *
+                        FROM
+                                organization
+                        WHERE
+                                org_code = '$org_code'";
+            $org_result = mysql_query($org_sql) or die(mysql_error() . "<p><b>Code:2</p><p>Query:</b></p>___<p>$org_sql</p>");
+            $org_data = mysql_fetch_assoc($org_result);
+            
             $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
-                `group`,
-                `designation`,
-                `type_of_post`,
-                `sanctioned_post_group_code`,
-                `pay_scale`,
-                `class`,
-                `first_level_id`,
-                `first_level_name`,
-                `org_code`,
-                `designation_code`,
-                `updated_by`,
-                `second_level_id`,
-                `second_level_name`,
-                `bangladesh_professional_category_code`,
-                `who_occupation_group_code`
+                        `division_name`,
+                        `division_code`,
+                        `district_name`,
+                        `district_code`,
+                        `upazila_name`,
+                        `upazila_code`,
+                        `org_type_name`,
+                        `org_type_code`,
+                        `org_name`,
+                        `group`,
+                        `designation`,
+                        `type_of_post`,
+                        `sanctioned_post_group_code`,
+                        `pay_scale`,
+                        `class`,
+                        `first_level_id`,
+                        `first_level_name`,
+                        `org_code`,
+                        `designation_code`,
+                        `updated_by`,
+                        `second_level_id`,
+                        `second_level_name`,
+                        `bangladesh_professional_category_code`,
+                        `who_occupation_group_code`
             )
             VALUES
                 (
+                \"" . $org_data['division_name'] . "\",
+                \"" . $org_data['division_code'] . "\",
+                \"" . $org_data['district_name'] . "\",
+                \"" . $org_data['district_code'] . "\",
+                \"" . $org_data['upazila_thana_name'] . "\",
+                \"" . $org_data['upazila_thana_code'] . "\",
+                \"" . $org_data['org_type_name'] . "\",
+                \"" . $org_data['org_type_code'] . "\",                    
+                \"" . $org_data['org_name'] . "\",
 		\"" . $data['group'] . "\",
 		\"" . $data['designation'] . "\",
 		\"" . $data['type_of_post'] . "\",

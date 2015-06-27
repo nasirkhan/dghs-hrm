@@ -49,7 +49,26 @@ if (isset($_REQUEST['action'])) {
         $data = mysql_fetch_assoc($result);
 
         if ($org_code == $data['org_code']){
+            $org_sql = "SELECT
+                            *
+                        FROM
+                                organization
+                        WHERE
+                                org_code = '$org_code'";
+            $org_result = mysql_query($org_sql) or die(mysql_error() . "<p><b>Code:2</p><p>Query:</b></p>___<p>$org_sql</p>");
+            $org_data = mysql_fetch_assoc($org_result);
+            
+            
             $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
+                `division_name`,
+                `division_code`,
+                `district_name`,
+                `district_code`,
+                `upazila_name`,
+                `upazila_code`,
+                `org_type_name`,
+                `org_type_code`,
+                `org_name`,
                 `group`,
                 `designation`,
                 `type_of_post`,
@@ -69,6 +88,15 @@ if (isset($_REQUEST['action'])) {
             )
             VALUES
                 (
+                \"" . $org_data['division_name'] . "\",
+                \"" . $org_data['division_code'] . "\",
+                \"" . $org_data['district_name'] . "\",
+                \"" . $org_data['district_code'] . "\",
+                \"" . $org_data['upazila_thana_name'] . "\",
+                \"" . $org_data['upazila_thana_code'] . "\",
+                \"" . $org_data['org_type_name'] . "\",
+                \"" . $org_data['org_type_code'] . "\",                    
+                \"" . $org_data['org_name'] . "\",
 		\"" . $data['group'] . "\",
 		\"" . $data['designation'] . "\",
 		\"" . $data['type_of_post'] . "\",
@@ -129,7 +157,25 @@ if (isset($_REQUEST['action'])) {
         $data = mysql_fetch_assoc($result_des);
 
         if ($sp_number > 0){
+            $sql = "SELECT
+                            *
+                    FROM
+                            organization
+                    WHERE
+                            org_code = '$org_code'";
+            $org_result = mysql_query($sql) or die(mysql_error() . "<p><b>Code:2</p><p>Query:</b></p>___<p>$sql</p>");
+            $org_data = mysql_fetch_assoc($org_result);
+            
             $sql = "INSERT INTO `total_manpower_imported_sanctioned_post_copy` (
+                        `division_name`,
+                        `division_code`,
+                        `district_name`,
+                        `district_code`,
+                        `upazila_name`,
+                        `upazila_code`,
+                        `org_type_name`,
+                        `org_type_code`,
+                        `org_name`,
                         `group`,
                         `designation`,
                         `type_of_post`,
@@ -148,7 +194,16 @@ if (isset($_REQUEST['action'])) {
                     )
                     VALUES
                         (
-                        \"" . $data['group'] . "\",
+                        \"" . $org_data['division_name'] . "\",
+                        \"" . $org_data['division_code'] . "\",
+                        \"" . $org_data['district_name'] . "\",
+                        \"" . $org_data['district_code'] . "\",
+                        \"" . $org_data['upazila_thana_name'] . "\",
+                        \"" . $org_data['upazila_thana_code'] . "\",
+                        \"" . $org_data['org_type_name'] . "\",
+                        \"" . $org_data['org_type_code'] . "\",                    
+                        \"" . $org_data['org_name'] . "\",
+                        \"" . $data['sanctioned_post_group_name'] . "\",
                         \"" . $data['designation'] . "\",
                         \"" . $type_of_post . "\",
                         \"" . $data['designation_group_code'] . "\",

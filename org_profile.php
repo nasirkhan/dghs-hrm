@@ -110,6 +110,10 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                             <li class="">
                                 <a href="#facility-info" data-toggle="tab"><i class="icon-shield"></i> Facility Info</a>
                             </li>
+							  <li class="">
+                                <a href="#others-info" data-toggle="tab"><i class="icon-book"></i>  Other miscellaneous issues
+                                       </a>
+                            </li>
                         </ul>
 
                         <div class="tab-content">
@@ -168,7 +172,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Upazila Name</strong></td>
-                                            <td><a href="#" class="" id="upazila_thana_code" ><?php echo getUpazilaNamefromBBSCode($data['upazila_thana_code'], $data['district_code']); ?></a></td>
+                                            <td><a href="#" class="" id="upazila_thana_code" ><?php $upazila_thana_code = getUpazilaNamefromBBSCode($data['upazila_thana_code'], $data['district_code']); if ($upazila_thana_code != "") {echo $upazila_thana_code;} else {echo "Empty";} ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Upazila Code</strong></td>
@@ -176,15 +180,19 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Union Name</strong></td>
-                                            <td><a href="#" class="" id="union_code" ><?php echo $data['union_name']; ?></a></td>
+                                            <td><a href="#" class="" id="union_code" ><?php $union_code = getUnionNameFromBBSCode($data['union_code'], $data['upazila_thana_code'], $data['district_code']); if ($union_code != "") {echo $union_code;} else {echo "Empty";} ?></a></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Union Code</strong></td>
                                             <td><?php echo $data['union_code']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td width="50%"><strong>Ward (New Ward Number)</strong></td>
+                                            <td width="50%"><strong>Ward (Old Ward Number)</strong></td>
                                             <td><a href="#" class="text-input" id="ward_code" ><?php echo $data['ward_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%"><strong>Ward (New Ward Number)</strong></td>
+                                            <td><a href="#" class="text-input" id="ward_code_new" ><?php echo $data['ward_code_new']; ?></td>
                                         </tr>
                                         <tr>
                                             <td width="50%"><strong>Village/Street</strong></td>
@@ -524,9 +532,15 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                             </div>
                             <div class="tab-pane" id="facility-info">
                                 <table class="table table-striped table-hover">
+								 <tr>
+                                        <td width="50%">Physical Structure</td>
+                                        <td><a href="#" class="" id="physical_structure" ><?php echo getPhysicalStructure($data['physical_structure']); ?></a></td>
+                                    </tr>
+								
                                     <tr class="success">
                                         <td width="50%" colspan="2"><strong>Source of Electricity</strong></td>
                                     </tr>
+									
                                     <tr>
                                         <td width="50%">Main source of electricity</td>
                                         <td><a href="#" class="" id="source_of_electricity_main_code" ><?php echo getElectricityMainSourceNameFromCode($data['source_of_electricity_main_code']); ?></a></td>
@@ -610,14 +624,22 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     </tr>
                                     <?php if ($showSanctionedBed): ?>
                                         <tr>
-                                            <td width="50%">Sanctioned Bed No</td>
-                                            <td><a href="#" class="text-input" id="sanctioned_bed_number" ><?php echo $data['sanctioned_bed_number']; ?></a></td>
+                                            <td width="50%">Approved Bed No</td>
+                                            <td><a href="#" class="text-input" id="approved_bed_number" ><?php echo $data['approved_bed_number']; ?></a></td>
+                                        </tr>
+										   <tr>
+                                            <td width="50%">Revenue Bed No</td>
+                                            <td><a href="#" class="text-input" id="revenue_bed_number" ><?php echo $data['revenue_bed_number']; ?></a></td>
+                                        </tr>
+										   <tr>
+                                            <td width="50%">Development Bed No</td>
+                                            <td><a href="#" class="text-input" id="development_bed_number" ><?php echo $data['development_bed_number']; ?></a></td>
                                         </tr>
                                     <?php endif; ?>
-                                    <tr>
+                                   <!-- <tr>
                                         <td width="50%">Other miscellaneous issues</td>
-                                        <td><a href="#" class="text-input" id="other_miscellaneous_issues" ><?php echo $data['other_miscellaneous_issues']; ?></a></td>
-                                    </tr>
+                                        <td><a href="#"  class="textarea-input" id="other_miscellaneous_issues" ><?php echo $data['other_miscellaneous_issues']; ?></a></td>
+                                    </tr>-->
                                 </table>
                             </div>
                             <div class="tab-pane" id="land-info">
@@ -673,6 +695,14 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                                     </tr>
                                 </table>
                             </div>
+							  <div class="tab-pane" id="others-info">
+                                <table class="table table-striped table-hover">
+                                   
+                                    <tr>
+                                        <td width="50%">Other miscellaneous issues</td>
+                                        <td><a href="#"  class="textarea-input" id="other_miscellaneous_issues" ><?php echo $data['other_miscellaneous_issues']; ?></a></td>
+                                     </tr>
+									</table>
                         </div>
 
                     </section>
@@ -693,7 +723,7 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
 
             var org_code = <?php echo $org_code; ?>;
             var selected_div_name = $("#division_name").text();
-
+            
             $("#district_name").change(function() {
                 selected_div_name = $("#division_name").text();
             });
@@ -714,6 +744,14 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                     source: 'get/get_org_type_name.php'
                 });
             });
+			   $(function() {
+                $('#physical_structure').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: 'get/get_org_physical_structure.php'
+                });
+            });
 //org_location_type
             $(function() {
                 $('#org_location_type').editable({
@@ -732,30 +770,82 @@ $showSanctionedBed = showSanctionedBed($org_type_code);
                     source: 'get/get_org_division_name.php'
                 });
             });
-//district_name
-            $(function() {
-                $('#district_code').editable({
-                    type: 'select',
-                    pk: org_code,
-                    url: 'post/post_org_profile.php',
-                    source: 'get/get_org_district_name.php',
-                    params: function(params) {
-                        params.div_name = selected_div_name;
-                        return params;
-                    }
+//district_name            
+            $('#district_code').click(function(e) {
+                var selected_div_name = $("#division_code").text();
+                $(function() {                
+                    $('#district_code').editable({
+                        type: 'select',
+                        pk: org_code,
+                        url: 'post/post_org_profile.php',
+                        source: 'get/get_org_district_name.php?div_name=' + selected_div_name,
+                        params: function(params) {
+                            params.div_name = selected_div_name;
+                            return params;
+                        }
+                    });
                 });
             });
-//upazila_thana_name
-            $(function() {
-                $('#upazila_thana_code').editable({
+         
+//upazila_thana_name            
+            $('#upazila_thana_code').click(function(e) {
+                var selected_dis_name = $("#district_code").text();
+                $(function() {                
+                    $('#upazila_thana_code').editable({
+                        type: 'select',
+                        pk: org_code,
+                        url: 'post/post_org_profile.php',
+                        source: 'get/get_org_upazila_thana_name.php?name=' + selected_dis_name
+                    });
+                });
+            });
+            
+//union_code_name            
+            $('#union_code').click(function(e) {
+                var dis_name = $("#district_code").text();
+                var upa_name = $("#upazila_thana_code").text();
+
+                $(function() {                
+                    $('#union_code').editable({
+                        type: 'select',
+                        pk: org_code,
+                        url: 'post/post_org_profile.php',
+                        source: 'get/get_org_union_name.php?upa_name=' + upa_name + '&dis_name=' + dis_name
+                    });
+                });
+            });
+
+// ward code OLD
+            $(function(){
+                $('#ward_code').editable({
                     type: 'select',
                     pk: org_code,
                     url: 'post/post_org_profile.php',
-                    source: 'get/get_org_upazila_thana_name.php',
-                    params: function(params) {
-                        params.div_name = selected_div_name;
-                        return params;
-                    }
+                    source: [
+                        {value: 'Ward no. 1', text: 'Ward no. 1'},
+                        {value: 'Ward no. 2', text: 'Ward no. 2'},
+                        {value: 'Ward no. 3', text: 'Ward no. 3'}
+                    ]
+                });
+            });
+
+// ward code NEW
+            $(function(){
+                $('#ward_code_new').editable({
+                    type: 'select',
+                    pk: org_code,
+                    url: 'post/post_org_profile.php',
+                    source: [
+                        {value: 'Ward no. 1', text: 'Ward no. 1'},
+                        {value: 'Ward no. 2', text: 'Ward no. 2'},
+                        {value: 'Ward no. 3', text: 'Ward no. 3'},
+                        {value: 'Ward no. 4', text: 'Ward no. 4'},
+                        {value: 'Ward no. 5', text: 'Ward no. 5'},
+                        {value: 'Ward no. 6', text: 'Ward no. 6'},
+                        {value: 'Ward no. 7', text: 'Ward no. 7'},
+                        {value: 'Ward no. 8', text: 'Ward no. 8'},
+                        {value: 'Ward no. 9', text: 'Ward no. 9'}
+                    ]
                 });
             });
             $(function() {

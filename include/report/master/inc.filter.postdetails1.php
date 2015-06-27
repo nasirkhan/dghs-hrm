@@ -3,7 +3,7 @@
 
                   <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_professional_discipline_of_current_designation'] == '1') || !isset($_REQUEST['submit'])) { ?>
                     <input name="f_professional_discipline_of_current_designation" value="1" checked="checked" type="checkbox"/>
-                    <b>Prof Discipline</b><br/>
+                    <b>Proffesional Discipline</b><br/>
                     <?php
                     createMultiSelectOptions('staff_profesional_discipline', 'discipline_id', 'discipline_name', $customQuery, $csvs['professional_discipline_of_current_designation'], "professional_discipline_of_current_designation[]", " id='professional_discipline_of_current_designation'  class='multiselect'");
                     echo "<br/>";
@@ -54,7 +54,7 @@
 
                   <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_bangladesh_professional_category_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
                     <input name="f_bangladesh_professional_category_code" value="1" checked="checked" type="checkbox"/>
-                    <b>BD Prof Cat</b><br/>
+                  <b>Proffesional Category</b><br/>
                     <?php
                     createMultiSelectOptions('sanctioned_post_bangladesh_professional_category', 'bangladesh_professional_category_code', 'bangladesh_professional_category_name', $customQuery, $csvs['bangladesh_professional_category_code'], "bangladesh_professional_category_code[]", " id='bangladesh_professional_category_code'  class='multiselect'");
                     echo "<br/>";
@@ -104,7 +104,7 @@
 
                   <?php if ((isset($_REQUEST['submit']) && $_REQUEST['f_type_of_code'] == '1') || !isset($_REQUEST['submit'])) { ?>
                     <input name="f_type_of_code" value="1" checked="checked" type="checkbox"/>
-                    <b>Type</b><br/>
+                    <b>Type of Post</b><br/>
                     <?php
                     createMultiSelectOptions('sanctioned_post_type_of_post', 'type_of_post_code', 'type_of_post_name', $customQuery, $csvs['type_of_code'], "type_of_code[]", " id='type_of_code'  class='multiselect'");
                     echo "<br/>";
